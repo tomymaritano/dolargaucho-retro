@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FaLinkedin, FaGithub, FaPaperPlane } from "react-icons/fa";
+import emailjs from "@emailjs/browser"; // Importar EmailJS
 
 const CollaborationSection: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -16,25 +17,37 @@ const CollaborationSection: React.FC = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) {
-      setError("Por favor, completa todos los campos obligatorios.");
-      setSuccess(null);
-      return;
+        setError("Por favor, completa todos los campos obligatorios.");
+        setSuccess(null);
+        return;
     }
-    console.log("Formulario enviado:", formData);
-    setSuccess("¡Gracias por tu mensaje! Te contactaré pronto.");
-    setError(null);
-    setFormData({ name: "", email: "", profession: "", message: "" });
-  };
+
+    try {
+        const response = await fetch("/api/sendEmail", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(formData),
+        });
+
+        if (!response.ok) throw new Error("Error al enviar el mensaje");
+
+        setSuccess("¡Gracias por tu mensaje! Te contactaré pronto.");
+        setError(null);
+        setFormData({ name: "", email: "", profession: "", message: "" });
+    } catch (err) {
+        setError("Error al enviar el mensaje. Intenta de nuevo.");
+    }
+};
 
   return (
     <section className="w-full bg-gradient-to-b from-blue-900 to-blue-700 text-white py-20 px-6 flex flex-col items-center">
       <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12">
         
         {/* Sección izquierda: Mensaje de colaboración */}
-        <div className="text-center md:text-left md:w-1/2 space-y-6 animate-fadeIn">
+        <div className="text-center md:text-left md:w-1/2 space-y-6">
           <h2 className="text-4xl font-extrabold leading-tight">
             🌟 ¡Construyamos juntos algo increíble!
           </h2>
@@ -52,7 +65,7 @@ const CollaborationSection: React.FC = () => {
         </div>
 
         {/* Sección derecha: Formulario */}
-        <div className="bg-white text-gray-900 p-8 rounded-lg shadow-lg border border-gray-300 md:w-1/2 animate-slideIn">
+        <div className="bg-white text-gray-900 p-8 rounded-lg shadow-lg border border-gray-300 md:w-1/2">
           <h3 className="text-2xl font-bold text-center mb-4">✉️ ¡Hablemos!</h3>
 
           {error && <p className="text-red-500 text-center mb-4">{error}</p>}
@@ -118,7 +131,6 @@ const CollaborationSection: React.FC = () => {
             </button>
           </form>
         </div>
-
       </div>
     </section>
   );
