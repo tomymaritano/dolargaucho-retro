@@ -99,7 +99,7 @@ const DolarCard: React.FC<DolarCardProps> = ({ data }) => {
                 <button
                     onClick={handleShare}
                     disabled={isSharing}
-                    className={`w-full py-3 text-lg font-medium text-white bg-green-600 rounded-lg flex items-center justify-center gap-2 transition-all hover:bg-green-700 
+                    className={`w-full py-3 text-lg font-medium text-white bg-blue-600 rounded-lg flex items-center justify-center gap-2 transition-all hover:bg-green-700 
                     ${isSharing ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                     <FaShareAlt /> Compartir

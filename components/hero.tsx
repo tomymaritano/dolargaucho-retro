@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 const Hero: React.FC = () => {
   return (
-    <section className="relative w-full text-center pt-40 pb-20 bg-gradient-to-b from-blue-900 to-blue-700 text-white flex flex-col items-center overflow-hidden">
+    <section className="relative w-full text-center pt-40 pb-20 bg-gradient-to-b  text-white flex flex-col items-center overflow-hidden">
       
       {/* Imagen de fondo con opacidad */}
       <div className="absolute inset-0">
