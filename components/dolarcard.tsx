@@ -1,12 +1,30 @@
-// components/DolarCard.tsx
 import React, { useState } from 'react';
 import { DolarType } from '../hooks/useDolar';
-import { FaShareAlt, FaCopy } from 'react-icons/fa';
+import { FaShareAlt, FaCopy, FaDollarSign, FaMoneyBillWave, FaBuilding, FaExchangeAlt, FaPiggyBank } from 'react-icons/fa';
 
 interface DolarCardProps {
     data: DolarType;
 }
 
+// Íconos con colores diferentes para cada tipo de dólar
+const dolarIcons: Record<string, JSX.Element> = {
+    'Oficial': <FaBuilding className="text-blue-500" />, 
+    'Blue': <FaMoneyBillWave className="text-green-500" />,
+    'MEP': <FaExchangeAlt className="text-purple-500" />,
+    'CCL': <FaPiggyBank className="text-yellow-500" />,
+    'Crypto': <FaDollarSign className="text-orange-500" />,
+};
+
+// Emojis para el mensaje de compartir
+const dolarEmojis: Record<string, string> = {
+    'Oficial': '🏦',
+    'Blue': '💵',
+    'MEP': '📊',
+    'CCL': '🏛️',
+    'Crypto': '🪙',
+};
+
+// Formatear fecha
 const formatFecha = (fecha: string) => {
     const date = new Date(fecha);
     return date.toLocaleDateString('es-ES', {
@@ -25,8 +43,8 @@ const DolarCard: React.FC<DolarCardProps> = ({ data }) => {
             setIsSharing(true);
             try {
                 await navigator.share({
-                    title: `Cotización ${data.nombre}`,
-                    text: `Compra: $${data.compra.toFixed(2)} - Venta: $${data.venta.toFixed(2)}`,
+                    title: `Cotización ${data.nombre} - Dólar Gaucho`,
+                    text: `${dolarEmojis[data.nombre] || '💰'} ${data.nombre} hoy:\n\n🟢 Compra: $${data.compra.toFixed(2)}\n🔴 Venta: $${data.venta.toFixed(2)}\n\n📊 Consulta más en Dólar Gaucho: ${window.location.href}`,
                     url: window.location.href,
                 });
             } catch (error) {
@@ -42,7 +60,9 @@ const DolarCard: React.FC<DolarCardProps> = ({ data }) => {
     const handleCopy = async () => {
         if (typeof window !== 'undefined' && navigator?.clipboard?.writeText) {
             try {
-                await navigator.clipboard.writeText(`Cotización ${data.nombre}\nCompra: $${data.compra.toFixed(2)}\nVenta: $${data.venta.toFixed(2)}`);
+                await navigator.clipboard.writeText(
+                    `💰 ${data.nombre} hoy:\n\n🟢 Compra: $${data.compra.toFixed(2)}\n🔴 Venta: $${data.venta.toFixed(2)}\n\n📊 Consulta más en Dólar Gaucho: ${window.location.href}`
+                );
                 alert('Copiado al portapapeles');
             } catch (error) {
                 console.error('Error al copiar:', error);
@@ -54,18 +74,42 @@ const DolarCard: React.FC<DolarCardProps> = ({ data }) => {
     };
 
     return (
-        <div className="p-6 rounded-lg bg-gradient-to-br from-purple-900 to-pink-700 shadow-lg border border-yellow-500 text-yellow-300 w-full max-w-md transition-all hover:shadow-xl relative font-mono">
-            <h2 className="text-2xl font-bold text-yellow-300 tracking-widest text-center">{data.nombre}</h2>
-            <div className="flex justify-between mt-4 p-3 text-lg font-bold border-b border-yellow-500">
-                <p className="text-green-300">Compra: <span className="font-extrabold">${data.compra.toFixed(2)}</span></p>
-                <p className="text-red-300">Venta: <span className="font-extrabold">${data.venta.toFixed(2)}</span></p>
+        <div className="p-6 bg-gradient-to-b from-white to-gray-100 border border-gray-200 shadow-lg rounded-xl max-w-md w-full font-sans transition-all hover:shadow-xl">
+            
+            {/* Ícono + Título */}
+            <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                {dolarIcons[data.nombre] || <FaDollarSign className="text-gray-500" />}  
+                {data.nombre}
+            </h2>
+
+            {/* Valores de Compra y Venta */}
+            <div className="flex justify-between items-center mt-4 py-4 text-lg font-semibold border-b border-gray-300">
+                <p className="text-green-700">Compra: <span className="font-bold">${data.compra.toFixed(2)}</span></p>
+                <p className="text-red-700">Venta: <span className="font-bold">${data.venta.toFixed(2)}</span></p>
             </div>
-            {data.fechaActualizacion && <p className="text-sm text-yellow-400 mt-3 text-center">Última actualización: {formatFecha(data.fechaActualizacion)}</p>}
-            <div className="flex justify-center gap-4 mt-6 w-full">
-                <button onClick={handleShare} disabled={isSharing} className={`bg-pink-600 hover:bg-pink-700 text-white w-full py-3 rounded-md flex items-center justify-center gap-2 shadow-md shadow-yellow-500 transition-all ${isSharing ? 'opacity-50 cursor-not-allowed' : ''}`}>
+
+            {/* Última actualización */}
+            {data.fechaActualizacion && (
+                <p className="text-sm text-gray-500 mt-3 text-center">
+                    Última actualización: {formatFecha(data.fechaActualizacion)}
+                </p>
+            )}
+
+            {/* Botones */}
+            <div className="flex justify-center gap-3 mt-6 w-full">
+                <button
+                    onClick={handleShare}
+                    disabled={isSharing}
+                    className={`w-full py-3 text-lg font-medium text-white bg-blue-600 rounded-lg flex items-center justify-center gap-2 transition-all hover:bg-green-700 
+                    ${isSharing ? 'opacity-50 cursor-not-allowed' : ''}`}
+                >
                     <FaShareAlt /> Compartir
                 </button>
-                <button onClick={handleCopy} className="bg-blue-600 hover:bg-blue-700 text-white w-full py-3 rounded-md flex items-center justify-center gap-2 shadow-md shadow-yellow-500 transition-all">
+
+                <button
+                    onClick={handleCopy}
+                    className="w-full py-3 text-lg font-medium text-gray-900 bg-gray-100 border border-gray-300 rounded-lg flex items-center justify-center gap-2 transition-all hover:bg-gray-200"
+                >
                     <FaCopy /> Copiar
                 </button>
             </div>
