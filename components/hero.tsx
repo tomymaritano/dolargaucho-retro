@@ -10,7 +10,7 @@ const Hero: React.FC = () => {
       {/* Imagen de fondo con opacidad */}
       <div className="absolute inset-0">
         <Image 
-          src="/images/hero-bg.jpg" 
+          src="/hero-bg.jpg" 
           alt="Dólar digital" 
           layout="fill" 
           objectFit="cover" 
