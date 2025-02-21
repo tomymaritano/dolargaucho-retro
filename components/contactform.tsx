@@ -27,15 +27,15 @@ const CollaborationSection: React.FC = () => {
 
     try {
       const response = await emailjs.send(
-        "tu_service_id", // Reemplaza con tu Service ID de EmailJS
-        "tu_template_id", // Reemplaza con tu Template ID de EmailJS
+        "service_vfck9eu", // Reemplaza con tu Service ID de EmailJS
+        "template_84nl6q9", // Reemplaza con tu Template ID de EmailJS
         {
           from_name: formData.name,
           from_email: formData.email,
           profession: formData.profession,
           message: formData.message,
         },
-        "tu_public_key" // Reemplaza con tu Public Key de EmailJS
+        "J98onDRn2prYfiLZy" // Reemplaza con tu Public Key de EmailJS
       );
 
       if (response.status === 200) {
