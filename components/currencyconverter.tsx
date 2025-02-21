@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import useDolar from '../hooks/useDolar';
-import { FaCopy, FaExchangeAlt, FaChevronDown, FaShareAlt } from 'react-icons/fa';
+import { FaExchangeAlt, FaChevronDown, FaShareAlt } from 'react-icons/fa';
 
 const CurrencyConverter: React.FC = () => {
   const { dolar, loading, error } = useDolar();

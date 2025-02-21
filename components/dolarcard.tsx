@@ -6,13 +6,12 @@ interface DolarCardProps {
     data: DolarType;
 }
 
-// Íconos con colores diferentes para cada tipo de dólar
-const dolarIcons: Record<string, JSX.Element> = {
-    'Oficial': <FaBuilding className="text-blue-500" />, 
-    'Blue': <FaMoneyBillWave className="text-green-500" />,
-    'MEP': <FaExchangeAlt className="text-purple-500" />,
-    'CCL': <FaPiggyBank className="text-yellow-500" />,
-    'Crypto': <FaDollarSign className="text-orange-500" />,
+const dolarIcons: Record<string, React.ReactNode> = {
+    'Oficial': <FaBuilding className="text-gray-900" />, 
+    'Blue': <FaMoneyBillWave className="text-gray-900" />,
+    'MEP': <FaExchangeAlt className="text-gray-900" />,
+    'CCL': <FaPiggyBank className="text-gray-900" />,
+    'Crypto': <FaDollarSign className="text-gray-900" />,
 };
 
 // Emojis para el mensaje de compartir
@@ -100,7 +99,7 @@ const DolarCard: React.FC<DolarCardProps> = ({ data }) => {
                 <button
                     onClick={handleShare}
                     disabled={isSharing}
-                    className={`w-full py-3 text-lg font-medium text-white bg-blue-600 rounded-lg flex items-center justify-center gap-2 transition-all hover:bg-green-700 
+                    className={`w-full py-3 text-lg font-medium text-white bg-green-600 rounded-lg flex items-center justify-center gap-2 transition-all hover:bg-green-700 
                     ${isSharing ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                     <FaShareAlt /> Compartir
