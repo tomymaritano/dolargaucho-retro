@@ -37,7 +37,8 @@ const CollaborationSection: React.FC = () => {
         setSuccess("¡Gracias por tu mensaje! Te contactaré pronto.");
         setError(null);
         setFormData({ name: "", email: "", profession: "", message: "" });
-    } catch (err) {
+    }
+    catch {
         setError("Error al enviar el mensaje. Intenta de nuevo.");
     }
 };
