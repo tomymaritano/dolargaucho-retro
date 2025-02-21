@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaLinkedin, FaGithub, FaPaperPlane } from "react-icons/fa";
-import emailjs from "@emailjs/browser"; // Importar EmailJS
+
 
 const CollaborationSection: React.FC = () => {
   const [formData, setFormData] = useState({
