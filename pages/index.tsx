@@ -4,7 +4,6 @@ import useDolar from '../hooks/useDolar';
 import DolarCard from '@/components/dolarcard';
 import Navbar from '@/components/navbar';
 import Footer from '@/components/footer';
-import ExchangeRates from '@/components/exchangerates';
 import ContactForm from '@/components/contactform';
 
 export default function Home() {
