@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaLinkedin, FaGithub, FaPaperPlane, FaCheckCircle } from "react-icons/fa";
-import emailjs from "@emailjs/browser"; // Se usa en el frontend
+import emailjs from "@emailjs/browser";
 
 const CollaborationSection: React.FC = () => {
     const [formData, setFormData] = useState({
@@ -12,7 +12,7 @@ const CollaborationSection: React.FC = () => {
 
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
-    const [formSent, setFormSent] = useState<boolean>(false); // Estado para mostrar mensaje de éxito
+    const [formSent, setFormSent] = useState<boolean>(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -28,22 +28,22 @@ const CollaborationSection: React.FC = () => {
 
         try {
             const response = await emailjs.send(
-                "service_vfck9eu", // Reemplaza con tu Service ID de EmailJS
-                "template_84nl6q9", // Reemplaza con tu Template ID de EmailJS
+                "service_vfck9eu",
+                "template_84nl6q9",
                 {
                     from_name: formData.name,
                     from_email: formData.email,
                     profession: formData.profession,
                     message: formData.message,
                 },
-                "J98onDRn2prYfiLZy" // Reemplaza con tu Public Key de EmailJS
+                "J98onDRn2prYfiLZy"
             );
 
             if (response.status === 200) {
                 setSuccess("¡Gracias por tu mensaje! Te contactaré pronto.");
                 setError(null);
                 setFormData({ name: "", email: "", profession: "", message: "" });
-                setFormSent(true); // Mostrar mensaje de éxito en lugar del formulario
+                setFormSent(true);
             } else {
                 throw new Error("Error al enviar el mensaje");
             }
@@ -54,15 +54,23 @@ const CollaborationSection: React.FC = () => {
     };
 
     return (
-        <section className="w-full bg-gradient-to-b from-blue-900 to-blue-700 text-white py-20 px-6 flex flex-col items-center">
+        <section className="relative w-full bg-gradient-to-b from-[#0a0f1a] to-[#141e30] text-white py-20 px-6 flex flex-col items-center">
+            
+            {/* Partículas flotantes */}
+            <div className="absolute inset-0 pointer-events-none">
+                <div className="absolute top-1/3 left-10 w-10 h-10 bg-cyan-400 rounded-full opacity-50 animate-pulse"></div>
+                <div className="absolute bottom-10 right-10 w-16 h-16 bg-blue-500 rounded-full opacity-40 animate-bounce"></div>
+                <div className="absolute top-20 right-1/4 w-12 h-12 bg-purple-500 rounded-full opacity-30 animate-spin-slow"></div>
+            </div>
+
             <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12">
 
-                {/* Sección izquierda: Mensaje de colaboración */}
+                {/* Sección izquierda */}
                 <div className="text-center md:text-left md:w-1/2 space-y-6">
-                    <h2 className="text-4xl font-extrabold leading-tight">🌟 ¡Construyamos juntos algo increíble!</h2>
+                    <h2 className="text-4xl font-extrabold neon-text leading-tight">🌟 ¡Colabora con Nosotros!</h2>
                     <p className="text-lg text-gray-200">Si tienes ideas innovadoras, quieres aportar al proyecto o simplemente conectar, ¡hablemos! 🚀</p>
                     <div className="flex justify-center md:justify-start gap-6">
-                        <a href="https://linkedin.com/in/tomymaritano" target="_blank" rel="noopener noreferrer" className="text-blue-300 hover:text-white transition-all transform hover:scale-110">
+                        <a href="https://linkedin.com/in/tomymaritano" target="_blank" rel="noopener noreferrer" className="text-cyan-300 hover:text-white transition-all transform hover:scale-110">
                             <FaLinkedin size={40} />
                         </a>
                         <a href="https://github.com/tomymaritano" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white transition-all transform hover:scale-110">
@@ -71,20 +79,16 @@ const CollaborationSection: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Sección derecha: Formulario o Mensaje de Éxito con Animación */}
-                <div className="bg-white text-gray-900 p-8 rounded-lg shadow-lg border border-gray-300 md:w-1/2 flex flex-col items-center text-center transition-all duration-300">
+                {/* Formulario con Glassmorphism */}
+                <div className="bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-lg shadow-lg md:w-1/2 flex flex-col items-center text-center transition-all duration-300 hover:shadow-2xl dark:bg-black/30">
 
-                    {/* Animación al mostrar mensaje de éxito */}
                     {formSent ? (
                         <div className="text-center animate-fade-in animate-zoom-in transition-all duration-500 ease-out flex flex-col items-center">
-                            {/* Ícono centrado */}
                             <FaCheckCircle className="text-green-500 text-5xl mb-4" />
-
-                            <h3 className="text-2xl font-bold text-gray-900">¡Mensaje enviado!</h3>
-                            <p className="text-lg text-gray-600 mt-2">{success}</p>
-
+                            <h3 className="text-2xl font-bold text-white">¡Mensaje enviado!</h3>
+                            <p className="text-lg text-gray-400 mt-2">{success}</p>
                             <button
-                                onClick={() => setFormSent(false)} // Permite enviar otro mensaje
+                                onClick={() => setFormSent(false)}
                                 className="mt-6 bg-blue-600 text-white py-2 px-6 text-lg font-semibold rounded-lg hover:bg-blue-700 transition-all transform hover:scale-105"
                             >
                                 Enviar otro mensaje
@@ -92,65 +96,52 @@ const CollaborationSection: React.FC = () => {
                         </div>
                     ) : (
                         <>
-                            <h3 className="text-2xl font-bold text-center mb-4">✉️ ¡Hablemos!</h3>
-
+                            <h3 className="text-2xl font-bold text-center mb-4">✉️ ¡Envíanos un mensaje!</h3>
                             {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
                             <form onSubmit={handleSubmit} className="space-y-4 w-full">
-                                <div className="w-full">
-                                    <label className="block text-lg font-medium text-start">Nombre</label>
-                                    <input
-                                        type="text"
-                                        name="name"
-                                        value={formData.name}
-                                        onChange={handleChange}
-                                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none text-left"
-                                        placeholder="Tu nombre"
-                                        required
-                                    />
-                                </div>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    value={formData.name}
+                                    onChange={handleChange}
+                                    className="w-full p-3 border border-gray-600 rounded-lg bg-gray-800 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                    placeholder="Tu nombre"
+                                    required
+                                />
 
-                                <div className="w-full">
-                                    <label className="block text-lg font-medium text-start">Email</label>
-                                    <input
-                                        type="email"
-                                        name="email"
-                                        value={formData.email}
-                                        onChange={handleChange}
-                                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none text-left"
-                                        placeholder="tu@email.com"
-                                        required
-                                    />
-                                </div>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    className="w-full p-3 border border-gray-600 rounded-lg bg-gray-800 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                    placeholder="tu@email.com"
+                                    required
+                                />
 
-                                <div className="w-full">
-                                    <label className="block text-lg font-medium text-start">Profesión / Empresa (Opcional)</label>
-                                    <input
-                                        type="text"
-                                        name="profession"
-                                        value={formData.profession}
-                                        onChange={handleChange}
-                                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none text-left"
-                                        placeholder="Ej: Desarrollador en Google"
-                                    />
-                                </div>
+                                <input
+                                    type="text"
+                                    name="profession"
+                                    value={formData.profession}
+                                    onChange={handleChange}
+                                    className="w-full p-3 border border-gray-600 rounded-lg bg-gray-800 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                    placeholder="Profesión o empresa (opcional)"
+                                />
 
-                                <div className="w-full">
-                                    <label className="block text-lg font-medium text-start">Mensaje</label>
-                                    <textarea
-                                        name="message"
-                                        value={formData.message}
-                                        onChange={handleChange}
-                                        rows={4}
-                                        className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none text-left"
-                                        placeholder="Escribe tu mensaje..."
-                                        required
-                                    />
-                                </div>
+                                <textarea
+                                    name="message"
+                                    value={formData.message}
+                                    onChange={handleChange}
+                                    rows={4}
+                                    className="w-full p-3 border border-gray-600 rounded-lg bg-gray-800 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                                    placeholder="Escribe tu mensaje..."
+                                    required
+                                />
 
                                 <button
                                     type="submit"
-                                    className="w-full bg-blue-600 text-white py-3 text-lg font-semibold rounded-lg hover:bg-blue-700 flex items-center justify-center gap-2 transition-all transform hover:scale-105"
+                                    className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white py-3 text-lg font-semibold rounded-lg flex items-center justify-center gap-2 transition-all transform hover:scale-105 animate-pulse"
                                 >
                                     <FaPaperPlane /> Enviar Mensaje
                                 </button>

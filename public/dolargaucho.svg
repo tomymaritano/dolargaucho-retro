@@ -1,0 +1,19 @@
+<svg
+  width="200"
+  height="60"
+  viewBox="0 0 200 60"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <circle cx="30" cy="30" r="28" stroke="cyan" stroke-width="4" fill="black">
+    <animate attributeName="r" values="26;30;26" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <text x="22" y="38" font-family="Arial, sans-serif" font-size="30" font-weight="bold" fill="cyan">
+    <animate attributeName="opacity" values="1;0.5;1" dur="1s" repeatCount="indefinite"/>
+    $
+  </text>
+  <text x="60" y="38" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="white">
+    <animate attributeName="opacity" values="1;0.7;1" dur="2s" repeatCount="indefinite"/>
+    Dólar Gaucho
+  </text>
+</svg>

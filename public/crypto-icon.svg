@@ -1,0 +1,15 @@
+<svg
+  viewBox="0 0 1440 320"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    fill="url(#gradient)"
+    d="M0,160L60,176C120,192,240,224,360,213.3C480,203,600,149,720,117.3C840,85,960,75,1080,74.7C1200,75,1320,85,1380,90.7L1440,96V320H0Z"
+  ></path>
+  <defs>
+    <linearGradient id="gradient" gradientTransform="rotate(90)">
+      <stop offset="0%" stop-color="cyan" />
+      <stop offset="100%" stop-color="blue" />
+    </linearGradient>
+  </defs>
+</svg>
