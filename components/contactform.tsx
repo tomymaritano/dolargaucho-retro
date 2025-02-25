@@ -54,7 +54,7 @@ const CollaborationSection: React.FC = () => {
     };
 
     return (
-        <section className="relative w-full bg-gradient-to-b from-[#0a0f1a] to-[#141e30] text-white py-20 px-6 flex flex-col items-center">
+        <section className="relative w-full rounded-xl bg-gradient-to-b from-[#0a0f1a] to-[#141e30] text-white py-20 px-6 flex flex-col items-center">
             
             {/* Partículas flotantes */}
             <div className="absolute inset-0 pointer-events-none">

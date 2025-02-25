@@ -51,12 +51,10 @@ const CurrencyConverter: React.FC = () => {
   };
 
   return (
-    <div className="p-6 m-6 bg-white/10 backdrop-blur-md border border-white/20 shadow-lg rounded-2xl max-w-lg w-full font-sans transition-all duration-300 hover:shadow-2xl dark:bg-black/30">
-      {loading && (
-        <p className="text-gray-500 text-center animate-pulse">
-          Cargando cotizaciones...
-        </p>
-      )}
+    <div className="p-6 sm:p-8 shadow-xl rounded-2xl max-w-3xl mx-auto transition-all duration-300 hover:shadow-2xl">
+      <h2 className="text-3xl font-bold text-white text-center mb-6">💱 Conversor de Divisas</h2>
+
+      {loading && <p className="text-gray-500 text-center animate-pulse">Cargando cotizaciones...</p>}
       {error && <p className="text-red-500 text-center">Error al cargar datos</p>}
 
       <div className="flex flex-col space-y-6">
@@ -66,21 +64,17 @@ const CurrencyConverter: React.FC = () => {
             type="number"
             value={amount}
             onChange={(e) => setAmount(Number(e.target.value))}
-            className="w-full p-4 text-2xl font-semibold border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none text-right text-black dark:text-white dark:bg-gray-900"
-            placeholder={`Ingrese monto en ${
-              conversionType === "buy" ? "ARS" : "USD"
-            }`}
+            className="w-full p-4 text-2xl font-semibold border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none text-right bg-gray-900 text-white"
+            placeholder={`Ingrese monto en ${conversionType === "buy" ? "ARS" : "USD"}`}
           />
-          <span className="absolute left-4 top-5 text-gray-500 font-semibold">
+          <span className="absolute left-4 top-5 text-gray-400 font-semibold">
             {conversionType === "buy" ? "ARS" : "USD"}
           </span>
         </div>
 
         {/* Botón de conversión */}
         <button
-          onClick={() =>
-            setConversionType(conversionType === "buy" ? "sell" : "buy")
-          }
+          onClick={() => setConversionType(conversionType === "buy" ? "sell" : "buy")}
           className="w-full py-3 text-lg font-bold text-white bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg hover:from-blue-600 hover:to-cyan-400 flex items-center justify-center gap-2 transition-all transform hover:scale-105 shadow-md"
         >
           <FaExchangeAlt /> Invertir Conversión
@@ -102,8 +96,8 @@ const CurrencyConverter: React.FC = () => {
           <FaChevronDown className="absolute right-4 top-5 text-gray-500 pointer-events-none" />
         </div>
 
-        {/* Resultado de la conversión con formato correcto */}
-        <div className="text-center text-2xl font-bold text-gray-100 p-4 border border-gray-700 rounded-lg bg-gradient-to-r from-gray-900 to-gray-800 dark:from-gray-800 dark:to-gray-700 transition-all duration-300">
+        {/* Resultado de la conversión */}
+        <div className="text-center text-3xl font-bold text-white p-4 border border-gray-600 rounded-lg bg-gradient-to-r from-gray-900 to-gray-800 shadow-lg">
           {conversion}
         </div>
 

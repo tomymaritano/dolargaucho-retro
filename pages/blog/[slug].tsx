@@ -5,7 +5,8 @@ import { GetStaticProps, GetStaticPaths } from "next";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Layout from "@/components/layout";
-import InvestmentChart from "@/components/investmentchart";
+import Image from "next/image";
+
 
 interface BlogPost {
   title: string;
@@ -58,7 +59,7 @@ export default function BlogPost({ post }: { post: BlogPost }) {
           <p className="text-gray-500 text-sm">{new Date(post.date).toLocaleDateString()}</p>
 
           {/* Imagen Destacada */}
-          <img
+          <Image
             src={post.image}
             alt={post.title}
             className="w-full h-64 object-cover mt-4 rounded-lg shadow-lg"
