@@ -6,7 +6,8 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Layout from "@/components/layout";
 import Image from "next/image";
-
+import Head from "next/head";
+import { motion } from "framer-motion";
 
 interface BlogPost {
   title: string;
@@ -26,7 +27,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths,
-    fallback: false,
+    fallback: "blocking", // Permite generar nuevas páginas dinámicamente
   };
 };
 
@@ -52,25 +53,50 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 export default function BlogPost({ post }: { post: BlogPost }) {
   return (
     <Layout>
-      <div className="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen">
-        <div className="container mx-auto p-6 max-w-3xl">
-          {/* Título */}
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white">{post.title}</h1>
-          <p className="text-gray-500 text-sm">{new Date(post.date).toLocaleDateString()}</p>
+      <Head>
+        <title>{post.title} | Noticias Financieras</title>
+        <meta name="description" content={post.excerpt} />
+      </Head>
 
-          {/* Imagen Destacada */}
-          <Image
-            src={post.image}
-            alt={post.title}
-            className="w-full h-64 object-cover mt-4 rounded-lg shadow-lg"
-          />
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="bg-black text-white min-h-screen py-16"
+      >
+        <div className="container mx-auto px-6 max-w-4xl">
+          {/* Encabezado del Post */}
+          <div className="mb-10 text-center">
+            <h1 className="text-6xl font-bold tracking-tight text-[#00ffcc]">{post.title}</h1>
+            <p className="text-lg text-gray-400 mt-3 uppercase">
+              {new Date(post.date).toLocaleDateString("es-ES", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </p>
+          </div>
 
-          {/* Contenido del Markdown */}
-          <article className="prose lg:prose-lg dark:prose-invert mx-auto mt-6">
+          {/* Imagen Destacada con Overlay */}
+          <div className="relative rounded-lg overflow-hidden shadow-xl mb-10">
+            <Image
+              src={post.image}
+              alt={post.title}
+              width={1200}
+              height={600}
+              layout="responsive"
+              priority={true}
+              className="rounded-lg"
+            />
+            <div className="absolute inset-0 bg-black/40"></div>
+          </div>
+
+          {/* Contenido del Post con Mejor Estilo */}
+          <article className="prose lg:prose-lg dark:prose-invert mx-auto">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.content}</ReactMarkdown>
           </article>
         </div>
-      </div>
+      </motion.div>
     </Layout>
   );
 }

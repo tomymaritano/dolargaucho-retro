@@ -13,7 +13,7 @@ export default {
         foreground: "var(--foreground)",
       },
       fontFamily: {
-        web3: ["Rajdhani", "sans-serif"], // Cambia por la tipografía que prefieras
+        sans: ["var(--font-space-grotesk)", "sans-serif"],
       },
     },
   },
