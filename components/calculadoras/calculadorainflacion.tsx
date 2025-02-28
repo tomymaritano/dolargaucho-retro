@@ -34,7 +34,7 @@ export default function InflationCalculator() {
   }, []);
 
   useEffect(() => {
-    let values = [];
+    const values: number[] = [];
     for (let i = 0; i <= years; i++) {
       values.push(initialAmount / Math.pow(1 + inflationRate / 100, i));
     }
@@ -64,9 +64,7 @@ export default function InflationCalculator() {
     plugins: {
       tooltip: {
         callbacks: {
-          label: function (tooltipItem: any) {
-            return `ARS ${tooltipItem.raw.toFixed(2)}`;
-          },
+          label: (tooltipItem: { raw: number }) => `ARS ${tooltipItem.raw.toFixed(2)}`,
         },
       },
     },
@@ -74,7 +72,10 @@ export default function InflationCalculator() {
       y: {
         beginAtZero: false,
         grid: { color: "rgba(255, 255, 255, 0.2)" },
-        ticks: { color: "#fff", callback: (value: any) => `ARS ${value}` },
+        ticks: {
+          color: "#fff",
+          callback: (value: number | string) => `ARS ${value}`,
+        },
       },
       x: {
         grid: { color: "rgba(255, 255, 255, 0.2)" },
@@ -84,8 +85,8 @@ export default function InflationCalculator() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto text-white p-8 rounded-xl">
-      <h2 className="text-3xl font-bold flex items-center gap-2 mb-6">
+    <div className="max-w-6xl mx-auto text-white p-8 rounded-xl bg-gray-900 shadow-2xl border border-gray-800">
+      <h2 className="text-3xl font-bold flex items-center gap-2 mb-6 text-orange-400">
         <FaChartLine /> Calculadora de Inflación en Tiempo Real
       </h2>
 
@@ -105,7 +106,7 @@ export default function InflationCalculator() {
             type="number"
             value={initialAmount}
             onChange={(e) => setInitialAmount(Number(e.target.value))}
-            className="p-3 text-xl font-semibold text-gray-900 rounded-lg focus:ring-2 focus:ring-orange-500"
+            className="p-3 text-xl font-semibold text-gray-900 rounded-lg border border-gray-600 focus:ring-2 focus:ring-orange-500"
           />
         </div>
 
@@ -119,7 +120,7 @@ export default function InflationCalculator() {
             min="1"
             max="30"
             onChange={(e) => setYears(Number(e.target.value))}
-            className="p-3 text-xl font-semibold text-gray-900 rounded-lg focus:ring-2 focus:ring-orange-500"
+            className="p-3 text-xl font-semibold text-gray-900 rounded-lg border border-gray-600 focus:ring-2 focus:ring-orange-500"
           />
         </div>
       </div>

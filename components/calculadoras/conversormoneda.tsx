@@ -3,7 +3,7 @@ import { FaExchangeAlt } from "react-icons/fa";
 
 export default function InvestmentCalculator() {
   const [amount, setAmount] = useState(1000);
-  const [exchangeRate, setExchangeRate] = useState(800); // Suponiendo un valor fijo por ahora
+  const [exchangeRate] = useState(800); // Suponiendo un valor fijo por ahora
   const [conversionType, setConversionType] = useState<"buy" | "sell">("buy");
 
   const conversion =
