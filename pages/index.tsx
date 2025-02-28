@@ -5,6 +5,7 @@ import DolarCard from "@/components/dolarcard";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import ContactForm from "@/components/contactform";
+import Faqs from "@/components/faqs";
 // import InflationCalculator from "@/components/calculadoras/calculadorainflacion";
 // import ChatBot from "@/components/chatbot";
 // import FinancialCalculator from "@/components/calculadoras/FinancialCalculator";
@@ -31,12 +32,9 @@ export default function Home() {
           ))}
         </div>
       </section>
+      <Faqs />
+      <ContactForm />
 
-      {/* 📌 Formulario de Contacto */}
-      <section className="py-12 px-6">
-        <h2 className="text-4xl font-bold text-center mb-6">✉️ Contacto</h2>
-        <ContactForm />
-      </section>
 
       <Footer />
     </div>

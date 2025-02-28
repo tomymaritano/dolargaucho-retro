@@ -39,7 +39,23 @@ const useDolar = () => {
     fetchDolar();
   }, []);
 
-  return { dolar, loading, error };
+    // 📌 Nueva función para obtener datos históricos
+    const fetchHistoricalData = async (date: Date) => {
+      try {
+        const formattedDate = date.toISOString().split("T")[0];
+        const response = await fetch(
+          `https://api.dolarapi.com/v1/dolares?fecha=${formattedDate}`
+        );
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error("Error al obtener datos históricos", error);
+        return [];
+      }
+    };
+  
+
+  return { dolar, loading, error, fetchHistoricalData };
 };
 
 export default useDolar;

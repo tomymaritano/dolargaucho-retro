@@ -15,14 +15,14 @@ interface DolarCardProps {
 }
 
 const dolarIcons: Record<string, React.ReactNode> = {
-  Oficial: <FaBuilding className="text-purple-400" />,
-  Blue: <FaMoneyBillWave className="text-green-400" />,
-  MEP: <FaExchangeAlt className="text-yellow-400" />,
-  CCL: <FaPiggyBank className="text-pink-400" />,
-  Crypto: <FaDollarSign className="text-blue-400" />,
+  Oficial: <FaBuilding className="text-purple-400 text-3xl" />,
+  Blue: <FaMoneyBillWave className="text-green-400 text-3xl" />,
+  MEP: <FaExchangeAlt className="text-yellow-400 text-3xl" />,
+  CCL: <FaPiggyBank className="text-pink-400 text-3xl" />,
+  Crypto: <FaDollarSign className="text-blue-400 text-3xl" />,
 };
 
-// Emojis para el mensaje de compartir
+// Emojis para compartir
 const dolarEmojis: Record<string, string> = {
   Oficial: "🏦",
   Blue: "💵",
@@ -97,27 +97,27 @@ const DolarCard: React.FC<DolarCardProps> = ({ data }) => {
   };
 
   return (
-    <div className="p-6 bg-gray-900 border border-gray-800 shadow-xl rounded-xl max-w-md w-full font-sans transition-all hover:shadow-2xl">
+    <div className="p-6 bg-[#181B2B] border border-[#2D2F3E] shadow-md rounded-xl max-w-md w-full font-sans transition-all hover:shadow-lg hover:scale-[1.02]">
       {/* Ícono + Título */}
-      <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-        {dolarIcons[data.nombre] || <FaDollarSign className="text-gray-400" />}
-        {data.nombre}
-      </h2>
+      <div className="flex items-center gap-3">
+        {dolarIcons[data.nombre] || <FaDollarSign className="text-gray-400 text-3xl" />}
+        <h2 className="text-2xl font-bold text-white">{data.nombre}</h2>
+      </div>
 
       {/* Valores de Compra y Venta */}
       <div className="flex justify-between items-center mt-4 py-4 text-lg font-semibold border-b border-gray-700">
         <p className="text-green-400">
-          Compra: <span className="font-bold">${data.compra.toFixed(2)}</span>
+          Compra: <span className="font-bold text-white">${data.compra.toFixed(2)}</span>
         </p>
         <p className="text-red-400">
-          Venta: <span className="font-bold">${data.venta.toFixed(2)}</span>
+          Venta: <span className="font-bold text-white">${data.venta.toFixed(2)}</span>
         </p>
       </div>
 
       {/* Última actualización */}
       {data.fechaActualizacion && (
         <p className="text-sm text-gray-400 mt-3 text-center">
-          Última actualización: {formatFecha(data.fechaActualizacion)}
+          📅 Última actualización: {formatFecha(data.fechaActualizacion)}
         </p>
       )}
 
