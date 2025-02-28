@@ -1,15 +1,14 @@
-
 // hooks/useDolar.ts
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 export type DolarType = {
+  moneda: string;
+  casa: string;
+  nombre: string;
   compra: number;
   venta: number;
-  casa?: string;
-  nombre: string;
-  moneda?: string;
-  fechaActualizacion?: string;
-};
+  fechaActualizacion?: string; // 🛠 Ahora es opcional para evitar errores
+}; 
 
 const useDolar = () => {
   const [dolar, setDolar] = useState<DolarType[]>([]);
@@ -19,11 +18,19 @@ const useDolar = () => {
   useEffect(() => {
     const fetchDolar = async () => {
       try {
-        const response = await fetch('https://dolarapi.com/v1/dolares');
-        const data: DolarType[] = await response.json();
-        setDolar(data);
+        const response = await fetch("https://dolarapi.com/v1/dolares");
+        const data = await response.json();
+        
+        console.log("📢 Respuesta de API DolarAPI:", data);
+
+        // Verificamos si la API devuelve un array y filtramos el dólar oficial
+        if (Array.isArray(data)) {
+          setDolar(data);
+        } else {
+          throw new Error("Formato inesperado de respuesta de API.");
+        }
       } catch (err) {
-        setError((err as Error).message);
+        setError(`Error al obtener datos: ${(err as Error).message}`);
       } finally {
         setLoading(false);
       }
@@ -36,4 +43,3 @@ const useDolar = () => {
 };
 
 export default useDolar;
-

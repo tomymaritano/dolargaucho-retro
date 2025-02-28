@@ -75,8 +75,8 @@ const Navbar: React.FC = () => {
   return (
     <nav
       className={`fixed top-0 left-0 w-full z-50 backdrop-blur-lg transition-all duration-300 ${
-        isScrolled ? "bg-blue-900/80 shadow-lg" : "bg-blue-900/70"
-      } border-b border-blue-700/50`}
+        isScrolled ? "bg-[#121826]/80 shadow-lg" : "bg-[#121826]/60"
+      } border-b border-gray-800`}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         {/* Logo */}
@@ -89,21 +89,27 @@ const Navbar: React.FC = () => {
           {menuItems.map((item, index) => (
             <div key={index} className="relative">
               <button
-                className="hover:text-blue-400 flex items-center gap-2 transition-all"
+                className="hover:text-[#A78BFA] flex items-center gap-2 transition-all"
                 onClick={() => toggleDropdown(item.label)}
               >
                 {item.icon} {item.label}
-                {item.subItems && <FaChevronDown className={`text-xs transition-transform ${activeDropdown === item.label ? "rotate-180" : ""}`} />}
+                {item.subItems && (
+                  <FaChevronDown
+                    className={`text-xs transition-transform ${
+                      activeDropdown === item.label ? "rotate-180" : ""
+                    }`}
+                  />
+                )}
               </button>
 
-              {/* Dropdown fijo que se mantiene abierto hasta hacer clic en otro lugar */}
+              {/* Dropdown con mejor UI */}
               {item.subItems && activeDropdown === item.label && (
-                <div className="absolute left-0 mt-2 w-52 bg-white text-gray-900 shadow-xl rounded-lg overflow-hidden border border-blue-300">
+                <div className="absolute left-0 mt-2 w-52 bg-[#1c1f2e] text-gray-200 shadow-xl rounded-xl overflow-hidden border border-[#2D2F3E]">
                   {item.subItems.map((subItem, subIndex) => (
                     <Link
                       key={subIndex}
                       href={subItem.href}
-                      className="block px-4 py-3 hover:bg-blue-500 hover:text-white transition-all"
+                      className="block px-4 py-3 hover:bg-[#6D28D9] hover:text-white transition-all"
                     >
                       {subItem.label}
                     </Link>
@@ -113,12 +119,12 @@ const Navbar: React.FC = () => {
             </div>
           ))}
 
-          {/* Aportar Valor (Botón especial) */}
+          {/* Botón Aportar Valor */}
           <a
-            href="https://www.linkedin.com/in/tomyaritano"
+            href="https://www.linkedin.com/in/tomymaritano"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-blue-500 hover:bg-blue-700 px-6 py-2 rounded-lg font-semibold flex items-center gap-2 shadow-md transition-all transform hover:scale-105"
+            className="bg-[#6D28D9] hover:bg-[#5B21B6] px-6 py-2 rounded-lg font-semibold flex items-center gap-2 shadow-md transition-all transform hover:scale-105"
           >
             <FaHandshake /> Aportar Valor
           </a>
@@ -132,25 +138,33 @@ const Navbar: React.FC = () => {
 
       {/* Menú Mobile Mejorado */}
       {isOpen && (
-        <div className="md:hidden flex flex-col bg-blue-900/90 p-6 absolute top-16 left-0 w-full shadow-xl transition-all duration-300">
+        <div className="md:hidden flex flex-col bg-[#1c1f2e]/95 p-6 absolute top-16 left-0 w-full shadow-xl transition-all duration-300">
           {menuItems.map((item, index) => (
             <div key={index}>
               <button
-                className="w-full text-white text-lg py-3 border-b border-blue-700 flex items-center justify-between"
+                className="w-full text-white text-lg py-3 border-b border-gray-700 flex items-center justify-between"
                 onClick={() => toggleDropdown(item.label)}
               >
-                <span className="flex items-center gap-2">{item.icon} {item.label}</span>
-                {item.subItems && <FaChevronDown className={`transition-transform ${activeDropdown === item.label ? "rotate-180" : ""}`} />}
+                <span className="flex items-center gap-2">
+                  {item.icon} {item.label}
+                </span>
+                {item.subItems && (
+                  <FaChevronDown
+                    className={`transition-transform ${
+                      activeDropdown === item.label ? "rotate-180" : ""
+                    }`}
+                  />
+                )}
               </button>
-              
+
               {/* Dropdown en Mobile */}
               {item.subItems && activeDropdown === item.label && (
-                <div className="bg-blue-800 rounded-lg overflow-hidden">
+                <div className="bg-[#25273C] rounded-lg overflow-hidden">
                   {item.subItems.map((subItem, subIndex) => (
                     <Link
                       key={subIndex}
                       href={subItem.href}
-                      className="block px-6 py-3 text-white border-b border-blue-700 hover:bg-blue-700 transition-all"
+                      className="block px-6 py-3 text-white border-b border-gray-700 hover:bg-[#6D28D9] transition-all"
                     >
                       {subItem.label}
                     </Link>
@@ -165,7 +179,7 @@ const Navbar: React.FC = () => {
             href="https://www.linkedin.com/in/tomymaritano"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 bg-blue-500 hover:bg-blue-700 px-6 py-3 rounded-lg font-semibold flex items-center gap-2 shadow-md transition-all transform hover:scale-105"
+            className="mt-4 bg-[#6D28D9] hover:bg-[#5B21B6] px-6 py-3 rounded-lg font-semibold flex items-center gap-2 shadow-md transition-all transform hover:scale-105"
           >
             <FaHandshake /> Aportar Valor
           </a>
