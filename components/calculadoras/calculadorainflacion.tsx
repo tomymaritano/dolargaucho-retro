@@ -64,7 +64,10 @@ export default function InflationCalculator() {
     plugins: {
       tooltip: {
         callbacks: {
-          label: (tooltipItem: { raw: number }) => `ARS ${tooltipItem.raw.toFixed(2)}`,
+          label: (tooltipItem: any) => {
+            const value = tooltipItem.raw as number; // 💡 Conversión explícita
+            return `ARS ${value.toFixed(2)}`;
+          },
         },
       },
     },
@@ -74,7 +77,7 @@ export default function InflationCalculator() {
         grid: { color: "rgba(255, 255, 255, 0.2)" },
         ticks: {
           color: "#fff",
-          callback: (value: number | string) => `ARS ${value}`,
+          callback: (value: any) => `ARS ${value}`,
         },
       },
       x: {
