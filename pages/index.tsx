@@ -6,6 +6,7 @@ import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import ContactForm from "@/components/contactform";
 import Faqs from "@/components/faqs";
+import InflationCalculator from "@/components/calculadoras/calculadorainflacion";
 // import InflationCalculator from "@/components/calculadoras/calculadorainflacion";
 // import ChatBot from "@/components/chatbot";
 // import FinancialCalculator from "@/components/calculadoras/FinancialCalculator";
@@ -20,8 +21,6 @@ export default function Home() {
 
       {/* 📌 Sección de Cotizaciones */}
       <section id="cotizacion" className="flex flex-col items-center justify-center py-12 px-6">
-        <h2 className="text-4xl font-bold mb-6">📊 Cotización del Dólar</h2>
-
         {loading && <p className="text-blue-300 text-lg animate-pulse">Cargando cotizaciones...</p>}
         {error && <p className="text-red-400 text-lg font-semibold">Error: {error}</p>}
 
@@ -32,6 +31,7 @@ export default function Home() {
           ))}
         </div>
       </section>
+      <InflationCalculator />
       <Faqs />
       <ContactForm />
 

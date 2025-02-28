@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import { FaCalendarAlt, FaMoneyBillWave, FaChartLine } from "react-icons/fa";
-import { Chart, registerables } from "chart.js";
+import { Chart, registerables, TooltipItem } from "chart.js";
 
 Chart.register(...registerables);
 
@@ -47,12 +47,12 @@ export default function InflationCalculator() {
       {
         label: "Valor Ajustado por Inflación",
         data: futureValues,
-        borderColor: "#f7931a",
-        backgroundColor: "rgba(247, 147, 26, 0.3)",
+        borderColor: "#A78BFA",
+        backgroundColor: "rgba(167, 139, 250, 0.3)",
         fill: true,
         pointRadius: 5,
         pointHoverRadius: 7,
-        pointBackgroundColor: "#f7931a",
+        pointBackgroundColor: "#A78BFA",
         pointBorderColor: "#fff",
       },
     ],
@@ -64,8 +64,8 @@ export default function InflationCalculator() {
     plugins: {
       tooltip: {
         callbacks: {
-          label: (tooltipItem: any) => {
-            const value = tooltipItem.raw as number; // 💡 Conversión explícita
+          label: (tooltipItem: TooltipItem<'line'>) => {
+            const value = tooltipItem.raw as number;
             return `ARS ${value.toFixed(2)}`;
           },
         },
@@ -77,7 +77,7 @@ export default function InflationCalculator() {
         grid: { color: "rgba(255, 255, 255, 0.2)" },
         ticks: {
           color: "#fff",
-          callback: (value: any) => `ARS ${value}`,
+          callback: (value: number | string) => `ARS ${value}`,
         },
       },
       x: {
@@ -88,33 +88,35 @@ export default function InflationCalculator() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto text-white p-8 rounded-xl bg-gray-900 shadow-2xl border border-gray-800">
-      <h2 className="text-3xl font-bold flex items-center gap-2 mb-6 text-orange-400">
+    <div className="max-w-6xl mx-auto text-white p-8 rounded-xl bg-gradient-to-b from-[#121826] to-[#1c1f2e] shadow-2xl border border-gray-800">
+      <h2 className="text-3xl font-bold flex items-center gap-3 mb-6 text-purple-400">
         <FaChartLine /> Calculadora de Inflación en Tiempo Real
       </h2>
 
-      {loading && <p className="text-lg text-orange-400">Cargando datos de inflación...</p>}
+      {loading && <p className="text-lg text-yellow-400">Cargando datos de inflación...</p>}
       {!loading && (
-        <p className="text-lg text-orange-300">
-          📊 Inflación interanual: {inflationRate.toFixed(2)}%
+        <p className="text-lg text-gray-300">
+          📊 Inflación interanual: <span className="font-bold text-purple-400">{inflationRate.toFixed(2)}%</span>
         </p>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-        <div className="flex flex-col">
-          <label className="text-lg font-semibold flex items-center gap-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+        {/* Monto Inicial */}
+        <div className="flex flex-col bg-gray-800 p-4 rounded-lg shadow-lg">
+          <label className="text-lg font-semibold flex items-center gap-2 text-gray-200">
             <FaMoneyBillWave /> Monto Inicial (ARS)
           </label>
           <input
             type="number"
             value={initialAmount}
             onChange={(e) => setInitialAmount(Number(e.target.value))}
-            className="p-3 text-xl font-semibold text-gray-900 rounded-lg border border-gray-600 focus:ring-2 focus:ring-orange-500"
+            className="p-3 text-xl font-semibold text-gray-900 rounded-lg mt-2 border border-gray-700 focus:ring-2 focus:ring-purple-500"
           />
         </div>
 
-        <div className="flex flex-col">
-          <label className="text-lg font-semibold flex items-center gap-2">
+        {/* Años en el Futuro */}
+        <div className="flex flex-col bg-gray-800 p-4 rounded-lg shadow-lg">
+          <label className="text-lg font-semibold flex items-center gap-2 text-gray-200">
             <FaCalendarAlt /> Años en el Futuro
           </label>
           <input
@@ -123,20 +125,25 @@ export default function InflationCalculator() {
             min="1"
             max="30"
             onChange={(e) => setYears(Number(e.target.value))}
-            className="p-3 text-xl font-semibold text-gray-900 rounded-lg border border-gray-600 focus:ring-2 focus:ring-orange-500"
+            className="p-3 text-xl font-semibold text-gray-900 rounded-lg mt-2 border border-gray-700 focus:ring-2 focus:ring-purple-500"
           />
         </div>
       </div>
 
+      {/* 📌 Tarjeta de resultado */}
       {!loading && (
-        <div className="mt-6 p-4 bg-orange-600 text-center rounded-lg shadow-md">
+        <div className="mt-6 p-6 bg-purple-600 text-center rounded-xl shadow-md">
           <h3 className="text-2xl font-bold">💰 Valor en {years} años</h3>
-          <p className="text-3xl font-extrabold mt-2">ARS {futureValues[years]?.toFixed(2)}</p>
+          <p className="text-3xl font-extrabold mt-2 text-white">ARS {futureValues[years]?.toFixed(2)}</p>
         </div>
       )}
 
-      <div className="mt-6" style={{ height: "350px" }}>
-        <Line data={chartData} options={chartOptions} />
+      {/* 📊 Gráfico */}
+      <div className="mt-6 bg-gray-800 p-6 rounded-xl">
+        <h3 className="text-lg font-semibold text-gray-300 text-center">📊 Proyección de Inflación</h3>
+        <div className="h-80">
+          <Line data={chartData} options={chartOptions} />
+        </div>
       </div>
     </div>
   );

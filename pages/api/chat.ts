@@ -30,8 +30,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     console.log("✅ Respuesta de OpenAI:", aiMessage);
     res.status(200).json({ response: aiMessage });
-  } catch (error: any) {
+  } catch (error: unknown) { // 👈 Cambiado de 'any' a 'unknown'
     console.error("❌ Error con OpenAI:", error);
-    res.status(500).json({ error: error.message || "Error desconocido" });
+
+    // Manejo seguro del error
+    if (error instanceof Error) {
+      res.status(500).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: "Error desconocido" });
+    }
   }
 }

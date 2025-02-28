@@ -30,7 +30,7 @@ const Hero: React.FC = () => {
 
       {/* 📌 Contenido principal */}
       <div className="max-w-3xl mx-auto px-6 mb-8 relative z-10 text-center animate-fadeIn">
-        <h1 className="text-5xl font-extrabold mb-6 tracking-wide text-gray-100 drop-shadow-lg">
+        <h1 className="text-6xl font-extrabold mb-6 tracking-wide text-gray-100 drop-shadow-lg">
           Cotización del Dólar en Tiempo Real 💰
         </h1>
         <p className="text-lg text-gray-400 mb-6">
