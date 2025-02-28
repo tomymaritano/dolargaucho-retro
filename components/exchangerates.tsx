@@ -45,12 +45,12 @@ const ExchangeRates: React.FC = () => {
   }, []);
 
   return (
-    <div className="p-6 m-6 bg-white border border-gray-200 shadow-lg rounded-xl max-w-full w-full font-sans">
+    <div className="p-6 rounded-xl max-w-6xl flex w-full font-sans">
 
       {loading && <p className="text-gray-500 text-center">Cargando cotizaciones...</p>}
       {error && <p className="text-red-500 text-center">{error}</p>}
 
-      <div className="flex flex-col space-y-4">
+      <div className="flex flex-col space-y-2">
         {!loading && !error && rates.map((rate) => (
           <div key={rate.nombre} className="p-4 border border-gray-300 rounded-lg flex items-center justify-between bg-gray-100 shadow-sm">
             <div className="flex items-center gap-3">

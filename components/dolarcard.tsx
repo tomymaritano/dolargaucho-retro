@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DolarType } from '../hooks/useDolar';
+import { DolarType } from '../hooks/useDolar'
 import { FaShareAlt, FaCopy, FaDollarSign, FaMoneyBillWave, FaBuilding, FaExchangeAlt, FaPiggyBank } from 'react-icons/fa';
 
 interface DolarCardProps {

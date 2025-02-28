@@ -1,3 +1,4 @@
+
 // hooks/useDolar.ts
 import { useState, useEffect } from 'react';
 
@@ -35,3 +36,4 @@ const useDolar = () => {
 };
 
 export default useDolar;
+

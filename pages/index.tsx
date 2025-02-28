@@ -1,10 +1,12 @@
 import React from 'react';
 import Hero from '@/components/hero';
-import useDolar from '../hooks/useDolar';
+import useDolar from '@/hooks/useDolar';
 import DolarCard from '@/components/dolarcard';
 import Navbar from '@/components/navbar';
 import Footer from '@/components/footer';
 import ContactForm from '@/components/contactform';
+import ArgentinaDataComponent from '@/components/argentinadatacomponent';
+import InflationCalculator from '@/components/calculadoras/calculadorainflacion';
 
 export default function Home() {
   const { dolar, loading, error } = useDolar();
@@ -26,6 +28,7 @@ export default function Home() {
           ))}
         </div>
       </div>
+<InflationCalculator />
         <ContactForm />
       <Footer />
     </div>
