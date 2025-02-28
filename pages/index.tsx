@@ -7,9 +7,7 @@ import Footer from "@/components/footer";
 import ContactForm from "@/components/contactform";
 import Faqs from "@/components/faqs";
 import InflationCalculator from "@/components/calculadoras/calculadorainflacion";
-// import InflationCalculator from "@/components/calculadoras/calculadorainflacion";
-// import ChatBot from "@/components/chatbot";
-// import FinancialCalculator from "@/components/calculadoras/FinancialCalculator";
+
 
 export default function Home() {
   const { dolar, loading, error } = useDolar();
@@ -31,6 +29,7 @@ export default function Home() {
           ))}
         </div>
       </section>
+      
       <InflationCalculator />
       <Faqs />
       <ContactForm />
