@@ -89,7 +89,6 @@ const CollaborationSection: React.FC = () => {
             </div>
           ) : (
             <>
-              <h3 className="text-2xl font-bold text-center mb-4">📬 ¡Hablemos!</h3>
 
               {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 

@@ -97,7 +97,7 @@ const DolarCard: React.FC<DolarCardProps> = ({ data }) => {
   };
 
   return (
-    <div className="p-6 bg-[#181B2B] border border-[#2D2F3E] shadow-md rounded-xl max-w-md w-full font-sans transition-all hover:shadow-lg hover:scale-[1.02]">
+    <div className="p-6 bg-[#181B2B] border border-[#2D2F3E] shadow-md rounded-xl font-sans transition-all hover:shadow-lg hover:scale-[1.02]">
       {/* Ícono + Título */}
       <div className="flex items-center gap-3">
         {dolarIcons[data.nombre] || <FaDollarSign className="text-gray-400 text-3xl" />}
