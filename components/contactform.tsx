@@ -54,7 +54,7 @@ const CollaborationSection: React.FC = () => {
   };
 
   return (
-    <section className="w-full bg-gradient-to-b from-[#121826] to-[#1c1f2e] text-white py-20 px-6 flex flex-col items-center">
+    <section id="contacto" className="w-full bg-gradient-to-b from-[#121826] to-[#1c1f2e] text-white py-20 px-6 flex flex-col items-center">
       <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12">
 
         {/* 🌟 Sección izquierda: Mensaje de colaboración */}

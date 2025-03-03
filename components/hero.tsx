@@ -1,10 +1,10 @@
 import React from "react";
 import { FaUserPlus } from "react-icons/fa";
-import UnicoComponente from "./test";
+import DolarComponent from "./dolarcomponent";
 
 const Hero: React.FC = () => {
   return (
-    <section className="relative w-full min-h-screen flex flex-col items-center align-middle justify-center text-white overflow-hidden pt-20 pb-28">
+    <section className="relative w-full min-h-screen flex flex-col items-center align-middle justify-center text-white overflow-hidden pt-20 ">
       
       {/* 🌊 Background */}
       <div className="absolute inset-0 bg-[url('/abstract-bg.svg')] bg-cover opacity-10"></div>
@@ -13,7 +13,7 @@ const Hero: React.FC = () => {
       <div className="absolute bottom-[-350px] left-[50%] transform -translate-x-1/2 w-[650px] h-[650px] bg-gradient-to-b from-[#5B21B6] to-transparent rounded-full blur-3xl opacity-40"></div>
 
       {/* 📌 Main Content */}
-      <div className="relative z-10 text-center max-w-3xl px-6 mb-8">
+      <div className="relative z-10 text-center max-w-5xl px-6 mb-8">
         <h1 className="text-4xl md:text-6xl font-extrabold leading-tight tracking-wide text-white">
           Cotización del Dólar en Argentina 💰
         </h1>
@@ -24,7 +24,8 @@ const Hero: React.FC = () => {
 
       {/* 📌 UnicoComponente (Country Risk & Dollar Exchange) */}
       <div className="relative z-20 w-full flex justify-center">
-        <UnicoComponente />
+
+        <DolarComponent />
       </div>
 
       {/* 📌 Call to Action Button */}
