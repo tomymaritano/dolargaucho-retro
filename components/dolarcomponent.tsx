@@ -22,6 +22,7 @@ const DolarComponent: React.FC = () => {
   useEffect(() => {
     const fetchDolarData = async () => {
       try {
+        setLoading(true);
         const response = await fetch("https://api.argentinadatos.com/v1/cotizaciones/dolares");
         const data: DolarData[] = await response.json();
 
@@ -37,7 +38,8 @@ const DolarComponent: React.FC = () => {
         } else {
           setError("No disponible");
         }
-      } catch (err) {
+      } catch (error) {
+        console.error("Error al obtener datos:", error);
         setError("Error al obtener datos");
       } finally {
         setLoading(false);
@@ -63,20 +65,16 @@ const DolarComponent: React.FC = () => {
     const pastDate = new Date();
     pastDate.setDate(pastDate.getDate() - daysAgo);
 
-    const historicalData = data
-      .filter((d) => d.casa === casa)
-      .map((d) => ({
-        ...d,
-        dateDiff: Math.abs(new Date(d.fecha).getTime() - pastDate.getTime()),
-      }));
-
+    const historicalData = data.filter((d) => d.casa === casa);
     if (historicalData.length === 0) return null;
 
-    const closestRate = historicalData.reduce((closest, current) =>
-      current.dateDiff < closest.dateDiff ? current : closest
-    );
+    const closestRate = historicalData.reduce((closest, current) => {
+      const currentDateDiff = Math.abs(new Date(current.fecha).getTime() - pastDate.getTime());
+      const closestDateDiff = Math.abs(new Date(closest.fecha).getTime() - pastDate.getTime());
+      return currentDateDiff < closestDateDiff ? current : closest;
+    }, historicalData[0]);
 
-    return closestRate.venta;
+    return closestRate?.venta || null;
   };
 
   const getPercentageChange = (current: number | null, past: number | null): string | null => {
