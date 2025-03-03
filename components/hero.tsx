@@ -1,6 +1,6 @@
 import React from "react";
 import { FaUserPlus } from "react-icons/fa";
-import DolarComponent from "./dolarcomponent";
+// import DolarComponent from "./dolarcomponent";
 
 const Hero: React.FC = () => {
   return (
@@ -22,11 +22,11 @@ const Hero: React.FC = () => {
         </p>
       </div>
 
-      {/* 📌 UnicoComponente (Country Risk & Dollar Exchange) */}
+      {/* 📌 UnicoComponente (Country Risk & Dollar Exchange)
       <div className="relative z-20 w-full flex justify-center">
 
         <DolarComponent />
-      </div>
+      </div> */}
 
       {/* 📌 Call to Action Button */}
       <a
