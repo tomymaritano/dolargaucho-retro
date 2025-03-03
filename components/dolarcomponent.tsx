@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { FaDollarSign, FaArrowUp, FaArrowDown } from "react-icons/fa";
+import { motion } from "framer-motion";
+import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 
-// ✅ Tipo de datos correcto para el array de cotizaciones
 type DolarData = {
   casa: string;
   fecha: string;
@@ -26,15 +26,12 @@ const DolarComponent: React.FC = () => {
         const data: DolarData[] = await response.json();
 
         if (Array.isArray(data) && data.length > 0) {
-          // 🔹 Filtramos el array para obtener la última cotización de cada casa
           const latestRates = getLastRatesByCasa(data);
-
           setExchangeRates(latestRates);
 
           const selected = latestRates.find((d) => d.casa === selectedCurrency);
           setCurrentRate(selected ? selected.venta : null);
 
-          // 🔹 Calculamos valores históricos
           setRate7DaysAgo(getHistoricalRate(data, selectedCurrency, 7));
           setRate30DaysAgo(getHistoricalRate(data, selectedCurrency, 30));
         } else {
@@ -50,7 +47,6 @@ const DolarComponent: React.FC = () => {
     fetchDolarData();
   }, [selectedCurrency]);
 
-  // 🔹 Obtiene la última cotización por cada casa
   const getLastRatesByCasa = (data: DolarData[]): DolarData[] => {
     const lastRates: Record<string, DolarData> = {};
 
@@ -63,7 +59,6 @@ const DolarComponent: React.FC = () => {
     return Object.values(lastRates);
   };
 
-  // 🔹 Obtiene la cotización más cercana a X días atrás
   const getHistoricalRate = (data: DolarData[], casa: string, daysAgo: number): number | null => {
     const pastDate = new Date();
     pastDate.setDate(pastDate.getDate() - daysAgo);
@@ -72,7 +67,7 @@ const DolarComponent: React.FC = () => {
       .filter((d) => d.casa === casa)
       .map((d) => ({
         ...d,
-        dateDiff: Math.abs(new Date(d.fecha).getTime() - pastDate.getTime()), // Calculamos diferencia de días
+        dateDiff: Math.abs(new Date(d.fecha).getTime() - pastDate.getTime()),
       }));
 
     if (historicalData.length === 0) return null;
@@ -84,7 +79,12 @@ const DolarComponent: React.FC = () => {
     return closestRate.venta;
   };
 
-  // 🔹 Determina si subió o bajó
+  const getPercentageChange = (current: number | null, past: number | null): string | null => {
+    if (current === null || past === null || past === 0) return null;
+    const change = ((current - past) / past) * 100;
+    return `${change > 0 ? "+" : ""}${change.toFixed(2)}%`;
+  };
+
   const getTrend = (current: number | null, past: number | null) => {
     if (current === null || past === null) return { label: "N/A", color: "text-gray-400", icon: null };
     if (current > past) return { label: "Subió", color: "text-red-500", icon: <FaArrowUp /> };
@@ -95,61 +95,75 @@ const DolarComponent: React.FC = () => {
   const trend7Days = getTrend(currentRate, rate7DaysAgo);
   const trend30Days = getTrend(currentRate, rate30DaysAgo);
 
-  return (
-    <div className="bg-[#1e2336] border border-gray-800 rounded-xl p-5 text-center shadow-lg w-full max-w-[320px] transition-all hover:scale-105 hover:border-purple-500">
-      <h2 className="text-xs font-medium text-gray-400 flex items-center justify-center gap-1 uppercase tracking-wide">
-        <FaDollarSign className="text-green-400 text-sm" /> Cotización del Dólar
-      </h2>
+  const casaMap: Record<string, string> = {
+    "contadoconliqui": "CCL",
+  };
 
-      <div className="flex justify-center gap-2 mt-3">
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className="rounded-xl p-3 text-center w-full max-w-[320px] md:max-w-[400px] transition-all hover:scale-105 hover:border-purple-500"
+    >
+      {/* 🔹 Botones */}
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.2 }}
+        className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-3 px-2 py-1"
+      >
         {exchangeRates.map((tipo) => (
-          <button
+          <motion.button
             key={tipo.casa}
-            className={`text-xs font-semibold px-3 py-1 rounded-md transition-all ${
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 400, damping: 10 }}
+            className={`text-xs md:text-sm font-semibold px-3 py-2 rounded-md ${
               selectedCurrency === tipo.casa
                 ? "bg-purple-500 text-white shadow-md"
                 : "bg-[#252845] text-gray-300 hover:bg-[#323657]"
             }`}
             onClick={() => setSelectedCurrency(tipo.casa)}
           >
-            {tipo.casa.toUpperCase()}
-          </button>
+            {casaMap[tipo.casa] || tipo.casa.toUpperCase()}
+          </motion.button>
         ))}
-      </div>
+      </motion.div>
 
       {loading ? (
-        <p className="text-gray-400 mt-3 text-sm">Cargando...</p>
+        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }} className="text-gray-400 mt-3 text-sm">
+          Cargando...
+        </motion.p>
       ) : error ? (
-        <p className="text-red-400 mt-3 text-sm">{error}</p>
+        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }} className="text-red-400 mt-3 text-sm">
+          {error}
+        </motion.p>
       ) : (
         <>
-          <p className="text-4xl font-extrabold text-[#A78BFA] mt-3 drop-shadow-md">
+          <motion.p className="text-3xl md:text-4xl font-extrabold text-[#A78BFA] mt-3 drop-shadow-md">
             ${currentRate?.toFixed(2)}
-          </p>
-          <p className="text-gray-400 text-xs mt-2">Última actualización</p>
+          </motion.p>
 
-          <div className="mt-3 flex justify-between items-center text-sm">
+          {/* 🔹 Variaciones con Porcentaje */}
+          <motion.div className="mt-3 flex justify-between items-center text-xs md:text-sm">
             <span className="text-gray-300">Hace 7 días:</span>
             <span className={`font-semibold ${trend7Days.color} flex items-center gap-1`}>
-              {rate7DaysAgo !== null ? `$${rate7DaysAgo.toFixed(2)}` : "Sin datos"} {trend7Days.icon}
+              {rate7DaysAgo !== null ? `$${rate7DaysAgo.toFixed(2)}` : "Sin datos"} ({getPercentageChange(currentRate, rate7DaysAgo)})
+              {trend7Days.icon}
             </span>
-          </div>
+          </motion.div>
 
-          <div className="mt-2 flex justify-between items-center text-sm">
+          <motion.div className="mt-2 flex justify-between items-center text-xs md:text-sm">
             <span className="text-gray-300">Hace 30 días:</span>
             <span className={`font-semibold ${trend30Days.color} flex items-center gap-1`}>
-              {rate30DaysAgo !== null ? `$${rate30DaysAgo.toFixed(2)}` : "Sin datos"} {trend30Days.icon}
+              {rate30DaysAgo !== null ? `$${rate30DaysAgo.toFixed(2)}` : "Sin datos"} ({getPercentageChange(currentRate, rate30DaysAgo)})
+              {trend30Days.icon}
             </span>
-          </div>
-
-          {rate7DaysAgo === null && rate30DaysAgo === null && (
-            <p className="text-yellow-400 text-xs mt-3">
-              ⚠️ **No hay datos almacenados para días anteriores en la API.**
-            </p>
-          )}
+          </motion.div>
         </>
       )}
-    </div>
+    </motion.div>
   );
 };
 

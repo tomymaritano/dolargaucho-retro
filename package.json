@@ -12,6 +12,7 @@
     "@emailjs/browser": "^4.4.1",
     "@emailjs/nodejs": "^5.0.2",
     "chart.js": "^4.4.8",
+    "framer-motion": "^12.4.7",
     "next": "15.1.6",
     "openai": "^4.86.1",
     "react": "^19.0.0",
