@@ -42,6 +42,7 @@ const InflacionChart: React.FC = () => {
 
         setInflacionData(sortedData);
       } catch (err) {
+        console.error("Error al obtener los datos:", err);
         setError("Error al obtener los datos");
       } finally {
         setLoading(false);
@@ -69,19 +70,17 @@ const InflacionChart: React.FC = () => {
         {/* Selector de Tipo de Inflación */}
         <div className="flex justify-center md:justify-start space-x-2">
           <motion.button
-            className={`px-4 py-2 rounded-md text-sm font-semibold transition-all ${
-              inflacionType === "mensual" ? "bg-purple-600 text-white" : "bg-gray-700 text-gray-300 hover:bg-gray-600"
-            }`}
+            className={`px-4 py-2 rounded-md text-sm font-semibold transition-all ${inflacionType === "mensual" ? "bg-purple-600 text-white" : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+              }`}
             whileTap={{ scale: 0.9 }}
             onClick={() => setInflacionType("mensual")}
           >
-           Inflacion Mensual
+            Inflacion Mensual
           </motion.button>
 
           <motion.button
-            className={`px-4 py-2 rounded-md text-sm font-semibold transition-all ${
-              inflacionType === "interanual" ? "bg-purple-600 text-white" : "bg-gray-700 text-gray-300 hover:bg-gray-600"
-            }`}
+            className={`px-4 py-2 rounded-md text-sm font-semibold transition-all ${inflacionType === "interanual" ? "bg-purple-600 text-white" : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+              }`}
             whileTap={{ scale: 0.9 }}
             onClick={() => setInflacionType("interanual")}
           >
@@ -95,9 +94,8 @@ const InflacionChart: React.FC = () => {
             <motion.button
               key={months}
               whileTap={{ scale: 0.9 }}
-              className={`px-4 py-2 rounded-md text-sm font-semibold transition-all ${
-                selectedMonths === months ? "bg-purple-600 text-white" : "bg-gray-700 text-gray-300 hover:bg-gray-600"
-              }`}
+              className={`px-4 py-2 rounded-md text-sm font-semibold transition-all ${selectedMonths === months ? "bg-purple-600 text-white" : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                }`}
               onClick={() => setSelectedMonths(months)}
             >
               Últimos {months} meses

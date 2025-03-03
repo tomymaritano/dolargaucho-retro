@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
-import { FaCalendarAlt, FaMoneyBillWave, FaChartLine, FaEye, FaEyeSlash, FaChevronDown } from "react-icons/fa";
+import { FaCalendarAlt, FaMoneyBillWave, FaEye, FaEyeSlash, FaChevronDown } from "react-icons/fa";
 import { Chart, registerables, TooltipItem } from "chart.js";
 
 Chart.register(...registerables);
