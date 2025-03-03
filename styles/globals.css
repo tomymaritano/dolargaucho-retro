@@ -21,6 +21,53 @@ body {
 }
 
 
+.prose h1 {
+  @apply text-3xl font-bold text-white tracking-wide leading-tight;
+}
+
+.prose h2 {
+  @apply text-2xl font-semibold text-yellow-400 mt-5;
+}
+
+.prose h3 {
+  @apply text-xl font-semibold text-yellow-300 mt-4;
+}
+
+.prose p {
+  @apply text-base text-gray-300 leading-relaxed;
+}
+
+.prose ul {
+  @apply list-disc pl-5 mt-3 space-y-1;
+}
+
+.prose li {
+  @apply text-gray-400 text-sm;
+}
+
+.prose strong {
+  @apply text-white font-bold;
+}
+
+.prose a {
+  @apply text-yellow-400 underline hover:text-yellow-300 transition-all;
+}
+
+/* Separación entre secciones */
+.prose hr {
+  @apply border-gray-700 my-5;
+}
+
+/* Bloques de código */
+.prose pre {
+  @apply bg-gray-900 text-gray-300 p-3 rounded-md overflow-x-auto text-sm;
+}
+
+/* Citas */
+.prose blockquote {
+  @apply border-l-4 border-yellow-400 pl-3 italic text-gray-400;
+}
+
 @keyframes marquee {
   0% { transform: translateX(100%); }
   100% { transform: translateX(-100%); }

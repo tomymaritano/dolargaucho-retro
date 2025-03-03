@@ -16,6 +16,7 @@ export default {
         primary: "#FFFFFF",
         secondary: "#A0A0A0",
         highlight: "#8E61DB",
+        text:"#e2e8f0",
       },
     },
   },
