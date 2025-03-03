@@ -90,13 +90,9 @@ export default function InflationCalculator() {
   return (
     <div className="mx-auto text-white p-10 rounded-xl max-w-7xl">
       
-      {/* 📌 Title & Explanation Dropdown */}
-      <h2 className="text-4xl font-bold flex items-center gap-3 mb-6 text-purple-400">
-        <FaChartLine /> Calculadora de Inflación
-      </h2>
 
       {/* 🔽 Toggleable Explanation */}
-      <div className="mb-6 p-4 bg-[#22243A] rounded-lg shadow-md text-gray-300 text-sm md:text-base">
+      <div className="mb-6 p-4 bg-[#22243A] rounded-lg  text-gray-300 text-sm md:text-base">
         <button
           onClick={() => setShowExplanation(!showExplanation)}
           className="w-full flex justify-between items-center font-semibold text-white hover:text-purple-400 transition-all"

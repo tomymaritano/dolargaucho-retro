@@ -4,7 +4,7 @@ import DolarComponent from "./dolarcomponent";
 
 const Hero: React.FC = () => {
   return (
-    <section className="relative w-full min-h-screen flex flex-col items-center align-middle justify-center text-white overflow-hidden pt-20 ">
+    <section className="relative w-full min-h-screen flex flex-col items-center align-middle justify-center text-white overflow-hidden pt-20 pb-28">
       
       {/* 🌊 Background */}
       <div className="absolute inset-0 bg-[url('/abstract-bg.svg')] bg-cover opacity-10"></div>

@@ -1,51 +1,26 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import { DolarType } from "../hooks/useDolar";
-import {
-  FaShareAlt,
-  FaCopy,
-  FaDollarSign,
-  FaMoneyBillWave,
-  FaBuilding,
-  FaExchangeAlt,
-  FaPiggyBank,
-} from "react-icons/fa";
+import { FaShareAlt, FaCopy } from "react-icons/fa";
+
+// 🔹 Función para formatear fecha y hora
+const formatFecha = (fecha?: string) => {
+  if (!fecha) return "Fecha no disponible";
+
+  const date = new Date(fecha);
+  return `${date.toLocaleDateString("es-ES", {
+    day: "2-digit",
+    month: "2-digit",
+  })} - ${date.toLocaleTimeString("es-ES", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false, // Usa formato 24h
+  })} hs`;
+};
 
 interface DolarCardProps {
   data: DolarType;
 }
-
-const dolarIcons: Record<string, React.ReactNode> = {
-  Oficial: <FaBuilding className="text-purple-400 text-3xl" />,
-  Blue: <FaMoneyBillWave className="text-green-400 text-3xl" />,
-  MEP: <FaExchangeAlt className="text-yellow-400 text-3xl" />,
-  CCL: <FaPiggyBank className="text-pink-400 text-3xl" />,
-  Crypto: <FaDollarSign className="text-blue-400 text-3xl" />,
-};
-
-// Emojis para compartir
-const dolarEmojis: Record<string, string> = {
-  Oficial: "🏦",
-  Blue: "💵",
-  MEP: "📊",
-  CCL: "🏛️",
-  Crypto: "🪙",
-};
-
-// Formatear fecha
-const formatFecha = (fecha: string) => {
-  const date = new Date(fecha);
-  return (
-    date.toLocaleDateString("es-ES", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    }) +
-    ` a las ${date.toLocaleTimeString("es-ES", {
-      hour: "2-digit",
-      minute: "2-digit",
-    })}`
-  );
-};
 
 const DolarCard: React.FC<DolarCardProps> = ({ data }) => {
   const [isSharing, setIsSharing] = useState(false);
@@ -56,14 +31,8 @@ const DolarCard: React.FC<DolarCardProps> = ({ data }) => {
       setIsSharing(true);
       try {
         await navigator.share({
-          title: `Cotización ${data.nombre} - Dólar Gaucho`,
-          text: `${
-            dolarEmojis[data.nombre] || "💰"
-          } ${data.nombre} hoy:\n\n🟢 Compra: $${data.compra.toFixed(
-            2
-          )}\n🔴 Venta: $${data.venta.toFixed(
-            2
-          )}\n\n📊 Consulta más en Dólar Gaucho: ${window.location.href}`,
+          title: `Cotización ${data.nombre}`,
+          text: `💰 ${data.nombre}: Compra $${data.compra.toFixed(2)} | Venta $${data.venta.toFixed(2)}`,
           url: window.location.href,
         });
       } catch (error) {
@@ -71,8 +40,6 @@ const DolarCard: React.FC<DolarCardProps> = ({ data }) => {
       } finally {
         setIsSharing(false);
       }
-    } else {
-      alert("Tu navegador no soporta la función de compartir.");
     }
   };
 
@@ -80,67 +47,63 @@ const DolarCard: React.FC<DolarCardProps> = ({ data }) => {
     if (typeof window !== "undefined" && navigator?.clipboard?.writeText) {
       try {
         await navigator.clipboard.writeText(
-          `💰 ${data.nombre} hoy:\n\n🟢 Compra: $${data.compra.toFixed(
-            2
-          )}\n🔴 Venta: $${data.venta.toFixed(
-            2
-          )}\n\n📊 Consulta más en Dólar Gaucho: ${window.location.href}`
+          `💰 ${data.nombre}: Compra $${data.compra.toFixed(2)} | Venta $${data.venta.toFixed(2)}`
         );
         alert("Copiado al portapapeles");
       } catch (error) {
         console.error("Error al copiar:", error);
-        alert("No se pudo copiar al portapapeles.");
       }
-    } else {
-      alert("Tu navegador no soporta la función de copiar al portapapeles.");
     }
   };
 
   return (
-    <div className="p-6 bg-[#181B2B] border border-[#2D2F3E] shadow-md rounded-xl font-sans transition-all hover:shadow-lg hover:scale-[1.02]">
-      {/* Ícono + Título */}
-      <div className="flex items-center gap-3">
-        {dolarIcons[data.nombre] || <FaDollarSign className="text-gray-400 text-3xl" />}
-        <h2 className="text-2xl font-bold text-white">{data.nombre}</h2>
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileHover={{ scale: 1.02 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
+      className="p-5 bg-white/10 backdrop-blur-lg border border-[#2D2F3E] shadow-xl rounded-xl flex flex-col"
+    >
+      {/* 🔹 Título */}
+      <h2 className="text-lg md:text-xl font-bold text-white tracking-wide">{data.nombre}</h2>
+
+      {/* 🔹 Valores de Compra y Venta */}
+      <div className="flex justify-between items-center py-3 text-xl font-semibold">
+        <div className="flex flex-col items-start">
+          <span className="text-gray-400 text-sm">Compra</span>
+          <span className="text-green-400">${data.compra.toFixed(2)}</span>
+        </div>
+        <div className="flex flex-col items-end">
+          <span className="text-gray-400 text-sm">Venta</span>
+          <span className="text-red-400">${data.venta.toFixed(2)}</span>
+        </div>
       </div>
 
-      {/* Valores de Compra y Venta */}
-      <div className="flex justify-between items-center mt-4 py-4 text-lg font-semibold border-b border-gray-700">
-        <p className="text-green-400">
-          Compra: <span className="font-bold text-white">${data.compra.toFixed(2)}</span>
-        </p>
-        <p className="text-red-400">
-          Venta: <span className="font-bold text-white">${data.venta.toFixed(2)}</span>
-        </p>
-      </div>
+      {/* 🔹 Última actualización con hora */}
+      <p className="text-xs text-gray-400 text-center">
+        📅 Última actualización: {formatFecha(data.fechaActualizacion)}
+      </p>
 
-      {/* Última actualización */}
-      {data.fechaActualizacion && (
-        <p className="text-sm text-gray-400 mt-3 text-center">
-          📅 Última actualización: {formatFecha(data.fechaActualizacion)}
-        </p>
-      )}
-
-      {/* Botones */}
-      <div className="flex justify-center gap-3 mt-6 w-full">
-        <button
+      {/* 🔹 Botones minimalistas */}
+      <div className="flex gap-4 mt-2">
+        <motion.button
           onClick={handleShare}
           disabled={isSharing}
-          className={`w-full py-3 text-lg font-medium text-white bg-purple-600 rounded-lg flex items-center justify-center gap-2 transition-all hover:bg-purple-700 ${
-            isSharing ? "opacity-50 cursor-not-allowed" : ""
-          }`}
+          whileTap={{ scale: 0.9 }}
+          className="p-3 bg-[#6D28D9] text-white rounded-full hover:bg-[#5B21B6] transition-all"
         >
-          <FaShareAlt /> Compartir
-        </button>
+          <FaShareAlt className="text-lg" />
+        </motion.button>
 
-        <button
+        <motion.button
           onClick={handleCopy}
-          className="w-full py-3 text-lg font-medium text-white bg-gray-700 border border-gray-600 rounded-lg flex items-center justify-center gap-2 transition-all hover:bg-gray-600"
+          whileTap={{ scale: 0.9 }}
+          className="p-3 bg-gray-700 text-white rounded-full hover:bg-gray-600 transition-all"
         >
-          <FaCopy /> Copiar
-        </button>
+          <FaCopy className="text-lg" />
+        </motion.button>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
