@@ -10,11 +10,11 @@ import {
   FaUserCircle,
   FaFileContract,
 } from "react-icons/fa";
-import AvisoLegal from './aviso-legal'; // Asegúrate de que la ruta es correcta
+import AvisoLegal from './aviso-legal';
 
 interface SocialItem {
   label: string;
-  icon: JSX.Element;
+  icon: React.ReactElement;
   href: string;
 }
 
