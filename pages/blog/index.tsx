@@ -42,7 +42,9 @@ export default function Blog({ posts }: BlogProps) {
             <button
               key={category}
               className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                selectedCategory === category ? "bg-highlight text-white" : "bg-panel text-secondary hover:bg-highlight/50"
+                selectedCategory === category
+                  ? "bg-highlight text-white"
+                  : "bg-panel text-secondary hover:bg-highlight/50"
               }`}
               onClick={() => setSelectedCategory(category)}
             >
@@ -57,11 +59,7 @@ export default function Blog({ posts }: BlogProps) {
         ) : (
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
             {filteredPosts.map((post) => (
-              <motion.div
-                key={post.id}
-                whileHover={{ scale: 1.03 }}
-                transition={{ duration: 0.3 }}
-              >
+              <motion.div key={post.id} whileHover={{ scale: 1.03 }} transition={{ duration: 0.3 }}>
                 <Link href={`/blog/${post.slug}`} passHref>
                   <div className="bg-panel border border-gray-700 shadow-lg rounded-lg overflow-hidden cursor-pointer hover:shadow-xl transition">
                     {/* 📌 Imagen */}
@@ -101,7 +99,7 @@ export default function Blog({ posts }: BlogProps) {
 
 // ✅ Obtener datos desde Supabase
 export const getServerSideProps: GetServerSideProps = async () => {
-  const { data, error } = await supabase
+  const { data, error: _error } = await supabase
     .from("news")
     .select("id, title, slug, image_url, created_at, tags")
     .order("created_at", { ascending: false });

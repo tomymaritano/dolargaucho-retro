@@ -4,7 +4,6 @@ import Link from "next/link";
 import {
   FaBars,
   FaTimes,
-  FaGlobe,
   FaGithub,
   FaTwitter,
   FaUserCircle,
@@ -62,7 +61,6 @@ const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         <Link href="/" className="flex items-center gap-2">
           <Image src="/logo.svg" width={40} height={40} alt="Dolar Gaucho" />
-          <span className="text-white font-bold text-xl">Dolar Gaucho</span>
         </Link>
 
         <div className="hidden md:flex items-center space-x-6 text-gray-200">
