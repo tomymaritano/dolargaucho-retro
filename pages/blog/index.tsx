@@ -97,9 +97,8 @@ export default function Blog({ posts }: BlogProps) {
   );
 }
 
-// ✅ Obtener datos desde Supabase
 export const getServerSideProps: GetServerSideProps = async () => {
-  const { data, error: _error } = await supabase
+  const { data } = await supabase
     .from("news")
     .select("id, title, slug, image_url, created_at, tags")
     .order("created_at", { ascending: false });

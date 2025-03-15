@@ -3,22 +3,22 @@ import { FaChevronDown } from "react-icons/fa";
 
 const faqs = [
   {
-    question: "📈 ¿Cómo se actualizan las cotizaciones?",
+    question: " ¿Cómo se actualizan las cotizaciones?",
     answer:
       "Las cotizaciones en Dólar Gaucho se actualizan en tiempo real a través de diversas fuentes financieras confiables.",
   },
   {
-    question: "💰 ¿Cuáles son los tipos de cambio que puedo consultar?",
+    question: " ¿Cuáles son los tipos de cambio que puedo consultar?",
     answer:
       "Puedes ver el dólar Oficial, Blue, MEP, CCL y Crypto, además de referencias económicas como inflación y riesgo país.",
   },
   {
-    question: "🔍 ¿Dólar Gaucho es un sitio oficial?",
+    question: " ¿Dólar Gaucho es un sitio oficial?",
     answer:
       "No, Dólar Gaucho es un servicio independiente que brinda información actualizada sobre el mercado cambiario en Argentina.",
   },
   {
-    question: "📊 ¿Puedo usar la API de Dólar Gaucho?",
+    question: " ¿Puedo usar la API de Dólar Gaucho?",
     answer:
       "Actualmente no contamos con una API pública, pero estamos trabajando en ello. ¡Pronto más novedades!",
   },
@@ -44,7 +44,7 @@ const Faqs: React.FC = () => {
     <section className="w-full py-20 bg-gradient-to-b from-[#121826] to-[#1c1f2e] text-white flex flex-col items-center">
       <div className="max-w-3xl px-6">
         <h2 className="text-4xl font-extrabold text-center mb-10 text-gray-100">
-          ❓ Preguntas Frecuentes
+          Preguntas Frecuentes
         </h2>
 
         <div className="space-y-4">
@@ -59,9 +59,8 @@ const Faqs: React.FC = () => {
               >
                 <span className="text-white">{faq.question}</span>
                 <FaChevronDown
-                  className={`text-gray-400 transition-transform ${
-                    openIndex === index ? "rotate-180" : "rotate-0"
-                  }`}
+                  className={`text-gray-400 transition-transform ${openIndex === index ? "rotate-180" : "rotate-0"
+                    }`}
                 />
               </button>
 
