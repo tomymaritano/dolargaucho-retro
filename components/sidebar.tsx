@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { FaHome, FaChartLine, FaTags, FaNewspaper } from "react-icons/fa";
+import Link from 'next/link';
+import { FaHome, FaChartLine, FaTags, FaNewspaper } from 'react-icons/fa';
 
 const Sidebar = () => {
   return (
@@ -13,17 +13,26 @@ const Sidebar = () => {
             </Link>
           </li>
           <li>
-            <Link href="/blog" className="flex items-center gap-3 text-gray-300 hover:text-teal-300">
+            <Link
+              href="/blog"
+              className="flex items-center gap-3 text-gray-300 hover:text-teal-300"
+            >
               <FaNewspaper /> Noticias
             </Link>
           </li>
           <li>
-            <Link href="/cotizaciones" className="flex items-center gap-3 text-gray-300 hover:text-teal-300">
+            <Link
+              href="/cotizaciones"
+              className="flex items-center gap-3 text-gray-300 hover:text-teal-300"
+            >
               <FaChartLine /> Cotizaciones
             </Link>
           </li>
           <li>
-            <Link href="/categorias" className="flex items-center gap-3 text-gray-300 hover:text-teal-300">
+            <Link
+              href="/categorias"
+              className="flex items-center gap-3 text-gray-300 hover:text-teal-300"
+            >
               <FaTags /> Categorías
             </Link>
           </li>

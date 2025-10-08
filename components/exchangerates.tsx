@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { FaBuilding, FaMoneyBillWave, FaExchangeAlt, FaPiggyBank, FaDollarSign } from 'react-icons/fa';
+import {
+  FaBuilding,
+  FaMoneyBillWave,
+  FaExchangeAlt,
+  FaPiggyBank,
+  FaDollarSign,
+} from 'react-icons/fa';
 
 // Tipado de la API
 interface ExchangeRate {
@@ -12,11 +18,11 @@ interface ExchangeRate {
 }
 
 const exchangeIcons: Record<string, React.ReactNode> = {
-  'Oficial': <FaBuilding className="text-blue-500" />,
-  'Blue': <FaMoneyBillWave className="text-green-500" />,
-  'MEP': <FaExchangeAlt className="text-purple-500" />,
-  'CCL': <FaPiggyBank className="text-yellow-500" />,
-  'Crypto': <FaDollarSign className="text-orange-500" />,
+  Oficial: <FaBuilding className="text-accent-emerald" />,
+  Blue: <FaMoneyBillWave className="text-accent-teal" />,
+  MEP: <FaExchangeAlt className="text-accent-emerald" />,
+  CCL: <FaPiggyBank className="text-accent-teal" />,
+  Crypto: <FaDollarSign className="text-accent-emerald" />,
 };
 
 const ExchangeRates: React.FC = () => {
@@ -46,23 +52,39 @@ const ExchangeRates: React.FC = () => {
 
   return (
     <div className="p-6 rounded-xl max-w-6xl flex w-full font-sans">
+      {loading && (
+        <p className="text-secondary text-center glass-strong p-4 rounded-xl border border-white/5">
+          Cargando cotizaciones...
+        </p>
+      )}
+      {error && (
+        <p className="text-error text-center glass-strong p-4 rounded-xl border border-error/30">
+          {error}
+        </p>
+      )}
 
-      {loading && <p className="text-gray-500 text-center">Cargando cotizaciones...</p>}
-      {error && <p className="text-red-500 text-center">{error}</p>}
-
-      <div className="flex flex-col space-y-2">
-        {!loading && !error && rates.map((rate) => (
-          <div key={rate.nombre} className="p-4 border border-gray-300 rounded-lg flex items-center justify-between bg-gray-100 shadow-sm">
-            <div className="flex items-center gap-3">
-              {exchangeIcons[rate.nombre] || <FaDollarSign className="text-gray-500" />}
-              <span className="text-lg font-bold text-gray-900">{rate.nombre}</span>
+      <div className="flex flex-col space-y-3 w-full">
+        {!loading &&
+          !error &&
+          rates.map((rate) => (
+            <div
+              key={rate.nombre}
+              className="p-4 glass-strong border border-white/5 rounded-xl flex items-center justify-between hover:border-accent-emerald/20 transition-all"
+            >
+              <div className="flex items-center gap-3">
+                {exchangeIcons[rate.nombre] || <FaDollarSign className="text-secondary" />}
+                <span className="text-lg font-bold text-white">{rate.nombre}</span>
+              </div>
+              <div className="text-right">
+                <p className="text-accent-emerald font-semibold font-mono text-sm">
+                  Compra: ${rate.compra.toFixed(2)}
+                </p>
+                <p className="text-accent-teal font-semibold font-mono text-sm">
+                  Venta: ${rate.venta.toFixed(2)}
+                </p>
+              </div>
             </div>
-            <div className="text-right">
-              <p className="text-green-700 font-semibold">Compra: ${rate.compra.toFixed(2)}</p>
-              <p className="text-red-700 font-semibold">Venta: ${rate.venta.toFixed(2)}</p>
-            </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );

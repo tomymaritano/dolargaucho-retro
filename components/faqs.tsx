@@ -1,75 +1,86 @@
-import React, { useState, useRef, useEffect } from "react";
-import { FaChevronDown } from "react-icons/fa";
+import React, { useState } from 'react';
+import { FaChevronDown, FaQuestionCircle } from 'react-icons/fa';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const faqs = [
   {
-    question: " ¿Cómo se actualizan las cotizaciones?",
+    question: '¿Cómo se actualizan las cotizaciones?',
     answer:
-      "Las cotizaciones en Dólar Gaucho se actualizan en tiempo real a través de diversas fuentes financieras confiables.",
+      'Las cotizaciones en Dólar Gaucho se actualizan en tiempo real a través de diversas fuentes financieras confiables.',
   },
   {
-    question: " ¿Cuáles son los tipos de cambio que puedo consultar?",
+    question: '¿Cuáles son los tipos de cambio que puedo consultar?',
     answer:
-      "Puedes ver el dólar Oficial, Blue, MEP, CCL y Crypto, además de referencias económicas como inflación y riesgo país.",
+      'Puedes ver el dólar Oficial, Blue, MEP, CCL y Crypto, además de referencias económicas como inflación y riesgo país.',
   },
   {
-    question: " ¿Dólar Gaucho es un sitio oficial?",
+    question: '¿Dólar Gaucho es un sitio oficial?',
     answer:
-      "No, Dólar Gaucho es un servicio independiente que brinda información actualizada sobre el mercado cambiario en Argentina.",
+      'No, Dólar Gaucho es un servicio independiente que brinda información actualizada sobre el mercado cambiario en Argentina.',
   },
   {
-    question: " ¿Puedo usar la API de Dólar Gaucho?",
+    question: '¿Puedo usar la API de Dólar Gaucho?',
     answer:
-      "Actualmente no contamos con una API pública, pero estamos trabajando en ello. ¡Pronto más novedades!",
+      'Actualmente no contamos con una API pública, pero estamos trabajando en ello. ¡Pronto más novedades!',
   },
 ];
 
 const Faqs: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const toggleFaq = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  useEffect(() => {
-    contentRefs.current.forEach((ref, idx) => {
-      if (ref) {
-        ref.style.maxHeight = idx === openIndex ? `${ref.scrollHeight}px` : "0px";
-      }
-    });
-  }, [openIndex]);
-
   return (
-    <section className="w-full py-20 bg-gradient-to-b from-[#121826] to-[#1c1f2e] text-white flex flex-col items-center">
-      <div className="max-w-3xl px-6">
-        <h2 className="text-4xl font-extrabold text-center mb-10 text-gray-100">
-          Preguntas Frecuentes
-        </h2>
+    <section className="w-full py-20 bg-dark text-white border-t border-accent-emerald/10">
+      <div className="max-w-3xl mx-auto px-6">
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 mb-4">
+            <FaQuestionCircle className="text-accent-emerald text-xl" />
+            <span className="text-xs uppercase tracking-wider text-secondary font-semibold">
+              FAQ
+            </span>
+          </div>
+          <h2 className="text-3xl md:text-4xl font-display font-bold mb-3">
+            Preguntas <span className="gradient-text">Frecuentes</span>
+          </h2>
+          <p className="text-secondary text-sm">Respuestas a las consultas más comunes</p>
+        </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           {faqs.map((faq, index) => (
             <div
               key={index}
-              className="bg-[#181B2B] border border-[#2D2F3E] rounded-xl shadow-md overflow-hidden transition-all"
+              className="glass-strong border border-white/5 rounded-xl overflow-hidden hover:border-accent-emerald/20 transition-all"
             >
               <button
-                className="w-full text-left px-6 py-4 flex justify-between items-center text-lg font-semibold bg-[#1E2235] hover:bg-[#2A2F47] transition-all duration-300"
+                className="w-full text-left px-6 py-4 flex justify-between items-center transition-all"
                 onClick={() => toggleFaq(index)}
               >
-                <span className="text-white">{faq.question}</span>
+                <span className="text-white font-medium text-sm pr-4">{faq.question}</span>
                 <FaChevronDown
-                  className={`text-gray-400 transition-transform ${openIndex === index ? "rotate-180" : "rotate-0"
-                    }`}
+                  className={`text-accent-emerald transition-transform flex-shrink-0 text-sm ${
+                    openIndex === index ? 'rotate-180' : 'rotate-0'
+                  }`}
                 />
               </button>
 
-              <div
-                ref={(el) => { contentRefs.current[index] = el; }}
-                className="px-6 text-gray-300 overflow-hidden transition-all duration-300 max-h-0 bg-[#1B1E2A]"
-              >
-                <p className="py-3">{faq.answer}</p>
-              </div>
+              <AnimatePresence>
+                {openIndex === index && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-6 pb-4 pt-2 text-secondary text-sm leading-relaxed border-t border-white/5">
+                      {faq.answer}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           ))}
         </div>

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { FaArrowUp, FaArrowDown } from "react-icons/fa";
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
 
 type DolarData = {
   casa: string;
@@ -12,7 +12,7 @@ type DolarData = {
 
 const DolarComponent: React.FC = () => {
   const [exchangeRates, setExchangeRates] = useState<DolarData[]>([]);
-  const [selectedCurrency, setSelectedCurrency] = useState("oficial");
+  const [selectedCurrency, setSelectedCurrency] = useState('oficial');
   const [currentRate, setCurrentRate] = useState<number | null>(null);
   const [rate7DaysAgo, setRate7DaysAgo] = useState<number | null>(null);
   const [rate30DaysAgo, setRate30DaysAgo] = useState<number | null>(null);
@@ -23,7 +23,7 @@ const DolarComponent: React.FC = () => {
     const fetchDolarData = async () => {
       try {
         setLoading(true);
-        const response = await fetch("https://api.argentinadatos.com/v1/cotizaciones/dolares");
+        const response = await fetch('https://api.argentinadatos.com/v1/cotizaciones/dolares');
         const data: DolarData[] = await response.json();
 
         if (Array.isArray(data) && data.length > 0) {
@@ -36,11 +36,11 @@ const DolarComponent: React.FC = () => {
           setRate7DaysAgo(getHistoricalRate(data, selectedCurrency, 7));
           setRate30DaysAgo(getHistoricalRate(data, selectedCurrency, 30));
         } else {
-          setError("No disponible");
+          setError('No disponible');
         }
       } catch (error) {
-        console.error("Error al obtener datos:", error);
-        setError("Error al obtener datos");
+        console.error('Error al obtener datos:', error);
+        setError('Error al obtener datos');
       } finally {
         setLoading(false);
       }
@@ -80,47 +80,48 @@ const DolarComponent: React.FC = () => {
   const getPercentageChange = (current: number | null, past: number | null): string | null => {
     if (current === null || past === null || past === 0) return null;
     const change = ((current - past) / past) * 100;
-    return `${change > 0 ? "+" : ""}${change.toFixed(2)}%`;
+    return `${change > 0 ? '+' : ''}${change.toFixed(2)}%`;
   };
 
   const getTrend = (current: number | null, past: number | null) => {
-    if (current === null || past === null) return { label: "N/A", color: "text-gray-400", icon: null };
-    if (current > past) return { label: "Subió", color: "text-red-500", icon: <FaArrowUp /> };
-    if (current < past) return { label: "Bajó", color: "text-green-400", icon: <FaArrowDown /> };
-    return { label: "Estable", color: "text-yellow-400", icon: null };
+    if (current === null || past === null)
+      return { label: 'N/A', color: 'text-secondary', icon: null };
+    if (current > past) return { label: 'Subió', color: 'text-error', icon: <FaArrowUp /> };
+    if (current < past) return { label: 'Bajó', color: 'text-success', icon: <FaArrowDown /> };
+    return { label: 'Estable', color: 'text-accent-emerald', icon: null };
   };
 
   const trend7Days = getTrend(currentRate, rate7DaysAgo);
   const trend30Days = getTrend(currentRate, rate30DaysAgo);
 
   const casaMap: Record<string, string> = {
-    "contadoconliqui": "CCL",
+    contadoconliqui: 'CCL',
   };
 
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      className="rounded-xl p-3 text-center w-full max-w-[320px] md:max-w-[400px] transition-all hover:scale-105 hover:border-purple-500"
+      transition={{ duration: 0.3, ease: 'easeOut' }}
+      className="glass-strong border border-white/5 rounded-xl p-5 text-center w-full max-w-[320px] md:max-w-[400px] transition-all hover:border-accent-emerald/20"
     >
-      {/* 🔹 Botones */}
+      {/* Botones */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.2 }}
-        className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-3 px-2 py-1"
+        transition={{ duration: 0.3, delay: 0.1 }}
+        className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-4"
       >
         {exchangeRates.map((tipo) => (
           <motion.button
             key={tipo.casa}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ type: "spring", stiffness: 400, damping: 10 }}
-            className={`text-xs md:text-sm font-semibold px-3 py-2 rounded-md ${
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+            className={`text-xs md:text-sm font-semibold px-3 py-2 rounded-lg transition-all ${
               selectedCurrency === tipo.casa
-                ? "bg-purple-500 text-white shadow-md"
-                : "bg-[#252845] text-gray-300 hover:bg-[#323657]"
+                ? 'bg-accent-emerald text-dark shadow-md'
+                : 'glass border border-white/5 text-secondary hover:text-white hover:border-accent-emerald/20'
             }`}
             onClick={() => setSelectedCurrency(tipo.casa)}
           >
@@ -130,33 +131,45 @@ const DolarComponent: React.FC = () => {
       </motion.div>
 
       {loading ? (
-        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }} className="text-gray-400 mt-3 text-sm">
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+          className="text-secondary mt-3 text-sm"
+        >
           Cargando...
         </motion.p>
       ) : error ? (
-        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }} className="text-red-400 mt-3 text-sm">
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+          className="text-error mt-3 text-sm"
+        >
           {error}
         </motion.p>
       ) : (
         <>
-          <motion.p className="text-3xl md:text-4xl font-extrabold text-[#A78BFA] mt-3 drop-shadow-md">
+          <motion.p className="text-3xl md:text-4xl font-extrabold font-mono text-accent-emerald mt-3">
             ${currentRate?.toFixed(2)}
           </motion.p>
 
-          {/* 🔹 Variaciones con Porcentaje */}
-          <motion.div className="mt-3 flex justify-between items-center text-xs md:text-sm">
-            <span className="text-gray-300">Hace 7 días:</span>
-            <span className={`font-semibold ${trend7Days.color} flex items-center gap-1`}>
-              {rate7DaysAgo !== null ? `$${rate7DaysAgo.toFixed(2)}` : "Sin datos"} ({getPercentageChange(currentRate, rate7DaysAgo)})
-              {trend7Days.icon}
+          {/* Variaciones con Porcentaje */}
+          <motion.div className="mt-4 flex justify-between items-center text-xs md:text-sm glass p-2 rounded-lg">
+            <span className="text-secondary">Hace 7 días:</span>
+            <span className={`font-semibold font-mono ${trend7Days.color} flex items-center gap-1`}>
+              {rate7DaysAgo !== null ? `$${rate7DaysAgo.toFixed(2)}` : 'Sin datos'} (
+              {getPercentageChange(currentRate, rate7DaysAgo)}){trend7Days.icon}
             </span>
           </motion.div>
 
-          <motion.div className="mt-2 flex justify-between items-center text-xs md:text-sm">
-            <span className="text-gray-300">Hace 30 días:</span>
-            <span className={`font-semibold ${trend30Days.color} flex items-center gap-1`}>
-              {rate30DaysAgo !== null ? `$${rate30DaysAgo.toFixed(2)}` : "Sin datos"} ({getPercentageChange(currentRate, rate30DaysAgo)})
-              {trend30Days.icon}
+          <motion.div className="mt-2 flex justify-between items-center text-xs md:text-sm glass p-2 rounded-lg">
+            <span className="text-secondary">Hace 30 días:</span>
+            <span
+              className={`font-semibold font-mono ${trend30Days.color} flex items-center gap-1`}
+            >
+              {rate30DaysAgo !== null ? `$${rate30DaysAgo.toFixed(2)}` : 'Sin datos'} (
+              {getPercentageChange(currentRate, rate30DaysAgo)}){trend30Days.icon}
             </span>
           </motion.div>
         </>

@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import useDolar from "@/hooks/useDolar";
-import { Line } from "react-chartjs-2";
-import { Chart, registerables } from "chart.js";
-import { FaChartLine } from "react-icons/fa";
+import React, { useState, useEffect } from 'react';
+import useDolar from '@/hooks/useDolar';
+import { Line } from 'react-chartjs-2';
+import { Chart, registerables } from 'chart.js';
+import { FaChartLine } from 'react-icons/fa';
 
 Chart.register(...registerables);
 
 export default function FinancialCalculator() {
   const { dolar, loading: dolarLoading, error: dolarError } = useDolar();
   const [inflationInterannual, setInflationInterannual] = useState<number | null>(null);
-  const [amount, setAmount] = useState<string>("");
+  const [amount, setAmount] = useState<string>('');
   const [convertedUSD, setConvertedUSD] = useState<number | null>(null);
   const [inflationAdjusted, setInflationAdjusted] = useState<number | null>(null);
   const [inflationLoading, setInflationLoading] = useState(true);
@@ -20,13 +20,15 @@ export default function FinancialCalculator() {
   useEffect(() => {
     const fetchInflation = async () => {
       try {
-        const response = await fetch("https://api.argentinadatos.com/v1/finanzas/indices/inflacionInteranual");
+        const response = await fetch(
+          'https://api.argentinadatos.com/v1/finanzas/indices/inflacionInteranual'
+        );
         const data = await response.json();
         if (Array.isArray(data) && data.length > 0) {
           setInflationInterannual(data[data.length - 1].valor);
         }
       } catch {
-        setInflationError("Error al obtener inflación interanual.");
+        setInflationError('Error al obtener inflación interanual.');
       } finally {
         setInflationLoading(false);
       }
@@ -39,7 +41,7 @@ export default function FinancialCalculator() {
   const calculateResults = () => {
     if (!amount || isNaN(Number(amount))) return;
     const numericAmount = parseFloat(amount);
-    const oficialDolar = dolar.find((tipo) => tipo.nombre === "Oficial")?.venta;
+    const oficialDolar = dolar.find((tipo) => tipo.nombre === 'Oficial')?.venta;
 
     if (oficialDolar) setConvertedUSD(numericAmount / oficialDolar);
     if (inflationInterannual) {
@@ -53,93 +55,171 @@ export default function FinancialCalculator() {
     }
   };
 
-  // 📊 Datos del gráfico
+  // Datos del gráfico
   const chartData = {
-    labels: ["Hoy", "1 año", "2 años", "3 años", "4 años", "5 años"],
+    labels: ['Hoy', '1 año', '2 años', '3 años', '4 años', '5 años'],
     datasets: [
       {
-        label: "ARS Ajustado por Inflación",
+        label: 'ARS Ajustado por Inflación',
         data: futureValues,
-        borderColor: "#8b5cf6",
-        backgroundColor: "rgba(139, 92, 246, 0.2)",
+        borderColor: '#10B981',
+        backgroundColor: 'rgba(16, 185, 129, 0.1)',
         fill: true,
+        pointRadius: 4,
+        pointHoverRadius: 6,
+        pointBackgroundColor: '#10B981',
+        pointBorderColor: '#fff',
+        tension: 0.3,
       },
     ],
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-8 bg-gray-900 rounded-xl text-white shadow-2xl border border-gray-700">
-      <h2 className="text-3xl font-bold flex items-center gap-3 mb-6 text-purple-400">
-        <FaChartLine /> Calculadora Financiera
-      </h2>
+    <div className="mx-auto text-white p-6 md:p-10 rounded-2xl max-w-5xl">
+      <div className="text-center mb-8">
+        <div className="inline-flex items-center gap-2 mb-4">
+          <FaChartLine className="text-accent-emerald text-xl" />
+          <span className="text-xs uppercase tracking-wider text-secondary font-semibold">
+            Herramienta
+          </span>
+        </div>
+        <h2 className="text-2xl md:text-3xl font-display font-bold mb-3">
+          Calculadora <span className="gradient-text">Financiera</span>
+        </h2>
+        <p className="text-secondary text-sm max-w-2xl mx-auto">
+          Analiza el impacto del dólar y la inflación en tus finanzas
+        </p>
+      </div>
 
-      {/* 📌 Estado de carga */}
-      {dolarLoading && <p className="text-lg text-yellow-400 text-center">Cargando cotización del dólar...</p>}
-      {inflationLoading && <p className="text-lg text-yellow-400 text-center">Cargando inflación...</p>}
-      {dolarError && <p className="text-lg text-red-500 text-center">{dolarError}</p>}
-      {inflationError && <p className="text-lg text-red-500 text-center">{inflationError}</p>}
+      {/* Estado de carga */}
+      {dolarLoading && (
+        <p className="text-sm text-accent-emerald text-center glass-strong p-4 rounded-xl border border-white/5">
+          Cargando cotización del dólar...
+        </p>
+      )}
+      {inflationLoading && (
+        <p className="text-sm text-accent-emerald text-center glass-strong p-4 rounded-xl border border-white/5">
+          Cargando inflación...
+        </p>
+      )}
+      {dolarError && (
+        <p className="text-sm text-error text-center glass-strong p-4 rounded-xl border border-error/30">
+          {dolarError}
+        </p>
+      )}
+      {inflationError && (
+        <p className="text-sm text-error text-center glass-strong p-4 rounded-xl border border-error/30">
+          {inflationError}
+        </p>
+      )}
 
       {!dolarLoading && !dolarError && !inflationLoading && !inflationError && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="p-5 bg-gray-800 rounded-lg text-center">
-            <p className="text-lg font-semibold text-gray-300">💵 Cotización USD Oficial:</p>
-            <p className="text-3xl font-bold text-purple-300">
-              {dolar.find((d) => d.nombre === "Oficial")?.venta
-                ? `$${dolar.find((d) => d.nombre === "Oficial")?.venta.toFixed(2)}`
-                : "N/A"}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <div className="p-5 glass-strong rounded-xl border border-accent-emerald/10 text-center">
+            <p className="text-xs uppercase tracking-wider text-secondary mb-2">
+              Cotización USD Oficial
+            </p>
+            <p className="text-3xl font-mono font-bold text-accent-emerald">
+              {dolar.find((d) => d.nombre === 'Oficial')?.venta
+                ? `$${dolar.find((d) => d.nombre === 'Oficial')?.venta.toFixed(2)}`
+                : 'N/A'}
             </p>
           </div>
-          <div className="p-5 bg-gray-800 rounded-lg text-center">
-            <p className="text-lg font-semibold text-gray-300">📈 Inflación Interanual:</p>
-            <p className="text-3xl font-bold text-yellow-300">
-              {inflationInterannual ? `${inflationInterannual.toFixed(2)}%` : "N/A"}
+          <div className="p-5 glass-strong rounded-xl border border-accent-emerald/10 text-center">
+            <p className="text-xs uppercase tracking-wider text-secondary mb-2">
+              Inflación Interanual
+            </p>
+            <p className="text-3xl font-mono font-bold text-accent-teal">
+              {inflationInterannual ? `${inflationInterannual.toFixed(2)}%` : 'N/A'}
             </p>
           </div>
         </div>
       )}
 
-      {/* 📌 Input de monto */}
-      <div className="mt-6">
-        <label className="block mb-2 text-lg font-semibold text-gray-300">💰 Monto en ARS:</label>
+      {/* Input de monto */}
+      <div className="glass-strong p-5 rounded-xl border border-white/5 mb-4">
+        <label className="text-xs font-semibold uppercase tracking-wider text-secondary mb-3 block">
+          Monto en ARS
+        </label>
         <input
           type="number"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          className="w-full p-3 text-lg text-gray-900 rounded-lg border border-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-400"
+          className="w-full p-3 text-lg font-mono font-semibold bg-dark-light border border-white/5 rounded-lg focus:ring-1 focus:ring-accent-emerald focus:outline-none transition-all text-white"
           placeholder="Ej: 100000"
         />
       </div>
 
-      {/* 📌 Botón de cálculo */}
+      {/* Botón de cálculo */}
       <button
         onClick={calculateResults}
-        className="w-full mt-4 bg-purple-600 p-3 rounded-lg hover:bg-purple-700 transition text-lg font-bold cursor-pointer"
+        className="w-full bg-accent-emerald hover:bg-accent-teal text-dark py-3 rounded-lg font-semibold transition-all text-sm mb-6"
       >
         Calcular
       </button>
 
-      {/* 📌 Resultados */}
-      <div className="mt-6 space-y-4">
+      {/* Resultados */}
+      <div className="space-y-4">
         {convertedUSD !== null && (
-          <div className="p-5 bg-green-700 rounded-lg text-center">
-            <p className="text-lg font-semibold">💵 Equivalente en USD:</p>
-            <p className="text-3xl font-bold">${convertedUSD.toFixed(2)}</p>
+          <div className="p-5 glass-strong rounded-xl border border-accent-emerald/20 text-center">
+            <p className="text-xs uppercase tracking-wider text-secondary mb-2">
+              Equivalente en USD
+            </p>
+            <p className="text-3xl font-mono font-bold text-accent-emerald">
+              ${convertedUSD.toFixed(2)}
+            </p>
           </div>
         )}
 
         {inflationAdjusted !== null && (
-          <div className="p-5 bg-red-700 rounded-lg text-center">
-            <p className="text-lg font-semibold">📉 Valor Ajustado por Inflación:</p>
-            <p className="text-3xl font-bold">ARS {inflationAdjusted.toFixed(2)}</p>
+          <div className="p-5 glass-strong rounded-xl border border-accent-teal/20 text-center">
+            <p className="text-xs uppercase tracking-wider text-secondary mb-2">
+              Valor Ajustado por Inflación
+            </p>
+            <p className="text-3xl font-mono font-bold text-accent-teal">
+              ARS {inflationAdjusted.toFixed(2)}
+            </p>
           </div>
         )}
       </div>
 
-      {/* 📊 Gráfico de inflación */}
+      {/* Gráfico de inflación */}
       {futureValues.length > 0 && (
-        <div className="mt-6 bg-gray-800 p-6 rounded-lg">
-          <h3 className="text-lg font-semibold text-center text-gray-300">📊 Proyección de Inflación</h3>
-          <Line data={chartData} />
+        <div className="mt-6 glass-strong p-6 rounded-xl border border-white/5">
+          <h3 className="text-sm font-semibold text-secondary text-center mb-4 uppercase tracking-wider">
+            Proyección de Inflación
+          </h3>
+          <div className="h-64 md:h-80">
+            <Line
+              data={chartData}
+              options={{
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                  legend: { display: false },
+                  tooltip: {
+                    backgroundColor: 'rgba(18, 23, 46, 0.95)',
+                    titleColor: '#fff',
+                    bodyColor: '#10B981',
+                    borderColor: 'rgba(16, 185, 129, 0.2)',
+                    borderWidth: 1,
+                    padding: 12,
+                  },
+                },
+                scales: {
+                  y: {
+                    beginAtZero: false,
+                    grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                    ticks: { color: '#6B7280', font: { size: 11 } },
+                  },
+                  x: {
+                    grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                    ticks: { color: '#6B7280', font: { size: 11 } },
+                  },
+                },
+              }}
+            />
+          </div>
         </div>
       )}
     </div>

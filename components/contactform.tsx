@@ -1,144 +1,166 @@
-import React, { useState } from "react";
-import { FaLinkedin, FaGithub, FaPaperPlane, FaCheckCircle } from "react-icons/fa";
-import emailjs from "@emailjs/browser"; // Se usa en el frontend
+import React, { useState } from 'react';
+import { FaPaperPlane, FaCheckCircle } from 'react-icons/fa';
+import emailjs from '@emailjs/browser';
+import Toast from './toast';
+import { useToast } from '@/hooks/useToast';
 
 const CollaborationSection: React.FC = () => {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    profession: "",
-    message: "",
+    name: '',
+    email: '',
+    profession: '',
+    message: '',
   });
 
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
-  const [formSent, setFormSent] = useState<boolean>(false); // Estado para mostrar mensaje de éxito
+  const [formSent, setFormSent] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const { toast, showToast, hideToast } = useToast();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const validateEmail = (email: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (!formData.name || !formData.email || !formData.message) {
-      setError("Por favor, completa todos los campos obligatorios.");
-      setSuccess(null);
+      showToast('Por favor, completa todos los campos obligatorios', 'error');
       return;
     }
 
+    if (!validateEmail(formData.email)) {
+      showToast('Por favor, ingresa un email válido', 'error');
+      return;
+    }
+
+    setIsSubmitting(true);
+
     try {
       const response = await emailjs.send(
-        "service_vfck9eu", // Reemplaza con tu Service ID de EmailJS
-        "template_84nl6q9", // Reemplaza con tu Template ID de EmailJS
+        'service_vfck9eu',
+        'template_84nl6q9',
         {
           from_name: formData.name,
           from_email: formData.email,
           profession: formData.profession,
           message: formData.message,
         },
-        "J98onDRn2prYfiLZy" // Reemplaza con tu Public Key de EmailJS
+        'J98onDRn2prYfiLZy'
       );
 
       if (response.status === 200) {
-        setSuccess("¡Gracias por tu mensaje! Te contactaré pronto.");
-        setError(null);
-        setFormData({ name: "", email: "", profession: "", message: "" });
-        setFormSent(true); // Mostrar mensaje de éxito en lugar del formulario
+        showToast('¡Mensaje enviado exitosamente! Te contactaremos pronto', 'success');
+        setFormData({ name: '', email: '', profession: '', message: '' });
+        setFormSent(true);
       } else {
-        throw new Error("Error al enviar el mensaje");
+        throw new Error('Error al enviar el mensaje');
       }
     } catch (err) {
-      console.error("Error enviando email:", err);
-      setError("Error al enviar el mensaje. Intenta de nuevo.");
+      console.error('Error enviando email:', err);
+      showToast('Error al enviar el mensaje. Intenta de nuevo', 'error');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <section id="contacto" className="w-full bg-gradient-to-b from-[#121826] to-[#1c1f2e] text-white py-20 px-6 flex flex-col items-center">
-      <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-12">
+    <>
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        isVisible={toast.isVisible}
+        onClose={hideToast}
+      />
 
-        {/* 🌟 Sección izquierda: Mensaje de colaboración */}
-        <div className="text-center md:text-left md:w-1/2 space-y-6">
-          <h2 className="text-4xl font-extrabold leading-tight">🚀 ¡Hagamos historia juntos!</h2>
-          <p className="text-lg text-gray-300">Si tienes ideas innovadoras, quieres aportar al proyecto o simplemente conectar, ¡hablemos! 💡</p>
-          <div className="flex justify-center md:justify-start gap-6">
-            <a href="https://linkedin.com/in/tomymaritano" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-white transition-all transform hover:scale-110">
-              <FaLinkedin size={40} />
-            </a>
-            <a href="https://github.com/tomymaritano" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-all transform hover:scale-110">
-              <FaGithub size={40} />
-            </a>
+      <section
+        id="contacto"
+        className="relative w-full bg-dark text-white py-24 px-6 overflow-hidden border-t border-accent-emerald/10"
+      >
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-accent-emerald/5 rounded-full blur-3xl" />
+
+        <div className="relative max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-3">
+              Colabora con <span className="gradient-text">Dólar Gaucho</span>
+            </h2>
+            <p className="text-base text-secondary max-w-xl mx-auto">
+              ¿Tienes ideas o quieres contribuir? Conectemos
+            </p>
           </div>
-        </div>
 
-        {/* 📩 Sección derecha: Formulario o Mensaje de Éxito */}
-        <div className="bg-[#1c1f2e] text-white p-8 rounded-lg shadow-lg border border-gray-700 md:w-1/2 flex flex-col items-center text-center transition-all duration-300">
-
-          {/* ✅ Animación al mostrar mensaje de éxito */}
-          {formSent ? (
-            <div className="text-center animate-fade-in animate-zoom-in transition-all duration-500 ease-out flex flex-col items-center">
-              <FaCheckCircle className="text-green-500 text-5xl mb-4" />
-              <h3 className="text-2xl font-bold">¡Mensaje enviado!</h3>
-              <p className="text-lg text-gray-400 mt-2">{success}</p>
-              <button
-                onClick={() => setFormSent(false)}
-                className="mt-6 bg-blue-600 text-white py-2 px-6 text-lg font-semibold rounded-lg hover:bg-blue-700 transition-all transform hover:scale-105"
-              >
-                Enviar otro mensaje
-              </button>
-            </div>
-          ) : (
-            <>
-
-              {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-
-              <form onSubmit={handleSubmit} className="space-y-4 w-full">
-                <div className="w-full">
-                  <label className="block text-lg font-medium text-start">Nombre</label>
+          <div className="glass-strong p-8 rounded-2xl border border-accent-emerald/10 max-w-2xl mx-auto">
+            {formSent ? (
+              <div className="text-center space-y-4 py-8">
+                <FaCheckCircle className="text-accent-emerald text-5xl mx-auto mb-4" />
+                <h3 className="text-xl font-display font-bold">Mensaje Enviado</h3>
+                <p className="text-secondary">Te contactaremos pronto</p>
+                <button
+                  onClick={() => setFormSent(false)}
+                  className="mt-6 glass px-6 py-2 rounded-lg text-sm font-medium hover:bg-white/5 transition-all border border-accent-emerald/20 hover:border-accent-emerald/40"
+                >
+                  Enviar otro mensaje
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-semibold text-secondary mb-2 uppercase tracking-wider">
+                    Nombre *
+                  </label>
                   <input
                     type="text"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full p-3 bg-[#25273C] border border-gray-600 rounded-lg focus:ring-2 focus:ring-[#A78BFA] focus:outline-none text-left"
+                    className="w-full p-3 glass bg-dark-light/50 border border-white/5 rounded-lg focus:ring-1 focus:ring-accent-emerald focus:outline-none transition-all text-sm"
                     placeholder="Tu nombre"
                     required
                   />
                 </div>
 
-                <div className="w-full">
-                  <label className="block text-lg font-medium text-start">Email</label>
+                <div>
+                  <label className="block text-xs font-semibold text-secondary mb-2 uppercase tracking-wider">
+                    Email *
+                  </label>
                   <input
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full p-3 bg-[#25273C] border border-gray-600 rounded-lg focus:ring-2 focus:ring-[#A78BFA] focus:outline-none text-left"
+                    className="w-full p-3 glass bg-dark-light/50 border border-white/5 rounded-lg focus:ring-1 focus:ring-accent-emerald focus:outline-none transition-all text-sm"
                     placeholder="tu@email.com"
                     required
                   />
                 </div>
 
-                <div className="w-full">
-                  <label className="block text-lg font-medium text-start">Profesión / Empresa (Opcional)</label>
+                <div>
+                  <label className="block text-xs font-semibold text-secondary mb-2 uppercase tracking-wider">
+                    Profesión / Empresa
+                  </label>
                   <input
                     type="text"
                     name="profession"
                     value={formData.profession}
                     onChange={handleChange}
-                    className="w-full p-3 bg-[#25273C] border border-gray-600 rounded-lg focus:ring-2 focus:ring-[#A78BFA] focus:outline-none text-left"
-                    placeholder="Ej: Desarrollador en Google"
+                    className="w-full p-3 glass bg-dark-light/50 border border-white/5 rounded-lg focus:ring-1 focus:ring-accent-emerald focus:outline-none transition-all text-sm"
+                    placeholder="Ej: Desarrollador"
                   />
                 </div>
 
-                <div className="w-full">
-                  <label className="block text-lg font-medium text-start">Mensaje</label>
+                <div>
+                  <label className="block text-xs font-semibold text-secondary mb-2 uppercase tracking-wider">
+                    Mensaje *
+                  </label>
                   <textarea
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
                     rows={4}
-                    className="w-full p-3 bg-[#25273C] border border-gray-600 rounded-lg focus:ring-2 focus:ring-[#A78BFA] focus:outline-none text-left"
+                    className="w-full p-3 glass bg-dark-light/50 border border-white/5 rounded-lg focus:ring-1 focus:ring-accent-emerald focus:outline-none resize-none transition-all text-sm"
                     placeholder="Escribe tu mensaje..."
                     required
                   />
@@ -146,16 +168,29 @@ const CollaborationSection: React.FC = () => {
 
                 <button
                   type="submit"
-                  className="w-full bg-[#6D28D9] text-white py-3 text-lg font-semibold rounded-lg hover:bg-[#5B21B6] flex items-center justify-center gap-2 transition-all transform hover:scale-105"
+                  disabled={isSubmitting}
+                  className={`w-full bg-accent-emerald hover:bg-accent-teal text-dark py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all text-sm ${
+                    isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
                 >
-                  <FaPaperPlane /> Enviar Mensaje
+                  {isSubmitting ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-dark/30 border-t-dark rounded-full animate-spin" />
+                      Enviando...
+                    </>
+                  ) : (
+                    <>
+                      <FaPaperPlane />
+                      Enviar Mensaje
+                    </>
+                  )}
                 </button>
               </form>
-            </>
-          )}
+            )}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 

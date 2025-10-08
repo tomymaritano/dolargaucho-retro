@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const BASE_URL = "https://api.argentinadatos.com/v1/";
+const BASE_URL = 'https://api.argentinadatos.com/v1/';
 
 export type ArgentinaDataType = {
   feriados: any[] | null;
@@ -63,29 +63,29 @@ const useArgentinaData = () => {
       try {
         setLoading(true);
         const endpoints = {
-          feriados: "feriados/2025",
-          eventosPresidenciales: "eventos/presidenciales",
-          inflacion: "finanzas/indices/inflacion",
-          inflacionInteranual: "finanzas/indices/inflacionInteranual",
-          uva: "finanzas/indices/uva",
-          riesgoPais: "finanzas/indices/riesgo-pais",
-          riesgoPaisUltimo: "finanzas/indices/riesgo-pais/ultimo",
-          tasasPlazoFijo: "finanzas/tasas/plazoFijo",
-          tasasDepositos30Dias: "finanzas/tasas/depositos30Dias",
-          rendimientos: "finanzas/rendimientos",
-          rendimientosBuenbit: "finanzas/rendimientos/buenbit",
-          senadores: "senado/senadores",
-          actasSenado: "senado/actas",
-          actasSenado2025: "senado/actas/2025",
-          fciMercadoDinero: "finanzas/fci/mercadoDinero/ultimo",
-          fciRentaVariable: "finanzas/fci/rentaVariable/ultimo",
-          fciRentaFija: "finanzas/fci/rentaFija/ultimo",
-          fciRentaMixta: "finanzas/fci/rentaMixta/ultimo",
-          fciOtros: "finanzas/fci/otros/ultimo",
-          diputados: "diputados/diputados",
-          actasDiputados: "diputados/actas",
-          actasDiputados2025: "diputados/actas/2025",
-          estado: "estado",
+          feriados: 'feriados/2025',
+          eventosPresidenciales: 'eventos/presidenciales',
+          inflacion: 'finanzas/indices/inflacion',
+          inflacionInteranual: 'finanzas/indices/inflacionInteranual',
+          uva: 'finanzas/indices/uva',
+          riesgoPais: 'finanzas/indices/riesgo-pais',
+          riesgoPaisUltimo: 'finanzas/indices/riesgo-pais/ultimo',
+          tasasPlazoFijo: 'finanzas/tasas/plazoFijo',
+          tasasDepositos30Dias: 'finanzas/tasas/depositos30Dias',
+          rendimientos: 'finanzas/rendimientos',
+          rendimientosBuenbit: 'finanzas/rendimientos/buenbit',
+          senadores: 'senado/senadores',
+          actasSenado: 'senado/actas',
+          actasSenado2025: 'senado/actas/2025',
+          fciMercadoDinero: 'finanzas/fci/mercadoDinero/ultimo',
+          fciRentaVariable: 'finanzas/fci/rentaVariable/ultimo',
+          fciRentaFija: 'finanzas/fci/rentaFija/ultimo',
+          fciRentaMixta: 'finanzas/fci/rentaMixta/ultimo',
+          fciOtros: 'finanzas/fci/otros/ultimo',
+          diputados: 'diputados/diputados',
+          actasDiputados: 'diputados/actas',
+          actasDiputados2025: 'diputados/actas/2025',
+          estado: 'estado',
         };
 
         const results = await Promise.all(

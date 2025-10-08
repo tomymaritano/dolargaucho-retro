@@ -1,14 +1,8 @@
-import React, { useState, useEffect } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import {
-  FaBars,
-  FaTimes,
-  FaGithub,
-  FaTwitter,
-  FaUserCircle,
-  FaFileContract,
-} from "react-icons/fa";
+import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaBars, FaTimes, FaGithub, FaTwitter, FaLinkedin } from 'react-icons/fa';
 import AvisoLegal from './aviso-legal';
 
 interface SocialItem {
@@ -19,19 +13,19 @@ interface SocialItem {
 
 const socialItems: SocialItem[] = [
   {
-    label: "GitHub",
+    label: 'GitHub',
     icon: <FaGithub />,
-    href: "https://github.com/tomymaritano",
+    href: 'https://github.com/tomymaritano',
   },
   {
-    label: "Twitter",
+    label: 'Twitter',
     icon: <FaTwitter />,
-    href: "https://twitter.com/hacklabdog",
+    href: 'https://twitter.com/hacklabdog',
   },
   {
-    label: "Portfolio",
-    icon: <FaUserCircle />,
-    href: "https://www.xope.io",
+    label: 'LinkedIn',
+    icon: <FaLinkedin />,
+    href: 'https://linkedin.com/in/tomymaritano',
   },
 ];
 
@@ -44,8 +38,8 @@ const Navbar: React.FC = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const toggleLegalPopup = () => {
@@ -53,62 +47,98 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav
-      className={`fixed w-full top-0 z-50 backdrop-blur-md transition duration-300 ${
-        isScrolled ? "bg-[#121826]/80 shadow-lg" : "bg-[#121826]/60"
-      } border-b border-gray-800`}
+    <motion.nav
+      initial={{ y: -20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.4 }}
+      className={`fixed w-full top-0 z-50 transition-all duration-300 ${
+        isScrolled
+          ? 'glass-strong border-b border-accent-emerald/20 shadow-lg'
+          : 'bg-dark/60 backdrop-blur-md border-b border-white/5'
+      }`}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-        <Link href="/" className="flex items-center gap-2">
-          <Image src="/logo.svg" width={40} height={40} alt="Dolar Gaucho" />
+        <Link href="/" className="flex items-center gap-3 group">
+          <div className="relative">
+            <Image src="/logo.svg" width={36} height={36} alt="Dolar Gaucho" />
+            <div className="absolute -inset-1 bg-accent-emerald/20 rounded-full blur opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
+          </div>
+          <div className="hidden md:block">
+            <div className="font-display font-bold text-base gradient-text">Dólar Gaucho</div>
+            <div className="text-[10px] text-secondary uppercase tracking-wider">Pro</div>
+          </div>
         </Link>
 
-        <div className="hidden md:flex items-center space-x-6 text-gray-200">
-          <button onClick={toggleLegalPopup} className="flex items-center gap-2 hover:text-[#A78BFA] transition">
-            <FaFileContract /> Aviso Legal
+        <div className="hidden md:flex items-center space-x-6">
+          <button
+            onClick={toggleLegalPopup}
+            className="text-sm text-secondary hover:text-accent-emerald transition-colors font-medium"
+          >
+            Aviso Legal
           </button>
-          {socialItems.map((social) => (
-            <a
-              key={social.href}
-              href={social.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xl hover:text-[#A78BFA] transition"
-            >
-              {social.icon}
-            </a>
-          ))}
+
+          <div className="flex items-center gap-4 border-l border-white/10 pl-6">
+            {socialItems.map((social) => (
+              <a
+                key={social.href}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-secondary hover:text-accent-emerald transition-colors text-lg"
+                aria-label={social.label}
+              >
+                {social.icon}
+              </a>
+            ))}
+          </div>
         </div>
 
         <button
-          className="md:hidden text-gray-200 text-2xl"
+          className="md:hidden text-white text-xl"
           onClick={() => setIsOpen(!isOpen)}
+          aria-label="Toggle menu"
         >
           {isOpen ? <FaTimes /> : <FaBars />}
         </button>
       </div>
 
-      {isOpen && (
-        <div className="md:hidden bg-[#1c1f2e]/90 backdrop-blur-lg px-6 py-4 text-gray-200">
-          <button onClick={toggleLegalPopup} className="block py-2 hover:text-[#A78BFA] transition">
-            <FaFileContract /> Aviso Legal
-          </button>
-          {socialItems.map((social) => (
-            <a
-              key={social.href}
-              href={social.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xl hover:text-[#A78BFA] transition"
-            >
-              {social.icon}
-            </a>
-          ))}
-        </div>
-      )}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="md:hidden glass-strong border-t border-white/5 overflow-hidden"
+          >
+            <div className="px-6 py-4 space-y-4">
+              <button
+                onClick={toggleLegalPopup}
+                className="text-sm text-secondary hover:text-accent-emerald transition-colors w-full text-left"
+              >
+                Aviso Legal
+              </button>
+              <div className="flex gap-6 pt-2 border-t border-white/10">
+                {socialItems.map((social) => (
+                  <a
+                    key={social.href}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xl text-secondary hover:text-accent-emerald transition-colors"
+                    aria-label={social.label}
+                  >
+                    {social.icon}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {isLegalOpen && <AvisoLegal onClose={() => setIsLegalOpen(false)} />}
-    </nav>
+    </motion.nav>
   );
 };
 

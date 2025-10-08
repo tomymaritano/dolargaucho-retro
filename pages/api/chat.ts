@@ -1,43 +1,43 @@
-import OpenAI from "openai";
-import { NextApiRequest, NextApiResponse } from "next";
+import OpenAI from 'openai';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY!,
 });
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Método no permitido" });
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Método no permitido' });
   }
 
   const { message } = req.body;
   if (!message) {
-    return res.status(400).json({ error: "Mensaje vacío" });
+    return res.status(400).json({ error: 'Mensaje vacío' });
   }
 
-  console.log("📡 Recibiendo solicitud en /api/chat con mensaje:", message);
+  console.log('📡 Recibiendo solicitud en /api/chat con mensaje:', message);
 
   try {
     const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      messages: [{ role: "user", content: message }],
+      model: 'gpt-3.5-turbo',
+      messages: [{ role: 'user', content: message }],
       max_tokens: 100,
     });
 
     const aiMessage =
-      response.choices?.[0]?.message?.content?.trim() ||
-      "No tengo una respuesta en este momento.";
+      response.choices?.[0]?.message?.content?.trim() || 'No tengo una respuesta en este momento.';
 
-    console.log("✅ Respuesta de OpenAI:", aiMessage);
+    console.log('✅ Respuesta de OpenAI:', aiMessage);
     res.status(200).json({ response: aiMessage });
-  } catch (error: unknown) { // 👈 Cambiado de 'any' a 'unknown'
-    console.error("❌ Error con OpenAI:", error);
+  } catch (error: unknown) {
+    // 👈 Cambiado de 'any' a 'unknown'
+    console.error('❌ Error con OpenAI:', error);
 
     // Manejo seguro del error
     if (error instanceof Error) {
       res.status(500).json({ error: error.message });
     } else {
-      res.status(500).json({ error: "Error desconocido" });
+      res.status(500).json({ error: 'Error desconocido' });
     }
   }
 }

@@ -1,19 +1,19 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { DolarType } from "../hooks/useDolar";
-import { FaShareAlt, FaCopy } from "react-icons/fa";
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { DolarType } from '../hooks/useDolar';
+import { FaShareAlt, FaCopy } from 'react-icons/fa';
 
-// 🔹 Función para formatear fecha y hora
+// Función para formatear fecha y hora
 const formatFecha = (fecha?: string) => {
-  if (!fecha) return "Fecha no disponible";
+  if (!fecha) return 'Fecha no disponible';
 
   const date = new Date(fecha);
-  return `${date.toLocaleDateString("es-ES", {
-    day: "2-digit",
-    month: "2-digit",
-  })} - ${date.toLocaleTimeString("es-ES", {
-    hour: "2-digit",
-    minute: "2-digit",
+  return `${date.toLocaleDateString('es-ES', {
+    day: '2-digit',
+    month: '2-digit',
+  })} - ${date.toLocaleTimeString('es-ES', {
+    hour: '2-digit',
+    minute: '2-digit',
     hour12: false, // Usa formato 24h
   })} hs`;
 };
@@ -26,17 +26,17 @@ const DolarCard: React.FC<DolarCardProps> = ({ data }) => {
   const [isSharing, setIsSharing] = useState(false);
 
   const handleShare = async () => {
-    if (typeof window !== "undefined" && navigator?.share) {
+    if (typeof window !== 'undefined' && navigator?.share) {
       if (isSharing) return;
       setIsSharing(true);
       try {
         await navigator.share({
           title: `Cotización ${data.nombre}`,
-          text: `💰 ${data.nombre}: Compra $${data.compra.toFixed(2)} | Venta $${data.venta.toFixed(2)}`,
+          text: `${data.nombre}: Compra $${data.compra.toFixed(2)} | Venta $${data.venta.toFixed(2)}`,
           url: window.location.href,
         });
       } catch (error) {
-        console.error("Error al compartir:", error);
+        console.error('Error al compartir:', error);
       } finally {
         setIsSharing(false);
       }
@@ -44,14 +44,14 @@ const DolarCard: React.FC<DolarCardProps> = ({ data }) => {
   };
 
   const handleCopy = async () => {
-    if (typeof window !== "undefined" && navigator?.clipboard?.writeText) {
+    if (typeof window !== 'undefined' && navigator?.clipboard?.writeText) {
       try {
         await navigator.clipboard.writeText(
-          `💰 ${data.nombre}: Compra $${data.compra.toFixed(2)} | Venta $${data.venta.toFixed(2)}`
+          `${data.nombre}: Compra $${data.compra.toFixed(2)} | Venta $${data.venta.toFixed(2)}`
         );
-        alert("Copiado al portapapeles");
+        alert('Copiado al portapapeles');
       } catch (error) {
-        console.error("Error al copiar:", error);
+        console.error('Error al copiar:', error);
       }
     }
   };
@@ -60,47 +60,47 @@ const DolarCard: React.FC<DolarCardProps> = ({ data }) => {
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      whileHover={{ scale: 1.02 }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
-      className="p-5 bg-white/10 backdrop-blur-lg border border-[#2D2F3E] shadow-xl rounded-xl flex flex-col"
+      whileHover={{ scale: 1.01 }}
+      transition={{ duration: 0.2, ease: 'easeOut' }}
+      className="p-5 glass-strong border border-white/5 shadow-xl rounded-xl flex flex-col hover:border-accent-emerald/20"
     >
-      {/* 🔹 Título */}
+      {/* Título */}
       <h2 className="text-lg md:text-xl font-bold text-white tracking-wide">{data.nombre}</h2>
 
-      {/* 🔹 Valores de Compra y Venta */}
+      {/* Valores de Compra y Venta */}
       <div className="flex justify-between items-center py-3 text-xl font-semibold">
         <div className="flex flex-col items-start">
-          <span className="text-gray-400 text-sm">Compra</span>
-          <span className="text-green-400">${data.compra.toFixed(2)}</span>
+          <span className="text-secondary text-xs uppercase tracking-wider">Compra</span>
+          <span className="text-accent-emerald font-mono">${data.compra.toFixed(2)}</span>
         </div>
         <div className="flex flex-col items-end">
-          <span className="text-gray-400 text-sm">Venta</span>
-          <span className="text-red-400">${data.venta.toFixed(2)}</span>
+          <span className="text-secondary text-xs uppercase tracking-wider">Venta</span>
+          <span className="text-accent-teal font-mono">${data.venta.toFixed(2)}</span>
         </div>
       </div>
 
-      {/* 🔹 Última actualización con hora */}
-      <p className="text-xs text-gray-400 text-center">
-        📅 Última actualización: {formatFecha(data.fechaActualizacion)}
+      {/* Última actualización con hora */}
+      <p className="text-xs text-secondary text-center">
+        Última actualización: {formatFecha(data.fechaActualizacion)}
       </p>
 
-      {/* 🔹 Botones minimalistas */}
-      <div className="flex gap-4 mt-2">
+      {/* Botones minimalistas */}
+      <div className="flex gap-2 mt-3">
         <motion.button
           onClick={handleShare}
           disabled={isSharing}
-          whileTap={{ scale: 0.9 }}
-          className="p-3 bg-[#6D28D9] text-white rounded-full hover:bg-[#5B21B6] transition-all"
+          whileTap={{ scale: 0.95 }}
+          className="flex-1 p-2 bg-accent-emerald/10 text-accent-emerald rounded-lg hover:bg-accent-emerald/20 transition-all border border-accent-emerald/20 flex items-center justify-center gap-2 text-sm font-medium"
         >
-          <FaShareAlt className="text-lg" />
+          <FaShareAlt />
         </motion.button>
 
         <motion.button
           onClick={handleCopy}
-          whileTap={{ scale: 0.9 }}
-          className="p-3 bg-gray-700 text-white rounded-full hover:bg-gray-600 transition-all"
+          whileTap={{ scale: 0.95 }}
+          className="flex-1 p-2 glass text-white rounded-lg hover:bg-white/10 transition-all border border-white/5 flex items-center justify-center gap-2 text-sm font-medium"
         >
-          <FaCopy className="text-lg" />
+          <FaCopy />
         </motion.button>
       </div>
     </motion.div>
