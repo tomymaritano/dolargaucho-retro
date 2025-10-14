@@ -6,7 +6,7 @@ import { FredChart } from '@/components/charts/FredChart';
 import { CryptoSparkline } from '@/components/charts/CryptoSparkline';
 import { DolaresTable } from '@/components/tables/DolaresTable';
 import { CotizacionesTable } from '@/components/tables/CotizacionesTable';
-import Toast from '@/components/toast';
+import Toast from '@/components/Toast';
 import { useToast } from '@/hooks/useToast';
 import { useDolarVariations } from '@/hooks/useDolarVariations';
 import { useDolarByType } from '@/hooks/useDolarQuery';

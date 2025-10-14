@@ -1,15 +1,16 @@
 import React, { Suspense, lazy } from 'react';
-import Hero from '@/components/hero';
-import { NavbarPro } from '@/components/ui/NavbarPro';
-import Footer from '@/components/footer';
-import DolarTable from '@/components/dolartable';
+import Hero from '@/components/Hero';
+import { NavbarPro } from '@/components/ui/NavbarPro/NavbarPro';
+import Footer from '@/components/Footer';
+import DolarTable from '@/components/DolarTable';
 import { FaSpinner } from 'react-icons/fa';
 
 // Lazy load components
-const ContactForm = lazy(() => import('@/components/contactform'));
-const Faqs = lazy(() => import('@/components/faqs'));
+const Faqs = lazy(() => import('@/components/Faqs'));
 const InflationCalculator = lazy(() => import('@/components/calculadoras/CalculadoraInflacion'));
-const InflacionChart = lazy(() => import('@/components/charts/inflationchart'));
+const InflacionChart = lazy(() =>
+  import('@/components/charts/InflacionChart').then((m) => ({ default: m.InflacionChart }))
+);
 const CotizacionesInternacionales = lazy(() => import('@/components/CotizacionesInternacionales'));
 
 // Loading component
@@ -24,13 +25,13 @@ const LoadingSpinner = () => (
 
 export default function Home() {
   return (
-    <div className="bg-gradient-to-b from-dark via-dark-light to-dark text-white min-h-screen font-sans">
-      <NavbarPro variant="transparent" />
+    <div className="bg-background text-foreground min-h-screen font-sans">
+      <NavbarPro />
       <Hero />
 
-      {/* Financial data section */}
-      <section className="max-w-6xl mx-auto px-6 py-16">
-        <div className="mb-8 text-center">
+      {/* Mercado Cambiario */}
+      <section className="max-w-7xl mx-auto px-6 py-16">
+        <div className="mb-10 text-center">
           <h2 className="text-3xl md:text-4xl font-display font-bold mb-3">
             <span className="gradient-text">Mercado Cambiario</span>
           </h2>
@@ -42,32 +43,31 @@ export default function Home() {
         <DolarTable />
       </section>
 
-      {/* International currencies section */}
-      <section className="max-w-6xl mx-auto px-6 py-12">
+      {/* Cotizaciones Internacionales */}
+      <section className="max-w-7xl mx-auto px-6 py-16">
         <Suspense fallback={<LoadingSpinner />}>
           <CotizacionesInternacionales />
         </Suspense>
       </section>
 
-      {/* Inflation section */}
-      <section className="max-w-6xl mx-auto px-6 py-12">
+      {/* Evolución de la Inflación */}
+      <section className="max-w-7xl mx-auto px-6 py-16">
         <Suspense fallback={<LoadingSpinner />}>
           <InflacionChart />
+        </Suspense>
+      </section>
+
+      {/* Calculadora de Inflación */}
+      <section className="max-w-7xl mx-auto px-6 py-16">
+        <Suspense fallback={<LoadingSpinner />}>
           <InflationCalculator />
         </Suspense>
       </section>
 
-      {/* FAQs section */}
-      <section className="mx-auto">
+      {/* FAQs */}
+      <section>
         <Suspense fallback={<LoadingSpinner />}>
           <Faqs />
-        </Suspense>
-      </section>
-
-      {/* Contact section */}
-      <section className="mx-auto">
-        <Suspense fallback={<LoadingSpinner />}>
-          <ContactForm />
         </Suspense>
       </section>
 
