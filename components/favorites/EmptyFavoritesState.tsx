@@ -3,16 +3,6 @@ import { Card } from '@/components/ui/Card/Card';
 import { Button } from '@/components/ui/Button/Button';
 import { FaRegStar } from 'react-icons/fa';
 
-/**
- * EmptyFavoritesState Component
- *
- * Displays a friendly empty state when user has no favorites saved.
- * Encourages users to visit the dashboard to add favorites.
- *
- * @component
- * @example
- * <EmptyFavoritesState />
- */
 export function EmptyFavoritesState() {
   return (
     <Card variant="elevated" padding="lg">

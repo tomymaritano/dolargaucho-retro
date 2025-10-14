@@ -3,30 +3,16 @@
 import React, { useState, useMemo } from 'react';
 import { DashboardLayout } from '@/components/layouts/DashboardLayout';
 import { Card } from '@/components/ui/Card/Card';
-import {
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableCell,
-  TableHeaderCell,
-} from '@/components/ui/Table';
+import { Table, TableHeader, TableBody, TableRow, TableHeaderCell } from '@/components/ui/Table';
 import { useCryptoQuery } from '@/hooks/useCryptoQuery';
 import { useFavoritesStore } from '@/lib/store/favorites';
 import { useDolarByType } from '@/hooks/useDolarQuery';
 import type { DolarType } from '@/types/api/dolar';
-import {
-  FaSearch,
-  FaBitcoin,
-  FaStar,
-  FaFilter,
-  FaInfoCircle,
-  FaRegStar,
-  FaArrowUp,
-  FaArrowDown,
-  FaMinus,
-} from 'react-icons/fa';
+import { FaBitcoin, FaStar, FaSearch, FaInfoCircle } from 'react-icons/fa';
 import { HelpButton } from '@/components/ui/HelpButton/HelpButton';
+import { CryptoStatsCards } from '@/components/crypto/CryptoStatsCards';
+import { CryptoFiltersBar } from '@/components/crypto/CryptoFiltersBar';
+import { CryptoTableRow } from '@/components/crypto/CryptoTableRow';
 
 const CRYPTO_FAQ = [
   {
@@ -59,6 +45,15 @@ const CRYPTO_FAQ = [
 type SortOption = 'market_cap' | 'price' | 'change_24h' | 'name';
 type FilterOption = 'all' | 'favorites' | 'stablecoins';
 
+/**
+ * CryptoPage
+ *
+ * Display cryptocurrency prices with:
+ * - Real-time prices from CoinGecko
+ * - ARS conversion using selected dolar rate
+ * - Search, filter, and sort capabilities
+ * - Favorites management
+ */
 export default function CryptoPage() {
   const [search, setSearch] = useState('');
   const [sortBy, setSortBy] = useState<SortOption>('market_cap');
@@ -69,16 +64,13 @@ export default function CryptoPage() {
   const { data: selectedDolar } = useDolarByType(selectedDolarType);
   const { cryptos: favoriteCryptos, toggleCrypto } = useFavoritesStore();
 
-  // Usar cryptoData directamente (ya no usamos useCryptoPricesARS)
-  const displayData = cryptoData;
-
-  // Filtrar y ordenar datos
+  // Filter and sort data
   const filteredAndSortedData = useMemo(() => {
-    if (!displayData) return [];
+    if (!cryptoData) return [];
 
-    let filtered = displayData;
+    let filtered = cryptoData;
 
-    // Aplicar búsqueda
+    // Apply search
     if (search) {
       filtered = filtered.filter(
         (crypto) =>
@@ -87,7 +79,7 @@ export default function CryptoPage() {
       );
     }
 
-    // Aplicar filtros
+    // Apply filters
     if (filterBy === 'favorites') {
       filtered = filtered.filter((crypto) => favoriteCryptos.includes(crypto.id));
     } else if (filterBy === 'stablecoins') {
@@ -95,7 +87,7 @@ export default function CryptoPage() {
       filtered = filtered.filter((crypto) => stablecoins.includes(crypto.id));
     }
 
-    // Ordenar
+    // Sort
     const sorted = [...filtered].sort((a, b) => {
       switch (sortBy) {
         case 'market_cap':
@@ -112,9 +104,7 @@ export default function CryptoPage() {
     });
 
     return sorted;
-  }, [displayData, search, sortBy, filterBy, favoriteCryptos]);
-
-  const favoriteCount = favoriteCryptos.length;
+  }, [cryptoData, search, sortBy, filterBy, favoriteCryptos]);
 
   return (
     <DashboardLayout>
@@ -134,137 +124,22 @@ export default function CryptoPage() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Card variant="elevated" padding="md">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs text-secondary uppercase tracking-wider mb-1">
-                  Total Cryptos
-                </p>
-                <p className="text-2xl font-bold text-foreground">{displayData?.length || 0}</p>
-              </div>
-              <div className="p-3 rounded-xl glass">
-                <FaBitcoin className="text-accent-emerald text-2xl" />
-              </div>
-            </div>
-          </Card>
+        <CryptoStatsCards
+          totalCryptos={cryptoData?.length || 0}
+          favoriteCount={favoriteCryptos.length}
+        />
 
-          <Card variant="elevated" padding="md">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs text-secondary uppercase tracking-wider mb-1">Favoritos</p>
-                <p className="text-2xl font-bold text-foreground">{favoriteCount}</p>
-              </div>
-              <div className="p-3 rounded-xl glass">
-                <FaStar className="text-accent-emerald text-2xl" />
-              </div>
-            </div>
-          </Card>
-
-          <Card variant="elevated" padding="md">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs text-secondary uppercase tracking-wider mb-1">
-                  Actualización
-                </p>
-                <p className="text-sm font-semibold text-accent-emerald">Cada 5min</p>
-              </div>
-              <div className="p-3 rounded-xl glass">
-                <div className="w-2 h-2 bg-accent-emerald rounded-full animate-pulse"></div>
-              </div>
-            </div>
-          </Card>
-        </div>
-
-        {/* Search, Filters, and Exchange Rate Selector */}
-        <div className="flex flex-col gap-3">
-          <div className="flex flex-col md:flex-row gap-3">
-            {/* Search Bar */}
-            <div className="flex-1 flex items-center gap-3 glass px-4 py-3 rounded-xl border border-border hover:border-accent-emerald/30 transition-colors focus-within:border-accent-emerald/50 focus-within:ring-2 focus-within:ring-accent-emerald/20">
-              <FaSearch className="text-secondary text-sm" />
-              <input
-                type="text"
-                placeholder="Buscar por nombre o símbolo..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="flex-1 bg-transparent border-none outline-none text-sm text-foreground placeholder-secondary"
-              />
-            </div>
-
-            {/* Sort Dropdown */}
-            <div className="relative">
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as SortOption)}
-                className="px-4 py-2.5 rounded-lg text-xs font-semibold glass border border-border text-foreground appearance-none cursor-pointer hover:bg-white/5 transition-all pr-10"
-              >
-                <option value="market_cap">Market Cap</option>
-                <option value="price">Precio</option>
-                <option value="change_24h">Cambio 24h</option>
-                <option value="name">Nombre</option>
-              </select>
-              <FaFilter className="absolute right-3 top-1/2 -translate-y-1/2 text-secondary pointer-events-none text-xs" />
-            </div>
-          </div>
-
-          {/* Filter Buttons and Exchange Rate Selector */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-            {/* Filter Buttons */}
-            <div className="flex gap-2">
-              <button
-                onClick={() => setFilterBy('all')}
-                className={`px-4 py-2.5 rounded-lg text-xs font-semibold transition-all ${
-                  filterBy === 'all'
-                    ? 'bg-accent-emerald text-background-dark'
-                    : 'glass text-secondary hover:text-foreground hover:bg-white/5'
-                }`}
-              >
-                Todas
-              </button>
-              <button
-                onClick={() => setFilterBy('favorites')}
-                className={`px-4 py-2.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
-                  filterBy === 'favorites'
-                    ? 'bg-accent-emerald text-background-dark'
-                    : 'glass text-secondary hover:text-foreground hover:bg-white/5'
-                }`}
-              >
-                <FaStar className="text-xs" />
-                Favoritos
-              </button>
-              <button
-                onClick={() => setFilterBy('stablecoins')}
-                className={`px-4 py-2.5 rounded-lg text-xs font-semibold transition-all ${
-                  filterBy === 'stablecoins'
-                    ? 'bg-accent-emerald text-background-dark'
-                    : 'glass text-secondary hover:text-foreground hover:bg-white/5'
-                }`}
-              >
-                Stablecoins
-              </button>
-            </div>
-
-            {/* Exchange Rate Selector */}
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-secondary">Precio en ARS con:</span>
-              <div className="flex gap-1">
-                {(['blue', 'oficial', 'cripto'] as DolarType[]).map((type) => (
-                  <button
-                    key={type}
-                    onClick={() => setSelectedDolarType(type)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                      selectedDolarType === type
-                        ? 'bg-accent-emerald text-background-dark'
-                        : 'glass text-secondary hover:text-foreground hover:bg-white/5'
-                    }`}
-                  >
-                    {type === 'blue' ? 'Blue' : type === 'oficial' ? 'Oficial' : 'Cripto'}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Search, Filters, and Sorting */}
+        <CryptoFiltersBar
+          search={search}
+          onSearchChange={setSearch}
+          sortBy={sortBy}
+          onSortChange={setSortBy}
+          filterBy={filterBy}
+          onFilterChange={setFilterBy}
+          selectedDolarType={selectedDolarType}
+          onDolarTypeChange={setSelectedDolarType}
+        />
 
         {/* Disclaimer */}
         <Card variant="default" padding="md">
@@ -334,159 +209,16 @@ export default function CryptoPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredAndSortedData.map((crypto, index) => {
-                  const isFavorite = favoriteCryptos.includes(crypto.id);
-
-                  const getTrendData = (percentage: number) => {
-                    if (percentage > 0) return { icon: FaArrowUp, color: 'text-success' };
-                    if (percentage < 0) return { icon: FaArrowDown, color: 'text-error' };
-                    return { icon: FaMinus, color: 'text-warning' };
-                  };
-
-                  const trend24h = getTrendData(crypto.price_change_percentage_24h);
-                  const TrendIcon = trend24h.icon;
-
-                  const formatPrice = (price: number) => {
-                    return new Intl.NumberFormat('es-AR', {
-                      style: 'currency',
-                      currency: 'USD',
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: price < 1 ? 6 : 2,
-                    }).format(price);
-                  };
-
-                  const formatMarketCap = (value: number) => {
-                    if (value >= 1_000_000_000_000)
-                      return `$${(value / 1_000_000_000_000).toFixed(2)}T`;
-                    if (value >= 1_000_000_000) return `$${(value / 1_000_000_000).toFixed(2)}B`;
-                    return `$${(value / 1_000_000).toFixed(2)}M`;
-                  };
-
-                  return (
-                    <React.Fragment key={crypto.id}>
-                      <TableRow className="group">
-                        {/* Favorito */}
-                        <TableCell align="center">
-                          <button
-                            onClick={() => toggleCrypto(crypto.id)}
-                            className={`p-2 rounded-lg transition-all ${
-                              isFavorite
-                                ? 'text-accent-emerald bg-accent-emerald/10'
-                                : 'text-secondary hover:text-accent-emerald hover:bg-white/5'
-                            }`}
-                            aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
-                          >
-                            {isFavorite ? (
-                              <FaStar className="text-base" />
-                            ) : (
-                              <FaRegStar className="text-base" />
-                            )}
-                          </button>
-                        </TableCell>
-
-                        {/* Ranking */}
-                        <TableCell align="left">
-                          <span className="text-sm text-secondary font-medium">{index + 1}</span>
-                        </TableCell>
-
-                        {/* Logo + Nombre */}
-                        <TableCell align="left">
-                          <div className="flex items-center gap-3">
-                            <img
-                              src={crypto.image}
-                              alt={crypto.name}
-                              className="w-8 h-8 rounded-full"
-                              loading="lazy"
-                            />
-                            <div>
-                              <p className="text-sm font-semibold text-foreground">{crypto.name}</p>
-                              <p className="text-xs text-secondary uppercase">{crypto.symbol}</p>
-                            </div>
-                          </div>
-                        </TableCell>
-
-                        {/* Precio USD */}
-                        <TableCell align="right">
-                          <span className="text-sm font-semibold text-foreground tabular-nums">
-                            {formatPrice(crypto.current_price)}
-                          </span>
-                        </TableCell>
-
-                        {/* Precio ARS */}
-                        <TableCell align="right">
-                          {selectedDolar ? (
-                            <span className="text-sm font-semibold text-accent-emerald tabular-nums">
-                              $
-                              {(crypto.current_price * selectedDolar.venta).toLocaleString(
-                                'es-AR',
-                                {
-                                  minimumFractionDigits: 0,
-                                  maximumFractionDigits: 0,
-                                }
-                              )}
-                            </span>
-                          ) : (
-                            <span className="text-xs text-secondary">...</span>
-                          )}
-                        </TableCell>
-
-                        {/* 24h Change */}
-                        <TableCell align="right">
-                          <div className={`inline-flex items-center gap-1 ${trend24h.color}`}>
-                            <TrendIcon className="text-xs" />
-                            <span className="text-sm font-bold tabular-nums">
-                              {crypto.price_change_percentage_24h > 0 ? '+' : ''}
-                              {crypto.price_change_percentage_24h.toFixed(2)}%
-                            </span>
-                          </div>
-                        </TableCell>
-
-                        {/* Market Cap */}
-                        <TableCell align="right">
-                          <span className="text-sm text-foreground tabular-nums">
-                            {formatMarketCap(crypto.market_cap)}
-                          </span>
-                        </TableCell>
-                      </TableRow>
-
-                      {/* Fila expandible con detalles (visible al hover) */}
-                      <TableRow
-                        hoverable={false}
-                        className="hidden group-hover:table-row bg-accent-emerald/5"
-                      >
-                        <TableCell colSpan={7} className="py-4">
-                          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
-                            <div>
-                              <p className="text-secondary text-[10px] mb-0.5">24h High</p>
-                              <p className="font-semibold text-success text-xs">
-                                {formatPrice(crypto.high_24h)}
-                              </p>
-                            </div>
-                            <div>
-                              <p className="text-secondary text-[10px] mb-0.5">24h Low</p>
-                              <p className="font-semibold text-error text-xs">
-                                {formatPrice(crypto.low_24h)}
-                              </p>
-                            </div>
-                            <div>
-                              <p className="text-secondary text-[10px] mb-0.5">Volumen 24h</p>
-                              <p className="font-semibold text-foreground text-xs">
-                                {formatMarketCap(crypto.total_volume)}
-                              </p>
-                            </div>
-                            <div>
-                              <p className="text-secondary text-[10px] mb-0.5">Suministro</p>
-                              <p className="font-semibold text-foreground text-xs">
-                                {formatMarketCap(crypto.circulating_supply)}{' '}
-                                {crypto.symbol.toUpperCase()}
-                              </p>
-                            </div>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    </React.Fragment>
-                  );
-                })}
+                {filteredAndSortedData.map((crypto, index) => (
+                  <CryptoTableRow
+                    key={crypto.id}
+                    crypto={crypto}
+                    index={index}
+                    isFavorite={favoriteCryptos.includes(crypto.id)}
+                    onToggleFavorite={() => toggleCrypto(crypto.id)}
+                    selectedDolar={selectedDolar}
+                  />
+                ))}
               </TableBody>
             </Table>
           </Card>
