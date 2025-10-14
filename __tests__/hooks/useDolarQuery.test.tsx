@@ -26,6 +26,7 @@ describe('useDolarQuery', () => {
   it('fetches dólar data successfully', async () => {
     const mockData = [
       {
+        moneda: 'USD',
         casa: 'blue',
         nombre: 'Blue',
         compra: 1000,

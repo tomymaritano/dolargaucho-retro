@@ -31,7 +31,7 @@ export default function ChatBot() {
   };
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-gray-900 text-white rounded-xl shadow-lg">
+    <div className="max-w-7xl mx-auto p-6 bg-gray-900 text-white rounded-xl shadow-lg">
       <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
         🤖 AI Asistente Financiero
       </h2>

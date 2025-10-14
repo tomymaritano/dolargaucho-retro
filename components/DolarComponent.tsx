@@ -103,7 +103,7 @@ const DolarComponent: React.FC = () => {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
-      className="glass-strong border border-white/5 rounded-xl p-5 text-center w-full max-w-[320px] md:max-w-[400px] transition-all hover:border-accent-emerald/20"
+      className="glass-strong border border-white/5 rounded-xl p-5 text-center w-full max-w-7xl transition-all hover:border-accent-emerald/20"
     >
       {/* Botones */}
       <motion.div

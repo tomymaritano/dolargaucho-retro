@@ -8,13 +8,13 @@ const inputVariants = cva(
     variants: {
       variant: {
         default:
-          'glass border border-white/10 text-white placeholder-secondary focus:border-accent-emerald/50 focus:ring-accent-emerald/20',
+          'glass border border-border text-foreground placeholder-secondary focus:border-accent-emerald/50 focus:ring-accent-emerald/20',
         outlined:
-          'bg-transparent border-2 border-accent-emerald/30 text-white placeholder-secondary focus:border-accent-emerald focus:ring-accent-emerald/20',
+          'bg-transparent border-2 border-accent-emerald/30 text-foreground placeholder-secondary focus:border-accent-emerald focus:ring-accent-emerald/20',
         filled:
-          'bg-dark-light border border-white/5 text-white placeholder-secondary focus:border-accent-emerald/50 focus:ring-accent-emerald/20',
+          'bg-panel border border-border text-foreground placeholder-secondary focus:border-accent-emerald/50 focus:ring-accent-emerald/20',
         error:
-          'glass border border-error/50 text-white placeholder-secondary focus:border-error focus:ring-error/20',
+          'glass border border-error/50 text-foreground placeholder-secondary focus:border-error focus:ring-error/20',
       },
       inputSize: {
         sm: 'px-3 py-2 text-sm',
@@ -44,7 +44,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="w-full">
         {label && (
-          <label className="block text-sm font-semibold text-white mb-2">
+          <label className="block text-sm font-semibold text-foreground mb-2">
             {label}
             {props.required && <span className="text-error ml-1">*</span>}
           </label>

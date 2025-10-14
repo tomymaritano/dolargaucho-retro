@@ -5,8 +5,7 @@ import { DashboardLayout } from '@/components/layouts/DashboardLayout';
 import { SenadoresTable } from '@/components/politica/SenadoresTable';
 import { DiputadosTable } from '@/components/politica/DiputadosTable';
 import { BloqueStatsCard } from '@/components/politica/BloqueStatsCard';
-import { ActasSenado } from '@/components/politica/ActasSenado';
-import { ActasDiputados } from '@/components/politica/ActasDiputados';
+import { ActasUnificadas } from '@/components/politica/ActasUnificadas';
 import { Card } from '@/components/ui/Card/Card';
 import { FaLandmark, FaUsers, FaFileAlt } from 'react-icons/fa';
 
@@ -24,51 +23,56 @@ export default function PoliticaPage() {
   return (
     <DashboardLayout>
       <div className="space-y-6">
-        {/* Header */}
+        {/* Page Header */}
         <div>
-          <h1 className="text-3xl font-display font-bold text-white mb-2">
-            <span className="gradient-text">Datos Políticos</span>
-          </h1>
+          <h1 className="text-3xl font-bold text-foreground mb-2">Congreso Nacional</h1>
           <p className="text-secondary">
-            Información completa sobre senadores, diputados y sesiones del Congreso de la Nación
+            Información actualizada sobre la composición del Senado y la Cámara de Diputados
           </p>
         </div>
 
-        {/* Stats Overview */}
+        {/* Stats Overview - Improved Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <BloqueStatsCard />
+          {/* Bloque Stats Card */}
+          <div className="lg:col-span-2">
+            <BloqueStatsCard />
+          </div>
 
-          {/* Quick Info Cards */}
-          <Card variant="elevated" padding="lg">
-            <div className="flex items-start gap-4">
-              <div className="p-3 rounded-lg bg-accent-emerald/20">
-                <FaLandmark className="text-accent-emerald text-2xl" />
+          {/* Quick Info Cards - Stacked vertically */}
+          <div className="space-y-4">
+            {/* Senadores Card */}
+            <Card variant="elevated" padding="lg">
+              <div className="flex items-center gap-4">
+                <div className="p-3 rounded-xl bg-gradient-to-br from-accent-emerald/30 to-accent-emerald/10 border border-accent-emerald/20">
+                  <FaLandmark className="text-accent-emerald text-2xl" />
+                </div>
+                <div>
+                  <h3 className="text-3xl font-bold text-accent-emerald mb-1">72</h3>
+                  <p className="text-sm font-medium text-foreground">Senadores</p>
+                  <p className="text-xs text-secondary mt-1">3 por provincia + CABA</p>
+                </div>
               </div>
-              <div>
-                <h3 className="text-2xl font-bold text-white mb-1">72</h3>
-                <p className="text-sm text-secondary">Senadores Nacionales</p>
-                <p className="text-xs text-secondary mt-2">3 por provincia + CABA</p>
-              </div>
-            </div>
-          </Card>
+            </Card>
 
-          <Card variant="elevated" padding="lg">
-            <div className="flex items-start gap-4">
-              <div className="p-3 rounded-lg bg-accent-teal/20">
-                <FaUsers className="text-accent-teal text-2xl" />
+            {/* Diputados Card */}
+            <Card variant="elevated" padding="lg">
+              <div className="flex items-center gap-4">
+                <div className="p-3 rounded-xl bg-gradient-to-br from-accent-teal/30 to-accent-teal/10 border border-accent-teal/20">
+                  <FaUsers className="text-accent-teal text-2xl" />
+                </div>
+                <div>
+                  <h3 className="text-3xl font-bold text-accent-teal mb-1">257</h3>
+                  <p className="text-sm font-medium text-foreground">Diputados</p>
+                  <p className="text-xs text-secondary mt-1">Proporcional por población</p>
+                </div>
               </div>
-              <div>
-                <h3 className="text-2xl font-bold text-white mb-1">257</h3>
-                <p className="text-sm text-secondary">Diputados Nacionales</p>
-                <p className="text-xs text-secondary mt-2">Representación proporcional</p>
-              </div>
-            </div>
-          </Card>
+            </Card>
+          </div>
         </div>
 
         {/* Tabs */}
         <Card variant="elevated" padding="none">
-          <div className="border-b border-white/10">
+          <div className="border-b border-border">
             <div className="flex overflow-x-auto">
               {tabs.map((tab) => (
                 <button
@@ -77,7 +81,7 @@ export default function PoliticaPage() {
                   className={`flex items-center gap-2 px-6 py-4 font-medium transition-all whitespace-nowrap ${
                     activeTab === tab.id
                       ? 'text-accent-emerald border-b-2 border-accent-emerald'
-                      : 'text-secondary hover:text-white'
+                      : 'text-secondary hover:text-foreground'
                   }`}
                 >
                   <tab.icon className="text-lg" />
@@ -92,15 +96,7 @@ export default function PoliticaPage() {
         <div>
           {activeTab === 'senadores' && <SenadoresTable />}
           {activeTab === 'diputados' && <DiputadosTable />}
-          {activeTab === 'actas' && (
-            <div className="space-y-6">
-              {/* Actas del Senado */}
-              <ActasSenado limit={30} />
-
-              {/* Actas de Diputados */}
-              <ActasDiputados limit={30} />
-            </div>
-          )}
+          {activeTab === 'actas' && <ActasUnificadas limit={50} />}
         </div>
 
         {/* Info Footer */}
@@ -108,7 +104,7 @@ export default function PoliticaPage() {
           <div className="flex items-start gap-3">
             <div className="text-accent-emerald text-2xl">ℹ️</div>
             <div>
-              <h4 className="text-white font-semibold mb-1">Sobre los datos</h4>
+              <h4 className="text-foreground font-semibold mb-1">Sobre los datos</h4>
               <p className="text-sm text-secondary leading-relaxed">
                 Los datos políticos se obtienen de{' '}
                 <a

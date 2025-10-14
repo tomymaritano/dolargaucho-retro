@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import useDolar from '@/hooks/useDolar';
+import React, { useState } from 'react';
+import { useDolarQuery } from '@/hooks/useDolarQuery';
+import { useInflacionInteranual } from '@/hooks/useFinanzas';
 import { Line } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
 import { FaChartLine } from 'react-icons/fa';
@@ -7,35 +8,17 @@ import { FaChartLine } from 'react-icons/fa';
 Chart.register(...registerables);
 
 export default function FinancialCalculator() {
-  const { dolar, loading: dolarLoading, error: dolarError } = useDolar();
-  const [inflationInterannual, setInflationInterannual] = useState<number | null>(null);
+  const { data: dolar = [], isLoading: dolarLoading, error: dolarError } = useDolarQuery();
+  const { data: inflacionData, isLoading: inflacionLoading, error: inflacionError } = useInflacionInteranual();
   const [amount, setAmount] = useState<string>('');
   const [convertedUSD, setConvertedUSD] = useState<number | null>(null);
   const [inflationAdjusted, setInflationAdjusted] = useState<number | null>(null);
-  const [inflationLoading, setInflationLoading] = useState(true);
-  const [inflationError, setInflationError] = useState<string | null>(null);
   const [futureValues, setFutureValues] = useState<number[]>([]);
 
-  // 🔥 Fetch de inflación interanual desde ArgentinaDatos
-  useEffect(() => {
-    const fetchInflation = async () => {
-      try {
-        const response = await fetch(
-          'https://api.argentinadatos.com/v1/finanzas/indices/inflacionInteranual'
-        );
-        const data = await response.json();
-        if (Array.isArray(data) && data.length > 0) {
-          setInflationInterannual(data[data.length - 1].valor);
-        }
-      } catch {
-        setInflationError('Error al obtener inflación interanual.');
-      } finally {
-        setInflationLoading(false);
-      }
-    };
-
-    fetchInflation();
-  }, []);
+  // Get latest inflation value from hook
+  const inflationInterannual = inflacionData && inflacionData.length > 0
+    ? inflacionData[inflacionData.length - 1].valor
+    : null;
 
   // 🔥 Función para calcular valores y generar el gráfico
   const calculateResults = () => {
@@ -75,7 +58,7 @@ export default function FinancialCalculator() {
   };
 
   return (
-    <div className="mx-auto text-white p-6 md:p-10 rounded-2xl max-w-5xl">
+    <div className="mx-auto text-foreground p-6 md:p-10 rounded-2xl max-w-7xl">
       <div className="text-center mb-8">
         <div className="inline-flex items-center gap-2 mb-4">
           <FaChartLine className="text-accent-emerald text-xl" />
@@ -86,7 +69,7 @@ export default function FinancialCalculator() {
         <h2 className="text-2xl md:text-3xl font-display font-bold mb-3">
           Calculadora <span className="gradient-text">Financiera</span>
         </h2>
-        <p className="text-secondary text-sm max-w-2xl mx-auto">
+        <p className="text-secondary text-sm max-w-7xl mx-auto">
           Analiza el impacto del dólar y la inflación en tus finanzas
         </p>
       </div>
@@ -97,23 +80,23 @@ export default function FinancialCalculator() {
           Cargando cotización del dólar...
         </p>
       )}
-      {inflationLoading && (
+      {inflacionLoading && (
         <p className="text-sm text-accent-emerald text-center glass-strong p-4 rounded-xl border border-white/5">
           Cargando inflación...
         </p>
       )}
       {dolarError && (
         <p className="text-sm text-error text-center glass-strong p-4 rounded-xl border border-error/30">
-          {dolarError}
+          {dolarError.message}
         </p>
       )}
-      {inflationError && (
+      {inflacionError && (
         <p className="text-sm text-error text-center glass-strong p-4 rounded-xl border border-error/30">
-          {inflationError}
+          {inflacionError.message}
         </p>
       )}
 
-      {!dolarLoading && !dolarError && !inflationLoading && !inflationError && (
+      {!dolarLoading && !dolarError && !inflacionLoading && !inflacionError && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
           <div className="p-5 glass-strong rounded-xl border border-accent-emerald/10 text-center">
             <p className="text-xs uppercase tracking-wider text-secondary mb-2">
@@ -145,7 +128,7 @@ export default function FinancialCalculator() {
           type="number"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          className="w-full p-3 text-lg font-mono font-semibold bg-dark-light border border-white/5 rounded-lg focus:ring-1 focus:ring-accent-emerald focus:outline-none transition-all text-white"
+          className="w-full p-3 text-lg font-mono font-semibold bg-panel border border-white/5 rounded-lg focus:ring-1 focus:ring-accent-emerald focus:outline-none transition-all text-foreground"
           placeholder="Ej: 100000"
         />
       </div>
@@ -153,7 +136,7 @@ export default function FinancialCalculator() {
       {/* Botón de cálculo */}
       <button
         onClick={calculateResults}
-        className="w-full bg-accent-emerald hover:bg-accent-teal text-dark py-3 rounded-lg font-semibold transition-all text-sm mb-6"
+        className="w-full bg-accent-emerald hover:bg-accent-teal text-background-dark py-3 rounded-lg font-semibold transition-all text-sm mb-6"
       >
         Calcular
       </button>

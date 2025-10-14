@@ -4,149 +4,176 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #0a0e27;
-  --foreground: #f8f9fa;
-  --accent: #10b981;
-}
+@layer base {
+  /* ===========================
+     CSS VARIABLES POR TEMA
+     =========================== */
 
-@media (prefers-color-scheme: dark) {
   :root {
+    /* Light theme (default) */
+    --background: #ffffff;
+    --foreground: #1a1a1a;
+    --panel: #f9fafb;
+    --border: #e5e7eb;
+    --text-primary: #111827;
+    --text-secondary: #6b7280;
+    --accent: #10b981;
+
+    /* Shadows for light mode */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  }
+
+  .dark {
+    /* Dark theme */
     --background: #0a0e27;
     --foreground: #f8f9fa;
+    --panel: #1a1f3a;
+    --border: rgba(255, 255, 255, 0.2);
+    --text-primary: #f8f9fa;
+    --text-secondary: #9ca3af;
     --accent: #10b981;
+
+    /* Shadows for dark mode */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+    --shadow-md: 0 8px 16px -4px rgb(0 0 0 / 0.4);
+  }
+
+  /* ===========================
+     GLOBAL STYLES
+     =========================== */
+
+  * {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* ===========================
+     SCROLLBAR PERSONALIZADO
+     =========================== */
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-panel;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-accent-emerald rounded;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-accent-teal;
   }
 }
 
-* {
-  scroll-behavior: smooth;
+@layer utilities {
+  /* ===========================
+     UTILITY CLASSES
+     =========================== */
+
+  .glass {
+    @apply backdrop-blur-md bg-black/5 dark:bg-white/5 border border-border;
+  }
+
+  .glass-strong {
+    @apply backdrop-blur-lg border border-border;
+    background-color: rgba(249, 250, 251, 0.95);
+  }
+
+  .dark .glass-strong {
+    background-color: rgba(26, 31, 58, 0.95);
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-accent-emerald to-accent-teal bg-clip-text text-transparent;
+  }
+
+  .gradient-animated {
+    background: linear-gradient(135deg, #0a0e27 0%, #12172e 50%, #1a1f3a 100%);
+    background-size: 200% 200%;
+    animation: gradient 20s ease infinite;
+  }
+
+  .border-accent {
+    border-color: rgba(16, 185, 129, 0.2);
+  }
+
+  .status-success {
+    @apply text-success;
+  }
+
+  .status-warning {
+    @apply text-warning;
+  }
+
+  .status-error {
+    @apply text-error;
+  }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family:
-    'Inter',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer components {
+  /* ===========================
+     PROSE STYLES
+     =========================== */
+
+  .prose h1 {
+    @apply text-3xl font-bold text-foreground tracking-wide leading-tight;
+  }
+
+  .prose h2 {
+    @apply text-2xl font-semibold text-accent-gold mt-5;
+  }
+
+  .prose h3 {
+    @apply text-xl font-semibold text-accent-teal mt-4;
+  }
+
+  .prose p {
+    @apply text-base text-secondary leading-relaxed;
+  }
+
+  .prose ul {
+    @apply list-disc pl-5 mt-3 space-y-1;
+  }
+
+  .prose li {
+    @apply text-secondary text-sm;
+  }
+
+  .prose strong {
+    @apply text-foreground font-bold;
+  }
+
+  .prose a {
+    @apply text-accent-gold underline hover:text-accent-teal transition-all;
+  }
+
+  .prose hr {
+    @apply border-border my-5;
+  }
+
+  .prose pre {
+    @apply bg-panel text-secondary p-3 rounded-md overflow-x-auto text-sm;
+  }
+
+  .prose blockquote {
+    @apply border-l-4 border-accent-gold pl-3 italic text-secondary;
+  }
 }
 
-/* Scrollbar personalizado */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #12172e;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #10b981;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #14b8a6;
-}
-
-/* Glassmorphism utility */
-.glass {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.glass-strong {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-/* Gradient text - Indie Hacker style */
-.gradient-text {
-  background: linear-gradient(135deg, #10b981 0%, #14b8a6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Subtle gradient for professional look */
-.gradient-animated {
-  background: linear-gradient(135deg, #0a0e27 0%, #12172e 50%, #1a1f3a 100%);
-  background-size: 200% 200%;
-  animation: gradient 20s ease infinite;
-}
-
-/* Professional border accent */
-.border-accent {
-  border-color: rgba(16, 185, 129, 0.2);
-}
-
-/* Status indicators */
-.status-success {
-  color: #10b981;
-}
-
-.status-warning {
-  color: #f59e0b;
-}
-
-.status-error {
-  color: #ef4444;
-}
-
-.prose h1 {
-  @apply text-3xl font-bold text-white tracking-wide leading-tight;
-}
-
-.prose h2 {
-  @apply text-2xl font-semibold text-yellow-400 mt-5;
-}
-
-.prose h3 {
-  @apply text-xl font-semibold text-yellow-300 mt-4;
-}
-
-.prose p {
-  @apply text-base text-gray-300 leading-relaxed;
-}
-
-.prose ul {
-  @apply list-disc pl-5 mt-3 space-y-1;
-}
-
-.prose li {
-  @apply text-gray-400 text-sm;
-}
-
-.prose strong {
-  @apply text-white font-bold;
-}
-
-.prose a {
-  @apply text-yellow-400 underline hover:text-yellow-300 transition-all;
-}
-
-/* Separación entre secciones */
-.prose hr {
-  @apply border-gray-700 my-5;
-}
-
-/* Bloques de código */
-.prose pre {
-  @apply bg-gray-900 text-gray-300 p-3 rounded-md overflow-x-auto text-sm;
-}
-
-/* Citas */
-.prose blockquote {
-  @apply border-l-4 border-yellow-400 pl-3 italic text-gray-400;
-}
+/* ===========================
+   ANIMATIONS
+   =========================== */
 
 @keyframes marquee {
   0% {

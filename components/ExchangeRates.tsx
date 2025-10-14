@@ -51,7 +51,7 @@ const ExchangeRates: React.FC = () => {
   }, []);
 
   return (
-    <div className="p-6 rounded-xl max-w-6xl flex w-full font-sans">
+    <div className="p-6 rounded-xl max-w-7xl flex w-full font-sans">
       {loading && (
         <p className="text-secondary text-center glass-strong p-4 rounded-xl border border-white/5">
           Cargando cotizaciones...

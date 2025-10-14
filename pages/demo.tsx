@@ -15,7 +15,7 @@ export default function DemoPage() {
           <h1 className="text-4xl md:text-5xl font-display font-bold mb-4">
             Dashboard <span className="gradient-text">Profesional</span>
           </h1>
-          <p className="text-secondary text-lg max-w-2xl mx-auto">
+          <p className="text-secondary text-lg max-w-7xl mx-auto">
             Demo de componentes con CVA y TanStack Query
           </p>
         </div>

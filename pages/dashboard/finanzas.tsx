@@ -29,14 +29,6 @@ export default function FinanzasPage() {
 
   return (
     <DashboardLayout>
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold gradient-text mb-2">Indicadores Financieros</h1>
-        <p className="text-secondary">
-          Seguí la evolución de los principales índices económicos de Argentina
-        </p>
-      </div>
-
       {/* Quick Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {/* Inflación */}
@@ -47,7 +39,7 @@ export default function FinanzasPage() {
                 <FaPercentage className="text-accent-emerald" />
                 <span className="uppercase tracking-wider">Inflación Mensual</span>
               </div>
-              <div className="text-3xl font-bold text-white mb-1">
+              <div className="text-3xl font-bold text-foreground mb-1">
                 {ultimaInflacion ? `${ultimaInflacion.valor.toFixed(2)}%` : '-'}
               </div>
               <p className="text-xs text-secondary">
@@ -73,7 +65,7 @@ export default function FinanzasPage() {
                 <FaExclamationTriangle className="text-error" />
                 <span className="uppercase tracking-wider">Riesgo País</span>
               </div>
-              <div className="text-3xl font-bold text-white mb-1">
+              <div className="text-3xl font-bold text-foreground mb-1">
                 {ultimoRiesgoPais?.valor ? ultimoRiesgoPais.valor.toLocaleString('es-AR') : '—'}
               </div>
               <p className="text-xs text-secondary">
@@ -96,7 +88,7 @@ export default function FinanzasPage() {
                 <FaCalendar className="text-accent-teal" />
                 <span className="uppercase tracking-wider">Índice UVA</span>
               </div>
-              <div className="text-3xl font-bold text-white mb-1">
+              <div className="text-3xl font-bold text-foreground mb-1">
                 {ultimoUVA?.valor ? ultimoUVA.valor.toFixed(2) : '—'}
               </div>
               <p className="text-xs text-secondary">
@@ -117,7 +109,7 @@ export default function FinanzasPage() {
                 <FaMoneyBillWave className="text-warning" />
                 <span className="uppercase tracking-wider">Mejor Tasa PF</span>
               </div>
-              <div className="text-3xl font-bold text-white mb-1">
+              <div className="text-3xl font-bold text-foreground mb-1">
                 {ultimaTasaPF?.tnaClientes
                   ? `${(ultimaTasaPF.tnaClientes * 100).toFixed(2)}%`
                   : '—'}
@@ -136,13 +128,13 @@ export default function FinanzasPage() {
       </div>
 
       {/* Tabs Navigation */}
-      <div className="flex items-center gap-4 mb-6 border-b border-white/10">
+      <div className="flex items-center gap-4 mb-6 border-b border-border">
         <button
           onClick={() => setActiveTab('indices')}
           className={`px-6 py-3 font-semibold transition-all border-b-2 ${
             activeTab === 'indices'
               ? 'border-accent-emerald text-accent-emerald'
-              : 'border-transparent text-secondary hover:text-white'
+              : 'border-transparent text-secondary hover:text-foreground'
           }`}
         >
           Índices Económicos
@@ -152,7 +144,7 @@ export default function FinanzasPage() {
           className={`px-6 py-3 font-semibold transition-all border-b-2 ${
             activeTab === 'tasas'
               ? 'border-accent-emerald text-accent-emerald'
-              : 'border-transparent text-secondary hover:text-white'
+              : 'border-transparent text-secondary hover:text-foreground'
           }`}
         >
           Tasas de Interés
@@ -162,7 +154,7 @@ export default function FinanzasPage() {
           className={`px-6 py-3 font-semibold transition-all border-b-2 ${
             activeTab === 'fci'
               ? 'border-accent-emerald text-accent-emerald'
-              : 'border-transparent text-secondary hover:text-white'
+              : 'border-transparent text-secondary hover:text-foreground'
           }`}
         >
           Fondos Comunes (FCI)
@@ -185,38 +177,6 @@ export default function FinanzasPage() {
           <>
             {/* Gráfico de Tasas */}
             <TasasChart limit={12} />
-
-            {/* Info Card */}
-            <Card variant="elevated" padding="lg">
-              <Card.Header>
-                <Card.Title>Información sobre Tasas</Card.Title>
-              </Card.Header>
-              <Card.Content>
-                <div className="space-y-4 text-secondary">
-                  <div>
-                    <h4 className="text-white font-semibold mb-2">TNA - Tasa Nominal Anual</h4>
-                    <p className="text-sm">
-                      Es la tasa de interés anual que se aplica sobre el capital invertido, sin
-                      considerar la capitalización de intereses.
-                    </p>
-                  </div>
-                  <div>
-                    <h4 className="text-white font-semibold mb-2">TEA - Tasa Efectiva Anual</h4>
-                    <p className="text-sm">
-                      Es la tasa que refleja el rendimiento real considerando la capitalización de
-                      intereses durante el período.
-                    </p>
-                  </div>
-                  <div className="p-4 glass rounded-lg border border-accent-emerald/20">
-                    <p className="text-accent-emerald text-sm">
-                      💡 <strong>Tip:</strong> La TEA siempre es mayor a la TNA cuando hay
-                      capitalización de intereses. Para comparar inversiones, utilizá siempre la
-                      TEA.
-                    </p>
-                  </div>
-                </div>
-              </Card.Content>
-            </Card>
           </>
         )}
 
@@ -228,41 +188,6 @@ export default function FinanzasPage() {
         )}
       </div>
 
-      {/* Footer Info */}
-      <Card variant="elevated" padding="lg" className="mt-8">
-        <div className="flex items-start gap-4">
-          <div className="p-3 glass rounded-xl">
-            <FaChartLine className="text-accent-emerald text-2xl" />
-          </div>
-          <div className="flex-1">
-            <h3 className="text-white font-semibold mb-2">Fuente de Datos</h3>
-            <p className="text-secondary text-sm mb-3">
-              Todos los datos provienen de{' '}
-              <a
-                href="https://argentinadatos.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-accent-emerald hover:text-accent-teal transition-colors"
-              >
-                ArgentinaData API
-              </a>
-              , una fuente oficial y confiable de información económica argentina.
-            </p>
-            <div className="flex flex-wrap gap-4 text-xs text-secondary">
-              <div>
-                <span className="text-white font-semibold">Actualización:</span> Diaria
-              </div>
-              <div>
-                <span className="text-white font-semibold">Cache:</span> 1 hora (índices), 15 min
-                (FCI)
-              </div>
-              <div>
-                <span className="text-white font-semibold">Fuente:</span> INDEC, BCRA, CNV
-              </div>
-            </div>
-          </div>
-        </div>
-      </Card>
     </DashboardLayout>
   );
 }

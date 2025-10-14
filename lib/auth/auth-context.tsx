@@ -14,6 +14,7 @@ import { UserPreferences } from '@/types/user';
 import { Database } from '@/types/database';
 import { getAuthMode } from '@/lib/auth/helpers';
 import { useDemoAuth } from '@/hooks/useDemoAuth';
+import { logger } from '@/lib/utils/logger';
 
 interface AuthContextType {
   user: User | null;
@@ -67,12 +68,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       // If table doesn't exist (404), return default preferences without trying to create
       if (error && error.code === '42P01') {
-        console.warn('user_preferences table does not exist. Using default preferences.');
+        logger.warn('user_preferences table does not exist', { context: 'auth', action: 'fetchPreferences' });
         return null;
       }
 
       if (error && error.code !== 'PGRST116') {
-        console.error('Error fetching preferences:', error);
+        logger.error('Error fetching preferences', error, { context: 'auth', userId });
         return null;
       }
 
@@ -95,7 +96,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           .single()) as unknown as { data: UserPreferences | null; error: unknown };
 
         if (insertError) {
-          console.error('Error creating preferences:', insertError);
+          logger.error('Error creating preferences', insertError, { context: 'auth', userId });
           return null;
         }
 
@@ -104,7 +105,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       return data;
     } catch (error) {
-      console.error('Error in fetchPreferences:', error);
+      logger.error('Error in fetchPreferences', error, { context: 'auth', userId });
       return null;
     }
   }, []);
@@ -143,7 +144,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         //   }
         // }
       } catch (error) {
-        console.error('Error initializing auth:', error);
+        logger.error('Error initializing auth', error, { context: 'auth' });
       } finally {
         if (mounted) {
           setLoading(false);
@@ -267,7 +268,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         .eq('user_id', user.id)) as unknown as { error: unknown };
 
       if (error) {
-        console.error('Error updating preferences:', error);
+        logger.error('Error updating preferences', error, { context: 'auth', userId: user.id });
         return;
       }
 

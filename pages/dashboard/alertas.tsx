@@ -48,14 +48,6 @@ export default function AlertasPage() {
 
   return (
     <DashboardLayout>
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold gradient-text mb-2">Alertas de Precios</h1>
-        <p className="text-secondary">
-          Configurá notificaciones para seguir de cerca los indicadores que te importan
-        </p>
-      </div>
-
       {/* Estadísticas */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         <Card variant="elevated" padding="lg" hover="glow">
@@ -64,7 +56,7 @@ export default function AlertasPage() {
               <div className="text-secondary text-sm mb-1 uppercase tracking-wider">
                 Total Alertas
               </div>
-              <div className="text-3xl font-bold text-white">{estadisticas.total}</div>
+              <div className="text-3xl font-bold text-foreground">{estadisticas.total}</div>
             </div>
             <div className="p-3 glass rounded-xl">
               <FaBell className="text-accent-emerald text-xl" />
@@ -76,7 +68,7 @@ export default function AlertasPage() {
           <div className="flex items-start justify-between">
             <div>
               <div className="text-secondary text-sm mb-1 uppercase tracking-wider">Activas</div>
-              <div className="text-3xl font-bold text-white">{estadisticas.activas}</div>
+              <div className="text-3xl font-bold text-foreground">{estadisticas.activas}</div>
             </div>
             <div className="p-3 glass rounded-xl">
               <FaChartLine className="text-accent-teal text-xl" />
@@ -88,7 +80,7 @@ export default function AlertasPage() {
           <div className="flex items-start justify-between">
             <div>
               <div className="text-secondary text-sm mb-1 uppercase tracking-wider">Disparadas</div>
-              <div className="text-3xl font-bold text-white">{estadisticas.disparadas}</div>
+              <div className="text-3xl font-bold text-foreground">{estadisticas.disparadas}</div>
             </div>
             <div className="p-3 glass rounded-xl">
               <FaCheckCircle className="text-accent-emerald text-xl" />
@@ -100,7 +92,7 @@ export default function AlertasPage() {
           <div className="flex items-start justify-between">
             <div>
               <div className="text-secondary text-sm mb-1 uppercase tracking-wider">Pausadas</div>
-              <div className="text-3xl font-bold text-white">{estadisticas.pausadas}</div>
+              <div className="text-3xl font-bold text-foreground">{estadisticas.pausadas}</div>
             </div>
             <div className="p-3 glass rounded-xl">
               <FaPause className="text-secondary text-xl" />
@@ -127,7 +119,7 @@ export default function AlertasPage() {
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-white font-semibold">{alerta.nombre}</p>
+                      <p className="text-foreground font-semibold">{alerta.nombre}</p>
                       <p className="text-sm text-secondary">
                         {alerta.fechaDisparada &&
                           new Date(alerta.fechaDisparada).toLocaleString('es-AR', {
@@ -170,8 +162,8 @@ export default function AlertasPage() {
                 onClick={() => setFiltro(f.key as 'todas' | 'activas' | 'disparadas' | 'pausadas')}
                 className={`px-4 py-2 rounded-lg font-medium transition-all ${
                   filtro === f.key
-                    ? 'bg-accent-emerald text-dark'
-                    : 'glass text-secondary hover:text-white'
+                    ? 'bg-accent-emerald text-background'
+                    : 'glass text-secondary hover:text-foreground'
                 }`}
               >
                 {f.label}
@@ -196,11 +188,11 @@ export default function AlertasPage() {
             <FaBell className="text-accent-emerald text-2xl" />
           </div>
           <div className="flex-1">
-            <h3 className="text-white font-semibold mb-2">Cómo funcionan las Alertas</h3>
+            <h3 className="text-foreground font-semibold mb-2">Cómo funcionan las Alertas</h3>
             <div className="text-secondary text-sm space-y-2">
               <p>
                 • Las alertas se verifican automáticamente cada{' '}
-                <strong className="text-white">30 segundos</strong>
+                <strong className="text-foreground">30 segundos</strong>
               </p>
               <p>• Cuando una alerta se dispara, cambia su estado y se muestra destacada</p>
               <p>• Podés pausar/reactivar alertas sin eliminarlas</p>

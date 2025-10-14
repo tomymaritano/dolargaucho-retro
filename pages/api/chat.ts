@@ -1,5 +1,6 @@
 import OpenAI from 'openai';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { logger } from '@/lib/utils/logger';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY!,
@@ -15,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(400).json({ error: 'Mensaje vacío' });
   }
 
-  console.log('📡 Recibiendo solicitud en /api/chat con mensaje:', message);
+  logger.info('Recibiendo solicitud en /api/chat', { api: 'chat', messageLength: message.length });
 
   try {
     const response = await openai.chat.completions.create({
@@ -27,11 +28,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const aiMessage =
       response.choices?.[0]?.message?.content?.trim() || 'No tengo una respuesta en este momento.';
 
-    console.log('✅ Respuesta de OpenAI:', aiMessage);
+    logger.info('Respuesta de OpenAI recibida', { api: 'chat', responseLength: aiMessage.length });
     res.status(200).json({ response: aiMessage });
   } catch (error: unknown) {
-    // 👈 Cambiado de 'any' a 'unknown'
-    console.error('❌ Error con OpenAI:', error);
+    logger.error('Error con OpenAI', error, { api: 'chat' });
 
     // Manejo seguro del error
     if (error instanceof Error) {

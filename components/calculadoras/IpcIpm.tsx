@@ -34,7 +34,7 @@ const InflationCalculator: React.FC = () => {
   };
 
   return (
-    <div className="mx-auto text-white p-6 md:p-10 rounded-2xl max-w-5xl">
+    <div className="mx-auto text-foreground p-6 md:p-10 rounded-2xl max-w-7xl">
       <div className="text-center mb-8">
         <div className="inline-flex items-center gap-2 mb-4">
           <FaChartBar className="text-accent-emerald text-xl" />
@@ -45,7 +45,7 @@ const InflationCalculator: React.FC = () => {
         <h2 className="text-2xl md:text-3xl font-display font-bold mb-3">
           Índice de <span className="gradient-text">Precios</span>
         </h2>
-        <p className="text-secondary text-sm max-w-2xl mx-auto">
+        <p className="text-secondary text-sm max-w-7xl mx-auto">
           Calcula IPC e IPM para análisis económico
         </p>
       </div>
@@ -60,7 +60,7 @@ const InflationCalculator: React.FC = () => {
             type="number"
             value={priceBaseIPC}
             onChange={(e) => setPriceBaseIPC(e.target.value)}
-            className="w-full p-3 text-lg font-mono font-semibold bg-dark-light border border-white/5 rounded-lg focus:ring-1 focus:ring-accent-emerald focus:outline-none transition-all text-white"
+            className="w-full p-3 text-lg font-mono font-semibold bg-panel border border-white/5 rounded-lg focus:ring-1 focus:ring-accent-emerald focus:outline-none transition-all text-foreground"
             placeholder="100"
           />
         </div>
@@ -73,7 +73,7 @@ const InflationCalculator: React.FC = () => {
             type="number"
             value={priceCurrentIPC}
             onChange={(e) => setPriceCurrentIPC(e.target.value)}
-            className="w-full p-3 text-lg font-mono font-semibold bg-dark-light border border-white/5 rounded-lg focus:ring-1 focus:ring-accent-emerald focus:outline-none transition-all text-white"
+            className="w-full p-3 text-lg font-mono font-semibold bg-panel border border-white/5 rounded-lg focus:ring-1 focus:ring-accent-emerald focus:outline-none transition-all text-foreground"
             placeholder="150"
           />
         </div>
@@ -86,7 +86,7 @@ const InflationCalculator: React.FC = () => {
             type="number"
             value={priceBaseIPM}
             onChange={(e) => setPriceBaseIPM(e.target.value)}
-            className="w-full p-3 text-lg font-mono font-semibold bg-dark-light border border-white/5 rounded-lg focus:ring-1 focus:ring-accent-emerald focus:outline-none transition-all text-white"
+            className="w-full p-3 text-lg font-mono font-semibold bg-panel border border-white/5 rounded-lg focus:ring-1 focus:ring-accent-emerald focus:outline-none transition-all text-foreground"
             placeholder="100"
           />
         </div>
@@ -99,7 +99,7 @@ const InflationCalculator: React.FC = () => {
             type="number"
             value={priceCurrentIPM}
             onChange={(e) => setPriceCurrentIPM(e.target.value)}
-            className="w-full p-3 text-lg font-mono font-semibold bg-dark-light border border-white/5 rounded-lg focus:ring-1 focus:ring-accent-emerald focus:outline-none transition-all text-white"
+            className="w-full p-3 text-lg font-mono font-semibold bg-panel border border-white/5 rounded-lg focus:ring-1 focus:ring-accent-emerald focus:outline-none transition-all text-foreground"
             placeholder="130"
           />
         </div>
@@ -108,7 +108,7 @@ const InflationCalculator: React.FC = () => {
       {/* Botón de Cálculo */}
       <button
         onClick={calculateInflation}
-        className="w-full mb-6 bg-accent-emerald hover:bg-accent-teal text-dark py-3 rounded-lg font-semibold transition-all text-sm"
+        className="w-full mb-6 bg-accent-emerald hover:bg-accent-teal text-background-dark py-3 rounded-lg font-semibold transition-all text-sm"
       >
         Calcular IPC / IPM
       </button>

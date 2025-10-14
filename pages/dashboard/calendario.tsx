@@ -103,7 +103,7 @@ export default function CalendarioPage() {
               <div className="text-secondary text-sm mb-1 uppercase tracking-wider">
                 Total Eventos
               </div>
-              <div className="text-3xl font-bold text-white">{stats.totalCombinado}</div>
+              <div className="text-3xl font-bold text-foreground">{stats.totalCombinado}</div>
             </div>
             <div className="p-3 glass rounded-xl">
               <FaCalendarAlt className="text-accent-emerald text-xl" />
@@ -117,7 +117,7 @@ export default function CalendarioPage() {
               <div className="text-secondary text-sm mb-1 uppercase tracking-wider">
                 Feriados {añoSeleccionado}
               </div>
-              <div className="text-3xl font-bold text-white">{stats.totalFeriados}</div>
+              <div className="text-3xl font-bold text-foreground">{stats.totalFeriados}</div>
             </div>
             <div className="p-3 glass rounded-xl">
               <FaCalendarDay className="text-accent-emerald text-xl" />
@@ -131,7 +131,7 @@ export default function CalendarioPage() {
               <div className="text-secondary text-sm mb-1 uppercase tracking-wider">
                 Feriados Próximos
               </div>
-              <div className="text-3xl font-bold text-white">{stats.feriadosProximos}</div>
+              <div className="text-3xl font-bold text-foreground">{stats.feriadosProximos}</div>
             </div>
             <div className="p-3 glass rounded-xl">
               <FaCalendarDay className="text-accent-teal text-xl" />
@@ -145,7 +145,7 @@ export default function CalendarioPage() {
               <div className="text-secondary text-sm mb-1 uppercase tracking-wider">
                 Eventos Presidenciales
               </div>
-              <div className="text-3xl font-bold text-white">{stats.totalEventos}</div>
+              <div className="text-3xl font-bold text-foreground">{stats.totalEventos}</div>
             </div>
             <div className="p-3 glass rounded-xl">
               <FaMapMarkerAlt className="text-accent-teal text-xl" />
@@ -193,10 +193,10 @@ export default function CalendarioPage() {
                             <FaCalendarDay className="text-accent-emerald" />
                           </div>
                           <div className="flex-1">
-                            <h4 className="text-white font-semibold mb-1">{feriado.nombre}</h4>
+                            <h4 className="text-foreground font-semibold mb-1">{feriado.nombre}</h4>
                             <p className="text-sm text-secondary mb-2">{feriado.tipo}</p>
                             {feriado.info && (
-                              <p className="text-sm text-white/80">{feriado.info}</p>
+                              <p className="text-sm text-foreground/80">{feriado.info}</p>
                             )}
                           </div>
                         </div>
@@ -206,14 +206,14 @@ export default function CalendarioPage() {
                     {diaSeleccionado.eventos.map((evento, index) => (
                       <div
                         key={`${evento.fecha}-${index}`}
-                        className="p-4 glass border border-white/10 rounded-lg"
+                        className="p-4 glass rounded-lg"
                       >
                         <div className="flex items-start gap-3">
                           <div className="p-2 bg-accent-teal/20 rounded-lg">
                             <FaMapMarkerAlt className="text-accent-teal" />
                           </div>
                           <div className="flex-1">
-                            <h4 className="text-white font-semibold mb-1">{evento.descripcion}</h4>
+                            <h4 className="text-foreground font-semibold mb-1">{evento.descripcion}</h4>
                             <div className="space-y-1 text-sm text-secondary">
                               <p>
                                 <strong>Tipo:</strong> {evento.tipo}
@@ -250,7 +250,7 @@ export default function CalendarioPage() {
             <FaCalendarAlt className="text-accent-emerald text-2xl" />
           </div>
           <div className="flex-1">
-            <h3 className="text-white font-semibold mb-2">Fuente de Datos</h3>
+            <h3 className="text-foreground font-semibold mb-2">Fuente de Datos</h3>
             <p className="text-secondary text-sm mb-3">
               Los feriados y eventos presidenciales provienen de{' '}
               <a
@@ -265,13 +265,13 @@ export default function CalendarioPage() {
             </p>
             <div className="flex flex-wrap gap-4 text-xs text-secondary">
               <div>
-                <span className="text-white font-semibold">Actualización:</span> Diaria
+                <span className="text-foreground font-semibold">Actualización:</span> Diaria
               </div>
               <div>
-                <span className="text-white font-semibold">Fuente:</span> Gobierno de Argentina
+                <span className="text-foreground font-semibold">Fuente:</span> Gobierno de Argentina
               </div>
               <div>
-                <span className="text-white font-semibold">Cache:</span> 24 horas
+                <span className="text-foreground font-semibold">Cache:</span> 24 horas
               </div>
             </div>
           </div>

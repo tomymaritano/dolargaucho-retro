@@ -19,7 +19,10 @@ import {
   FaTachometerAlt,
   FaGithub,
   FaTwitter,
+  FaBitcoin,
 } from 'react-icons/fa';
+import { ThemeToggle } from '@/components/ui/ThemeToggle/ThemeToggle';
+import { GlobalSearch } from '@/components/ui/GlobalSearch/GlobalSearch';
 
 interface NavbarProProps {
   variant?: 'transparent' | 'solid';
@@ -59,6 +62,19 @@ export function NavbarPro({ variant = 'transparent' }: NavbarProProps) {
     };
   }, [menuOpen]);
 
+  // CMD+K / Ctrl+K keyboard shortcut
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setSearchOpen(!searchOpen);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [searchOpen]);
+
   const isTransparent = variant === 'transparent' && !scrolled;
 
   const navbarClasses = `
@@ -77,6 +93,12 @@ export function NavbarPro({ variant = 'transparent' }: NavbarProProps) {
       label: 'Dashboard',
       href: '/dashboard',
       description: 'Panel principal',
+    },
+    {
+      icon: FaBitcoin,
+      label: 'Criptomonedas',
+      href: '/dashboard/crypto',
+      description: 'Bitcoin, Ethereum, USDT y más',
     },
     {
       icon: FaChartLine,
@@ -153,19 +175,26 @@ export function NavbarPro({ variant = 'transparent' }: NavbarProProps) {
 
             {/* Right Actions */}
             <div className="flex items-center gap-2 sm:gap-3">
-              {/* Search Button */}
+              {/* Search Button with CMD+K hint */}
               <button
                 onClick={() => setSearchOpen(!searchOpen)}
-                className="p-2.5 rounded-lg glass hover:bg-white/5 transition-colors text-secondary hover:text-accent-emerald"
+                className="h-10 flex items-center gap-2 px-2.5 rounded-lg glass hover:bg-white/5 transition-colors text-secondary hover:text-accent-emerald group"
                 aria-label="Buscar"
               >
                 <FaSearch className="text-lg" />
+                <span className="hidden lg:block text-sm font-medium">Buscar</span>
+                <kbd className="hidden lg:flex items-center gap-0.5 px-1.5 py-0.5 bg-background/50 border border-border rounded text-[10px] font-mono text-secondary">
+                  ⌘K
+                </kbd>
               </button>
+
+              {/* Theme Toggle */}
+              <ThemeToggle />
 
               {/* Menu Toggle (All Screens) */}
               <button
                 onClick={() => setMenuOpen(!menuOpen)}
-                className="p-2.5 rounded-lg glass hover:bg-white/5 transition-colors text-white z-50"
+                className="h-10 w-10 flex items-center justify-center rounded-lg glass hover:bg-white/5 transition-colors text-foreground z-50"
                 aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
               >
                 {menuOpen ? <FaTimes className="text-lg" /> : <FaBars className="text-lg" />}
@@ -174,31 +203,10 @@ export function NavbarPro({ variant = 'transparent' }: NavbarProProps) {
           </div>
         </div>
 
-        {/* Search Bar (Expanded) */}
-        <AnimatePresence>
-          {searchOpen && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="border-t border-white/10 overflow-hidden"
-            >
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                <div className="relative">
-                  <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-secondary" />
-                  <input
-                    type="text"
-                    placeholder="Buscar cotizaciones, senadores, diputados..."
-                    className="w-full pl-12 pr-4 py-3 bg-dark-light border border-white/10 rounded-lg text-white placeholder-secondary focus:outline-none focus:border-accent-emerald/50 focus:ring-2 focus:ring-accent-emerald/20 transition-all text-sm sm:text-base"
-                    autoFocus
-                  />
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </motion.nav>
+
+      {/* Global Search Modal */}
+      <GlobalSearch isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
 
       {/* Sidebar Menu (All Screens) */}
       <AnimatePresence>
@@ -216,7 +224,7 @@ export function NavbarPro({ variant = 'transparent' }: NavbarProProps) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setMenuOpen(false)}
-              className="absolute inset-0 bg-dark/90 backdrop-blur-sm"
+              className="absolute inset-0 bg-background/90 backdrop-blur-sm"
             />
 
             {/* Sidebar */}
@@ -228,7 +236,7 @@ export function NavbarPro({ variant = 'transparent' }: NavbarProProps) {
               className="absolute left-0 top-0 bottom-0 w-80 max-w-[85vw] glass-strong border-r border-accent-emerald/20 flex flex-col overflow-hidden"
             >
               {/* Header */}
-              <div className="p-6 border-b border-white/10">
+              <div className="p-6 border-b border-border">
                 <div className="flex items-center gap-3 mb-2">
                   <Image src="/logo.svg" width={48} height={48} alt="Dolar Gaucho" />
                   <div>
@@ -257,7 +265,7 @@ export function NavbarPro({ variant = 'transparent' }: NavbarProProps) {
                           className={`flex items-start gap-3 p-3 rounded-xl transition-all group ${
                             active
                               ? 'bg-accent-emerald/20 text-accent-emerald'
-                              : 'hover:bg-white/5 text-secondary hover:text-white'
+                              : 'hover:bg-white/5 text-secondary hover:text-foreground'
                           }`}
                         >
                           <div
@@ -268,12 +276,12 @@ export function NavbarPro({ variant = 'transparent' }: NavbarProProps) {
                             }`}
                           >
                             <item.icon
-                              className={`text-lg ${active ? 'text-accent-emerald' : 'text-white'}`}
+                              className={`text-lg ${active ? 'text-accent-emerald' : 'text-foreground'}`}
                             />
                           </div>
                           <div className="flex-1 min-w-0">
                             <div
-                              className={`font-medium text-sm ${active ? 'text-accent-emerald' : 'text-white'}`}
+                              className={`font-medium text-sm ${active ? 'text-accent-emerald' : 'text-foreground'}`}
                             >
                               {item.label}
                             </div>
@@ -289,7 +297,7 @@ export function NavbarPro({ variant = 'transparent' }: NavbarProProps) {
               </nav>
 
               {/* Footer */}
-              <div className="p-6 border-t border-white/10">
+              <div className="p-6 border-t border-border">
                 <div className="flex items-center justify-between text-xs text-secondary">
                   <span>© 2025 Dólar Gaucho</span>
                   <div className="flex gap-3">

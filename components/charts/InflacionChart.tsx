@@ -11,16 +11,22 @@ import {
 } from 'recharts';
 import { useInflacionMensual, useInflacionInteranual } from '@/hooks/useFinanzas';
 import { Card } from '@/components/ui/Card/Card';
-import { FaSpinner } from 'react-icons/fa';
+import { FaSpinner, FaStar, FaRegStar } from 'react-icons/fa';
+import { useChartTheme } from '@/lib/hooks/useChartTheme';
 
 interface InflacionChartProps {
   showInteranual?: boolean;
   limit?: number;
+  // Favorite props (optional)
+  isFavorite?: boolean;
+  onToggleFavorite?: () => void;
+  chartId?: string;
 }
 
-export function InflacionChart({ showInteranual = true, limit = 12 }: InflacionChartProps) {
+export function InflacionChart({ showInteranual = true, limit = 12, isFavorite, onToggleFavorite, chartId }: InflacionChartProps) {
   const { data: mensual, isLoading: loadingMensual } = useInflacionMensual();
   const { data: interanual, isLoading: loadingInteranual } = useInflacionInteranual();
+  const chartTheme = useChartTheme();
 
   const isLoading = loadingMensual || (showInteranual && loadingInteranual);
 
@@ -73,62 +79,95 @@ export function InflacionChart({ showInteranual = true, limit = 12 }: InflacionC
   }
 
   return (
-    <Card variant="elevated" padding="lg">
-      <Card.Header>
-        <Card.Title>Inflación Argentina</Card.Title>
-        <p className="text-sm text-secondary mt-1">Últimos {limit} meses</p>
-      </Card.Header>
+    <div className="glass-strong p-6 md:p-8 rounded-2xl border border-border">
+      {/* Header */}
+      <div className="mb-6 flex items-start justify-between">
+        <div>
+          <h3 className="text-2xl font-display font-bold text-foreground mb-2">
+            Evolución de la Inflación
+          </h3>
+          <p className="text-sm text-secondary">
+            Últimos {limit} meses • Actualizado diariamente
+          </p>
+        </div>
+        {onToggleFavorite && (
+          <button
+            onClick={onToggleFavorite}
+            className={`p-2 rounded-lg transition-all ${
+              isFavorite
+                ? 'bg-accent-emerald/20 text-accent-emerald'
+                : 'glass text-secondary hover:text-accent-emerald hover:bg-white/5'
+            }`}
+            aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+          >
+            {isFavorite ? <FaStar className="text-lg" /> : <FaRegStar className="text-lg" />}
+          </button>
+        )}
+      </div>
 
-      <Card.Content>
-        <ResponsiveContainer width="100%" height={350}>
-          <LineChart data={chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.1)" />
-            <XAxis dataKey="fecha" stroke="rgba(255, 255, 255, 0.5)" style={{ fontSize: '12px' }} />
+      {/* Chart */}
+      <div className="p-4 rounded-xl bg-transparent border border-border">
+        <ResponsiveContainer width="100%" height={400}>
+          <LineChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 10 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke={chartTheme.gridColor} />
+            <XAxis
+              dataKey="fecha"
+              stroke={chartTheme.axisColor}
+              style={{ fontSize: '11px' }}
+              tick={{ fill: chartTheme.axisColor }}
+            />
             <YAxis
-              stroke="rgba(255, 255, 255, 0.5)"
-              style={{ fontSize: '12px' }}
+              stroke={chartTheme.axisColor}
+              style={{ fontSize: '11px' }}
+              tick={{ fill: chartTheme.axisColor }}
               tickFormatter={(value) => `${value}%`}
             />
             <Tooltip
               contentStyle={{
-                backgroundColor: 'rgba(17, 24, 39, 0.95)',
-                border: '1px solid rgba(16, 185, 129, 0.3)',
+                backgroundColor: chartTheme.tooltipBg,
+                border: `1px solid ${chartTheme.tooltipBorder}`,
                 borderRadius: '8px',
-                color: '#fff',
+                color: chartTheme.tooltipColor,
               }}
               formatter={(value: number) => [`${value.toFixed(2)}%`, '']}
             />
-            <Legend wrapperStyle={{ color: '#fff' }} iconType="line" />
+            <Legend
+              wrapperStyle={{
+                color: chartTheme.tooltipColor,
+                paddingTop: '20px'
+              }}
+              iconType="line"
+            />
             <Line
               type="monotone"
               dataKey="mensual"
               stroke="#10b981"
-              strokeWidth={3}
+              strokeWidth={2.5}
               name="Inflación Mensual"
-              dot={{ fill: '#10b981', r: 4 }}
-              activeDot={{ r: 6 }}
+              dot={{ fill: '#10b981', r: 3 }}
+              activeDot={{ r: 5 }}
             />
             {showInteranual && (
               <Line
                 type="monotone"
                 dataKey="interanual"
                 stroke="#06b6d4"
-                strokeWidth={3}
+                strokeWidth={2.5}
                 name="Inflación Interanual"
-                dot={{ fill: '#06b6d4', r: 4 }}
-                activeDot={{ r: 6 }}
+                dot={{ fill: '#06b6d4', r: 3 }}
+                activeDot={{ r: 5 }}
               />
             )}
           </LineChart>
         </ResponsiveContainer>
-      </Card.Content>
+      </div>
 
-      <Card.Footer>
-        <div className="flex items-center justify-between text-xs text-secondary">
-          <span>Fuente: ArgentinaData API</span>
-          <span>Actualizado diariamente</span>
-        </div>
-      </Card.Footer>
-    </Card>
+      {/* Footer */}
+      <div className="mt-4 pt-4 border-t border-border">
+        <p className="text-xs text-secondary text-center">
+          Fuente: ArgentinaData API
+        </p>
+      </div>
+    </div>
   );
 }

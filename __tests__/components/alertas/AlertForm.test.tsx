@@ -15,11 +15,11 @@ const createTestQueryClient = () =>
 describe('AlertForm', () => {
   it('renders the alert form', () => {
     const queryClient = createTestQueryClient();
-    const mockOnSuccess = jest.fn();
+    const mockOnCrear = jest.fn();
 
     render(
       <QueryClientProvider client={queryClient}>
-        <AlertForm onSuccess={mockOnSuccess} />
+        <AlertForm onCrear={mockOnCrear} />
       </QueryClientProvider>
     );
 
@@ -30,11 +30,11 @@ describe('AlertForm', () => {
 
   it('shows form inputs', () => {
     const queryClient = createTestQueryClient();
-    const mockOnSuccess = jest.fn();
+    const mockOnCrear = jest.fn();
 
     render(
       <QueryClientProvider client={queryClient}>
-        <AlertForm onSuccess={mockOnSuccess} />
+        <AlertForm onCrear={mockOnCrear} />
       </QueryClientProvider>
     );
 
@@ -44,11 +44,11 @@ describe('AlertForm', () => {
 
   it('allows selecting alert type', () => {
     const queryClient = createTestQueryClient();
-    const mockOnSuccess = jest.fn();
+    const mockOnCrear = jest.fn();
 
     render(
       <QueryClientProvider client={queryClient}>
-        <AlertForm onSuccess={mockOnSuccess} />
+        <AlertForm onCrear={mockOnCrear} />
       </QueryClientProvider>
     );
 

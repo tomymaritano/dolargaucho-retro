@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ThemeProvider } from '@/lib/contexts/ThemeContext';
 import { TasasChart } from '@/components/charts/TasasChart';
 
 // Mock de recharts
@@ -30,24 +31,28 @@ describe('TasasChart', () => {
   it('renders loading state', () => {
     const queryClient = createTestQueryClient();
 
-    render(
-      <QueryClientProvider client={queryClient}>
-        <TasasChart />
-      </QueryClientProvider>
+    const { container } = render(
+      <ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <TasasChart />
+        </QueryClientProvider>
+      </ThemeProvider>
     );
 
-    expect(screen.getByTestId).toBeTruthy();
+    expect(container.firstChild).toBeTruthy();
   });
 
   it('renders with custom limit', () => {
     const queryClient = createTestQueryClient();
 
-    render(
-      <QueryClientProvider client={queryClient}>
-        <TasasChart limit={5} />
-      </QueryClientProvider>
+    const { container } = render(
+      <ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <TasasChart limit={5} />
+        </QueryClientProvider>
+      </ThemeProvider>
     );
 
-    expect(screen.getByTestId).toBeTruthy();
+    expect(container.firstChild).toBeTruthy();
   });
 });

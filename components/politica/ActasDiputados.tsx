@@ -37,7 +37,7 @@ export function ActasDiputados({ limit = 50 }: ActasDiputadosProps) {
       const term = searchTerm.toLowerCase();
       filtered = filtered.filter(
         (acta) =>
-          acta.tipo.toLowerCase().includes(term) ||
+          acta.tipo?.toLowerCase().includes(term) ||
           acta.periodo?.toLowerCase().includes(term) ||
           acta.numero_reunion?.toString().includes(term)
       );
@@ -52,8 +52,8 @@ export function ActasDiputados({ limit = 50 }: ActasDiputadosProps) {
 
     return {
       total: actas.length,
-      ordinarias: actas.filter((a) => a.tipo.toLowerCase().includes('ordinaria')).length,
-      extraordinarias: actas.filter((a) => a.tipo.toLowerCase().includes('extraordinaria')).length,
+      ordinarias: actas.filter((a) => a.tipo?.toLowerCase().includes('ordinaria')).length,
+      extraordinarias: actas.filter((a) => a.tipo?.toLowerCase().includes('extraordinaria')).length,
     };
   }, [actas]);
 
@@ -183,19 +183,19 @@ export function ActasDiputados({ limit = 50 }: ActasDiputadosProps) {
               {actasFiltradas.map((acta, index) => (
                 <div
                   key={`${acta.fecha}-${index}`}
-                  className="p-4 glass border border-white/10 rounded-lg hover:bg-white/5 transition-colors"
+                  className="p-4 glass border border-border rounded-lg hover:bg-white/5 transition-colors"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
                         <span
                           className={`px-2 py-1 rounded-md text-xs font-semibold ${
-                            acta.tipo.toLowerCase().includes('ordinaria')
+                            acta.tipo?.toLowerCase().includes('ordinaria')
                               ? 'bg-accent-emerald/20 text-accent-emerald'
                               : 'bg-accent-teal/20 text-accent-teal'
                           }`}
                         >
-                          {acta.tipo}
+                          {acta.tipo || 'Sin tipo'}
                         </span>
                         {acta.numero_reunion && (
                           <span className="text-xs text-secondary">Nº {acta.numero_reunion}</span>

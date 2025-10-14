@@ -10,14 +10,20 @@ import {
 } from 'recharts';
 import { useRiesgoPais } from '@/hooks/useFinanzas';
 import { Card } from '@/components/ui/Card/Card';
-import { FaSpinner } from 'react-icons/fa';
+import { FaSpinner, FaStar, FaRegStar } from 'react-icons/fa';
+import { useChartTheme } from '@/lib/hooks/useChartTheme';
 
 interface RiesgoPaisChartProps {
   limit?: number;
+  // Favorite props (optional)
+  isFavorite?: boolean;
+  onToggleFavorite?: () => void;
+  chartId?: string;
 }
 
-export function RiesgoPaisChart({ limit = 30 }: RiesgoPaisChartProps) {
+export function RiesgoPaisChart({ limit = 30, isFavorite, onToggleFavorite, chartId }: RiesgoPaisChartProps) {
   const { data: riesgoPais, isLoading } = useRiesgoPais();
+  const chartTheme = useChartTheme();
 
   const chartData = React.useMemo(() => {
     if (!riesgoPais) return [];
@@ -70,8 +76,22 @@ export function RiesgoPaisChart({ limit = 30 }: RiesgoPaisChartProps) {
             <Card.Title>Riesgo País</Card.Title>
             <p className="text-sm text-secondary mt-1">Últimos {limit} días</p>
           </div>
-          <div className="text-right">
-            <div className="text-3xl font-bold text-white">
+          <div className="flex items-center gap-4">
+            {onToggleFavorite && (
+              <button
+                onClick={onToggleFavorite}
+                className={`p-2 rounded-lg transition-all ${
+                  isFavorite
+                    ? 'bg-accent-emerald/20 text-accent-emerald'
+                    : 'glass text-secondary hover:text-accent-emerald hover:bg-white/5'
+                }`}
+                aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+              >
+                {isFavorite ? <FaStar className="text-lg" /> : <FaRegStar className="text-lg" />}
+              </button>
+            )}
+            <div className="text-right">
+            <div className="text-3xl font-bold text-foreground">
               {latestValue?.toLocaleString('es-AR')}
             </div>
             <div
@@ -79,6 +99,7 @@ export function RiesgoPaisChart({ limit = 30 }: RiesgoPaisChartProps) {
             >
               {isPositive ? '+' : ''}
               {variation.toFixed(2)}% vs ayer
+            </div>
             </div>
           </div>
         </div>
@@ -93,15 +114,15 @@ export function RiesgoPaisChart({ limit = 30 }: RiesgoPaisChartProps) {
                 <stop offset="95%" stopColor="#ef4444" stopOpacity={0.1} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.1)" />
-            <XAxis dataKey="fecha" stroke="rgba(255, 255, 255, 0.5)" style={{ fontSize: '12px' }} />
-            <YAxis stroke="rgba(255, 255, 255, 0.5)" style={{ fontSize: '12px' }} />
+            <CartesianGrid strokeDasharray="3 3" stroke={chartTheme.gridColor} />
+            <XAxis dataKey="fecha" stroke={chartTheme.axisColor} style={{ fontSize: '12px' }} />
+            <YAxis stroke={chartTheme.axisColor} style={{ fontSize: '12px' }} />
             <Tooltip
               contentStyle={{
-                backgroundColor: 'rgba(17, 24, 39, 0.95)',
-                border: '1px solid rgba(239, 68, 68, 0.3)',
+                backgroundColor: chartTheme.tooltipBg,
+                border: `1px solid ${chartTheme.tooltipBorder}`,
                 borderRadius: '8px',
-                color: '#fff',
+                color: chartTheme.tooltipColor,
               }}
               formatter={(value: number) => [value.toLocaleString('es-AR'), 'Puntos']}
             />

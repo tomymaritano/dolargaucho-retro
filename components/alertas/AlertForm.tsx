@@ -83,7 +83,7 @@ export function AlertForm({ onCrear }: AlertFormProps) {
             <select
               value={tipo}
               onChange={(e) => setTipo(e.target.value as TipoAlerta)}
-              className="w-full px-4 py-2 bg-dark-light border border-white/10 rounded-lg text-white focus:outline-none focus:border-accent-emerald/50 focus:ring-2 focus:ring-accent-emerald/20 transition-all"
+              className="w-full px-4 py-2 bg-dark-light border border-border rounded-lg text-white focus:outline-none focus:border-accent-emerald/50 focus:ring-2 focus:ring-accent-emerald/20 transition-all"
             >
               <option value="dolar">Dólar</option>
               <option value="inflacion">Inflación Mensual</option>
@@ -102,7 +102,7 @@ export function AlertForm({ onCrear }: AlertFormProps) {
               <select
                 value={casaDolar}
                 onChange={(e) => setCasaDolar(e.target.value as CasaDolar)}
-                className="w-full px-4 py-2 bg-dark-light border border-white/10 rounded-lg text-white focus:outline-none focus:border-accent-emerald/50 focus:ring-2 focus:ring-accent-emerald/20 transition-all"
+                className="w-full px-4 py-2 bg-dark-light border border-border rounded-lg text-white focus:outline-none focus:border-accent-emerald/50 focus:ring-2 focus:ring-accent-emerald/20 transition-all"
               >
                 <option value="oficial">Oficial</option>
                 <option value="blue">Blue</option>
@@ -132,7 +132,7 @@ export function AlertForm({ onCrear }: AlertFormProps) {
             <select
               value={condicion}
               onChange={(e) => setCondicion(e.target.value as CondicionAlerta)}
-              className="w-full px-4 py-2 bg-dark-light border border-white/10 rounded-lg text-white focus:outline-none focus:border-accent-emerald/50 focus:ring-2 focus:ring-accent-emerald/20 transition-all"
+              className="w-full px-4 py-2 bg-dark-light border border-border rounded-lg text-white focus:outline-none focus:border-accent-emerald/50 focus:ring-2 focus:ring-accent-emerald/20 transition-all"
             >
               <option value="mayor">Mayor que {'>'}</option>
               <option value="menor">Menor que {'<'}</option>
@@ -161,7 +161,7 @@ export function AlertForm({ onCrear }: AlertFormProps) {
               value={mensaje}
               onChange={(e) => setMensaje(e.target.value)}
               placeholder="Ej: ¡El dólar blue llegó a $1200! Hora de comprar..."
-              className="w-full px-4 py-2 bg-dark-light border border-white/10 rounded-lg text-white placeholder-secondary focus:outline-none focus:border-accent-emerald/50 focus:ring-2 focus:ring-accent-emerald/20 transition-all resize-none"
+              className="w-full px-4 py-2 bg-dark-light border border-border rounded-lg text-white placeholder-secondary focus:outline-none focus:border-accent-emerald/50 focus:ring-2 focus:ring-accent-emerald/20 transition-all resize-none"
               rows={3}
             />
           </div>

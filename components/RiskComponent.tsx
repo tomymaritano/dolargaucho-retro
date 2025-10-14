@@ -80,7 +80,7 @@ const CountryRisk: React.FC = () => {
   const trend30Days = getTrend(percentChange30);
 
   return (
-    <div className="glass-strong border border-white/5 rounded-xl p-5 text-center shadow-lg w-full max-w-[320px] transition-all hover:border-accent-emerald/20">
+    <div className="glass-strong border border-white/5 rounded-xl p-5 text-center shadow-lg w-full max-w-7xl transition-all hover:border-accent-emerald/20">
       <h2 className="text-xs font-medium text-secondary flex items-center justify-center gap-1 uppercase tracking-wider">
         <FaChartLine className="text-accent-emerald text-sm" /> Riesgo País Argentina
       </h2>

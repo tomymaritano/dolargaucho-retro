@@ -58,12 +58,6 @@ export default function AnalisisPage() {
   return (
     <DashboardLayout>
       <div className="space-y-6">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold gradient-text mb-2">Análisis de Mercado</h1>
-          <p className="text-secondary">Visualizá las métricas clave del mercado argentino</p>
-        </div>
-
         {/* Indicadores Clave */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Brecha Cambiaria */}
@@ -73,7 +67,7 @@ export default function AnalisisPage() {
                 <div className="text-secondary text-sm mb-1 uppercase tracking-wider">
                   Brecha Blue
                 </div>
-                <div className="text-3xl font-bold text-white">
+                <div className="text-3xl font-bold text-foreground">
                   {brechas[0]?.brecha ? `${brechas[0].brecha.toFixed(1)}%` : '—'}
                 </div>
               </div>
@@ -94,7 +88,7 @@ export default function AnalisisPage() {
                 <div className="text-secondary text-sm mb-1 uppercase tracking-wider">
                   Inflación Mensual
                 </div>
-                <div className="text-3xl font-bold text-white">
+                <div className="text-3xl font-bold text-foreground">
                   {ultimaInflacion?.valor ? `${ultimaInflacion.valor.toFixed(1)}%` : '—'}
                 </div>
               </div>
@@ -123,7 +117,7 @@ export default function AnalisisPage() {
                 <div className="text-secondary text-sm mb-1 uppercase tracking-wider">
                   Riesgo País
                 </div>
-                <div className="text-3xl font-bold text-white">
+                <div className="text-3xl font-bold text-foreground">
                   {ultimoRiesgoPais?.valor ? `${ultimoRiesgoPais.valor.toFixed(0)} pb` : '—'}
                 </div>
               </div>
@@ -161,9 +155,9 @@ export default function AnalisisPage() {
                 <div key={brecha?.nombre} className="flex items-center gap-4">
                   <div className="flex-1">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-white font-semibold">{brecha?.nombre}</span>
+                      <span className="text-foreground font-semibold">{brecha?.nombre}</span>
                       <div className="text-right">
-                        <div className="text-lg font-bold text-white">
+                        <div className="text-lg font-bold text-foreground">
                           ${brecha?.valor?.toFixed(2) ?? '—'}
                         </div>
                         <div
@@ -176,7 +170,7 @@ export default function AnalisisPage() {
                         </div>
                       </div>
                     </div>
-                    <div className="relative h-2 bg-dark-light rounded-full overflow-hidden">
+                    <div className="relative h-2 bg-panel rounded-full overflow-hidden">
                       <div
                         className="absolute top-0 left-0 h-full bg-gradient-to-r from-accent-emerald to-accent-teal rounded-full transition-all"
                         style={{ width: `${Math.min(brecha?.brecha ?? 0, 100)}%` }}
@@ -215,10 +209,10 @@ export default function AnalisisPage() {
                 return (
                   <div
                     key={dolar.nombre}
-                    className="p-4 glass rounded-lg border border-white/10 hover:bg-white/5 transition-colors"
+                    className="p-4 glass rounded-lg hover:bg-white/5 transition-colors"
                   >
                     <div className="text-sm text-secondary mb-2">{dolar.nombre}</div>
-                    <div className="text-2xl font-bold text-white mb-2">
+                    <div className="text-2xl font-bold text-foreground mb-2">
                       ${dolar.venta.toFixed(2)}
                     </div>
                     {dolar.casa !== 'oficial' && (
@@ -245,15 +239,15 @@ export default function AnalisisPage() {
               <FaChartLine className="text-accent-emerald text-2xl" />
             </div>
             <div className="flex-1">
-              <h3 className="text-white font-semibold mb-2">Sobre este análisis</h3>
+              <h3 className="text-foreground font-semibold mb-2">Sobre este análisis</h3>
               <div className="text-secondary text-sm space-y-2">
                 <p>
-                  <strong className="text-white">Brecha Cambiaria:</strong> Es la diferencia
+                  <strong className="text-foreground">Brecha Cambiaria:</strong> Es la diferencia
                   porcentual entre el dólar oficial y los dólares paralelos (blue, MEP, CCL). Una
                   brecha alta indica restricciones en el mercado oficial.
                 </p>
                 <p>
-                  <strong className="text-white">Riesgo País:</strong> Mide la sobretasa que paga
+                  <strong className="text-foreground">Riesgo País:</strong> Mide la sobretasa que paga
                   Argentina respecto a bonos del tesoro de EE.UU. Un valor alto indica mayor
                   percepción de riesgo de default.
                 </p>

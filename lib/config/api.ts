@@ -11,6 +11,7 @@ export const API_CONFIG = {
       // Dollar endpoints
       dolares: '/dolares',
       dolarByType: (type: string) => `/dolares/${type}`,
+      dolarHistorico: (fecha: string) => `/dolares?fecha=${fecha}`,
 
       // Other currencies endpoints
       cotizaciones: '/cotizaciones',
@@ -22,6 +23,12 @@ export const API_CONFIG = {
   argentinaData: {
     baseUrl: 'https://api.argentinadatos.com/v1',
     endpoints: {
+      // Cotizaciones Históricas
+      cotizacionDolarHistorica: (casa: string, fecha: string) =>
+        `/cotizaciones/dolares/${casa}/${fecha}/`,
+      cotizacionCurrencyHistorica: (currency: string, fecha: string) =>
+        `/cotizaciones/${currency}/${fecha}/`,
+
       // Política - Senado
       senadores: '/senado/senadores',
       actasSenado: '/senado/actas',
@@ -75,48 +82,90 @@ export const API_CONFIG = {
   },
 } as const;
 
+/**
+ * Retry configuration for TanStack Query
+ * Implements exponential backoff strategy
+ */
+export const RETRY_CONFIG = {
+  // Maximum number of retry attempts
+  maxRetries: 3,
+
+  // Exponential backoff function
+  retryDelay: (attemptIndex: number) => {
+    // Exponential backoff: 1s, 2s, 4s
+    return Math.min(1000 * 2 ** attemptIndex, 30000);
+  },
+
+  // Determine if error should be retried
+  shouldRetry: (failureCount: number, error: unknown) => {
+    // Don't retry on 4xx errors (client errors)
+    if (error instanceof Error && error.message.includes('HTTP 4')) {
+      return false;
+    }
+
+    // Retry on network errors and 5xx server errors
+    return failureCount < 3;
+  },
+} as const;
+
 export const CACHE_CONFIG = {
   // Real-time data (30 seconds)
   dolar: {
     staleTime: 30 * 1000,
     refetchInterval: 30 * 1000,
+    retry: RETRY_CONFIG.maxRetries,
+    retryDelay: RETRY_CONFIG.retryDelay,
   },
 
   // Economic indices (1 hour)
   inflacion: {
     staleTime: 60 * 60 * 1000,
     refetchInterval: false,
+    retry: RETRY_CONFIG.maxRetries,
+    retryDelay: RETRY_CONFIG.retryDelay,
   },
   riesgoPais: {
     staleTime: 60 * 60 * 1000,
     refetchInterval: false,
+    retry: RETRY_CONFIG.maxRetries,
+    retryDelay: RETRY_CONFIG.retryDelay,
   },
   indiceUVA: {
     staleTime: 60 * 60 * 1000,
     refetchInterval: false,
+    retry: RETRY_CONFIG.maxRetries,
+    retryDelay: RETRY_CONFIG.retryDelay,
   },
 
   // Interest rates (1 hour)
   tasas: {
     staleTime: 60 * 60 * 1000,
     refetchInterval: false,
+    retry: RETRY_CONFIG.maxRetries,
+    retryDelay: RETRY_CONFIG.retryDelay,
   },
 
   // Investment funds (15 minutes)
   fci: {
     staleTime: 15 * 60 * 1000,
     refetchInterval: false,
+    retry: RETRY_CONFIG.maxRetries,
+    retryDelay: RETRY_CONFIG.retryDelay,
   },
 
   // Political data (1 day)
   politica: {
     staleTime: 24 * 60 * 60 * 1000,
     refetchInterval: false,
+    retry: RETRY_CONFIG.maxRetries,
+    retryDelay: RETRY_CONFIG.retryDelay,
   },
 
   // Events (1 day)
   eventos: {
     staleTime: 24 * 60 * 60 * 1000,
     refetchInterval: false,
+    retry: RETRY_CONFIG.maxRetries,
+    retryDelay: RETRY_CONFIG.retryDelay,
   },
 } as const;

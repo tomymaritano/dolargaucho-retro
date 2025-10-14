@@ -1,19 +1,42 @@
 'use client';
 
-import React from 'react';
-import { useCotizaciones } from '@/hooks/useCotizaciones';
+import React, { useState } from 'react';
+import { useCotizacionesWithVariations } from '@/hooks/useCotizaciones';
+import { useFavoritesStore } from '@/lib/store/favorites';
 import { Card } from '@/components/ui/Card';
-import { FaEuroSign, FaCoins, FaGlobeAmericas } from 'react-icons/fa';
-
-const currencyIcons: Record<string, React.ReactNode> = {
-  EUR: <FaEuroSign className="text-2xl" />,
-  BRL: <FaGlobeAmericas className="text-2xl text-green-500" />,
-  CLP: <FaGlobeAmericas className="text-2xl text-blue-500" />,
-  UYU: <FaGlobeAmericas className="text-2xl text-blue-400" />,
-};
+import { FaStar, FaRegStar, FaArrowUp, FaArrowDown, FaMinus, FaCopy, FaShareAlt, FaCheckCircle } from 'react-icons/fa';
+import { logger } from '@/lib/utils/logger';
 
 const CotizacionesInternacionales: React.FC = () => {
-  const { data, isLoading, error } = useCotizaciones();
+  const { data, isLoading, error } = useCotizacionesWithVariations();
+  const { currencies: favoriteCurrencyIds, toggleCurrency } = useFavoritesStore();
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  const handleCopy = async (cotizacion: typeof data[0]) => {
+    try {
+      await navigator.clipboard.writeText(
+        `${cotizacion.nombre}: Compra $${cotizacion.compra.toFixed(2)} | Venta $${cotizacion.venta.toFixed(2)}`
+      );
+      setCopiedId(cotizacion.moneda);
+      setTimeout(() => setCopiedId(null), 2000);
+    } catch (error) {
+      logger.error('Error al copiar cotización', error, { component: 'CotizacionesInternacionales', moneda: cotizacion.moneda });
+    }
+  };
+
+  const handleShare = async (cotizacion: typeof data[0]) => {
+    if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
+      try {
+        await navigator.share({
+          title: `Cotización ${cotizacion.nombre}`,
+          text: `${cotizacion.nombre}: Compra $${cotizacion.compra.toFixed(2)} | Venta $${cotizacion.venta.toFixed(2)}`,
+          url: window.location.href,
+        });
+      } catch (error) {
+        logger.error('Error al compartir cotización', error, { component: 'CotizacionesInternacionales', moneda: cotizacion.moneda });
+      }
+    }
+  };
 
   if (isLoading) {
     return (
@@ -45,49 +68,108 @@ const CotizacionesInternacionales: React.FC = () => {
         <p className="text-secondary text-sm">Otras monedas en el mercado argentino</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {data?.map((cotizacion) => (
-          <Card key={cotizacion.moneda} variant="elevated" padding="md" hover="glow">
-            <div className="flex items-start justify-between mb-4">
-              <div className="p-3 glass rounded-xl border border-accent-emerald/20">
-                {currencyIcons[cotizacion.moneda] || <FaCoins className="text-2xl" />}
-              </div>
-              <span className="text-xs text-secondary px-2 py-1 glass rounded uppercase">
-                {cotizacion.moneda}
-              </span>
-            </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {data?.map((cotizacion) => {
+          const isFavorite = favoriteCurrencyIds.includes(cotizacion.moneda);
+          const { trend, percentage, previousValue } = cotizacion.variation;
 
-            <h3 className="font-bold text-lg mb-1">{cotizacion.nombre}</h3>
-            <p className="text-xs text-secondary mb-4">{cotizacion.casa}</p>
+          const TrendIcon = trend === 'up' ? FaArrowUp : trend === 'down' ? FaArrowDown : FaMinus;
+          const trendColor = trend === 'up' ? 'text-error' : trend === 'down' ? 'text-success' : 'text-warning';
+          const trendBg = trend === 'up' ? 'bg-error/10' : trend === 'down' ? 'bg-success/10' : 'bg-warning/10';
 
-            <div className="grid grid-cols-2 gap-3">
-              <div className="glass bg-accent-emerald/5 p-3 rounded-lg border border-accent-emerald/10">
-                <p className="text-[10px] text-secondary mb-1 uppercase tracking-wider">Compra</p>
-                <p className="font-mono font-bold text-accent-emerald text-base">
-                  ${cotizacion.compra.toFixed(2)}
-                </p>
+          return (
+            <Card key={cotizacion.moneda} variant="elevated" padding="lg" hover="glow">
+              {/* Header: Name + Favorite */}
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex-1">
+                  <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider">
+                    {cotizacion.nombre}
+                  </h3>
+                </div>
+                <button
+                  onClick={() => toggleCurrency(cotizacion.moneda)}
+                  className={`p-2 rounded-lg transition-all ${
+                    isFavorite
+                      ? 'bg-accent-emerald/20 text-accent-emerald'
+                      : 'glass text-secondary hover:text-accent-emerald hover:bg-white/5'
+                  }`}
+                  aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+                >
+                  {isFavorite ? <FaStar className="text-sm" /> : <FaRegStar className="text-sm" />}
+                </button>
               </div>
-              <div className="glass bg-accent-teal/5 p-3 rounded-lg border border-accent-teal/10">
-                <p className="text-[10px] text-secondary mb-1 uppercase tracking-wider">Venta</p>
-                <p className="font-mono font-bold text-accent-teal text-base">
+
+              {/* Main Price - Venta destacado + Variation */}
+              <div className="mb-4">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-xs text-secondary">Precio de Venta</p>
+                  {previousValue && (
+                    <div
+                      className={`flex items-center gap-1 px-2 py-1 rounded-lg ${trendBg} ${trendColor}`}
+                      title={`Ayer: $${previousValue.toFixed(2)}`}
+                    >
+                      <TrendIcon className="text-[10px]" />
+                      <span className="text-[10px] font-bold tabular-nums">
+                        {percentage.toFixed(2)}%
+                      </span>
+                    </div>
+                  )}
+                </div>
+                <p className="text-4xl font-bold text-accent-emerald tabular-nums">
                   ${cotizacion.venta.toFixed(2)}
                 </p>
               </div>
-            </div>
 
-            <div className="mt-3 pt-3 border-t border-white/5">
-              <p className="text-[10px] text-secondary text-center">
-                {new Date(cotizacion.fechaActualizacion).toLocaleString('es-AR', {
-                  day: '2-digit',
-                  month: '2-digit',
-                  year: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                })}
-              </p>
-            </div>
-          </Card>
-        ))}
+              {/* Secondary Info Grid */}
+              <div className="grid grid-cols-2 gap-3 mb-4">
+                <div className="p-3 rounded-lg bg-panel/50 border border-border">
+                  <p className="text-[10px] text-secondary uppercase tracking-wider mb-1">Compra</p>
+                  <p className="text-lg font-bold text-foreground tabular-nums">
+                    ${cotizacion.compra.toFixed(2)}
+                  </p>
+                </div>
+                <div className="p-3 rounded-lg bg-panel/50 border border-border">
+                  <p className="text-[10px] text-secondary uppercase tracking-wider mb-1">Diferencia</p>
+                  <div className="flex items-center gap-1">
+                    <p className="text-lg font-bold text-foreground tabular-nums">
+                      ${(cotizacion.venta - cotizacion.compra).toFixed(2)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="flex gap-2 pt-3 border-t border-border">
+                <button
+                  onClick={() => handleCopy(cotizacion)}
+                  className="flex-1 px-3 py-2 rounded-lg glass hover:bg-accent-emerald/10 transition-all text-secondary hover:text-accent-emerald flex items-center justify-center gap-2 text-xs font-medium"
+                  title="Copiar cotización"
+                >
+                  {copiedId === cotizacion.moneda ? (
+                    <>
+                      <FaCheckCircle className="text-accent-emerald" />
+                      Copiado
+                    </>
+                  ) : (
+                    <>
+                      <FaCopy />
+                      Copiar
+                    </>
+                  )}
+                </button>
+                {typeof navigator !== 'undefined' && typeof navigator.share === 'function' && (
+                  <button
+                    onClick={() => handleShare(cotizacion)}
+                    className="px-3 py-2 rounded-lg glass hover:bg-accent-emerald/10 transition-all text-secondary hover:text-accent-emerald"
+                    title="Compartir cotización"
+                  >
+                    <FaShareAlt className="text-sm" />
+                  </button>
+                )}
+              </div>
+            </Card>
+          );
+        })}
       </div>
     </div>
   );

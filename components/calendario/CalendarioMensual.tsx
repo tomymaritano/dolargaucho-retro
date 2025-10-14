@@ -210,7 +210,7 @@ export function CalendarioMensual({
               {/* Tooltip con info */}
               {(dia.esFeriado || dia.tieneEvento) && !dia.esOtroMes && (
                 <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-10 pointer-events-none">
-                  <div className="glass-strong border border-white/20 rounded-lg p-2 text-xs whitespace-nowrap">
+                  <div className="glass-strong border border-border rounded-lg p-2 text-xs whitespace-nowrap">
                     {dia.feriados.map((f) => (
                       <div key={f.fecha} className="text-accent-emerald">
                         📅 {f.nombre}
@@ -230,7 +230,7 @@ export function CalendarioMensual({
       </div>
 
       {/* Leyenda */}
-      <div className="flex items-center justify-center gap-6 mt-6 pt-6 border-t border-white/10">
+      <div className="flex items-center justify-center gap-6 mt-6 pt-6 border-t border-border">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-accent-emerald" />
           <span className="text-sm text-secondary">Feriado</span>

@@ -42,6 +42,6 @@ describe('Card Component', () => {
         <p>Test</p>
       </Card>
     );
-    expect(container.firstChild).toHaveClass('shadow-2xl');
+    expect(container.firstChild).toHaveClass('glass-strong');
   });
 });

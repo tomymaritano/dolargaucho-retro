@@ -3,6 +3,7 @@
 // For new code, use hooks/useDolarQuery.ts instead
 
 import { useDolarQuery } from './useDolarQuery';
+import { logger } from '@/lib/utils/logger';
 
 export type DolarType = {
   moneda: string;
@@ -23,13 +24,13 @@ const useDolar = () => {
 
   // Historical data function (not using React Query for now)
   const fetchHistoricalData = async (date: Date) => {
+    const formattedDate = date.toISOString().split('T')[0];
     try {
-      const formattedDate = date.toISOString().split('T')[0];
       const response = await fetch(`https://api.dolarapi.com/v1/dolares?fecha=${formattedDate}`);
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error('Error al obtener datos históricos', error);
+      logger.error('Error al obtener datos históricos', error, { hook: 'useDolar', date: formattedDate });
       return [];
     }
   };

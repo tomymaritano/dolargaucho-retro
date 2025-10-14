@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import useDolar from '@/hooks/useDolar';
+import { useDolarQuery } from '@/hooks/useDolarQuery';
 import { FaExchangeAlt, FaChevronDown, FaShareAlt } from 'react-icons/fa';
+import { logger } from '@/lib/utils/logger';
 
 const CurrencyConverter: React.FC = () => {
-  const { dolar, loading, error } = useDolar();
+  const { data: dolar = [], isLoading: loading, error } = useDolarQuery();
   const [amount, setAmount] = useState(1000);
   const [selectedCurrency, setSelectedCurrency] = useState<string>('Oficial');
   const [conversionType, setConversionType] = useState<'buy' | 'sell'>('buy');
@@ -29,7 +30,7 @@ const CurrencyConverter: React.FC = () => {
           url: window.location.href,
         });
       } catch (error) {
-        console.error('Error al compartir:', error);
+        logger.error('Error al compartir conversión', error, { component: 'CurrencyConverter', currency: selectedCurrency });
       }
     } else {
       alert('Tu navegador no soporta la función de compartir.');
@@ -37,7 +38,7 @@ const CurrencyConverter: React.FC = () => {
   };
 
   return (
-    <div className="p-6 m-6 glass-strong border border-white/5 shadow-xl rounded-2xl max-w-lg w-full font-sans text-white">
+    <div className="p-6 m-6 glass-strong border border-white/5 shadow-xl rounded-2xl max-w-7xl w-full font-sans text-white">
       {loading && <p className="text-secondary text-center text-sm">Cargando cotizaciones...</p>}
       {error && <p className="text-error text-center text-sm">Error al cargar datos</p>}
 

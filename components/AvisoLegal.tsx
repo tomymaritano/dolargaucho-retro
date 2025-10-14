@@ -7,7 +7,7 @@ interface AvisoLegalProps {
 export default function AvisoLegal({ onClose }: AvisoLegalProps) {
   return (
     <div className="min-h-screen bg-black bg-opacity-50 backdrop-blur-xl flex items-center justify-center z-50">
-      <div className="glass-strong p-10 rounded-2xl relative max-w-3xl w-full mx-4 shadow-2xl border border-white/10">
+      <div className="glass-strong p-10 rounded-2xl relative max-w-7xl w-full mx-4 shadow-2xl border border-white/10">
         {/* Botón cerrar */}
         <button
           onClick={onClose}

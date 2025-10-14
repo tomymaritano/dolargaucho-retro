@@ -1,6 +1,7 @@
 import type { Config } from 'tailwindcss';
 
 export default {
+  darkMode: 'class', // Enable class-based dark mode
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -9,21 +10,53 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: 'var(--background)',
-        foreground: 'var(--foreground)',
+        // Background colors
+        background: {
+          DEFAULT: 'var(--background)',
+          light: '#FFFFFF',
+          dark: '#0A0E27',
+        },
+        foreground: {
+          DEFAULT: 'var(--foreground)',
+          light: '#1A1A1A',
+          dark: '#F8F9FA',
+        },
+
+        // Panel/Card backgrounds
+        panel: {
+          DEFAULT: 'var(--panel)',
+          light: '#F9FAFB',
+          dark: '#1A1F3A',
+        },
+        'panel-hover': {
+          light: '#F3F4F6',
+          dark: '#12172E',
+        },
+
+        // Legacy support (mantener por compatibilidad)
         dark: {
           DEFAULT: '#0A0E27',
           light: '#12172E',
           lighter: '#1A1F3A',
         },
-        panel: '#1A1F3A',
+
+        // Text colors
         primary: {
-          DEFAULT: '#F8F9FA',
-          dark: '#E8E9EA',
+          DEFAULT: 'var(--text-primary)',
+          light: '#111827',
+          dark: '#F8F9FA',
         },
         secondary: {
-          DEFAULT: '#6B7280',
-          light: '#9CA3AF',
+          DEFAULT: 'var(--text-secondary)',
+          light: '#6B7280',
+          dark: '#9CA3AF',
+        },
+
+        // Borders
+        border: {
+          DEFAULT: 'var(--border)',
+          light: '#E5E7EB',
+          dark: 'rgba(255, 255, 255, 0.1)',
         },
         accent: {
           emerald: '#10B981',
@@ -33,13 +66,32 @@ export default {
           slate: '#64748B',
           gold: '#F59E0B',
         },
-        success: '#10B981',
-        warning: '#F59E0B',
-        error: '#EF4444',
-        info: '#3B82F6',
+        // Semantic colors
+        success: {
+          DEFAULT: '#10B981',
+          light: '#059669',
+          dark: '#34D399',
+        },
+        error: {
+          DEFAULT: '#EF4444',
+          light: '#DC2626',
+          dark: '#F87171',
+        },
+        warning: {
+          DEFAULT: '#F59E0B',
+          light: '#D97706',
+          dark: '#FBBF24',
+        },
+        info: {
+          DEFAULT: '#3B82F6',
+          light: '#2563EB',
+          dark: '#60A5FA',
+        },
+
+        // Glass effect
         glass: {
-          light: 'rgba(255, 255, 255, 0.05)',
-          dark: 'rgba(0, 0, 0, 0.3)',
+          light: 'rgba(0, 0, 0, 0.05)',
+          dark: 'rgba(255, 255, 255, 0.05)',
         },
       },
       fontFamily: {

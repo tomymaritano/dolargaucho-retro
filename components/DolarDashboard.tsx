@@ -85,7 +85,7 @@ export function DolarDashboard() {
               <h3 className="text-sm uppercase tracking-wider text-secondary mb-2">
                 {selectedDolar.nombre}
               </h3>
-              <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
+              <div className="grid grid-cols-2 gap-4 max-w-7xl mx-auto">
                 <div>
                   <p className="text-xs text-secondary mb-1">Compra</p>
                   <p className="text-2xl font-mono font-bold text-accent-emerald">

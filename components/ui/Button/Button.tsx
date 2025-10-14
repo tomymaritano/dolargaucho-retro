@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils/cn';
 
@@ -7,12 +8,12 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary: 'bg-accent-emerald text-dark hover:bg-accent-teal focus:ring-accent-emerald',
-        secondary: 'glass border border-white/5 text-white hover:bg-white/10 focus:ring-white',
+        primary: 'bg-accent-emerald text-background hover:bg-accent-teal focus:ring-accent-emerald',
+        secondary: 'glass border border-border text-foreground hover:bg-white/10 focus:ring-accent-emerald/20',
         outline:
           'border-2 border-accent-emerald text-accent-emerald hover:bg-accent-emerald/10 focus:ring-accent-emerald',
         ghost: 'text-accent-emerald hover:bg-accent-emerald/10',
-        danger: 'bg-error text-white hover:bg-error/90 focus:ring-error',
+        danger: 'bg-error text-foreground hover:bg-error/90 focus:ring-error',
       },
       size: {
         xs: 'px-2 py-1 text-xs',
@@ -41,7 +42,7 @@ export interface ButtonProps
   isLoading?: boolean;
 }
 
-export function Button({
+export const Button = memo(function Button({
   className,
   variant,
   size,
@@ -63,4 +64,4 @@ export function Button({
       {children}
     </button>
   );
-}
+});

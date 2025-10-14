@@ -166,7 +166,7 @@ export function AlertsList({ alertas, onEliminar, onToggle, getValorActual }: Al
 
                 {/* Mensaje personalizado */}
                 {alerta.mensaje && (
-                  <div className="mt-3 p-3 glass rounded-lg border border-white/10">
+                  <div className="mt-3 p-3 glass rounded-lg border border-border">
                     <p className="text-sm text-white italic">&quot;{alerta.mensaje}&quot;</p>
                   </div>
                 )}

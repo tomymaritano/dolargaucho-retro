@@ -22,6 +22,6 @@
       }
     ]
   },
-  "include": ["**/*.ts", "**/*.tsx", "next-env.d.ts", "pages/index.tsx", ".next/types/**/*.ts"],
+  "include": ["**/*.ts", "**/*.tsx", "next-env.d.ts", "jest-dom.d.ts", "pages/index.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules", "docs"]
 }

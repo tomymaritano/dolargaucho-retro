@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import emailjs from '@emailjs/nodejs'; // Versión segura para backend
+import { logger } from '@/lib/utils/logger';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -22,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     return res.status(200).json({ message: 'Email enviado con éxito', response });
   } catch (error) {
-    console.error('Error enviando email:', error);
+    logger.error('Error enviando email', error, { api: 'sendEmail', email });
     return res.status(500).json({ error: 'Error al enviar el email' });
   }
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ThemeProvider } from '@/lib/contexts/ThemeContext';
 import { InflacionChart } from '@/components/charts/InflacionChart';
 
 // Mock de recharts
@@ -30,39 +31,44 @@ describe('InflacionChart', () => {
   it('renders loading state', () => {
     const queryClient = createTestQueryClient();
 
-    render(
-      <QueryClientProvider client={queryClient}>
-        <InflacionChart />
-      </QueryClientProvider>
+    const { container } = render(
+      <ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <InflacionChart />
+        </QueryClientProvider>
+      </ThemeProvider>
     );
 
-    // Debería mostrar spinner o estado de carga
-    const spinner = screen.queryByRole('status') || screen.queryByText(/cargando/i);
-    expect(spinner || screen.getByTestId).toBeTruthy();
+    // Verificar que el componente se renderiza
+    expect(container.firstChild).toBeTruthy();
   });
 
   it('renders with default props', () => {
     const queryClient = createTestQueryClient();
 
-    render(
-      <QueryClientProvider client={queryClient}>
-        <InflacionChart />
-      </QueryClientProvider>
+    const { container } = render(
+      <ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <InflacionChart />
+        </QueryClientProvider>
+      </ThemeProvider>
     );
 
     // Verificar que el componente se renderiza
-    expect(screen.getByTestId).toBeTruthy();
+    expect(container.firstChild).toBeTruthy();
   });
 
   it('renders with showInteranual prop', () => {
     const queryClient = createTestQueryClient();
 
-    render(
-      <QueryClientProvider client={queryClient}>
-        <InflacionChart showInteranual={true} />
-      </QueryClientProvider>
+    const { container } = render(
+      <ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <InflacionChart showInteranual={true} />
+        </QueryClientProvider>
+      </ThemeProvider>
     );
 
-    expect(screen.getByTestId).toBeTruthy();
+    expect(container.firstChild).toBeTruthy();
   });
 });

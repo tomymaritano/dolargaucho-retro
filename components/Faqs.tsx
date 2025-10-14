@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { FaChevronDown, FaQuestionCircle } from 'react-icons/fa';
+import Link from 'next/link';
+import { FaChevronDown } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const faqs = [
@@ -33,32 +34,34 @@ const Faqs: React.FC = () => {
   };
 
   return (
-    <section className="w-full py-20 bg-dark text-white border-t border-accent-emerald/10">
-      <div className="max-w-3xl mx-auto px-6">
+    <section className="w-full py-20 bg-background text-foreground border-t border-border">
+      <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 mb-4">
-            <FaQuestionCircle className="text-accent-emerald text-xl" />
-            <span className="text-xs uppercase tracking-wider text-secondary font-semibold">
-              FAQ
-            </span>
-          </div>
           <h2 className="text-3xl md:text-4xl font-display font-bold mb-3">
             Preguntas <span className="gradient-text">Frecuentes</span>
           </h2>
-          <p className="text-secondary text-sm">Respuestas a las consultas más comunes</p>
+          <p className="text-secondary text-sm mb-4">
+            Respuestas a las consultas más comunes
+          </p>
+          <Link
+            href="/help"
+            className="inline-flex items-center gap-2 text-sm text-accent-emerald hover:text-accent-teal transition-colors font-medium"
+          >
+            Ver todas las preguntas en Help Center →
+          </Link>
         </div>
 
         <div className="space-y-3">
           {faqs.map((faq, index) => (
             <div
               key={index}
-              className="glass-strong border border-white/5 rounded-xl overflow-hidden hover:border-accent-emerald/20 transition-all"
+              className="glass-strong border border-border rounded-xl overflow-hidden hover:border-accent-emerald/30 transition-all"
             >
               <button
-                className="w-full text-left px-6 py-4 flex justify-between items-center transition-all"
+                className="w-full text-left px-6 py-4 flex justify-between items-center transition-all hover:bg-accent-emerald/5"
                 onClick={() => toggleFaq(index)}
               >
-                <span className="text-white font-medium text-sm pr-4">{faq.question}</span>
+                <span className="text-foreground font-medium text-sm pr-4">{faq.question}</span>
                 <FaChevronDown
                   className={`text-accent-emerald transition-transform flex-shrink-0 text-sm ${
                     openIndex === index ? 'rotate-180' : 'rotate-0'
@@ -75,7 +78,7 @@ const Faqs: React.FC = () => {
                     transition={{ duration: 0.2 }}
                     className="overflow-hidden"
                   >
-                    <div className="px-6 pb-4 pt-2 text-secondary text-sm leading-relaxed border-t border-white/5">
+                    <div className="px-6 pb-4 pt-2 text-secondary text-sm leading-relaxed border-t border-border">
                       {faq.answer}
                     </div>
                   </motion.div>

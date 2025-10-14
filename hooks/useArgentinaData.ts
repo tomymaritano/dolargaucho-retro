@@ -1,6 +1,21 @@
-import { useState, useEffect } from 'react';
+/**
+ * @deprecated Este hook está deprecado y será removido en futuras versiones.
+ * Use los hooks específicos de /hooks/useFinanzas.ts, /hooks/usePolitica.ts, etc.
+ * Las URLs ahora están centralizadas en /lib/config/api.ts
+ *
+ * Migración recomendada:
+ * - Para inflación: useInflacionMensual(), useInflacionInteranual()
+ * - Para UVA: useIndiceUVA()
+ * - Para riesgo país: useRiesgoPais()
+ * - Para senadores/diputados: useSenadores(), useDiputados()
+ * - Para FCI: useFCIMercadoDinero(), useFCIRentaVariable(), etc.
+ */
 
-const BASE_URL = 'https://api.argentinadatos.com/v1/';
+import { useState, useEffect } from 'react';
+import { API_CONFIG } from '@/lib/config/api';
+import { logger } from '@/lib/utils/logger';
+
+const BASE_URL = API_CONFIG.argentinaData.baseUrl;
 
 export type ArgentinaDataType = {
   feriados: any[] | null;
@@ -29,6 +44,15 @@ export type ArgentinaDataType = {
 };
 
 const useArgentinaData = () => {
+  // Show deprecation warning in development
+  if (process.env.NODE_ENV === 'development') {
+    console.warn(
+      '[DEPRECATED] useArgentinaData está deprecado. ' +
+      'Use hooks específicos: useInflacionMensual, useSenadores, useFCIMercadoDinero, etc. ' +
+      'Ver: /hooks/useFinanzas.ts, /hooks/usePolitica.ts'
+    );
+  }
+
   const [data, setData] = useState<ArgentinaDataType>({
     feriados: null,
     eventosPresidenciales: null,
@@ -96,7 +120,7 @@ const useArgentinaData = () => {
               const json = await response.json();
               return [key, json];
             } catch (err) {
-              console.error(`❌ Error en API (${endpoint}):`, err);
+              logger.error('Error en API ArgentinaData', err, { hook: 'useArgentinaData', endpoint, key });
               return [key, null]; // Retorna `null` si hay error en esa request
             }
           })

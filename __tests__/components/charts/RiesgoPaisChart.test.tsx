@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ThemeProvider } from '@/lib/contexts/ThemeContext';
 import { RiesgoPaisChart } from '@/components/charts/RiesgoPaisChart';
 
 // Mock de recharts
@@ -29,24 +30,28 @@ describe('RiesgoPaisChart', () => {
   it('renders loading state', () => {
     const queryClient = createTestQueryClient();
 
-    render(
-      <QueryClientProvider client={queryClient}>
-        <RiesgoPaisChart />
-      </QueryClientProvider>
+    const { container } = render(
+      <ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <RiesgoPaisChart />
+        </QueryClientProvider>
+      </ThemeProvider>
     );
 
-    expect(screen.getByTestId).toBeTruthy();
+    expect(container.firstChild).toBeTruthy();
   });
 
   it('renders with custom limit', () => {
     const queryClient = createTestQueryClient();
 
-    render(
-      <QueryClientProvider client={queryClient}>
-        <RiesgoPaisChart limit={60} />
-      </QueryClientProvider>
+    const { container } = render(
+      <ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <RiesgoPaisChart limit={60} />
+        </QueryClientProvider>
+      </ThemeProvider>
     );
 
-    expect(screen.getByTestId).toBeTruthy();
+    expect(container.firstChild).toBeTruthy();
   });
 });

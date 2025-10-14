@@ -1,0 +1,47 @@
+# Dólar Gaucho - Claude Code Configuration
+
+## Project Context
+docs/PROJECT_OVERVIEW.md
+README.md
+package.json
+tailwind.config.ts
+tsconfig.json
+
+## Key Implementation Files
+lib/config/api.ts
+app/providers.tsx
+lib/store/favorites.ts
+lib/store/alertas.ts
+lib/contexts/ThemeContext.tsx
+
+## Type Definitions
+types/api/dolar.ts
+types/api/argentina.ts
+types/alertas.ts
+types/user.ts
+
+## Core Hooks
+hooks/useDolarQuery.ts
+hooks/useDolarVariations.ts
+hooks/useCotizaciones.ts
+hooks/useInflacion.ts
+hooks/usePolitica.ts
+hooks/useFinanzas.ts
+hooks/useEventos.ts
+
+## Main Pages
+pages/dashboard/index.tsx
+pages/dashboard/favoritos.tsx
+pages/dashboard/analisis.tsx
+pages/dashboard/politica.tsx
+pages/dashboard/finanzas.tsx
+
+## UI Components
+components/ui/Card/Card.tsx
+components/ui/Button/Button.tsx
+components/ui/NavbarPro/NavbarPro.tsx
+components/layouts/DashboardLayout.tsx
+components/layouts/UnifiedNavbar.tsx
+
+## Styling
+styles/globals.css

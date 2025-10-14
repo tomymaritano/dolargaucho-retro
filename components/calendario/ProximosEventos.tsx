@@ -120,7 +120,7 @@ export function ProximosEventos({ feriados, eventos, limit = 10 }: ProximosEvent
               className={`p-4 rounded-lg transition-colors ${
                 evento.tipo === 'feriado'
                   ? 'bg-accent-emerald/10 border border-accent-emerald/30'
-                  : 'glass border border-white/10'
+                  : 'glass border border-border'
               } hover:bg-white/5`}
             >
               <div className="flex items-start justify-between gap-4">

@@ -11,14 +11,20 @@ import {
 } from 'recharts';
 import { useTasaPlazoFijo } from '@/hooks/useFinanzas';
 import { Card } from '@/components/ui/Card/Card';
-import { FaSpinner, FaUniversity } from 'react-icons/fa';
+import { FaSpinner, FaUniversity, FaStar, FaRegStar } from 'react-icons/fa';
+import { useChartTheme } from '@/lib/hooks/useChartTheme';
 
 interface TasasChartProps {
   limit?: number;
+  // Favorite props (optional)
+  isFavorite?: boolean;
+  onToggleFavorite?: () => void;
+  chartId?: string;
 }
 
-export function TasasChart({ limit = 10 }: TasasChartProps) {
+export function TasasChart({ limit = 10, isFavorite, onToggleFavorite, chartId }: TasasChartProps) {
   const { data: tasas, isLoading } = useTasaPlazoFijo();
+  const chartTheme = useChartTheme();
 
   const chartData = React.useMemo(() => {
     if (!tasas) return [];
@@ -58,46 +64,61 @@ export function TasasChart({ limit = 10 }: TasasChartProps) {
   return (
     <Card variant="elevated" padding="lg">
       <Card.Header>
-        <div className="flex items-center gap-3">
-          <div className="p-3 glass rounded-xl">
-            <FaUniversity className="text-accent-emerald text-xl" />
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="p-3 glass rounded-xl">
+              <FaUniversity className="text-accent-emerald text-xl" />
+            </div>
+            <div>
+              <Card.Title>Tasas de Plazo Fijo - Top {limit} Bancos</Card.Title>
+              <p className="text-sm text-secondary mt-1">
+                Ordenadas por TNA para clientes (mayor a menor)
+              </p>
+            </div>
           </div>
-          <div>
-            <Card.Title>Tasas de Plazo Fijo - Top {limit} Bancos</Card.Title>
-            <p className="text-sm text-secondary mt-1">
-              Ordenadas por TNA para clientes (mayor a menor)
-            </p>
-          </div>
+          {onToggleFavorite && (
+            <button
+              onClick={onToggleFavorite}
+              className={`p-2 rounded-lg transition-all ${
+                isFavorite
+                  ? 'bg-accent-emerald/20 text-accent-emerald'
+                  : 'glass text-secondary hover:text-accent-emerald hover:bg-white/5'
+              }`}
+              aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+            >
+              {isFavorite ? <FaStar className="text-lg" /> : <FaRegStar className="text-lg" />}
+            </button>
+          )}
         </div>
       </Card.Header>
 
       <Card.Content>
         <ResponsiveContainer width="100%" height={400}>
           <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 80 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.1)" />
+            <CartesianGrid strokeDasharray="3 3" stroke={chartTheme.gridColor} />
             <XAxis
               dataKey="entidad"
-              stroke="rgba(255, 255, 255, 0.5)"
+              stroke={chartTheme.axisColor}
               style={{ fontSize: '11px' }}
               angle={-45}
               textAnchor="end"
               height={100}
             />
             <YAxis
-              stroke="rgba(255, 255, 255, 0.5)"
+              stroke={chartTheme.axisColor}
               style={{ fontSize: '12px' }}
               tickFormatter={(value) => `${value}%`}
             />
             <Tooltip
               contentStyle={{
-                backgroundColor: 'rgba(17, 24, 39, 0.95)',
-                border: '1px solid rgba(16, 185, 129, 0.3)',
+                backgroundColor: chartTheme.tooltipBg,
+                border: `1px solid ${chartTheme.tooltipBorder}`,
                 borderRadius: '8px',
-                color: '#fff',
+                color: chartTheme.tooltipColor,
               }}
               formatter={(value: number) => [`${value}%`, '']}
             />
-            <Legend wrapperStyle={{ color: '#fff' }} />
+            <Legend wrapperStyle={{ color: chartTheme.tooltipColor }} />
             <Bar dataKey="tnaClientes" fill="#10b981" name="TNA Clientes" radius={[4, 4, 0, 0]} />
             <Bar
               dataKey="tnaNoClientes"

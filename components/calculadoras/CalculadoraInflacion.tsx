@@ -1,17 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
-import { FaCalendarAlt, FaMoneyBillWave, FaChevronDown, FaCalculator } from 'react-icons/fa';
+import { FaCalendarAlt, FaChevronDown } from 'react-icons/fa';
 import { Chart, registerables, TooltipItem } from 'chart.js';
+import {
+  CalculatorLayout,
+  CalculatorInput,
+  CalculatorResultCard,
+  CalculatorModeToggle,
+  CalculatorInfoBanner,
+  CalculatorChartContainer,
+} from './CalculatorLayout';
+import { logger } from '@/lib/utils/logger';
 
 Chart.register(...registerables);
 
-export default function CalculadoraInflacion() {
+interface CalculadoraInflacionProps {
+  showHeader?: boolean;
+}
+
+export default function CalculadoraInflacion({ showHeader = true }: CalculadoraInflacionProps) {
   const [initialAmount, setInitialAmount] = useState(1000);
   const [inflationRate, setInflationRate] = useState<number>(84.5);
   const [years, setYears] = useState(5);
   const [futureValues, setFutureValues] = useState<number[]>([]);
   const [loading, setLoading] = useState(true);
   const [showExplanation, setShowExplanation] = useState(false);
+  const [useCustomDate, setUseCustomDate] = useState(false);
+  const [startDate, setStartDate] = useState<string>('');
+  const [historicalRate, setHistoricalRate] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchInflationRate = async () => {
@@ -25,7 +41,7 @@ export default function CalculadoraInflacion() {
           setInflationRate(lastValue.valor);
         }
       } catch (error) {
-        console.error('Error al obtener la inflación:', error);
+        logger.error('Error al obtener la inflación', error, { component: 'CalculadoraInflacion', endpoint: 'inflacionInteranual' });
       } finally {
         setLoading(false);
       }
@@ -34,13 +50,54 @@ export default function CalculadoraInflacion() {
     fetchInflationRate();
   }, []);
 
+  // Fetch historical inflation if custom date is used
   useEffect(() => {
+    if (!useCustomDate || !startDate) {
+      setHistoricalRate(null);
+      return;
+    }
+
+    const fetchHistoricalRate = async () => {
+      try {
+        const response = await fetch(
+          'https://api.argentinadatos.com/v1/finanzas/indices/inflacionInteranual'
+        );
+        const data = await response.json();
+
+        if (Array.isArray(data) && data.length > 0) {
+          // Find the rate closest to the selected date
+          const selectedDate = new Date(startDate);
+          const closest = data.reduce((prev: any, curr: any) => {
+            const currDate = new Date(curr.fecha);
+            const prevDate = new Date(prev.fecha);
+            return Math.abs(currDate.getTime() - selectedDate.getTime()) <
+              Math.abs(prevDate.getTime() - selectedDate.getTime())
+              ? curr
+              : prev;
+          });
+          setHistoricalRate(closest.valor);
+        }
+      } catch (error) {
+        logger.error('Error al obtener inflación histórica', error, { component: 'CalculadoraInflacion', startDate });
+      }
+    };
+
+    fetchHistoricalRate();
+  }, [useCustomDate, startDate]);
+
+  useEffect(() => {
+    const activeRate = useCustomDate && historicalRate !== null ? historicalRate : inflationRate;
     const values: number[] = [];
     for (let i = 0; i <= years; i++) {
-      values.push(initialAmount / Math.pow(1 + inflationRate / 100, i));
+      values.push(initialAmount / Math.pow(1 + activeRate / 100, i));
     }
     setFutureValues(values);
-  }, [initialAmount, inflationRate, years]);
+  }, [initialAmount, inflationRate, historicalRate, years, useCustomDate]);
+
+  // Determine if purchasing power is decreasing or increasing
+  const isPowerDecreasing = futureValues.length > 1 && futureValues[futureValues.length - 1] < futureValues[0];
+  const chartColor = isPowerDecreasing ? '#EF4444' : '#10B981'; // Red if decreasing, green if increasing
+  const chartColorRgba = isPowerDecreasing ? 'rgba(239, 68, 68, 0.1)' : 'rgba(16, 185, 129, 0.1)';
 
   const chartData = {
     labels: Array.from({ length: years + 1 }, (_, i) => `${i} año${i === 1 ? '' : 's'}`),
@@ -48,12 +105,12 @@ export default function CalculadoraInflacion() {
       {
         label: 'Valor Ajustado por Inflación',
         data: futureValues,
-        borderColor: '#10B981',
-        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+        borderColor: chartColor,
+        backgroundColor: chartColorRgba,
         fill: true,
         pointRadius: 4,
         pointHoverRadius: 6,
-        pointBackgroundColor: '#10B981',
+        pointBackgroundColor: chartColor,
         pointBorderColor: '#fff',
         tension: 0.3,
       },
@@ -63,22 +120,43 @@ export default function CalculadoraInflacion() {
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
+    interaction: {
+      mode: 'index' as const,
+      intersect: false,
+    },
     plugins: {
       legend: {
         display: false,
       },
       tooltip: {
+        enabled: true,
         backgroundColor: 'rgba(18, 23, 46, 0.95)',
         titleColor: '#fff',
-        bodyColor: '#10B981',
-        borderColor: 'rgba(16, 185, 129, 0.2)',
+        bodyColor: chartColor,
+        borderColor: isPowerDecreasing ? 'rgba(239, 68, 68, 0.2)' : 'rgba(16, 185, 129, 0.2)',
         borderWidth: 1,
         padding: 12,
+        displayColors: false,
         callbacks: {
+          title: (tooltipItems: TooltipItem<'line'>[]) => {
+            return tooltipItems[0].label;
+          },
           label: (tooltipItem: TooltipItem<'line'>) => {
             const value = tooltipItem.raw as number;
-            return `ARS ${value.toFixed(2)}`;
+            return `Valor: ARS ${value.toFixed(2)}`;
           },
+        },
+      },
+      crosshair: {
+        line: {
+          color: isPowerDecreasing ? 'rgba(239, 68, 68, 0.3)' : 'rgba(16, 185, 129, 0.3)',
+          width: 1,
+        },
+        sync: {
+          enabled: false,
+        },
+        zoom: {
+          enabled: false,
         },
       },
     },
@@ -86,142 +164,165 @@ export default function CalculadoraInflacion() {
       y: {
         beginAtZero: false,
         grid: {
-          color: 'rgba(255, 255, 255, 0.05)',
-          drawBorder: false,
+          color: 'rgba(255, 255, 255, 0.1)',
+          drawBorder: true,
+          borderColor: 'rgba(255, 255, 255, 0.2)',
         },
         ticks: {
-          color: '#6B7280',
+          color: '#9CA3AF',
           font: { size: 11 },
           callback: (value: number | string) => `$${value}`,
         },
       },
       x: {
         grid: {
-          color: 'rgba(255, 255, 255, 0.05)',
-          drawBorder: false,
+          color: 'rgba(255, 255, 255, 0.1)',
+          drawBorder: true,
+          borderColor: 'rgba(255, 255, 255, 0.2)',
         },
         ticks: {
-          color: '#6B7280',
+          color: '#9CA3AF',
           font: { size: 11 },
         },
       },
     },
+    hover: {
+      mode: 'index' as const,
+      intersect: false,
+    },
   };
 
   return (
-    <div className="mx-auto text-white p-6 md:p-10 rounded-2xl max-w-5xl">
-      <div className="text-center mb-8">
-        <div className="inline-flex items-center gap-2 mb-4">
-          <FaCalculator className="text-accent-emerald text-xl" />
-          <span className="text-xs uppercase tracking-wider text-secondary font-semibold">
-            Herramienta
-          </span>
-        </div>
-        <h2 className="text-2xl md:text-3xl font-display font-bold mb-3">
-          Calculadora de <span className="gradient-text">Inflación</span>
-        </h2>
-        <p className="text-secondary text-sm max-w-2xl mx-auto">
-          Proyecta el impacto de la inflación en tu dinero
-        </p>
+    <CalculatorLayout
+      title={<>Calculadora de <span className="gradient-text">Inflación</span></>}
+      description="Proyecta el impacto de la inflación en tu dinero a lo largo del tiempo"
+      showHeader={showHeader}
+    >
+      {/* Mode Toggle */}
+      <CalculatorModeToggle
+        modes={[
+          { label: 'Proyección Futura', value: 'future' },
+          { label: 'Desde Fecha Pasada', value: 'past' },
+        ]}
+        activeMode={useCustomDate ? 'past' : 'future'}
+        onModeChange={(mode) => setUseCustomDate(mode === 'past')}
+      />
+
+      {/* Inflation Rate Banner */}
+      <CalculatorInfoBanner
+        title={useCustomDate && historicalRate !== null ? 'Tasa Histórica' : 'Tasa Actual'}
+        subtitle={
+          useCustomDate && startDate
+            ? `Inflación desde ${new Date(startDate).toLocaleDateString('es-AR')}`
+            : 'Inflación Interanual Argentina'
+        }
+        value={`${
+          useCustomDate && historicalRate !== null
+            ? historicalRate.toFixed(2)
+            : inflationRate.toFixed(2)
+        }%`}
+        loading={loading}
+      />
+
+      {/* Input Fields - Compact Inline */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <CalculatorInput
+          label="Monto Inicial"
+          value={initialAmount}
+          onChange={(value) => setInitialAmount(Number(value))}
+          type="number"
+          prefix="ARS"
+        />
+
+        {useCustomDate && (
+          <CalculatorInput
+            label="Fecha de Compra"
+            value={startDate}
+            onChange={setStartDate}
+            type="date"
+            max={new Date().toISOString().split('T')[0]}
+          />
+        )}
+
+        <CalculatorInput
+          label={useCustomDate ? 'Años desde compra' : 'Años de Proyección'}
+          value={years}
+          onChange={(value) => setYears(Number(value))}
+          type="number"
+          min="1"
+          max="30"
+        />
       </div>
 
-      {/* Explanation */}
-      <div className="mb-6 glass-strong p-4 rounded-xl border border-white/5">
+      {/* Results - Clean Cards */}
+      {!loading && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <CalculatorResultCard
+            label={`Poder Adquisitivo en ${years} ${years === 1 ? 'año' : 'años'}`}
+            value={`$${futureValues[years]?.toFixed(2)}`}
+            sublabel={`Equivalente a tu inversión inicial de $${initialAmount.toFixed(2)}`}
+            variant="success"
+          />
+
+          <CalculatorResultCard
+            label="Pérdida de Valor"
+            value={`${((1 - futureValues[years] / initialAmount) * 100).toFixed(1)}%`}
+            sublabel="Devaluación proyectada del poder de compra"
+            variant="error"
+          />
+        </div>
+      )}
+
+      {/* Chart */}
+      <CalculatorChartContainer title="Evolución del Poder Adquisitivo">
+        <Line data={chartData} options={chartOptions} />
+      </CalculatorChartContainer>
+
+      {/* Explanation - Minimalist */}
+      <div className="mt-6 pt-6 border-t border-border">
         <button
           onClick={() => setShowExplanation(!showExplanation)}
-          className="w-full flex justify-between items-center text-sm font-medium text-white hover:text-accent-emerald transition-colors"
+          className="w-full flex justify-between items-center text-sm font-medium text-secondary hover:text-foreground transition-colors"
         >
-          ¿Cómo funciona esta calculadora?
+          <span className="flex items-center gap-2">
+            <FaCalendarAlt className="text-xs" />
+            ¿Cómo se calcula esto?
+          </span>
           <FaChevronDown
             className={`transition-transform text-accent-emerald text-xs ${showExplanation ? 'rotate-180' : 'rotate-0'}`}
           />
         </button>
 
         {showExplanation && (
-          <div className="mt-3 text-secondary text-xs leading-relaxed space-y-2 border-t border-white/5 pt-3">
-            <p>
-              Esta herramienta estima la pérdida de valor del dinero debido a la inflación en
-              Argentina.
-            </p>
-            <p>
-              Ingresa un <strong className="text-white">monto inicial</strong> y los{' '}
-              <strong className="text-white">años</strong> de proyección para ver el valor real
-              futuro.
-            </p>
-            <p>El gráfico muestra la evolución del poder adquisitivo en el tiempo.</p>
+          <div className="mt-4 text-secondary text-sm leading-relaxed space-y-2">
+            {useCustomDate ? (
+              <>
+                <p>
+                  <strong className="text-foreground">Modo Histórico:</strong> Calcula cuánto perdió tu dinero desde una fecha pasada hasta hoy.
+                </p>
+                <p>
+                  Ideal para saber: "Compré algo por $1000 el año pasado, ¿cuánto vale hoy con la inflación?"
+                </p>
+                <p className="text-xs italic">
+                  Usa la tasa de inflación interanual del momento de compra para calcular la devaluación hasta hoy.
+                </p>
+              </>
+            ) : (
+              <>
+                <p>
+                  <strong className="text-foreground">Modo Proyección:</strong> Estima cómo se devaluará tu dinero hacia el futuro.
+                </p>
+                <p>
+                  Utiliza la tasa de inflación interanual actual para proyectar el poder adquisitivo futuro.
+                </p>
+                <p className="text-xs italic">
+                  Las proyecciones asumen que la tasa de inflación se mantiene constante, lo cual puede no reflejar la realidad económica.
+                </p>
+              </>
+            )}
           </div>
         )}
       </div>
-
-      {/* Inflation Rate */}
-      {loading ? (
-        <div className="text-center p-4 glass rounded-xl border border-white/5">
-          <p className="text-sm text-secondary">Cargando datos de inflación...</p>
-        </div>
-      ) : (
-        <div className="mb-6 p-4 glass-strong rounded-xl border border-accent-emerald/10 flex items-center justify-between">
-          <span className="text-sm text-secondary">Inflación Interanual</span>
-          <span className="text-xl font-bold font-mono text-accent-emerald">
-            {inflationRate.toFixed(2)}%
-          </span>
-        </div>
-      )}
-
-      {/* Inputs */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        <div className="glass-strong p-5 rounded-xl border border-white/5">
-          <label className="text-xs font-semibold uppercase tracking-wider text-secondary mb-3 flex items-center gap-2">
-            <FaMoneyBillWave className="text-accent-emerald" />
-            Monto Inicial (ARS)
-          </label>
-          <input
-            type="number"
-            value={initialAmount}
-            onChange={(e) => setInitialAmount(Number(e.target.value))}
-            className="w-full p-3 text-lg font-mono font-semibold bg-dark-light border border-white/5 rounded-lg mt-2 focus:ring-1 focus:ring-accent-emerald focus:outline-none transition-all text-white"
-          />
-        </div>
-
-        <div className="glass-strong p-5 rounded-xl border border-white/5">
-          <label className="text-xs font-semibold uppercase tracking-wider text-secondary mb-3 flex items-center gap-2">
-            <FaCalendarAlt className="text-accent-emerald" />
-            Años de Proyección
-          </label>
-          <input
-            type="number"
-            value={years}
-            min="1"
-            max="30"
-            onChange={(e) => setYears(Number(e.target.value))}
-            className="w-full p-3 text-lg font-mono font-semibold bg-dark-light border border-white/5 rounded-lg mt-2 focus:ring-1 focus:ring-accent-emerald focus:outline-none transition-all text-white"
-          />
-        </div>
-      </div>
-
-      {/* Result Card */}
-      {!loading && (
-        <div className="mb-6 p-6 glass-strong rounded-xl border border-accent-emerald/20 text-center">
-          <p className="text-xs uppercase tracking-wider text-secondary mb-2">
-            Valor Estimado en {years} {years === 1 ? 'año' : 'años'}
-          </p>
-          <p className="text-3xl md:text-4xl font-bold font-mono text-accent-emerald">
-            ARS {futureValues[years]?.toFixed(2)}
-          </p>
-          <p className="text-xs text-secondary mt-2">
-            Pérdida estimada: {((1 - futureValues[years] / initialAmount) * 100).toFixed(1)}%
-          </p>
-        </div>
-      )}
-
-      {/* Chart */}
-      <div className="glass-strong p-6 rounded-xl border border-white/5">
-        <h3 className="text-sm font-semibold text-secondary text-center mb-4 uppercase tracking-wider">
-          Proyección del Valor
-        </h3>
-        <div className="h-64 md:h-80">
-          <Line data={chartData} options={chartOptions} />
-        </div>
-      </div>
-    </div>
+    </CalculatorLayout>
   );
 }

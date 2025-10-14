@@ -42,11 +42,11 @@ const Toast: React.FC<ToastProps> = ({
   const getBgColor = () => {
     switch (type) {
       case 'success':
-        return 'bg-dark-light/95 border-accent-emerald/30';
+        return 'bg-white/95 dark:bg-dark-light/95 border-accent-emerald/30';
       case 'error':
-        return 'bg-dark-light/95 border-error/30';
+        return 'bg-white/95 dark:bg-dark-light/95 border-error/30';
       case 'info':
-        return 'bg-dark-light/95 border-info/30';
+        return 'bg-white/95 dark:bg-dark-light/95 border-info/30';
     }
   };
 
@@ -58,16 +58,16 @@ const Toast: React.FC<ToastProps> = ({
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -50, scale: 0.95 }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
-          className="fixed top-20 right-6 z-[9999] max-w-md"
+          className="fixed top-20 right-6 z-[9999] max-w-7xl"
         >
           <div
             className={`glass-strong ${getBgColor()} border rounded-lg shadow-xl p-4 flex items-center gap-3 backdrop-blur-xl`}
           >
             {getIcon()}
-            <p className="text-white flex-1 font-medium text-sm">{message}</p>
+            <p className="text-gray-900 dark:text-white flex-1 font-medium text-sm">{message}</p>
             <button
               onClick={onClose}
-              className="text-secondary hover:text-white transition-colors text-sm"
+              className="text-gray-600 dark:text-secondary hover:text-gray-900 dark:hover:text-white transition-colors text-sm"
               aria-label="Cerrar notificación"
             >
               <FaTimes />

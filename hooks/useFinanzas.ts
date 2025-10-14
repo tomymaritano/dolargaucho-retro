@@ -5,6 +5,16 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { API_CONFIG, CACHE_CONFIG } from '@/lib/config/api';
+import {
+  InflacionMensualResponseSchema,
+  InflacionInteranualResponseSchema,
+  IndiceUVAResponseSchema,
+  RiesgoPaisResponseSchema,
+  TasaPlazoFijoResponseSchema,
+  FondosComunesResponseSchema,
+  validateAndParse,
+} from '@/lib/schemas/api';
+import { logger } from '@/lib/utils/logger';
 import type {
   InflacionMensual,
   InflacionInteranual,
@@ -34,17 +44,29 @@ export function useInflacionMensual() {
     queryKey: ['inflacion-mensual'],
     queryFn: async () => {
       const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.inflacion}`;
+      const startTime = performance.now();
+
+      logger.api.request(url, 'GET');
+
       const response = await fetch(url);
+      const duration = performance.now() - startTime;
 
       if (!response.ok) {
+        logger.api.error(url, new Error(`HTTP ${response.status}`));
         throw new Error('Error al obtener inflación mensual');
       }
 
-      return response.json();
+      const rawData = await response.json();
+      const data = validateAndParse(InflacionMensualResponseSchema, rawData, 'ArgentinaData /inflacion');
+
+      logger.api.response(url, response.status, duration);
+
+      return data;
     },
     staleTime: CACHE_CONFIG.inflacion.staleTime,
     refetchInterval: CACHE_CONFIG.inflacion.refetchInterval,
-    retry: 3,
+    retry: CACHE_CONFIG.inflacion.retry,
+    retryDelay: CACHE_CONFIG.inflacion.retryDelay,
   });
 }
 
@@ -56,16 +78,28 @@ export function useInflacionInteranual() {
     queryKey: ['inflacion-interanual'],
     queryFn: async () => {
       const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.inflacionInteranual}`;
+      const startTime = performance.now();
+
+      logger.api.request(url, 'GET');
+
       const response = await fetch(url);
+      const duration = performance.now() - startTime;
 
       if (!response.ok) {
+        logger.api.error(url, new Error(`HTTP ${response.status}`));
         throw new Error('Error al obtener inflación interanual');
       }
 
-      return response.json();
+      const rawData = await response.json();
+      const data = validateAndParse(InflacionInteranualResponseSchema, rawData, 'ArgentinaData /inflacionInteranual');
+
+      logger.api.response(url, response.status, duration);
+
+      return data;
     },
     staleTime: CACHE_CONFIG.inflacion.staleTime,
-    retry: 3,
+    retry: CACHE_CONFIG.inflacion.retry,
+    retryDelay: CACHE_CONFIG.inflacion.retryDelay,
   });
 }
 
@@ -172,6 +206,54 @@ export function useUltimoRiesgoPais() {
       return data.length > 0 ? data[data.length - 1] : null;
     },
     staleTime: CACHE_CONFIG.riesgoPais.staleTime,
+  });
+}
+
+/**
+ * Hook para obtener riesgo país con variación
+ */
+export function useRiesgoPaisWithVariation() {
+  return useQuery<{
+    current: RiesgoPais | null;
+    previous: RiesgoPais | null;
+    variation: {
+      percentage: number;
+      trend: 'up' | 'down' | 'neutral';
+    };
+  }>({
+    queryKey: ['riesgo-pais-variation'],
+    queryFn: async () => {
+      const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.riesgoPais}`;
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error('Error al obtener riesgo país');
+      }
+
+      const data: RiesgoPaisResponse = await response.json();
+
+      const current = data.length > 0 ? data[data.length - 1] : null;
+      const previous = data.length > 1 ? data[data.length - 2] : null;
+
+      let percentage = 0;
+      let trend: 'up' | 'down' | 'neutral' = 'neutral';
+
+      if (current && previous && previous.valor !== 0) {
+        percentage = ((current.valor - previous.valor) / previous.valor) * 100;
+        trend = percentage > 0 ? 'up' : percentage < 0 ? 'down' : 'neutral';
+      }
+
+      return {
+        current,
+        previous,
+        variation: {
+          percentage: Math.abs(percentage),
+          trend,
+        },
+      };
+    },
+    staleTime: CACHE_CONFIG.riesgoPais.staleTime,
+    refetchInterval: CACHE_CONFIG.riesgoPais.refetchInterval,
   });
 }
 

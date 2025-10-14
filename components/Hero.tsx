@@ -2,30 +2,30 @@ import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { FaChartLine } from 'react-icons/fa';
+import Aurora from '@/components/ui/Aurora/Aurora';
 
 const Hero: React.FC = () => {
   return (
-    <section className="relative w-full min-h-screen flex flex-col items-center justify-center text-white overflow-hidden pt-20 pb-28 bg-dark">
-      {/* Subtle grid background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-dark via-dark-light to-dark opacity-100"></div>
-      <div
-        className="absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage: `linear-gradient(rgba(16, 185, 129, 0.1) 1px, transparent 1px),
-                           linear-gradient(90deg, rgba(16, 185, 129, 0.1) 1px, transparent 1px)`,
-          backgroundSize: '50px 50px',
-        }}
-      />
+    <section className="relative w-full min-h-screen flex flex-col items-center justify-center text-foreground overflow-hidden pt-20 pb-28 bg-background">
+      {/* Aurora Background Effect */}
+      <div className="absolute inset-0 opacity-30">
+        <Aurora
+          colorStops={['#10b981', '#14b8a6', '#10b981']}
+          blend={0.5}
+          amplitude={1.0}
+          speed={0.5}
+        />
+      </div>
 
-      {/* Subtle accent glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-accent-emerald/5 rounded-full blur-3xl"></div>
+      {/* Gradient overlay for better text contrast */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background/80"></div>
 
       {/* Main Content */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="relative z-10 text-center max-w-4xl px-6"
+        className="relative z-10 text-center max-w-7xl px-6"
       >
         {/* Badge */}
         <motion.div
@@ -50,7 +50,7 @@ const Hero: React.FC = () => {
         </motion.h1>
 
         <motion.p
-          className="text-lg md:text-xl text-secondary-light mt-6 max-w-2xl mx-auto leading-relaxed font-normal"
+          className="text-lg md:text-xl text-secondary-light mt-6 max-w-7xl mx-auto leading-relaxed font-normal"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
@@ -58,31 +58,6 @@ const Hero: React.FC = () => {
           Cotizaciones, inflación, política, calculadoras y más. Una plataforma completa de datos
           argentinos en tiempo real.
         </motion.p>
-
-        {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-3xl mx-auto"
-        >
-          <div className="text-center">
-            <div className="text-3xl font-bold text-accent-emerald mb-1">15+</div>
-            <div className="text-sm text-secondary">Cotizaciones</div>
-          </div>
-          <div className="text-center border-l border-white/10 md:border-r">
-            <div className="text-3xl font-bold text-accent-emerald mb-1">5+</div>
-            <div className="text-sm text-secondary">Calculadoras</div>
-          </div>
-          <div className="text-center border-r border-white/10 md:border-r-0">
-            <div className="text-3xl font-bold text-accent-emerald mb-1">300+</div>
-            <div className="text-sm text-secondary">Datos Políticos</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-accent-emerald mb-1">24/7</div>
-            <div className="text-sm text-secondary">En Vivo</div>
-          </div>
-        </motion.div>
 
         {/* CTA */}
         <motion.div
@@ -95,7 +70,7 @@ const Hero: React.FC = () => {
             href="#cotizaciones"
             className="group relative glass-strong px-8 py-4 rounded-xl font-semibold text-base transition-all border border-accent-emerald/30 hover:border-accent-emerald/60 overflow-hidden"
           >
-            <span className="relative z-10 flex items-center justify-center gap-2">
+            <span className="relative z-10 flex items-center justify-center gap-2 text-foreground">
               <FaChartLine />
               Ver Cotizaciones
             </span>
@@ -103,7 +78,7 @@ const Hero: React.FC = () => {
           </a>
           <Link
             href="/dashboard"
-            className="px-8 py-4 rounded-xl font-semibold text-base transition-all bg-accent-emerald hover:bg-accent-teal text-dark"
+            className="px-8 py-4 rounded-xl font-semibold text-base transition-all bg-accent-emerald hover:bg-accent-teal text-background-dark"
           >
             Ir al Dashboard
           </Link>
