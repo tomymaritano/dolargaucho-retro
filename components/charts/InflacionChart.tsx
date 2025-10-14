@@ -20,10 +20,14 @@ interface InflacionChartProps {
   // Favorite props (optional)
   isFavorite?: boolean;
   onToggleFavorite?: () => void;
-  chartId?: string;
 }
 
-export function InflacionChart({ showInteranual = true, limit = 12, isFavorite, onToggleFavorite, chartId }: InflacionChartProps) {
+export function InflacionChart({
+  showInteranual = true,
+  limit = 12,
+  isFavorite,
+  onToggleFavorite,
+}: InflacionChartProps) {
   const { data: mensual, isLoading: loadingMensual } = useInflacionMensual();
   const { data: interanual, isLoading: loadingInteranual } = useInflacionInteranual();
   const chartTheme = useChartTheme();
@@ -86,9 +90,7 @@ export function InflacionChart({ showInteranual = true, limit = 12, isFavorite, 
           <h3 className="text-2xl font-display font-bold text-foreground mb-2">
             Evolución de la Inflación
           </h3>
-          <p className="text-sm text-secondary">
-            Últimos {limit} meses • Actualizado diariamente
-          </p>
+          <p className="text-sm text-secondary">Últimos {limit} meses • Actualizado diariamente</p>
         </div>
         {onToggleFavorite && (
           <button
@@ -134,7 +136,7 @@ export function InflacionChart({ showInteranual = true, limit = 12, isFavorite, 
             <Legend
               wrapperStyle={{
                 color: chartTheme.tooltipColor,
-                paddingTop: '20px'
+                paddingTop: '20px',
               }}
               iconType="line"
             />
@@ -164,9 +166,7 @@ export function InflacionChart({ showInteranual = true, limit = 12, isFavorite, 
 
       {/* Footer */}
       <div className="mt-4 pt-4 border-t border-border">
-        <p className="text-xs text-secondary text-center">
-          Fuente: ArgentinaData API
-        </p>
+        <p className="text-xs text-secondary text-center">Fuente: ArgentinaData API</p>
       </div>
     </div>
   );

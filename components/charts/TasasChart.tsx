@@ -19,10 +19,9 @@ interface TasasChartProps {
   // Favorite props (optional)
   isFavorite?: boolean;
   onToggleFavorite?: () => void;
-  chartId?: string;
 }
 
-export function TasasChart({ limit = 10, isFavorite, onToggleFavorite, chartId }: TasasChartProps) {
+export function TasasChart({ limit = 10, isFavorite, onToggleFavorite }: TasasChartProps) {
   const { data: tasas, isLoading } = useTasaPlazoFijo();
   const chartTheme = useChartTheme();
 

@@ -65,8 +65,7 @@ export default function CalculadorasPage() {
   const { data: rawFredData, isLoading: fredLoading } = useFredData();
   const { data: argInflacion } = useInflacion();
 
-  // Adapt FRED data: validate all required fields exist, then pass through
-  // The hook returns nullable fields due to spread operator, but we validate they exist
+  // Adapt FRED data: validate all required fields exist, then use type assertion
   const fredData = (
     rawFredData &&
     rawFredData.federalFundsRate &&
@@ -75,9 +74,8 @@ export default function CalculadorasPage() {
     rawFredData.unemploymentRate &&
     rawFredData.treasury10y
       ? rawFredData
-      : // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        undefined
-  ) as any;
+      : undefined
+  ) as any; // eslint-disable-line @typescript-eslint/no-explicit-any
 
   const renderCalculator = () => {
     switch (activeTab) {

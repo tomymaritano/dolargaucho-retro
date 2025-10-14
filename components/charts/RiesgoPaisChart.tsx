@@ -18,10 +18,13 @@ interface RiesgoPaisChartProps {
   // Favorite props (optional)
   isFavorite?: boolean;
   onToggleFavorite?: () => void;
-  chartId?: string;
 }
 
-export function RiesgoPaisChart({ limit = 30, isFavorite, onToggleFavorite, chartId }: RiesgoPaisChartProps) {
+export function RiesgoPaisChart({
+  limit = 30,
+  isFavorite,
+  onToggleFavorite,
+}: RiesgoPaisChartProps) {
   const { data: riesgoPais, isLoading } = useRiesgoPais();
   const chartTheme = useChartTheme();
 
@@ -91,15 +94,15 @@ export function RiesgoPaisChart({ limit = 30, isFavorite, onToggleFavorite, char
               </button>
             )}
             <div className="text-right">
-            <div className="text-3xl font-bold text-foreground">
-              {latestValue?.toLocaleString('es-AR')}
-            </div>
-            <div
-              className={`text-sm font-semibold ${isPositive ? 'text-red-500' : 'text-green-500'}`}
-            >
-              {isPositive ? '+' : ''}
-              {variation.toFixed(2)}% vs ayer
-            </div>
+              <div className="text-3xl font-bold text-foreground">
+                {latestValue?.toLocaleString('es-AR')}
+              </div>
+              <div
+                className={`text-sm font-semibold ${isPositive ? 'text-red-500' : 'text-green-500'}`}
+              >
+                {isPositive ? '+' : ''}
+                {variation.toFixed(2)}% vs ayer
+              </div>
             </div>
           </div>
         </div>
