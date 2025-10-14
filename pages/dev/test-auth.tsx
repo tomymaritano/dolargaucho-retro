@@ -5,7 +5,14 @@ import { useAuth } from '@/lib/auth/auth-context';
 import { Card } from '@/components/ui/Card/Card';
 import { Button } from '@/components/ui/Button/Button';
 import { Input } from '@/components/ui/Input/Input';
-import { FaCheckCircle, FaTimesCircle, FaSpinner, FaDatabase, FaUser, FaEnvelope } from 'react-icons/fa';
+import {
+  FaCheckCircle,
+  FaTimesCircle,
+  FaSpinner,
+  FaDatabase,
+  FaUser,
+  FaEnvelope,
+} from 'react-icons/fa';
 import { supabase } from '@/lib/supabase';
 
 /**
@@ -44,14 +51,14 @@ export default function TestAuthPage() {
 
       if (error && error.code !== 'PGRST116') {
         // Error que no sea "no rows returned"
-        setTestResults(prev => ({ ...prev, supabaseConnection: false }));
+        setTestResults((prev) => ({ ...prev, supabaseConnection: false }));
         return false;
       }
 
-      setTestResults(prev => ({ ...prev, supabaseConnection: true }));
+      setTestResults((prev) => ({ ...prev, supabaseConnection: true }));
       return true;
     } catch {
-      setTestResults(prev => ({ ...prev, supabaseConnection: false }));
+      setTestResults((prev) => ({ ...prev, supabaseConnection: false }));
       return false;
     }
   };
@@ -59,16 +66,13 @@ export default function TestAuthPage() {
   // Test 2: Verificar tabla user_preferences
   const testUserPreferencesTable = async () => {
     try {
-      const { error } = await supabase
-        .from('user_preferences')
-        .select('count')
-        .limit(1);
+      const { error } = await supabase.from('user_preferences').select('count').limit(1);
 
       const exists = !error || error.code === 'PGRST116';
-      setTestResults(prev => ({ ...prev, userPreferencesTable: exists }));
+      setTestResults((prev) => ({ ...prev, userPreferencesTable: exists }));
       return exists;
     } catch {
-      setTestResults(prev => ({ ...prev, userPreferencesTable: false }));
+      setTestResults((prev) => ({ ...prev, userPreferencesTable: false }));
       return false;
     }
   };
@@ -76,16 +80,13 @@ export default function TestAuthPage() {
   // Test 3: Verificar tabla leads
   const testLeadsTable = async () => {
     try {
-      const { error } = await supabase
-        .from('leads')
-        .select('count')
-        .limit(1);
+      const { error } = await supabase.from('leads').select('count').limit(1);
 
       const exists = !error || error.code === 'PGRST116';
-      setTestResults(prev => ({ ...prev, leadsTable: exists }));
+      setTestResults((prev) => ({ ...prev, leadsTable: exists }));
       return exists;
     } catch {
-      setTestResults(prev => ({ ...prev, leadsTable: false }));
+      setTestResults((prev) => ({ ...prev, leadsTable: false }));
       return false;
     }
   };
@@ -100,20 +101,23 @@ export default function TestAuthPage() {
       const { error } = await signUp(testEmail, testPassword, { name: testName });
 
       if (error) {
-        if (error.message?.includes('already registered') || error.message?.includes('already exists')) {
+        if (
+          error.message?.includes('already registered') ||
+          error.message?.includes('already exists')
+        ) {
           setTestSuccess('✅ Usuario ya existe (esto es OK para testing)');
-          setTestResults(prev => ({ ...prev, authWorks: true }));
+          setTestResults((prev) => ({ ...prev, authWorks: true }));
         } else {
           setTestError(error.message || 'Error al registrar usuario');
-          setTestResults(prev => ({ ...prev, authWorks: false }));
+          setTestResults((prev) => ({ ...prev, authWorks: false }));
         }
       } else {
         setTestSuccess('✅ Usuario registrado exitosamente');
-        setTestResults(prev => ({ ...prev, authWorks: true }));
+        setTestResults((prev) => ({ ...prev, authWorks: true }));
       }
     } catch {
       setTestError('Error inesperado al registrar usuario');
-      setTestResults(prev => ({ ...prev, authWorks: false }));
+      setTestResults((prev) => ({ ...prev, authWorks: false }));
     } finally {
       setTestLoading(false);
     }
@@ -130,14 +134,14 @@ export default function TestAuthPage() {
 
       if (error) {
         setTestError(error.message || 'Error al iniciar sesión');
-        setTestResults(prev => ({ ...prev, authWorks: false }));
+        setTestResults((prev) => ({ ...prev, authWorks: false }));
       } else {
         setTestSuccess('✅ Login exitoso');
-        setTestResults(prev => ({ ...prev, authWorks: true }));
+        setTestResults((prev) => ({ ...prev, authWorks: true }));
       }
     } catch {
       setTestError('Error inesperado al iniciar sesión');
-      setTestResults(prev => ({ ...prev, authWorks: false }));
+      setTestResults((prev) => ({ ...prev, authWorks: false }));
     } finally {
       setTestLoading(false);
     }
@@ -190,9 +194,7 @@ export default function TestAuthPage() {
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
         <div>
-          <h1 className="text-4xl font-bold text-white mb-2">
-            Test de Autenticación
-          </h1>
+          <h1 className="text-4xl font-bold text-white mb-2">Test de Autenticación</h1>
           <p className="text-secondary">
             Página de debug para verificar el sistema de autenticación
           </p>
@@ -209,7 +211,9 @@ export default function TestAuthPage() {
             {/* Modo */}
             <div className="flex items-center justify-between p-3 bg-dark-light rounded-lg">
               <span className="text-foreground">Modo de Operación:</span>
-              <span className={`font-semibold ${isDemoMode ? 'text-accent-teal' : 'text-accent-emerald'}`}>
+              <span
+                className={`font-semibold ${isDemoMode ? 'text-accent-teal' : 'text-accent-emerald'}`}
+              >
                 {isDemoMode ? '🎭 Demo (localStorage)' : '🔐 Producción (Supabase)'}
               </span>
             </div>
@@ -235,7 +239,9 @@ export default function TestAuthPage() {
             {/* Supabase URL */}
             <div className="flex items-center justify-between p-3 bg-dark-light rounded-lg">
               <span className="text-foreground">Supabase Configurado:</span>
-              <span className={`font-semibold ${!isDemoMode ? 'text-accent-emerald' : 'text-secondary'}`}>
+              <span
+                className={`font-semibold ${!isDemoMode ? 'text-accent-emerald' : 'text-secondary'}`}
+              >
                 {!isDemoMode ? '✅ Sí' : '❌ No (usar .env.local)'}
               </span>
             </div>
@@ -251,33 +257,23 @@ export default function TestAuthPage() {
             </h2>
 
             <div className="space-y-4">
-              <Button
-                onClick={runAllTests}
-                variant="primary"
-                className="w-full"
-              >
+              <Button onClick={runAllTests} variant="primary" className="w-full">
                 Ejecutar Tests de DB
               </Button>
 
               <div className="space-y-2">
-                <TestResult
-                  label="Conexión con Supabase"
-                  result={testResults.supabaseConnection}
-                />
+                <TestResult label="Conexión con Supabase" result={testResults.supabaseConnection} />
                 <TestResult
                   label="Tabla user_preferences"
                   result={testResults.userPreferencesTable}
                 />
-                <TestResult
-                  label="Tabla leads"
-                  result={testResults.leadsTable}
-                />
+                <TestResult label="Tabla leads" result={testResults.leadsTable} />
               </div>
 
               {Object.keys(testResults).length > 0 && (
                 <div className="mt-4 p-4 bg-dark-light rounded-lg">
                   <p className="text-sm text-secondary">
-                    {Object.values(testResults).every(v => v === true)
+                    {Object.values(testResults).every((v) => v === true)
                       ? '✅ Todas las tablas están configuradas correctamente'
                       : '⚠️ Algunas tablas no están disponibles. Ejecuta el script SQL en Supabase.'}
                   </p>
@@ -336,27 +332,15 @@ export default function TestAuthPage() {
             {/* Buttons */}
             {!user ? (
               <div className="grid grid-cols-2 gap-3">
-                <Button
-                  onClick={testSignUp}
-                  variant="primary"
-                  disabled={testLoading}
-                >
+                <Button onClick={testSignUp} variant="primary" disabled={testLoading}>
                   {testLoading ? <FaSpinner className="animate-spin" /> : 'Test Registro'}
                 </Button>
-                <Button
-                  onClick={testSignIn}
-                  variant="secondary"
-                  disabled={testLoading}
-                >
+                <Button onClick={testSignIn} variant="secondary" disabled={testLoading}>
                   {testLoading ? <FaSpinner className="animate-spin" /> : 'Test Login'}
                 </Button>
               </div>
             ) : (
-              <Button
-                onClick={signOut}
-                variant="secondary"
-                className="w-full"
-              >
+              <Button onClick={signOut} variant="secondary" className="w-full">
                 Cerrar Sesión
               </Button>
             )}
@@ -389,21 +373,24 @@ export default function TestAuthPage() {
 
         {/* Instrucciones */}
         <Card variant="elevated" padding="lg">
-          <h2 className="text-2xl font-bold text-white mb-4">
-            📋 Instrucciones
-          </h2>
+          <h2 className="text-2xl font-bold text-white mb-4">📋 Instrucciones</h2>
           <div className="space-y-3 text-secondary text-sm">
             <p>
-              <strong className="text-foreground">1. Verificar modo:</strong> Si estás en modo demo, los datos se guardan en localStorage.
+              <strong className="text-foreground">1. Verificar modo:</strong> Si estás en modo demo,
+              los datos se guardan en localStorage.
             </p>
             <p>
-              <strong className="text-foreground">2. Configurar Supabase:</strong> Copia el archivo <code className="text-accent-emerald">supabase/schema.sql</code> en el SQL Editor de Supabase.
+              <strong className="text-foreground">2. Configurar Supabase:</strong> Copia el archivo{' '}
+              <code className="text-accent-emerald">supabase/schema.sql</code> en el SQL Editor de
+              Supabase.
             </p>
             <p>
-              <strong className="text-foreground">3. Ejecutar tests:</strong> Usa los botones arriba para verificar que todo funcione.
+              <strong className="text-foreground">3. Ejecutar tests:</strong> Usa los botones arriba
+              para verificar que todo funcione.
             </p>
             <p>
-              <strong className="text-foreground">4. Verificar resultados:</strong> Todos los tests deben pasar (✅) para confirmar que el sistema funciona.
+              <strong className="text-foreground">4. Verificar resultados:</strong> Todos los tests
+              deben pasar (✅) para confirmar que el sistema funciona.
             </p>
           </div>
         </Card>

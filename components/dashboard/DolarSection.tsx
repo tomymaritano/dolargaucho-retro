@@ -1,0 +1,54 @@
+/**
+ * DolarSection Component
+ *
+ * Single Responsibility: Display all dollar exchange rate quotations
+ * Composition: Uses Card and DolaresTable components
+ */
+
+import React from 'react';
+import { Card } from '@/components/ui/Card/Card';
+import { DolaresTable } from '@/components/tables/DolaresTable';
+import { FaDollarSign } from 'react-icons/fa';
+
+import type { DolarWithVariation } from '@/hooks/useDolarVariations';
+
+interface DolarSectionProps {
+  dolares: DolarWithVariation[] | undefined;
+  loadingDolares: boolean;
+  favoriteDolarIds: string[];
+  onToggleDolar: (dolarId: string) => void;
+}
+
+/**
+ * Renders dollar exchange rates section with DolaresTable
+ * @param dolares - Array of dollar exchange rates
+ * @param loadingDolares - Loading state
+ * @param favoriteDolarIds - Array of favorited dollar IDs
+ * @param onToggleDolar - Function to toggle dollar favorite status
+ */
+export function DolarSection({
+  dolares,
+  loadingDolares,
+  favoriteDolarIds,
+  onToggleDolar,
+}: DolarSectionProps) {
+  return (
+    <Card variant="elevated" padding="lg" className="mt-6">
+      <Card.Header>
+        <div className="flex items-center gap-3">
+          <FaDollarSign className="text-accent-emerald text-xl" />
+          <Card.Title className="mb-0">Todas las Cotizaciones del Dolar</Card.Title>
+        </div>
+      </Card.Header>
+
+      <Card.Content>
+        <DolaresTable
+          dolares={dolares || []}
+          isLoading={loadingDolares}
+          favoriteDolarIds={favoriteDolarIds}
+          onToggleFavorite={onToggleDolar}
+        />
+      </Card.Content>
+    </Card>
+  );
+}

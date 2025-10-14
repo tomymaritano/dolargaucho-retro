@@ -1,5 +1,10 @@
 # Dólar Gaucho - Claude Code Configuration
 
+## 🚨 MANDATORY - READ FIRST
+**ALWAYS read these before writing ANY code:**
+docs/REACT_PRINCIPLES.md
+docs/DASHBOARD_REFACTOR.md
+
 ## Project Context
 docs/PROJECT_OVERVIEW.md
 README.md

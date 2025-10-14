@@ -3,11 +3,29 @@
 import React, { useState, useMemo } from 'react';
 import { DashboardLayout } from '@/components/layouts/DashboardLayout';
 import { Card } from '@/components/ui/Card/Card';
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableCell,
+  TableHeaderCell,
+} from '@/components/ui/Table';
 import { useCryptoQuery } from '@/hooks/useCryptoQuery';
 import { useFavoritesStore } from '@/lib/store/favorites';
 import { useDolarByType } from '@/hooks/useDolarQuery';
 import type { DolarType } from '@/types/api/dolar';
-import { FaSearch, FaBitcoin, FaStar, FaFilter, FaInfoCircle, FaRegStar, FaArrowUp, FaArrowDown, FaMinus } from 'react-icons/fa';
+import {
+  FaSearch,
+  FaBitcoin,
+  FaStar,
+  FaFilter,
+  FaInfoCircle,
+  FaRegStar,
+  FaArrowUp,
+  FaArrowDown,
+  FaMinus,
+} from 'react-icons/fa';
 import { HelpButton } from '@/components/ui/HelpButton/HelpButton';
 
 const CRYPTO_FAQ = [
@@ -123,9 +141,7 @@ export default function CryptoPage() {
                 <p className="text-xs text-secondary uppercase tracking-wider mb-1">
                   Total Cryptos
                 </p>
-                <p className="text-2xl font-bold text-foreground">
-                  {displayData?.length || 0}
-                </p>
+                <p className="text-2xl font-bold text-foreground">{displayData?.length || 0}</p>
               </div>
               <div className="p-3 rounded-xl glass">
                 <FaBitcoin className="text-accent-emerald text-2xl" />
@@ -136,9 +152,7 @@ export default function CryptoPage() {
           <Card variant="elevated" padding="md">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs text-secondary uppercase tracking-wider mb-1">
-                  Favoritos
-                </p>
+                <p className="text-xs text-secondary uppercase tracking-wider mb-1">Favoritos</p>
                 <p className="text-2xl font-bold text-foreground">{favoriteCount}</p>
               </div>
               <div className="p-3 rounded-xl glass">
@@ -197,38 +211,38 @@ export default function CryptoPage() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             {/* Filter Buttons */}
             <div className="flex gap-2">
-            <button
-              onClick={() => setFilterBy('all')}
-              className={`px-4 py-2.5 rounded-lg text-xs font-semibold transition-all ${
-                filterBy === 'all'
-                  ? 'bg-accent-emerald text-background-dark'
-                  : 'glass text-secondary hover:text-foreground hover:bg-white/5'
-              }`}
-            >
-              Todas
-            </button>
-            <button
-              onClick={() => setFilterBy('favorites')}
-              className={`px-4 py-2.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
-                filterBy === 'favorites'
-                  ? 'bg-accent-emerald text-background-dark'
-                  : 'glass text-secondary hover:text-foreground hover:bg-white/5'
-              }`}
-            >
-              <FaStar className="text-xs" />
-              Favoritos
-            </button>
-            <button
-              onClick={() => setFilterBy('stablecoins')}
-              className={`px-4 py-2.5 rounded-lg text-xs font-semibold transition-all ${
-                filterBy === 'stablecoins'
-                  ? 'bg-accent-emerald text-background-dark'
-                  : 'glass text-secondary hover:text-foreground hover:bg-white/5'
-              }`}
-            >
-              Stablecoins
-            </button>
-          </div>
+              <button
+                onClick={() => setFilterBy('all')}
+                className={`px-4 py-2.5 rounded-lg text-xs font-semibold transition-all ${
+                  filterBy === 'all'
+                    ? 'bg-accent-emerald text-background-dark'
+                    : 'glass text-secondary hover:text-foreground hover:bg-white/5'
+                }`}
+              >
+                Todas
+              </button>
+              <button
+                onClick={() => setFilterBy('favorites')}
+                className={`px-4 py-2.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                  filterBy === 'favorites'
+                    ? 'bg-accent-emerald text-background-dark'
+                    : 'glass text-secondary hover:text-foreground hover:bg-white/5'
+                }`}
+              >
+                <FaStar className="text-xs" />
+                Favoritos
+              </button>
+              <button
+                onClick={() => setFilterBy('stablecoins')}
+                className={`px-4 py-2.5 rounded-lg text-xs font-semibold transition-all ${
+                  filterBy === 'stablecoins'
+                    ? 'bg-accent-emerald text-background-dark'
+                    : 'glass text-secondary hover:text-foreground hover:bg-white/5'
+                }`}
+              >
+                Stablecoins
+              </button>
+            </div>
 
             {/* Exchange Rate Selector */}
             <div className="flex items-center gap-2">
@@ -303,169 +317,178 @@ export default function CryptoPage() {
         {/* Crypto Table */}
         {!isLoading && !error && filteredAndSortedData.length > 0 && (
           <Card variant="elevated" padding="none">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-border">
-                    <th className="text-center py-3 px-4 text-xs font-semibold text-secondary uppercase tracking-wider w-12">
-                      <FaStar className="inline-block text-accent-emerald" />
-                    </th>
-                    <th className="text-left py-3 px-4 text-xs font-semibold text-secondary uppercase tracking-wider w-16">
-                      #
-                    </th>
-                    <th className="text-left py-3 px-4 text-xs font-semibold text-secondary uppercase tracking-wider">
-                      Nombre
-                    </th>
-                    <th className="text-right py-3 px-4 text-xs font-semibold text-secondary uppercase tracking-wider">
-                      Precio USD
-                    </th>
-                    <th className="text-right py-3 px-4 text-xs font-semibold text-secondary uppercase tracking-wider">
-                      Precio ARS
-                    </th>
-                    <th className="text-right py-3 px-4 text-xs font-semibold text-secondary uppercase tracking-wider">
-                      24h %
-                    </th>
-                    <th className="text-right py-3 px-4 text-xs font-semibold text-secondary uppercase tracking-wider">
-                      Market Cap
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredAndSortedData.map((crypto, index) => {
-                    const isFavorite = favoriteCryptos.includes(crypto.id);
+            <Table>
+              <TableHeader>
+                <TableRow hoverable={false}>
+                  <TableHeaderCell align="center" className="w-12">
+                    <FaStar className="inline-block text-accent-emerald" />
+                  </TableHeaderCell>
+                  <TableHeaderCell align="left" className="w-16">
+                    #
+                  </TableHeaderCell>
+                  <TableHeaderCell align="left">Nombre</TableHeaderCell>
+                  <TableHeaderCell align="right">Precio USD</TableHeaderCell>
+                  <TableHeaderCell align="right">Precio ARS</TableHeaderCell>
+                  <TableHeaderCell align="right">24h %</TableHeaderCell>
+                  <TableHeaderCell align="right">Market Cap</TableHeaderCell>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredAndSortedData.map((crypto, index) => {
+                  const isFavorite = favoriteCryptos.includes(crypto.id);
 
-                    const getTrendData = (percentage: number) => {
-                      if (percentage > 0) return { icon: FaArrowUp, color: 'text-success' };
-                      if (percentage < 0) return { icon: FaArrowDown, color: 'text-error' };
-                      return { icon: FaMinus, color: 'text-warning' };
-                    };
+                  const getTrendData = (percentage: number) => {
+                    if (percentage > 0) return { icon: FaArrowUp, color: 'text-success' };
+                    if (percentage < 0) return { icon: FaArrowDown, color: 'text-error' };
+                    return { icon: FaMinus, color: 'text-warning' };
+                  };
 
-                    const trend24h = getTrendData(crypto.price_change_percentage_24h);
-                    const TrendIcon = trend24h.icon;
+                  const trend24h = getTrendData(crypto.price_change_percentage_24h);
+                  const TrendIcon = trend24h.icon;
 
-                    const formatPrice = (price: number) => {
-                      return new Intl.NumberFormat('es-AR', {
-                        style: 'currency',
-                        currency: 'USD',
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: price < 1 ? 6 : 2,
-                      }).format(price);
-                    };
+                  const formatPrice = (price: number) => {
+                    return new Intl.NumberFormat('es-AR', {
+                      style: 'currency',
+                      currency: 'USD',
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: price < 1 ? 6 : 2,
+                    }).format(price);
+                  };
 
-                    const formatMarketCap = (value: number) => {
-                      if (value >= 1_000_000_000_000) return `$${(value / 1_000_000_000_000).toFixed(2)}T`;
-                      if (value >= 1_000_000_000) return `$${(value / 1_000_000_000).toFixed(2)}B`;
-                      return `$${(value / 1_000_000).toFixed(2)}M`;
-                    };
+                  const formatMarketCap = (value: number) => {
+                    if (value >= 1_000_000_000_000)
+                      return `$${(value / 1_000_000_000_000).toFixed(2)}T`;
+                    if (value >= 1_000_000_000) return `$${(value / 1_000_000_000).toFixed(2)}B`;
+                    return `$${(value / 1_000_000).toFixed(2)}M`;
+                  };
 
-                    return (
-                      <React.Fragment key={crypto.id}>
-                        <tr className="border-b border-border hover:bg-white/5 transition-colors group">
-                          {/* Favorito */}
-                          <td className="py-3 px-4 text-center">
-                            <button
-                              onClick={() => toggleCrypto(crypto.id)}
-                              className={`p-2 rounded-lg transition-all ${
-                                isFavorite
-                                  ? 'text-accent-emerald bg-accent-emerald/10'
-                                  : 'text-secondary hover:text-accent-emerald hover:bg-white/5'
-                              }`}
-                              aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
-                            >
-                              {isFavorite ? <FaStar className="text-base" /> : <FaRegStar className="text-base" />}
-                            </button>
-                          </td>
+                  return (
+                    <React.Fragment key={crypto.id}>
+                      <TableRow className="group">
+                        {/* Favorito */}
+                        <TableCell align="center">
+                          <button
+                            onClick={() => toggleCrypto(crypto.id)}
+                            className={`p-2 rounded-lg transition-all ${
+                              isFavorite
+                                ? 'text-accent-emerald bg-accent-emerald/10'
+                                : 'text-secondary hover:text-accent-emerald hover:bg-white/5'
+                            }`}
+                            aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+                          >
+                            {isFavorite ? (
+                              <FaStar className="text-base" />
+                            ) : (
+                              <FaRegStar className="text-base" />
+                            )}
+                          </button>
+                        </TableCell>
 
-                          {/* Ranking */}
-                          <td className="py-3 px-4">
-                            <span className="text-sm text-secondary font-medium">{index + 1}</span>
-                          </td>
+                        {/* Ranking */}
+                        <TableCell align="left">
+                          <span className="text-sm text-secondary font-medium">{index + 1}</span>
+                        </TableCell>
 
-                          {/* Logo + Nombre */}
-                          <td className="py-3 px-4">
-                            <div className="flex items-center gap-3">
-                              <img
-                                src={crypto.image}
-                                alt={crypto.name}
-                                className="w-8 h-8 rounded-full"
-                                loading="lazy"
-                              />
-                              <div>
-                                <p className="text-sm font-semibold text-foreground">{crypto.name}</p>
-                                <p className="text-xs text-secondary uppercase">{crypto.symbol}</p>
-                              </div>
+                        {/* Logo + Nombre */}
+                        <TableCell align="left">
+                          <div className="flex items-center gap-3">
+                            <img
+                              src={crypto.image}
+                              alt={crypto.name}
+                              className="w-8 h-8 rounded-full"
+                              loading="lazy"
+                            />
+                            <div>
+                              <p className="text-sm font-semibold text-foreground">{crypto.name}</p>
+                              <p className="text-xs text-secondary uppercase">{crypto.symbol}</p>
                             </div>
-                          </td>
+                          </div>
+                        </TableCell>
 
-                          {/* Precio USD */}
-                          <td className="py-3 px-4 text-right">
-                            <span className="text-sm font-semibold text-foreground tabular-nums">
-                              {formatPrice(crypto.current_price)}
-                            </span>
-                          </td>
+                        {/* Precio USD */}
+                        <TableCell align="right">
+                          <span className="text-sm font-semibold text-foreground tabular-nums">
+                            {formatPrice(crypto.current_price)}
+                          </span>
+                        </TableCell>
 
-                          {/* Precio ARS */}
-                          <td className="py-3 px-4 text-right">
-                            {selectedDolar ? (
-                              <span className="text-sm font-semibold text-accent-emerald tabular-nums">
-                                ${(crypto.current_price * selectedDolar.venta).toLocaleString('es-AR', {
+                        {/* Precio ARS */}
+                        <TableCell align="right">
+                          {selectedDolar ? (
+                            <span className="text-sm font-semibold text-accent-emerald tabular-nums">
+                              $
+                              {(crypto.current_price * selectedDolar.venta).toLocaleString(
+                                'es-AR',
+                                {
                                   minimumFractionDigits: 0,
                                   maximumFractionDigits: 0,
-                                })}
-                              </span>
-                            ) : (
-                              <span className="text-xs text-secondary">...</span>
-                            )}
-                          </td>
-
-                          {/* 24h Change */}
-                          <td className="py-3 px-4 text-right">
-                            <div className={`inline-flex items-center gap-1 ${trend24h.color}`}>
-                              <TrendIcon className="text-xs" />
-                              <span className="text-sm font-bold tabular-nums">
-                                {crypto.price_change_percentage_24h > 0 ? '+' : ''}
-                                {crypto.price_change_percentage_24h.toFixed(2)}%
-                              </span>
-                            </div>
-                          </td>
-
-                          {/* Market Cap */}
-                          <td className="py-3 px-4 text-right">
-                            <span className="text-sm text-foreground tabular-nums">
-                              {formatMarketCap(crypto.market_cap)}
+                                }
+                              )}
                             </span>
-                          </td>
-                        </tr>
+                          ) : (
+                            <span className="text-xs text-secondary">...</span>
+                          )}
+                        </TableCell>
 
-                        {/* Fila expandible con detalles (visible al hover) */}
-                        <tr className="hidden group-hover:table-row bg-accent-emerald/5">
-                          <td colSpan={7} className="py-2 px-4 border-b border-border">
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
-                              <div>
-                                <p className="text-secondary text-[10px] mb-0.5">24h High</p>
-                                <p className="font-semibold text-success text-xs">{formatPrice(crypto.high_24h)}</p>
-                              </div>
-                              <div>
-                                <p className="text-secondary text-[10px] mb-0.5">24h Low</p>
-                                <p className="font-semibold text-error text-xs">{formatPrice(crypto.low_24h)}</p>
-                              </div>
-                              <div>
-                                <p className="text-secondary text-[10px] mb-0.5">Volumen 24h</p>
-                                <p className="font-semibold text-foreground text-xs">{formatMarketCap(crypto.total_volume)}</p>
-                              </div>
-                              <div>
-                                <p className="text-secondary text-[10px] mb-0.5">Suministro</p>
-                                <p className="font-semibold text-foreground text-xs">{formatMarketCap(crypto.circulating_supply)} {crypto.symbol.toUpperCase()}</p>
-                              </div>
+                        {/* 24h Change */}
+                        <TableCell align="right">
+                          <div className={`inline-flex items-center gap-1 ${trend24h.color}`}>
+                            <TrendIcon className="text-xs" />
+                            <span className="text-sm font-bold tabular-nums">
+                              {crypto.price_change_percentage_24h > 0 ? '+' : ''}
+                              {crypto.price_change_percentage_24h.toFixed(2)}%
+                            </span>
+                          </div>
+                        </TableCell>
+
+                        {/* Market Cap */}
+                        <TableCell align="right">
+                          <span className="text-sm text-foreground tabular-nums">
+                            {formatMarketCap(crypto.market_cap)}
+                          </span>
+                        </TableCell>
+                      </TableRow>
+
+                      {/* Fila expandible con detalles (visible al hover) */}
+                      <TableRow
+                        hoverable={false}
+                        className="hidden group-hover:table-row bg-accent-emerald/5"
+                      >
+                        <TableCell colSpan={7} className="py-4">
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+                            <div>
+                              <p className="text-secondary text-[10px] mb-0.5">24h High</p>
+                              <p className="font-semibold text-success text-xs">
+                                {formatPrice(crypto.high_24h)}
+                              </p>
                             </div>
-                          </td>
-                        </tr>
-                      </React.Fragment>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
+                            <div>
+                              <p className="text-secondary text-[10px] mb-0.5">24h Low</p>
+                              <p className="font-semibold text-error text-xs">
+                                {formatPrice(crypto.low_24h)}
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-secondary text-[10px] mb-0.5">Volumen 24h</p>
+                              <p className="font-semibold text-foreground text-xs">
+                                {formatMarketCap(crypto.total_volume)}
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-secondary text-[10px] mb-0.5">Suministro</p>
+                              <p className="font-semibold text-foreground text-xs">
+                                {formatMarketCap(crypto.circulating_supply)}{' '}
+                                {crypto.symbol.toUpperCase()}
+                              </p>
+                            </div>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    </React.Fragment>
+                  );
+                })}
+              </TableBody>
+            </Table>
           </Card>
         )}
       </div>

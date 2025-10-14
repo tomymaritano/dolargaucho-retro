@@ -2,6 +2,14 @@ import React, { useState } from 'react';
 import { DashboardLayout } from '@/components/layouts/DashboardLayout';
 import { Card } from '@/components/ui/Card/Card';
 import { Button } from '@/components/ui/Button/Button';
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableCell,
+  TableHeaderCell,
+} from '@/components/ui/Table';
 import { useDolarVariations } from '@/hooks/useDolarVariations';
 import { useCotizacionesWithVariations } from '@/hooks/useCotizaciones';
 import { FaStar, FaRegStar, FaArrowUp, FaArrowDown, FaMinus } from 'react-icons/fa';
@@ -98,94 +106,81 @@ export default function FavoritosPage() {
                   </p>
                 </div>
 
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead>
-                      <tr className="border-b border-border">
-                        <th className="text-center py-3 px-4 text-xs font-semibold text-secondary uppercase tracking-wider w-12">
-                          <FaStar className="inline-block text-accent-emerald" />
-                        </th>
-                        <th className="text-left py-3 px-4 text-xs font-semibold text-secondary uppercase tracking-wider">
-                          Tipo
-                        </th>
-                        <th className="text-right py-3 px-4 text-xs font-semibold text-secondary uppercase tracking-wider">
-                          Compra
-                        </th>
-                        <th className="text-right py-3 px-4 text-xs font-semibold text-secondary uppercase tracking-wider">
-                          Venta
-                        </th>
-                        <th className="text-right py-3 px-4 text-xs font-semibold text-secondary uppercase tracking-wider">
-                          Variación
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {favoriteDolaresData.map((dolar) => {
-                        const { trend, percentage } = dolar.variation;
-                        const TrendIcon =
-                          trend === 'up' ? FaArrowUp : trend === 'down' ? FaArrowDown : FaMinus;
-                        const trendColor =
-                          trend === 'up'
-                            ? 'text-error'
-                            : trend === 'down'
-                              ? 'text-success'
-                              : 'text-warning';
+                <Table>
+                  <TableHeader>
+                    <TableRow hoverable={false}>
+                      <TableHeaderCell align="center" width="48px">
+                        <FaStar className="inline-block text-accent-emerald" />
+                      </TableHeaderCell>
+                      <TableHeaderCell align="left">Tipo</TableHeaderCell>
+                      <TableHeaderCell align="right">Compra</TableHeaderCell>
+                      <TableHeaderCell align="right">Venta</TableHeaderCell>
+                      <TableHeaderCell align="right">Variación</TableHeaderCell>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {favoriteDolaresData.map((dolar) => {
+                      const { trend, percentage } = dolar.variation;
+                      const TrendIcon =
+                        trend === 'up' ? FaArrowUp : trend === 'down' ? FaArrowDown : FaMinus;
+                      const trendColor =
+                        trend === 'up'
+                          ? 'text-error'
+                          : trend === 'down'
+                            ? 'text-success'
+                            : 'text-warning';
 
-                        return (
-                          <tr
-                            key={dolar.casa}
-                            className="border-b border-border hover:bg-white/5 transition-colors"
-                          >
-                            {/* Favorito */}
-                            <td className="py-4 px-4 text-center">
-                              <button
-                                onClick={() => handleToggleDolar(dolar.casa)}
-                                className="p-2 rounded-lg text-accent-emerald bg-accent-emerald/10 hover:bg-accent-emerald/20 transition-all"
-                                aria-label={`Quitar ${dolar.nombre} de favoritos`}
-                              >
-                                <FaStar className="text-base" />
-                              </button>
-                            </td>
+                      return (
+                        <TableRow key={dolar.casa}>
+                          {/* Favorito */}
+                          <TableCell align="center">
+                            <button
+                              onClick={() => handleToggleDolar(dolar.casa)}
+                              className="p-2 rounded-lg text-accent-emerald bg-accent-emerald/10 hover:bg-accent-emerald/20 transition-all"
+                              aria-label={`Quitar ${dolar.nombre} de favoritos`}
+                            >
+                              <FaStar className="text-base" />
+                            </button>
+                          </TableCell>
 
-                            {/* Nombre */}
-                            <td className="py-4 px-4">
-                              <div>
-                                <p className="text-sm font-semibold text-foreground">
-                                  {dolar.nombre}
-                                </p>
-                                <p className="text-xs text-secondary">{dolar.casa}</p>
-                              </div>
-                            </td>
+                          {/* Nombre */}
+                          <TableCell align="left">
+                            <div>
+                              <p className="text-sm font-semibold text-foreground">
+                                {dolar.nombre}
+                              </p>
+                              <p className="text-xs text-secondary">{dolar.casa}</p>
+                            </div>
+                          </TableCell>
 
-                            {/* Compra */}
-                            <td className="py-4 px-4 text-right">
-                              <span className="text-sm font-semibold text-foreground tabular-nums">
-                                ${dolar.compra.toFixed(2)}
+                          {/* Compra */}
+                          <TableCell align="right">
+                            <span className="text-sm font-semibold text-foreground tabular-nums">
+                              ${dolar.compra.toFixed(2)}
+                            </span>
+                          </TableCell>
+
+                          {/* Venta */}
+                          <TableCell align="right">
+                            <span className="text-sm font-semibold text-accent-emerald tabular-nums">
+                              ${dolar.venta.toFixed(2)}
+                            </span>
+                          </TableCell>
+
+                          {/* Variación */}
+                          <TableCell align="right">
+                            <div className={`inline-flex items-center gap-1 ${trendColor}`}>
+                              <TrendIcon className="text-xs" />
+                              <span className="text-sm font-bold tabular-nums">
+                                {percentage.toFixed(2)}%
                               </span>
-                            </td>
-
-                            {/* Venta */}
-                            <td className="py-4 px-4 text-right">
-                              <span className="text-sm font-semibold text-accent-emerald tabular-nums">
-                                ${dolar.venta.toFixed(2)}
-                              </span>
-                            </td>
-
-                            {/* Variación */}
-                            <td className="py-4 px-4 text-right">
-                              <div className={`inline-flex items-center gap-1 ${trendColor}`}>
-                                <TrendIcon className="text-xs" />
-                                <span className="text-sm font-bold tabular-nums">
-                                  {percentage.toFixed(2)}%
-                                </span>
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
               </Card>
             )}
 
@@ -200,101 +195,88 @@ export default function FavoritosPage() {
                   </p>
                 </div>
 
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead>
-                      <tr className="border-b border-border">
-                        <th className="text-center py-3 px-4 text-xs font-semibold text-secondary uppercase tracking-wider w-12">
-                          <FaStar className="inline-block text-accent-emerald" />
-                        </th>
-                        <th className="text-left py-3 px-4 text-xs font-semibold text-secondary uppercase tracking-wider">
-                          Moneda
-                        </th>
-                        <th className="text-right py-3 px-4 text-xs font-semibold text-secondary uppercase tracking-wider">
-                          Compra
-                        </th>
-                        <th className="text-right py-3 px-4 text-xs font-semibold text-secondary uppercase tracking-wider">
-                          Venta
-                        </th>
-                        <th className="text-right py-3 px-4 text-xs font-semibold text-secondary uppercase tracking-wider">
-                          Variación
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {favoriteCotizacionesData.map((cotizacion) => {
-                        const { trend, percentage } = cotizacion.variation;
-                        const TrendIcon =
-                          trend === 'up' ? FaArrowUp : trend === 'down' ? FaArrowDown : FaMinus;
-                        const trendColor =
-                          trend === 'up'
-                            ? 'text-error'
-                            : trend === 'down'
-                              ? 'text-success'
-                              : 'text-warning';
+                <Table>
+                  <TableHeader>
+                    <TableRow hoverable={false}>
+                      <TableHeaderCell align="center" width="48px">
+                        <FaStar className="inline-block text-accent-emerald" />
+                      </TableHeaderCell>
+                      <TableHeaderCell align="left">Moneda</TableHeaderCell>
+                      <TableHeaderCell align="right">Compra</TableHeaderCell>
+                      <TableHeaderCell align="right">Venta</TableHeaderCell>
+                      <TableHeaderCell align="right">Variación</TableHeaderCell>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {favoriteCotizacionesData.map((cotizacion) => {
+                      const { trend, percentage } = cotizacion.variation;
+                      const TrendIcon =
+                        trend === 'up' ? FaArrowUp : trend === 'down' ? FaArrowDown : FaMinus;
+                      const trendColor =
+                        trend === 'up'
+                          ? 'text-error'
+                          : trend === 'down'
+                            ? 'text-success'
+                            : 'text-warning';
 
-                        return (
-                          <tr
-                            key={cotizacion.moneda}
-                            className="border-b border-border hover:bg-white/5 transition-colors"
-                          >
-                            {/* Favorito */}
-                            <td className="py-4 px-4 text-center">
-                              <button
-                                onClick={() => handleToggleCurrency(cotizacion.moneda)}
-                                className="p-2 rounded-lg text-accent-emerald bg-accent-emerald/10 hover:bg-accent-emerald/20 transition-all"
-                                aria-label={`Quitar ${cotizacion.nombre} de favoritos`}
-                              >
-                                <FaStar className="text-base" />
-                              </button>
-                            </td>
+                      return (
+                        <TableRow key={cotizacion.moneda}>
+                          {/* Favorito */}
+                          <TableCell align="center">
+                            <button
+                              onClick={() => handleToggleCurrency(cotizacion.moneda)}
+                              className="p-2 rounded-lg text-accent-emerald bg-accent-emerald/10 hover:bg-accent-emerald/20 transition-all"
+                              aria-label={`Quitar ${cotizacion.nombre} de favoritos`}
+                            >
+                              <FaStar className="text-base" />
+                            </button>
+                          </TableCell>
 
-                            {/* Nombre */}
-                            <td className="py-4 px-4">
-                              <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-full bg-accent-emerald/20 flex items-center justify-center flex-shrink-0">
-                                  <span className="text-accent-emerald font-bold text-sm">
-                                    {cotizacion.moneda}
-                                  </span>
-                                </div>
-                                <div>
-                                  <p className="text-sm font-semibold text-foreground">
-                                    {cotizacion.nombre}
-                                  </p>
-                                  <p className="text-xs text-secondary">{cotizacion.casa}</p>
-                                </div>
-                              </div>
-                            </td>
-
-                            {/* Compra */}
-                            <td className="py-4 px-4 text-right">
-                              <span className="text-sm font-semibold text-foreground tabular-nums">
-                                ${cotizacion.compra.toFixed(2)}
-                              </span>
-                            </td>
-
-                            {/* Venta */}
-                            <td className="py-4 px-4 text-right">
-                              <span className="text-sm font-semibold text-accent-emerald tabular-nums">
-                                ${cotizacion.venta.toFixed(2)}
-                              </span>
-                            </td>
-
-                            {/* Variación */}
-                            <td className="py-4 px-4 text-right">
-                              <div className={`inline-flex items-center gap-1 ${trendColor}`}>
-                                <TrendIcon className="text-xs" />
-                                <span className="text-sm font-bold tabular-nums">
-                                  {percentage.toFixed(2)}%
+                          {/* Nombre */}
+                          <TableCell align="left">
+                            <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 rounded-full bg-accent-emerald/20 flex items-center justify-center flex-shrink-0">
+                                <span className="text-accent-emerald font-bold text-sm">
+                                  {cotizacion.moneda}
                                 </span>
                               </div>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
+                              <div>
+                                <p className="text-sm font-semibold text-foreground">
+                                  {cotizacion.nombre}
+                                </p>
+                                <p className="text-xs text-secondary">{cotizacion.casa}</p>
+                              </div>
+                            </div>
+                          </TableCell>
+
+                          {/* Compra */}
+                          <TableCell align="right">
+                            <span className="text-sm font-semibold text-foreground tabular-nums">
+                              ${cotizacion.compra.toFixed(2)}
+                            </span>
+                          </TableCell>
+
+                          {/* Venta */}
+                          <TableCell align="right">
+                            <span className="text-sm font-semibold text-accent-emerald tabular-nums">
+                              ${cotizacion.venta.toFixed(2)}
+                            </span>
+                          </TableCell>
+
+                          {/* Variación */}
+                          <TableCell align="right">
+                            <div className={`inline-flex items-center gap-1 ${trendColor}`}>
+                              <TrendIcon className="text-xs" />
+                              <span className="text-sm font-bold tabular-nums">
+                                {percentage.toFixed(2)}%
+                              </span>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
               </Card>
             )}
           </div>
@@ -307,106 +289,93 @@ export default function FavoritosPage() {
             <p className="text-sm text-secondary mt-1">Agregá o quitá dólares de tus favoritos</p>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-border">
-                  <th className="text-center py-3 px-4 text-xs font-semibold text-secondary uppercase tracking-wider w-12">
-                    <FaStar className="inline-block text-accent-emerald" />
-                  </th>
-                  <th className="text-left py-3 px-4 text-xs font-semibold text-secondary uppercase tracking-wider">
-                    Tipo
-                  </th>
-                  <th className="text-right py-3 px-4 text-xs font-semibold text-secondary uppercase tracking-wider">
-                    Compra
-                  </th>
-                  <th className="text-right py-3 px-4 text-xs font-semibold text-secondary uppercase tracking-wider">
-                    Venta
-                  </th>
-                  <th className="text-right py-3 px-4 text-xs font-semibold text-secondary uppercase tracking-wider">
-                    Variación
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {dolares?.map((dolar) => {
-                  const isFavorite = favoriteDolares.includes(dolar.casa);
-                  const { trend, percentage } = dolar.variation;
-                  const TrendIcon =
-                    trend === 'up' ? FaArrowUp : trend === 'down' ? FaArrowDown : FaMinus;
-                  const trendColor =
-                    trend === 'up'
-                      ? 'text-error'
-                      : trend === 'down'
-                        ? 'text-success'
-                        : 'text-warning';
+          <Table>
+            <TableHeader>
+              <TableRow hoverable={false}>
+                <TableHeaderCell align="center" width="48px">
+                  <FaStar className="inline-block text-accent-emerald" />
+                </TableHeaderCell>
+                <TableHeaderCell align="left">Tipo</TableHeaderCell>
+                <TableHeaderCell align="right">Compra</TableHeaderCell>
+                <TableHeaderCell align="right">Venta</TableHeaderCell>
+                <TableHeaderCell align="right">Variación</TableHeaderCell>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {dolares?.map((dolar) => {
+                const isFavorite = favoriteDolares.includes(dolar.casa);
+                const { trend, percentage } = dolar.variation;
+                const TrendIcon =
+                  trend === 'up' ? FaArrowUp : trend === 'down' ? FaArrowDown : FaMinus;
+                const trendColor =
+                  trend === 'up'
+                    ? 'text-error'
+                    : trend === 'down'
+                      ? 'text-success'
+                      : 'text-warning';
 
-                  return (
-                    <tr
-                      key={dolar.casa}
-                      className={`border-b border-border hover:bg-white/5 transition-colors ${isFavorite ? 'bg-accent-emerald/5' : ''}`}
-                    >
-                      {/* Favorito Toggle */}
-                      <td className="py-4 px-4 text-center">
-                        <button
-                          onClick={() => handleToggleDolar(dolar.casa)}
-                          className={`p-2 rounded-lg transition-all ${
-                            isFavorite
-                              ? 'text-accent-emerald bg-accent-emerald/10 hover:bg-accent-emerald/20'
-                              : 'text-secondary bg-secondary/10 hover:bg-secondary/20 hover:text-accent-emerald'
-                          }`}
-                          aria-label={
-                            isFavorite
-                              ? `Quitar ${dolar.nombre} de favoritos`
-                              : `Agregar ${dolar.nombre} a favoritos`
-                          }
-                          aria-pressed={isFavorite}
-                        >
-                          {isFavorite ? (
-                            <FaStar className="text-base" />
-                          ) : (
-                            <FaRegStar className="text-base" />
-                          )}
-                        </button>
-                      </td>
+                return (
+                  <TableRow key={dolar.casa} className={isFavorite ? 'bg-accent-emerald/5' : ''}>
+                    {/* Favorito Toggle */}
+                    <TableCell align="center">
+                      <button
+                        onClick={() => handleToggleDolar(dolar.casa)}
+                        className={`p-2 rounded-lg transition-all ${
+                          isFavorite
+                            ? 'text-accent-emerald bg-accent-emerald/10 hover:bg-accent-emerald/20'
+                            : 'text-secondary bg-secondary/10 hover:bg-secondary/20 hover:text-accent-emerald'
+                        }`}
+                        aria-label={
+                          isFavorite
+                            ? `Quitar ${dolar.nombre} de favoritos`
+                            : `Agregar ${dolar.nombre} a favoritos`
+                        }
+                        aria-pressed={isFavorite}
+                      >
+                        {isFavorite ? (
+                          <FaStar className="text-base" />
+                        ) : (
+                          <FaRegStar className="text-base" />
+                        )}
+                      </button>
+                    </TableCell>
 
-                      {/* Nombre */}
-                      <td className="py-4 px-4">
-                        <div>
-                          <p className="text-sm font-semibold text-foreground">{dolar.nombre}</p>
-                          <p className="text-xs text-secondary">{dolar.casa}</p>
-                        </div>
-                      </td>
+                    {/* Nombre */}
+                    <TableCell align="left">
+                      <div>
+                        <p className="text-sm font-semibold text-foreground">{dolar.nombre}</p>
+                        <p className="text-xs text-secondary">{dolar.casa}</p>
+                      </div>
+                    </TableCell>
 
-                      {/* Compra */}
-                      <td className="py-4 px-4 text-right">
-                        <span className="text-sm font-semibold text-foreground tabular-nums">
-                          ${dolar.compra.toFixed(2)}
+                    {/* Compra */}
+                    <TableCell align="right">
+                      <span className="text-sm font-semibold text-foreground tabular-nums">
+                        ${dolar.compra.toFixed(2)}
+                      </span>
+                    </TableCell>
+
+                    {/* Venta */}
+                    <TableCell align="right">
+                      <span className="text-sm font-semibold text-accent-emerald tabular-nums">
+                        ${dolar.venta.toFixed(2)}
+                      </span>
+                    </TableCell>
+
+                    {/* Variación */}
+                    <TableCell align="right">
+                      <div className={`inline-flex items-center gap-1 ${trendColor}`}>
+                        <TrendIcon className="text-xs" />
+                        <span className="text-sm font-bold tabular-nums">
+                          {percentage.toFixed(2)}%
                         </span>
-                      </td>
-
-                      {/* Venta */}
-                      <td className="py-4 px-4 text-right">
-                        <span className="text-sm font-semibold text-accent-emerald tabular-nums">
-                          ${dolar.venta.toFixed(2)}
-                        </span>
-                      </td>
-
-                      {/* Variación */}
-                      <td className="py-4 px-4 text-right">
-                        <div className={`inline-flex items-center gap-1 ${trendColor}`}>
-                          <TrendIcon className="text-xs" />
-                          <span className="text-sm font-bold tabular-nums">
-                            {percentage.toFixed(2)}%
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
         </Card>
 
         {/* Add More Section - Currencies */}
@@ -416,115 +385,105 @@ export default function FavoritosPage() {
             <p className="text-sm text-secondary mt-1">Agregá o quitá monedas de tus favoritos</p>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-border">
-                  <th className="text-center py-3 px-4 text-xs font-semibold text-secondary uppercase tracking-wider w-12">
-                    <FaStar className="inline-block text-accent-emerald" />
-                  </th>
-                  <th className="text-left py-3 px-4 text-xs font-semibold text-secondary uppercase tracking-wider">
-                    Moneda
-                  </th>
-                  <th className="text-right py-3 px-4 text-xs font-semibold text-secondary uppercase tracking-wider">
-                    Compra
-                  </th>
-                  <th className="text-right py-3 px-4 text-xs font-semibold text-secondary uppercase tracking-wider">
-                    Venta
-                  </th>
-                  <th className="text-right py-3 px-4 text-xs font-semibold text-secondary uppercase tracking-wider">
-                    Variación
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {cotizaciones?.map((cotizacion) => {
-                  const isFavorite = favoriteCurrencies.includes(cotizacion.moneda);
-                  const { trend, percentage } = cotizacion.variation;
-                  const TrendIcon =
-                    trend === 'up' ? FaArrowUp : trend === 'down' ? FaArrowDown : FaMinus;
-                  const trendColor =
-                    trend === 'up'
-                      ? 'text-error'
-                      : trend === 'down'
-                        ? 'text-success'
-                        : 'text-warning';
+          <Table>
+            <TableHeader>
+              <TableRow hoverable={false}>
+                <TableHeaderCell align="center" width="48px">
+                  <FaStar className="inline-block text-accent-emerald" />
+                </TableHeaderCell>
+                <TableHeaderCell align="left">Moneda</TableHeaderCell>
+                <TableHeaderCell align="right">Compra</TableHeaderCell>
+                <TableHeaderCell align="right">Venta</TableHeaderCell>
+                <TableHeaderCell align="right">Variación</TableHeaderCell>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {cotizaciones?.map((cotizacion) => {
+                const isFavorite = favoriteCurrencies.includes(cotizacion.moneda);
+                const { trend, percentage } = cotizacion.variation;
+                const TrendIcon =
+                  trend === 'up' ? FaArrowUp : trend === 'down' ? FaArrowDown : FaMinus;
+                const trendColor =
+                  trend === 'up'
+                    ? 'text-error'
+                    : trend === 'down'
+                      ? 'text-success'
+                      : 'text-warning';
 
-                  return (
-                    <tr
-                      key={cotizacion.moneda}
-                      className={`border-b border-border hover:bg-white/5 transition-colors ${isFavorite ? 'bg-accent-emerald/5' : ''}`}
-                    >
-                      {/* Favorito Toggle */}
-                      <td className="py-4 px-4 text-center">
-                        <button
-                          onClick={() => handleToggleCurrency(cotizacion.moneda)}
-                          className={`p-2 rounded-lg transition-all ${
-                            isFavorite
-                              ? 'text-accent-emerald bg-accent-emerald/10 hover:bg-accent-emerald/20'
-                              : 'text-secondary bg-secondary/10 hover:bg-secondary/20 hover:text-accent-emerald'
-                          }`}
-                          aria-label={
-                            isFavorite
-                              ? `Quitar ${cotizacion.nombre} de favoritos`
-                              : `Agregar ${cotizacion.nombre} a favoritos`
-                          }
-                          aria-pressed={isFavorite}
-                        >
-                          {isFavorite ? (
-                            <FaStar className="text-base" />
-                          ) : (
-                            <FaRegStar className="text-base" />
-                          )}
-                        </button>
-                      </td>
+                return (
+                  <TableRow
+                    key={cotizacion.moneda}
+                    className={isFavorite ? 'bg-accent-emerald/5' : ''}
+                  >
+                    {/* Favorito Toggle */}
+                    <TableCell align="center">
+                      <button
+                        onClick={() => handleToggleCurrency(cotizacion.moneda)}
+                        className={`p-2 rounded-lg transition-all ${
+                          isFavorite
+                            ? 'text-accent-emerald bg-accent-emerald/10 hover:bg-accent-emerald/20'
+                            : 'text-secondary bg-secondary/10 hover:bg-secondary/20 hover:text-accent-emerald'
+                        }`}
+                        aria-label={
+                          isFavorite
+                            ? `Quitar ${cotizacion.nombre} de favoritos`
+                            : `Agregar ${cotizacion.nombre} a favoritos`
+                        }
+                        aria-pressed={isFavorite}
+                      >
+                        {isFavorite ? (
+                          <FaStar className="text-base" />
+                        ) : (
+                          <FaRegStar className="text-base" />
+                        )}
+                      </button>
+                    </TableCell>
 
-                      {/* Nombre */}
-                      <td className="py-4 px-4">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-full bg-accent-emerald/20 flex items-center justify-center flex-shrink-0">
-                            <span className="text-accent-emerald font-bold text-sm">
-                              {cotizacion.moneda}
-                            </span>
-                          </div>
-                          <div>
-                            <p className="text-sm font-semibold text-foreground">
-                              {cotizacion.nombre}
-                            </p>
-                            <p className="text-xs text-secondary">{cotizacion.casa}</p>
-                          </div>
-                        </div>
-                      </td>
-
-                      {/* Compra */}
-                      <td className="py-4 px-4 text-right">
-                        <span className="text-sm font-semibold text-foreground tabular-nums">
-                          ${cotizacion.compra.toFixed(2)}
-                        </span>
-                      </td>
-
-                      {/* Venta */}
-                      <td className="py-4 px-4 text-right">
-                        <span className="text-sm font-semibold text-accent-emerald tabular-nums">
-                          ${cotizacion.venta.toFixed(2)}
-                        </span>
-                      </td>
-
-                      {/* Variación */}
-                      <td className="py-4 px-4 text-right">
-                        <div className={`inline-flex items-center gap-1 ${trendColor}`}>
-                          <TrendIcon className="text-xs" />
-                          <span className="text-sm font-bold tabular-nums">
-                            {percentage.toFixed(2)}%
+                    {/* Nombre */}
+                    <TableCell align="left">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-accent-emerald/20 flex items-center justify-center flex-shrink-0">
+                          <span className="text-accent-emerald font-bold text-sm">
+                            {cotizacion.moneda}
                           </span>
                         </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+                        <div>
+                          <p className="text-sm font-semibold text-foreground">
+                            {cotizacion.nombre}
+                          </p>
+                          <p className="text-xs text-secondary">{cotizacion.casa}</p>
+                        </div>
+                      </div>
+                    </TableCell>
+
+                    {/* Compra */}
+                    <TableCell align="right">
+                      <span className="text-sm font-semibold text-foreground tabular-nums">
+                        ${cotizacion.compra.toFixed(2)}
+                      </span>
+                    </TableCell>
+
+                    {/* Venta */}
+                    <TableCell align="right">
+                      <span className="text-sm font-semibold text-accent-emerald tabular-nums">
+                        ${cotizacion.venta.toFixed(2)}
+                      </span>
+                    </TableCell>
+
+                    {/* Variación */}
+                    <TableCell align="right">
+                      <div className={`inline-flex items-center gap-1 ${trendColor}`}>
+                        <TrendIcon className="text-xs" />
+                        <span className="text-sm font-bold tabular-nums">
+                          {percentage.toFixed(2)}%
+                        </span>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
         </Card>
       </DashboardLayout>
     </>

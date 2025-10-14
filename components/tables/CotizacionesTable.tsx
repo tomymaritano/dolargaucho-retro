@@ -119,7 +119,7 @@ export function CotizacionesTable({
   };
 
   if (isLoading) {
-    return <Table loading skeletonRows={4} skeletonCols={6} />;
+    return <Table loading skeletonRows={4} skeletonCols={8} />;
   }
 
   return (
@@ -127,14 +127,17 @@ export function CotizacionesTable({
       <TableHeader>
         <TableRow hoverable={false}>
           {/* Favorito */}
-          <TableHeaderCell align="center" width="48px">
+          <TableHeaderCell align="center" className="w-12">
             <FaStar className="inline-block text-accent-emerald" />
           </TableHeaderCell>
+
+          {/* Tipo */}
+          <TableHeaderCell align="left">Tipo</TableHeaderCell>
 
           {/* Moneda */}
           <TableHeaderCell align="left" sortable onSort={() => handleSort('nombre')}>
             <div className="flex items-center gap-2">
-              Moneda
+              Nombre
               <SortIcon field="nombre" />
             </div>
           </TableHeaderCell>
@@ -170,10 +173,13 @@ export function CotizacionesTable({
               <SortIcon field="sparkline" />
             </div>
           </TableHeaderCell>
+
+          {/* Info */}
+          <TableHeaderCell align="right">Info</TableHeaderCell>
         </TableRow>
       </TableHeader>
 
-      <TableBody empty={sortedCotizaciones.length === 0} emptyColSpan={6}>
+      <TableBody empty={sortedCotizaciones.length === 0} emptyColSpan={8}>
         {sortedCotizaciones.map((cotizacion) => {
           const isFavorite = favoriteCurrencyIds.includes(cotizacion.moneda);
           const { trend, percentage } = cotizacion.variation;
@@ -194,77 +200,128 @@ export function CotizacionesTable({
             : 'neutral';
 
           return (
-            <TableRow key={cotizacion.moneda}>
-              {/* Favorito */}
-              <TableCell align="center">
-                <button
-                  onClick={() => onToggleFavorite(cotizacion.moneda)}
-                  className={`p-2 rounded-lg transition-all ${
-                    isFavorite
-                      ? 'text-accent-emerald bg-accent-emerald/10'
-                      : 'text-secondary hover:text-accent-emerald hover:bg-white/5'
-                  }`}
-                  aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
-                >
-                  {isFavorite ? (
-                    <FaStar className="text-base" />
-                  ) : (
-                    <FaRegStar className="text-base" />
-                  )}
-                </button>
-              </TableCell>
+            <React.Fragment key={cotizacion.moneda}>
+              <TableRow className="group">
+                {/* Favorito */}
+                <TableCell align="center">
+                  <button
+                    onClick={() => onToggleFavorite(cotizacion.moneda)}
+                    className={`p-2 rounded-lg transition-all ${
+                      isFavorite
+                        ? 'text-accent-emerald bg-accent-emerald/10'
+                        : 'text-secondary hover:text-accent-emerald hover:bg-white/5'
+                    }`}
+                    aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+                  >
+                    {isFavorite ? (
+                      <FaStar className="text-base" />
+                    ) : (
+                      <FaRegStar className="text-base" />
+                    )}
+                  </button>
+                </TableCell>
 
-              {/* Moneda */}
-              <TableCell>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-accent-emerald/20 flex items-center justify-center flex-shrink-0">
-                    <span className="text-accent-emerald font-bold text-xs">
-                      {cotizacion.moneda}
+                {/* Tipo */}
+                <TableCell align="left">
+                  <span className="px-2 py-1 rounded text-xs font-semibold bg-blue-500/20 text-blue-400">
+                    MONEDA
+                  </span>
+                </TableCell>
+
+                {/* Moneda */}
+                <TableCell>
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-accent-emerald/20 flex items-center justify-center flex-shrink-0">
+                      <span className="text-accent-emerald font-bold text-xs">
+                        {cotizacion.moneda}
+                      </span>
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">{cotizacion.nombre}</p>
+                      <p className="text-xs text-secondary">{cotizacion.casa}</p>
+                    </div>
+                  </div>
+                </TableCell>
+
+                {/* Compra */}
+                <TableCell align="right">
+                  <span className="text-sm font-semibold text-foreground tabular-nums">
+                    ${cotizacion.compra.toFixed(2)}
+                  </span>
+                </TableCell>
+
+                {/* Venta */}
+                <TableCell align="right">
+                  <span className="text-sm font-bold text-accent-emerald tabular-nums">
+                    ${cotizacion.venta.toFixed(2)}
+                  </span>
+                </TableCell>
+
+                {/* 24h % */}
+                <TableCell align="right">
+                  <div className={`inline-flex items-center gap-1 ${trendColor}`}>
+                    <TrendIcon className="text-xs" />
+                    <span className="text-sm font-bold tabular-nums">
+                      {trend === 'up' ? '+' : trend === 'down' ? '-' : ''}
+                      {percentage.toFixed(2)}%
                     </span>
                   </div>
-                  <div>
-                    <p className="text-sm font-semibold text-foreground">{cotizacion.nombre}</p>
-                    <p className="text-xs text-secondary">{cotizacion.casa}</p>
-                  </div>
-                </div>
-              </TableCell>
+                </TableCell>
 
-              {/* Compra */}
-              <TableCell align="right">
-                <span className="text-sm font-semibold text-foreground tabular-nums">
-                  ${cotizacion.compra.toFixed(2)}
-                </span>
-              </TableCell>
+                {/* 7D Trend Sparkline */}
+                <TableCell align="center">
+                  {loadingHistorical ? (
+                    <div className="w-28 h-12 mx-auto bg-white/5 rounded animate-pulse" />
+                  ) : sparklineValues.length > 0 ? (
+                    <CryptoSparkline data={sparklineValues} trend={sparklineTrend} />
+                  ) : (
+                    <span className="text-xs text-secondary">-</span>
+                  )}
+                </TableCell>
 
-              {/* Venta */}
-              <TableCell align="right">
-                <span className="text-sm font-bold text-accent-emerald tabular-nums">
-                  ${cotizacion.venta.toFixed(2)}
-                </span>
-              </TableCell>
-
-              {/* 24h % */}
-              <TableCell align="right">
-                <div className={`inline-flex items-center gap-1 ${trendColor}`}>
-                  <TrendIcon className="text-xs" />
-                  <span className="text-sm font-bold tabular-nums">
-                    {trend === 'up' ? '+' : trend === 'down' ? '-' : ''}
-                    {percentage.toFixed(2)}%
+                {/* Info */}
+                <TableCell align="right">
+                  <span className="text-xs text-secondary">
+                    {new Date(cotizacion.fechaActualizacion).toLocaleTimeString('es-AR', {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })}
                   </span>
-                </div>
-              </TableCell>
+                </TableCell>
+              </TableRow>
 
-              {/* 7D Trend Sparkline */}
-              <TableCell align="center">
-                {loadingHistorical ? (
-                  <div className="w-28 h-12 mx-auto bg-white/5 rounded animate-pulse" />
-                ) : sparklineValues.length > 0 ? (
-                  <CryptoSparkline data={sparklineValues} trend={sparklineTrend} />
-                ) : (
-                  <span className="text-xs text-secondary">-</span>
-                )}
-              </TableCell>
-            </TableRow>
+              {/* Expandable row on hover */}
+              <TableRow
+                hoverable={false}
+                className="hidden group-hover:table-row bg-accent-emerald/5"
+              >
+                <TableCell colSpan={8} className="py-4">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-xs">
+                    <div>
+                      <p className="text-secondary text-[10px] mb-0.5">Casa</p>
+                      <p className="font-semibold text-foreground text-xs">{cotizacion.casa}</p>
+                    </div>
+                    <div>
+                      <p className="text-secondary text-[10px] mb-0.5">Moneda</p>
+                      <p className="font-semibold text-foreground text-xs uppercase">
+                        {cotizacion.moneda}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-secondary text-[10px] mb-0.5">Última actualización</p>
+                      <p className="font-semibold text-foreground text-xs">
+                        {new Date(cotizacion.fechaActualizacion).toLocaleString('es-AR', {
+                          day: '2-digit',
+                          month: '2-digit',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
+                      </p>
+                    </div>
+                  </div>
+                </TableCell>
+              </TableRow>
+            </React.Fragment>
           );
         })}
       </TableBody>

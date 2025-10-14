@@ -16,6 +16,7 @@
 ### Productos Core (Implementados ✅)
 
 #### 1. **Dashboard de Cotizaciones en Tiempo Real**
+
 - **Qué es**: Panel principal con todas las cotizaciones del dólar, monedas internacionales y criptomonedas
 - **Cómo funciona**:
   - Usa `@tanstack/react-query` para fetching automático cada 30 segundos
@@ -27,6 +28,7 @@
   - CoinGecko API - Criptomonedas (Bitcoin, Ethereum, USDT, etc.)
 
 #### 2. **Sistema de Favoritos Inteligente**
+
 - **Qué es**: Sistema que permite guardar cotizaciones favoritas
 - **Cómo funciona**:
   - Usa Zustand con persistencia en localStorage
@@ -36,6 +38,7 @@
 - **Ubicación**: `lib/store/favorites.ts`
 
 #### 3. **Sistema de Alertas Personalizadas**
+
 - **Qué es**: Notificaciones cuando una cotización alcanza un valor objetivo
 - **Cómo funciona**:
   - Chequeo en tiempo real contra valores guardados
@@ -44,6 +47,7 @@
 - **Ubicación**: `lib/store/alertas.ts`
 
 #### 4. **Calculadoras Financieras (10+ calculadoras)**
+
 - **Inflación**: Calcula poder adquisitivo entre fechas
 - **Plazo Fijo**: Rendimiento con tasa + inflación
 - **UVA**: Simulaciones de créditos UVA
@@ -52,6 +56,7 @@
 - **Mega Calculadora**: Hub unificado con todas las calculadoras
 
 #### 5. **Datos Económicos USA (FRED API)**
+
 - **Qué es**: Integración con la Reserva Federal de USA
 - **Indicadores incluidos**:
   - Tasa de interés FED
@@ -68,6 +73,7 @@
 - **Comparación Argentina vs USA**: Ratios automáticos de inflación
 
 #### 6. **Sección Política (Gobierno Abierto)**
+
 - **Qué es**: Datos del Congreso Argentino
 - **Incluye**:
   - Lista de senadores y diputados
@@ -77,6 +83,7 @@
 - **API**: `datos.gob.ar` - Gobierno Abierto Argentina
 
 #### 7. **Calendario Económico**
+
 - **Qué es**: Calendario con eventos económicos y feriados
 - **Incluye**:
   - Feriados nacionales
@@ -85,6 +92,7 @@
   - Reuniones del BCRA
 
 #### 8. **Finanzas - Índices Bursátiles**
+
 - **Qué es**: Seguimiento de mercados
 - **Incluye**:
   - S&P 500, Dow Jones, NASDAQ
@@ -231,6 +239,7 @@
 ### Decisiones Arquitectónicas Clave
 
 #### 1. **¿Por qué React Query?**
+
 - **Problema**: Fetching manual es tedioso (loading states, error handling, caching)
 - **Solución**: React Query automatiza todo
 - **Beneficio**:
@@ -240,6 +249,7 @@
   - Refetch automático en background
 
 **Ejemplo**:
+
 ```typescript
 // Sin React Query (manual)
 const [data, setData] = useState(null);
@@ -248,12 +258,12 @@ const [error, setError] = useState(null);
 
 useEffect(() => {
   fetch('...')
-    .then(res => res.json())
-    .then(data => {
+    .then((res) => res.json())
+    .then((data) => {
       setData(data);
       setLoading(false);
     })
-    .catch(err => {
+    .catch((err) => {
       setError(err);
       setLoading(false);
     });
@@ -269,6 +279,7 @@ const { data, isLoading, error } = useQuery({
 ```
 
 #### 2. **¿Por qué Zustand para estado global?**
+
 - **Problema**: Redux es complejo (actions, reducers, boilerplate)
 - **Solución**: Zustand es simple y directo
 - **Beneficio**:
@@ -278,6 +289,7 @@ const { data, isLoading, error } = useQuery({
   - Persistencia automática en localStorage
 
 **Ejemplo**:
+
 ```typescript
 // Store completo en ~30 líneas
 export const useFavoritesStore = create<FavoritesState>()(
@@ -303,12 +315,14 @@ export const useFavoritesStore = create<FavoritesState>()(
 ```
 
 #### 3. **¿Por qué Next.js?**
+
 - **SEO**: Server-side rendering para páginas públicas
 - **Performance**: Optimización automática de imágenes, code splitting
 - **Developer Experience**: Hot reload, TypeScript out-of-the-box
 - **Deployment**: Vercel deploy con un click
 
 #### 4. **¿Por qué Tailwind CSS?**
+
 - **Velocidad**: Estilado rápido sin salir del HTML
 - **Consistencia**: Colores y espaciados predefinidos
 - **Dark mode**: Soportado nativamente
@@ -319,28 +333,34 @@ export const useFavoritesStore = create<FavoritesState>()(
 ## 🎯 Ventajas Competitivas
 
 ### 1. **Todo en Un Solo Lugar**
+
 - **Competencia**: Usuarios tienen que visitar 5+ sitios (dolarito, ambito, investing, etc.)
 - **Nosotros**: Dashboard único con TODO (dólar, monedas, crypto, USA, política)
 
 ### 2. **Datos en Tiempo Real**
+
 - **Competencia**: Muchos sitios no actualizan automáticamente
 - **Nosotros**: Refetch cada 30s automático, sin recargar página
 
 ### 3. **Calculadoras Avanzadas**
+
 - **Competencia**: Calculadoras básicas o no existen
 - **Nosotros**: 10+ calculadoras con datos reales integrados
   - Ejemplo: Calculadora de inflación usa datos reales de INDEC (no estimaciones)
 
 ### 4. **Comparación Argentina vs USA**
+
 - **Competencia**: Nadie lo hace
 - **Nosotros**: Comparación directa con datos FRED (Reserva Federal)
 - **Valor**: Contexto para entender economía argentina en perspectiva global
 
 ### 5. **Sistema de Alertas**
+
 - **Competencia**: Solo notificaciones push genéricas
 - **Nosotros**: Alertas personalizadas por usuario con historial
 
 ### 6. **Enfoque Argentino**
+
 - **Competencia**: Sitios internacionales no entienden el contexto argentino
 - **Nosotros**:
   - Formato de números argentino (1.234,56)
@@ -349,6 +369,7 @@ export const useFavoritesStore = create<FavoritesState>()(
   - Calendario con feriados y vencimientos locales
 
 ### 7. **Open Source & Transparencia**
+
 - **Competencia**: APIs privadas, datos opacos
 - **Nosotros**: Código abierto, fuentes verificables
 
@@ -361,6 +382,7 @@ export const useFavoritesStore = create<FavoritesState>()(
 **Objetivo**: Estabilizar lo existente y mejorar UX
 
 #### Tareas Prioritarias:
+
 1. **Testing & QA**
    - [ ] Tests unitarios para hooks críticos
    - [ ] Tests de integración para flujo completo
@@ -373,13 +395,25 @@ export const useFavoritesStore = create<FavoritesState>()(
    - [ ] Tooltips explicativos
    - [ ] Mensajes de error más claros
 
-3. **Performance**
+3. **Landing Page de Conversión** 🆕
+   - [ ] Diseñar landing page profesional antes del dashboard
+   - [ ] Secciones clave:
+     - Hero section con propuesta de valor clara
+     - Features principales con screenshots
+     - Testimonios y casos de uso
+     - FAQ section
+     - CTA prominent para registro
+   - [ ] A/B testing de diferentes mensajes
+   - [ ] Optimización para conversión (CRO)
+   - [ ] Mobile-first design
+
+4. **Performance**
    - [ ] Lazy loading de componentes pesados
    - [ ] Optimización de imágenes
    - [ ] Code splitting más agresivo
    - [ ] Reducir bundle size (analizar con `next/bundle-analyzer`)
 
-4. **Analytics**
+5. **Analytics**
    - [ ] Integrar Google Analytics o Plausible
    - [ ] Track eventos clave:
      - Cotizaciones más vistas
@@ -388,7 +422,7 @@ export const useFavoritesStore = create<FavoritesState>()(
      - Tasa de retorno
    - [ ] Heatmaps (Hotjar o similar)
 
-5. **SEO**
+6. **SEO**
    - [ ] Meta tags optimizados
    - [ ] Open Graph para compartir en redes
    - [ ] Sitemap.xml
@@ -396,10 +430,12 @@ export const useFavoritesStore = create<FavoritesState>()(
    - [ ] Schema.org markup para cotizaciones
 
 **KPIs para esta fase**:
+
 - Performance score >90 en Lighthouse
 - 100 usuarios activos por semana
 - Tiempo promedio en sitio >3 minutos
 - Tasa de rebote <60%
+- Tasa de conversión landing → registro >5%
 
 ---
 
@@ -407,10 +443,286 @@ export const useFavoritesStore = create<FavoritesState>()(
 
 **Objetivo**: Agregar features únicas que la competencia no tiene
 
-#### 2.1 **Sistema de Notificaciones Push**
+#### 2.1 **Integración con Billeteras Virtuales** 🆕 💎 FEATURE ÚNICA
+
+**Por qué**: Esta es una feature que **NINGUNA app de cotizaciones tiene**. Diferenciador total del mercado.
+
+**Problema que resuelve**:
+
+- Los usuarios tienen que calcular manualmente cuánto pueden comprar con su saldo
+- No hay forma de ver el impacto real de las cotizaciones en su dinero
+- Las calculadoras no usan datos reales del usuario
+
+**Billeteras Fiat soportadas** (en orden de prioridad):
+
+1. **Mercado Pago** (API disponible)
+2. **Ualá** (Web scraping o API si está disponible)
+3. **Brubank** (API bancaria)
+4. **Personal Pay**
+5. **Naranja X**
+
+**Billeteras Crypto soportadas** 🆕:
+
+1. **MetaMask** (Browser extension + WalletConnect)
+2. **Trust Wallet** (WalletConnect)
+3. **Ledger** (Hardware wallet via Web3)
+4. **Coinbase Wallet**
+5. **Binance Chain Wallet**
+6. **Rainbow Wallet**
+
+**Integraciones blockchain**:
+
+- Ethereum (ETH + tokens ERC-20)
+- Binance Smart Chain (BNB + tokens BEP-20)
+- Polygon (MATIC)
+- Bitcoin (BTC) - via APIs como BlockCypher
+
+**Features principales**:
+
+**A. Ver saldos en tiempo real**
+
+**Billeteras Fiat**:
+
+```typescript
+interface FiatWalletBalance {
+  provider: 'mercadopago' | 'uala' | 'brubank';
+  balanceARS: number;
+  lastUpdate: Date;
+}
+
+// Dashboard muestra:
+// "Tu saldo en Mercado Pago: $50,000 ARS"
+// "Con el dólar blue actual, podés comprar: USD $41.67"
+```
+
+**Billeteras Crypto** 🆕:
+
+```typescript
+interface CryptoWalletBalance {
+  provider: 'metamask' | 'trust' | 'ledger';
+  address: string;
+  balances: {
+    ETH: number;
+    USDT: number;
+    USDC: number;
+    BTC: number;
+    // ... otros tokens
+  };
+  totalValueUSD: number;
+  totalValueARS: number;
+  lastUpdate: Date;
+}
+
+// Dashboard muestra:
+// "🦊 MetaMask conectada"
+// "ETH: 0.5 ($1,200 USD / $1,440,000 ARS)"
+// "USDT: 1,000 ($1,000 USD / $1,200,000 ARS)"
+// "Total: $2,200 USD / $2,640,000 ARS"
+
+// Calculadora automática:
+// "Con tus 1,000 USDT podrías:"
+// "- Pasar a pesos al blue ($1,200): $1,200,000 ARS"
+// "- Pasar a pesos al oficial ($1,000): $1,000,000 ARS"
+// "Diferencia: $200,000 ARS (20% más con blue)"
+```
+
+**Conexión con MetaMask (ejemplo)**:
+
+```typescript
+// lib/integrations/metamask.ts
+export async function connectMetaMask() {
+  if (!window.ethereum) {
+    throw new Error('MetaMask no está instalada');
+  }
+
+  // Solicitar conexión
+  const accounts = await window.ethereum.request({
+    method: 'eth_requestAccounts',
+  });
+
+  const address = accounts[0];
+
+  // Obtener balances
+  const ethBalance = await window.ethereum.request({
+    method: 'eth_getBalance',
+    params: [address, 'latest'],
+  });
+
+  // Obtener tokens ERC-20 (USDT, USDC, etc.)
+  const usdtBalance = await getERC20Balance(address, USDT_CONTRACT);
+  const usdcBalance = await getERC20Balance(address, USDC_CONTRACT);
+
+  return {
+    address,
+    balances: {
+      ETH: parseFloat(ethBalance) / 1e18,
+      USDT: usdtBalance,
+      USDC: usdcBalance,
+    },
+  };
+}
+```
+
+**B. Calculadoras con datos reales**
+
+```typescript
+// Ejemplo: Calculadora de conversión
+function CalculadoraConWallet() {
+  const { saldoMercadoPago } = useWalletBalance();
+  const { dolarBlue } = useDolar('blue');
+
+  // Auto-completa con saldo real
+  const [pesos, setPesos] = useState(saldoMercadoPago);
+
+  return (
+    <div>
+      <p>Tu saldo disponible: ${saldoMercadoPago.toLocaleString()}</p>
+      <button onClick={() => setPesos(saldoMercadoPago)}>
+        Usar saldo completo
+      </button>
+      <p>Podrías comprar: USD ${(pesos / dolarBlue.venta).toFixed(2)}</p>
+    </div>
+  );
+}
+```
+
+**C. Notificaciones contextuales**
+
+```typescript
+// "🔔 Con tu saldo actual de $50,000 podrías comprar USD $42
+//  (antes eran USD $45). El dólar subió 7% esta semana."
+
+// "💡 Si comprás hoy USD $40 con dólar blue a $1,200,
+//  te quedarían $2,000 en tu cuenta de Mercado Pago."
+```
+
+**D. Simulaciones de escenarios**
+
+```typescript
+interface Scenario {
+  action: 'buy_usd' | 'invest_plazo_fijo' | 'buy_crypto';
+  amount: number;
+  impact: {
+    newBalance: number;
+    expectedReturn: number;
+    vsInflation: number;
+  };
+}
+
+// "Si comprás USD $100 hoy y el dólar sube 10% en 3 meses:"
+// "Tendrías: USD $100 (= $13,200 ARS)"
+// "vs si dejabas en pesos: $11,500 (perdiste por inflación)"
+// "Ganancia real: +$1,700 ARS (+14.7%)"
+```
+
+**E. Tracking de movimientos**
+
+```typescript
+// Historial de decisiones financieras
+interface Transaction {
+  date: Date;
+  type: 'dolar_purchase' | 'crypto_purchase' | 'plazo_fijo';
+  amountARS: number;
+  rateAtTime: number;
+  currentValue: number;
+  profitLoss: number;
+}
+
+// Dashboard muestra:
+// "Tus decisiones financieras"
+// "15/01/2025: Compraste USD $100 a $1,150 → Hoy valen $1,210 (+5.2%)"
+// "10/01/2025: Plazo fijo $10,000 al 133% TNA → Rendiste $450 vs inflación: -$200"
+```
+
+**Implementación técnica**:
+
+```typescript
+// lib/integrations/mercadopago.ts
+export async function connectMercadoPago(accessToken: string) {
+  const response = await fetch('https://api.mercadopago.com/v1/users/me/balance', {
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+    },
+  });
+
+  const data = await response.json();
+
+  return {
+    balance: data.available_balance,
+    currency: data.currency_id, // ARS
+  };
+}
+
+// pages/dashboard/wallet-connect.tsx
+export default function WalletConnectPage() {
+  const [provider, setProvider] = useState<'mercadopago' | 'uala' | null>(null);
+
+  const handleConnect = async (provider: string) => {
+    if (provider === 'mercadopago') {
+      // OAuth flow de Mercado Pago
+      const authUrl = `https://auth.mercadopago.com/authorization?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}`;
+      window.location.href = authUrl;
+    }
+  };
+
+  return (
+    <div>
+      <h1>Conectá tu billetera virtual</h1>
+      <WalletProviderCard
+        provider="mercadopago"
+        onClick={() => handleConnect('mercadopago')}
+      />
+      <WalletProviderCard
+        provider="uala"
+        onClick={() => handleConnect('uala')}
+      />
+    </div>
+  );
+}
+```
+
+**Seguridad & Privacidad**:
+
+- **OAuth 2.0** para autenticación (no guardamos contraseñas)
+- **Read-only access** (solo lectura de saldos, nunca transferencias)
+- **Encryption at rest** para tokens
+- **Opt-in**: Usuario debe autorizar explícitamente
+- **Disconnect fácil**: Un click para desconectar
+
+**Monetización**:
+
+- **Free tier**: Conectar 1 billetera
+- **Premium**: Conectar múltiples billeteras + alertas de saldo + tracking histórico
+
+**Ventaja competitiva**:
+✅ **NINGUNA app de cotizaciones hace esto**
+✅ Valor agregado enorme para el usuario
+✅ Stickiness altísimo (una vez conectado, difícil cambiar de app)
+✅ Datos para personalización y recomendaciones
+✅ Diferenciador claro en marketing
+
+**Riesgos**:
+
+- **Complejidad técnica**: APIs de bancos pueden ser inestables
+- **Mantenimiento**: Cambios en APIs requieren updates
+- **Seguridad**: Manejar tokens sensibles
+- **Regulación**: Posibles restricciones legales
+
+**Mitigación**:
+
+- Empezar solo con Mercado Pago (API más estable)
+- Logging y monitoring exhaustivo
+- Auditoría de seguridad antes de launch
+- Consulta legal preventiva
+
+---
+
+#### 2.2 **Sistema de Notificaciones Push**
+
 **Por qué**: Retención de usuarios + valor agregado
 
 **Implementación**:
+
 ```typescript
 // Usar OneSignal o Firebase Cloud Messaging
 // hooks/useNotifications.ts
@@ -430,19 +742,23 @@ export function useNotifications() {
 ```
 
 **Features**:
+
 - Notificación cuando se dispara una alerta
 - Notificación diaria con resumen de mercado (8am)
 - Notificación de eventos importantes (ej: sube riesgo país >100 puntos)
 
 #### 2.2 **Análisis Predictivo con IA**
+
 **Por qué**: Valor agregado único
 
 **Features**:
+
 - Predicción de tendencia del dólar (ML model simple)
 - Análisis de sentimiento de noticias
 - Recomendaciones personalizadas
 
 **Implementación**:
+
 ```typescript
 // Usar OpenAI API o modelo local con TensorFlow.js
 // api/predict/route.ts
@@ -461,23 +777,28 @@ export async function POST(req: Request) {
 ```
 
 #### 2.3 **Comparador de Precios Internacionales**
+
 **Por qué**: Útil para entender poder adquisitivo
 
 **Features**:
+
 - Comparar precio de productos entre Argentina y USA
 - Ejemplo: "iPhone 15 en Argentina vs USA (ajustado por salario promedio)"
 - Integrar con APIs de e-commerce (MercadoLibre, Amazon)
 
 #### 2.4 **Portfolio Tracker**
+
 **Por qué**: Herramienta esencial para inversores
 
 **Features**:
+
 - Agregar inversiones (dólares, crypto, bonos, acciones)
 - Calcular rendimiento total
 - Gráfico de evolución del portfolio
 - Comparar con inflación
 
 **Implementación**:
+
 ```typescript
 // lib/store/portfolio.ts
 interface Portfolio {
@@ -495,18 +816,97 @@ interface Portfolio {
 ```
 
 #### 2.5 **Simulador de Escenarios**
+
 **Por qué**: Herramienta educativa + engagement
 
 **Features**:
+
 - "¿Qué pasa si el dólar sube 20% en 3 meses?"
 - "¿Qué pasa si la inflación baja a 50% anual?"
 - Calcular impacto en ahorros, deudas, inversiones
 
-**KPIs para esta fase**:
+#### 2.6 **Planificación de App Móvil** 🆕
+
+**Por qué**: Mejor UX en mobile + notificaciones push nativas + presencia en stores
+
+**Estrategia**:
+
+**A. Investigación y planificación** (Mes 1-2 de Fase 2)
+
+- [ ] Análisis de tráfico actual (% de usuarios mobile vs desktop)
+- [ ] Estudio de competencia en App Store / Play Store
+- [ ] Definir MVP de app móvil
+- [ ] Research de tecnologías:
+  - React Native con Expo (recomendado - reusar código web)
+  - Flutter (si queremos mejor performance)
+  - PWA mejorada (opción más rápida pero limitada)
+
+**B. Stack técnico propuesto**
+
+```typescript
+// React Native + Expo
+// Ventajas:
+// - Reusar hooks y lógica de negocio de web
+// - Hot reload / Fast refresh
+// - Deploy over-the-air (updates sin App Store review)
+// - Compartir API clients y utilities
+
+// Compartir entre web y mobile:
+/monorepo
+├── /packages
+│   ├── /shared              # Código compartido
+│   │   ├── /hooks          # useDolar, useCrypto, etc.
+│   │   ├── /utils          # formatters, logger
+│   │   ├── /api            # API clients
+│   │   └── /types          # TypeScript types
+│   ├── /web                # Next.js app (actual)
+│   └── /mobile             # React Native app
+```
+
+**C. Features prioritarias para MVP mobile**:
+
+1. Dashboard de cotizaciones (dólar, crypto)
+2. Favoritos
+3. Alertas con notificaciones push nativas
+4. 2-3 calculadoras más usadas
+5. Gráficos básicos
+
+**D. Features NO incluidas en MVP** (pueden esperar):
+
+- Todas las 10+ calculadoras (solo las top 3)
+- Sección política completa
+- Datos FRED / ECB
+- Portfolio tracker avanzado
+
+**E. Timeline estimado**:
+
+- **Mes 1**: Setup + arquitectura + pantallas principales
+- **Mes 2**: Integrar APIs + funcionalidades core
+- **Mes 3**: Testing + beta con usuarios
+- **Mes 4**: Submit a stores + launch
+
+**F. Monetización en mobile**:
+
+- Modelo freemium igual que web
+- In-app purchases para Premium
+- No ads intrusivos (mejor UX)
+
+**KPIs específicos de mobile**:
+
+- 50% de usuarios web instalan app en 3 meses post-launch
+- Rating >4.5 en stores
+- 30% retención D7 (mejor que web típicamente)
+
+---
+
+**KPIs para esta fase completa**:
+
 - 500 usuarios activos por semana
 - 20% de usuarios retornan semanalmente
 - 50+ notificaciones enviadas por día
 - 10% de usuarios usan portfolio tracker
+- 5+ billeteras conectadas (prueba de concepto)
+- Plan de app móvil completado y aprobado
 
 ---
 
@@ -517,12 +917,14 @@ interface Portfolio {
 #### 3.1 **Plan Premium (Freemium Model)**
 
 **Free Tier** (actual):
+
 - Cotizaciones en tiempo real
 - Hasta 5 alertas
 - Calculadoras básicas
 - Datos históricos (30 días)
 
 **Premium Tier** ($5-10 USD/mes):
+
 - Alertas ilimitadas
 - Datos históricos completos (5+ años)
 - Exportar datos a Excel/CSV
@@ -534,6 +936,7 @@ interface Portfolio {
 - Soporte prioritario
 
 **Implementación**:
+
 ```typescript
 // Usar Stripe para pagos
 // pages/api/stripe/create-checkout.ts
@@ -544,10 +947,12 @@ export default async function handler(req, res) {
 
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
-    line_items: [{
-      price: 'price_PREMIUM_PLAN_ID',
-      quantity: 1,
-    }],
+    line_items: [
+      {
+        price: 'price_PREMIUM_PLAN_ID',
+        quantity: 1,
+      },
+    ],
     mode: 'subscription',
     success_url: `${req.headers.origin}/dashboard?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${req.headers.origin}/pricing`,
@@ -560,12 +965,14 @@ export default async function handler(req, res) {
 #### 3.2 **API Pública (B2B)**
 
 **Modelo**:
+
 - Free tier: 100 requests/día
 - Basic: 10,000 requests/día - $50/mes
 - Pro: 100,000 requests/día - $200/mes
 - Enterprise: Ilimitado - Custom pricing
 
 **Endpoints**:
+
 ```
 GET /api/v1/cotizaciones/dolar
 GET /api/v1/cotizaciones/crypto
@@ -575,6 +982,7 @@ GET /api/v1/politica/legisladores
 ```
 
 **Clientes potenciales**:
+
 - Fintechs argentinas
 - Apps de inversión
 - Medios de comunicación
@@ -583,11 +991,13 @@ GET /api/v1/politica/legisladores
 #### 3.3 **Afiliados & Comisiones**
 
 **Partnerships**:
+
 - Exchanges de crypto (Binance, Bitso) → Comisión por registro
 - Brokers (PPI, IOL, Balanz) → Comisión por cuenta abierta
 - Bancos (Cuenta digital Brubank, Ualá) → Comisión
 
 **Implementación**:
+
 - Agregar banners/cards con "Recomendado"
 - Links con UTM tracking
 - Dashboard de afiliados
@@ -597,12 +1007,14 @@ GET /api/v1/politica/legisladores
 **Por qué low priority**: Puede degradar UX
 
 **Si se implementa**:
+
 - Solo en free tier
 - Ads relevantes (fintech, inversiones)
 - Máximo 1 ad por página
 - No ads intrusivos (pop-ups, videos con audio)
 
 **KPIs para esta fase**:
+
 - $1,000 USD/mes en ingresos recurrentes
 - 100+ suscriptores premium
 - 10+ clientes API
@@ -610,48 +1022,104 @@ GET /api/v1/politica/legisladores
 
 ---
 
-### FASE 4: Expansión (8-12 meses) 🟣 VISIÓN
+### FASE 4: Expansión Internacional (8-12 meses) 🟣 VISIÓN
 
-**Objetivo**: Escalar a toda Latinoamérica
+**Objetivo**: Escalar a toda Latinoamérica + Launch de app móvil
 
-#### 4.1 **Multi-país**
+#### 4.1 **Launch de App Móvil**
 
-**Países objetivo**:
-1. Uruguay (dólar + crypto)
-2. Chile (UF + peso)
-3. Brasil (dólar + inflação)
-4. México (dólar + inflación)
-5. Colombia (dólar + TRM)
+**Objetivo**: Lanzar app en App Store y Play Store
+
+**Milestones**:
+
+- [ ] Beta testing con 50+ usuarios
+- [ ] Submit a App Store (iOS)
+- [ ] Submit a Play Store (Android)
+- [ ] Marketing campaign para launch
+- [ ] Monitor métricas post-launch
+- [ ] Iterar basado en feedback
+
+**KPIs de launch**:
+
+- 1,000 descargas primer mes
+- Rating >4.5 estrellas
+- 50% de usuarios web instalan app
+- 30% retención D30
+
+#### 4.2 **Expansión Multi-país**
+
+**Países objetivo** (en orden de prioridad):
+
+1. **Uruguay** (dólar + crypto)
+   - Mercado similar a Argentina
+   - Mismo idioma
+   - APIs disponibles
+2. **Chile** (UF + peso)
+   - Economía más estable
+   - Interés en crypto alto
+3. **Brasil** (dólar + real)
+   - Mercado enorme
+   - Requiere traducción al portugués
+4. **México** (dólar + peso)
+   - Mercado grande
+   - APIs de gobierno disponibles
+5. **Colombia** (dólar + TRM)
+   - Mercado emergente
 
 **Implementación**:
+
 ```typescript
 // lib/contexts/CountryContext.tsx
 export const CountryContext = createContext<{
   country: 'AR' | 'UY' | 'CL' | 'BR' | 'MX' | 'CO';
+  currency: string;
+  locale: string;
   setCountry: (country: string) => void;
 }>();
 
-// Detectar país automáticamente
+// Auto-detectar país
 useEffect(() => {
-  const country = detectCountry(); // Por IP o browser settings
+  const country = detectCountry(); // Por IP o browser locale
   setCountry(country);
 }, []);
+
+// Ejemplo de uso:
+const { country } = useCountry();
+
+if (country === 'AR') {
+  return <DolarArgentinaWidget />;
+} else if (country === 'UY') {
+  return <DolarUruguayWidget />;
+}
 ```
 
-**Desafío**: Cada país tiene sus propias APIs y particularidades
+**Desafíos**:
 
-#### 4.2 **Mobile App (React Native)**
+- Cada país tiene APIs diferentes
+- Regulaciones locales distintas
+- Traducción de contenido
+- Marketing localizado
 
-**Por qué**: Mejor experiencia en mobile + notificaciones push nativas
+**Estrategia de entrada**:
 
-**Stack**:
-- React Native (reusar código de web)
-- Expo (deploy más fácil)
-- Compartir hooks y lógica con web
+1. Soft launch con landing localizada
+2. Partnerships con influencers locales
+3. Ads en redes sociales (Facebook, Instagram)
+4. PR en medios de fintech locales
 
-#### 4.3 **Comunidad & Social**
+#### 4.3 **Billeteras Virtuales Multi-país**
+
+Expandir integración de billeteras a otros países:
+
+- **Uruguay**: Prex, Midinero
+- **Chile**: Mach, Tenpo
+- **Brasil**: PicPay, Mercado Pago BR
+- **México**: Clip, Mercado Pago MX
+
+#### 4.4 **Comunidad & Social**
 
 **Features**:
+
 - Foro/comentarios por cotización
 - Análisis colaborativo
 - Sistema de reputación (karma)
@@ -666,10 +1134,12 @@ useEffect(() => {
 ### Estrategia de Adquisición
 
 #### 1. **SEO (Prioridad Alta)**
+
 **Costo**: $0 (tiempo)
 **ROI**: Alto a largo plazo
 
 **Táctica**:
+
 - Artículos educativos:
   - "Diferencia entre dólar blue, MEP y CCL"
   - "Cómo calcular inflación real"
@@ -680,30 +1150,36 @@ useEffect(() => {
   - "comparar inflación argentina vs usa"
 
 #### 2. **Content Marketing**
+
 **Costo**: $0-$500/mes (freelancer)
 **ROI**: Medio a largo plazo
 
 **Canales**:
+
 - Blog con análisis semanal
 - Newsletter semanal (Substack o propio)
 - Threads de Twitter/X explicando economía
 - Videos cortos para TikTok/Reels
 
 #### 3. **Social Media**
+
 **Costo**: $0-$200/mes (ads)
 **ROI**: Medio a corto plazo
 
 **Estrategia**:
+
 - Twitter/X: Updates en tiempo real ("🚨 Dólar blue superó los $1,200")
 - Instagram: Infografías educativas
 - Reddit: r/merval, r/argentina (sin spam)
 - LinkedIn: Análisis técnico para profesionales
 
 #### 4. **Partnerships**
+
 **Costo**: $0
 **ROI**: Varía
 
 **Ejemplos**:
+
 - Colaborar con influencers de finanzas
 - Guest posts en blogs de economía
 - Integración con otras herramientas (MercadoPago, MercadoLibre)
@@ -711,21 +1187,25 @@ useEffect(() => {
 ### Proyección de Crecimiento (Conservador)
 
 **Mes 1-3 (Fase 1)**:
+
 - Usuarios: 50-100/semana
 - Ingresos: $0
 - Foco: Producto + SEO
 
 **Mes 4-6 (Fase 2)**:
+
 - Usuarios: 500-1,000/semana
 - Ingresos: $0-$100/mes (primeros usuarios premium)
 - Foco: Features diferenciadas + marketing
 
 **Mes 7-9 (Fase 3)**:
+
 - Usuarios: 2,000-5,000/semana
 - Ingresos: $500-$1,500/mes
 - Foco: Monetización + optimización conversión
 
 **Mes 10-12 (Fase 4)**:
+
 - Usuarios: 10,000+/semana
 - Ingresos: $3,000-$5,000/mes
 - Foco: Escalar + expansión
@@ -774,6 +1254,7 @@ useEffect(() => {
 ### Dashboard de Métricas
 
 Crear página interna `/admin/metrics` con:
+
 - Usuarios activos (gráfico)
 - Top cotizaciones vistas
 - Top calculadoras usadas
@@ -821,18 +1302,21 @@ Crear página interna `/admin/metrics` con:
 ## 🚀 Próximos Pasos Inmediatos
 
 ### Esta Semana
+
 1. [ ] Leer este documento completo
 2. [ ] Agregar Google Analytics
 3. [ ] Crear página `/roadmap` pública (transparencia)
 4. [ ] Escribir primer artículo de blog SEO
 
 ### Próximas 2 Semanas
+
 1. [ ] Implementar tests básicos
 2. [ ] Optimizar performance (Lighthouse audit)
 3. [ ] Lanzar newsletter signup
 4. [ ] Primera campaña en redes sociales
 
 ### Próximo Mes
+
 1. [ ] 100 usuarios activos/semana
 2. [ ] 5 artículos de blog publicados
 3. [ ] Comenzar Fase 2 (features diferenciadas)
@@ -855,19 +1339,24 @@ Crear página interna `/admin/metrics` con:
 ## 📞 Preguntas Frecuentes
 
 ### ¿Por dónde empiezo?
+
 1. Terminar Fase 1 (consolidación)
 2. Implementar analytics
 3. Escribir contenido para SEO
 4. Conseguir primeros 100 usuarios
 
 ### ¿Cuándo lanzo features premium?
+
 Cuando tengas:
+
 - 500+ usuarios activos semanales
 - Claro entendimiento de qué features valoran más
 - NPS >40
 
 ### ¿Necesito investors?
+
 No inicialmente. Con:
+
 - $0 en infraestructura (Vercel free tier, APIs gratuitas)
 - $50/mes para APIs premium (FRED, etc.)
 - $100/mes para marketing (opcional)
@@ -875,12 +1364,15 @@ No inicialmente. Con:
 Puedes bootstrappear hasta $1,000-$2,000 MRR.
 
 Recién buscar inversión cuando:
+
 - Tengas tracción clara (10k+ usuarios)
 - Quieras escalar rápido (contratar equipo)
 - Necesites capital para expansión (otros países)
 
 ### ¿Qué hago si una feature no funciona?
+
 **Método científico**:
+
 1. Definir hipótesis ("Los usuarios quieren X")
 2. Implementar MVP de X
 3. Medir adopción (analytics)
@@ -894,24 +1386,66 @@ Recién buscar inversión cuando:
 
 **Estado actual**: Plataforma funcional con 8 productos core + datos en tiempo real
 
-**Ventaja competitiva**: Todo-en-uno + enfoque argentino + datos USA (único)
+**Ventaja competitiva clave**:
 
-**Roadmap**:
-1. **Fase 1 (1-2 meses)**: Consolidar + SEO → 100 usuarios/semana
-2. **Fase 2 (2-4 meses)**: Features únicas (IA, portfolio) → 500 usuarios/semana
-3. **Fase 3 (4-8 meses)**: Monetización (premium, API) → $1,000/mes
-4. **Fase 4 (8-12 meses)**: Expansión LATAM + mobile → $5,000/mes
+- Todo-en-uno + enfoque argentino + datos USA (único)
+- **🆕 FEATURE ÚNICA**: Integración con billeteras virtuales (Mercado Pago, Ualá, etc.)
+  - Ninguna app de cotizaciones hace esto
+  - Game changer para UX y retención
 
-**Próximos pasos**: Analytics + SEO + primeros 100 usuarios
+**Roadmap actualizado**:
 
-**Meta 12 meses**: 10,000 usuarios activos + $3,000-$5,000 MRR
+1. **Fase 1 (1-2 meses)**: Consolidar + **Landing page** + SEO → 100 usuarios/semana
+2. **Fase 2 (2-4 meses)**:
+   - **💎 Integración billeteras virtuales** (diferenciador total)
+   - **📱 Planificación app móvil** (React Native)
+   - Features únicas (IA, portfolio, notificaciones push)
+   - → 500 usuarios/semana
+3. **Fase 3 (4-8 meses)**:
+   - Monetización (premium $5-10/mes, API B2B)
+   - Afiliados con exchanges y fintechs
+   - → $1,000-$1,500/mes
+4. **Fase 4 (8-12 meses)**:
+   - **Launch app móvil** (iOS + Android)
+   - Expansión LATAM (Uruguay, Chile, Brasil)
+   - Billeteras virtuales multi-país
+   - → $5,000-$10,000/mes
+
+**Diferenciadores principales**:
+
+1. **Billeteras virtuales integradas** ← ÚNICO EN EL MERCADO
+2. Comparación Argentina vs USA (datos FRED)
+3. Calculadoras con datos reales del usuario
+4. Todo en un solo lugar (no 5+ apps)
+
+**Próximos pasos inmediatos**:
+
+1. Diseñar landing page de conversión
+2. Implementar analytics
+3. Contenido SEO
+4. Investigar API de Mercado Pago para billeteras
+
+**Meta 12 meses**:
+
+- 10,000 usuarios activos semanales
+- 100+ suscriptores premium
+- $3,000-$5,000 MRR
+- App móvil en beta
+- 20+ billeteras conectadas (proof of concept)
 
 ---
 
-**Última actualización**: 2025-01-13
-**Versión**: 1.0
+**Última actualización**: 2025-01-14
+**Versión**: 2.0 - ACTUALIZADO con features innovadoras
 **Autor**: DolarGaucho Team
 
+**🆕 Cambios v2.0**:
+
+- ✅ Agregada feature de integración con billeteras virtuales (GAME CHANGER)
+- ✅ Planificación de app móvil adelantada a Fase 2
+- ✅ Landing page de conversión agregada a Fase 1
+- ✅ KPIs actualizados para reflejar nuevas features
+
 ---
 
-*"La mejor plataforma no es la que tiene más features, sino la que resuelve mejor los problemas del usuario."* ✨
+_"La mejor plataforma no es la que tiene más features, sino la que resuelve mejor los problemas del usuario."_ ✨

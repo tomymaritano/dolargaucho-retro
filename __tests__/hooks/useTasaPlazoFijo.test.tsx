@@ -12,9 +12,11 @@ const createWrapper = () => {
       },
     },
   });
-  return ({ children }: { children: React.ReactNode }) => (
+  const Wrapper = ({ children }: { children: React.ReactNode }) => (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
+  Wrapper.displayName = 'TestQueryWrapper';
+  return Wrapper;
 };
 
 describe('useTasaPlazoFijo', () => {
@@ -24,9 +26,9 @@ describe('useTasaPlazoFijo', () => {
 
   it('fetches tasa plazo fijo data successfully', async () => {
     const mockData = [
-      { plazo_dias: 30, tna: 75.5, tea: 110.2 },
-      { plazo_dias: 60, tna: 80.0, tea: 120.5 },
-      { plazo_dias: 90, tna: 85.0, tea: 130.8 },
+      { entidad: 'Banco Nación', tnaClientes: 75.5, tnaNoClientes: 70.0 },
+      { entidad: 'Banco Galicia', tnaClientes: 80.0, tnaNoClientes: 75.0 },
+      { entidad: 'Banco Santander', tnaClientes: 85.0, tnaNoClientes: 80.0 },
     ];
 
     (global.fetch as jest.Mock).mockResolvedValueOnce({
@@ -44,11 +46,11 @@ describe('useTasaPlazoFijo', () => {
     expect(result.current.data).toHaveLength(3);
   });
 
-  it('returns data sorted by plazo_dias', async () => {
+  it('returns data with entidad property', async () => {
     const mockData = [
-      { plazo_dias: 90, tna: 85.0, tea: 130.8 },
-      { plazo_dias: 30, tna: 75.5, tea: 110.2 },
-      { plazo_dias: 60, tna: 80.0, tea: 120.5 },
+      { entidad: 'Banco Santander', tnaClientes: 85.0, tnaNoClientes: 80.0 },
+      { entidad: 'Banco Nación', tnaClientes: 75.5, tnaNoClientes: 70.0 },
+      { entidad: 'Banco Galicia', tnaClientes: 80.0, tnaNoClientes: 75.0 },
     ];
 
     (global.fetch as jest.Mock).mockResolvedValueOnce({
@@ -62,6 +64,7 @@ describe('useTasaPlazoFijo', () => {
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
-    expect(result.current.data?.[0]?.plazo_dias).toBeDefined();
+    expect(result.current.data?.[0]?.entidad).toBeDefined();
+    expect(result.current.data?.[0]?.tnaClientes).toBeDefined();
   });
 });

@@ -145,9 +145,17 @@ interface TableCellProps {
   align?: 'left' | 'center' | 'right';
   /** Ancho de la celda */
   width?: string;
+  /** ColSpan para celdas que ocupan múltiples columnas */
+  colSpan?: number;
 }
 
-export function TableCell({ children, className = '', align = 'left', width }: TableCellProps) {
+export function TableCell({
+  children,
+  className = '',
+  align = 'left',
+  width,
+  colSpan,
+}: TableCellProps) {
   const alignClasses = {
     left: 'text-left',
     center: 'text-center',
@@ -157,7 +165,11 @@ export function TableCell({ children, className = '', align = 'left', width }: T
   const widthStyle = width ? { width } : undefined;
 
   return (
-    <td className={`py-4 px-4 ${alignClasses[align]} ${className}`} style={widthStyle}>
+    <td
+      className={`py-4 px-4 ${alignClasses[align]} ${className}`}
+      style={widthStyle}
+      colSpan={colSpan}
+    >
       {children}
     </td>
   );
