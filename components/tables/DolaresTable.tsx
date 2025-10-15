@@ -20,6 +20,8 @@ import {
   FaSort,
   FaSortUp,
   FaSortDown,
+  FaShareAlt,
+  FaCopy,
 } from 'react-icons/fa';
 import { CryptoSparkline } from '@/components/charts/CryptoSparkline';
 import { useMultipleDolarHistoricoRange } from '@/hooks/useDolarHistoricoRange';
@@ -197,30 +199,60 @@ export function DolaresTable({
 
           return (
             <React.Fragment key={dolar.casa}>
-              <TableRow className="group">
-                {/* Nombre con badge de favorito y botón hover */}
+              <TableRow className="group relative">
+                {/* Gradient lateral con acciones - aparece en hover */}
+                <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-background-dark/95 via-background-dark/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto flex items-center justify-end gap-1 pr-4 z-10">
+                  <button
+                    onClick={() => onToggleFavorite(dolar.casa)}
+                    className={`p-2 rounded-lg transition-all hover:scale-110 active:scale-95 ${
+                      isFavorite
+                        ? 'text-accent-emerald hover:bg-accent-emerald/10'
+                        : 'text-secondary hover:text-accent-emerald hover:bg-white/5'
+                    }`}
+                    aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+                    title={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+                  >
+                    {isFavorite ? (
+                      <FaStar className="text-sm" />
+                    ) : (
+                      <FaRegStar className="text-sm" />
+                    )}
+                  </button>
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(`${dolar.nombre}: $${dolar.venta.toFixed(2)}`);
+                    }}
+                    className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 text-secondary hover:text-accent-emerald hover:bg-white/5"
+                    aria-label="Copiar"
+                    title="Copiar valor"
+                  >
+                    <FaCopy className="text-sm" />
+                  </button>
+                  <button
+                    onClick={() => {
+                      if (navigator.share) {
+                        navigator.share({
+                          title: dolar.nombre,
+                          text: `${dolar.nombre}: $${dolar.venta.toFixed(2)}`,
+                        });
+                      }
+                    }}
+                    className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 text-secondary hover:text-accent-emerald hover:bg-white/5"
+                    aria-label="Compartir"
+                    title="Compartir"
+                  >
+                    <FaShareAlt className="text-sm" />
+                  </button>
+                </div>
+
+                {/* Nombre con badge de favorito */}
                 <TableCell>
                   <div className="flex items-center gap-2">
                     {isFavorite && <FaStar className="text-accent-emerald text-xs flex-shrink-0" />}
-                    <div className="flex-1">
+                    <div>
                       <p className="text-sm font-semibold text-foreground">{dolar.nombre}</p>
                       <p className="text-xs text-secondary uppercase">{dolar.casa}</p>
                     </div>
-                    <button
-                      onClick={() => onToggleFavorite(dolar.casa)}
-                      className={`p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100 flex-shrink-0 hover:scale-110 active:scale-95 ${
-                        isFavorite
-                          ? 'text-accent-emerald hover:bg-accent-emerald/10'
-                          : 'text-secondary hover:text-accent-emerald hover:bg-white/5'
-                      }`}
-                      aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
-                    >
-                      {isFavorite ? (
-                        <FaStar className="text-sm" />
-                      ) : (
-                        <FaRegStar className="text-sm" />
-                      )}
-                    </button>
                   </div>
                 </TableCell>
 
