@@ -74,13 +74,11 @@ export function FavoritesList({
           <TableHeaderCell align="center" className="w-12">
             <FaStar className="inline-block text-accent-emerald" />
           </TableHeaderCell>
-          <TableHeaderCell align="left">Tipo</TableHeaderCell>
           <TableHeaderCell align="left">Nombre</TableHeaderCell>
           <TableHeaderCell align="right">Precio USD</TableHeaderCell>
           <TableHeaderCell align="right">Precio ARS</TableHeaderCell>
           <TableHeaderCell align="right">24h %</TableHeaderCell>
           <TableHeaderCell align="center">7D Trend</TableHeaderCell>
-          <TableHeaderCell align="right">Info</TableHeaderCell>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -109,13 +107,15 @@ export function FavoritesList({
                     </button>
                   </TableCell>
                   <TableCell align="left">
-                    <span className="px-2 py-1 rounded text-xs font-semibold bg-blue-500/20 text-blue-400">
-                      USD
-                    </span>
-                  </TableCell>
-                  <TableCell align="left">
-                    <p className="text-sm font-semibold text-foreground">{dolar.nombre}</p>
-                    <p className="text-xs text-secondary">{dolar.casa}</p>
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-accent-emerald/20 flex items-center justify-center flex-shrink-0">
+                        <span className="text-accent-emerald font-bold text-xs">$</span>
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-foreground">{dolar.nombre}</p>
+                        <p className="text-xs text-secondary uppercase">{dolar.casa}</p>
+                      </div>
+                    </div>
                   </TableCell>
                   <TableCell align="right">
                     <span className="text-sm font-semibold text-foreground tabular-nums">
@@ -153,17 +153,14 @@ export function FavoritesList({
                       <span className="text-xs text-secondary">-</span>
                     )}
                   </TableCell>
-                  <TableCell align="right">
-                    <span className="text-xs text-secondary">{dolar.fechaActualizacion}</span>
-                  </TableCell>
                 </TableRow>
               </React.Fragment>
             );
           } else if (isCrypto) {
             const crypto = item as CryptoData;
             const getTrendData = (percentage: number) => {
-              if (percentage > 0) return { icon: FaArrowUp, color: 'text-success' };
-              if (percentage < 0) return { icon: FaArrowDown, color: 'text-error' };
+              if (percentage > 0) return { icon: FaArrowUp, color: 'text-error' };
+              if (percentage < 0) return { icon: FaArrowDown, color: 'text-success' };
               return { icon: FaMinus, color: 'text-warning' };
             };
             const trend24h = getTrendData(crypto.price_change_percentage_24h);
@@ -180,11 +177,6 @@ export function FavoritesList({
                     >
                       <FaStar className="text-base" />
                     </button>
-                  </TableCell>
-                  <TableCell align="left">
-                    <span className="px-2 py-1 rounded text-xs font-semibold bg-orange-500/20 text-orange-400">
-                      CRYPTO
-                    </span>
                   </TableCell>
                   <TableCell align="left">
                     <div className="flex items-center gap-3">
@@ -243,11 +235,6 @@ export function FavoritesList({
                       <span className="text-xs text-secondary">-</span>
                     )}
                   </TableCell>
-                  <TableCell align="right">
-                    <span className="text-sm text-foreground tabular-nums">
-                      {formatMarketCap(crypto.market_cap)}
-                    </span>
-                  </TableCell>
                 </TableRow>
 
                 {/* Expandable Row */}
@@ -255,8 +242,14 @@ export function FavoritesList({
                   hoverable={false}
                   className="hidden group-hover:table-row bg-accent-emerald/5"
                 >
-                  <TableCell colSpan={8} className="py-4">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+                  <TableCell colSpan={6} className="py-4">
+                    <div className="grid grid-cols-2 md:grid-cols-5 gap-3 text-xs">
+                      <div>
+                        <p className="text-secondary text-[10px] mb-0.5">Market Cap</p>
+                        <p className="font-semibold text-foreground text-xs">
+                          {formatMarketCap(crypto.market_cap)}
+                        </p>
+                      </div>
                       <div>
                         <p className="text-secondary text-[10px] mb-0.5">24h High</p>
                         <p className="font-semibold text-success text-xs">
@@ -306,13 +299,17 @@ export function FavoritesList({
                     </button>
                   </TableCell>
                   <TableCell align="left">
-                    <span className="px-2 py-1 rounded text-xs font-semibold bg-purple-500/20 text-purple-400">
-                      {cotizacion.moneda}
-                    </span>
-                  </TableCell>
-                  <TableCell align="left">
-                    <p className="text-sm font-semibold text-foreground">{cotizacion.nombre}</p>
-                    <p className="text-xs text-secondary">{cotizacion.casa}</p>
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-accent-emerald/20 flex items-center justify-center flex-shrink-0">
+                        <span className="text-accent-emerald font-bold text-xs">
+                          {cotizacion.moneda}
+                        </span>
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-foreground">{cotizacion.nombre}</p>
+                        <p className="text-xs text-secondary">{cotizacion.casa}</p>
+                      </div>
+                    </div>
                   </TableCell>
                   <TableCell align="right">
                     <span className="text-sm font-semibold text-foreground tabular-nums">
@@ -334,9 +331,6 @@ export function FavoritesList({
                   </TableCell>
                   <TableCell align="center">
                     <span className="text-xs text-secondary">-</span>
-                  </TableCell>
-                  <TableCell align="right">
-                    <span className="text-xs text-secondary">{cotizacion.fechaActualizacion}</span>
                   </TableCell>
                 </TableRow>
               </React.Fragment>

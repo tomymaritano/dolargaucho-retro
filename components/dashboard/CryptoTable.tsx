@@ -57,10 +57,10 @@ export function CryptoTable({
 
   const getTrendData = (percentage: number) => {
     if (percentage > 0) {
-      return { icon: FaArrowUp, color: 'text-success' };
+      return { icon: FaArrowUp, color: 'text-error' };
     }
     if (percentage < 0) {
-      return { icon: FaArrowDown, color: 'text-error' };
+      return { icon: FaArrowDown, color: 'text-success' };
     }
     return { icon: FaMinus, color: 'text-warning' };
   };
@@ -72,20 +72,21 @@ export function CryptoTable({
           <TableHeaderCell align="center" className="w-12">
             <FaStar className="inline-block text-accent-emerald" />
           </TableHeaderCell>
-          <TableHeaderCell align="left">Tipo</TableHeaderCell>
           <TableHeaderCell align="left">Nombre</TableHeaderCell>
           <TableHeaderCell align="right">Precio USD</TableHeaderCell>
           <TableHeaderCell align="right">Precio ARS</TableHeaderCell>
           <TableHeaderCell align="right">24h %</TableHeaderCell>
+          <TableHeaderCell align="right">7d %</TableHeaderCell>
           <TableHeaderCell align="center">7D Trend</TableHeaderCell>
-          <TableHeaderCell align="right">Info</TableHeaderCell>
         </TableRow>
       </TableHeader>
       <TableBody>
         {cryptos.map((crypto, index) => {
           const isFavorite = favoriteCryptoIds.includes(crypto.id);
           const trend24h = getTrendData(crypto.price_change_percentage_24h);
-          const TrendIcon = trend24h.icon;
+          const trend7d = getTrendData(crypto.price_change_percentage_7d_in_currency || 0);
+          const TrendIcon24h = trend24h.icon;
+          const TrendIcon7d = trend7d.icon;
 
           return (
             <React.Fragment key={crypto.id}>
@@ -107,13 +108,6 @@ export function CryptoTable({
                       <FaRegStar className="text-base" />
                     )}
                   </button>
-                </TableCell>
-
-                {/* Tipo */}
-                <TableCell align="left">
-                  <span className="px-2 py-1 rounded text-xs font-semibold bg-orange-500/20 text-orange-400">
-                    CRYPTO
-                  </span>
                 </TableCell>
 
                 {/* Nombre */}
@@ -157,7 +151,7 @@ export function CryptoTable({
                 {/* 24h % */}
                 <TableCell align="right">
                   <div className={`inline-flex items-center gap-1 ${trend24h.color}`}>
-                    <TrendIcon className="text-xs" />
+                    <TrendIcon24h className="text-xs" />
                     <span className="text-sm font-bold tabular-nums">
                       {crypto.price_change_percentage_24h > 0 ? '+' : ''}
                       {crypto.price_change_percentage_24h.toFixed(2)}%
@@ -165,15 +159,26 @@ export function CryptoTable({
                   </div>
                 </TableCell>
 
-                {/* Sparkline */}
+                {/* 7d % */}
+                <TableCell align="right">
+                  <div className={`inline-flex items-center gap-1 ${trend7d.color}`}>
+                    <TrendIcon7d className="text-xs" />
+                    <span className="text-sm font-bold tabular-nums">
+                      {(crypto.price_change_percentage_7d_in_currency || 0) > 0 ? '+' : ''}
+                      {(crypto.price_change_percentage_7d_in_currency || 0).toFixed(2)}%
+                    </span>
+                  </div>
+                </TableCell>
+
+                {/* 7D Trend Sparkline */}
                 <TableCell align="center">
                   {crypto.sparkline_in_7d?.price && crypto.sparkline_in_7d.price.length > 0 ? (
                     <CryptoSparkline
                       data={crypto.sparkline_in_7d.price}
                       trend={
-                        crypto.price_change_percentage_24h > 0
+                        (crypto.price_change_percentage_7d_in_currency || 0) > 0
                           ? 'up'
-                          : crypto.price_change_percentage_24h < 0
+                          : (crypto.price_change_percentage_7d_in_currency || 0) < 0
                             ? 'down'
                             : 'neutral'
                       }
@@ -182,13 +187,6 @@ export function CryptoTable({
                     <span className="text-xs text-secondary">-</span>
                   )}
                 </TableCell>
-
-                {/* Info */}
-                <TableCell align="right">
-                  <span className="text-sm text-foreground tabular-nums">
-                    {formatMarketCap(crypto.market_cap)}
-                  </span>
-                </TableCell>
               </TableRow>
 
               {/* Expandable Row */}
@@ -196,12 +194,18 @@ export function CryptoTable({
                 hoverable={false}
                 className="hidden group-hover:table-row bg-accent-emerald/5"
               >
-                <TableCell colSpan={8} className="py-4">
-                  <div className="grid grid-cols-2 md:grid-cols-5 gap-3 text-xs">
+                <TableCell colSpan={7} className="py-4">
+                  <div className="grid grid-cols-2 md:grid-cols-6 gap-3 text-xs">
                     <div>
                       <p className="text-secondary text-[10px] mb-0.5">Ranking</p>
                       <p className="font-semibold text-foreground text-xs">
                         #{(cryptoPage - 1) * cryptoPerPage + index + 1}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-secondary text-[10px] mb-0.5">Market Cap</p>
+                      <p className="font-semibold text-foreground text-xs">
+                        {formatMarketCap(crypto.market_cap)}
                       </p>
                     </div>
                     <div>

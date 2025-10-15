@@ -121,7 +121,7 @@ export function DolaresTable({
   };
 
   if (isLoading) {
-    return <Table loading skeletonRows={8} skeletonCols={9} />;
+    return <Table loading skeletonRows={8} skeletonCols={7} />;
   }
 
   return (
@@ -132,9 +132,6 @@ export function DolaresTable({
           <TableHeaderCell align="center" className="w-12">
             <FaStar className="inline-block text-accent-emerald" />
           </TableHeaderCell>
-
-          {/* Tipo */}
-          <TableHeaderCell align="left">Tipo</TableHeaderCell>
 
           {/* Nombre */}
           <TableHeaderCell align="left" sortable onSort={() => handleSort('nombre')}>
@@ -180,13 +177,10 @@ export function DolaresTable({
           <TableHeaderCell align="center">
             <div className="flex items-center justify-center gap-2">7D Trend</div>
           </TableHeaderCell>
-
-          {/* Info */}
-          <TableHeaderCell align="right">Info</TableHeaderCell>
         </TableRow>
       </TableHeader>
 
-      <TableBody empty={sortedDolares.length === 0} emptyColSpan={9}>
+      <TableBody empty={sortedDolares.length === 0} emptyColSpan={7}>
         {sortedDolares.map((dolar) => {
           const isFavorite = favoriteDolarIds.includes(dolar.casa);
           const { trend, percentage } = dolar.variation;
@@ -226,13 +220,6 @@ export function DolaresTable({
                       <FaRegStar className="text-base" />
                     )}
                   </button>
-                </TableCell>
-
-                {/* Tipo */}
-                <TableCell align="left">
-                  <span className="px-2 py-1 rounded text-xs font-semibold bg-green-500/20 text-green-400">
-                    DÓLAR
-                  </span>
                 </TableCell>
 
                 {/* Nombre */}
@@ -314,16 +301,6 @@ export function DolaresTable({
                     <span className="text-xs text-secondary">-</span>
                   )}
                 </TableCell>
-
-                {/* Info */}
-                <TableCell align="right">
-                  <span className="text-xs text-secondary">
-                    {new Date(dolar.fechaActualizacion).toLocaleTimeString('es-AR', {
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    })}
-                  </span>
-                </TableCell>
               </TableRow>
 
               {/* Expandable row on hover */}
@@ -331,11 +308,13 @@ export function DolaresTable({
                 hoverable={false}
                 className="hidden group-hover:table-row bg-accent-emerald/5"
               >
-                <TableCell colSpan={9} className="py-4">
+                <TableCell colSpan={7} className="py-4">
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-xs">
                     <div>
                       <p className="text-secondary text-[10px] mb-0.5">Casa</p>
-                      <p className="font-semibold text-foreground text-xs">{dolar.casa}</p>
+                      <p className="font-semibold text-foreground text-xs uppercase">
+                        {dolar.casa}
+                      </p>
                     </div>
                     <div>
                       <p className="text-secondary text-[10px] mb-0.5">Última actualización</p>

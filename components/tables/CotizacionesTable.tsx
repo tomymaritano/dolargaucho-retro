@@ -119,7 +119,7 @@ export function CotizacionesTable({
   };
 
   if (isLoading) {
-    return <Table loading skeletonRows={4} skeletonCols={8} />;
+    return <Table loading skeletonRows={4} skeletonCols={6} />;
   }
 
   return (
@@ -130,9 +130,6 @@ export function CotizacionesTable({
           <TableHeaderCell align="center" className="w-12">
             <FaStar className="inline-block text-accent-emerald" />
           </TableHeaderCell>
-
-          {/* Tipo */}
-          <TableHeaderCell align="left">Tipo</TableHeaderCell>
 
           {/* Moneda */}
           <TableHeaderCell align="left" sortable onSort={() => handleSort('nombre')}>
@@ -173,13 +170,10 @@ export function CotizacionesTable({
               <SortIcon field="sparkline" />
             </div>
           </TableHeaderCell>
-
-          {/* Info */}
-          <TableHeaderCell align="right">Info</TableHeaderCell>
         </TableRow>
       </TableHeader>
 
-      <TableBody empty={sortedCotizaciones.length === 0} emptyColSpan={8}>
+      <TableBody empty={sortedCotizaciones.length === 0} emptyColSpan={6}>
         {sortedCotizaciones.map((cotizacion) => {
           const isFavorite = favoriteCurrencyIds.includes(cotizacion.moneda);
           const { trend, percentage } = cotizacion.variation;
@@ -219,13 +213,6 @@ export function CotizacionesTable({
                       <FaRegStar className="text-base" />
                     )}
                   </button>
-                </TableCell>
-
-                {/* Tipo */}
-                <TableCell align="left">
-                  <span className="px-2 py-1 rounded text-xs font-semibold bg-blue-500/20 text-blue-400">
-                    MONEDA
-                  </span>
                 </TableCell>
 
                 {/* Moneda */}
@@ -278,16 +265,6 @@ export function CotizacionesTable({
                     <span className="text-xs text-secondary">-</span>
                   )}
                 </TableCell>
-
-                {/* Info */}
-                <TableCell align="right">
-                  <span className="text-xs text-secondary">
-                    {new Date(cotizacion.fechaActualizacion).toLocaleTimeString('es-AR', {
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    })}
-                  </span>
-                </TableCell>
               </TableRow>
 
               {/* Expandable row on hover */}
@@ -295,7 +272,7 @@ export function CotizacionesTable({
                 hoverable={false}
                 className="hidden group-hover:table-row bg-accent-emerald/5"
               >
-                <TableCell colSpan={8} className="py-4">
+                <TableCell colSpan={6} className="py-4">
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-xs">
                     <div>
                       <p className="text-secondary text-[10px] mb-0.5">Casa</p>
