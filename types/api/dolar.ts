@@ -18,7 +18,12 @@ export interface DolarQuotation extends Quotation {
   moneda: 'USD';
 }
 
-// Other currencies
+// All quotations (including USD from /cotizaciones endpoint)
+export interface AllQuotations extends Quotation {
+  moneda: 'USD' | 'EUR' | 'BRL' | 'CLP' | 'UYU';
+}
+
+// Other currencies (international only, excluding USD)
 export interface CurrencyQuotation extends Quotation {
   moneda: 'EUR' | 'BRL' | 'CLP' | 'UYU';
 }

@@ -27,7 +27,7 @@ export const DolarQuotationSchema = z.object({
 export const DolarQuotationsSchema = z.array(DolarQuotationSchema);
 
 /**
- * Schema para cotización de moneda extranjera
+ * Schema para cotización de moneda extranjera (individual)
  */
 export const CurrencyQuotationSchema = z.object({
   moneda: z.enum(['EUR', 'BRL', 'CLP', 'UYU']),
@@ -39,9 +39,22 @@ export const CurrencyQuotationSchema = z.object({
 });
 
 /**
+ * Schema para todas las cotizaciones (incluye USD + monedas internacionales)
+ * El endpoint /cotizaciones devuelve todas las monedas
+ */
+export const AllQuotationsSchema = z.object({
+  moneda: z.enum(['USD', 'EUR', 'BRL', 'CLP', 'UYU']),
+  casa: z.string(),
+  nombre: z.string(),
+  compra: z.number(),
+  venta: z.number(),
+  fechaActualizacion: z.string(),
+});
+
+/**
  * Schema para array de cotizaciones de monedas
  */
-export const CurrencyQuotationsSchema = z.array(CurrencyQuotationSchema);
+export const CurrencyQuotationsSchema = z.array(AllQuotationsSchema);
 
 // =====================
 // ARGENTINA DATA SCHEMAS
@@ -149,11 +162,7 @@ export const FondosComunesResponseSchema = z.array(FondoComunSchema);
  * @param data - Datos a validar
  * @param context - Contexto para mensajes de error (ej: "DolarAPI /dolares")
  */
-export function validateAndParse<T>(
-  schema: z.ZodSchema<T>,
-  data: unknown,
-  context: string
-): T {
+export function validateAndParse<T>(schema: z.ZodSchema<T>, data: unknown, context: string): T {
   const result = schema.safeParse(data);
 
   if (!result.success) {
@@ -161,9 +170,7 @@ export function validateAndParse<T>(
       .map((err) => `${err.path.join('.')}: ${err.message}`)
       .join(', ');
 
-    throw new Error(
-      `Validación fallida en ${context}. Errores: ${errorMessages}`
-    );
+    throw new Error(`Validación fallida en ${context}. Errores: ${errorMessages}`);
   }
 
   return result.data;
@@ -175,10 +182,7 @@ export function validateAndParse<T>(
  * @param schema - Schema de Zod a usar
  * @param data - Datos a validar
  */
-export function validateOptional<T>(
-  schema: z.ZodSchema<T>,
-  data: unknown
-): T | null {
+export function validateOptional<T>(schema: z.ZodSchema<T>, data: unknown): T | null {
   const result = schema.safeParse(data);
   return result.success ? result.data : null;
 }

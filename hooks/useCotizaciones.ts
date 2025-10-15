@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { CurrencyQuotation, CurrencyType } from '@/types/api/dolar';
+import { AllQuotations, CurrencyQuotation, CurrencyType } from '@/types/api/dolar';
 import { API_CONFIG } from '@/lib/config/api';
 import { CurrencyQuotationsSchema, validateAndParse } from '@/lib/schemas/api';
 import { logger } from '@/lib/utils/logger';
@@ -40,7 +40,7 @@ interface HistoricalCurrencyData {
 export function useCotizaciones() {
   return useQuery({
     queryKey: ['cotizaciones'],
-    queryFn: async (): Promise<CurrencyQuotation[]> => {
+    queryFn: async (): Promise<AllQuotations[]> => {
       const url = `${API_CONFIG.dolarAPI.baseUrl}${API_CONFIG.dolarAPI.endpoints.cotizaciones}`;
       const startTime = performance.now();
 
@@ -121,6 +121,11 @@ export function usePesoUruguayo() {
 export function useCotizacionesWithVariations() {
   const { data: cotizaciones, isLoading: loadingCurrent, error: errorCurrent } = useCotizaciones();
 
+  // Filter only international currencies (exclude USD which is shown in Dólares section)
+  const internationalCotizaciones = cotizaciones?.filter(
+    (c): c is CurrencyQuotation => c.moneda !== 'USD'
+  );
+
   // Get yesterday's date
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
@@ -144,7 +149,10 @@ export function useCotizacionesWithVariations() {
           const data: HistoricalCurrencyData = await response.json();
           return { currency, data };
         } catch (error) {
-          logger.error('Error fetching historical currency data', error, { hook: 'useCotizacionesWithVariations', currency });
+          logger.error('Error fetching historical currency data', error, {
+            hook: 'useCotizacionesWithVariations',
+            currency,
+          });
           return null;
         }
       });
@@ -161,42 +169,43 @@ export function useCotizacionesWithVariations() {
       return historicalMap;
     },
     staleTime: 60 * 60 * 1000, // 1 hour - historical data doesn't change
-    enabled: !!cotizaciones, // Only fetch when we have current data
+    enabled: !!internationalCotizaciones && internationalCotizaciones.length > 0, // Only fetch when we have current data
   });
 
   // Calculate variations
-  const cotizacionesWithVariations: CotizacionWithVariation[] = cotizaciones?.map((cotizacion) => {
-    // Map moneda to currency code (EUR -> eur, BRL -> brl, etc)
-    const currencyCode = cotizacion.moneda.toLowerCase();
-    const historical = historicalData?.[currencyCode];
-    const currentValue = cotizacion.venta;
+  const cotizacionesWithVariations: CotizacionWithVariation[] =
+    internationalCotizaciones?.map((cotizacion) => {
+      // Map moneda to currency code (EUR -> eur, BRL -> brl, etc)
+      const currencyCode = cotizacion.moneda.toLowerCase();
+      const historical = historicalData?.[currencyCode];
+      const currentValue = cotizacion.venta;
 
-    let percentage = 0;
-    let trend: 'up' | 'down' | 'neutral' = 'neutral';
-    let previousValue: number | undefined = undefined;
-    let difference = 0;
+      let percentage = 0;
+      let trend: 'up' | 'down' | 'neutral' = 'neutral';
+      let previousValue: number | undefined = undefined;
+      let difference = 0;
 
-    if (historical && historical.venta) {
-      previousValue = historical.venta;
+      if (historical && historical.venta) {
+        previousValue = historical.venta;
 
-      if (previousValue !== currentValue) {
-        difference = currentValue - previousValue;
-        percentage = (difference / previousValue) * 100;
-        trend = percentage > 0 ? 'up' : percentage < 0 ? 'down' : 'neutral';
+        if (previousValue !== currentValue) {
+          difference = currentValue - previousValue;
+          percentage = (difference / previousValue) * 100;
+          trend = percentage > 0 ? 'up' : percentage < 0 ? 'down' : 'neutral';
+        }
       }
-    }
 
-    return {
-      ...cotizacion,
-      variation: {
-        percentage: Math.abs(percentage),
-        trend,
-        previousValue,
-        currentValue,
-        difference: Math.abs(difference),
-      },
-    };
-  }) || [];
+      return {
+        ...cotizacion,
+        variation: {
+          percentage: Math.abs(percentage),
+          trend,
+          previousValue,
+          currentValue,
+          difference: Math.abs(difference),
+        },
+      };
+    }) || [];
 
   return {
     data: cotizacionesWithVariations,
