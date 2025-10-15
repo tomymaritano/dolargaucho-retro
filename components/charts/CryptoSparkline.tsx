@@ -15,9 +15,9 @@ export function CryptoSparkline({ data, color, trend }: CryptoSparklineProps) {
   // Convertir array de números a formato para Recharts
   const chartData: SparklineData[] = data.map((value) => ({ value }));
 
-  // Colores basados en tendencia
+  // Colores basados en tendencia (esquema financiero: up=rojo, down=verde)
   const lineColor =
-    color || (trend === 'up' ? '#10b981' : trend === 'down' ? '#ef4444' : '#f59e0b');
+    color || (trend === 'up' ? '#ef4444' : trend === 'down' ? '#10b981' : '#f59e0b');
 
   // Si no hay suficientes datos, mostrar placeholder
   if (!data || data.length < 2) {
