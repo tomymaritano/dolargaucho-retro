@@ -11,22 +11,45 @@ interface CryptoSparklineProps {
   trend: 'up' | 'down' | 'neutral';
 }
 
-export function CryptoSparkline({ data, color, trend }: CryptoSparklineProps) {
-  // Convertir array de números a formato para Recharts
-  const chartData: SparklineData[] = data.map((value) => ({ value }));
+/**
+ * Reduce un array grande de datos a ~7 puntos para que los sparklines
+ * se vean consistentes con los datos diarios de dólares/cotizaciones
+ */
+function sampleDataPoints(data: number[], targetPoints: number = 7): number[] {
+  if (data.length <= targetPoints) {
+    return data;
+  }
 
-  // Colores basados en tendencia (esquema financiero: up=rojo, down=verde)
-  const lineColor =
-    color || (trend === 'up' ? '#ef4444' : trend === 'down' ? '#10b981' : '#f59e0b');
+  const sampledData: number[] = [];
+  const step = data.length / targetPoints;
+
+  for (let i = 0; i < targetPoints; i++) {
+    const index = Math.floor(i * step);
+    sampledData.push(data[index]);
+  }
+
+  return sampledData;
+}
+
+export function CryptoSparkline({ data, color, trend }: CryptoSparklineProps) {
+  // Reducir datos a ~7 puntos para consistencia visual
+  const sampledData = sampleDataPoints(data, 7);
+
+  // Convertir array de números a formato para Recharts
+  const chartData: SparklineData[] = sampledData.map((value) => ({ value }));
 
   // Si no hay suficientes datos, mostrar placeholder
-  if (!data || data.length < 2) {
+  if (!data || data.length < 2 || sampledData.length < 2) {
     return (
       <div className="w-28 h-12 flex items-center justify-center">
         <span className="text-xs text-secondary">-</span>
       </div>
     );
   }
+
+  // Colores basados en tendencia (esquema financiero: up=rojo, down=verde)
+  const lineColor =
+    color || (trend === 'up' ? '#ef4444' : trend === 'down' ? '#10b981' : '#f59e0b');
 
   return (
     <div className="w-28 h-12 mx-auto flex items-center justify-center">
