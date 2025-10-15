@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/Table';
 import { FaStar, FaArrowUp, FaArrowDown, FaMinus } from 'react-icons/fa';
 import { CryptoSparkline } from '@/components/charts/CryptoSparkline';
+import { useMultipleDolarHistoricoRange } from '@/hooks/useDolarHistoricoRange';
 import type { DolarWithVariation } from '@/hooks/useDolarVariations';
 import type { CotizacionWithVariation } from '@/hooks/useCotizaciones';
 import type { CryptoData } from '@/types/api/crypto';
@@ -36,6 +37,17 @@ export function FavoritesList({
   onToggleCurrency,
   onToggleCrypto,
 }: FavoritesListProps) {
+  // Extract dolar casas for historical data
+  const dolarCasas = items
+    .filter(
+      (item): item is DolarWithVariation =>
+        'casa' in item && 'moneda' in item && item.moneda === 'USD'
+    )
+    .map((d) => d.casa);
+
+  // Fetch 7-day historical data for dolares
+  const { data: dolarHistorical, isLoading: loadingDolarHistorical } =
+    useMultipleDolarHistoricoRange(dolarCasas, 7);
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('es-AR', {
       style: 'currency',
@@ -124,7 +136,22 @@ export function FavoritesList({
                     </div>
                   </TableCell>
                   <TableCell align="center">
-                    <span className="text-xs text-secondary">-</span>
+                    {loadingDolarHistorical ? (
+                      <div className="w-28 h-12 mx-auto bg-white/5 rounded animate-pulse" />
+                    ) : dolarHistorical?.[dolar.casa]?.data ? (
+                      <CryptoSparkline
+                        data={dolarHistorical[dolar.casa].data.map((d) => d.valor)}
+                        trend={
+                          dolarHistorical[dolar.casa].changePercent > 0
+                            ? 'up'
+                            : dolarHistorical[dolar.casa].changePercent < 0
+                              ? 'down'
+                              : 'neutral'
+                        }
+                      />
+                    ) : (
+                      <span className="text-xs text-secondary">-</span>
+                    )}
                   </TableCell>
                   <TableCell align="right">
                     <span className="text-xs text-secondary">{dolar.fechaActualizacion}</span>
