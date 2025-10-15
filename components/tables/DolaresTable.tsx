@@ -121,7 +121,7 @@ export function DolaresTable({
   };
 
   if (isLoading) {
-    return <Table loading skeletonRows={8} skeletonCols={8} />;
+    return <Table loading skeletonRows={8} skeletonCols={9} />;
   }
 
   return (
@@ -147,7 +147,7 @@ export function DolaresTable({
           {/* Compra */}
           <TableHeaderCell align="right" sortable onSort={() => handleSort('compra')}>
             <div className="flex items-center justify-end gap-2">
-              Compra ARS
+              Compra
               <SortIcon field="compra" />
             </div>
           </TableHeaderCell>
@@ -155,7 +155,7 @@ export function DolaresTable({
           {/* Venta */}
           <TableHeaderCell align="right" sortable onSort={() => handleSort('venta')}>
             <div className="flex items-center justify-end gap-2">
-              Venta ARS
+              Venta
               <SortIcon field="venta" />
             </div>
           </TableHeaderCell>
@@ -168,12 +168,17 @@ export function DolaresTable({
             </div>
           </TableHeaderCell>
 
-          {/* 7D Trend */}
-          <TableHeaderCell align="center" sortable onSort={() => handleSort('sparkline')}>
-            <div className="flex items-center justify-center gap-2">
-              7D Trend
+          {/* 7d % */}
+          <TableHeaderCell align="right" sortable onSort={() => handleSort('sparkline')}>
+            <div className="flex items-center justify-end gap-2">
+              7d %
               <SortIcon field="sparkline" />
             </div>
+          </TableHeaderCell>
+
+          {/* 7D Trend */}
+          <TableHeaderCell align="center">
+            <div className="flex items-center justify-center gap-2">7D Trend</div>
           </TableHeaderCell>
 
           {/* Info */}
@@ -181,7 +186,7 @@ export function DolaresTable({
         </TableRow>
       </TableHeader>
 
-      <TableBody empty={sortedDolares.length === 0} emptyColSpan={8}>
+      <TableBody empty={sortedDolares.length === 0} emptyColSpan={9}>
         {sortedDolares.map((dolar) => {
           const isFavorite = favoriteDolarIds.includes(dolar.casa);
           const { trend, percentage } = dolar.variation;
@@ -268,6 +273,37 @@ export function DolaresTable({
                   </div>
                 </TableCell>
 
+                {/* 7d % */}
+                <TableCell align="right">
+                  {loadingHistorical ? (
+                    <div className="h-4 w-12 bg-white/5 rounded animate-pulse ml-auto" />
+                  ) : sparklineData ? (
+                    <div
+                      className={`inline-flex items-center gap-1 ${
+                        sparklineTrend === 'up'
+                          ? 'text-error'
+                          : sparklineTrend === 'down'
+                            ? 'text-success'
+                            : 'text-warning'
+                      }`}
+                    >
+                      {sparklineTrend === 'up' ? (
+                        <FaArrowUp className="text-xs" />
+                      ) : sparklineTrend === 'down' ? (
+                        <FaArrowDown className="text-xs" />
+                      ) : (
+                        <FaMinus className="text-xs" />
+                      )}
+                      <span className="text-sm font-bold tabular-nums">
+                        {sparklineTrend === 'up' ? '+' : sparklineTrend === 'down' ? '-' : ''}
+                        {Math.abs(sparklineData.changePercent).toFixed(2)}%
+                      </span>
+                    </div>
+                  ) : (
+                    <span className="text-xs text-secondary">-</span>
+                  )}
+                </TableCell>
+
                 {/* 7D Trend Sparkline */}
                 <TableCell align="center">
                   {loadingHistorical ? (
@@ -295,7 +331,7 @@ export function DolaresTable({
                 hoverable={false}
                 className="hidden group-hover:table-row bg-accent-emerald/5"
               >
-                <TableCell colSpan={8} className="py-4">
+                <TableCell colSpan={9} className="py-4">
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-xs">
                     <div>
                       <p className="text-secondary text-[10px] mb-0.5">Casa</p>

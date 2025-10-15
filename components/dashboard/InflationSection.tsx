@@ -51,7 +51,7 @@ export function InflationSection({
     <Card
       variant="elevated"
       padding="lg"
-      className="lg:col-span-2 bg-gradient-to-br from-red-500/5 to-orange-500/5 border-red-500/20"
+      className="bg-gradient-to-br from-red-500/5 to-orange-500/5 border-red-500/20"
     >
       <Card.Header>
         <div className="flex items-center justify-between">
