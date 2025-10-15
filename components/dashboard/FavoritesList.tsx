@@ -71,9 +71,6 @@ export function FavoritesList({
     <Table>
       <TableHeader>
         <TableRow hoverable={false}>
-          <TableHeaderCell align="center" className="w-12">
-            <FaStar className="inline-block text-accent-emerald" />
-          </TableHeaderCell>
           <TableHeaderCell align="left">Nombre</TableHeaderCell>
           <TableHeaderCell align="right">Precio USD</TableHeaderCell>
           <TableHeaderCell align="right">Precio ARS</TableHeaderCell>
@@ -97,19 +94,19 @@ export function FavoritesList({
             return (
               <React.Fragment key={`dolar-${dolar.casa}`}>
                 <TableRow className="group">
-                  <TableCell align="center">
-                    <button
-                      onClick={() => onToggleDolar(dolar.casa)}
-                      className="p-2 rounded-lg transition-all text-accent-emerald bg-accent-emerald/10"
-                      aria-label="Quitar de favoritos"
-                    >
-                      <FaStar className="text-base" />
-                    </button>
-                  </TableCell>
                   <TableCell align="left">
-                    <div>
-                      <p className="text-sm font-semibold text-foreground">{dolar.nombre}</p>
-                      <p className="text-xs text-secondary uppercase">{dolar.casa}</p>
+                    <div className="flex items-center justify-between gap-3">
+                      <div>
+                        <p className="text-sm font-semibold text-foreground">{dolar.nombre}</p>
+                        <p className="text-xs text-secondary uppercase">{dolar.casa}</p>
+                      </div>
+                      <button
+                        onClick={() => onToggleDolar(dolar.casa)}
+                        className="p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100 text-accent-emerald hover:bg-accent-emerald/10"
+                        aria-label="Quitar de favoritos"
+                      >
+                        <FaStar className="text-sm" />
+                      </button>
                     </div>
                   </TableCell>
                   <TableCell align="right">
@@ -165,27 +162,27 @@ export function FavoritesList({
             return (
               <React.Fragment key={`crypto-${crypto.id}`}>
                 <TableRow className="group">
-                  <TableCell align="center">
-                    <button
-                      onClick={() => onToggleCrypto(crypto.id)}
-                      className="p-2 rounded-lg transition-all text-accent-emerald bg-accent-emerald/10"
-                      aria-label="Quitar de favoritos"
-                    >
-                      <FaStar className="text-base" />
-                    </button>
-                  </TableCell>
                   <TableCell align="left">
-                    <div className="flex items-center gap-3">
-                      <img
-                        src={crypto.image}
-                        alt={crypto.name}
-                        className="w-8 h-8 rounded-full"
-                        loading="lazy"
-                      />
-                      <div>
-                        <p className="text-sm font-semibold text-foreground">{crypto.name}</p>
-                        <p className="text-xs text-secondary uppercase">{crypto.symbol}</p>
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-3">
+                        <img
+                          src={crypto.image}
+                          alt={crypto.name}
+                          className="w-8 h-8 rounded-full flex-shrink-0"
+                          loading="lazy"
+                        />
+                        <div>
+                          <p className="text-sm font-semibold text-foreground">{crypto.name}</p>
+                          <p className="text-xs text-secondary uppercase">{crypto.symbol}</p>
+                        </div>
                       </div>
+                      <button
+                        onClick={() => onToggleCrypto(crypto.id)}
+                        className="p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100 text-accent-emerald hover:bg-accent-emerald/10"
+                        aria-label="Quitar de favoritos"
+                      >
+                        <FaStar className="text-sm" />
+                      </button>
                     </div>
                   </TableCell>
                   <TableCell align="right">
@@ -239,7 +236,7 @@ export function FavoritesList({
                   hoverable={false}
                   className="hidden group-hover:table-row bg-accent-emerald/5"
                 >
-                  <TableCell colSpan={6} className="py-4">
+                  <TableCell colSpan={5} className="py-4">
                     <div className="grid grid-cols-2 md:grid-cols-5 gap-3 text-xs">
                       <div>
                         <p className="text-secondary text-[10px] mb-0.5">Market Cap</p>
@@ -286,19 +283,19 @@ export function FavoritesList({
             return (
               <React.Fragment key={`currency-${cotizacion.moneda}`}>
                 <TableRow className="group">
-                  <TableCell align="center">
-                    <button
-                      onClick={() => onToggleCurrency(cotizacion.moneda)}
-                      className="p-2 rounded-lg transition-all text-accent-emerald bg-accent-emerald/10"
-                      aria-label="Quitar de favoritos"
-                    >
-                      <FaStar className="text-base" />
-                    </button>
-                  </TableCell>
                   <TableCell align="left">
-                    <div>
-                      <p className="text-sm font-semibold text-foreground">{cotizacion.nombre}</p>
-                      <p className="text-xs text-secondary">{cotizacion.casa}</p>
+                    <div className="flex items-center justify-between gap-3">
+                      <div>
+                        <p className="text-sm font-semibold text-foreground">{cotizacion.nombre}</p>
+                        <p className="text-xs text-secondary">{cotizacion.casa}</p>
+                      </div>
+                      <button
+                        onClick={() => onToggleCurrency(cotizacion.moneda)}
+                        className="p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100 text-accent-emerald hover:bg-accent-emerald/10"
+                        aria-label="Quitar de favoritos"
+                      >
+                        <FaStar className="text-sm" />
+                      </button>
                     </div>
                   </TableCell>
                   <TableCell align="right">

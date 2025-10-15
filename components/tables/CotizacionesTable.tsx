@@ -119,18 +119,13 @@ export function CotizacionesTable({
   };
 
   if (isLoading) {
-    return <Table loading skeletonRows={4} skeletonCols={6} />;
+    return <Table loading skeletonRows={4} skeletonCols={5} />;
   }
 
   return (
     <Table>
       <TableHeader>
         <TableRow hoverable={false}>
-          {/* Favorito */}
-          <TableHeaderCell align="center" className="w-12">
-            <FaStar className="inline-block text-accent-emerald" />
-          </TableHeaderCell>
-
           {/* Moneda */}
           <TableHeaderCell align="left" sortable onSort={() => handleSort('nombre')}>
             <div className="flex items-center gap-2">
@@ -173,7 +168,7 @@ export function CotizacionesTable({
         </TableRow>
       </TableHeader>
 
-      <TableBody empty={sortedCotizaciones.length === 0} emptyColSpan={6}>
+      <TableBody empty={sortedCotizaciones.length === 0} emptyColSpan={5}>
         {sortedCotizaciones.map((cotizacion) => {
           const isFavorite = favoriteCurrencyIds.includes(cotizacion.moneda);
           const { trend, percentage } = cotizacion.variation;
@@ -196,30 +191,33 @@ export function CotizacionesTable({
           return (
             <React.Fragment key={cotizacion.moneda}>
               <TableRow className="group">
-                {/* Favorito */}
-                <TableCell align="center">
-                  <button
-                    onClick={() => onToggleFavorite(cotizacion.moneda)}
-                    className={`p-2 rounded-lg transition-all ${
-                      isFavorite
-                        ? 'text-accent-emerald bg-accent-emerald/10'
-                        : 'text-secondary hover:text-accent-emerald hover:bg-white/5'
-                    }`}
-                    aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
-                  >
-                    {isFavorite ? (
-                      <FaStar className="text-base" />
-                    ) : (
-                      <FaRegStar className="text-base" />
-                    )}
-                  </button>
-                </TableCell>
-
-                {/* Moneda */}
+                {/* Moneda con badge de favorito y botón hover */}
                 <TableCell>
-                  <div>
-                    <p className="text-sm font-semibold text-foreground">{cotizacion.nombre}</p>
-                    <p className="text-xs text-secondary">{cotizacion.casa}</p>
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2">
+                      {isFavorite && (
+                        <FaStar className="text-accent-emerald text-xs flex-shrink-0" />
+                      )}
+                      <div>
+                        <p className="text-sm font-semibold text-foreground">{cotizacion.nombre}</p>
+                        <p className="text-xs text-secondary">{cotizacion.casa}</p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => onToggleFavorite(cotizacion.moneda)}
+                      className={`p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100 ${
+                        isFavorite
+                          ? 'text-accent-emerald hover:bg-accent-emerald/10'
+                          : 'text-secondary hover:text-accent-emerald hover:bg-white/5'
+                      }`}
+                      aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+                    >
+                      {isFavorite ? (
+                        <FaStar className="text-sm" />
+                      ) : (
+                        <FaRegStar className="text-sm" />
+                      )}
+                    </button>
                   </div>
                 </TableCell>
 
@@ -265,7 +263,7 @@ export function CotizacionesTable({
                 hoverable={false}
                 className="hidden group-hover:table-row bg-accent-emerald/5"
               >
-                <TableCell colSpan={6} className="py-4">
+                <TableCell colSpan={5} className="py-4">
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-xs">
                     <div>
                       <p className="text-secondary text-[10px] mb-0.5">Casa</p>

@@ -121,18 +121,13 @@ export function DolaresTable({
   };
 
   if (isLoading) {
-    return <Table loading skeletonRows={8} skeletonCols={7} />;
+    return <Table loading skeletonRows={8} skeletonCols={6} />;
   }
 
   return (
     <Table>
       <TableHeader>
         <TableRow hoverable={false}>
-          {/* Favorito */}
-          <TableHeaderCell align="center" className="w-12">
-            <FaStar className="inline-block text-accent-emerald" />
-          </TableHeaderCell>
-
           {/* Nombre */}
           <TableHeaderCell align="left" sortable onSort={() => handleSort('nombre')}>
             <div className="flex items-center gap-2">
@@ -180,7 +175,7 @@ export function DolaresTable({
         </TableRow>
       </TableHeader>
 
-      <TableBody empty={sortedDolares.length === 0} emptyColSpan={7}>
+      <TableBody empty={sortedDolares.length === 0} emptyColSpan={6}>
         {sortedDolares.map((dolar) => {
           const isFavorite = favoriteDolarIds.includes(dolar.casa);
           const { trend, percentage } = dolar.variation;
@@ -203,30 +198,33 @@ export function DolaresTable({
           return (
             <React.Fragment key={dolar.casa}>
               <TableRow className="group">
-                {/* Favorito */}
-                <TableCell align="center">
-                  <button
-                    onClick={() => onToggleFavorite(dolar.casa)}
-                    className={`p-2 rounded-lg transition-all ${
-                      isFavorite
-                        ? 'text-accent-emerald bg-accent-emerald/10'
-                        : 'text-secondary hover:text-accent-emerald hover:bg-white/5'
-                    }`}
-                    aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
-                  >
-                    {isFavorite ? (
-                      <FaStar className="text-base" />
-                    ) : (
-                      <FaRegStar className="text-base" />
-                    )}
-                  </button>
-                </TableCell>
-
-                {/* Nombre */}
+                {/* Nombre con badge de favorito y botón hover */}
                 <TableCell>
-                  <div>
-                    <p className="text-sm font-semibold text-foreground">{dolar.nombre}</p>
-                    <p className="text-xs text-secondary uppercase">{dolar.casa}</p>
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2">
+                      {isFavorite && (
+                        <FaStar className="text-accent-emerald text-xs flex-shrink-0" />
+                      )}
+                      <div>
+                        <p className="text-sm font-semibold text-foreground">{dolar.nombre}</p>
+                        <p className="text-xs text-secondary uppercase">{dolar.casa}</p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => onToggleFavorite(dolar.casa)}
+                      className={`p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100 ${
+                        isFavorite
+                          ? 'text-accent-emerald hover:bg-accent-emerald/10'
+                          : 'text-secondary hover:text-accent-emerald hover:bg-white/5'
+                      }`}
+                      aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+                    >
+                      {isFavorite ? (
+                        <FaStar className="text-sm" />
+                      ) : (
+                        <FaRegStar className="text-sm" />
+                      )}
+                    </button>
                   </div>
                 </TableCell>
 
@@ -303,7 +301,7 @@ export function DolaresTable({
                 hoverable={false}
                 className="hidden group-hover:table-row bg-accent-emerald/5"
               >
-                <TableCell colSpan={7} className="py-4">
+                <TableCell colSpan={6} className="py-4">
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-xs">
                     <div>
                       <p className="text-secondary text-[10px] mb-0.5">Casa</p>

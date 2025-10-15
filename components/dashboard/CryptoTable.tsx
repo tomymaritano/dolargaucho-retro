@@ -70,9 +70,6 @@ export function CryptoTable({
     <Table>
       <TableHeader>
         <TableRow hoverable={false}>
-          <TableHeaderCell align="center" className="w-12">
-            <FaStar className="inline-block text-accent-emerald" />
-          </TableHeaderCell>
           <TableHeaderCell align="left">Nombre</TableHeaderCell>
           <TableHeaderCell align="right">Precio USD</TableHeaderCell>
           <TableHeaderCell align="right">Precio ARS</TableHeaderCell>
@@ -92,38 +89,39 @@ export function CryptoTable({
           return (
             <React.Fragment key={crypto.id}>
               <TableRow className="group">
-                {/* Favorito */}
-                <TableCell align="center">
-                  <button
-                    onClick={() => onToggleFavorite(crypto.id)}
-                    className={`p-2 rounded-lg transition-all ${
-                      isFavorite
-                        ? 'text-accent-emerald bg-accent-emerald/10'
-                        : 'text-secondary hover:text-accent-emerald hover:bg-white/5'
-                    }`}
-                    aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
-                  >
-                    {isFavorite ? (
-                      <FaStar className="text-base" />
-                    ) : (
-                      <FaRegStar className="text-base" />
-                    )}
-                  </button>
-                </TableCell>
-
-                {/* Nombre */}
+                {/* Nombre con badge de favorito y botón hover */}
                 <TableCell align="left">
-                  <div className="flex items-center gap-3">
-                    <img
-                      src={crypto.image}
-                      alt={crypto.name}
-                      className="w-8 h-8 rounded-full"
-                      loading="lazy"
-                    />
-                    <div>
-                      <p className="text-sm font-semibold text-foreground">{crypto.name}</p>
-                      <p className="text-xs text-secondary uppercase">{crypto.symbol}</p>
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                      {isFavorite && (
+                        <FaStar className="text-accent-emerald text-xs flex-shrink-0" />
+                      )}
+                      <img
+                        src={crypto.image}
+                        alt={crypto.name}
+                        className="w-8 h-8 rounded-full flex-shrink-0"
+                        loading="lazy"
+                      />
+                      <div>
+                        <p className="text-sm font-semibold text-foreground">{crypto.name}</p>
+                        <p className="text-xs text-secondary uppercase">{crypto.symbol}</p>
+                      </div>
                     </div>
+                    <button
+                      onClick={() => onToggleFavorite(crypto.id)}
+                      className={`p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100 ${
+                        isFavorite
+                          ? 'text-accent-emerald hover:bg-accent-emerald/10'
+                          : 'text-secondary hover:text-accent-emerald hover:bg-white/5'
+                      }`}
+                      aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+                    >
+                      {isFavorite ? (
+                        <FaStar className="text-sm" />
+                      ) : (
+                        <FaRegStar className="text-sm" />
+                      )}
+                    </button>
                   </div>
                 </TableCell>
 
@@ -196,7 +194,7 @@ export function CryptoTable({
                 hoverable={false}
                 className="hidden group-hover:table-row bg-accent-emerald/5"
               >
-                <TableCell colSpan={7} className="py-4">
+                <TableCell colSpan={6} className="py-4">
                   <div className="grid grid-cols-2 md:grid-cols-6 gap-3 text-xs">
                     <div>
                       <p className="text-secondary text-[10px] mb-0.5">Ranking</p>
