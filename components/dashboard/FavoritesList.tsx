@@ -95,14 +95,14 @@ export function FavoritesList({
               <React.Fragment key={`dolar-${dolar.casa}`}>
                 <TableRow className="group">
                   <TableCell align="left">
-                    <div className="flex items-center justify-between gap-3">
-                      <div>
+                    <div className="flex items-center gap-2">
+                      <div className="flex-1">
                         <p className="text-sm font-semibold text-foreground">{dolar.nombre}</p>
                         <p className="text-xs text-secondary uppercase">{dolar.casa}</p>
                       </div>
                       <button
                         onClick={() => onToggleDolar(dolar.casa)}
-                        className="p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100 text-accent-emerald hover:bg-accent-emerald/10"
+                        className="p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100 text-accent-emerald hover:bg-accent-emerald/10 flex-shrink-0"
                         aria-label="Quitar de favoritos"
                       >
                         <FaStar className="text-sm" />
@@ -163,22 +163,20 @@ export function FavoritesList({
               <React.Fragment key={`crypto-${crypto.id}`}>
                 <TableRow className="group">
                   <TableCell align="left">
-                    <div className="flex items-center justify-between gap-3">
-                      <div className="flex items-center gap-3">
-                        <img
-                          src={crypto.image}
-                          alt={crypto.name}
-                          className="w-8 h-8 rounded-full flex-shrink-0"
-                          loading="lazy"
-                        />
-                        <div>
-                          <p className="text-sm font-semibold text-foreground">{crypto.name}</p>
-                          <p className="text-xs text-secondary uppercase">{crypto.symbol}</p>
-                        </div>
+                    <div className="flex items-center gap-2">
+                      <img
+                        src={crypto.image}
+                        alt={crypto.name}
+                        className="w-8 h-8 rounded-full flex-shrink-0"
+                        loading="lazy"
+                      />
+                      <div className="flex-1">
+                        <p className="text-sm font-semibold text-foreground">{crypto.name}</p>
+                        <p className="text-xs text-secondary uppercase">{crypto.symbol}</p>
                       </div>
                       <button
                         onClick={() => onToggleCrypto(crypto.id)}
-                        className="p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100 text-accent-emerald hover:bg-accent-emerald/10"
+                        className="p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100 text-accent-emerald hover:bg-accent-emerald/10 flex-shrink-0"
                         aria-label="Quitar de favoritos"
                       >
                         <FaStar className="text-sm" />
@@ -284,14 +282,14 @@ export function FavoritesList({
               <React.Fragment key={`currency-${cotizacion.moneda}`}>
                 <TableRow className="group">
                   <TableCell align="left">
-                    <div className="flex items-center justify-between gap-3">
-                      <div>
+                    <div className="flex items-center gap-2">
+                      <div className="flex-1">
                         <p className="text-sm font-semibold text-foreground">{cotizacion.nombre}</p>
                         <p className="text-xs text-secondary">{cotizacion.casa}</p>
                       </div>
                       <button
                         onClick={() => onToggleCurrency(cotizacion.moneda)}
-                        className="p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100 text-accent-emerald hover:bg-accent-emerald/10"
+                        className="p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100 text-accent-emerald hover:bg-accent-emerald/10 flex-shrink-0"
                         aria-label="Quitar de favoritos"
                       >
                         <FaStar className="text-sm" />

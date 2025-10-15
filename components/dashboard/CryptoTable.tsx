@@ -91,25 +91,21 @@ export function CryptoTable({
               <TableRow className="group">
                 {/* Nombre con badge de favorito y botón hover */}
                 <TableCell align="left">
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-3">
-                      {isFavorite && (
-                        <FaStar className="text-accent-emerald text-xs flex-shrink-0" />
-                      )}
-                      <img
-                        src={crypto.image}
-                        alt={crypto.name}
-                        className="w-8 h-8 rounded-full flex-shrink-0"
-                        loading="lazy"
-                      />
-                      <div>
-                        <p className="text-sm font-semibold text-foreground">{crypto.name}</p>
-                        <p className="text-xs text-secondary uppercase">{crypto.symbol}</p>
-                      </div>
+                  <div className="flex items-center gap-2">
+                    {isFavorite && <FaStar className="text-accent-emerald text-xs flex-shrink-0" />}
+                    <img
+                      src={crypto.image}
+                      alt={crypto.name}
+                      className="w-8 h-8 rounded-full flex-shrink-0"
+                      loading="lazy"
+                    />
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold text-foreground">{crypto.name}</p>
+                      <p className="text-xs text-secondary uppercase">{crypto.symbol}</p>
                     </div>
                     <button
                       onClick={() => onToggleFavorite(crypto.id)}
-                      className={`p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100 ${
+                      className={`p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100 flex-shrink-0 ${
                         isFavorite
                           ? 'text-accent-emerald hover:bg-accent-emerald/10'
                           : 'text-secondary hover:text-accent-emerald hover:bg-white/5'

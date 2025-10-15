@@ -193,19 +193,15 @@ export function CotizacionesTable({
               <TableRow className="group">
                 {/* Moneda con badge de favorito y botón hover */}
                 <TableCell>
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-2">
-                      {isFavorite && (
-                        <FaStar className="text-accent-emerald text-xs flex-shrink-0" />
-                      )}
-                      <div>
-                        <p className="text-sm font-semibold text-foreground">{cotizacion.nombre}</p>
-                        <p className="text-xs text-secondary">{cotizacion.casa}</p>
-                      </div>
+                  <div className="flex items-center gap-2">
+                    {isFavorite && <FaStar className="text-accent-emerald text-xs flex-shrink-0" />}
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold text-foreground">{cotizacion.nombre}</p>
+                      <p className="text-xs text-secondary">{cotizacion.casa}</p>
                     </div>
                     <button
                       onClick={() => onToggleFavorite(cotizacion.moneda)}
-                      className={`p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100 ${
+                      className={`p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100 flex-shrink-0 ${
                         isFavorite
                           ? 'text-accent-emerald hover:bg-accent-emerald/10'
                           : 'text-secondary hover:text-accent-emerald hover:bg-white/5'
