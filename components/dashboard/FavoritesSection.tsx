@@ -54,24 +54,30 @@ export function FavoritesSection({
   }
 
   return (
-    <Card variant="elevated" padding="none" className="mb-8">
-      <div className="p-6 border-b border-border">
-        <div className="flex items-center gap-3">
-          <FaStar className="text-accent-emerald text-xl" />
-          <h2 className="text-xl font-bold text-foreground">Mis Favoritos</h2>
+    <Card variant="elevated" padding="lg" className="mb-8">
+      <Card.Header>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <FaStar className="text-accent-emerald text-xl" />
+            <div>
+              <Card.Title className="mb-0">Mis Favoritos</Card.Title>
+              <p className="text-sm text-secondary mt-1">
+                {allFavorites.length} {allFavorites.length === 1 ? 'favorito' : 'favoritos'}
+              </p>
+            </div>
+          </div>
         </div>
-        <p className="text-sm text-secondary mt-1">
-          {allFavorites.length} {allFavorites.length === 1 ? 'favorito' : 'favoritos'}
-        </p>
-      </div>
+      </Card.Header>
 
-      <FavoritesList
-        items={allFavorites}
-        selectedDolar={selectedDolar}
-        onToggleDolar={onToggleDolar}
-        onToggleCurrency={onToggleCurrency}
-        onToggleCrypto={onToggleCrypto}
-      />
+      <Card.Content>
+        <FavoritesList
+          items={allFavorites}
+          selectedDolar={selectedDolar}
+          onToggleDolar={onToggleDolar}
+          onToggleCurrency={onToggleCurrency}
+          onToggleCrypto={onToggleCrypto}
+        />
+      </Card.Content>
     </Card>
   );
 }

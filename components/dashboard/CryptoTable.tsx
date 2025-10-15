@@ -105,7 +105,7 @@ export function CryptoTable({
                     </div>
                     <button
                       onClick={() => onToggleFavorite(crypto.id)}
-                      className={`p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100 flex-shrink-0 ${
+                      className={`p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100 flex-shrink-0 hover:scale-110 active:scale-95 ${
                         isFavorite
                           ? 'text-accent-emerald hover:bg-accent-emerald/10'
                           : 'text-secondary hover:text-accent-emerald hover:bg-white/5'
