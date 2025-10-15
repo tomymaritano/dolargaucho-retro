@@ -56,11 +56,12 @@ export function CryptoTable({
   };
 
   const getTrendData = (percentage: number) => {
+    // Crypto: up=bueno (verde), down=malo (rojo) - perspectiva del holder
     if (percentage > 0) {
-      return { icon: FaArrowUp, color: 'text-error' };
+      return { icon: FaArrowUp, color: 'text-success' };
     }
     if (percentage < 0) {
-      return { icon: FaArrowDown, color: 'text-success' };
+      return { icon: FaArrowDown, color: 'text-error' };
     }
     return { icon: FaMinus, color: 'text-warning' };
   };
@@ -182,6 +183,7 @@ export function CryptoTable({
                             ? 'down'
                             : 'neutral'
                       }
+                      isCrypto={true}
                     />
                   ) : (
                     <span className="text-xs text-secondary">-</span>

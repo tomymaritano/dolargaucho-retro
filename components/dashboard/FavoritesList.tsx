@@ -159,8 +159,9 @@ export function FavoritesList({
           } else if (isCrypto) {
             const crypto = item as CryptoData;
             const getTrendData = (percentage: number) => {
-              if (percentage > 0) return { icon: FaArrowUp, color: 'text-error' };
-              if (percentage < 0) return { icon: FaArrowDown, color: 'text-success' };
+              // Crypto: up=bueno (verde), down=malo (rojo)
+              if (percentage > 0) return { icon: FaArrowUp, color: 'text-success' };
+              if (percentage < 0) return { icon: FaArrowDown, color: 'text-error' };
               return { icon: FaMinus, color: 'text-warning' };
             };
             const trend24h = getTrendData(crypto.price_change_percentage_24h);
@@ -230,6 +231,7 @@ export function FavoritesList({
                               ? 'down'
                               : 'neutral'
                         }
+                        isCrypto={true}
                       />
                     ) : (
                       <span className="text-xs text-secondary">-</span>

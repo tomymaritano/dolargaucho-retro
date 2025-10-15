@@ -9,9 +9,11 @@ interface CryptoSparklineProps {
   data: number[]; // Array de precios (últimos 7 días)
   color?: string;
   trend: 'up' | 'down' | 'neutral';
+  /** Si es crypto (up=verde) o dólar/moneda (up=rojo). Default: false (dólar) */
+  isCrypto?: boolean;
 }
 
-export function CryptoSparkline({ data, color, trend }: CryptoSparklineProps) {
+export function CryptoSparkline({ data, color, trend, isCrypto = false }: CryptoSparklineProps) {
   // Convertir array de números a formato para Recharts
   const chartData: SparklineData[] = data.map((value) => ({ value }));
 
@@ -24,9 +26,17 @@ export function CryptoSparkline({ data, color, trend }: CryptoSparklineProps) {
     );
   }
 
-  // Colores basados en tendencia (esquema financiero: up=rojo, down=verde)
-  const lineColor =
-    color || (trend === 'up' ? '#ef4444' : trend === 'down' ? '#10b981' : '#f59e0b');
+  // Colores basados en tendencia
+  let lineColor: string;
+  if (color) {
+    lineColor = color;
+  } else if (isCrypto) {
+    // Crypto: up=verde (gano), down=rojo (pierdo)
+    lineColor = trend === 'up' ? '#10b981' : trend === 'down' ? '#ef4444' : '#f59e0b';
+  } else {
+    // Dólar/Moneda: up=rojo (pierdo poder adquisitivo), down=verde (gano)
+    lineColor = trend === 'up' ? '#ef4444' : trend === 'down' ? '#10b981' : '#f59e0b';
+  }
 
   return (
     <div className="w-28 h-12 mx-auto flex items-center justify-center">
