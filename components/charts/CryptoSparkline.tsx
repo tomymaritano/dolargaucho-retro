@@ -34,7 +34,7 @@ export function CryptoSparkline({ data, color, trend }: CryptoSparklineProps) {
         <LineChart data={chartData} margin={{ top: 4, right: 4, bottom: 4, left: 4 }}>
           <YAxis domain={['dataMin', 'dataMax']} hide />
           <Line
-            type="natural"
+            type="monotone"
             dataKey="value"
             stroke={lineColor}
             strokeWidth={2}
