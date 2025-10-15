@@ -224,14 +224,9 @@ export function DolaresTable({
 
                 {/* Nombre */}
                 <TableCell>
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-accent-emerald/20 flex items-center justify-center flex-shrink-0">
-                      <span className="text-accent-emerald font-bold text-xs">$</span>
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-foreground">{dolar.nombre}</p>
-                      <p className="text-xs text-secondary uppercase">{dolar.casa}</p>
-                    </div>
+                  <div>
+                    <p className="text-sm font-semibold text-foreground">{dolar.nombre}</p>
+                    <p className="text-xs text-secondary uppercase">{dolar.casa}</p>
                   </div>
                 </TableCell>
 
