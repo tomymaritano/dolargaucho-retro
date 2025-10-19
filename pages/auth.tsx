@@ -17,6 +17,7 @@ import { Card } from '@/components/ui/Card/Card';
 import { Button } from '@/components/ui/Button/Button';
 import { Input } from '@/components/ui/Input/Input';
 import { FaEnvelope, FaLock, FaSpinner, FaUser } from 'react-icons/fa';
+import { motion, AnimatePresence } from 'framer-motion';
 
 type AuthTab = 'login' | 'signup';
 
@@ -228,201 +229,202 @@ export default function AuthPage() {
 
             {/* Form Card */}
             <Card variant="elevated" padding="lg">
-              {activeTab === 'login' ? (
-                <form onSubmit={handleLogin} className="grid grid-cols-1 gap-5">
-                  {/* Hidden name field to match signup form height - maintains space but invisible */}
-                  <div className="invisible pointer-events-none select-none" aria-hidden="true">
-                    <label className="block text-sm font-medium text-foreground mb-2">
-                      Nombre completo
-                    </label>
-                    <div className="relative">
-                      <FaUser className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-sm" />
-                      <Input
-                        tabIndex={-1}
-                        type="text"
-                        placeholder="Juan Pérez"
-                        className="pl-10"
-                        disabled
-                      />
-                    </div>
-                  </div>
-
-                  {/* Email */}
-                  <div>
-                    <label
-                      htmlFor="email"
-                      className="block text-sm font-medium text-foreground mb-2"
-                    >
-                      Email
-                    </label>
-                    <div className="relative">
-                      <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-sm" />
-                      <Input
-                        id="email"
-                        type="email"
-                        value={email}
-                        onChange={handleEmailChange}
-                        placeholder="tu@email.com"
-                        className="pl-10"
-                        disabled={loading}
-                        autoComplete="email"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Password */}
-                  <div>
-                    <div className="flex items-center justify-between mb-2">
+              <AnimatePresence mode="wait" initial={false}>
+                {activeTab === 'login' ? (
+                  <motion.form
+                    key="login"
+                    onSubmit={handleLogin}
+                    className="grid grid-cols-1 gap-5"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {/* Email */}
+                    <div>
                       <label
-                        htmlFor="password"
-                        className="block text-sm font-medium text-foreground"
+                        htmlFor="email"
+                        className="block text-sm font-medium text-foreground mb-2"
+                      >
+                        Email
+                      </label>
+                      <div className="relative">
+                        <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-sm" />
+                        <Input
+                          id="email"
+                          type="email"
+                          value={email}
+                          onChange={handleEmailChange}
+                          placeholder="tu@email.com"
+                          className="pl-10"
+                          disabled={loading}
+                          autoComplete="email"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Password */}
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <label
+                          htmlFor="password"
+                          className="block text-sm font-medium text-foreground"
+                        >
+                          Contraseña
+                        </label>
+                        <Link
+                          href="/forgot-password"
+                          className="text-xs text-brand hover:text-brand-light transition-colors"
+                        >
+                          ¿Olvidaste tu contraseña?
+                        </Link>
+                      </div>
+                      <div className="relative">
+                        <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-sm" />
+                        <Input
+                          id="password"
+                          type="password"
+                          value={password}
+                          onChange={handlePasswordChange}
+                          placeholder="••••••••"
+                          className="pl-10"
+                          disabled={loading}
+                          autoComplete="current-password"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Error message placeholder - maintains consistent height */}
+                    <div className="min-h-[52px]">
+                      {error && (
+                        <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
+                          <p className="text-sm text-red-400">{error}</p>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Submit button */}
+                    <Button
+                      type="submit"
+                      variant="primary"
+                      className="w-full"
+                      disabled={loading}
+                      isLoading={loading}
+                      loadingText="Iniciando sesión..."
+                    >
+                      Iniciar sesión
+                    </Button>
+                  </motion.form>
+                ) : (
+                  <motion.form
+                    key="signup"
+                    onSubmit={handleSignup}
+                    className="grid grid-cols-1 gap-5"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {/* Name */}
+                    <div>
+                      <label
+                        htmlFor="name"
+                        className="block text-sm font-medium text-foreground mb-2"
+                      >
+                        Nombre completo
+                      </label>
+                      <div className="relative">
+                        <FaUser className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-sm" />
+                        <Input
+                          id="name"
+                          type="text"
+                          value={name}
+                          onChange={handleNameChange}
+                          placeholder="Juan Pérez"
+                          className="pl-10"
+                          disabled={loading}
+                          autoComplete="name"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Email */}
+                    <div>
+                      <label
+                        htmlFor="signup-email"
+                        className="block text-sm font-medium text-foreground mb-2"
+                      >
+                        Email
+                      </label>
+                      <div className="relative">
+                        <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-sm" />
+                        <Input
+                          id="signup-email"
+                          type="email"
+                          value={email}
+                          onChange={handleEmailChange}
+                          placeholder="tu@email.com"
+                          className="pl-10"
+                          disabled={loading}
+                          autoComplete="email"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Password */}
+                    <div>
+                      <label
+                        htmlFor="signup-password"
+                        className="block text-sm font-medium text-foreground mb-2"
                       >
                         Contraseña
                       </label>
-                      <Link
-                        href="/forgot-password"
-                        className="text-xs text-brand hover:text-brand-light transition-colors"
-                      >
-                        ¿Olvidaste tu contraseña?
+                      <div className="relative">
+                        <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-sm" />
+                        <Input
+                          id="signup-password"
+                          type="password"
+                          value={password}
+                          onChange={handlePasswordChange}
+                          placeholder="Mínimo 6 caracteres"
+                          className="pl-10"
+                          disabled={loading}
+                          autoComplete="new-password"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Error message placeholder - maintains consistent height */}
+                    <div className="min-h-[52px]">
+                      {error && (
+                        <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
+                          <p className="text-sm text-red-400">{error}</p>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Submit button */}
+                    <Button
+                      type="submit"
+                      variant="primary"
+                      className="w-full"
+                      disabled={loading}
+                      isLoading={loading}
+                      loadingText="Creando cuenta..."
+                    >
+                      Crear cuenta gratis
+                    </Button>
+
+                    {/* Terms */}
+                    <p className="text-xs text-secondary text-center -mt-2">
+                      Al crear una cuenta, aceptas nuestros{' '}
+                      <Link href="#" className="text-brand hover:text-brand-light">
+                        términos y condiciones
                       </Link>
-                    </div>
-                    <div className="relative">
-                      <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-sm" />
-                      <Input
-                        id="password"
-                        type="password"
-                        value={password}
-                        onChange={handlePasswordChange}
-                        placeholder="••••••••"
-                        className="pl-10"
-                        disabled={loading}
-                        autoComplete="current-password"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Error message placeholder - maintains consistent height */}
-                  <div className="min-h-[52px]">
-                    {error && (
-                      <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
-                        <p className="text-sm text-red-400">{error}</p>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Submit button */}
-                  <Button
-                    type="submit"
-                    variant="primary"
-                    className="w-full"
-                    disabled={loading}
-                    isLoading={loading}
-                    loadingText="Iniciando sesión..."
-                  >
-                    Iniciar sesión
-                  </Button>
-                </form>
-              ) : (
-                <form onSubmit={handleSignup} className="grid grid-cols-1 gap-5">
-                  {/* Name */}
-                  <div>
-                    <label
-                      htmlFor="name"
-                      className="block text-sm font-medium text-foreground mb-2"
-                    >
-                      Nombre completo
-                    </label>
-                    <div className="relative">
-                      <FaUser className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-sm" />
-                      <Input
-                        id="name"
-                        type="text"
-                        value={name}
-                        onChange={handleNameChange}
-                        placeholder="Juan Pérez"
-                        className="pl-10"
-                        disabled={loading}
-                        autoComplete="name"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Email */}
-                  <div>
-                    <label
-                      htmlFor="signup-email"
-                      className="block text-sm font-medium text-foreground mb-2"
-                    >
-                      Email
-                    </label>
-                    <div className="relative">
-                      <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-sm" />
-                      <Input
-                        id="signup-email"
-                        type="email"
-                        value={email}
-                        onChange={handleEmailChange}
-                        placeholder="tu@email.com"
-                        className="pl-10"
-                        disabled={loading}
-                        autoComplete="email"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Password */}
-                  <div>
-                    <label
-                      htmlFor="signup-password"
-                      className="block text-sm font-medium text-foreground mb-2"
-                    >
-                      Contraseña
-                    </label>
-                    <div className="relative">
-                      <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-sm" />
-                      <Input
-                        id="signup-password"
-                        type="password"
-                        value={password}
-                        onChange={handlePasswordChange}
-                        placeholder="Mínimo 6 caracteres"
-                        className="pl-10"
-                        disabled={loading}
-                        autoComplete="new-password"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Error message placeholder - maintains consistent height */}
-                  <div className="min-h-[52px]">
-                    {error && (
-                      <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
-                        <p className="text-sm text-red-400">{error}</p>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Submit button */}
-                  <Button
-                    type="submit"
-                    variant="primary"
-                    className="w-full"
-                    disabled={loading}
-                    isLoading={loading}
-                    loadingText="Creando cuenta..."
-                  >
-                    Crear cuenta gratis
-                  </Button>
-
-                  {/* Terms */}
-                  <p className="text-xs text-secondary text-center -mt-2">
-                    Al crear una cuenta, aceptas nuestros{' '}
-                    <Link href="#" className="text-brand hover:text-brand-light">
-                      términos y condiciones
-                    </Link>
-                  </p>
-                </form>
-              )}
+                    </p>
+                  </motion.form>
+                )}
+              </AnimatePresence>
             </Card>
           </div>
         </div>
