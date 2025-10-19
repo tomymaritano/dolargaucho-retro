@@ -28,7 +28,7 @@ export function NavbarFloating() {
         <div className="flex items-center justify-between">
           {/* Logo with animation */}
           <Link href="/" className="flex items-center group">
-            <AnimatedLogo size={32} className="text-brand" />
+            <AnimatedLogo size={32} />
           </Link>
 
           {/* Right Actions */}

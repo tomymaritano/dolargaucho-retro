@@ -1,16 +1,17 @@
 'use client';
 
 /**
- * AnimatedLogo - Logo with drawing animation
+ * AnimatedLogo - Logo with reveal animation
  *
  * Features:
- * - SVG path drawing animation
- * - Smooth entrance effect
- * - Responsive sizing
+ * - Animated reveal from bottom to top
+ * - Smooth scale entrance
+ * - Uses actual logo.svg file
  */
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 interface AnimatedLogoProps {
   size?: number;
@@ -18,64 +19,38 @@ interface AnimatedLogoProps {
 }
 
 export function AnimatedLogo({ size = 32, className = '' }: AnimatedLogoProps) {
-  // Paths para el símbolo $
-  const pathVariants = {
-    hidden: {
-      opacity: 0,
-      pathLength: 0,
-    },
-    visible: {
-      opacity: 1,
-      pathLength: 1,
-      transition: {
-        duration: 2,
-        ease: 'easeInOut',
-      },
-    },
-  };
-
   return (
-    <motion.svg
-      width={size}
-      height={size}
-      viewBox="0 0 100 100"
-      className={`${className}`}
-      initial="hidden"
-      animate="visible"
-    >
-      {/* Círculo exterior */}
-      <motion.circle
-        cx="50"
-        cy="50"
-        r="45"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="3"
-        variants={pathVariants}
-      />
+    <div className={`relative overflow-hidden ${className}`} style={{ width: size, height: size }}>
+      {/* Logo con animación de escala y opacidad */}
+      <motion.div
+        initial={{ scale: 0.5, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{
+          duration: 0.5,
+          ease: [0.34, 1.56, 0.64, 1], // Easing con bounce suave
+        }}
+      >
+        <Image
+          src="/logo.svg"
+          width={size}
+          height={size}
+          alt="Dolar Gaucho"
+          className="w-full h-full"
+          priority
+        />
+      </motion.div>
 
-      {/* Símbolo $ */}
-      <motion.path
-        d="M 50 20 L 50 80"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="4"
-        strokeLinecap="round"
-        variants={pathVariants}
+      {/* Overlay que se revela de abajo hacia arriba */}
+      <motion.div
+        className="absolute inset-0 bg-background"
+        initial={{ y: 0 }}
+        animate={{ y: '-100%' }}
+        transition={{
+          duration: 0.8,
+          ease: 'easeInOut',
+          delay: 0.1,
+        }}
       />
-
-      <motion.path
-        d="M 35 35 Q 35 25 50 25 Q 65 25 65 35 Q 65 45 50 45 Q 35 45 35 55 Q 35 65 50 65 Q 65 65 65 55"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="4"
-        strokeLinecap="round"
-        variants={pathVariants}
-      />
-
-      {/* Puntos decorativos */}
-      <motion.circle cx="30" cy="70" r="3" fill="currentColor" variants={pathVariants} />
-      <motion.circle cx="70" cy="30" r="3" fill="currentColor" variants={pathVariants} />
-    </motion.svg>
+    </div>
   );
 }
