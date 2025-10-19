@@ -10,6 +10,7 @@ import { z } from 'zod';
 import { findUserByEmail } from '@/lib/db/queries';
 import { createPasswordResetToken } from '@/lib/auth/password-reset';
 import { sendPasswordResetEmail } from '@/lib/email/password-reset';
+import { rateLimitMiddleware, getClientIdentifier } from '@/lib/security/rate-limit';
 
 /**
  * Request body validation schema
@@ -42,6 +43,16 @@ export default async function handler(
     return res.status(405).json({
       success: false,
       error: 'Método no permitido',
+    });
+  }
+
+  // Rate limiting: 3 attempts per hour
+  const rateLimitResult = await rateLimitMiddleware(req, 'forgotPassword');
+  if (!rateLimitResult.success) {
+    console.log('[Forgot Password] Rate limit exceeded for IP:', getClientIdentifier(req));
+    return res.status(429).json({
+      success: false,
+      error: `Demasiados intentos. Por favor intenta de nuevo en ${Math.ceil(rateLimitResult.retryAfter! / 60)} minutos.`,
     });
   }
 

@@ -11,6 +11,11 @@ import { comparePassword } from '@/lib/auth/password';
 import { generateToken } from '@/lib/auth/jwt';
 import { setAuthCookie } from '@/lib/auth/cookies';
 import { findUserByEmail } from '@/lib/db/queries';
+import {
+  rateLimitMiddleware,
+  resetRateLimit,
+  getClientIdentifier,
+} from '@/lib/security/rate-limit';
 
 /**
  * Request body validation schema
@@ -39,15 +44,22 @@ interface ErrorResponse {
 
 type LoginResponse = SuccessResponse | ErrorResponse;
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<LoginResponse>
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<LoginResponse>) {
   // Only allow POST requests
   if (req.method !== 'POST') {
     return res.status(405).json({
       success: false,
       error: 'Método no permitido',
+    });
+  }
+
+  // Rate limiting: 5 attempts per 15 minutes
+  const rateLimitResult = await rateLimitMiddleware(req, 'login');
+  if (!rateLimitResult.success) {
+    console.log('[Login] Rate limit exceeded for IP:', getClientIdentifier(req));
+    return res.status(429).json({
+      success: false,
+      error: `Demasiados intentos. Por favor intenta de nuevo en ${rateLimitResult.retryAfter} segundos.`,
     });
   }
 
@@ -93,6 +105,9 @@ export default async function handler(
     // Set HTTP-only cookie
     setAuthCookie(res, token);
     console.log('[Login API] Cookie set for user:', user.email);
+
+    // Reset rate limit on successful login
+    resetRateLimit(getClientIdentifier(req), 'login');
 
     // Return success response (without password hash)
     return res.status(200).json({
