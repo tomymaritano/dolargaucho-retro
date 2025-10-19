@@ -2,8 +2,7 @@ import React, { Suspense, lazy } from 'react';
 import Hero from '@/components/Hero';
 import { NavbarFloating } from '@/components/NavbarFloating';
 import Footer from '@/components/Footer';
-import { HowItWorksSection } from '@/components/marketing/HowItWorksSection';
-import { ProductShowcase } from '@/components/marketing/ProductShowcase';
+import { FeaturesSimple } from '@/components/marketing/FeaturesSimple';
 import { DataSourcesSection } from '@/components/marketing/DataSourcesSection';
 import { FinalCTA } from '@/components/marketing/FinalCTA';
 import { FaSpinner } from 'react-icons/fa';
@@ -27,19 +26,16 @@ export default function Home() {
       {/* Floating Navbar */}
       <NavbarFloating />
 
-      {/* Hero - Product-led with dashboard preview */}
+      {/* Hero - Main message + CTA */}
       <Hero />
 
-      {/* How It Works - Step by step with visuals */}
-      <HowItWorksSection />
+      {/* Features - Simple grid with icons */}
+      <FeaturesSimple />
 
-      {/* Product Showcase - Features with side-by-side layout */}
-      <ProductShowcase />
-
-      {/* Data Sources - Official APIs */}
+      {/* Data Sources - Credibility */}
       <DataSourcesSection />
 
-      {/* Final CTA - Conversion section */}
+      {/* Final CTA - Conversion */}
       <FinalCTA />
 
       {/* FAQs */}
@@ -49,7 +45,7 @@ export default function Home() {
         </Suspense>
       </section>
 
-      {/* Footer with tech stack */}
+      {/* Footer */}
       <Footer />
     </div>
   );
