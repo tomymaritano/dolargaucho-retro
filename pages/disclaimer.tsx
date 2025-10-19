@@ -42,9 +42,7 @@ export default function DisclaimerPage() {
             <div className="flex items-start gap-4">
               <FaExclamationTriangle className="text-red-500 text-3xl flex-shrink-0 mt-1" />
               <div className="space-y-3">
-                <h2 className="text-xl font-bold text-red-400">
-                  ⚠️ ADVERTENCIA IMPORTANTE - LEA CUIDADOSAMENTE
-                </h2>
+                <h2 className="text-xl font-bold text-red-400">ADVERTENCIA IMPORTANTE</h2>
                 <ul className="space-y-2 text-red-200">
                   <li>
                     • Dólar Gaucho <strong>NO es una entidad financiera</strong> regulada por el
