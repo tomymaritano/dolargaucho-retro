@@ -229,7 +229,7 @@ export default function AuthPage() {
             {/* Form Card */}
             <Card variant="elevated" padding="lg">
               {activeTab === 'login' ? (
-                <form onSubmit={handleLogin} className="space-y-5">
+                <form onSubmit={handleLogin} className="grid grid-cols-1 gap-5">
                   {/* Email */}
                   <div>
                     <label
@@ -284,12 +284,14 @@ export default function AuthPage() {
                     </div>
                   </div>
 
-                  {/* Error message */}
-                  {error && (
-                    <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
-                      <p className="text-sm text-red-400">{error}</p>
-                    </div>
-                  )}
+                  {/* Error message placeholder - maintains consistent height */}
+                  <div className="min-h-[52px]">
+                    {error && (
+                      <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
+                        <p className="text-sm text-red-400">{error}</p>
+                      </div>
+                    )}
+                  </div>
 
                   {/* Submit button */}
                   <Button
@@ -304,7 +306,7 @@ export default function AuthPage() {
                   </Button>
                 </form>
               ) : (
-                <form onSubmit={handleSignup} className="space-y-5">
+                <form onSubmit={handleSignup} className="grid grid-cols-1 gap-5">
                   {/* Name */}
                   <div>
                     <label
@@ -374,12 +376,14 @@ export default function AuthPage() {
                     </div>
                   </div>
 
-                  {/* Error message */}
-                  {error && (
-                    <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
-                      <p className="text-sm text-red-400">{error}</p>
-                    </div>
-                  )}
+                  {/* Error message placeholder - maintains consistent height */}
+                  <div className="min-h-[52px]">
+                    {error && (
+                      <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
+                        <p className="text-sm text-red-400">{error}</p>
+                      </div>
+                    )}
+                  </div>
 
                   {/* Submit button */}
                   <Button
@@ -394,7 +398,7 @@ export default function AuthPage() {
                   </Button>
 
                   {/* Terms */}
-                  <p className="text-xs text-secondary text-center">
+                  <p className="text-xs text-secondary text-center -mt-2">
                     Al crear una cuenta, aceptas nuestros{' '}
                     <Link href="#" className="text-brand hover:text-brand-light">
                       términos y condiciones
