@@ -43,7 +43,7 @@ const HelpCenter: React.FC = () => {
   });
 
   return (
-    <>
+    <React.Fragment>
       <Head>
         <title>Centro de Ayuda | Dólar Gaucho</title>
         <meta
@@ -195,7 +195,7 @@ const HelpCenter: React.FC = () => {
 
         <Footer />
       </div>
-    </>
+    </React.Fragment>
   );
 };
 

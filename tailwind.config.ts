@@ -1,5 +1,6 @@
 import type { Config } from 'tailwindcss';
-import daisyui from 'daisyui';
+
+const daisyui = require('daisyui');
 
 export default {
   darkMode: 'class', // Enable class-based dark mode
