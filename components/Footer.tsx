@@ -41,9 +41,10 @@ const Footer: React.FC = () => {
     {
       title: 'Legal',
       links: [
-        { label: 'Términos de Uso', href: '/dashboard' },
-        { label: 'Privacidad', href: '/dashboard' },
-        { label: 'Disclaimer', href: '#disclaimer' },
+        { label: 'Términos de Uso', href: '/terminos' },
+        { label: 'Privacidad', href: '/privacidad' },
+        { label: 'Disclaimer', href: '/disclaimer' },
+        { label: 'Cookies', href: '/cookies' },
       ],
     },
   ];
@@ -154,10 +155,10 @@ const Footer: React.FC = () => {
               Información solo para fines educativos. No constituye asesoramiento financiero.
             </p>
             <div className="flex items-center gap-4">
-              <Link href="/dashboard" className="hover:text-brand transition-colors">
+              <Link href="/terminos" className="hover:text-brand transition-colors">
                 Términos
               </Link>
-              <Link href="/dashboard" className="hover:text-brand transition-colors">
+              <Link href="/privacidad" className="hover:text-brand transition-colors">
                 Privacidad
               </Link>
               <a
