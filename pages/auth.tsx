@@ -195,8 +195,8 @@ export default function AuthPage() {
         <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/40 to-background/80"></div>
 
         {/* Content */}
-        <div className="relative z-10 min-h-screen flex items-center justify-center p-4 pt-32">
-          <div className="w-full max-w-md">
+        <div className="relative z-10 min-h-screen flex flex-col items-center p-4 pt-32">
+          <div className="w-full max-w-md mt-12">
             {/* Tabs */}
             <div className="flex gap-2 mb-6 p-1 bg-white/5 rounded-xl border border-white/10">
               <button
