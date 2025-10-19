@@ -6,7 +6,7 @@
  * Better UX: Users can switch between login and signup without navigation
  */
 
-import React, { useState, useEffect, useCallback, useTransition } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useAuth } from '@/lib/contexts/AuthContext';
@@ -24,7 +24,6 @@ type AuthTab = 'login' | 'signup';
 export default function AuthPage() {
   const router = useRouter();
   const { signIn, signUp, user } = useAuth();
-  const [isPending, startTransition] = useTransition();
 
   const [activeTab, setActiveTab] = useState<AuthTab>('login');
   const [email, setEmail] = useState('');
@@ -58,31 +57,6 @@ export default function AuthPage() {
       setActiveTab('signup');
     }
   }, [router.query.tab]);
-
-  // Optimized handlers with useCallback to prevent re-renders
-  const handleEmailChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    startTransition(() => {
-      setEmail(e.target.value);
-    });
-  }, []);
-
-  const handlePasswordChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    startTransition(() => {
-      setPassword(e.target.value);
-    });
-  }, []);
-
-  const handleNameChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    startTransition(() => {
-      setName(e.target.value);
-    });
-  }, []);
-
-  const handleConfirmPasswordChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    startTransition(() => {
-      setConfirmPassword(e.target.value);
-    });
-  }, []);
 
   const isValidEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -297,7 +271,7 @@ export default function AuthPage() {
                           id="email"
                           type="email"
                           value={email}
-                          onChange={handleEmailChange}
+                          onChange={(e) => setEmail(e.target.value)}
                           placeholder="tu@email.com"
                           className="pl-10"
                           disabled={loading}
@@ -329,7 +303,7 @@ export default function AuthPage() {
                           id="password"
                           type={showPassword ? 'text' : 'password'}
                           value={password}
-                          onChange={handlePasswordChange}
+                          onChange={(e) => setPassword(e.target.value)}
                           placeholder="••••••••"
                           className="pl-10 pr-10"
                           disabled={loading}
@@ -395,7 +369,7 @@ export default function AuthPage() {
                           id="name"
                           type="text"
                           value={name}
-                          onChange={handleNameChange}
+                          onChange={(e) => setName(e.target.value)}
                           placeholder="Juan Pérez"
                           className="pl-10"
                           disabled={loading}
@@ -420,7 +394,7 @@ export default function AuthPage() {
                           id="signup-email"
                           type="email"
                           value={email}
-                          onChange={handleEmailChange}
+                          onChange={(e) => setEmail(e.target.value)}
                           placeholder="tu@email.com"
                           className="pl-10"
                           disabled={loading}
@@ -444,7 +418,7 @@ export default function AuthPage() {
                           id="signup-password"
                           type={showPassword ? 'text' : 'password'}
                           value={password}
-                          onChange={handlePasswordChange}
+                          onChange={(e) => setPassword(e.target.value)}
                           placeholder="Mínimo 6 caracteres"
                           className="pl-10 pr-10"
                           disabled={loading}
@@ -481,7 +455,7 @@ export default function AuthPage() {
                           id="confirm-password"
                           type={showConfirmPassword ? 'text' : 'password'}
                           value={confirmPassword}
-                          onChange={handleConfirmPasswordChange}
+                          onChange={(e) => setConfirmPassword(e.target.value)}
                           placeholder="Repite tu contraseña"
                           className="pl-10 pr-10"
                           disabled={loading}
