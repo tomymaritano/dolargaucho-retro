@@ -101,16 +101,17 @@ export default function TerminosPage() {
               <li>Sistema de alertas personalizadas</li>
             </ul>
             <div className="p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
-              <p className="text-yellow-200 font-semibold mb-2">⚠️ IMPORTANTE:</p>
-              <ul className="space-y-1 text-sm">
-                <li>• Dólar Gaucho NO es una entidad financiera regulada por el BCRA.</li>
-                <li>
-                  • NO ofrecemos servicios de asesoramiento financiero, legal, tributario o
-                  contable.
-                </li>
-                <li>• NO facilitamos transacciones ni operaciones financieras.</li>
-                <li>• El Servicio es exclusivamente informativo y educativo.</li>
-              </ul>
+              <p className="text-yellow-200 font-semibold mb-3 uppercase tracking-wide text-sm">
+                Importante
+              </p>
+              <div className="space-y-2 text-sm leading-relaxed text-yellow-200/90">
+                <p>Dólar Gaucho NO es una entidad financiera regulada por el BCRA.</p>
+                <p>
+                  NO ofrecemos servicios de asesoramiento financiero, legal, tributario o contable.
+                </p>
+                <p>NO facilitamos transacciones ni operaciones financieras.</p>
+                <p>El Servicio es exclusivamente informativo y educativo.</p>
+              </div>
             </div>
           </section>
 
