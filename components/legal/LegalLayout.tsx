@@ -18,16 +18,18 @@ import {
   FaShieldAlt,
   FaExclamationTriangle,
   FaCookie,
+  FaQuestionCircle,
 } from 'react-icons/fa';
 
 interface LegalLayoutProps {
   children: React.ReactNode;
   title: string;
-  lastUpdated: string;
+  lastUpdated?: string;
   tableOfContents?: Array<{ id: string; title: string }>;
 }
 
 const legalPages = [
+  { href: '/help', label: 'Centro de Ayuda', icon: FaQuestionCircle },
   { href: '/terminos', label: 'Términos de Uso', icon: FaFileContract },
   { href: '/privacidad', label: 'Privacidad', icon: FaShieldAlt },
   { href: '/disclaimer', label: 'Disclaimer', icon: FaExclamationTriangle },
@@ -117,9 +119,11 @@ export function LegalLayout({ children, title, lastUpdated, tableOfContents }: L
               {/* Header */}
               <div className="mb-8">
                 <h1 className="text-3xl md:text-4xl font-display font-bold mb-3">{title}</h1>
-                <p className="text-sm text-secondary">
-                  Última actualización: <span className="text-foreground">{lastUpdated}</span>
-                </p>
+                {lastUpdated && (
+                  <p className="text-sm text-secondary">
+                    Última actualización: <span className="text-foreground">{lastUpdated}</span>
+                  </p>
+                )}
               </div>
 
               {/* Content */}
