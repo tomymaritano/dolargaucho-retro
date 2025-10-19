@@ -137,8 +137,8 @@ export function LegalLayout({ children, title, lastUpdated, tableOfContents }: L
               <div className="mt-8 p-4 bg-brand/5 border border-brand/20 rounded-lg">
                 <p className="text-sm text-secondary">
                   Si tenés preguntas sobre estos términos, podés contactarnos en{' '}
-                  <a href="mailto:legal@dolargaucho.com" className="text-brand hover:underline">
-                    legal@dolargaucho.com
+                  <a href="mailto:tomymaritano@gmail.com" className="text-brand hover:underline">
+                    tomymaritano@gmail.com
                   </a>
                 </p>
               </div>

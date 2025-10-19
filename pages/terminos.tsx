@@ -274,8 +274,8 @@ export default function TerminosPage() {
             <ul className="space-y-1 text-sm">
               <li>
                 <strong className="text-foreground">Email:</strong>{' '}
-                <a href="mailto:legal@dolargaucho.com" className="text-brand hover:underline">
-                  legal@dolargaucho.com
+                <a href="mailto:tomymaritano@gmail.com" className="text-brand hover:underline">
+                  tomymaritano@gmail.com
                 </a>
               </li>
               <li>

@@ -78,12 +78,13 @@ const Hero: React.FC = () => {
                 size="xl"
                 rightIcon={<FaArrowRight />}
                 showStars
+                shimmer
               >
                 Registrarse
               </LinkButton>
 
               {/* Secondary CTA - Iniciar Sesión */}
-              <LinkButton href="/auth" variant="secondary" size="xl">
+              <LinkButton href="/auth" variant="secondary" size="xl" shimmer>
                 Iniciar Sesión
               </LinkButton>
             </motion.div>

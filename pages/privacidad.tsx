@@ -59,8 +59,8 @@ export default function PrivacidadPage() {
               </p>
               <p>
                 <strong className="text-foreground">Email:</strong>{' '}
-                <a href="mailto:privacidad@dolargaucho.com" className="text-brand hover:underline">
-                  privacidad@dolargaucho.com
+                <a href="mailto:tomymaritano@gmail.com" className="text-brand hover:underline">
+                  tomymaritano@gmail.com
                 </a>
               </p>
               <p>
@@ -164,8 +164,8 @@ export default function PrivacidadPage() {
               <p className="font-semibold text-foreground mb-2">¿Cómo ejercer sus derechos?</p>
               <p>
                 Envíe un correo electrónico a{' '}
-                <a href="mailto:privacidad@dolargaucho.com" className="text-brand hover:underline">
-                  privacidad@dolargaucho.com
+                <a href="mailto:tomymaritano@gmail.com" className="text-brand hover:underline">
+                  tomymaritano@gmail.com
                 </a>{' '}
                 con su solicitud. Responderemos dentro de los 10 días hábiles conforme a la
                 normativa.

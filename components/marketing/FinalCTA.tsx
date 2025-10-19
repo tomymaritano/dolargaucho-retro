@@ -276,6 +276,7 @@ export function FinalCTA() {
                     href="/register"
                     rightIcon={<FaArrowRight />}
                     showStars
+                    shimmer
                   >
                     Comenzar Gratis
                   </LinkButton>

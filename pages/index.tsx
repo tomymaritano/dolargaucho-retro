@@ -3,6 +3,7 @@ import Hero from '@/components/Hero';
 import { NavbarFloating } from '@/components/NavbarFloating';
 import Footer from '@/components/Footer';
 import { FeaturesSimple } from '@/components/marketing/FeaturesSimple';
+import { FounderStory } from '@/components/marketing/FounderStory';
 import { DataSourcesSection } from '@/components/marketing/DataSourcesSection';
 import { FinalCTA } from '@/components/marketing/FinalCTA';
 import { FaSpinner } from 'react-icons/fa';
@@ -29,8 +30,11 @@ export default function Home() {
       {/* Hero - Main message + CTA */}
       <Hero />
 
-      {/* Features - Simple grid with icons */}
+      {/* Features - Bento grid with capabilities */}
       <FeaturesSimple />
+
+      {/* Founder Story - Mission & Team */}
+      <FounderStory />
 
       {/* Data Sources - Credibility */}
       <DataSourcesSection />

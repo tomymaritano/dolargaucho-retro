@@ -403,8 +403,8 @@ export default function CookiesPage() {
             <h2 className="text-2xl font-bold text-foreground mb-4">Contacto</h2>
             <p>
               Si tiene preguntas sobre nuestra Política de Cookies, puede contactarnos en{' '}
-              <a href="mailto:privacidad@dolargaucho.com" className="text-brand hover:underline">
-                privacidad@dolargaucho.com
+              <a href="mailto:tomymaritano@gmail.com" className="text-brand hover:underline">
+                tomymaritano@gmail.com
               </a>
             </p>
           </section>

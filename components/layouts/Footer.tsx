@@ -200,7 +200,7 @@ export function Footer() {
                 Disclaimer
               </Link>
               <a
-                href="mailto:contacto@dolargaucho.com"
+                href="mailto:tomymaritano@gmail.com"
                 className="hover:text-brand transition-colors"
               >
                 Contacto

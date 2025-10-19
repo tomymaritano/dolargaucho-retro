@@ -154,7 +154,7 @@ export default function HelpPage() {
               Gaucho.
             </p>
             <a
-              href="mailto:soporte@dolargaucho.com"
+              href="mailto:tomymaritano@gmail.com"
               className="inline-flex items-center text-brand hover:underline text-sm font-medium"
             >
               Contactar Soporte →

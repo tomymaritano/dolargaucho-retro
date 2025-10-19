@@ -363,7 +363,7 @@ export default function RoadmapPage() {
             Tu feedback es fundamental. Contáctanos para sugerir nuevas features, reportar bugs o
             compartir tu experiencia usando Dólar Gaucho
           </p>
-          <LinkButton variant="primary" size="lg" href="mailto:contacto@dolargaucho.com" external>
+          <LinkButton variant="primary" size="lg" href="mailto:tomymaritano@gmail.com" external>
             Enviar Feedback
           </LinkButton>
         </motion.div>

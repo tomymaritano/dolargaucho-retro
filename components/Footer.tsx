@@ -162,7 +162,7 @@ const Footer: React.FC = () => {
                 Privacidad
               </Link>
               <a
-                href="mailto:contacto@dolargaucho.com"
+                href="mailto:tomymaritano@gmail.com"
                 className="hover:text-brand transition-colors"
               >
                 Contacto
