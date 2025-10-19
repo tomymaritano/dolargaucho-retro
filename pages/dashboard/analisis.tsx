@@ -364,35 +364,98 @@ export default function AnalisisPage() {
           </div>
         </div>
 
-        {/* Brechas detalladas */}
+        {/* Brechas Cambiarias - Comparativa Visual */}
         <div className="space-y-4">
-          <h2 className="text-lg font-semibold text-foreground">Brechas Cambiarias</h2>
+          <div>
+            <h2 className="text-lg font-semibold text-foreground mb-1">Brechas Cambiarias</h2>
+            <p className="text-xs text-secondary">Comparativa vs Dólar Oficial</p>
+          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="space-y-3">
             {[
-              { nombre: 'Blue', valor: dolarBlue?.venta },
-              { nombre: 'MEP', valor: dolarMEP?.venta },
-              { nombre: 'CCL', valor: dolarCCL?.venta },
+              { nombre: 'Blue', casa: 'blue', valor: dolarBlue?.venta, color: 'blue' },
+              { nombre: 'MEP', casa: 'bolsa', valor: dolarMEP?.venta, color: 'purple' },
+              { nombre: 'CCL', casa: 'contadoconliqui', valor: dolarCCL?.venta, color: 'orange' },
             ].map((item) => {
               const brecha =
                 dolarOficial?.venta && item.valor
                   ? ((item.valor - dolarOficial.venta) / dolarOficial.venta) * 100
                   : null;
+              const diferencia =
+                item.valor && dolarOficial?.venta ? item.valor - dolarOficial.venta : null;
+
+              // Calcular porcentaje para barra visual (máximo 100% de brecha = ancho completo)
+              const maxBrecha = 100; // 100% de brecha = ancho completo
+              const barWidth = brecha ? Math.min((brecha / maxBrecha) * 100, 100) : 0;
+
+              const getColorClasses = () => {
+                if (!brecha) return 'border-gray-500/30 text-gray-400';
+                if (brecha > 50) return 'border-red-500/30 text-red-400';
+                if (brecha > 20) return 'border-orange-500/30 text-orange-400';
+                return 'border-brand/30 text-brand';
+              };
+
+              const getBarColor = () => {
+                if (!brecha) return 'bg-gradient-to-r from-gray-500/50 to-gray-500/20';
+                if (brecha > 50) return 'bg-gradient-to-r from-red-500/50 to-red-500/20';
+                if (brecha > 20) return 'bg-gradient-to-r from-orange-500/50 to-orange-500/20';
+                return 'bg-gradient-to-r from-brand/50 to-brand/20';
+              };
 
               return (
-                <div key={item.nombre} className="bg-white/[0.02] rounded-lg p-4">
-                  <div className="text-xs text-secondary mb-2">{item.nombre}</div>
-                  <div className="text-2xl font-bold text-foreground mb-1">
-                    {item.valor ? `$${item.valor.toFixed(2)}` : '—'}
+                <div
+                  key={item.casa}
+                  className={`p-4 rounded-xl border-2 hover:bg-white/[0.02] transition-all ${getColorClasses()}`}
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    {/* Nombre y valor */}
+                    <div>
+                      <div className="text-sm font-semibold text-foreground mb-1">
+                        Dólar {item.nombre}
+                      </div>
+                      <div className="text-2xl font-black text-foreground">
+                        ${item.valor ? item.valor.toFixed(2) : '—'}
+                      </div>
+                    </div>
+
+                    {/* Brecha */}
+                    <div className="text-right">
+                      {brecha !== null && (
+                        <>
+                          <div className="text-xs text-secondary mb-1">Brecha</div>
+                          <div
+                            className={`text-2xl font-black ${brecha > 0 ? 'text-red-400' : 'text-green-400'}`}
+                          >
+                            {brecha > 0 ? '+' : ''}
+                            {brecha.toFixed(1)}%
+                          </div>
+                        </>
+                      )}
+                    </div>
                   </div>
-                  {brecha !== null && (
-                    <div
-                      className={`text-sm font-medium ${brecha > 0 ? 'text-red-400' : 'text-green-400'}`}
-                    >
-                      {brecha > 0 ? '+' : ''}
-                      {brecha.toFixed(1)}% vs oficial
+
+                  {/* Diferencia en pesos */}
+                  {diferencia !== null && (
+                    <div className="text-xs text-secondary mb-2">
+                      <span className="font-semibold text-foreground">
+                        ${diferencia.toFixed(2)}
+                      </span>{' '}
+                      más caro que el oficial
                     </div>
                   )}
+
+                  {/* Barra visual de brecha */}
+                  <div className="h-2 bg-white/5 rounded-full overflow-hidden">
+                    <div
+                      className={`h-full rounded-full transition-all duration-500 ${getBarColor()}`}
+                      style={{ width: `${barWidth}%` }}
+                    />
+                  </div>
+
+                  {/* Referencia oficial */}
+                  <div className="mt-2 text-xs text-secondary">
+                    Oficial: ${dolarOficial?.venta.toFixed(2) || '—'}
+                  </div>
                 </div>
               );
             })}
