@@ -16,7 +16,7 @@ import Head from 'next/head';
 import { Card } from '@/components/ui/Card/Card';
 import { Button } from '@/components/ui/Button/Button';
 import { Input } from '@/components/ui/Input/Input';
-import { FaEnvelope, FaLock, FaSpinner, FaUser } from 'react-icons/fa';
+import { FaEnvelope, FaLock, FaSpinner, FaUser, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 
 type AuthTab = 'login' | 'signup';
@@ -29,10 +29,13 @@ export default function AuthPage() {
   const [activeTab, setActiveTab] = useState<AuthTab>('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [name, setName] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   // Set mounted flag after hydration
   useEffect(() => {
@@ -72,6 +75,12 @@ export default function AuthPage() {
   const handleNameChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     startTransition(() => {
       setName(e.target.value);
+    });
+  }, []);
+
+  const handleConfirmPasswordChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    startTransition(() => {
+      setConfirmPassword(e.target.value);
     });
   }, []);
 
@@ -133,7 +142,7 @@ export default function AuthPage() {
     setError('');
 
     // Validation
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !confirmPassword) {
       setError('Por favor completa todos los campos');
       return;
     }
@@ -145,6 +154,11 @@ export default function AuthPage() {
 
     if (password.length < 6) {
       setError('La contraseña debe tener al menos 6 caracteres');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError('Las contraseñas no coinciden');
       return;
     }
 
@@ -203,6 +217,8 @@ export default function AuthPage() {
                 onClick={() => {
                   setActiveTab('login');
                   setError('');
+                  setShowPassword(false);
+                  setShowConfirmPassword(false);
                 }}
                 className={`flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
                   activeTab === 'login'
@@ -216,6 +232,8 @@ export default function AuthPage() {
                 onClick={() => {
                   setActiveTab('signup');
                   setError('');
+                  setShowPassword(false);
+                  setShowConfirmPassword(false);
                 }}
                 className={`flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
                   activeTab === 'signup'
@@ -283,14 +301,26 @@ export default function AuthPage() {
                         <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-sm" />
                         <Input
                           id="password"
-                          type="password"
+                          type={showPassword ? 'text' : 'password'}
                           value={password}
                           onChange={handlePasswordChange}
                           placeholder="••••••••"
-                          className="pl-10"
+                          className="pl-10 pr-10"
                           disabled={loading}
                           autoComplete="current-password"
                         />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-secondary hover:text-foreground transition-colors"
+                          tabIndex={-1}
+                        >
+                          {showPassword ? (
+                            <FaEyeSlash className="text-sm" />
+                          ) : (
+                            <FaEye className="text-sm" />
+                          )}
+                        </button>
                       </div>
                     </div>
 
@@ -383,14 +413,61 @@ export default function AuthPage() {
                         <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-sm" />
                         <Input
                           id="signup-password"
-                          type="password"
+                          type={showPassword ? 'text' : 'password'}
                           value={password}
                           onChange={handlePasswordChange}
                           placeholder="Mínimo 6 caracteres"
-                          className="pl-10"
+                          className="pl-10 pr-10"
                           disabled={loading}
                           autoComplete="new-password"
                         />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-secondary hover:text-foreground transition-colors"
+                          tabIndex={-1}
+                        >
+                          {showPassword ? (
+                            <FaEyeSlash className="text-sm" />
+                          ) : (
+                            <FaEye className="text-sm" />
+                          )}
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Confirm Password */}
+                    <div>
+                      <label
+                        htmlFor="confirm-password"
+                        className="block text-sm font-medium text-foreground mb-2"
+                      >
+                        Confirmar contraseña
+                      </label>
+                      <div className="relative">
+                        <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-sm" />
+                        <Input
+                          id="confirm-password"
+                          type={showConfirmPassword ? 'text' : 'password'}
+                          value={confirmPassword}
+                          onChange={handleConfirmPasswordChange}
+                          placeholder="Repite tu contraseña"
+                          className="pl-10 pr-10"
+                          disabled={loading}
+                          autoComplete="new-password"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-secondary hover:text-foreground transition-colors"
+                          tabIndex={-1}
+                        >
+                          {showConfirmPassword ? (
+                            <FaEyeSlash className="text-sm" />
+                          ) : (
+                            <FaEye className="text-sm" />
+                          )}
+                        </button>
                       </div>
                     </div>
 
