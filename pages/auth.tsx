@@ -196,13 +196,6 @@ export default function AuthPage() {
         {/* Content */}
         <div className="relative z-10 min-h-screen flex items-center justify-center p-4 pt-32">
           <div className="w-full max-w-md">
-            {/* Header */}
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-foreground mb-2">
-                {activeTab === 'login' ? 'Bienvenido' : 'Bienvenido'}
-              </h2>
-            </div>
-
             {/* Tabs */}
             <div className="flex gap-2 mb-6 p-1 bg-white/5 rounded-xl border border-white/10">
               <button
