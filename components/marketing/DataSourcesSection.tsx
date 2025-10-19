@@ -73,7 +73,7 @@ const dataSources: DataSource[] = [
 
 export function DataSourcesSection() {
   return (
-    <section className="relative w-full py-20 sm:py-28 bg-gradient-to-b from-background via-background-secondary/20 to-background">
+    <section className="relative w-full py-20 sm:py-28">
       <div className="max-w-7xl mx-auto px-6">
         {/* Header - Problema/Solución */}
         <motion.div

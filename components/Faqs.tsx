@@ -8,7 +8,7 @@ import { FAQS } from '@/constants/faqs';
 
 const Faqs: React.FC = () => {
   return (
-    <section className="w-full py-20 sm:py-28 bg-background text-foreground">
+    <section className="w-full py-20 sm:py-28 text-foreground">
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
         <motion.div
