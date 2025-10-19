@@ -1,14 +1,21 @@
+'use client';
+
 /**
  * Forgot Password Page
  *
  * Allows users to request a password reset link
+ * Matches the design of auth.tsx for consistency
  */
 
-import { useState, FormEvent } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { FaEnvelope, FaArrowLeft, FaCheckCircle } from 'react-icons/fa';
+import { NavbarFloating } from '@/components/NavbarFloating';
+import Aurora from '@/components/ui/Aurora/Aurora';
 import { Card } from '@/components/ui/Card/Card';
-import { AuthLayout } from '@/components/layouts/AuthLayout';
+import { Button } from '@/components/ui/Button/Button';
+import { Input } from '@/components/ui/Input/Input';
+import { FaEnvelope, FaArrowLeft, FaCheckCircle } from 'react-icons/fa';
+import { SEO } from '@/components/SEO';
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
@@ -16,9 +23,26 @@ export default function ForgotPasswordPage() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSubmit = async (e: FormEvent) => {
+  const isValidEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    // Validation
+    if (!email.trim()) {
+      setError('Por favor ingresa tu email');
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      setError('Por favor ingresa un email válido');
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -45,90 +69,131 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <AuthLayout
-      title="Recuperar Contraseña"
-      heading={success ? 'Email Enviado' : '¿Olvidaste tu contraseña?'}
-      subtitle={
-        !success
-          ? 'Ingresa tu email y te enviaremos un enlace para restablecer tu contraseña'
-          : undefined
-      }
-      showBackToHome={!success}
-    >
-      <Card variant="elevated" padding="lg">
-        {success ? (
-          // Success State
-          <div className="text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-success/20 mb-4">
-              <FaCheckCircle className="text-4xl text-success" />
+    <>
+      <SEO
+        title="Recuperar Contraseña"
+        description="Recuperá tu contraseña de Dólar Gaucho. Te enviaremos un enlace por email para restablecer tu contraseña de forma segura."
+        noindex={true}
+      />
+
+      <div className="min-h-screen bg-background overflow-hidden">
+        {/* Same navbar as auth page */}
+        <NavbarFloating />
+
+        {/* Aurora background */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-50">
+          <Aurora
+            colorStops={['#0047FF', '#8B5CF6', '#6366F1']}
+            amplitude={1.2}
+            blend={0.6}
+            speed={0.8}
+          />
+        </div>
+
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/40 to-background/80"></div>
+
+        {/* Content */}
+        <div className="relative z-10 min-h-screen flex flex-col items-center p-4 pt-32">
+          <div className="w-full max-w-md mt-12">
+            {/* Header */}
+            <div className="text-center mb-6">
+              <h1 className="text-2xl font-bold text-foreground mb-2">
+                {success ? '¡Email Enviado!' : '¿Olvidaste tu contraseña?'}
+              </h1>
+              {!success && (
+                <p className="text-sm text-secondary">
+                  Ingresá tu email y te enviaremos un enlace para restablecer tu contraseña
+                </p>
+              )}
             </div>
-            <p className="text-secondary mb-6">
-              Si el email existe en nuestro sistema, recibirás un enlace para restablecer tu
-              contraseña.
-            </p>
-            <p className="text-sm text-secondary mb-6">
-              Revisa tu bandeja de entrada y sigue las instrucciones del email.
-            </p>
-            <Link
-              href="/login"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-brand text-white rounded-lg font-semibold hover:bg-brand-light transition-colors"
-            >
-              <FaArrowLeft className="text-sm" />
-              Volver al login
-            </Link>
+
+            {/* Form Card */}
+            <Card variant="elevated" padding="lg">
+              {success ? (
+                // Success State
+                <div className="text-center space-y-6">
+                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-500/20">
+                    <FaCheckCircle className="text-4xl text-green-400" />
+                  </div>
+                  <div className="space-y-3">
+                    <p className="text-foreground">
+                      Si el email existe en nuestro sistema, recibirás un enlace para restablecer tu
+                      contraseña.
+                    </p>
+                    <p className="text-sm text-secondary">
+                      Revisá tu bandeja de entrada y seguí las instrucciones del email.
+                    </p>
+                  </div>
+                  <Link href="/auth">
+                    <Button variant="primary" className="w-full">
+                      <FaArrowLeft className="text-sm" />
+                      Volver al login
+                    </Button>
+                  </Link>
+                </div>
+              ) : (
+                // Form State
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  {/* Email */}
+                  <div>
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-medium text-foreground mb-2"
+                    >
+                      Email
+                    </label>
+                    <div className="relative">
+                      <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-sm" />
+                      <Input
+                        id="email"
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="tu@email.com"
+                        className="pl-10"
+                        disabled={loading}
+                        autoComplete="email"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  {/* Error message */}
+                  {error && (
+                    <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
+                      <p className="text-sm text-red-400">{error}</p>
+                    </div>
+                  )}
+
+                  {/* Submit button */}
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    className="w-full"
+                    disabled={loading}
+                    isLoading={loading}
+                    loadingText="Enviando enlace..."
+                  >
+                    Enviar enlace de recuperación
+                  </Button>
+
+                  {/* Back to Login */}
+                  <div className="text-center">
+                    <Link
+                      href="/auth"
+                      className="inline-flex items-center gap-2 text-sm text-secondary hover:text-brand transition-colors"
+                    >
+                      <FaArrowLeft className="text-xs" />
+                      Volver al login
+                    </Link>
+                  </div>
+                </form>
+              )}
+            </Card>
           </div>
-        ) : (
-          // Form State
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Email Input */}
-            <div className="group">
-              <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-                Email
-              </label>
-              <div className="relative">
-                <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-secondary group-focus-within:text-brand transition-colors duration-300" />
-                <input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="w-full pl-11 pr-4 py-3 bg-panel border border-border rounded-lg focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground placeholder-secondary"
-                  placeholder="tu@email.com"
-                  disabled={loading}
-                />
-              </div>
-            </div>
-
-            {/* Error Message */}
-            {error && (
-              <div className="p-4 bg-error/10 border border-error/30 rounded-lg">
-                <p className="text-sm text-error">{error}</p>
-              </div>
-            )}
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-3 bg-brand text-white rounded-lg font-semibold hover:bg-brand-light disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 hover:scale-[1.02] active:scale-95"
-            >
-              {loading ? 'Enviando...' : 'Enviar enlace de recuperación'}
-            </button>
-
-            {/* Back to Login */}
-            <div className="text-center">
-              <Link
-                href="/login"
-                className="inline-flex items-center gap-2 text-sm text-secondary hover:text-brand transition-colors"
-              >
-                <FaArrowLeft className="text-xs" />
-                Volver al login
-              </Link>
-            </div>
-          </form>
-        )}
-      </Card>
-    </AuthLayout>
+        </div>
+      </div>
+    </>
   );
 }
