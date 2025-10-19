@@ -40,30 +40,34 @@ export default function DisclaimerPage() {
           {/* Advertencia Principal */}
           <div className="p-6 bg-red-500/10 border-2 border-red-500/30 rounded-xl">
             <div className="flex items-start gap-4">
-              <FaExclamationTriangle className="text-red-500 text-3xl flex-shrink-0 mt-1" />
-              <div className="space-y-3">
-                <h2 className="text-xl font-bold text-red-400">ADVERTENCIA IMPORTANTE</h2>
-                <ul className="space-y-2 text-red-200 list-none">
-                  <li>
-                    • Dólar Gaucho <strong>NO es una entidad financiera</strong> regulada por el
-                    Banco Central de la República Argentina (BCRA).
-                  </li>
-                  <li>
-                    • <strong>NO ofrecemos</strong> servicios de asesoramiento financiero, legal,
-                    tributario, contable o de inversión.
-                  </li>
-                  <li>
-                    • <strong>NO facilitamos</strong> transacciones, operaciones de compraventa de
-                    divisas, ni intermediación financiera.
-                  </li>
-                  <li>
-                    • La información proporcionada es <strong>EXCLUSIVAMENTE INFORMATIVA</strong> y
+              <FaExclamationTriangle className="text-red-500 text-2xl flex-shrink-0 mt-1" />
+              <div className="space-y-4">
+                <h2 className="text-xl font-bold text-red-400 uppercase tracking-wide">
+                  Advertencia Importante
+                </h2>
+                <div className="space-y-3 text-sm leading-relaxed">
+                  <p className="text-red-200">
+                    Dólar Gaucho{' '}
+                    <strong className="font-semibold">NO es una entidad financiera</strong> regulada
+                    por el Banco Central de la República Argentina (BCRA).
+                  </p>
+                  <p className="text-red-200">
+                    <strong className="font-semibold">NO ofrecemos</strong> servicios de
+                    asesoramiento financiero, legal, tributario, contable o de inversión.
+                  </p>
+                  <p className="text-red-200">
+                    <strong className="font-semibold">NO facilitamos</strong> transacciones,
+                    operaciones de compraventa de divisas, ni intermediación financiera.
+                  </p>
+                  <p className="text-red-200">
+                    La información proporcionada es{' '}
+                    <strong className="font-semibold">EXCLUSIVAMENTE INFORMATIVA</strong> y
                     educativa.
-                  </li>
-                  <li>
-                    • <strong>USTED es el único responsable</strong> de sus decisiones financieras.
-                  </li>
-                </ul>
+                  </p>
+                  <p className="text-red-200 font-semibold">
+                    USTED es el único responsable de sus decisiones financieras.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
