@@ -230,6 +230,23 @@ export default function AuthPage() {
             <Card variant="elevated" padding="lg">
               {activeTab === 'login' ? (
                 <form onSubmit={handleLogin} className="grid grid-cols-1 gap-5">
+                  {/* Hidden name field to match signup form height - maintains space but invisible */}
+                  <div className="invisible pointer-events-none select-none" aria-hidden="true">
+                    <label className="block text-sm font-medium text-foreground mb-2">
+                      Nombre completo
+                    </label>
+                    <div className="relative">
+                      <FaUser className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-sm" />
+                      <Input
+                        tabIndex={-1}
+                        type="text"
+                        placeholder="Juan Pérez"
+                        className="pl-10"
+                        disabled
+                      />
+                    </div>
+                  </div>
+
                   {/* Email */}
                   <div>
                     <label
