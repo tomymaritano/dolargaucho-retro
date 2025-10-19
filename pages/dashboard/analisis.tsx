@@ -208,41 +208,105 @@ export default function AnalisisPage() {
           <RiesgoPaisChart limit={30} />
         </div>
 
-        {/* Comparativa de Dólares */}
+        {/* Comparativa de Dólares - Gráfico de barras */}
         <div className="bg-panel border border-white/10 rounded-xl p-6">
-          <div className="mb-5">
-            <h2 className="text-lg font-bold text-foreground mb-1">Comparativa de Dólares</h2>
-            <p className="text-xs text-secondary">Valores de venta actuales</p>
+          <div className="flex items-center gap-2 mb-6">
+            <div className="p-2 rounded-lg bg-brand/10">
+              <FaDollarSign className="text-brand" />
+            </div>
+            <div>
+              <h2 className="text-lg font-bold text-foreground">Comparativa de Dólares</h2>
+              <p className="text-xs text-secondary">Valores vs dólar oficial</p>
+            </div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="space-y-5">
             {dolares?.map((dolar) => {
               const brecha = dolarOficial
                 ? ((dolar.venta - dolarOficial.venta) / dolarOficial.venta) * 100
                 : 0;
+              const isOficial = dolar.casa === 'oficial';
+              const maxValue = Math.max(...(dolares?.map((d) => d.venta) || [0]));
+              const barWidth = (dolar.venta / maxValue) * 100;
 
               return (
-                <div
-                  key={dolar.nombre}
-                  className="bg-background/50 border border-white/5 rounded-lg p-4 hover:border-brand/20 transition-all"
-                >
-                  <div className="text-xs text-secondary mb-2 font-medium">{dolar.nombre}</div>
-                  <div className="text-xl font-bold text-foreground mb-1">
-                    ${dolar.venta.toFixed(2)}
-                  </div>
-                  {dolar.casa !== 'oficial' && (
-                    <div
-                      className={`text-xs font-semibold ${
-                        brecha > 0 ? 'text-red-400' : 'text-green-400'
-                      }`}
-                    >
-                      {brecha > 0 ? '+' : ''}
-                      {brecha.toFixed(1)}%
+                <div key={dolar.nombre} className="group">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-semibold text-foreground w-24">
+                        {dolar.nombre}
+                      </span>
+                      {isOficial && (
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 font-medium">
+                          Oficial
+                        </span>
+                      )}
                     </div>
-                  )}
+                    <div className="text-right">
+                      <div className="text-lg font-bold text-foreground">
+                        ${dolar.venta.toFixed(2)}
+                      </div>
+                      {!isOficial && (
+                        <div
+                          className={`text-xs font-semibold ${
+                            brecha > 0 ? 'text-red-400' : 'text-green-400'
+                          }`}
+                        >
+                          {brecha > 0 ? '+' : ''}
+                          {brecha.toFixed(1)}%
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="relative">
+                    {/* Background bar */}
+                    <div className="h-10 bg-background/50 rounded-lg overflow-hidden">
+                      {/* Value bar */}
+                      <div
+                        className={`h-full flex items-center px-3 transition-all duration-500 group-hover:opacity-90 ${
+                          isOficial
+                            ? 'bg-gradient-to-r from-blue-500/20 to-blue-500/10'
+                            : brecha > 50
+                              ? 'bg-gradient-to-r from-red-500/30 to-red-500/10'
+                              : brecha > 20
+                                ? 'bg-gradient-to-r from-orange-500/30 to-orange-500/10'
+                                : 'bg-gradient-to-r from-brand/30 to-brand/10'
+                        }`}
+                        style={{ width: `${barWidth}%` }}
+                      >
+                        {!isOficial && (
+                          <span className="text-xs font-medium text-foreground/80 ml-auto">
+                            +${(dolar.venta - (dolarOficial?.venta || 0)).toFixed(2)}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               );
             })}
+          </div>
+
+          {/* Leyenda */}
+          <div className="mt-6 pt-4 border-t border-white/5">
+            <div className="flex flex-wrap gap-4 text-xs">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-sm bg-blue-500/20"></div>
+                <span className="text-secondary">Oficial</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-sm bg-gradient-to-r from-brand/30 to-brand/10"></div>
+                <span className="text-secondary">Brecha {'<'} 20%</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-sm bg-gradient-to-r from-orange-500/30 to-orange-500/10"></div>
+                <span className="text-secondary">Brecha 20-50%</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-sm bg-gradient-to-r from-red-500/30 to-red-500/10"></div>
+                <span className="text-secondary">Brecha {'>'} 50%</span>
+              </div>
+            </div>
           </div>
         </div>
 
