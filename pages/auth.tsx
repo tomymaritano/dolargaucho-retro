@@ -103,13 +103,18 @@ export default function AuthPage() {
     setError('');
 
     // Validation
-    if (!email || !password) {
-      setError('Por favor completa todos los campos');
+    if (!email.trim()) {
+      setError('Por favor ingresa tu email');
+      return;
+    }
+
+    if (!password) {
+      setError('Por favor ingresa tu contraseña');
       return;
     }
 
     if (!isValidEmail(email)) {
-      setError('Email inválido');
+      setError('Por favor ingresa un email válido');
       return;
     }
 
@@ -142,18 +147,38 @@ export default function AuthPage() {
     setError('');
 
     // Validation
-    if (!name || !email || !password || !confirmPassword) {
-      setError('Por favor completa todos los campos');
+    if (!name.trim()) {
+      setError('Por favor ingresa tu nombre completo');
+      return;
+    }
+
+    if (name.trim().length < 2) {
+      setError('El nombre debe tener al menos 2 caracteres');
+      return;
+    }
+
+    if (!email.trim()) {
+      setError('Por favor ingresa tu email');
       return;
     }
 
     if (!isValidEmail(email)) {
-      setError('Email inválido');
+      setError('Por favor ingresa un email válido');
+      return;
+    }
+
+    if (!password) {
+      setError('Por favor ingresa una contraseña');
       return;
     }
 
     if (password.length < 6) {
       setError('La contraseña debe tener al menos 6 caracteres');
+      return;
+    }
+
+    if (!confirmPassword) {
+      setError('Por favor confirma tu contraseña');
       return;
     }
 
@@ -277,6 +302,7 @@ export default function AuthPage() {
                           className="pl-10"
                           disabled={loading}
                           autoComplete="email"
+                          required
                         />
                       </div>
                     </div>
@@ -308,6 +334,8 @@ export default function AuthPage() {
                           className="pl-10 pr-10"
                           disabled={loading}
                           autoComplete="current-password"
+                          required
+                          minLength={6}
                         />
                         <button
                           type="button"
@@ -324,14 +352,12 @@ export default function AuthPage() {
                       </div>
                     </div>
 
-                    {/* Error message placeholder - maintains consistent height */}
-                    <div className="min-h-[52px]">
-                      {error && (
-                        <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
-                          <p className="text-sm text-red-400">{error}</p>
-                        </div>
-                      )}
-                    </div>
+                    {/* Error message */}
+                    {error && (
+                      <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
+                        <p className="text-sm text-red-400">{error}</p>
+                      </div>
+                    )}
 
                     {/* Submit button */}
                     <Button
@@ -374,6 +400,8 @@ export default function AuthPage() {
                           className="pl-10"
                           disabled={loading}
                           autoComplete="name"
+                          required
+                          minLength={2}
                         />
                       </div>
                     </div>
@@ -397,6 +425,7 @@ export default function AuthPage() {
                           className="pl-10"
                           disabled={loading}
                           autoComplete="email"
+                          required
                         />
                       </div>
                     </div>
@@ -420,6 +449,8 @@ export default function AuthPage() {
                           className="pl-10 pr-10"
                           disabled={loading}
                           autoComplete="new-password"
+                          required
+                          minLength={6}
                         />
                         <button
                           type="button"
@@ -455,6 +486,8 @@ export default function AuthPage() {
                           className="pl-10 pr-10"
                           disabled={loading}
                           autoComplete="new-password"
+                          required
+                          minLength={6}
                         />
                         <button
                           type="button"
@@ -471,14 +504,12 @@ export default function AuthPage() {
                       </div>
                     </div>
 
-                    {/* Error message placeholder - maintains consistent height */}
-                    <div className="min-h-[52px]">
-                      {error && (
-                        <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
-                          <p className="text-sm text-red-400">{error}</p>
-                        </div>
-                      )}
-                    </div>
+                    {/* Error message */}
+                    {error && (
+                      <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
+                        <p className="text-sm text-red-400">{error}</p>
+                      </div>
+                    )}
 
                     {/* Submit button */}
                     <Button
