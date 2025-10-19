@@ -8,13 +8,13 @@ import React, { useState } from 'react';
 import Head from 'next/head';
 import { LegalLayout } from '@/components/legal';
 import { FaqItem } from '@/components/ui/FaqItem';
-import { CategoryFilter } from '@/components/ui/CategoryFilter';
+import { Tabs, Tab } from '@/components/ui/Tabs';
 import { FAQ_CATEGORIES } from '@/constants/faqCategories';
 import { FaSearch } from 'react-icons/fa';
 
 export default function HelpPage() {
   const [openIndex, setOpenIndex] = useState<{ category: number; faq: number } | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  const [activeTab, setActiveTab] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
 
   const toggleFaq = (categoryIndex: number, faqIndex: number) => {
@@ -25,10 +25,23 @@ export default function HelpPage() {
     }
   };
 
+  // Create tabs from categories
+  const tabs: Tab[] = [
+    { id: 'all', label: 'Todas las categorías' },
+    ...FAQ_CATEGORIES.map((category, index) => ({
+      id: `category-${index}`,
+      label: category.title,
+      icon: category.icon,
+    })),
+  ];
+
+  // Get selected category index from activeTab
+  const selectedCategoryIndex = activeTab === 'all' ? null : parseInt(activeTab.split('-')[1]);
+
   // Filter by category and search
   const filteredCategories = FAQ_CATEGORIES.filter((category, index) => {
     // Filter by selected category
-    if (selectedCategory !== null && index !== selectedCategory) return false;
+    if (selectedCategoryIndex !== null && index !== selectedCategoryIndex) return false;
 
     // Filter by search query
     if (searchQuery) {
@@ -74,20 +87,14 @@ export default function HelpPage() {
             </div>
           </div>
 
-          {/* Category Filter */}
-          <CategoryFilter
-            categories={FAQ_CATEGORIES}
-            selectedCategory={selectedCategory}
-            onSelectCategory={setSelectedCategory}
-            allLabel="Todas las categorías"
-            className="mb-8"
-          />
+          {/* Category Tabs */}
+          <Tabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab} variant="pills" />
 
           {/* FAQs by Category */}
-          <div className="space-y-12">
+          <div className="space-y-12 mt-8">
             {filteredCategories.map((category, categoryIndex) => {
               const actualCategoryIndex =
-                selectedCategory !== null ? selectedCategory : categoryIndex;
+                selectedCategoryIndex !== null ? selectedCategoryIndex : categoryIndex;
               const Icon = category.icon;
 
               return (
