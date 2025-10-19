@@ -51,7 +51,7 @@ export function VercelBackground() {
           className="absolute inset-0"
           style={{
             backgroundImage: `
-              radial-gradient(circle at center, rgba(148, 163, 184, 0.4) 1px, transparent 1px)
+              radial-gradient(circle at center, rgba(148, 163, 184, 0.08) 1px, transparent 1px)
             `,
             backgroundSize: '24px 24px',
           }}
