@@ -60,81 +60,79 @@ export function TasasChart({ limit = 10, isFavorite, onToggleFavorite }: TasasCh
     );
   }
 
-  return (
-    <Card variant="elevated" padding="lg">
-      <Card.Header>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="p-3 glass rounded-xl">
-              <FaUniversity className="text-brand text-xl" />
-            </div>
-            <div>
-              <Card.Title>Tasas de Plazo Fijo - Top {limit} Bancos</Card.Title>
-              <p className="text-sm text-secondary mt-1">
-                Ordenadas por TNA para clientes (mayor a menor)
-              </p>
-            </div>
-          </div>
-          {onToggleFavorite && (
-            <button
-              onClick={onToggleFavorite}
-              className={`p-2 rounded-lg transition-all ${
-                isFavorite
-                  ? 'bg-brand/20 text-brand'
-                  : 'glass text-secondary hover:text-brand hover:bg-white/5'
-              }`}
-              aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
-            >
-              {isFavorite ? <FaStar className="text-lg" /> : <FaRegStar className="text-lg" />}
-            </button>
-          )}
-        </div>
-      </Card.Header>
+  const topTasa = chartData[0];
 
-      <Card.Content>
-        <ResponsiveContainer width="100%" height={400}>
-          <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 80 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke={chartTheme.gridColor} />
+  return (
+    <div className="space-y-4">
+      {/* Header con valor destacado */}
+      <div className="flex items-end justify-between">
+        <div>
+          <h3 className="text-lg font-semibold text-foreground mb-1">Tasas de Plazo Fijo</h3>
+          <p className="text-xs text-secondary">Top {limit} mejores tasas TNA</p>
+        </div>
+        <div className="text-right">
+          <div className="text-3xl font-black text-green-400">{topTasa?.tnaClientes}%</div>
+          <div className="text-xs text-secondary truncate max-w-[200px]">{topTasa?.entidad}</div>
+        </div>
+      </div>
+
+      {/* Chart - Sin bordes ni fondos pesados */}
+      <div className="bg-white/[0.02] rounded-xl p-4">
+        <ResponsiveContainer width="100%" height={360}>
+          <BarChart data={chartData} margin={{ top: 5, right: 5, left: -20, bottom: 100 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
             <XAxis
               dataKey="entidad"
-              stroke={chartTheme.axisColor}
-              style={{ fontSize: '11px' }}
+              stroke="rgba(255,255,255,0.3)"
+              style={{ fontSize: '9px' }}
               angle={-45}
               textAnchor="end"
               height={100}
+              tick={{ fill: 'rgba(255,255,255,0.5)' }}
+              tickLine={false}
+              axisLine={false}
             />
             <YAxis
-              stroke={chartTheme.axisColor}
-              style={{ fontSize: '12px' }}
+              stroke="rgba(255,255,255,0.3)"
+              style={{ fontSize: '10px' }}
               tickFormatter={(value) => `${value}%`}
+              tick={{ fill: 'rgba(255,255,255,0.5)' }}
+              tickLine={false}
+              axisLine={false}
             />
             <Tooltip
               contentStyle={{
-                backgroundColor: chartTheme.tooltipBg,
-                border: `1px solid ${chartTheme.tooltipBorder}`,
+                backgroundColor: '#0a0a0a',
+                border: '1px solid rgba(0, 71, 255, 0.3)',
                 borderRadius: '8px',
-                color: chartTheme.tooltipColor,
+                padding: '8px 12px',
               }}
+              labelStyle={{ color: 'rgba(255,255,255,0.7)', fontSize: '11px', marginBottom: '4px' }}
+              itemStyle={{ color: '#fff', fontSize: '12px', fontWeight: 600 }}
               formatter={(value: number) => [`${value}%`, '']}
             />
-            <Legend wrapperStyle={{ color: chartTheme.tooltipColor }} />
-            <Bar dataKey="tnaClientes" fill="#0047FF" name="TNA Clientes" radius={[4, 4, 0, 0]} />
+            <Bar
+              dataKey="tnaClientes"
+              fill="#0047FF"
+              name="Clientes"
+              radius={[8, 8, 0, 0]}
+              maxBarSize={60}
+            />
             <Bar
               dataKey="tnaNoClientes"
-              fill="#3366FF"
-              name="TNA No Clientes"
-              radius={[4, 4, 0, 0]}
+              fill="#8B5CF6"
+              name="No Clientes"
+              radius={[8, 8, 0, 0]}
+              maxBarSize={60}
             />
           </BarChart>
         </ResponsiveContainer>
-      </Card.Content>
+      </div>
 
-      <Card.Footer>
-        <div className="flex items-center justify-between text-xs text-secondary">
-          <span>Fuente: ArgentinaData API (agrega datos públicos)</span>
-          <span>TNA: Tasa Nominal Anual</span>
-        </div>
-      </Card.Footer>
-    </Card>
+      {/* Footer minimalista */}
+      <div className="text-xs text-secondary text-right">
+        Fuente: BCRA vía ArgentinaData • TNA: Tasa Nominal Anual
+      </div>
+    </div>
   );
 }

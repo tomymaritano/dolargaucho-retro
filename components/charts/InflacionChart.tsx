@@ -82,94 +82,87 @@ export function InflacionChart({
     );
   }
 
+  const latestMensual = chartData[chartData.length - 1]?.mensual;
+  const previousMensual = chartData[chartData.length - 2]?.mensual;
+  const changeMensual = previousMensual ? latestMensual - previousMensual : 0;
+
   return (
-    <div className="bg-panel p-6 md:p-8 rounded-xl border border-white/5">
-      {/* Header */}
-      <div className="mb-6 flex items-start justify-between">
+    <div className="space-y-4">
+      {/* Header con valor destacado */}
+      <div className="flex items-end justify-between">
         <div>
-          <h3 className="text-2xl font-display font-bold text-foreground mb-2">
-            Evolución de la Inflación
-          </h3>
-          <p className="text-sm text-secondary">Últimos {limit} meses • Actualizado diariamente</p>
+          <h3 className="text-lg font-semibold text-foreground mb-1">Inflación</h3>
+          <p className="text-xs text-secondary">Últimos {limit} meses</p>
         </div>
-        {onToggleFavorite && (
-          <button
-            onClick={onToggleFavorite}
-            className={`p-2 rounded-lg transition-all ${
-              isFavorite
-                ? 'bg-brand/20 text-brand'
-                : 'bg-white/5 text-secondary hover:text-brand hover:bg-white/10'
-            }`}
-            aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+        <div className="text-right">
+          <div className="text-3xl font-black text-brand">{latestMensual?.toFixed(1)}%</div>
+          <div
+            className={`text-xs font-semibold ${changeMensual > 0 ? 'text-red-400' : 'text-green-400'}`}
           >
-            {isFavorite ? <FaStar className="text-lg" /> : <FaRegStar className="text-lg" />}
-          </button>
-        )}
+            {changeMensual > 0 ? '+' : ''}
+            {changeMensual.toFixed(1)}pp vs mes anterior
+          </div>
+        </div>
       </div>
 
-      {/* Chart */}
-      <div className="p-4 rounded-xl bg-transparent border border-white/5">
-        <ResponsiveContainer width="100%" height={400}>
-          <LineChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 10 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke={chartTheme.gridColor} />
+      {/* Chart - Sin bordes ni fondos pesados */}
+      <div className="bg-white/[0.02] rounded-xl p-4">
+        <ResponsiveContainer width="100%" height={320}>
+          <LineChart data={chartData} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
             <XAxis
               dataKey="fecha"
-              stroke={chartTheme.axisColor}
-              style={{ fontSize: '11px' }}
-              tick={{ fill: chartTheme.axisColor }}
+              stroke="rgba(255,255,255,0.3)"
+              style={{ fontSize: '10px' }}
+              tick={{ fill: 'rgba(255,255,255,0.5)' }}
+              tickLine={false}
+              axisLine={false}
             />
             <YAxis
-              stroke={chartTheme.axisColor}
-              style={{ fontSize: '11px' }}
-              tick={{ fill: chartTheme.axisColor }}
+              stroke="rgba(255,255,255,0.3)"
+              style={{ fontSize: '10px' }}
+              tick={{ fill: 'rgba(255,255,255,0.5)' }}
               tickFormatter={(value) => `${value}%`}
+              tickLine={false}
+              axisLine={false}
             />
             <Tooltip
               contentStyle={{
-                backgroundColor: chartTheme.tooltipBg,
-                border: `1px solid ${chartTheme.tooltipBorder}`,
+                backgroundColor: '#0a0a0a',
+                border: '1px solid rgba(0, 71, 255, 0.3)',
                 borderRadius: '8px',
-                color: chartTheme.tooltipColor,
+                padding: '8px 12px',
               }}
+              labelStyle={{ color: 'rgba(255,255,255,0.7)', fontSize: '11px', marginBottom: '4px' }}
+              itemStyle={{ color: '#fff', fontSize: '12px', fontWeight: 600 }}
               formatter={(value: number) => [`${value.toFixed(2)}%`, '']}
-            />
-            <Legend
-              wrapperStyle={{
-                color: chartTheme.tooltipColor,
-                paddingTop: '20px',
-              }}
-              iconType="line"
             />
             <Line
               type="monotone"
               dataKey="mensual"
               stroke="#0047FF"
-              strokeWidth={2.5}
-              name="Inflación Mensual"
-              dot={{ fill: '#0047FF', r: 3 }}
-              activeDot={{ r: 5 }}
+              strokeWidth={3}
+              name="Mensual"
+              dot={false}
+              activeDot={{ r: 6, fill: '#0047FF', strokeWidth: 2, stroke: '#fff' }}
             />
             {showInteranual && (
               <Line
                 type="monotone"
                 dataKey="interanual"
-                stroke="#3366FF"
-                strokeWidth={2.5}
-                name="Inflación Interanual"
-                dot={{ fill: '#3366FF', r: 3 }}
-                activeDot={{ r: 5 }}
+                stroke="#8B5CF6"
+                strokeWidth={3}
+                name="Interanual"
+                dot={false}
+                activeDot={{ r: 6, fill: '#8B5CF6', strokeWidth: 2, stroke: '#fff' }}
               />
             )}
           </LineChart>
         </ResponsiveContainer>
       </div>
 
-      {/* Footer */}
-      <div className="mt-4 pt-4 border-t border-white/5">
-        <p className="text-xs text-secondary text-center">
-          Fuente: ArgentinaData API (agrega datos públicos) • Los datos se actualizan diariamente
-        </p>
-      </div>
+      {/* Footer minimalista */}
+      <div className="text-xs text-secondary text-right">Fuente: INDEC vía ArgentinaData</div>
     </div>
   );
 }

@@ -68,85 +68,81 @@ export function RiesgoPaisChart({
 
   const latestValue = chartData[chartData.length - 1]?.valor;
   const previousValue = chartData[chartData.length - 2]?.valor;
-  const variation = previousValue ? ((latestValue - previousValue) / previousValue) * 100 : 0;
+  const variation = previousValue ? latestValue - previousValue : 0;
   const isPositive = variation >= 0;
 
   return (
-    <Card variant="elevated" padding="lg">
-      <Card.Header>
-        <div className="flex items-start justify-between">
-          <div>
-            <Card.Title>Riesgo País</Card.Title>
-            <p className="text-sm text-secondary mt-1">Últimos {limit} días</p>
+    <div className="space-y-4">
+      {/* Header con valor destacado */}
+      <div className="flex items-end justify-between">
+        <div>
+          <h3 className="text-lg font-semibold text-foreground mb-1">Riesgo País</h3>
+          <p className="text-xs text-secondary">Últimos {limit} días</p>
+        </div>
+        <div className="text-right">
+          <div className="text-3xl font-black text-red-400">
+            {latestValue?.toLocaleString('es-AR')}
           </div>
-          <div className="flex items-center gap-4">
-            {onToggleFavorite && (
-              <button
-                onClick={onToggleFavorite}
-                className={`p-2 rounded-lg transition-all ${
-                  isFavorite
-                    ? 'bg-brand/20 text-brand'
-                    : 'glass text-secondary hover:text-brand hover:bg-white/5'
-                }`}
-                aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
-              >
-                {isFavorite ? <FaStar className="text-lg" /> : <FaRegStar className="text-lg" />}
-              </button>
-            )}
-            <div className="text-right">
-              <div className="text-3xl font-bold text-foreground">
-                {latestValue?.toLocaleString('es-AR')}
-              </div>
-              <div
-                className={`text-sm font-semibold ${isPositive ? 'text-red-500' : 'text-green-500'}`}
-              >
-                {isPositive ? '+' : ''}
-                {variation.toFixed(2)}% vs ayer
-              </div>
-            </div>
+          <div
+            className={`text-xs font-semibold ${isPositive ? 'text-red-400' : 'text-green-400'}`}
+          >
+            {isPositive ? '+' : ''}
+            {variation.toFixed(0)} pb vs día anterior
           </div>
         </div>
-      </Card.Header>
+      </div>
 
-      <Card.Content>
-        <ResponsiveContainer width="100%" height={300}>
-          <AreaChart data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+      {/* Chart - Sin bordes ni fondos pesados */}
+      <div className="bg-white/[0.02] rounded-xl p-4">
+        <ResponsiveContainer width="100%" height={320}>
+          <AreaChart data={chartData} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
             <defs>
               <linearGradient id="colorRiesgo" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#ef4444" stopOpacity={0.8} />
-                <stop offset="95%" stopColor="#ef4444" stopOpacity={0.1} />
+                <stop offset="5%" stopColor="#f87171" stopOpacity={0.4} />
+                <stop offset="95%" stopColor="#f87171" stopOpacity={0.05} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke={chartTheme.gridColor} />
-            <XAxis dataKey="fecha" stroke={chartTheme.axisColor} style={{ fontSize: '12px' }} />
-            <YAxis stroke={chartTheme.axisColor} style={{ fontSize: '12px' }} />
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
+            <XAxis
+              dataKey="fecha"
+              stroke="rgba(255,255,255,0.3)"
+              style={{ fontSize: '10px' }}
+              tick={{ fill: 'rgba(255,255,255,0.5)' }}
+              tickLine={false}
+              axisLine={false}
+            />
+            <YAxis
+              stroke="rgba(255,255,255,0.3)"
+              style={{ fontSize: '10px' }}
+              tick={{ fill: 'rgba(255,255,255,0.5)' }}
+              tickLine={false}
+              axisLine={false}
+            />
             <Tooltip
               contentStyle={{
-                backgroundColor: chartTheme.tooltipBg,
-                border: `1px solid ${chartTheme.tooltipBorder}`,
+                backgroundColor: '#0a0a0a',
+                border: '1px solid rgba(248, 113, 113, 0.3)',
                 borderRadius: '8px',
-                color: chartTheme.tooltipColor,
+                padding: '8px 12px',
               }}
-              formatter={(value: number) => [value.toLocaleString('es-AR'), 'Puntos']}
+              labelStyle={{ color: 'rgba(255,255,255,0.7)', fontSize: '11px', marginBottom: '4px' }}
+              itemStyle={{ color: '#fff', fontSize: '12px', fontWeight: 600 }}
+              formatter={(value: number) => [`${value.toLocaleString('es-AR')} pb`, '']}
             />
             <Area
               type="monotone"
               dataKey="valor"
-              stroke="#ef4444"
-              strokeWidth={2}
+              stroke="#f87171"
+              strokeWidth={2.5}
               fillOpacity={1}
               fill="url(#colorRiesgo)"
             />
           </AreaChart>
         </ResponsiveContainer>
-      </Card.Content>
+      </div>
 
-      <Card.Footer>
-        <div className="flex items-center justify-between text-xs text-secondary">
-          <span>Fuente: ArgentinaData API (agrega datos públicos)</span>
-          <span>Actualizado diariamente</span>
-        </div>
-      </Card.Footer>
-    </Card>
+      {/* Footer minimalista */}
+      <div className="text-xs text-secondary text-right">Fuente: BCRA vía ArgentinaData</div>
+    </div>
   );
 }
