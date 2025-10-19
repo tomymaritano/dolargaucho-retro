@@ -3,13 +3,13 @@
 /**
  * ProductShowcase - Muestra funcionalidades con diseño side-by-side
  *
- * Diseño alternado izquierda/derecha con imágenes grandes
+ * Diseño alternado izquierda/derecha con mockups visuales
  */
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 import { FaChartLine, FaChartBar, FaExchangeAlt } from 'react-icons/fa';
+import { DashboardPreview } from './DashboardPreview';
 
 const features = [
   {
@@ -22,8 +22,7 @@ const features = [
       'Comparativas entre diferentes tipos de cambio',
       'Sparklines para ver tendencias rápidas',
     ],
-    image: '/thumbnail.png',
-    imageAlt: 'Dashboard de mercados',
+    variant: 'dashboard' as const,
   },
   {
     icon: <FaChartBar className="text-2xl" />,
@@ -35,8 +34,7 @@ const features = [
       'Estadísticas por bloques políticos',
       'Calendario de eventos económicos',
     ],
-    image: '/thumbnail.png',
-    imageAlt: 'Análisis político',
+    variant: 'politics' as const,
   },
   {
     icon: <FaExchangeAlt className="text-2xl" />,
@@ -48,8 +46,7 @@ const features = [
       'Simulador de créditos UVA',
       'Conversor multi-moneda en tiempo real',
     ],
-    image: '/thumbnail.png',
-    imageAlt: 'Calculadoras financieras',
+    variant: 'calculator' as const,
   },
 ];
 
@@ -84,26 +81,16 @@ export function ProductShowcase() {
               transition={{ duration: 0.6 }}
               className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center"
             >
-              {/* Image - Izquierda en odd, derecha en even */}
+              {/* Visual Mockup - Izquierda en odd, derecha en even */}
               <motion.div
                 className={`${index % 2 === 0 ? 'lg:order-1' : 'lg:order-2'}`}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
                 whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.3 }}
               >
-                <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/30 bg-panel">
-                  {/* Image */}
-                  <div className="relative aspect-[16/10]">
-                    <Image
-                      src={feature.image}
-                      alt={feature.imageAlt}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-
-                  {/* Gradient overlay at bottom */}
-                  <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-black/60 to-transparent"></div>
-                </div>
+                <DashboardPreview variant={feature.variant} />
               </motion.div>
 
               {/* Content - Derecha en odd, izquierda en even */}
