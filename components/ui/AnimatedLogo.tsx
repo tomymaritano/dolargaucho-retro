@@ -4,14 +4,13 @@
  * AnimatedLogo - Logo with drawing animation
  *
  * Features:
- * - Animated reveal effect on mount
- * - Smooth drawing animation
+ * - SVG path drawing animation
+ * - Smooth entrance effect
  * - Responsive sizing
  */
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 
 interface AnimatedLogoProps {
   size?: number;
@@ -19,60 +18,64 @@ interface AnimatedLogoProps {
 }
 
 export function AnimatedLogo({ size = 32, className = '' }: AnimatedLogoProps) {
+  // Paths para el símbolo $
+  const pathVariants = {
+    hidden: {
+      opacity: 0,
+      pathLength: 0,
+    },
+    visible: {
+      opacity: 1,
+      pathLength: 1,
+      transition: {
+        duration: 2,
+        ease: 'easeInOut',
+      },
+    },
+  };
+
   return (
-    <motion.div
-      className={`relative ${className}`}
-      style={{ width: size, height: size }}
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{
-        duration: 0.6,
-        ease: [0.23, 1, 0.32, 1], // Easing cubic-bezier
-      }}
+    <motion.svg
+      width={size}
+      height={size}
+      viewBox="0 0 100 100"
+      className={`${className}`}
+      initial="hidden"
+      animate="visible"
     >
-      {/* SVG mask for drawing effect */}
-      <svg
-        width={size}
-        height={size}
-        viewBox="0 0 32 32"
-        className="absolute inset-0"
-        style={{ clipPath: 'url(#logo-reveal)' }}
-      >
-        <defs>
-          <clipPath id="logo-reveal">
-            <motion.rect
-              x="0"
-              y="0"
-              width="32"
-              height="32"
-              initial={{ y: 32 }}
-              animate={{ y: 0 }}
-              transition={{
-                duration: 1.2,
-                ease: [0.23, 1, 0.32, 1],
-                delay: 0.2,
-              }}
-            />
-          </clipPath>
-        </defs>
-      </svg>
-
-      {/* Actual logo image */}
-      <Image
-        src="/logo.svg"
-        width={size}
-        height={size}
-        alt="Dolar Gaucho"
-        className="relative z-10"
-        priority
+      {/* Círculo exterior */}
+      <motion.circle
+        cx="50"
+        cy="50"
+        r="45"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="3"
+        variants={pathVariants}
       />
 
-      {/* Glow effect on hover */}
-      <motion.div
-        className="absolute inset-0 rounded-lg bg-brand/20 blur-xl opacity-0"
-        whileHover={{ opacity: 1 }}
-        transition={{ duration: 0.3 }}
+      {/* Símbolo $ */}
+      <motion.path
+        d="M 50 20 L 50 80"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="4"
+        strokeLinecap="round"
+        variants={pathVariants}
       />
-    </motion.div>
+
+      <motion.path
+        d="M 35 35 Q 35 25 50 25 Q 65 25 65 35 Q 65 45 50 45 Q 35 45 35 55 Q 35 65 50 65 Q 65 65 65 55"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="4"
+        strokeLinecap="round"
+        variants={pathVariants}
+      />
+
+      {/* Puntos decorativos */}
+      <motion.circle cx="30" cy="70" r="3" fill="currentColor" variants={pathVariants} />
+      <motion.circle cx="70" cy="30" r="3" fill="currentColor" variants={pathVariants} />
+    </motion.svg>
   );
 }
