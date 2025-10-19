@@ -6,7 +6,7 @@
  * Better UX: Users can switch between login and signup without navigation
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useTransition } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useAuth } from '@/lib/contexts/AuthContext';
@@ -23,6 +23,7 @@ type AuthTab = 'login' | 'signup';
 export default function AuthPage() {
   const router = useRouter();
   const { signIn, signUp, user } = useAuth();
+  const [isPending, startTransition] = useTransition();
 
   const [activeTab, setActiveTab] = useState<AuthTab>('login');
   const [email, setEmail] = useState('');
@@ -54,6 +55,30 @@ export default function AuthPage() {
     }
   }, [router.query.tab]);
 
+  // Optimized handlers with useCallback to prevent re-renders
+  const handleEmailChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    startTransition(() => {
+      setEmail(e.target.value);
+    });
+  }, []);
+
+  const handlePasswordChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    startTransition(() => {
+      setPassword(e.target.value);
+    });
+  }, []);
+
+  const handleNameChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    startTransition(() => {
+      setName(e.target.value);
+    });
+  }, []);
+
+  const isValidEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   // If already authenticated, show loading
   if (user) {
     return (
@@ -62,11 +87,6 @@ export default function AuthPage() {
       </div>
     );
   }
-
-  const isValidEmail = (email: string): boolean => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -179,13 +199,8 @@ export default function AuthPage() {
             {/* Header */}
             <div className="text-center mb-8">
               <h2 className="text-3xl font-bold text-foreground mb-2">
-                {activeTab === 'login' ? 'Bienvenido' : 'Crear Cuenta'}
+                {activeTab === 'login' ? 'Bienvenido' : 'Bienvenido'}
               </h2>
-              <p className="text-secondary text-base">
-                {activeTab === 'login'
-                  ? 'Inicia sesión para acceder a tu dashboard'
-                  : 'Únete para acceder al dashboard completo'}
-              </p>
             </div>
 
             {/* Tabs */}
@@ -236,7 +251,7 @@ export default function AuthPage() {
                         id="email"
                         type="email"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={handleEmailChange}
                         placeholder="tu@email.com"
                         className="pl-10"
                         disabled={loading}
@@ -267,7 +282,7 @@ export default function AuthPage() {
                         id="password"
                         type="password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={handlePasswordChange}
                         placeholder="••••••••"
                         className="pl-10"
                         disabled={loading}
@@ -311,7 +326,7 @@ export default function AuthPage() {
                         id="name"
                         type="text"
                         value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={handleNameChange}
                         placeholder="Juan Pérez"
                         className="pl-10"
                         disabled={loading}
@@ -334,7 +349,7 @@ export default function AuthPage() {
                         id="signup-email"
                         type="email"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={handleEmailChange}
                         placeholder="tu@email.com"
                         className="pl-10"
                         disabled={loading}
@@ -357,7 +372,7 @@ export default function AuthPage() {
                         id="signup-password"
                         type="password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={handlePasswordChange}
                         placeholder="Mínimo 6 caracteres"
                         className="pl-10"
                         disabled={loading}
