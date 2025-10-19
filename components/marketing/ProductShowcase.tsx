@@ -14,38 +14,22 @@ import { DashboardPreview } from './DashboardPreview';
 const features = [
   {
     icon: <FaChartLine className="text-2xl" />,
-    title: 'Dashboard completo de mercados',
+    title: 'Datos en tiempo real',
     description:
-      'Seguí todas las cotizaciones en un solo lugar. Dólar oficial, blue, MEP, CCL, crypto, inflación y riesgo país. Todo actualizado en tiempo real.',
-    highlights: [
-      'Gráficos interactivos con históricos',
-      'Comparativas entre diferentes tipos de cambio',
-      'Sparklines para ver tendencias rápidas',
-    ],
+      'Dólar, crypto, inflación y riesgo país. Todo actualizado al instante desde fuentes oficiales.',
     variant: 'dashboard' as const,
   },
   {
     icon: <FaChartBar className="text-2xl" />,
-    title: 'Análisis político y económico',
+    title: 'Análisis político',
     description:
-      'Accedé a datos del Congreso argentino. Votaciones, actas de sesiones, estadísticas por bloques y mucho más para entender el contexto político.',
-    highlights: [
-      'Actas de Diputados y Senado',
-      'Estadísticas por bloques políticos',
-      'Calendario de eventos económicos',
-    ],
+      'Votaciones del Congreso, actas de sesiones y estadísticas para entender el contexto económico.',
     variant: 'politics' as const,
   },
   {
     icon: <FaExchangeAlt className="text-2xl" />,
-    title: 'Calculadoras financieras avanzadas',
-    description:
-      'Herramientas profesionales para simular inversiones. Plazo fijo, UVA, inflación, conversores de moneda y crypto. Todo con datos reales actualizados.',
-    highlights: [
-      'Calculadora de plazo fijo con proyecciones',
-      'Simulador de créditos UVA',
-      'Conversor multi-moneda en tiempo real',
-    ],
+    title: 'Calculadoras financieras',
+    description: 'Simulá inversiones en plazo fijo, UVA y más. Proyecciones con datos reales.',
     variant: 'calculator' as const,
   },
 ];
@@ -63,15 +47,15 @@ export function ProductShowcase() {
           className="text-center mb-20"
         >
           <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
-            Todo lo que necesitás en un solo lugar
+            Herramientas profesionales
           </h2>
           <p className="text-lg text-secondary max-w-2xl mx-auto">
-            Herramientas profesionales para tomar decisiones informadas
+            Todo lo que necesitás para tomar decisiones financieras informadas
           </p>
         </motion.div>
 
         {/* Features */}
-        <div className="space-y-32">
+        <div className="space-y-24">
           {features.map((feature, index) => (
             <motion.div
               key={index}
@@ -94,7 +78,9 @@ export function ProductShowcase() {
               </motion.div>
 
               {/* Content - Derecha en odd, izquierda en even */}
-              <div className={`${index % 2 === 0 ? 'lg:order-2' : 'lg:order-1'}`}>
+              <div
+                className={`${index % 2 === 0 ? 'lg:order-2' : 'lg:order-1'} flex flex-col justify-center`}
+              >
                 {/* Icon Badge */}
                 <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-brand/20 to-brand-light/20 border border-brand/20 text-brand mb-6">
                   {feature.icon}
@@ -106,65 +92,7 @@ export function ProductShowcase() {
                 </h3>
 
                 {/* Description */}
-                <p className="text-lg text-secondary leading-relaxed mb-6">{feature.description}</p>
-
-                {/* Highlights */}
-                <ul className="space-y-3 mb-8">
-                  {feature.highlights.map((highlight, i) => (
-                    <motion.li
-                      key={i}
-                      initial={{ opacity: 0, x: -10 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: i * 0.1 }}
-                      className="flex items-start gap-3"
-                    >
-                      <div className="flex-shrink-0 w-6 h-6 rounded-full bg-brand/10 flex items-center justify-center mt-0.5">
-                        <svg
-                          width="12"
-                          height="9"
-                          viewBox="0 0 12 9"
-                          fill="none"
-                          className="text-brand"
-                        >
-                          <path
-                            d="M1 4.5L4 7.5L11 1"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </div>
-                      <span className="text-foreground font-medium">{highlight}</span>
-                    </motion.li>
-                  ))}
-                </ul>
-
-                {/* Optional CTA */}
-                {index === 0 && (
-                  <a
-                    href="/dashboard"
-                    className="inline-flex items-center gap-2 text-brand hover:text-brand-light font-medium transition-colors group"
-                  >
-                    Ver dashboard completo
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      className="transform group-hover:translate-x-1 transition-transform"
-                    >
-                      <path
-                        d="M6 3L11 8L6 13"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </a>
-                )}
+                <p className="text-xl text-secondary leading-relaxed">{feature.description}</p>
               </div>
             </motion.div>
           ))}
