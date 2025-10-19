@@ -43,7 +43,7 @@ export default function DisclaimerPage() {
               <FaExclamationTriangle className="text-red-500 text-3xl flex-shrink-0 mt-1" />
               <div className="space-y-3">
                 <h2 className="text-xl font-bold text-red-400">ADVERTENCIA IMPORTANTE</h2>
-                <ul className="space-y-2 text-red-200">
+                <ul className="space-y-2 text-red-200 list-none">
                   <li>
                     • Dólar Gaucho <strong>NO es una entidad financiera</strong> regulada por el
                     Banco Central de la República Argentina (BCRA).
