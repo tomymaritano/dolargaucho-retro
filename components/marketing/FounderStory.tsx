@@ -15,14 +15,8 @@ import { SocialLinks } from '@/components/ui/SocialLinks';
 
 export function FounderStory() {
   return (
-    <section className="relative w-full py-20 sm:py-28 overflow-hidden bg-gradient-to-b from-background via-background-secondary/30 to-background">
-      {/* Decorative background */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-brand-light rounded-full blur-3xl"></div>
-      </div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
+    <section className="relative w-full py-20 sm:py-28 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -281,7 +275,7 @@ export function FounderStory() {
 
             {/* Info */}
             <div className="text-center md:text-left">
-              <p className="text-sm font-semibold text-brand mb-1">Founder & CEO</p>
+              <p className="text-sm font-semibold text-brand mb-1">Founder</p>
               <h4 className="text-2xl font-black text-foreground mb-2">Tomás Maritano</h4>
               <p className="text-sm text-secondary mb-6 max-w-xl">
                 Emprendedor tecnológico y Full-Stack Developer. Apasionado por construir productos

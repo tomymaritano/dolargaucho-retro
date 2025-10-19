@@ -45,17 +45,6 @@ export function VercelBackground() {
               'radial-gradient(ellipse 60% 80% at 0% 100%, rgba(0, 71, 255, 0.15), transparent 70%)',
           }}
         />
-
-        {/* Dot pattern */}
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `
-              radial-gradient(circle at center, rgba(148, 163, 184, 0.08) 1px, transparent 1px)
-            `,
-            backgroundSize: '24px 24px',
-          }}
-        />
       </div>
     </>
   );
