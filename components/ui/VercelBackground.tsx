@@ -13,42 +13,50 @@ import React from 'react';
 
 export function VercelBackground() {
   return (
-    <div className="fixed inset-0 -z-10 overflow-hidden bg-background">
-      {/* Radial gradient base - más intenso */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            'radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 71, 255, 0.3), transparent)',
-        }}
-      />
+    <>
+      {/* Base background color */}
+      <div className="fixed inset-0 -z-10 bg-[#0A0A0A] dark:bg-[#0A0A0A]" />
 
-      {/* Secondary gradient for depth */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            'radial-gradient(ellipse 60% 80% at 100% 100%, rgba(80, 86, 169, 0.2), transparent)',
-        }}
-      />
+      {/* Gradient layers */}
+      <div className="fixed inset-0 -z-10 overflow-hidden">
+        {/* Primary gradient - top center */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 71, 255, 0.4), transparent 70%)',
+          }}
+        />
 
-      {/* Dot pattern - más visible */}
-      <div
-        className="absolute inset-0 opacity-30 dark:opacity-20"
-        style={{
-          backgroundImage: `radial-gradient(circle, currentColor 1px, transparent 1px)`,
-          backgroundSize: '32px 32px',
-        }}
-      />
+        {/* Secondary gradient - bottom right */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(ellipse 60% 80% at 100% 100%, rgba(80, 86, 169, 0.3), transparent 70%)',
+          }}
+        />
 
-      {/* Vignette effect suave */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            'radial-gradient(ellipse 80% 80% at 50% 50%, transparent 40%, var(--background) 100%)',
-        }}
-      />
-    </div>
+        {/* Tertiary gradient - bottom left */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(ellipse 60% 80% at 0% 100%, rgba(0, 71, 255, 0.15), transparent 70%)',
+          }}
+        />
+
+        {/* Dot pattern */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `
+              radial-gradient(circle at center, rgba(148, 163, 184, 0.4) 1px, transparent 1px)
+            `,
+            backgroundSize: '24px 24px',
+          }}
+        />
+      </div>
+    </>
   );
 }
