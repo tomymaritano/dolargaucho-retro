@@ -25,6 +25,11 @@ export function AnimatedLogo({ size = 32, className = '' }: AnimatedLogoProps) {
       style={{ width: size, height: size }}
       initial={{ scale: 0, rotate: -180, opacity: 0 }}
       animate={{ scale: 1, rotate: 0, opacity: 1 }}
+      whileHover={{
+        scale: 1.1,
+        rotate: 360,
+        transition: { duration: 0.4, ease: 'easeInOut' },
+      }}
       transition={{
         duration: 0.6,
         ease: [0.34, 1.56, 0.64, 1], // Bounce suave
