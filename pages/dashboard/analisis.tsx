@@ -1,336 +1,245 @@
 import React from 'react';
 import { DashboardLayout } from '@/components/layouts/DashboardLayout';
-import { Card } from '@/components/ui/Card/Card';
 import { useDolarQuery } from '@/hooks/useDolarQuery';
 import { useInflacionMensual, useRiesgoPais } from '@/hooks/useFinanzas';
 import { InflacionChart } from '@/components/charts/InflacionChart';
 import { RiesgoPaisChart } from '@/components/charts/RiesgoPaisChart';
-import {
-  FaChartLine,
-  FaDollarSign,
-  FaPercent,
-  FaExclamationTriangle,
-  FaArrowUp,
-  FaArrowDown,
-  FaInfoCircle,
-} from 'react-icons/fa';
+import { FaChartLine, FaArrowUp, FaArrowDown, FaMinus, FaInfoCircle } from 'react-icons/fa';
 
 export default function AnalisisPage() {
   const { data: dolares } = useDolarQuery();
   const { data: inflacion } = useInflacionMensual();
   const { data: riesgoPais } = useRiesgoPais();
 
-  // Calcular brechas
+  // Calcular datos
   const dolarOficial = dolares?.find((d) => d.casa === 'oficial');
   const dolarBlue = dolares?.find((d) => d.casa === 'blue');
   const dolarMEP = dolares?.find((d) => d.casa === 'bolsa');
   const dolarCCL = dolares?.find((d) => d.casa === 'contadoconliqui');
 
-  const brechas = React.useMemo(() => {
-    if (!dolarOficial) return [];
+  const brechaBlue =
+    dolarOficial?.venta && dolarBlue?.venta
+      ? ((dolarBlue.venta - dolarOficial.venta) / dolarOficial.venta) * 100
+      : null;
 
-    const calcularBrecha = (nombre: string, valor?: number) => {
-      if (!valor) return null;
-      const brecha = ((valor - dolarOficial.venta) / dolarOficial.venta) * 100;
-      return { nombre, valor, brecha };
-    };
-
-    return [
-      calcularBrecha('Blue', dolarBlue?.venta),
-      calcularBrecha('MEP', dolarMEP?.venta),
-      calcularBrecha('CCL', dolarCCL?.venta),
-    ].filter(Boolean);
-  }, [dolarOficial, dolarBlue, dolarMEP, dolarCCL]);
-
-  // Última inflación
   const ultimaInflacion = inflacion?.[inflacion.length - 1];
   const inflacionAnterior = inflacion?.[inflacion.length - 2];
-  const tendenciaInflacion =
-    ultimaInflacion && inflacionAnterior ? ultimaInflacion.valor > inflacionAnterior.valor : null;
+  const cambioInflacion =
+    ultimaInflacion && inflacionAnterior ? ultimaInflacion.valor - inflacionAnterior.valor : null;
 
-  // Último riesgo país
   const ultimoRiesgoPais = riesgoPais?.[riesgoPais.length - 1];
   const riesgoPaisAnterior = riesgoPais?.[riesgoPais.length - 2];
-  const tendenciaRiesgo =
+  const cambioRiesgo =
     ultimoRiesgoPais && riesgoPaisAnterior
-      ? ultimoRiesgoPais.valor > riesgoPaisAnterior.valor
+      ? ultimoRiesgoPais.valor - riesgoPaisAnterior.valor
       : null;
+
+  const getTendenciaIcon = (cambio: number | null) => {
+    if (cambio === null) return <FaMinus className="text-secondary" />;
+    if (cambio > 0) return <FaArrowUp className="text-red-400" />;
+    if (cambio < 0) return <FaArrowDown className="text-green-400" />;
+    return <FaMinus className="text-secondary" />;
+  };
+
+  const getTendenciaColor = (cambio: number | null) => {
+    if (cambio === null) return 'text-secondary';
+    if (cambio > 0) return 'text-red-400';
+    if (cambio < 0) return 'text-green-400';
+    return 'text-secondary';
+  };
 
   return (
     <DashboardLayout>
-      <div className="space-y-6">
-        {/* Header */}
-        <div className="flex items-center gap-3 mb-2">
-          <div className="p-2.5 rounded-lg bg-brand/10 border border-brand/20">
-            <FaChartLine className="text-brand text-xl" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-display font-bold text-foreground">Análisis Económico</h1>
-            <p className="text-sm text-secondary">
-              Indicadores clave y evolución del mercado cambiario
-            </p>
-          </div>
+      <div className="space-y-8">
+        {/* Header Simple */}
+        <div>
+          <h1 className="text-2xl font-bold text-foreground mb-1">Análisis Económico</h1>
+          <p className="text-sm text-secondary">Indicadores clave y evolución del mercado</p>
         </div>
 
-        {/* Indicadores Clave */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* Brecha Cambiaria */}
-          <div className="bg-panel border border-white/10 rounded-xl p-5 hover:border-brand/30 transition-all">
-            <div className="flex items-start justify-between mb-3">
-              <div className="flex-1">
-                <div className="text-secondary text-xs mb-2 uppercase tracking-wider font-medium">
-                  Brecha Blue
-                </div>
-                <div className="text-3xl font-bold text-foreground mb-1">
-                  {brechas[0]?.brecha ? `${brechas[0].brecha.toFixed(1)}%` : '—'}
-                </div>
-                <div className="text-xs text-secondary">
-                  Oficial ${dolarOficial?.venta?.toFixed(2) || '—'} • Blue $
-                  {dolarBlue?.venta?.toFixed(2) || '—'}
-                </div>
-              </div>
-              <div className="p-2.5 rounded-lg bg-brand/10">
-                <FaDollarSign className="text-brand text-lg" />
-              </div>
+        {/* Indicadores principales - Diseño limpio */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Brecha */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-secondary uppercase tracking-wider">Brecha Blue</span>
+              {getTendenciaIcon(brechaBlue)}
+            </div>
+            <div className="text-4xl font-bold text-foreground">
+              {brechaBlue ? `${brechaBlue.toFixed(1)}%` : '—'}
+            </div>
+            <div className="text-sm text-secondary">
+              Oficial ${dolarOficial?.venta?.toFixed(2) || '—'} • Blue $
+              {dolarBlue?.venta?.toFixed(2) || '—'}
             </div>
           </div>
 
-          {/* Inflación Mensual */}
-          <div className="bg-panel border border-white/10 rounded-xl p-5 hover:border-brand/30 transition-all">
-            <div className="flex items-start justify-between mb-3">
-              <div className="flex-1">
-                <div className="text-secondary text-xs mb-2 uppercase tracking-wider font-medium">
-                  Inflación Mensual
-                </div>
-                <div className="text-3xl font-bold text-foreground mb-1">
-                  {ultimaInflacion?.valor ? `${ultimaInflacion.valor.toFixed(1)}%` : '—'}
-                </div>
-                <div className="text-xs text-secondary">
-                  {ultimaInflacion
-                    ? new Date(ultimaInflacion.fecha).toLocaleDateString('es-AR', {
-                        month: 'short',
-                        year: 'numeric',
-                      })
-                    : '—'}
-                </div>
-              </div>
-              <div
-                className={`p-2.5 rounded-lg ${
-                  tendenciaInflacion ? 'bg-red-500/10' : 'bg-green-500/10'
-                }`}
-              >
-                {tendenciaInflacion ? (
-                  <FaArrowUp className="text-red-500 text-lg" />
-                ) : (
-                  <FaArrowDown className="text-green-500 text-lg" />
-                )}
-              </div>
+          {/* Inflación */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-secondary uppercase tracking-wider">Inflación</span>
+              {getTendenciaIcon(cambioInflacion)}
+            </div>
+            <div className="text-4xl font-bold text-foreground">
+              {ultimaInflacion ? `${ultimaInflacion.valor.toFixed(1)}%` : '—'}
+            </div>
+            <div className="flex items-center gap-2 text-sm">
+              <span className="text-secondary">
+                {ultimaInflacion
+                  ? new Date(ultimaInflacion.fecha).toLocaleDateString('es-AR', {
+                      month: 'short',
+                      year: 'numeric',
+                    })
+                  : '—'}
+              </span>
+              {cambioInflacion !== null && (
+                <span className={`text-xs font-medium ${getTendenciaColor(cambioInflacion)}`}>
+                  {cambioInflacion > 0 ? '+' : ''}
+                  {cambioInflacion.toFixed(1)}pp
+                </span>
+              )}
             </div>
           </div>
 
           {/* Riesgo País */}
-          <div className="bg-panel border border-white/10 rounded-xl p-5 hover:border-brand/30 transition-all">
-            <div className="flex items-start justify-between mb-3">
-              <div className="flex-1">
-                <div className="text-secondary text-xs mb-2 uppercase tracking-wider font-medium">
-                  Riesgo País
-                </div>
-                <div className="text-3xl font-bold text-foreground mb-1">
-                  {ultimoRiesgoPais?.valor ? `${ultimoRiesgoPais.valor.toFixed(0)}` : '—'}
-                  <span className="text-sm text-secondary ml-1">pb</span>
-                </div>
-                <div className="text-xs text-secondary">
-                  {ultimoRiesgoPais
-                    ? new Date(ultimoRiesgoPais.fecha).toLocaleDateString('es-AR')
-                    : '—'}
-                </div>
-              </div>
-              <div
-                className={`p-2.5 rounded-lg ${
-                  tendenciaRiesgo ? 'bg-red-500/10' : 'bg-green-500/10'
-                }`}
-              >
-                {tendenciaRiesgo ? (
-                  <FaExclamationTriangle className="text-red-500 text-lg" />
-                ) : (
-                  <FaChartLine className="text-green-500 text-lg" />
-                )}
-              </div>
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-secondary uppercase tracking-wider">Riesgo País</span>
+              {getTendenciaIcon(cambioRiesgo)}
+            </div>
+            <div className="text-4xl font-bold text-foreground">
+              {ultimoRiesgoPais ? ultimoRiesgoPais.valor.toFixed(0) : '—'}
+              <span className="text-lg text-secondary ml-1">pb</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm">
+              <span className="text-secondary">
+                {ultimoRiesgoPais
+                  ? new Date(ultimoRiesgoPais.fecha).toLocaleDateString('es-AR')
+                  : '—'}
+              </span>
+              {cambioRiesgo !== null && (
+                <span className={`text-xs font-medium ${getTendenciaColor(cambioRiesgo)}`}>
+                  {cambioRiesgo > 0 ? '+' : ''}
+                  {cambioRiesgo.toFixed(0)}pb
+                </span>
+              )}
             </div>
           </div>
         </div>
 
-        {/* Brechas Cambiarias */}
-        <div className="bg-panel border border-white/10 rounded-xl p-6">
-          <div className="flex items-center gap-2 mb-5">
-            <div className="p-2 rounded-lg bg-brand/10">
-              <FaPercent className="text-brand" />
-            </div>
-            <div>
-              <h2 className="text-lg font-bold text-foreground">Brechas Cambiarias</h2>
-              <p className="text-xs text-secondary">Diferencia vs dólar oficial</p>
-            </div>
-          </div>
+        {/* Comparativa Visual de Dólares */}
+        <div className="space-y-4">
+          <h2 className="text-lg font-semibold text-foreground">Cotizaciones</h2>
 
-          <div className="space-y-4">
-            {brechas.map((brecha) => (
-              <div key={brecha?.nombre} className="group">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-semibold text-foreground">{brecha?.nombre}</span>
-                  <div className="text-right">
-                    <div className="text-lg font-bold text-foreground">
-                      ${brecha?.valor?.toFixed(2) ?? '—'}
+          <div className="space-y-3">
+            {dolares
+              ?.slice()
+              .sort((a, b) => b.venta - a.venta)
+              .map((dolar) => {
+                const brecha = dolarOficial
+                  ? ((dolar.venta - dolarOficial.venta) / dolarOficial.venta) * 100
+                  : 0;
+                const isOficial = dolar.casa === 'oficial';
+                const maxValue = Math.max(...(dolares?.map((d) => d.venta) || [0]));
+                const percentage = (dolar.venta / maxValue) * 100;
+
+                return (
+                  <div key={dolar.nombre} className="group">
+                    <div className="flex items-center justify-between mb-1.5">
+                      <div className="flex items-center gap-3">
+                        <span className="text-sm font-medium text-foreground min-w-[80px]">
+                          {dolar.nombre}
+                        </span>
+                        {!isOficial && (
+                          <span
+                            className={`text-xs font-medium ${brecha > 0 ? 'text-red-400' : 'text-green-400'}`}
+                          >
+                            {brecha > 0 ? '+' : ''}
+                            {brecha.toFixed(1)}%
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-lg font-bold text-foreground">
+                        ${dolar.venta.toFixed(2)}
+                      </span>
                     </div>
-                    <div
-                      className={`text-xs font-semibold ${
-                        (brecha?.brecha ?? 0) > 0 ? 'text-red-400' : 'text-green-400'
-                      }`}
-                    >
-                      {(brecha?.brecha ?? 0) > 0 ? '+' : ''}
-                      {brecha?.brecha?.toFixed(1) ?? '0'}%
+
+                    <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                      <div
+                        className={`h-full rounded-full transition-all duration-500 ${
+                          isOficial
+                            ? 'bg-gradient-to-r from-blue-500/60 to-blue-500/40'
+                            : brecha > 50
+                              ? 'bg-gradient-to-r from-red-500/60 to-red-500/40'
+                              : brecha > 20
+                                ? 'bg-gradient-to-r from-orange-500/60 to-orange-500/40'
+                                : 'bg-gradient-to-r from-brand/60 to-brand/40'
+                        }`}
+                        style={{ width: `${percentage}%` }}
+                      />
                     </div>
                   </div>
-                </div>
-                <div className="relative h-2 bg-background rounded-full overflow-hidden">
-                  <div
-                    className="absolute top-0 left-0 h-full bg-gradient-to-r from-brand to-brand-light rounded-full transition-all duration-500 group-hover:opacity-80"
-                    style={{ width: `${Math.min(Math.abs(brecha?.brecha ?? 0), 100)}%` }}
-                  />
-                </div>
-              </div>
-            ))}
+                );
+              })}
           </div>
         </div>
 
-        {/* Charts Grid */}
+        {/* Brechas detalladas */}
+        <div className="space-y-4">
+          <h2 className="text-lg font-semibold text-foreground">Brechas Cambiarias</h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {[
+              { nombre: 'Blue', valor: dolarBlue?.venta },
+              { nombre: 'MEP', valor: dolarMEP?.venta },
+              { nombre: 'CCL', valor: dolarCCL?.venta },
+            ].map((item) => {
+              const brecha =
+                dolarOficial?.venta && item.valor
+                  ? ((item.valor - dolarOficial.venta) / dolarOficial.venta) * 100
+                  : null;
+
+              return (
+                <div key={item.nombre} className="bg-white/[0.02] rounded-lg p-4">
+                  <div className="text-xs text-secondary mb-2">{item.nombre}</div>
+                  <div className="text-2xl font-bold text-foreground mb-1">
+                    {item.valor ? `$${item.valor.toFixed(2)}` : '—'}
+                  </div>
+                  {brecha !== null && (
+                    <div
+                      className={`text-sm font-medium ${brecha > 0 ? 'text-red-400' : 'text-green-400'}`}
+                    >
+                      {brecha > 0 ? '+' : ''}
+                      {brecha.toFixed(1)}% vs oficial
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Gráficos */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <InflacionChart showInteranual={false} limit={12} />
           <RiesgoPaisChart limit={30} />
         </div>
 
-        {/* Comparativa de Dólares - Gráfico de barras */}
-        <div className="bg-panel border border-white/10 rounded-xl p-6">
-          <div className="flex items-center gap-2 mb-6">
-            <div className="p-2 rounded-lg bg-brand/10">
-              <FaDollarSign className="text-brand" />
-            </div>
-            <div>
-              <h2 className="text-lg font-bold text-foreground">Comparativa de Dólares</h2>
-              <p className="text-xs text-secondary">Valores vs dólar oficial</p>
-            </div>
-          </div>
-
-          <div className="space-y-5">
-            {dolares?.map((dolar) => {
-              const brecha = dolarOficial
-                ? ((dolar.venta - dolarOficial.venta) / dolarOficial.venta) * 100
-                : 0;
-              const isOficial = dolar.casa === 'oficial';
-              const maxValue = Math.max(...(dolares?.map((d) => d.venta) || [0]));
-              const barWidth = (dolar.venta / maxValue) * 100;
-
-              return (
-                <div key={dolar.nombre} className="group">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm font-semibold text-foreground w-24">
-                        {dolar.nombre}
-                      </span>
-                      {isOficial && (
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 font-medium">
-                          Oficial
-                        </span>
-                      )}
-                    </div>
-                    <div className="text-right">
-                      <div className="text-lg font-bold text-foreground">
-                        ${dolar.venta.toFixed(2)}
-                      </div>
-                      {!isOficial && (
-                        <div
-                          className={`text-xs font-semibold ${
-                            brecha > 0 ? 'text-red-400' : 'text-green-400'
-                          }`}
-                        >
-                          {brecha > 0 ? '+' : ''}
-                          {brecha.toFixed(1)}%
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <div className="relative">
-                    {/* Background bar */}
-                    <div className="h-10 bg-background/50 rounded-lg overflow-hidden">
-                      {/* Value bar */}
-                      <div
-                        className={`h-full flex items-center px-3 transition-all duration-500 group-hover:opacity-90 ${
-                          isOficial
-                            ? 'bg-gradient-to-r from-blue-500/20 to-blue-500/10'
-                            : brecha > 50
-                              ? 'bg-gradient-to-r from-red-500/30 to-red-500/10'
-                              : brecha > 20
-                                ? 'bg-gradient-to-r from-orange-500/30 to-orange-500/10'
-                                : 'bg-gradient-to-r from-brand/30 to-brand/10'
-                        }`}
-                        style={{ width: `${barWidth}%` }}
-                      >
-                        {!isOficial && (
-                          <span className="text-xs font-medium text-foreground/80 ml-auto">
-                            +${(dolar.venta - (dolarOficial?.venta || 0)).toFixed(2)}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Leyenda */}
-          <div className="mt-6 pt-4 border-t border-white/5">
-            <div className="flex flex-wrap gap-4 text-xs">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-sm bg-blue-500/20"></div>
-                <span className="text-secondary">Oficial</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-sm bg-gradient-to-r from-brand/30 to-brand/10"></div>
-                <span className="text-secondary">Brecha {'<'} 20%</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-sm bg-gradient-to-r from-orange-500/30 to-orange-500/10"></div>
-                <span className="text-secondary">Brecha 20-50%</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-sm bg-gradient-to-r from-red-500/30 to-red-500/10"></div>
-                <span className="text-secondary">Brecha {'>'} 50%</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Info Footer */}
-        <div className="bg-brand/5 border border-brand/20 rounded-xl p-5">
-          <div className="flex items-start gap-4">
-            <div className="p-2.5 rounded-lg bg-brand/10 flex-shrink-0">
-              <FaInfoCircle className="text-brand text-xl" />
-            </div>
-            <div className="flex-1 space-y-3 text-sm">
-              <div>
-                <span className="font-semibold text-foreground">Brecha Cambiaria:</span>
-                <span className="text-secondary ml-1">
-                  Diferencia porcentual entre el dólar oficial y los dólares paralelos. Una brecha
-                  alta indica restricciones en el mercado oficial.
-                </span>
-              </div>
-              <div>
-                <span className="font-semibold text-foreground">Riesgo País:</span>
-                <span className="text-secondary ml-1">
-                  Sobretasa que paga Argentina respecto a bonos del tesoro de EE.UU. Medido en
-                  puntos básicos (pb). Un valor alto indica mayor percepción de riesgo.
-                </span>
-              </div>
+        {/* Info contextual */}
+        <div className="bg-white/[0.02] rounded-lg p-5">
+          <div className="flex items-start gap-3">
+            <FaInfoCircle className="text-brand text-lg mt-0.5 flex-shrink-0" />
+            <div className="space-y-2 text-sm text-secondary">
+              <p>
+                <span className="text-foreground font-medium">Brecha cambiaria:</span> Diferencia
+                entre dólares paralelos y el oficial. Refleja restricciones en el mercado de
+                cambios.
+              </p>
+              <p>
+                <span className="text-foreground font-medium">Riesgo país:</span> Sobretasa de bonos
+                argentinos vs bonos del tesoro de EE.UU. Mayor valor indica mayor percepción de
+                riesgo.
+              </p>
             </div>
           </div>
         </div>
