@@ -12,9 +12,9 @@
 
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ThemeToggle } from './ui/ThemeToggle/ThemeToggle';
+import { AnimatedLogo } from './ui/AnimatedLogo';
 
 export function NavbarFloating() {
   return (
@@ -26,17 +26,9 @@ export function NavbarFloating() {
     >
       <div className="bg-background/80 backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl shadow-black/5 px-6 py-3">
         <div className="flex items-center justify-between">
-          {/* Logo */}
+          {/* Logo with animation */}
           <Link href="/" className="flex items-center group">
-            <div className="relative">
-              <Image
-                src="/logo.svg"
-                width={32}
-                height={32}
-                alt="Dolar Gaucho"
-                className="w-8 h-8"
-              />
-            </div>
+            <AnimatedLogo size={32} />
           </Link>
 
           {/* Right Actions */}
