@@ -1,8 +1,31 @@
-import React, { useState } from 'react';
-import { FaSearch, FaShareAlt, FaCopy, FaCheckCircle, FaStar, FaRegStar, FaArrowUp, FaArrowDown, FaMinus } from 'react-icons/fa';
+import React, { useState, useMemo } from 'react';
+import {
+  FaSearch,
+  FaShareAlt,
+  FaCopy,
+  FaCheckCircle,
+  FaStar,
+  FaRegStar,
+  FaArrowUp,
+  FaArrowDown,
+  FaMinus,
+  FaSort,
+  FaSortUp,
+  FaSortDown,
+} from 'react-icons/fa';
 import { useDolarVariations } from '@/hooks/useDolarVariations';
-import { Card } from '@/components/ui/Card';
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableCell,
+  TableHeaderCell,
+} from '@/components/ui/Table';
 import { logger } from '@/lib/utils/logger';
+
+type SortField = 'nombre' | 'compra' | 'venta' | 'variation';
+type SortDirection = 'asc' | 'desc';
 
 const formatFecha = (fecha: string) => {
   const date = new Date(fecha);
@@ -14,12 +37,55 @@ const DolarTable: React.FC = () => {
   const [search, setSearch] = useState('');
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [favorites, setFavorites] = useState<string[]>([]);
+  const [sortField, setSortField] = useState<SortField>('nombre');
+  const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
 
-  const filteredData = data
-    ? [...data].filter((tipo) => tipo.nombre.toLowerCase().includes(search.toLowerCase()))
-    : [];
+  // Filtrado y ordenamiento
+  const filteredAndSortedData = useMemo(() => {
+    if (!data) return [];
 
-  const handleCopy = async (tipo: typeof data[0]) => {
+    // Filtrado
+    const filtered = data.filter((tipo) =>
+      tipo.nombre.toLowerCase().includes(search.toLowerCase())
+    );
+
+    // Ordenamiento
+    return [...filtered].sort((a, b) => {
+      let aValue: number | string = 0;
+      let bValue: number | string = 0;
+
+      switch (sortField) {
+        case 'nombre':
+          aValue = a.nombre.toLowerCase();
+          bValue = b.nombre.toLowerCase();
+          break;
+        case 'compra':
+          aValue = a.compra;
+          bValue = b.compra;
+          break;
+        case 'venta':
+          aValue = a.venta;
+          bValue = b.venta;
+          break;
+        case 'variation':
+          aValue = a.variation.percentage;
+          bValue = b.variation.percentage;
+          break;
+      }
+
+      if (typeof aValue === 'string' && typeof bValue === 'string') {
+        return sortDirection === 'asc'
+          ? aValue.localeCompare(bValue)
+          : bValue.localeCompare(aValue);
+      }
+
+      return sortDirection === 'asc'
+        ? (aValue as number) - (bValue as number)
+        : (bValue as number) - (aValue as number);
+    });
+  }, [data, search, sortField, sortDirection]);
+
+  const handleCopy = async (tipo: (typeof data)[0]) => {
     try {
       await navigator.clipboard.writeText(
         `${tipo.nombre}: Compra $${tipo.compra.toFixed(2)} | Venta $${tipo.venta.toFixed(2)}`
@@ -27,11 +93,14 @@ const DolarTable: React.FC = () => {
       setCopiedId(tipo.nombre);
       setTimeout(() => setCopiedId(null), 2000);
     } catch (error) {
-      logger.error('Error al copiar cotización', error, { component: 'DolarTable', tipoDolar: tipo.nombre });
+      logger.error('Error al copiar cotización', error, {
+        component: 'DolarTable',
+        tipoDolar: tipo.nombre,
+      });
     }
   };
 
-  const handleShare = async (tipo: typeof data[0]) => {
+  const handleShare = async (tipo: (typeof data)[0]) => {
     if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
       try {
         await navigator.share({
@@ -40,7 +109,10 @@ const DolarTable: React.FC = () => {
           url: window.location.href,
         });
       } catch (error) {
-        logger.error('Error al compartir cotización', error, { component: 'DolarTable', tipoDolar: tipo.nombre });
+        logger.error('Error al compartir cotización', error, {
+          component: 'DolarTable',
+          tipoDolar: tipo.nombre,
+        });
       }
     }
   };
@@ -51,33 +123,28 @@ const DolarTable: React.FC = () => {
     );
   };
 
-  // Loading state
-  if (isLoading) {
-    return (
-      <Card variant="elevated" padding="lg">
-        <div className="flex flex-col items-center gap-3 py-8">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-accent-emerald border-t-transparent" />
-          <p className="text-sm text-secondary">Cargando cotizaciones...</p>
-        </div>
-      </Card>
-    );
-  }
+  const handleSort = (field: SortField) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortDirection('asc');
+    }
+  };
 
-  // Error state
-  if (error) {
-    return (
-      <Card variant="elevated" padding="lg">
-        <div className="text-center py-8">
-          <p className="text-error">Error: {error.message}</p>
-        </div>
-      </Card>
+  const SortIcon = ({ field }: { field: SortField }) => {
+    if (sortField !== field) return <FaSort className="text-xs text-secondary/50" />;
+    return sortDirection === 'asc' ? (
+      <FaSortUp className="text-xs text-brand" />
+    ) : (
+      <FaSortDown className="text-xs text-brand" />
     );
-  }
+  };
 
   return (
     <div id="cotizaciones">
       {/* Search bar */}
-      <div className="flex items-center gap-3 mb-8 glass px-4 py-3 rounded-xl border border-border hover:border-accent-emerald/30 transition-colors focus-within:border-accent-emerald/50 focus-within:ring-2 focus-within:ring-accent-emerald/20">
+      <div className="flex items-center gap-3 mb-6 bg-panel border border-white/5 px-4 py-3 rounded-xl hover:border-brand/30 transition-colors focus-within:border-brand/50 focus-within:ring-2 focus-within:ring-brand/20">
         <FaSearch className="text-secondary text-sm" />
         <input
           type="text"
@@ -88,128 +155,215 @@ const DolarTable: React.FC = () => {
         />
       </div>
 
-      {/* Empty state */}
-      {filteredData.length === 0 && (
-        <div className="text-center py-12 glass-strong rounded-xl border border-border">
-          <p className="text-secondary text-sm">No se encontraron resultados</p>
+      {/* Loading state */}
+      {isLoading && <Table loading skeletonRows={8} skeletonCols={5} />}
+
+      {/* Error state */}
+      {error && (
+        <div className="text-center py-12 bg-panel border border-white/5 rounded-xl">
+          <p className="text-error">Error: {error.message}</p>
         </div>
       )}
 
-      {/* Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredData.map((tipo) => {
-          const isFavorite = favorites.includes(tipo.nombre);
-          const spread = tipo.venta - tipo.compra;
-          const isSpreadPositive = spread > 0;
-
-          const { trend, percentage, previousValue } = tipo.variation;
-          const TrendIcon = trend === 'up' ? FaArrowUp : trend === 'down' ? FaArrowDown : FaMinus;
-          const trendColor = trend === 'up' ? 'text-error' : trend === 'down' ? 'text-success' : 'text-warning';
-          const trendBg = trend === 'up' ? 'bg-error/10' : trend === 'down' ? 'bg-success/10' : 'bg-warning/10';
-
-          return (
-            <Card key={tipo.nombre} variant="elevated" padding="lg" hover="glow">
-              {/* Header: Name + Favorite */}
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex-1">
-                  <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider">
-                    {tipo.nombre}
-                  </h3>
-                  <div className="flex items-center gap-1.5 mt-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-accent-emerald animate-pulse"></span>
-                    <span className="text-[10px] text-secondary">{formatFecha(tipo.fechaActualizacion)}</span>
-                  </div>
+      {/* Table */}
+      {!isLoading && !error && (
+        <Table>
+          <TableHeader>
+            <TableRow hoverable={false}>
+              {/* Tipo */}
+              <TableHeaderCell
+                align="left"
+                sortable
+                onSort={() => handleSort('nombre')}
+                width="25%"
+              >
+                <div className="flex items-center gap-2">
+                  Tipo
+                  <SortIcon field="nombre" />
                 </div>
-                <button
-                  onClick={() => toggleFavorite(tipo.nombre)}
-                  className={`p-2 rounded-lg transition-all ${
-                    isFavorite
-                      ? 'bg-accent-emerald/20 text-accent-emerald'
-                      : 'glass text-secondary hover:text-accent-emerald hover:bg-white/5'
-                  }`}
-                  aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
-                >
-                  {isFavorite ? <FaStar className="text-sm" /> : <FaRegStar className="text-sm" />}
-                </button>
-              </div>
+              </TableHeaderCell>
 
-              {/* Main Price - Venta destacado + Variation */}
-              <div className="mb-4">
-                <div className="flex items-center justify-between mb-2">
-                  <p className="text-xs text-secondary">Precio de Venta</p>
-                  {previousValue && (
-                    <div
-                      className={`flex items-center gap-1 px-2 py-1 rounded-lg ${trendBg} ${trendColor}`}
-                      title={`Ayer: $${previousValue.toFixed(2)}`}
-                    >
-                      <TrendIcon className="text-[10px]" />
-                      <span className="text-[10px] font-bold tabular-nums">
-                        {percentage.toFixed(2)}%
+              {/* Compra */}
+              <TableHeaderCell
+                align="right"
+                sortable
+                onSort={() => handleSort('compra')}
+                width="15%"
+              >
+                <div className="flex items-center justify-end gap-2">
+                  Compra
+                  <SortIcon field="compra" />
+                </div>
+              </TableHeaderCell>
+
+              {/* Venta */}
+              <TableHeaderCell
+                align="right"
+                sortable
+                onSort={() => handleSort('venta')}
+                width="15%"
+              >
+                <div className="flex items-center justify-end gap-2">
+                  Venta
+                  <SortIcon field="venta" />
+                </div>
+              </TableHeaderCell>
+
+              {/* 24h % */}
+              <TableHeaderCell
+                align="right"
+                sortable
+                onSort={() => handleSort('variation')}
+                width="15%"
+              >
+                <div className="flex items-center justify-end gap-2">
+                  24h %
+                  <SortIcon field="variation" />
+                </div>
+              </TableHeaderCell>
+
+              {/* Acciones */}
+              <TableHeaderCell align="right" width="30%">
+                Acciones
+              </TableHeaderCell>
+            </TableRow>
+          </TableHeader>
+
+          <TableBody empty={filteredAndSortedData.length === 0} emptyColSpan={5}>
+            {filteredAndSortedData.map((tipo) => {
+              const isFavorite = favorites.includes(tipo.nombre);
+              const { trend, percentage } = tipo.variation;
+
+              const TrendIcon =
+                trend === 'up' ? FaArrowUp : trend === 'down' ? FaArrowDown : FaMinus;
+              const trendColor =
+                trend === 'up' ? 'text-error' : trend === 'down' ? 'text-success' : 'text-warning';
+
+              return (
+                <React.Fragment key={tipo.nombre}>
+                  <TableRow className="group hover:bg-white/5 transition-colors">
+                    {/* Tipo */}
+                    <TableCell>
+                      <div>
+                        <p className="text-sm font-semibold text-foreground">{tipo.nombre}</p>
+                        <div className="flex items-center gap-1.5 mt-0.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse"></span>
+                          <span className="text-[10px] text-secondary">
+                            {formatFecha(tipo.fechaActualizacion)}
+                          </span>
+                        </div>
+                      </div>
+                    </TableCell>
+
+                    {/* Compra */}
+                    <TableCell align="right">
+                      <span className="text-sm font-semibold text-foreground tabular-nums">
+                        ${tipo.compra.toFixed(2)}
                       </span>
-                    </div>
-                  )}
-                </div>
-                <p className="text-4xl font-bold text-accent-emerald tabular-nums">
-                  ${tipo.venta.toFixed(2)}
-                </p>
-              </div>
+                    </TableCell>
 
-              {/* Secondary Info Grid */}
-              <div className="grid grid-cols-2 gap-3 mb-4">
-                <div className="p-3 rounded-lg bg-panel/50 border border-border">
-                  <p className="text-[10px] text-secondary uppercase tracking-wider mb-1">Compra</p>
-                  <p className="text-lg font-bold text-foreground tabular-nums">
-                    ${tipo.compra.toFixed(2)}
-                  </p>
-                </div>
-                <div className="p-3 rounded-lg bg-panel/50 border border-border">
-                  <p className="text-[10px] text-secondary uppercase tracking-wider mb-1">Diferencia</p>
-                  <div className="flex items-center gap-1">
-                    {isSpreadPositive ? (
-                      <FaArrowUp className="text-xs text-accent-emerald" />
-                    ) : (
-                      <FaArrowDown className="text-xs text-error" />
-                    )}
-                    <p className="text-lg font-bold text-foreground tabular-nums">
-                      ${Math.abs(spread).toFixed(2)}
-                    </p>
-                  </div>
-                </div>
-              </div>
+                    {/* Venta */}
+                    <TableCell align="right">
+                      <span className="text-sm font-bold text-brand tabular-nums">
+                        ${tipo.venta.toFixed(2)}
+                      </span>
+                    </TableCell>
 
-              {/* Actions */}
-              <div className="flex gap-2 pt-3 border-t border-border">
-                <button
-                  onClick={() => handleCopy(tipo)}
-                  className="flex-1 px-3 py-2 rounded-lg glass hover:bg-accent-emerald/10 transition-all text-secondary hover:text-accent-emerald flex items-center justify-center gap-2 text-xs font-medium"
-                  title="Copiar cotización"
-                >
-                  {copiedId === tipo.nombre ? (
-                    <>
-                      <FaCheckCircle className="text-accent-emerald" />
-                      Copiado
-                    </>
-                  ) : (
-                    <>
-                      <FaCopy />
-                      Copiar
-                    </>
-                  )}
-                </button>
-                {typeof navigator !== 'undefined' && typeof navigator.share === 'function' && (
-                  <button
-                    onClick={() => handleShare(tipo)}
-                    className="px-3 py-2 rounded-lg glass hover:bg-accent-emerald/10 transition-all text-secondary hover:text-accent-emerald"
-                    title="Compartir cotización"
-                  >
-                    <FaShareAlt className="text-sm" />
-                  </button>
-                )}
-              </div>
-            </Card>
-          );
-        })}
-      </div>
+                    {/* 24h % */}
+                    <TableCell align="right">
+                      <div className={`inline-flex items-center gap-1 ${trendColor}`}>
+                        <TrendIcon className="text-xs" />
+                        <span className="text-sm font-bold tabular-nums">
+                          {trend === 'up' ? '+' : trend === 'down' ? '-' : ''}
+                          {percentage.toFixed(2)}%
+                        </span>
+                      </div>
+                    </TableCell>
+
+                    {/* Acciones */}
+                    <TableCell align="right">
+                      <div className="flex items-center justify-end gap-1">
+                        <button
+                          onClick={() => toggleFavorite(tipo.nombre)}
+                          className={`p-2 rounded-lg transition-all hover:scale-110 active:scale-95 ${
+                            isFavorite
+                              ? 'bg-brand/10 text-brand hover:bg-brand/20'
+                              : 'bg-white/5 text-foreground/70 hover:text-brand hover:bg-brand/10'
+                          }`}
+                          aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+                          title={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+                        >
+                          {isFavorite ? (
+                            <FaStar className="text-sm" />
+                          ) : (
+                            <FaRegStar className="text-sm" />
+                          )}
+                        </button>
+                        <button
+                          onClick={() => handleCopy(tipo)}
+                          className={`p-2 rounded-lg transition-all hover:scale-110 active:scale-95 ${
+                            copiedId === tipo.nombre
+                              ? 'bg-brand/10 text-brand'
+                              : 'bg-white/5 text-foreground/70 hover:text-brand hover:bg-brand/10'
+                          }`}
+                          aria-label="Copiar"
+                          title="Copiar valor"
+                        >
+                          {copiedId === tipo.nombre ? (
+                            <FaCheckCircle className="text-sm" />
+                          ) : (
+                            <FaCopy className="text-sm" />
+                          )}
+                        </button>
+                        {typeof navigator !== 'undefined' &&
+                          typeof navigator.share === 'function' && (
+                            <button
+                              onClick={() => handleShare(tipo)}
+                              className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 bg-white/5 text-foreground/70 hover:text-brand hover:bg-brand/10"
+                              aria-label="Compartir"
+                              title="Compartir"
+                            >
+                              <FaShareAlt className="text-sm" />
+                            </button>
+                          )}
+                      </div>
+                    </TableCell>
+                  </TableRow>
+
+                  {/* Expandable row on hover */}
+                  <TableRow hoverable={false} className="hidden group-hover:table-row">
+                    <TableCell colSpan={5} className="py-4">
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-xs">
+                        <div>
+                          <p className="text-secondary text-[10px] mb-0.5">Spread</p>
+                          <p className="font-semibold text-foreground text-xs">
+                            ${(tipo.venta - tipo.compra).toFixed(2)} (
+                            {(((tipo.venta - tipo.compra) / tipo.compra) * 100).toFixed(2)}%)
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-secondary text-[10px] mb-0.5">Variación anterior</p>
+                          <p className="font-semibold text-foreground text-xs">
+                            {tipo.variation.previousValue
+                              ? `$${tipo.variation.previousValue.toFixed(2)}`
+                              : 'N/A'}
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-secondary text-[10px] mb-0.5">Última actualización</p>
+                          <p className="font-semibold text-foreground text-xs">
+                            {formatFecha(tipo.fechaActualizacion)}
+                          </p>
+                        </div>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                </React.Fragment>
+              );
+            })}
+          </TableBody>
+        </Table>
+      )}
     </div>
   );
 };

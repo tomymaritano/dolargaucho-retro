@@ -97,12 +97,12 @@ const CollaborationSection: React.FC = () => {
           <div className="glass-strong p-6 md:p-8 rounded-2xl border border-border">
             {formSent ? (
               <div className="text-center space-y-4 py-8">
-                <FaCheckCircle className="text-accent-emerald text-5xl mx-auto mb-4" />
+                <FaCheckCircle className="text-brand text-5xl mx-auto mb-4" />
                 <h3 className="text-xl font-display font-bold text-foreground">Mensaje Enviado</h3>
                 <p className="text-secondary">Te contactaremos pronto</p>
                 <button
                   onClick={() => setFormSent(false)}
-                  className="mt-6 glass px-6 py-2 rounded-lg text-sm font-medium hover:bg-accent-emerald/10 transition-all border border-border hover:border-accent-emerald/40 text-foreground"
+                  className="mt-6 glass px-6 py-2 rounded-lg text-sm font-medium hover:bg-brand/10 transition-all border border-border hover:border-brand/40 text-foreground"
                 >
                   Enviar otro mensaje
                 </button>
@@ -117,7 +117,7 @@ const CollaborationSection: React.FC = () => {
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      className="w-full px-4 py-2.5 bg-panel border border-border rounded-lg focus:ring-2 focus:ring-accent-emerald/20 focus:border-accent-emerald/50 focus:outline-none transition-all text-sm text-foreground placeholder-secondary"
+                      className="w-full px-4 py-2.5 bg-panel border border-border rounded-lg focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-sm text-foreground placeholder-secondary"
                       placeholder="Tu nombre"
                       required
                     />
@@ -130,7 +130,7 @@ const CollaborationSection: React.FC = () => {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full px-4 py-2.5 bg-panel border border-border rounded-lg focus:ring-2 focus:ring-accent-emerald/20 focus:border-accent-emerald/50 focus:outline-none transition-all text-sm text-foreground placeholder-secondary"
+                      className="w-full px-4 py-2.5 bg-panel border border-border rounded-lg focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-sm text-foreground placeholder-secondary"
                       placeholder="tu@email.com"
                       required
                     />
@@ -144,7 +144,7 @@ const CollaborationSection: React.FC = () => {
                     value={formData.message}
                     onChange={handleChange}
                     rows={4}
-                    className="w-full px-4 py-2.5 bg-panel border border-border rounded-lg focus:ring-2 focus:ring-accent-emerald/20 focus:border-accent-emerald/50 focus:outline-none resize-none transition-all text-sm text-foreground placeholder-secondary"
+                    className="w-full px-4 py-2.5 bg-panel border border-border rounded-lg focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none resize-none transition-all text-sm text-foreground placeholder-secondary"
                     placeholder="Escribe tu consulta o sugerencia..."
                     required
                   />
@@ -153,7 +153,7 @@ const CollaborationSection: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`w-full bg-accent-emerald hover:bg-accent-teal text-background-dark py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all text-sm ${
+                  className={`w-full bg-brand hover:bg-brand-light text-background-dark py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all text-sm ${
                     isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
                   }`}
                 >

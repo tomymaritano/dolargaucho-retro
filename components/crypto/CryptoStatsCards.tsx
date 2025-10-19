@@ -17,7 +17,7 @@ export function CryptoStatsCards({ totalCryptos, favoriteCount }: CryptoStatsCar
             <p className="text-2xl font-bold text-foreground">{totalCryptos}</p>
           </div>
           <div className="p-3 rounded-xl glass">
-            <FaBitcoin className="text-accent-emerald text-2xl" />
+            <FaBitcoin className="text-brand text-2xl" />
           </div>
         </div>
       </Card>
@@ -29,7 +29,7 @@ export function CryptoStatsCards({ totalCryptos, favoriteCount }: CryptoStatsCar
             <p className="text-2xl font-bold text-foreground">{favoriteCount}</p>
           </div>
           <div className="p-3 rounded-xl glass">
-            <FaStar className="text-accent-emerald text-2xl" />
+            <FaStar className="text-brand text-2xl" />
           </div>
         </div>
       </Card>
@@ -38,10 +38,10 @@ export function CryptoStatsCards({ totalCryptos, favoriteCount }: CryptoStatsCar
         <div className="flex items-center justify-between">
           <div>
             <p className="text-xs text-secondary uppercase tracking-wider mb-1">Actualización</p>
-            <p className="text-sm font-semibold text-accent-emerald">Cada 5min</p>
+            <p className="text-sm font-semibold text-brand">Cada 5min</p>
           </div>
           <div className="p-3 rounded-xl glass">
-            <div className="w-2 h-2 bg-accent-emerald rounded-full animate-pulse"></div>
+            <div className="w-2 h-2 bg-brand rounded-full animate-pulse"></div>
           </div>
         </div>
       </Card>

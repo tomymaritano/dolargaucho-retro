@@ -33,10 +33,13 @@ export function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
   }, [isOpen]);
 
   // Handle result selection
-  const handleSelectResult = React.useCallback((result: SearchResult) => {
-    router.push(result.href);
-    onClose();
-  }, [router, onClose]);
+  const handleSelectResult = React.useCallback(
+    (result: SearchResult) => {
+      router.push(result.href);
+      onClose();
+    },
+    [router, onClose]
+  );
 
   // Keyboard navigation
   useEffect(() => {
@@ -72,13 +75,13 @@ export function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
   const getTypeColor = (type: SearchResult['type']) => {
     switch (type) {
       case 'dolar':
-        return 'bg-accent-emerald/20 text-accent-emerald';
+        return 'bg-brand/20 text-brand';
       case 'currency':
         return 'bg-accent-blue/20 text-accent-blue';
       case 'page':
         return 'bg-accent-indigo/20 text-accent-indigo';
       case 'calculator':
-        return 'bg-accent-teal/20 text-accent-teal';
+        return 'bg-brand-light/20 text-brand-light';
       default:
         return 'bg-secondary/20 text-secondary';
     }
@@ -171,7 +174,7 @@ export function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
                     onClick={() => handleSelectResult(result)}
                     className={`w-full flex items-center gap-4 px-4 py-3 transition-colors text-left ${
                       index === selectedIndex
-                        ? 'bg-accent-emerald/10 border-l-2 border-accent-emerald'
+                        ? 'bg-brand/10 border-l-2 border-brand'
                         : 'hover:bg-background border-l-2 border-transparent'
                     }`}
                     role="option"

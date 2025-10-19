@@ -43,11 +43,11 @@ export default function PoliticaPage() {
             {/* Senadores Card */}
             <Card variant="elevated" padding="lg">
               <div className="flex items-center gap-4">
-                <div className="p-3 rounded-xl bg-gradient-to-br from-accent-emerald/30 to-accent-emerald/10 border border-accent-emerald/20">
-                  <FaLandmark className="text-accent-emerald text-2xl" />
+                <div className="p-3 rounded-xl bg-gradient-to-br from-brand/30 to-brand/10 border border-brand/20">
+                  <FaLandmark className="text-brand text-2xl" />
                 </div>
                 <div>
-                  <h3 className="text-3xl font-bold text-accent-emerald mb-1">72</h3>
+                  <h3 className="text-3xl font-bold text-brand mb-1">72</h3>
                   <p className="text-sm font-medium text-foreground">Senadores</p>
                   <p className="text-xs text-secondary mt-1">3 por provincia + CABA</p>
                 </div>
@@ -57,11 +57,11 @@ export default function PoliticaPage() {
             {/* Diputados Card */}
             <Card variant="elevated" padding="lg">
               <div className="flex items-center gap-4">
-                <div className="p-3 rounded-xl bg-gradient-to-br from-accent-teal/30 to-accent-teal/10 border border-accent-teal/20">
-                  <FaUsers className="text-accent-teal text-2xl" />
+                <div className="p-3 rounded-xl bg-gradient-to-br from-brand-light/30 to-brand-light/10 border border-brand-light/20">
+                  <FaUsers className="text-brand-light text-2xl" />
                 </div>
                 <div>
-                  <h3 className="text-3xl font-bold text-accent-teal mb-1">257</h3>
+                  <h3 className="text-3xl font-bold text-brand-light mb-1">257</h3>
                   <p className="text-sm font-medium text-foreground">Diputados</p>
                   <p className="text-xs text-secondary mt-1">Proporcional por población</p>
                 </div>
@@ -80,7 +80,7 @@ export default function PoliticaPage() {
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex items-center gap-2 px-6 py-4 font-medium transition-all whitespace-nowrap ${
                     activeTab === tab.id
-                      ? 'text-accent-emerald border-b-2 border-accent-emerald'
+                      ? 'text-brand border-b-2 border-brand'
                       : 'text-secondary hover:text-foreground'
                   }`}
                 >
@@ -102,7 +102,7 @@ export default function PoliticaPage() {
         {/* Info Footer */}
         <Card variant="elevated" padding="lg">
           <div className="flex items-start gap-3">
-            <div className="text-accent-emerald text-2xl">ℹ️</div>
+            <div className="text-brand text-2xl">ℹ️</div>
             <div>
               <h4 className="text-foreground font-semibold mb-1">Sobre los datos</h4>
               <p className="text-sm text-secondary leading-relaxed">
@@ -111,7 +111,7 @@ export default function PoliticaPage() {
                   href="https://argentinadatos.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-accent-emerald hover:underline"
+                  className="text-brand hover:underline"
                 >
                   ArgentinaData API
                 </a>

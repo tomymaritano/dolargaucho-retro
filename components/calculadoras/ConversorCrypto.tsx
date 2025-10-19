@@ -11,7 +11,7 @@ export default function CryptoCalculator() {
     <div className="mx-auto text-foreground p-6 md:p-10 rounded-2xl max-w-7xl">
       <div className="text-center mb-8">
         <div className="inline-flex items-center gap-2 mb-4">
-          <FaBitcoin className="text-accent-emerald text-xl" />
+          <FaBitcoin className="text-brand text-xl" />
           <span className="text-xs uppercase tracking-wider text-secondary font-semibold">
             Herramienta
           </span>
@@ -32,17 +32,15 @@ export default function CryptoCalculator() {
           type="number"
           value={btcAmount}
           onChange={(e) => setBtcAmount(Number(e.target.value))}
-          className="w-full p-3 text-lg font-mono font-semibold bg-panel border border-white/5 rounded-lg focus:ring-1 focus:ring-accent-emerald focus:outline-none transition-all text-foreground"
+          className="w-full p-3 text-lg font-mono font-semibold bg-panel border border-white/5 rounded-lg focus:ring-1 focus:ring-brand focus:outline-none transition-all text-foreground"
           step="0.001"
           placeholder="0.1"
         />
       </div>
 
-      <div className="p-6 glass-strong rounded-xl border border-accent-emerald/20 text-center">
+      <div className="p-6 glass-strong rounded-xl border border-brand/20 text-center">
         <p className="text-xs uppercase tracking-wider text-secondary mb-2">Valor en ARS</p>
-        <p className="text-3xl md:text-4xl font-bold font-mono text-accent-emerald">
-          ARS {convertedAmount}
-        </p>
+        <p className="text-3xl md:text-4xl font-bold font-mono text-brand">ARS {convertedAmount}</p>
       </div>
     </div>
   );

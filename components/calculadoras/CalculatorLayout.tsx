@@ -33,19 +33,13 @@ export function CalculatorLayout({
       {/* Header */}
       {showHeader && title && description && (
         <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-display font-bold mb-3">
-            {title}
-          </h2>
-          <p className="text-secondary text-base max-w-7xl mx-auto">
-            {description}
-          </p>
+          <h2 className="text-3xl md:text-4xl font-display font-bold mb-3">{title}</h2>
+          <p className="text-secondary text-base max-w-7xl mx-auto">{description}</p>
         </div>
       )}
 
       {/* Main Content */}
-      <div className="glass-strong p-8 rounded-2xl border border-border">
-        {children}
-      </div>
+      <div className="glass-strong p-8 rounded-2xl border border-border">{children}</div>
     </div>
   );
 }
@@ -75,14 +69,10 @@ export function CalculatorInput({
 }: CalculatorInputProps) {
   return (
     <div className={className}>
-      <label className="block text-sm font-medium text-foreground mb-2">
-        {label}
-      </label>
+      <label className="block text-sm font-medium text-foreground mb-2">{label}</label>
       <div className="relative">
         {prefix && (
-          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-secondary">
-            {prefix}
-          </span>
+          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-secondary">{prefix}</span>
         )}
         <input
           type={type}
@@ -91,7 +81,7 @@ export function CalculatorInput({
           placeholder={placeholder}
           min={min}
           max={max}
-          className={`w-full ${prefix ? 'pl-16' : 'px-4'} pr-4 py-3 text-xl font-mono font-bold bg-panel border border-border rounded-xl focus:ring-2 focus:ring-accent-emerald/20 focus:border-accent-emerald/50 focus:outline-none transition-all text-foreground`}
+          className={`w-full ${prefix ? 'pl-16' : 'px-4'} pr-4 py-3 text-xl font-mono font-bold bg-panel border border-border rounded-xl focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground`}
         />
       </div>
     </div>
@@ -112,25 +102,19 @@ export function CalculatorResultCard({
   variant = 'success',
 }: CalculatorResultCardProps) {
   const variantStyles = {
-    success: 'bg-accent-emerald/5 border-accent-emerald/20 text-accent-emerald',
+    success: 'bg-brand/5 border-brand/20 text-brand',
     error: 'bg-error/5 border-error/20 text-error',
     warning: 'bg-warning/5 border-warning/20 text-warning',
-    info: 'bg-accent-teal/5 border-accent-teal/20 text-accent-teal',
+    info: 'bg-brand-light/5 border-brand-light/20 text-brand-light',
   };
 
   return (
     <div className={`p-6 rounded-xl border ${variantStyles[variant]}`}>
-      <p className="text-xs uppercase tracking-wider text-secondary mb-2">
-        {label}
-      </p>
+      <p className="text-xs uppercase tracking-wider text-secondary mb-2">{label}</p>
       <p className={`text-4xl font-bold font-mono ${variantStyles[variant].split(' ')[2]}`}>
         {value}
       </p>
-      {sublabel && (
-        <p className="text-xs text-secondary mt-2">
-          {sublabel}
-        </p>
-      )}
+      {sublabel && <p className="text-xs text-secondary mt-2">{sublabel}</p>}
     </div>
   );
 }
@@ -154,8 +138,8 @@ export function CalculatorModeToggle({
           onClick={() => onModeChange(mode.value)}
           className={`px-6 py-2 rounded-lg font-medium text-sm transition-all border ${
             activeMode === mode.value
-              ? 'bg-accent-emerald text-background-dark border-accent-emerald'
-              : 'glass border-border text-secondary hover:text-foreground hover:border-accent-emerald/30'
+              ? 'bg-brand text-background-dark border-brand'
+              : 'glass border-border text-secondary hover:text-foreground hover:border-brand/30'
           }`}
         >
           {mode.label}
@@ -187,21 +171,13 @@ export function CalculatorInfoBanner({
   }
 
   return (
-    <div className="mb-8 p-5 rounded-xl border border-accent-emerald/20 bg-accent-emerald/5 flex items-center justify-between">
+    <div className="mb-8 p-5 rounded-xl border border-brand/20 bg-brand/5 flex items-center justify-between">
       <div>
-        <p className="text-xs uppercase tracking-wider text-secondary mb-1">
-          {title}
-        </p>
-        {subtitle && (
-          <p className="text-sm text-secondary">
-            {subtitle}
-          </p>
-        )}
+        <p className="text-xs uppercase tracking-wider text-secondary mb-1">{title}</p>
+        {subtitle && <p className="text-sm text-secondary">{subtitle}</p>}
       </div>
       <div className="text-right">
-        <p className="text-4xl font-bold font-mono text-accent-emerald">
-          {value}
-        </p>
+        <p className="text-4xl font-bold font-mono text-brand">{value}</p>
       </div>
     </div>
   );
@@ -220,14 +196,8 @@ export function CalculatorChartContainer({
 }: CalculatorChartContainerProps) {
   return (
     <div className="p-6 rounded-xl bg-panel/50 border border-border">
-      {title && (
-        <h3 className="text-sm font-semibold text-foreground mb-4">
-          {title}
-        </h3>
-      )}
-      <div className={height}>
-        {children}
-      </div>
+      {title && <h3 className="text-sm font-semibold text-foreground mb-4">{title}</h3>}
+      <div className={height}>{children}</div>
     </div>
   );
 }

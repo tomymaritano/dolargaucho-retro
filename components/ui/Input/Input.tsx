@@ -3,23 +3,23 @@ import { cn } from '@/lib/utils/cn';
 import React from 'react';
 
 const inputVariants = cva(
-  'w-full px-4 py-3 rounded-lg font-medium transition-all outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed',
+  'w-full rounded-lg font-medium transition-all outline-none disabled:opacity-40 disabled:cursor-not-allowed',
   {
     variants: {
       variant: {
         default:
-          'glass border border-border text-foreground placeholder-secondary focus:border-accent-emerald/50 focus:ring-accent-emerald/20',
+          'bg-white/5 border border-white/10 text-foreground placeholder-secondary/60 focus:bg-white/[0.07] focus:border-white/20 hover:border-white/15',
         outlined:
-          'bg-transparent border-2 border-accent-emerald/30 text-foreground placeholder-secondary focus:border-accent-emerald focus:ring-accent-emerald/20',
+          'bg-transparent border border-brand/30 text-foreground placeholder-secondary/60 focus:border-brand hover:border-brand/50',
         filled:
-          'bg-panel border border-border text-foreground placeholder-secondary focus:border-accent-emerald/50 focus:ring-accent-emerald/20',
+          'bg-panel border border-white/10 text-foreground placeholder-secondary/60 focus:border-white/20 hover:border-white/15',
         error:
-          'glass border border-error/50 text-foreground placeholder-secondary focus:border-error focus:ring-error/20',
+          'bg-white/5 border border-red-500/50 text-foreground placeholder-secondary/60 focus:border-red-500 hover:border-red-500/60',
       },
       inputSize: {
         sm: 'px-3 py-2 text-sm',
-        md: 'px-4 py-3 text-base',
-        lg: 'px-5 py-4 text-lg',
+        md: 'px-4 py-2.5 text-sm',
+        lg: 'px-5 py-3 text-base',
       },
     },
     defaultVariants: {

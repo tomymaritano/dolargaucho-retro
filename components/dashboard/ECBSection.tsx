@@ -78,38 +78,32 @@ export function ECBSection({
   }
 
   return (
-    <Card
-      variant="elevated"
-      padding="lg"
-      className="mt-6 bg-gradient-to-br from-indigo-500/5 to-purple-500/5 border-indigo-500/20"
-    >
-      <Card.Header>
+    <Card variant="outlined" padding="none">
+      <div className="p-6 pb-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-indigo-500/20">
-              <FaGlobeAmericas className="text-xl text-indigo-400" />
-            </div>
+            <FaGlobeAmericas className="text-xl text-indigo-400" />
             <div>
-              <Card.Title className="mb-0">Tipos de Cambio Oficiales</Card.Title>
+              <h2 className="text-xl font-bold text-foreground">Tipos de Cambio Oficiales</h2>
               <p className="text-xs text-secondary mt-1">Banco Central Europeo (ECB)</p>
             </div>
           </div>
           <button
             onClick={onToggleCharts}
-            className="px-4 py-2 rounded-lg bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-400 font-semibold text-xs transition-all flex items-center gap-2"
+            className="px-4 py-2 rounded-lg text-indigo-400 font-semibold text-xs transition-all flex items-center gap-2 hover:text-indigo-300"
           >
             <FaChartLine />
-            {showECBCharts ? 'Ocultar Graficos' : 'Ver Graficos'}
+            {showECBCharts ? 'Ocultar Gráficos' : 'Ver Gráficos'}
           </button>
         </div>
-      </Card.Header>
+      </div>
 
-      <Card.Content>
+      <div className="p-6">
         {/* Quick Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {/* EUR/USD */}
           <div
-            className="p-4 rounded-lg glass border border-border hover:border-indigo-400/30 transition-all cursor-pointer"
+            className="p-4 rounded-lg bg-panel transition-all cursor-pointer hover:bg-panel-hover"
             onClick={onToggleCharts}
           >
             <p className="text-xs text-secondary mb-2">EUR / USD</p>
@@ -119,24 +113,24 @@ export function ECBSection({
             <p className="text-[10px] text-secondary mt-1">Dolar estadounidense</p>
           </div>
 
-          {/* EUR/ARS */}
-          {ecbData.rates.ARS && (
+          {/* EUR/BRL */}
+          {ecbData.rates.BRL && (
             <div
-              className="p-4 rounded-lg glass border border-border hover:border-indigo-400/30 transition-all cursor-pointer"
+              className="p-4 rounded-lg bg-panel transition-all cursor-pointer hover:bg-panel-hover"
               onClick={onToggleCharts}
             >
-              <p className="text-xs text-secondary mb-2">EUR / ARS</p>
+              <p className="text-xs text-secondary mb-2">EUR / BRL</p>
               <p className="text-2xl font-bold text-indigo-400 tabular-nums">
-                ${ecbData.rates.ARS.toFixed(2)}
+                R${ecbData.rates.BRL.toFixed(4)}
               </p>
-              <p className="text-[10px] text-secondary mt-1">Peso argentino</p>
+              <p className="text-[10px] text-secondary mt-1">Real brasileño</p>
             </div>
           )}
 
           {/* EUR/GBP */}
           {ecbData.rates.GBP && (
             <div
-              className="p-4 rounded-lg glass border border-border hover:border-indigo-400/30 transition-all cursor-pointer"
+              className="p-4 rounded-lg bg-panel transition-all cursor-pointer hover:bg-panel-hover"
               onClick={onToggleCharts}
             >
               <p className="text-xs text-secondary mb-2">EUR / GBP</p>
@@ -150,7 +144,7 @@ export function ECBSection({
           {/* EUR/JPY */}
           {ecbData.rates.JPY && (
             <div
-              className="p-4 rounded-lg glass border border-border hover:border-indigo-400/30 transition-all cursor-pointer"
+              className="p-4 rounded-lg bg-panel transition-all cursor-pointer hover:bg-panel-hover"
               onClick={onToggleCharts}
             >
               <p className="text-xs text-secondary mb-2">EUR / JPY</p>
@@ -164,7 +158,7 @@ export function ECBSection({
           {/* EUR/CHF */}
           {ecbData.rates.CHF && (
             <div
-              className="p-4 rounded-lg glass border border-border hover:border-indigo-400/30 transition-all cursor-pointer"
+              className="p-4 rounded-lg bg-panel transition-all cursor-pointer hover:bg-panel-hover"
               onClick={onToggleCharts}
             >
               <p className="text-xs text-secondary mb-2">EUR / CHF</p>
@@ -174,25 +168,11 @@ export function ECBSection({
               <p className="text-[10px] text-secondary mt-1">Franco suizo</p>
             </div>
           )}
-
-          {/* EUR/BRL */}
-          {ecbData.rates.BRL && (
-            <div
-              className="p-4 rounded-lg glass border border-border hover:border-indigo-400/30 transition-all cursor-pointer"
-              onClick={onToggleCharts}
-            >
-              <p className="text-xs text-secondary mb-2">EUR / BRL</p>
-              <p className="text-2xl font-bold text-indigo-400 tabular-nums">
-                R${ecbData.rates.BRL.toFixed(4)}
-              </p>
-              <p className="text-[10px] text-secondary mt-1">Real brasileno</p>
-            </div>
-          )}
         </div>
 
         {/* Interactive Charts */}
         {showECBCharts && !ecbHistoricalLoading && ecbHistorical && (
-          <div className="mt-6 pt-6 border-t border-border">
+          <div className="mt-6 pt-6">
             <h3 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
               <FaChartLine className="text-indigo-400" />
               Evolucion Historica (ultimos 12 meses)
@@ -200,7 +180,7 @@ export function ECBSection({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* EUR/USD Chart */}
               {ecbHistorical.USD?.data && (
-                <div className="p-4 rounded-lg glass border border-border">
+                <div className="p-4 rounded-lg bg-panel">
                   <div className="flex items-center justify-between mb-3">
                     <h4 className="text-xs font-semibold text-secondary flex-1">
                       <div className="mb-1">EUR / USD</div>
@@ -215,8 +195,8 @@ export function ECBSection({
                       }}
                       className={`p-1.5 rounded-lg transition-all ${
                         favoriteChartIds.includes('ecb-usd')
-                          ? 'bg-accent-emerald/20 text-accent-emerald'
-                          : 'glass text-secondary hover:text-accent-emerald hover:bg-white/5'
+                          ? 'bg-brand/20 text-brand'
+                          : 'text-secondary hover:text-brand'
                       }`}
                       aria-label={
                         favoriteChartIds.includes('ecb-usd')
@@ -245,56 +225,9 @@ export function ECBSection({
                 </div>
               )}
 
-              {/* EUR/ARS Chart */}
-              {ecbHistorical.ARS?.data && (
-                <div className="p-4 rounded-lg glass border border-border">
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="text-xs font-semibold text-secondary flex-1">
-                      <div className="mb-1">EUR / ARS</div>
-                      <span className="text-indigo-400">
-                        ${ecbHistorical.ARS.latest.toFixed(2)}
-                      </span>
-                    </h4>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onToggleChart('ecb-ars');
-                      }}
-                      className={`p-1.5 rounded-lg transition-all ${
-                        favoriteChartIds.includes('ecb-ars')
-                          ? 'bg-accent-emerald/20 text-accent-emerald'
-                          : 'glass text-secondary hover:text-accent-emerald hover:bg-white/5'
-                      }`}
-                      aria-label={
-                        favoriteChartIds.includes('ecb-ars')
-                          ? 'Quitar de favoritos'
-                          : 'Agregar a favoritos'
-                      }
-                    >
-                      {favoriteChartIds.includes('ecb-ars') ? (
-                        <FaStar className="text-sm" />
-                      ) : (
-                        <FaRegStar className="text-sm" />
-                      )}
-                    </button>
-                  </div>
-                  <div className="h-48">
-                    <FredChart
-                      data={ecbHistorical.ARS.data.map((d) => ({ date: d.date, value: d.rate }))}
-                      title="EUR/ARS"
-                      color="#8b5cf6"
-                      yAxisLabel="Tipo de cambio"
-                      formatValue={(v) => `$${v.toFixed(2)}`}
-                      showPoints={true}
-                      monthsToShow={12}
-                    />
-                  </div>
-                </div>
-              )}
-
               {/* EUR/GBP Chart */}
               {ecbHistorical.GBP?.data && (
-                <div className="p-4 rounded-lg glass border border-border">
+                <div className="p-4 rounded-lg bg-panel">
                   <div className="flex items-center justify-between mb-3">
                     <h4 className="text-xs font-semibold text-secondary flex-1">
                       <div className="mb-1">EUR / GBP</div>
@@ -309,8 +242,8 @@ export function ECBSection({
                       }}
                       className={`p-1.5 rounded-lg transition-all ${
                         favoriteChartIds.includes('ecb-gbp')
-                          ? 'bg-accent-emerald/20 text-accent-emerald'
-                          : 'glass text-secondary hover:text-accent-emerald hover:bg-white/5'
+                          ? 'bg-brand/20 text-brand'
+                          : 'text-secondary hover:text-brand'
                       }`}
                       aria-label={
                         favoriteChartIds.includes('ecb-gbp')
@@ -341,7 +274,7 @@ export function ECBSection({
 
               {/* EUR/BRL Chart */}
               {ecbHistorical.BRL?.data && (
-                <div className="p-4 rounded-lg glass border border-border">
+                <div className="p-4 rounded-lg bg-panel">
                   <div className="flex items-center justify-between mb-3">
                     <h4 className="text-xs font-semibold text-secondary flex-1">
                       <div className="mb-1">EUR / BRL</div>
@@ -356,8 +289,8 @@ export function ECBSection({
                       }}
                       className={`p-1.5 rounded-lg transition-all ${
                         favoriteChartIds.includes('ecb-brl')
-                          ? 'bg-accent-emerald/20 text-accent-emerald'
-                          : 'glass text-secondary hover:text-accent-emerald hover:bg-white/5'
+                          ? 'bg-brand/20 text-brand'
+                          : 'text-secondary hover:text-brand'
                       }`}
                       aria-label={
                         favoriteChartIds.includes('ecb-brl')
@@ -390,7 +323,7 @@ export function ECBSection({
         )}
 
         {/* Info Footer */}
-        <div className="mt-4 pt-4 border-t border-border">
+        <div className="mt-4 pt-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <p className="text-xs text-secondary">
               <strong className="text-foreground">ECB</strong> (European Central Bank) - Tipos de
@@ -410,13 +343,13 @@ export function ECBSection({
               href="https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-shrink-0 px-4 py-2 rounded-lg bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-400 font-semibold text-xs transition-all flex items-center gap-2"
+              className="flex-shrink-0 px-4 py-2 rounded-lg text-indigo-400 font-semibold text-xs transition-all flex items-center gap-2 hover:text-indigo-300"
             >
               Ver en ECB →
             </a>
           </div>
         </div>
-      </Card.Content>
+      </div>
     </Card>
   );
 }

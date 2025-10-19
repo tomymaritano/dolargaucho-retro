@@ -62,7 +62,7 @@ const DolarCard: React.FC<DolarCardProps> = ({ data }) => {
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ scale: 1.01 }}
       transition={{ duration: 0.2, ease: 'easeOut' }}
-      className="p-5 glass-strong border border-white/5 shadow-xl rounded-xl flex flex-col hover:border-accent-emerald/20"
+      className="p-5 glass-strong border border-white/5 shadow-xl rounded-xl flex flex-col hover:border-brand/20"
     >
       {/* Título */}
       <h2 className="text-lg md:text-xl font-bold text-white tracking-wide">{data.nombre}</h2>
@@ -71,11 +71,11 @@ const DolarCard: React.FC<DolarCardProps> = ({ data }) => {
       <div className="flex justify-between items-center py-3 text-xl font-semibold">
         <div className="flex flex-col items-start">
           <span className="text-secondary text-xs uppercase tracking-wider">Compra</span>
-          <span className="text-accent-emerald font-mono">${data.compra.toFixed(2)}</span>
+          <span className="text-brand font-mono">${data.compra.toFixed(2)}</span>
         </div>
         <div className="flex flex-col items-end">
           <span className="text-secondary text-xs uppercase tracking-wider">Venta</span>
-          <span className="text-accent-teal font-mono">${data.venta.toFixed(2)}</span>
+          <span className="text-brand-light font-mono">${data.venta.toFixed(2)}</span>
         </div>
       </div>
 
@@ -90,7 +90,7 @@ const DolarCard: React.FC<DolarCardProps> = ({ data }) => {
           onClick={handleShare}
           disabled={isSharing}
           whileTap={{ scale: 0.95 }}
-          className="flex-1 p-2 bg-accent-emerald/10 text-accent-emerald rounded-lg hover:bg-accent-emerald/20 transition-all border border-accent-emerald/20 flex items-center justify-center gap-2 text-sm font-medium"
+          className="flex-1 p-2 bg-brand/10 text-brand rounded-lg hover:bg-brand/20 transition-all border border-brand/20 flex items-center justify-center gap-2 text-sm font-medium"
         >
           <FaShareAlt />
         </motion.button>

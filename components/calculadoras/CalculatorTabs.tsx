@@ -78,7 +78,7 @@ export function CalculatorTabs({ activeTab, onTabChange }: CalculatorTabsProps) 
             padding="lg"
             hover={isActive ? undefined : 'glow'}
             className={`cursor-pointer transition-all ${
-              isActive ? 'border-2 border-accent-emerald bg-accent-emerald/10' : ''
+              isActive ? 'border-2 border-brand bg-brand/10' : ''
             }`}
             onClick={() => onTabChange(tab.id)}
           >
@@ -86,15 +86,13 @@ export function CalculatorTabs({ activeTab, onTabChange }: CalculatorTabsProps) 
               <div className="flex items-start justify-between mb-4">
                 <div
                   className={`p-3 rounded-xl transition-all ${
-                    isActive ? 'bg-accent-emerald/20' : 'glass hover:bg-accent-emerald/10'
+                    isActive ? 'bg-brand/20' : 'glass hover:bg-brand/10'
                   }`}
                 >
-                  <tab.icon
-                    className={`text-xl ${isActive ? 'text-accent-emerald' : 'text-foreground'}`}
-                  />
+                  <tab.icon className={`text-xl ${isActive ? 'text-brand' : 'text-foreground'}`} />
                 </div>
                 {isActive && (
-                  <span className="px-2 py-0.5 text-xs bg-accent-emerald text-background-dark rounded-full font-semibold uppercase">
+                  <span className="px-2 py-0.5 text-xs bg-brand text-background-dark rounded-full font-semibold uppercase">
                     Activo
                   </span>
                 )}
@@ -103,7 +101,7 @@ export function CalculatorTabs({ activeTab, onTabChange }: CalculatorTabsProps) 
               <div className="space-y-2">
                 <h3
                   className={`font-bold text-lg transition-colors ${
-                    isActive ? 'text-accent-emerald' : 'text-foreground'
+                    isActive ? 'text-brand' : 'text-foreground'
                   }`}
                 >
                   {tab.label}
@@ -115,9 +113,7 @@ export function CalculatorTabs({ activeTab, onTabChange }: CalculatorTabsProps) 
 
               <div className="mt-4 flex items-center justify-end">
                 <FaArrowRight
-                  className={`text-sm transition-all ${
-                    isActive ? 'text-accent-emerald' : 'text-secondary'
-                  }`}
+                  className={`text-sm transition-all ${isActive ? 'text-brand' : 'text-secondary'}`}
                 />
               </div>
             </button>
@@ -131,27 +127,27 @@ export function CalculatorTabs({ activeTab, onTabChange }: CalculatorTabsProps) 
           variant="elevated"
           padding="lg"
           hover="glow"
-          className="cursor-pointer transition-all bg-gradient-to-br from-accent-emerald/10 to-accent-teal/10 border-accent-emerald/30 hover:border-accent-emerald"
+          className="cursor-pointer transition-all bg-gradient-to-br from-brand/10 to-brand-light/10 border-brand/30 hover:border-brand"
         >
           <div className="w-full text-left">
             <div className="flex items-start justify-between mb-4">
-              <div className="p-3 rounded-xl bg-accent-emerald/20">
-                <megaCalculadoraCard.icon className="text-xl text-accent-emerald" />
+              <div className="p-3 rounded-xl bg-brand/20">
+                <megaCalculadoraCard.icon className="text-xl text-brand" />
               </div>
-              <span className="px-2 py-0.5 text-xs bg-accent-emerald text-background-dark rounded-full font-semibold uppercase">
+              <span className="px-2 py-0.5 text-xs bg-brand text-background-dark rounded-full font-semibold uppercase">
                 {megaCalculadoraCard.badge}
               </span>
             </div>
 
             <div className="space-y-2">
-              <h3 className="font-bold text-lg text-accent-emerald">{megaCalculadoraCard.label}</h3>
+              <h3 className="font-bold text-lg text-brand">{megaCalculadoraCard.label}</h3>
               <p className="text-sm text-secondary line-clamp-2 leading-relaxed">
                 {megaCalculadoraCard.description}
               </p>
             </div>
 
             <div className="mt-4 flex items-center justify-end">
-              <FaExternalLinkAlt className="text-sm text-accent-emerald" />
+              <FaExternalLinkAlt className="text-sm text-brand" />
             </div>
           </div>
         </Card>

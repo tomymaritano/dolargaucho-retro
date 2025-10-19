@@ -45,61 +45,76 @@ export function InflationSection({
     return accumulated / 12;
   };
 
-  const isFavorite = favoriteChartIds.includes('inflacion-argentina');
+  // Calculate interannual (rolling 12-month accumulated) for each month
+  const calculateInterannualData = () => {
+    if (!inflacionData || inflacionData.length < 12) return [];
+
+    const interannual: { date: string; value: number }[] = [];
+    for (let i = 11; i < inflacionData.length; i++) {
+      const last12Months = inflacionData.slice(i - 11, i + 1);
+      const accumulated = last12Months.reduce((acc, m) => acc + m.valor, 0);
+      interannual.push({
+        date: inflacionData[i].fecha,
+        value: accumulated,
+      });
+    }
+    return interannual;
+  };
+
+  const isFavoriteMensual = favoriteChartIds.includes('inflacion-mensual');
+  const isFavoriteInteranual = favoriteChartIds.includes('inflacion-interanual');
+
+  const interannualData = calculateInterannualData();
 
   return (
-    <Card
-      variant="elevated"
-      padding="lg"
-      className="bg-gradient-to-br from-red-500/5 to-orange-500/5 border-red-500/20"
-    >
-      <Card.Header>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-red-500/20">
-              <FaChartLine className="text-xl text-red-400" />
-            </div>
-            <div>
-              <Card.Title className="mb-0">Inflacion Argentina</Card.Title>
-              <p className="text-xs text-secondary mt-1">Indice de Precios al Consumidor (IPC)</p>
-            </div>
-          </div>
-          <button
-            onClick={() => onToggleChart('inflacion-argentina')}
-            className={`p-2 rounded-lg transition-all ${
-              isFavorite
-                ? 'bg-accent-emerald/20 text-accent-emerald'
-                : 'glass text-secondary hover:text-accent-emerald hover:bg-white/5'
-            }`}
-            aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
-          >
-            {isFavorite ? <FaStar className="text-lg" /> : <FaRegStar className="text-lg" />}
-          </button>
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-center gap-3 px-1">
+        <FaChartLine className="text-xl text-red-400" />
+        <div>
+          <h2 className="text-xl font-bold text-foreground">Inflación Argentina</h2>
+          <p className="text-xs text-secondary mt-1">Índice de Precios al Consumidor (IPC)</p>
         </div>
-      </Card.Header>
+      </div>
 
-      <Card.Content>
-        {inflacionLoading ? (
-          <div className="flex items-center justify-center py-12">
-            <div className="h-8 w-8 animate-spin rounded-full border-2 border-red-400 border-t-transparent" />
-          </div>
-        ) : inflacionData && inflacionData.length > 0 ? (
-          <>
-            {/* Chart */}
-            <div className="h-64">
+      {inflacionLoading ? (
+        <div className="flex items-center justify-center py-12">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-red-400 border-t-transparent" />
+        </div>
+      ) : inflacionData && inflacionData.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Inflación Mensual */}
+          <Card variant="outlined" padding="none">
+            <div className="p-4 pb-2">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-semibold text-foreground">Inflación Mensual</h3>
+                <button
+                  onClick={() => onToggleChart('inflacion-mensual')}
+                  className={`p-1.5 rounded-lg transition-all ${
+                    isFavoriteMensual ? 'bg-brand/20 text-brand' : 'text-secondary hover:text-brand'
+                  }`}
+                  aria-label={isFavoriteMensual ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+                >
+                  {isFavoriteMensual ? (
+                    <FaStar className="text-sm" />
+                  ) : (
+                    <FaRegStar className="text-sm" />
+                  )}
+                </button>
+              </div>
+            </div>
+            <div className="h-72 p-2 pt-0">
               <FredChart
                 data={inflacionData.map((d) => ({ date: d.fecha, value: d.valor }))}
-                title="Inflacion Argentina"
+                title="Inflación Mensual"
                 color="#f87171"
-                yAxisLabel="Inflacion"
+                yAxisLabel="Inflación"
                 formatValue={(v) => `${v.toFixed(1)}%`}
                 showPoints={true}
                 monthsToShow={12}
               />
             </div>
-
-            {/* Statistics */}
-            <div className="mt-4 pt-4 border-t border-border">
+            <div className="p-4 pt-2 border-t border-slate-700/10">
               <div className="grid grid-cols-2 gap-3 text-xs">
                 <div>
                   <p className="text-secondary mb-1">Acumulada 12 meses</p>
@@ -115,11 +130,71 @@ export function InflationSection({
                 </div>
               </div>
             </div>
-          </>
-        ) : (
-          <p className="text-secondary text-center py-8">No hay datos disponibles</p>
-        )}
-      </Card.Content>
-    </Card>
+          </Card>
+
+          {/* Inflación Interanual */}
+          <Card variant="outlined" padding="none">
+            <div className="p-4 pb-2">
+              <div className="flex items-center justify-between">
+                <h3 className="text-sm font-semibold text-foreground">Inflación Interanual</h3>
+                <button
+                  onClick={() => onToggleChart('inflacion-interanual')}
+                  className={`p-1.5 rounded-lg transition-all ${
+                    isFavoriteInteranual
+                      ? 'bg-brand/20 text-brand'
+                      : 'text-secondary hover:text-brand'
+                  }`}
+                  aria-label={isFavoriteInteranual ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+                >
+                  {isFavoriteInteranual ? (
+                    <FaStar className="text-sm" />
+                  ) : (
+                    <FaRegStar className="text-sm" />
+                  )}
+                </button>
+              </div>
+            </div>
+            <div className="h-72 p-2 pt-0">
+              <FredChart
+                data={interannualData}
+                title="Inflación Interanual"
+                color="#ef4444"
+                yAxisLabel="Inflación acumulada"
+                formatValue={(v) => `${v.toFixed(1)}%`}
+                showPoints={true}
+                monthsToShow={12}
+              />
+            </div>
+            <div className="p-4 pt-2 border-t border-slate-700/10">
+              <div className="grid grid-cols-2 gap-3 text-xs">
+                <div>
+                  <p className="text-secondary mb-1">Actual (12 meses)</p>
+                  <p className="text-lg font-bold text-red-500">
+                    {interannualData.length > 0
+                      ? interannualData[interannualData.length - 1].value.toFixed(1)
+                      : '0.0'}
+                    %
+                  </p>
+                </div>
+                <div>
+                  <p className="text-secondary mb-1">Promedio interanual</p>
+                  <p className="text-lg font-bold text-red-500">
+                    {interannualData.length > 0
+                      ? (
+                          interannualData.reduce((acc, d) => acc + d.value, 0) /
+                          interannualData.length
+                        ).toFixed(1)
+                      : '0.0'}
+                    %
+                  </p>
+                </div>
+              </div>
+            </div>
+          </Card>
+        </div>
+      ) : (
+        <p className="text-secondary text-center py-8">No hay datos disponibles</p>
+      )}
+    </div>
   );
 }

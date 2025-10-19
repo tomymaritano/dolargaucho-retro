@@ -26,7 +26,7 @@ class ErrorBoundary extends Component<Props, State> {
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     logger.error('Error caught by boundary', error, {
       component: 'ErrorBoundary',
-      componentStack: errorInfo.componentStack
+      componentStack: errorInfo.componentStack,
     });
     this.setState({ errorInfo });
 
@@ -61,9 +61,7 @@ class ErrorBoundary extends Component<Props, State> {
                   <FaExclamationTriangle className="text-error text-3xl" />
                 </div>
                 <div className="flex-1">
-                  <h1 className="text-3xl font-bold text-foreground mb-2">
-                    Algo salió mal
-                  </h1>
+                  <h1 className="text-3xl font-bold text-foreground mb-2">Algo salió mal</h1>
                   <p className="text-secondary text-lg">
                     Ocurrió un error inesperado en la aplicación
                   </p>
@@ -73,9 +71,7 @@ class ErrorBoundary extends Component<Props, State> {
               {/* Error message */}
               {this.state.error && (
                 <div className="mb-6 p-4 bg-error/5 border border-error/20 rounded-lg">
-                  <p className="text-sm font-mono text-error">
-                    {this.state.error.message}
-                  </p>
+                  <p className="text-sm font-mono text-error">{this.state.error.message}</p>
                 </div>
               )}
 
@@ -97,14 +93,14 @@ class ErrorBoundary extends Component<Props, State> {
               <div className="flex flex-col sm:flex-row gap-3">
                 <button
                   onClick={this.handleReset}
-                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-accent-emerald hover:bg-accent-teal text-background-dark font-semibold rounded-lg transition-all active:scale-[0.98]"
+                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-brand hover:bg-brand-light text-background-dark font-semibold rounded-lg transition-all active:scale-[0.98]"
                 >
                   <FaRedo />
                   Intentar de nuevo
                 </button>
                 <button
                   onClick={this.handleGoHome}
-                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-panel border border-border hover:bg-accent-emerald/10 hover:border-accent-emerald text-foreground font-semibold rounded-lg transition-all active:scale-[0.98]"
+                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-panel border border-border hover:bg-brand/10 hover:border-brand text-foreground font-semibold rounded-lg transition-all active:scale-[0.98]"
                 >
                   <FaHome />
                   Volver al inicio
@@ -119,11 +115,11 @@ class ErrorBoundary extends Component<Props, State> {
                     href="https://github.com/anthropics/claude-code/issues"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-accent-emerald hover:underline"
+                    className="text-brand hover:underline"
                   >
                     reportá el error en GitHub
-                  </a>
-                  {' '}o refrescá la página.
+                  </a>{' '}
+                  o refrescá la página.
                 </p>
               </div>
             </div>

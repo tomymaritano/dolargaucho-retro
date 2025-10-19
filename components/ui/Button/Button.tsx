@@ -1,67 +1,86 @@
-import { memo } from 'react';
-import { cva, type VariantProps } from 'class-variance-authority';
+/**
+ * Button - Ultra Minimal
+ *
+ * Features:
+ * - Clean, minimal design (Stripe/Vercel style)
+ * - Solid backgrounds
+ * - Subtle lift on hover
+ * - Optional StarBorder effect
+ */
+
+import React, { forwardRef } from 'react';
+import { motion, type HTMLMotionProps } from 'framer-motion';
+import { buttonVariants, type ButtonVariants } from './buttonVariants';
+import { StarBorder } from '@/components/ui/StarBorder';
 import { cn } from '@/lib/utils/cn';
 
-const buttonVariants = cva(
-  // Base styles (always applied)
-  'inline-flex items-center justify-center rounded-lg font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed',
-  {
-    variants: {
-      variant: {
-        primary: 'bg-accent-emerald text-background hover:bg-accent-teal focus:ring-accent-emerald',
-        secondary: 'glass border border-border text-foreground hover:bg-white/10 focus:ring-accent-emerald/20',
-        outline:
-          'border-2 border-accent-emerald text-accent-emerald hover:bg-accent-emerald/10 focus:ring-accent-emerald',
-        ghost: 'text-accent-emerald hover:bg-accent-emerald/10',
-        danger: 'bg-error text-foreground hover:bg-error/90 focus:ring-error',
-      },
-      size: {
-        xs: 'px-2 py-1 text-xs',
-        sm: 'px-3 py-2 text-sm',
-        md: 'px-4 py-3 text-base',
-        lg: 'px-6 py-4 text-lg',
-        xl: 'px-8 py-5 text-xl',
-      },
-      fullWidth: {
-        true: 'w-full',
-        false: 'w-auto',
-      },
+export interface ButtonProps extends Omit<HTMLMotionProps<'button'>, 'children'>, ButtonVariants {
+  children: React.ReactNode;
+  isLoading?: boolean;
+  loadingText?: string;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
+  showStars?: boolean; // Enable StarBorder effect
+}
+
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      className,
+      variant,
+      size,
+      fullWidth,
+      children,
+      isLoading = false,
+      loadingText,
+      leftIcon,
+      rightIcon,
+      disabled,
+      showStars = false,
+      ...props
     },
-    defaultVariants: {
-      variant: 'primary',
-      size: 'md',
-      fullWidth: false,
-    },
+    ref
+  ) => {
+    const buttonContent = (
+      <motion.button
+        ref={ref}
+        className={cn(buttonVariants({ variant, size, fullWidth }), className)}
+        disabled={disabled || isLoading}
+        whileTap={!disabled && !isLoading ? { scale: 0.98 } : undefined}
+        transition={{
+          type: 'spring',
+          stiffness: 400,
+          damping: 25,
+        }}
+        {...props}
+      >
+        {/* Loading Spinner */}
+        {isLoading && (
+          <motion.div
+            className="h-4 w-4 rounded-full border-2 border-current border-t-transparent mr-2"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
+          />
+        )}
+
+        {/* Left Icon */}
+        {!isLoading && leftIcon && <span className="inline-flex">{leftIcon}</span>}
+
+        {/* Text Content */}
+        <span>{isLoading && loadingText ? loadingText : children}</span>
+
+        {/* Right Icon */}
+        {!isLoading && rightIcon && <span className="inline-flex">{rightIcon}</span>}
+      </motion.button>
+    );
+
+    // Wrap with StarBorder if enabled
+    if (showStars) {
+      return <StarBorder starCount={12}>{buttonContent}</StarBorder>;
+    }
+
+    return buttonContent;
   }
 );
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-  children: React.ReactNode;
-  isLoading?: boolean;
-}
-
-export const Button = memo(function Button({
-  className,
-  variant,
-  size,
-  fullWidth,
-  children,
-  isLoading = false,
-  disabled,
-  ...props
-}: ButtonProps) {
-  return (
-    <button
-      className={cn(buttonVariants({ variant, size, fullWidth, className }))}
-      disabled={disabled || isLoading}
-      {...props}
-    >
-      {isLoading && (
-        <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-      )}
-      {children}
-    </button>
-  );
-});
+Button.displayName = 'Button';

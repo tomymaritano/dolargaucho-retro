@@ -37,7 +37,7 @@ const InflationCalculator: React.FC = () => {
     <div className="mx-auto text-foreground p-6 md:p-10 rounded-2xl max-w-7xl">
       <div className="text-center mb-8">
         <div className="inline-flex items-center gap-2 mb-4">
-          <FaChartBar className="text-accent-emerald text-xl" />
+          <FaChartBar className="text-brand text-xl" />
           <span className="text-xs uppercase tracking-wider text-secondary font-semibold">
             Herramienta
           </span>
@@ -60,7 +60,7 @@ const InflationCalculator: React.FC = () => {
             type="number"
             value={priceBaseIPC}
             onChange={(e) => setPriceBaseIPC(e.target.value)}
-            className="w-full p-3 text-lg font-mono font-semibold bg-panel border border-white/5 rounded-lg focus:ring-1 focus:ring-accent-emerald focus:outline-none transition-all text-foreground"
+            className="w-full p-3 text-lg font-mono font-semibold bg-panel border border-white/5 rounded-lg focus:ring-1 focus:ring-brand focus:outline-none transition-all text-foreground"
             placeholder="100"
           />
         </div>
@@ -73,7 +73,7 @@ const InflationCalculator: React.FC = () => {
             type="number"
             value={priceCurrentIPC}
             onChange={(e) => setPriceCurrentIPC(e.target.value)}
-            className="w-full p-3 text-lg font-mono font-semibold bg-panel border border-white/5 rounded-lg focus:ring-1 focus:ring-accent-emerald focus:outline-none transition-all text-foreground"
+            className="w-full p-3 text-lg font-mono font-semibold bg-panel border border-white/5 rounded-lg focus:ring-1 focus:ring-brand focus:outline-none transition-all text-foreground"
             placeholder="150"
           />
         </div>
@@ -86,7 +86,7 @@ const InflationCalculator: React.FC = () => {
             type="number"
             value={priceBaseIPM}
             onChange={(e) => setPriceBaseIPM(e.target.value)}
-            className="w-full p-3 text-lg font-mono font-semibold bg-panel border border-white/5 rounded-lg focus:ring-1 focus:ring-accent-emerald focus:outline-none transition-all text-foreground"
+            className="w-full p-3 text-lg font-mono font-semibold bg-panel border border-white/5 rounded-lg focus:ring-1 focus:ring-brand focus:outline-none transition-all text-foreground"
             placeholder="100"
           />
         </div>
@@ -99,7 +99,7 @@ const InflationCalculator: React.FC = () => {
             type="number"
             value={priceCurrentIPM}
             onChange={(e) => setPriceCurrentIPM(e.target.value)}
-            className="w-full p-3 text-lg font-mono font-semibold bg-panel border border-white/5 rounded-lg focus:ring-1 focus:ring-accent-emerald focus:outline-none transition-all text-foreground"
+            className="w-full p-3 text-lg font-mono font-semibold bg-panel border border-white/5 rounded-lg focus:ring-1 focus:ring-brand focus:outline-none transition-all text-foreground"
             placeholder="130"
           />
         </div>
@@ -108,7 +108,7 @@ const InflationCalculator: React.FC = () => {
       {/* Botón de Cálculo */}
       <button
         onClick={calculateInflation}
-        className="w-full mb-6 bg-accent-emerald hover:bg-accent-teal text-background-dark py-3 rounded-lg font-semibold transition-all text-sm"
+        className="w-full mb-6 bg-brand hover:bg-brand-light text-background-dark py-3 rounded-lg font-semibold transition-all text-sm"
       >
         Calcular IPC / IPM
       </button>
@@ -116,13 +116,13 @@ const InflationCalculator: React.FC = () => {
       {/* Resultados */}
       {ipc !== null && ipm !== null && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-5 glass-strong rounded-xl border border-accent-emerald/20 text-center">
+          <div className="p-5 glass-strong rounded-xl border border-brand/20 text-center">
             <p className="text-xs uppercase tracking-wider text-secondary mb-2">IPC</p>
-            <p className="text-3xl font-mono font-bold text-accent-emerald">{ipc.toFixed(2)}%</p>
+            <p className="text-3xl font-mono font-bold text-brand">{ipc.toFixed(2)}%</p>
           </div>
-          <div className="p-5 glass-strong rounded-xl border border-accent-teal/20 text-center">
+          <div className="p-5 glass-strong rounded-xl border border-brand-light/20 text-center">
             <p className="text-xs uppercase tracking-wider text-secondary mb-2">IPM</p>
-            <p className="text-3xl font-mono font-bold text-accent-teal">{ipm.toFixed(2)}%</p>
+            <p className="text-3xl font-mono font-bold text-brand-light">{ipm.toFixed(2)}%</p>
           </div>
           <div
             className={`p-5 glass-strong rounded-xl border ${variation && variation > 0 ? 'border-error/20' : 'border-success/20'} text-center`}

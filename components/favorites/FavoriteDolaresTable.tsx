@@ -59,7 +59,7 @@ export function FavoriteDolaresTable({ dolares, onToggleFavorite }: FavoriteDola
         <TableHeader>
           <TableRow hoverable={false}>
             <TableHeaderCell align="center" width="48px">
-              <FaStar className="inline-block text-accent-emerald" />
+              <FaStar className="inline-block text-brand" />
             </TableHeaderCell>
             <TableHeaderCell align="left">Tipo</TableHeaderCell>
             <TableHeaderCell align="right">Compra</TableHeaderCell>
@@ -79,7 +79,7 @@ export function FavoriteDolaresTable({ dolares, onToggleFavorite }: FavoriteDola
                 <TableCell align="center">
                   <button
                     onClick={() => onToggleFavorite(dolar.casa)}
-                    className="p-2 rounded-lg text-accent-emerald bg-accent-emerald/10 hover:bg-accent-emerald/20 transition-all"
+                    className="p-2 rounded-lg text-brand bg-brand/10 hover:bg-brand/20 transition-all"
                     aria-label={`Quitar ${dolar.nombre} de favoritos`}
                   >
                     <FaStar className="text-base" />
@@ -100,7 +100,7 @@ export function FavoriteDolaresTable({ dolares, onToggleFavorite }: FavoriteDola
                 </TableCell>
 
                 <TableCell align="right">
-                  <span className="text-sm font-semibold text-accent-emerald tabular-nums">
+                  <span className="text-sm font-semibold text-brand tabular-nums">
                     ${dolar.venta.toFixed(2)}
                   </span>
                 </TableCell>

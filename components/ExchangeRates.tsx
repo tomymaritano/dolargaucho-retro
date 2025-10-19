@@ -18,11 +18,11 @@ interface ExchangeRate {
 }
 
 const exchangeIcons: Record<string, React.ReactNode> = {
-  Oficial: <FaBuilding className="text-accent-emerald" />,
-  Blue: <FaMoneyBillWave className="text-accent-teal" />,
-  MEP: <FaExchangeAlt className="text-accent-emerald" />,
-  CCL: <FaPiggyBank className="text-accent-teal" />,
-  Crypto: <FaDollarSign className="text-accent-emerald" />,
+  Oficial: <FaBuilding className="text-brand" />,
+  Blue: <FaMoneyBillWave className="text-brand-light" />,
+  MEP: <FaExchangeAlt className="text-brand" />,
+  CCL: <FaPiggyBank className="text-brand-light" />,
+  Crypto: <FaDollarSign className="text-brand" />,
 };
 
 const ExchangeRates: React.FC = () => {
@@ -69,17 +69,17 @@ const ExchangeRates: React.FC = () => {
           rates.map((rate) => (
             <div
               key={rate.nombre}
-              className="p-4 glass-strong border border-white/5 rounded-xl flex items-center justify-between hover:border-accent-emerald/20 transition-all"
+              className="p-4 glass-strong border border-white/5 rounded-xl flex items-center justify-between hover:border-brand/20 transition-all"
             >
               <div className="flex items-center gap-3">
                 {exchangeIcons[rate.nombre] || <FaDollarSign className="text-secondary" />}
                 <span className="text-lg font-bold text-white">{rate.nombre}</span>
               </div>
               <div className="text-right">
-                <p className="text-accent-emerald font-semibold font-mono text-sm">
+                <p className="text-brand font-semibold font-mono text-sm">
                   Compra: ${rate.compra.toFixed(2)}
                 </p>
-                <p className="text-accent-teal font-semibold font-mono text-sm">
+                <p className="text-brand-light font-semibold font-mono text-sm">
                   Venta: ${rate.venta.toFixed(2)}
                 </p>
               </div>

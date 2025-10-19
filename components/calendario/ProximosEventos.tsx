@@ -103,7 +103,7 @@ export function ProximosEventos({ feriados, eventos, limit = 10 }: ProximosEvent
     <Card variant="elevated" padding="lg">
       <Card.Header>
         <div className="flex items-center gap-2">
-          <FaCalendarAlt className="text-accent-emerald text-xl" />
+          <FaCalendarAlt className="text-brand text-xl" />
           <Card.Title>Próximos Eventos</Card.Title>
         </div>
         <p className="text-sm text-secondary mt-1">
@@ -119,7 +119,7 @@ export function ProximosEventos({ feriados, eventos, limit = 10 }: ProximosEvent
               key={`${evento.tipo}-${evento.fecha}-${index}`}
               className={`p-4 rounded-lg transition-colors ${
                 evento.tipo === 'feriado'
-                  ? 'bg-accent-emerald/10 border border-accent-emerald/30'
+                  ? 'bg-brand/10 border border-brand/30'
                   : 'glass border border-border'
               } hover:bg-white/5`}
             >
@@ -129,8 +129,8 @@ export function ProximosEventos({ feriados, eventos, limit = 10 }: ProximosEvent
                     <span
                       className={`px-2 py-1 rounded-md text-xs font-semibold ${
                         evento.tipo === 'feriado'
-                          ? 'bg-accent-emerald/20 text-accent-emerald'
-                          : 'bg-accent-teal/20 text-accent-teal'
+                          ? 'bg-brand/20 text-brand'
+                          : 'bg-brand-light/20 text-brand-light'
                       }`}
                     >
                       {evento.tipo === 'feriado' ? '📅 Feriado' : '🗓️ Evento'}

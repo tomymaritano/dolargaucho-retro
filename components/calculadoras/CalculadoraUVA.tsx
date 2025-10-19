@@ -125,7 +125,11 @@ export function CalculadoraUVA({ showHeader = true }: CalculadoraUVAProps) {
 
   return (
     <CalculatorLayout
-      title={<>Calculadora de <span className="gradient-text">Crédito UVA</span></>}
+      title={
+        <>
+          Calculadora de <span className="gradient-text">Crédito UVA</span>
+        </>
+      }
       description="Simulá tu crédito hipotecario en UVAs y proyectá la evolución de tu cuota"
       showHeader={showHeader}
     >
@@ -143,7 +147,9 @@ export function CalculadoraUVA({ showHeader = true }: CalculadoraUVAProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         {/* Monto del Crédito */}
         <div>
-          <label className="block text-sm font-medium text-foreground mb-2">Monto del Crédito</label>
+          <label className="block text-sm font-medium text-foreground mb-2">
+            Monto del Crédito
+          </label>
           <div className="relative">
             <FaDollarSign className="absolute left-4 top-1/2 -translate-y-1/2 text-secondary" />
             <input
@@ -151,7 +157,7 @@ export function CalculadoraUVA({ showHeader = true }: CalculadoraUVAProps) {
               value={formatNumber(montoCredito)}
               onChange={(e) => handleMontoChange(e.target.value)}
               placeholder="50.000.000"
-              className="w-full pl-10 pr-4 py-3 text-xl font-mono font-bold bg-panel border border-border rounded-xl focus:ring-2 focus:ring-accent-emerald/20 focus:border-accent-emerald/50 focus:outline-none transition-all text-foreground"
+              className="w-full pl-10 pr-4 py-3 text-xl font-mono font-bold bg-panel border border-border rounded-xl focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground"
             />
           </div>
           <p className="text-xs text-secondary mt-1">Monto total del crédito en pesos</p>
@@ -159,7 +165,9 @@ export function CalculadoraUVA({ showHeader = true }: CalculadoraUVAProps) {
 
         {/* Plazo */}
         <div>
-          <label className="block text-sm font-medium text-foreground mb-2">Plazo del Crédito</label>
+          <label className="block text-sm font-medium text-foreground mb-2">
+            Plazo del Crédito
+          </label>
           <div className="grid grid-cols-5 gap-2 mb-2">
             {plazosComunes.map((plazo) => (
               <button
@@ -167,8 +175,8 @@ export function CalculadoraUVA({ showHeader = true }: CalculadoraUVAProps) {
                 onClick={() => setPlazoMeses(plazo.meses)}
                 className={`px-2 py-2 rounded-lg font-semibold text-xs transition-all ${
                   plazoMeses === plazo.meses
-                    ? 'bg-accent-emerald text-background-dark'
-                    : 'glass border border-border text-foreground hover:border-accent-emerald/30'
+                    ? 'bg-brand text-background-dark'
+                    : 'glass border border-border text-foreground hover:border-brand/30'
                 }`}
               >
                 {plazo.label}
@@ -183,7 +191,7 @@ export function CalculadoraUVA({ showHeader = true }: CalculadoraUVAProps) {
               onChange={(e) => setPlazoMeses(parseInt(e.target.value) || 120)}
               min="12"
               max="480"
-              className="w-full pl-10 pr-4 py-3 text-xl font-mono font-bold bg-panel border border-border rounded-xl focus:ring-2 focus:ring-accent-emerald/20 focus:border-accent-emerald/50 focus:outline-none transition-all text-foreground"
+              className="w-full pl-10 pr-4 py-3 text-xl font-mono font-bold bg-panel border border-border rounded-xl focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground"
             />
           </div>
           <p className="text-xs text-secondary mt-1">Meses de duración del crédito</p>
@@ -235,7 +243,9 @@ export function CalculadoraUVA({ showHeader = true }: CalculadoraUVAProps) {
 
           {/* Proyección de Cuotas */}
           <div className="p-6 rounded-xl bg-panel/50 border border-border mb-8">
-            <h5 className="text-sm font-semibold text-foreground mb-4">Proyección de Cuota en el Tiempo</h5>
+            <h5 className="text-sm font-semibold text-foreground mb-4">
+              Proyección de Cuota en el Tiempo
+            </h5>
             <div className="space-y-2">
               {resultado.proyecciones.map((proj, idx) => (
                 <div
@@ -279,9 +289,9 @@ export function CalculadoraUVA({ showHeader = true }: CalculadoraUVAProps) {
               <div className="flex-1 text-xs text-secondary">
                 <p className="font-semibold mb-1 text-foreground">Importante</p>
                 <p>
-                  Esta simulación es aproximada. La cuota UVA aumenta con la inflación (índice
-                  CER). Los valores reales pueden variar según las condiciones del banco y la
-                  evolución de la UVA.
+                  Esta simulación es aproximada. La cuota UVA aumenta con la inflación (índice CER).
+                  Los valores reales pueden variar según las condiciones del banco y la evolución de
+                  la UVA.
                 </p>
               </div>
             </div>
@@ -301,9 +311,9 @@ export function CalculadoraUVA({ showHeader = true }: CalculadoraUVAProps) {
         <div className="flex items-start gap-2 text-xs text-secondary">
           <span>ℹ️</span>
           <p>
-            <strong className="text-foreground">UVA</strong> (Unidad de Valor Adquisitivo): índice que se ajusta diariamente
-            según el CER (inflación). Los créditos UVA mantienen el valor real de la deuda pero las
-            cuotas aumentan con la inflación.
+            <strong className="text-foreground">UVA</strong> (Unidad de Valor Adquisitivo): índice
+            que se ajusta diariamente según el CER (inflación). Los créditos UVA mantienen el valor
+            real de la deuda pero las cuotas aumentan con la inflación.
           </p>
         </div>
       </div>

@@ -70,7 +70,7 @@ export function ActasSenado({ limit = 50 }: ActasSenadoProps) {
     return (
       <div className="flex items-center justify-center py-12">
         <div className="text-center">
-          <FaSpinner className="animate-spin text-4xl text-accent-emerald mx-auto mb-4" />
+          <FaSpinner className="animate-spin text-4xl text-brand mx-auto mb-4" />
           <p className="text-secondary">Cargando actas del Senado...</p>
         </div>
       </div>
@@ -90,7 +90,7 @@ export function ActasSenado({ limit = 50 }: ActasSenadoProps) {
               <div className="text-2xl font-bold text-white">{stats.total}</div>
             </div>
             <div className="p-3 glass rounded-xl">
-              <FaFileAlt className="text-accent-emerald text-xl" />
+              <FaFileAlt className="text-brand text-xl" />
             </div>
           </div>
         </Card>
@@ -102,7 +102,7 @@ export function ActasSenado({ limit = 50 }: ActasSenadoProps) {
               <div className="text-2xl font-bold text-white">{stats.ordinarias}</div>
             </div>
             <div className="p-3 glass rounded-xl">
-              <FaCalendarAlt className="text-accent-emerald text-xl" />
+              <FaCalendarAlt className="text-brand text-xl" />
             </div>
           </div>
         </Card>
@@ -116,7 +116,7 @@ export function ActasSenado({ limit = 50 }: ActasSenadoProps) {
               <div className="text-2xl font-bold text-white">{stats.extraordinarias}</div>
             </div>
             <div className="p-3 glass rounded-xl">
-              <FaCalendarAlt className="text-accent-teal text-xl" />
+              <FaCalendarAlt className="text-brand-light text-xl" />
             </div>
           </div>
         </Card>
@@ -135,7 +135,7 @@ export function ActasSenado({ limit = 50 }: ActasSenadoProps) {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Buscar por tipo, asunto o número..."
-                className="w-full pl-10 pr-4 py-2 glass rounded-lg text-white placeholder-secondary/50 focus:ring-2 focus:ring-accent-emerald/50 focus:outline-none"
+                className="w-full pl-10 pr-4 py-2 glass rounded-lg text-white placeholder-secondary/50 focus:ring-2 focus:ring-brand/50 focus:outline-none"
               />
             </div>
           </div>
@@ -146,7 +146,7 @@ export function ActasSenado({ limit = 50 }: ActasSenadoProps) {
             <select
               value={añoSeleccionado || ''}
               onChange={(e) => setAñoSeleccionado(e.target.value ? Number(e.target.value) : null)}
-              className="px-4 py-2 glass rounded-lg text-white focus:ring-2 focus:ring-accent-emerald/50 focus:outline-none"
+              className="px-4 py-2 glass rounded-lg text-white focus:ring-2 focus:ring-brand/50 focus:outline-none"
             >
               <option value="">Todos los años</option>
               {añosDisponibles.map((año) => (
@@ -191,8 +191,8 @@ export function ActasSenado({ limit = 50 }: ActasSenadoProps) {
                         <span
                           className={`px-2 py-1 rounded-md text-xs font-semibold ${
                             acta.tipo?.toLowerCase().includes('ordinaria')
-                              ? 'bg-accent-emerald/20 text-accent-emerald'
-                              : 'bg-accent-teal/20 text-accent-teal'
+                              ? 'bg-brand/20 text-brand'
+                              : 'bg-brand-light/20 text-brand-light'
                           }`}
                         >
                           {acta.tipo || 'Sin tipo'}
@@ -219,7 +219,7 @@ export function ActasSenado({ limit = 50 }: ActasSenadoProps) {
                         href={acta.url_pdf}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-4 py-2 bg-accent-emerald/20 text-accent-emerald rounded-lg hover:bg-accent-emerald/30 transition-colors"
+                        className="flex items-center gap-2 px-4 py-2 bg-brand/20 text-brand rounded-lg hover:bg-brand/30 transition-colors"
                       >
                         <FaFileAlt />
                         <span className="text-sm font-semibold">Ver PDF</span>

@@ -88,7 +88,7 @@ const DolarComponent: React.FC = () => {
       return { label: 'N/A', color: 'text-secondary', icon: null };
     if (current > past) return { label: 'Subió', color: 'text-error', icon: <FaArrowUp /> };
     if (current < past) return { label: 'Bajó', color: 'text-success', icon: <FaArrowDown /> };
-    return { label: 'Estable', color: 'text-accent-emerald', icon: null };
+    return { label: 'Estable', color: 'text-brand', icon: null };
   };
 
   const trend7Days = getTrend(currentRate, rate7DaysAgo);
@@ -103,7 +103,7 @@ const DolarComponent: React.FC = () => {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
-      className="glass-strong border border-white/5 rounded-xl p-5 text-center w-full max-w-7xl transition-all hover:border-accent-emerald/20"
+      className="glass-strong border border-white/5 rounded-xl p-5 text-center w-full max-w-7xl transition-all hover:border-brand/20"
     >
       {/* Botones */}
       <motion.div
@@ -120,8 +120,8 @@ const DolarComponent: React.FC = () => {
             transition={{ type: 'spring', stiffness: 400, damping: 10 }}
             className={`text-xs md:text-sm font-semibold px-3 py-2 rounded-lg transition-all ${
               selectedCurrency === tipo.casa
-                ? 'bg-accent-emerald text-dark shadow-md'
-                : 'glass border border-white/5 text-secondary hover:text-white hover:border-accent-emerald/20'
+                ? 'bg-brand text-dark shadow-md'
+                : 'glass border border-white/5 text-secondary hover:text-white hover:border-brand/20'
             }`}
             onClick={() => setSelectedCurrency(tipo.casa)}
           >
@@ -150,7 +150,7 @@ const DolarComponent: React.FC = () => {
         </motion.p>
       ) : (
         <>
-          <motion.p className="text-3xl md:text-4xl font-extrabold font-mono text-accent-emerald mt-3">
+          <motion.p className="text-3xl md:text-4xl font-extrabold font-mono text-brand mt-3">
             ${currentRate?.toFixed(2)}
           </motion.p>
 

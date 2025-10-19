@@ -38,8 +38,8 @@ export default function RegisterPage() {
   // If already authenticated, show loading
   if (user) {
     return (
-      <div className="min-h-screen bg-dark-bg flex items-center justify-center">
-        <FaSpinner className="animate-spin text-4xl text-accent-emerald" />
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <FaSpinner className="animate-spin text-4xl text-brand" />
       </div>
     );
   }
@@ -126,22 +126,20 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-dark-bg flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-background flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-7xl">
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-white mb-2">Dólar Gaucho</h1>
-          <p className="text-secondary">
-            Crea tu cuenta y accede a funciones exclusivas
-          </p>
+          <p className="text-secondary">Crea tu cuenta y accede a funciones exclusivas</p>
         </div>
 
         <Card variant="elevated" padding="lg">
           {success ? (
             <div className="text-center py-6">
-              <div className="w-16 h-16 bg-accent-emerald/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-brand/20 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg
-                  className="w-8 h-8 text-accent-emerald"
+                  className="w-8 h-8 text-brand"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -159,7 +157,7 @@ export default function RegisterPage() {
                 Tu cuenta ha sido creada exitosamente. Redirigiendo al dashboard...
               </p>
               <Button
-                onClick={() => window.location.href = '/dashboard'}
+                onClick={() => (window.location.href = '/dashboard')}
                 variant="primary"
                 className="w-full"
               >
@@ -210,7 +208,10 @@ export default function RegisterPage() {
 
               {/* Password */}
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-foreground mb-2">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-foreground mb-2"
+                >
                   Contraseña
                 </label>
                 <div className="relative">
@@ -233,7 +234,10 @@ export default function RegisterPage() {
 
               {/* Confirm Password */}
               <div>
-                <label htmlFor="confirmPassword" className="block text-sm font-medium text-foreground mb-2">
+                <label
+                  htmlFor="confirmPassword"
+                  className="block text-sm font-medium text-foreground mb-2"
+                >
                   Confirmar contraseña
                 </label>
                 <div className="relative">
@@ -259,16 +263,16 @@ export default function RegisterPage() {
                     type="checkbox"
                     checked={acceptTerms}
                     onChange={(e) => setAcceptTerms(e.target.checked)}
-                    className="mt-1 w-4 h-4 rounded border-border bg-dark-light text-accent-emerald focus:ring-accent-emerald/50"
+                    className="mt-1 w-4 h-4 rounded border-border bg-dark-light text-brand focus:ring-brand/50"
                     disabled={loading}
                   />
                   <span className="text-sm text-foreground">
                     Acepto los{' '}
-                    <Link href="/terms" className="text-accent-emerald hover:underline">
+                    <Link href="/terms" className="text-brand hover:underline">
                       términos y condiciones
                     </Link>{' '}
                     y la{' '}
-                    <Link href="/privacy" className="text-accent-emerald hover:underline">
+                    <Link href="/privacy" className="text-brand hover:underline">
                       política de privacidad
                     </Link>
                   </span>
@@ -280,7 +284,7 @@ export default function RegisterPage() {
                     type="checkbox"
                     checked={subscribeNewsletter}
                     onChange={(e) => setSubscribeNewsletter(e.target.checked)}
-                    className="mt-1 w-4 h-4 rounded border-border bg-dark-light text-accent-emerald focus:ring-accent-emerald/50"
+                    className="mt-1 w-4 h-4 rounded border-border bg-dark-light text-brand focus:ring-brand/50"
                     disabled={loading}
                   />
                   <span className="text-sm text-secondary">
@@ -297,12 +301,7 @@ export default function RegisterPage() {
               )}
 
               {/* Submit button */}
-              <Button
-                type="submit"
-                variant="primary"
-                className="w-full"
-                disabled={loading}
-              >
+              <Button type="submit" variant="primary" className="w-full" disabled={loading}>
                 {loading ? (
                   <>
                     <FaSpinner className="animate-spin mr-2" />
@@ -323,7 +322,7 @@ export default function RegisterPage() {
               ¿Ya tienes cuenta?{' '}
               <Link
                 href="/login"
-                className="text-accent-emerald hover:text-accent-teal transition-colors font-medium"
+                className="text-brand hover:text-brand-light transition-colors font-medium"
               >
                 Inicia sesión
               </Link>
@@ -333,10 +332,7 @@ export default function RegisterPage() {
 
         {/* Back to home */}
         <div className="mt-4 text-center">
-          <Link
-            href="/"
-            className="text-sm text-secondary hover:text-foreground transition-colors"
-          >
+          <Link href="/" className="text-sm text-secondary hover:text-foreground transition-colors">
             ← Volver al inicio
           </Link>
         </div>

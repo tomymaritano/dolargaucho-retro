@@ -54,7 +54,7 @@ export function Table({
         <table className={`w-full ${className}`}>
           <tbody>
             {Array.from({ length: skeletonRows }).map((_, rowIndex) => (
-              <tr key={rowIndex} className="border-b border-border animate-pulse">
+              <tr key={rowIndex} className="animate-pulse">
                 {Array.from({ length: skeletonCols }).map((_, colIndex) => (
                   <td key={colIndex} className="py-4 px-4">
                     <div className="h-4 bg-white/10 rounded w-full max-w-[120px]" />
@@ -70,7 +70,7 @@ export function Table({
 
   return (
     <div className="overflow-x-auto">
-      <table className={`w-full ${className}`}>{children}</table>
+      <table className={`w-full border-separate border-spacing-0 ${className}`}>{children}</table>
     </div>
   );
 }
@@ -81,7 +81,7 @@ interface TableHeaderProps {
 }
 
 export function TableHeader({ children, className = '' }: TableHeaderProps) {
-  return <thead className={`border-b border-border ${className}`}>{children}</thead>;
+  return <thead className={`border-b border-slate-700/10 ${className}`}>{children}</thead>;
 }
 
 interface TableBodyProps {
@@ -127,8 +127,8 @@ interface TableRowProps {
 }
 
 export function TableRow({ children, className = '', hoverable = true, onClick }: TableRowProps) {
-  const baseClasses = 'border-b border-border';
-  const hoverClasses = hoverable ? 'hover:bg-white/5 transition-colors' : '';
+  const baseClasses = '';
+  const hoverClasses = hoverable ? 'transition-colors' : '';
   const clickClasses = onClick ? 'cursor-pointer' : '';
 
   return (
@@ -166,7 +166,7 @@ export function TableCell({
 
   return (
     <td
-      className={`py-4 px-4 ${alignClasses[align]} ${className}`}
+      className={`py-4 px-4 border-b border-slate-700/10 ${alignClasses[align]} ${className}`}
       style={widthStyle}
       colSpan={colSpan}
     >
@@ -203,9 +203,7 @@ export function TableHeaderCell({
   };
 
   const widthStyle = width ? { width } : undefined;
-  const sortableClasses = sortable
-    ? 'cursor-pointer hover:text-accent-emerald transition-colors'
-    : '';
+  const sortableClasses = sortable ? 'cursor-pointer hover:text-brand transition-colors' : '';
 
   return (
     <th

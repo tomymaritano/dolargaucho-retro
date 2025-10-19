@@ -151,7 +151,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
           // Fetch full user data including preferences (don't wait for it)
           console.log('[AuthContext] Fetching user preferences...');
-          fetchUser().catch(err => {
+          fetchUser().catch((err) => {
             console.warn('[AuthContext] Failed to fetch user preferences:', err);
             // Ignore error - we already have the user
           });
@@ -225,7 +225,7 @@ export function useAuth() {
  * Redirects to login if not authenticated
  */
 export function useRequireAuth() {
-  const { user, loading } = useAuth();
+  const { user, loading, refreshUser } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -234,5 +234,5 @@ export function useRequireAuth() {
     }
   }, [user, loading, router]);
 
-  return { user, loading };
+  return { user, loading, refreshUser };
 }

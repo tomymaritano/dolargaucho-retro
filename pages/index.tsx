@@ -1,24 +1,22 @@
 import React, { Suspense, lazy } from 'react';
 import Hero from '@/components/Hero';
-import { NavbarPro } from '@/components/ui/NavbarPro/NavbarPro';
+import { NavbarFloating } from '@/components/NavbarFloating';
 import Footer from '@/components/Footer';
-import DolarTable from '@/components/DolarTable';
+import { HowItWorksSection } from '@/components/marketing/HowItWorksSection';
+import { ProductShowcase } from '@/components/marketing/ProductShowcase';
+import { DataSourcesSection } from '@/components/marketing/DataSourcesSection';
+import { FinalCTA } from '@/components/marketing/FinalCTA';
 import { FaSpinner } from 'react-icons/fa';
 
-// Lazy load components
+// Lazy load FAQs only
 const Faqs = lazy(() => import('@/components/Faqs'));
-const InflationCalculator = lazy(() => import('@/components/calculadoras/CalculadoraInflacion'));
-const InflacionChart = lazy(() =>
-  import('@/components/charts/InflacionChart').then((m) => ({ default: m.InflacionChart }))
-);
-const CotizacionesInternacionales = lazy(() => import('@/components/CotizacionesInternacionales'));
 
 // Loading component
 const LoadingSpinner = () => (
   <div className="flex justify-center items-center py-12">
     <div className="flex flex-col items-center gap-3">
-      <FaSpinner className="animate-spin text-accent-emerald text-3xl" />
-      <p className="text-secondary text-sm">Cargando datos...</p>
+      <FaSpinner className="animate-spin text-brand text-3xl" />
+      <p className="text-secondary text-sm">Cargando...</p>
     </div>
   </div>
 );
@@ -26,51 +24,32 @@ const LoadingSpinner = () => (
 export default function Home() {
   return (
     <div className="bg-background text-foreground min-h-screen font-sans">
-      <NavbarPro />
+      {/* Floating Navbar */}
+      <NavbarFloating />
+
+      {/* Hero - Product-led with dashboard preview */}
       <Hero />
 
-      {/* Mercado Cambiario */}
-      <section className="max-w-7xl mx-auto px-6 py-16">
-        <div className="mb-10 text-center">
-          <h2 className="text-3xl md:text-4xl font-display font-bold mb-3">
-            <span className="gradient-text">Mercado Cambiario</span>
-          </h2>
-          <p className="text-secondary text-sm">
-            Cotizaciones actualizadas automáticamente cada 30 segundos
-          </p>
-        </div>
+      {/* How It Works - Step by step with visuals */}
+      <HowItWorksSection />
 
-        <DolarTable />
-      </section>
+      {/* Product Showcase - Features with side-by-side layout */}
+      <ProductShowcase />
 
-      {/* Cotizaciones Internacionales */}
-      <section className="max-w-7xl mx-auto px-6 py-16">
-        <Suspense fallback={<LoadingSpinner />}>
-          <CotizacionesInternacionales />
-        </Suspense>
-      </section>
+      {/* Data Sources - Official APIs */}
+      <DataSourcesSection />
 
-      {/* Evolución de la Inflación */}
-      <section className="max-w-7xl mx-auto px-6 py-16">
-        <Suspense fallback={<LoadingSpinner />}>
-          <InflacionChart />
-        </Suspense>
-      </section>
-
-      {/* Calculadora de Inflación */}
-      <section className="max-w-7xl mx-auto px-6 py-16">
-        <Suspense fallback={<LoadingSpinner />}>
-          <InflationCalculator />
-        </Suspense>
-      </section>
+      {/* Final CTA - Conversion section */}
+      <FinalCTA />
 
       {/* FAQs */}
-      <section>
+      <section id="faqs">
         <Suspense fallback={<LoadingSpinner />}>
           <Faqs />
         </Suspense>
       </section>
 
+      {/* Footer with tech stack */}
       <Footer />
     </div>
   );

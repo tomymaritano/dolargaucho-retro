@@ -65,30 +65,30 @@ export function CalculadoraActivos({ showHeader = true }: CalculadoraActivosProp
           </div>
         )}
 
-      {/* Formulario */}
-      <Card variant="elevated" padding="lg">
-        <FormularioActivo onCalcular={handleCalcular} />
-      </Card>
-
-      {/* Loading State */}
-      {isLoading && (
+        {/* Formulario */}
         <Card variant="elevated" padding="lg">
-          <div className="flex flex-col items-center justify-center py-12 gap-4">
-            <FaSpinner className="animate-spin text-4xl text-accent-emerald" />
-            <p className="text-secondary">Calculando rentabilidad...</p>
-          </div>
+          <FormularioActivo onCalcular={handleCalcular} />
         </Card>
-      )}
 
-      {/* Resultados */}
-      {!isLoading && resultado && activo && (
-        <ResultadosActivo
-          resultado={resultado}
-          precioCompra={activo.precioCompra}
-          precioVenta={activo.precioVenta}
-          moneda={activo.monedaCompra}
-        />
-      )}
+        {/* Loading State */}
+        {isLoading && (
+          <Card variant="elevated" padding="lg">
+            <div className="flex flex-col items-center justify-center py-12 gap-4">
+              <FaSpinner className="animate-spin text-4xl text-brand" />
+              <p className="text-secondary">Calculando rentabilidad...</p>
+            </div>
+          </Card>
+        )}
+
+        {/* Resultados */}
+        {!isLoading && resultado && activo && (
+          <ResultadosActivo
+            resultado={resultado}
+            precioCompra={activo.precioCompra}
+            precioVenta={activo.precioVenta}
+            moneda={activo.monedaCompra}
+          />
+        )}
       </div>
     </div>
   );

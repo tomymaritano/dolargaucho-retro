@@ -9,16 +9,21 @@ Chart.register(...registerables);
 
 export default function FinancialCalculator() {
   const { data: dolar = [], isLoading: dolarLoading, error: dolarError } = useDolarQuery();
-  const { data: inflacionData, isLoading: inflacionLoading, error: inflacionError } = useInflacionInteranual();
+  const {
+    data: inflacionData,
+    isLoading: inflacionLoading,
+    error: inflacionError,
+  } = useInflacionInteranual();
   const [amount, setAmount] = useState<string>('');
   const [convertedUSD, setConvertedUSD] = useState<number | null>(null);
   const [inflationAdjusted, setInflationAdjusted] = useState<number | null>(null);
   const [futureValues, setFutureValues] = useState<number[]>([]);
 
   // Get latest inflation value from hook
-  const inflationInterannual = inflacionData && inflacionData.length > 0
-    ? inflacionData[inflacionData.length - 1].valor
-    : null;
+  const inflationInterannual =
+    inflacionData && inflacionData.length > 0
+      ? inflacionData[inflacionData.length - 1].valor
+      : null;
 
   // 🔥 Función para calcular valores y generar el gráfico
   const calculateResults = () => {
@@ -61,7 +66,7 @@ export default function FinancialCalculator() {
     <div className="mx-auto text-foreground p-6 md:p-10 rounded-2xl max-w-7xl">
       <div className="text-center mb-8">
         <div className="inline-flex items-center gap-2 mb-4">
-          <FaChartLine className="text-accent-emerald text-xl" />
+          <FaChartLine className="text-brand text-xl" />
           <span className="text-xs uppercase tracking-wider text-secondary font-semibold">
             Herramienta
           </span>
@@ -76,12 +81,12 @@ export default function FinancialCalculator() {
 
       {/* Estado de carga */}
       {dolarLoading && (
-        <p className="text-sm text-accent-emerald text-center glass-strong p-4 rounded-xl border border-white/5">
+        <p className="text-sm text-brand text-center glass-strong p-4 rounded-xl border border-white/5">
           Cargando cotización del dólar...
         </p>
       )}
       {inflacionLoading && (
-        <p className="text-sm text-accent-emerald text-center glass-strong p-4 rounded-xl border border-white/5">
+        <p className="text-sm text-brand text-center glass-strong p-4 rounded-xl border border-white/5">
           Cargando inflación...
         </p>
       )}
@@ -98,21 +103,21 @@ export default function FinancialCalculator() {
 
       {!dolarLoading && !dolarError && !inflacionLoading && !inflacionError && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-          <div className="p-5 glass-strong rounded-xl border border-accent-emerald/10 text-center">
+          <div className="p-5 glass-strong rounded-xl border border-brand/10 text-center">
             <p className="text-xs uppercase tracking-wider text-secondary mb-2">
               Cotización USD Oficial
             </p>
-            <p className="text-3xl font-mono font-bold text-accent-emerald">
+            <p className="text-3xl font-mono font-bold text-brand">
               {dolar.find((d) => d.nombre === 'Oficial')?.venta
                 ? `$${dolar.find((d) => d.nombre === 'Oficial')?.venta.toFixed(2)}`
                 : 'N/A'}
             </p>
           </div>
-          <div className="p-5 glass-strong rounded-xl border border-accent-emerald/10 text-center">
+          <div className="p-5 glass-strong rounded-xl border border-brand/10 text-center">
             <p className="text-xs uppercase tracking-wider text-secondary mb-2">
               Inflación Interanual
             </p>
-            <p className="text-3xl font-mono font-bold text-accent-teal">
+            <p className="text-3xl font-mono font-bold text-brand-light">
               {inflationInterannual ? `${inflationInterannual.toFixed(2)}%` : 'N/A'}
             </p>
           </div>
@@ -128,7 +133,7 @@ export default function FinancialCalculator() {
           type="number"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          className="w-full p-3 text-lg font-mono font-semibold bg-panel border border-white/5 rounded-lg focus:ring-1 focus:ring-accent-emerald focus:outline-none transition-all text-foreground"
+          className="w-full p-3 text-lg font-mono font-semibold bg-panel border border-white/5 rounded-lg focus:ring-1 focus:ring-brand focus:outline-none transition-all text-foreground"
           placeholder="Ej: 100000"
         />
       </div>
@@ -136,7 +141,7 @@ export default function FinancialCalculator() {
       {/* Botón de cálculo */}
       <button
         onClick={calculateResults}
-        className="w-full bg-accent-emerald hover:bg-accent-teal text-background-dark py-3 rounded-lg font-semibold transition-all text-sm mb-6"
+        className="w-full bg-brand hover:bg-brand-light text-background-dark py-3 rounded-lg font-semibold transition-all text-sm mb-6"
       >
         Calcular
       </button>
@@ -144,22 +149,20 @@ export default function FinancialCalculator() {
       {/* Resultados */}
       <div className="space-y-4">
         {convertedUSD !== null && (
-          <div className="p-5 glass-strong rounded-xl border border-accent-emerald/20 text-center">
+          <div className="p-5 glass-strong rounded-xl border border-brand/20 text-center">
             <p className="text-xs uppercase tracking-wider text-secondary mb-2">
               Equivalente en USD
             </p>
-            <p className="text-3xl font-mono font-bold text-accent-emerald">
-              ${convertedUSD.toFixed(2)}
-            </p>
+            <p className="text-3xl font-mono font-bold text-brand">${convertedUSD.toFixed(2)}</p>
           </div>
         )}
 
         {inflationAdjusted !== null && (
-          <div className="p-5 glass-strong rounded-xl border border-accent-teal/20 text-center">
+          <div className="p-5 glass-strong rounded-xl border border-brand-light/20 text-center">
             <p className="text-xs uppercase tracking-wider text-secondary mb-2">
               Valor Ajustado por Inflación
             </p>
-            <p className="text-3xl font-mono font-bold text-accent-teal">
+            <p className="text-3xl font-mono font-bold text-brand-light">
               ARS {inflationAdjusted.toFixed(2)}
             </p>
           </div>

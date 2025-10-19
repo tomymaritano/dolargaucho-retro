@@ -91,7 +91,7 @@ export function AlertsList({ alertas, onEliminar, onToggle, getValorActual }: Al
             variant="elevated"
             padding="lg"
             className={`transition-all ${
-              isDisparada ? 'border-2 border-accent-emerald' : isPausada ? 'opacity-60' : ''
+              isDisparada ? 'border-2 border-brand' : isPausada ? 'opacity-60' : ''
             }`}
           >
             <div className="flex items-start justify-between gap-4">
@@ -100,20 +100,12 @@ export function AlertsList({ alertas, onEliminar, onToggle, getValorActual }: Al
                 <div className="flex items-start gap-3 mb-3">
                   <div
                     className={`p-3 rounded-lg ${
-                      isDisparada
-                        ? 'bg-accent-emerald/20'
-                        : isPausada
-                          ? 'bg-white/5'
-                          : 'bg-white/10'
+                      isDisparada ? 'bg-brand/20' : isPausada ? 'bg-white/5' : 'bg-white/10'
                     }`}
                   >
                     <Icon
                       className={`text-xl ${
-                        isDisparada
-                          ? 'text-accent-emerald'
-                          : isPausada
-                            ? 'text-secondary'
-                            : 'text-white'
+                        isDisparada ? 'text-brand' : isPausada ? 'text-secondary' : 'text-white'
                       }`}
                     />
                   </div>
@@ -134,7 +126,7 @@ export function AlertsList({ alertas, onEliminar, onToggle, getValorActual }: Al
                 {/* Estado y valor actual */}
                 <div className="flex items-center gap-4 text-sm">
                   {isDisparada && (
-                    <div className="flex items-center gap-2 text-accent-emerald">
+                    <div className="flex items-center gap-2 text-brand">
                       <FaCheckCircle />
                       <span className="font-semibold">¡Alerta disparada!</span>
                       <span className="text-secondary">

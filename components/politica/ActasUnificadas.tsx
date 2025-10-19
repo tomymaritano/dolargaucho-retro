@@ -102,7 +102,9 @@ export function ActasUnificadas({ limit = 50 }: ActasUnificadasProps) {
     }
 
     // Sort by date descending
-    return filtered.sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime()).slice(0, limit);
+    return filtered
+      .sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime())
+      .slice(0, limit);
   }, [actas, searchTerm, limit]);
 
   // Statistics
@@ -129,9 +131,9 @@ export function ActasUnificadas({ limit = 50 }: ActasUnificadasProps) {
   const getCategoriaColor = (categoria: string) => {
     switch (categoria) {
       case 'Ordinaria':
-        return 'bg-accent-emerald/20 text-accent-emerald border-accent-emerald/30';
+        return 'bg-brand/20 text-brand border-brand/30';
       case 'Extraordinaria':
-        return 'bg-accent-teal/20 text-accent-teal border-accent-teal/30';
+        return 'bg-brand-light/20 text-brand-light border-brand-light/30';
       case 'Preparatoria':
         return 'bg-accent-blue/20 text-accent-blue border-accent-blue/30';
       case 'Especial':
@@ -146,7 +148,7 @@ export function ActasUnificadas({ limit = 50 }: ActasUnificadasProps) {
       <Card variant="elevated" padding="lg">
         <div className="flex items-center justify-center py-12">
           <div className="text-center">
-            <FaSpinner className="animate-spin text-4xl text-accent-emerald mx-auto mb-4" />
+            <FaSpinner className="animate-spin text-4xl text-brand mx-auto mb-4" />
             <p className="text-secondary">Cargando actas...</p>
           </div>
         </div>
@@ -161,7 +163,7 @@ export function ActasUnificadas({ limit = 50 }: ActasUnificadasProps) {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
             <h2 className="text-2xl font-bold text-foreground flex items-center gap-2 mb-2">
-              <FaFileAlt className="text-accent-emerald" />
+              <FaFileAlt className="text-brand" />
               Actas del Congreso
             </h2>
             <p className="text-sm text-secondary">
@@ -179,7 +181,7 @@ export function ActasUnificadas({ limit = 50 }: ActasUnificadasProps) {
               }}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium transition-all ${
                 camara === 'senado'
-                  ? 'bg-accent-emerald text-dark-bg shadow-lg'
+                  ? 'bg-brand text-background shadow-lg'
                   : 'text-foreground hover:bg-white/5'
               }`}
             >
@@ -194,7 +196,7 @@ export function ActasUnificadas({ limit = 50 }: ActasUnificadasProps) {
               }}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium transition-all ${
                 camara === 'diputados'
-                  ? 'bg-accent-emerald text-dark-bg shadow-lg'
+                  ? 'bg-brand text-background shadow-lg'
                   : 'text-foreground hover:bg-white/5'
               }`}
             >
@@ -209,7 +211,7 @@ export function ActasUnificadas({ limit = 50 }: ActasUnificadasProps) {
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         <Card variant="elevated" padding="md">
           <div className="text-center">
-            <FaFileAlt className="text-accent-emerald text-2xl mx-auto mb-2" />
+            <FaFileAlt className="text-brand text-2xl mx-auto mb-2" />
             <div className="text-2xl font-bold text-foreground">{stats.total}</div>
             <div className="text-xs text-secondary mt-1">Total</div>
           </div>
@@ -217,7 +219,7 @@ export function ActasUnificadas({ limit = 50 }: ActasUnificadasProps) {
 
         <Card variant="elevated" padding="md">
           <div className="text-center">
-            <FaCalendarAlt className="text-accent-emerald text-2xl mx-auto mb-2" />
+            <FaCalendarAlt className="text-brand text-2xl mx-auto mb-2" />
             <div className="text-2xl font-bold text-foreground">{stats.ordinarias}</div>
             <div className="text-xs text-secondary mt-1">Ordinarias</div>
           </div>
@@ -225,7 +227,7 @@ export function ActasUnificadas({ limit = 50 }: ActasUnificadasProps) {
 
         <Card variant="elevated" padding="md">
           <div className="text-center">
-            <FaCalendarAlt className="text-accent-teal text-2xl mx-auto mb-2" />
+            <FaCalendarAlt className="text-brand-light text-2xl mx-auto mb-2" />
             <div className="text-2xl font-bold text-foreground">{stats.extraordinarias}</div>
             <div className="text-xs text-secondary mt-1">Extraordinarias</div>
           </div>
@@ -245,18 +247,20 @@ export function ActasUnificadas({ limit = 50 }: ActasUnificadasProps) {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Buscar por tipo, periodo, orden del día..."
-                className="w-full pl-10 pr-4 py-2.5 bg-panel border border-border rounded-lg text-foreground placeholder-secondary focus:outline-none focus:border-accent-emerald/50 focus:ring-2 focus:ring-accent-emerald/20 transition-all"
+                className="w-full pl-10 pr-4 py-2.5 bg-panel border border-border rounded-lg text-foreground placeholder-secondary focus:outline-none focus:border-brand/50 focus:ring-2 focus:ring-brand/20 transition-all"
               />
             </div>
           </div>
 
           {/* Year Filter */}
           <div>
-            <label className="block text-sm font-medium text-foreground mb-2">Filtrar por año</label>
+            <label className="block text-sm font-medium text-foreground mb-2">
+              Filtrar por año
+            </label>
             <select
               value={añoSeleccionado || ''}
               onChange={(e) => setAñoSeleccionado(e.target.value ? Number(e.target.value) : null)}
-              className="w-full px-4 py-2.5 bg-panel border border-border rounded-lg text-foreground focus:outline-none focus:border-accent-emerald/50 focus:ring-2 focus:ring-accent-emerald/20 transition-all"
+              className="w-full px-4 py-2.5 bg-panel border border-border rounded-lg text-foreground focus:outline-none focus:border-brand/50 focus:ring-2 focus:ring-brand/20 transition-all"
             >
               <option value="">Todos los años</option>
               {añosDisponibles.map((año) => (
@@ -271,8 +275,7 @@ export function ActasUnificadas({ limit = 50 }: ActasUnificadasProps) {
         {/* Results count */}
         <div className="mt-4 pt-4 border-t border-border">
           <p className="text-sm text-secondary">
-            Mostrando{' '}
-            <span className="text-accent-emerald font-semibold">{actasFiltradas.length}</span> de{' '}
+            Mostrando <span className="text-brand font-semibold">{actasFiltradas.length}</span> de{' '}
             <span className="text-foreground font-semibold">{actas?.length || 0}</span> actas del{' '}
             {camara === 'senado' ? 'Senado' : 'Cámara de Diputados'}
             {añoSeleccionado && ` del año ${añoSeleccionado}`}
@@ -327,7 +330,9 @@ export function ActasUnificadas({ limit = 50 }: ActasUnificadasProps) {
                           })}
                         </td>
                         <td className="px-4 py-3">
-                          <span className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium border ${colorClass}`}>
+                          <span
+                            className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium border ${colorClass}`}
+                          >
                             {categoria}
                           </span>
                         </td>
@@ -348,7 +353,7 @@ export function ActasUnificadas({ limit = 50 }: ActasUnificadasProps) {
                                 href={acta.url_pdf}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 px-2 py-1 text-xs text-foreground hover:text-accent-emerald transition-colors"
+                                className="inline-flex items-center gap-1.5 px-2 py-1 text-xs text-foreground hover:text-brand transition-colors"
                                 onClick={(e) => e.stopPropagation()}
                                 title="Ver PDF"
                               >
@@ -361,8 +366,14 @@ export function ActasUnificadas({ limit = 50 }: ActasUnificadasProps) {
                               className="inline-flex items-center gap-1.5 px-2 py-1 text-xs text-secondary hover:text-foreground transition-colors"
                               title={isExpanded ? 'Ocultar detalles' : 'Ver detalles'}
                             >
-                              <span className="hidden sm:inline">{isExpanded ? 'Ocultar' : 'Ver más'}</span>
-                              {isExpanded ? <FaChevronUp className="text-xs" /> : <FaChevronDown className="text-xs" />}
+                              <span className="hidden sm:inline">
+                                {isExpanded ? 'Ocultar' : 'Ver más'}
+                              </span>
+                              {isExpanded ? (
+                                <FaChevronUp className="text-xs" />
+                              ) : (
+                                <FaChevronDown className="text-xs" />
+                              )}
                             </button>
                           </div>
                         </td>
@@ -371,7 +382,7 @@ export function ActasUnificadas({ limit = 50 }: ActasUnificadasProps) {
                       {/* Expanded row */}
                       {isExpanded && (
                         <tr>
-                          <td colSpan={5} className="px-4 py-4 bg-dark-bg/50">
+                          <td colSpan={5} className="px-4 py-4 bg-background/50">
                             <div className="space-y-4">
                               {/* Orden del día */}
                               {acta.orden_dia && (
@@ -379,32 +390,47 @@ export function ActasUnificadas({ limit = 50 }: ActasUnificadasProps) {
                                   <h5 className="text-xs font-semibold text-secondary uppercase tracking-wider mb-2">
                                     Orden del Día
                                   </h5>
-                                  <p className="text-sm text-foreground leading-relaxed">{acta.orden_dia}</p>
+                                  <p className="text-sm text-foreground leading-relaxed">
+                                    {acta.orden_dia}
+                                  </p>
                                 </div>
                               )}
 
                               {/* Additional details grid */}
                               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
                                 <div>
-                                  <p className="text-xs text-secondary uppercase tracking-wider mb-1">Fecha</p>
-                                  <p className="text-sm text-foreground">{formatearFecha(acta.fecha)}</p>
+                                  <p className="text-xs text-secondary uppercase tracking-wider mb-1">
+                                    Fecha
+                                  </p>
+                                  <p className="text-sm text-foreground">
+                                    {formatearFecha(acta.fecha)}
+                                  </p>
                                 </div>
 
                                 <div>
-                                  <p className="text-xs text-secondary uppercase tracking-wider mb-1">Tipo de Sesión</p>
+                                  <p className="text-xs text-secondary uppercase tracking-wider mb-1">
+                                    Tipo de Sesión
+                                  </p>
                                   <p className="text-sm text-foreground">{categoria}</p>
                                 </div>
 
-                                {acta.numero_reunion !== undefined && acta.numero_reunion !== null && (
-                                  <div>
-                                    <p className="text-xs text-secondary uppercase tracking-wider mb-1">Número de Reunión</p>
-                                    <p className="text-sm text-foreground">Nº {acta.numero_reunion}</p>
-                                  </div>
-                                )}
+                                {acta.numero_reunion !== undefined &&
+                                  acta.numero_reunion !== null && (
+                                    <div>
+                                      <p className="text-xs text-secondary uppercase tracking-wider mb-1">
+                                        Número de Reunión
+                                      </p>
+                                      <p className="text-sm text-foreground">
+                                        Nº {acta.numero_reunion}
+                                      </p>
+                                    </div>
+                                  )}
 
                                 {acta.periodo && acta.periodo.trim() !== '' && (
                                   <div>
-                                    <p className="text-xs text-secondary uppercase tracking-wider mb-1">Periodo Legislativo</p>
+                                    <p className="text-xs text-secondary uppercase tracking-wider mb-1">
+                                      Periodo Legislativo
+                                    </p>
                                     <p className="text-sm text-foreground">{acta.periodo}</p>
                                   </div>
                                 )}
@@ -417,7 +443,7 @@ export function ActasUnificadas({ limit = 50 }: ActasUnificadasProps) {
                                     href={acta.url_pdf}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-2 text-sm text-accent-emerald hover:underline"
+                                    className="inline-flex items-center gap-2 text-sm text-brand hover:underline"
                                     onClick={(e) => e.stopPropagation()}
                                   >
                                     <FaExternalLinkAlt className="text-xs" />

@@ -10,38 +10,36 @@ export default function Custom404() {
           {/* Número 404 */}
           <div className="mb-6">
             <h1 className="text-9xl font-bold gradient-text mb-4">404</h1>
-            <div className="w-20 h-1 bg-gradient-to-r from-accent-emerald to-accent-teal mx-auto rounded-full"></div>
+            <div className="w-20 h-1 bg-gradient-to-r from-brand to-brand-light mx-auto rounded-full"></div>
           </div>
 
           {/* Mensaje */}
           <div className="mb-8">
-            <h2 className="text-3xl font-bold text-foreground mb-3">
-              Página no encontrada
-            </h2>
+            <h2 className="text-3xl font-bold text-foreground mb-3">Página no encontrada</h2>
             <p className="text-secondary text-lg leading-relaxed">
               La página que estás buscando no existe o fue movida a otra ubicación.
             </p>
           </div>
 
           {/* Ilustración decorativa */}
-          <div className="mb-8 flex items-center justify-center gap-2 text-accent-emerald/30">
-            <div className="w-16 h-1 bg-accent-emerald/30 rounded-full"></div>
+          <div className="mb-8 flex items-center justify-center gap-2 text-brand/30">
+            <div className="w-16 h-1 bg-brand/30 rounded-full"></div>
             <FaSearch className="text-4xl" />
-            <div className="w-16 h-1 bg-accent-emerald/30 rounded-full"></div>
+            <div className="w-16 h-1 bg-brand/30 rounded-full"></div>
           </div>
 
           {/* Acciones */}
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/"
-              className="flex items-center justify-center gap-2 px-6 py-3 bg-accent-emerald hover:bg-accent-teal text-background-dark font-semibold rounded-lg transition-all active:scale-[0.98]"
+              className="flex items-center justify-center gap-2 px-6 py-3 bg-brand hover:bg-brand-light text-background-dark font-semibold rounded-lg transition-all active:scale-[0.98]"
             >
               <FaHome />
               Ir al inicio
             </Link>
             <button
               onClick={() => window.history.back()}
-              className="flex items-center justify-center gap-2 px-6 py-3 bg-panel border border-border hover:bg-accent-emerald/10 hover:border-accent-emerald text-foreground font-semibold rounded-lg transition-all active:scale-[0.98]"
+              className="flex items-center justify-center gap-2 px-6 py-3 bg-panel border border-border hover:bg-brand/10 hover:border-brand text-foreground font-semibold rounded-lg transition-all active:scale-[0.98]"
             >
               <FaArrowLeft />
               Volver atrás
@@ -52,24 +50,15 @@ export default function Custom404() {
           <div className="mt-8 pt-6 border-t border-border">
             <p className="text-sm text-secondary mb-3">Enlaces útiles:</p>
             <div className="flex flex-wrap gap-3 justify-center text-sm">
-              <Link
-                href="/dashboard"
-                className="text-accent-emerald hover:underline"
-              >
+              <Link href="/dashboard" className="text-brand hover:underline">
                 Dashboard
               </Link>
               <span className="text-border">•</span>
-              <Link
-                href="/dashboard/calculadoras"
-                className="text-accent-emerald hover:underline"
-              >
+              <Link href="/dashboard/calculadoras" className="text-brand hover:underline">
                 Calculadoras
               </Link>
               <span className="text-border">•</span>
-              <Link
-                href="/dashboard/favoritos"
-                className="text-accent-emerald hover:underline"
-              >
+              <Link href="/dashboard/favoritos" className="text-brand hover:underline">
                 Favoritos
               </Link>
             </div>

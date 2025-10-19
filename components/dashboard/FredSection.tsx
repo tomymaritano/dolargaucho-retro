@@ -76,38 +76,32 @@ export function FredSection({
   }
 
   return (
-    <Card
-      variant="elevated"
-      padding="lg"
-      className="mt-6 bg-gradient-to-br from-blue-500/5 to-indigo-500/5 border-blue-500/20"
-    >
-      <Card.Header>
+    <Card variant="outlined" padding="none">
+      <div className="p-6 pb-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-blue-500/20">
-              <FaUniversity className="text-xl text-blue-400" />
-            </div>
+            <FaUniversity className="text-xl text-blue-400" />
             <div>
-              <Card.Title className="mb-0">Datos Economicos USA</Card.Title>
+              <h2 className="text-xl font-bold text-foreground">Datos Económicos USA</h2>
               <p className="text-xs text-secondary mt-1">Reserva Federal (FRED)</p>
             </div>
           </div>
           <button
             onClick={onToggleCharts}
-            className="px-4 py-2 rounded-lg bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 font-semibold text-xs transition-all flex items-center gap-2"
+            className="px-4 py-2 rounded-lg text-blue-400 font-semibold text-xs transition-all flex items-center gap-2 hover:text-blue-300"
           >
             <FaChartLine />
-            {showFredCharts ? 'Ocultar Graficos' : 'Ver Graficos'}
+            {showFredCharts ? 'Ocultar Gráficos' : 'Ver Gráficos'}
           </button>
         </div>
-      </Card.Header>
+      </div>
 
-      <Card.Content>
+      <div className="p-6">
         {/* Quick Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {/* FED Rate */}
           <div
-            className="p-4 rounded-lg glass border border-border hover:border-blue-400/30 transition-all cursor-pointer"
+            className="p-4 rounded-lg bg-panel transition-all cursor-pointer hover:bg-panel-hover"
             onClick={onToggleCharts}
           >
             <p className="text-xs text-secondary mb-2">Tasa FED</p>
@@ -133,7 +127,7 @@ export function FredSection({
 
           {/* Inflation */}
           <div
-            className="p-4 rounded-lg glass border border-border hover:border-blue-400/30 transition-all cursor-pointer"
+            className="p-4 rounded-lg bg-panel transition-all cursor-pointer hover:bg-panel-hover"
             onClick={onToggleCharts}
           >
             <p className="text-xs text-secondary mb-2">Inflacion USA</p>
@@ -145,7 +139,7 @@ export function FredSection({
 
           {/* GDP */}
           <div
-            className="p-4 rounded-lg glass border border-border hover:border-blue-400/30 transition-all cursor-pointer"
+            className="p-4 rounded-lg bg-panel transition-all cursor-pointer hover:bg-panel-hover"
             onClick={onToggleCharts}
           >
             <p className="text-xs text-secondary mb-2">PIB USA</p>
@@ -158,7 +152,7 @@ export function FredSection({
 
           {/* Unemployment */}
           <div
-            className="p-4 rounded-lg glass border border-border hover:border-blue-400/30 transition-all cursor-pointer"
+            className="p-4 rounded-lg bg-panel transition-all cursor-pointer hover:bg-panel-hover"
             onClick={onToggleCharts}
           >
             <p className="text-xs text-secondary mb-2">Desempleo</p>
@@ -185,7 +179,7 @@ export function FredSection({
 
         {/* Interactive Charts */}
         {showFredCharts && (
-          <div className="mt-6 pt-6 border-t border-border">
+          <div className="mt-6 pt-6">
             <h3 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
               <FaChartLine className="text-blue-400" />
               Evolucion Historica (ultimos 12 meses)
@@ -193,7 +187,7 @@ export function FredSection({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* FED Rate Chart */}
               {fredData.federalFundsRate?.data && (
-                <div className="p-4 rounded-lg glass border border-border">
+                <div className="p-4 rounded-lg bg-panel">
                   <div className="flex items-center justify-between mb-3">
                     <h4 className="text-xs font-semibold text-secondary flex-1">
                       <div className="mb-1">Tasa de Interes FED</div>
@@ -208,8 +202,8 @@ export function FredSection({
                       }}
                       className={`p-1.5 rounded-lg transition-all ${
                         favoriteChartIds.includes('fred-rate')
-                          ? 'bg-accent-emerald/20 text-accent-emerald'
-                          : 'glass text-secondary hover:text-accent-emerald hover:bg-white/5'
+                          ? 'bg-brand/20 text-brand'
+                          : 'text-secondary hover:text-brand'
                       }`}
                       aria-label={
                         favoriteChartIds.includes('fred-rate')
@@ -240,7 +234,7 @@ export function FredSection({
 
               {/* CPI Chart */}
               {fredData.inflationCPI?.data && (
-                <div className="p-4 rounded-lg glass border border-border">
+                <div className="p-4 rounded-lg bg-panel">
                   <div className="flex items-center justify-between mb-3">
                     <h4 className="text-xs font-semibold text-secondary flex-1">
                       <div className="mb-1">Indice de Precios (CPI)</div>
@@ -255,8 +249,8 @@ export function FredSection({
                       }}
                       className={`p-1.5 rounded-lg transition-all ${
                         favoriteChartIds.includes('fred-cpi')
-                          ? 'bg-accent-emerald/20 text-accent-emerald'
-                          : 'glass text-secondary hover:text-accent-emerald hover:bg-white/5'
+                          ? 'bg-brand/20 text-brand'
+                          : 'text-secondary hover:text-brand'
                       }`}
                       aria-label={
                         favoriteChartIds.includes('fred-cpi')
@@ -287,7 +281,7 @@ export function FredSection({
 
               {/* Unemployment Chart */}
               {fredData.unemploymentRate?.data && (
-                <div className="p-4 rounded-lg glass border border-border">
+                <div className="p-4 rounded-lg bg-panel">
                   <div className="flex items-center justify-between mb-3">
                     <h4 className="text-xs font-semibold text-secondary flex-1">
                       <div className="mb-1">Tasa de Desempleo</div>
@@ -302,8 +296,8 @@ export function FredSection({
                       }}
                       className={`p-1.5 rounded-lg transition-all ${
                         favoriteChartIds.includes('fred-unemployment')
-                          ? 'bg-accent-emerald/20 text-accent-emerald'
-                          : 'glass text-secondary hover:text-accent-emerald hover:bg-white/5'
+                          ? 'bg-brand/20 text-brand'
+                          : 'text-secondary hover:text-brand'
                       }`}
                       aria-label={
                         favoriteChartIds.includes('fred-unemployment')
@@ -334,7 +328,7 @@ export function FredSection({
 
               {/* Treasury 10Y Chart */}
               {fredData.treasury10y?.data && (
-                <div className="p-4 rounded-lg glass border border-border">
+                <div className="p-4 rounded-lg bg-panel">
                   <div className="flex items-center justify-between mb-3">
                     <h4 className="text-xs font-semibold text-secondary flex-1">
                       <div className="mb-1">Bonos del Tesoro 10 anos</div>
@@ -349,8 +343,8 @@ export function FredSection({
                       }}
                       className={`p-1.5 rounded-lg transition-all ${
                         favoriteChartIds.includes('fred-treasury')
-                          ? 'bg-accent-emerald/20 text-accent-emerald'
-                          : 'glass text-secondary hover:text-accent-emerald hover:bg-white/5'
+                          ? 'bg-brand/20 text-brand'
+                          : 'text-secondary hover:text-brand'
                       }`}
                       aria-label={
                         favoriteChartIds.includes('fred-treasury')
@@ -383,7 +377,7 @@ export function FredSection({
         )}
 
         {/* Info Footer */}
-        <div className="mt-4 pt-4 border-t border-border">
+        <div className="mt-4 pt-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <p className="text-xs text-secondary">
               <strong className="text-foreground">FRED</strong> (Federal Reserve Economic Data) -
@@ -399,13 +393,13 @@ export function FredSection({
               href="https://fred.stlouisfed.org"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-shrink-0 px-4 py-2 rounded-lg bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 font-semibold text-xs transition-all flex items-center gap-2"
+              className="flex-shrink-0 px-4 py-2 rounded-lg text-blue-400 font-semibold text-xs transition-all flex items-center gap-2 hover:text-blue-300"
             >
               Explorar FRED →
             </a>
           </div>
         </div>
-      </Card.Content>
+      </div>
     </Card>
   );
 }

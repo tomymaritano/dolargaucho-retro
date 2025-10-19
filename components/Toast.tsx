@@ -31,7 +31,7 @@ const Toast: React.FC<ToastProps> = ({
   const getIcon = () => {
     switch (type) {
       case 'success':
-        return <FaCheckCircle className="text-accent-emerald text-xl" />;
+        return <FaCheckCircle className="text-brand text-xl" />;
       case 'error':
         return <FaExclamationCircle className="text-error text-xl" />;
       case 'info':
@@ -42,7 +42,7 @@ const Toast: React.FC<ToastProps> = ({
   const getBgColor = () => {
     switch (type) {
       case 'success':
-        return 'bg-white/95 dark:bg-dark-light/95 border-accent-emerald/30';
+        return 'bg-white/95 dark:bg-dark-light/95 border-brand/30';
       case 'error':
         return 'bg-white/95 dark:bg-dark-light/95 border-error/30';
       case 'info':

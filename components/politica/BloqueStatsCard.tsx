@@ -13,7 +13,7 @@ export function BloqueStatsCard() {
     return (
       <Card variant="elevated" padding="lg">
         <div className="flex items-center justify-center py-8">
-          <FaSpinner className="animate-spin text-accent-emerald text-3xl" />
+          <FaSpinner className="animate-spin text-brand text-3xl" />
         </div>
       </Card>
     );
@@ -23,7 +23,7 @@ export function BloqueStatsCard() {
     return (
       <Card variant="elevated" padding="lg">
         <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
-          <FaUsers className="text-accent-emerald" />
+          <FaUsers className="text-brand" />
           Composición por Bloques Políticos
         </h3>
         <p className="text-secondary text-sm">No hay datos disponibles</p>
@@ -46,14 +46,14 @@ export function BloqueStatsCard() {
 
   // Color palette for top blocks
   const colors = [
-    'from-accent-emerald to-accent-teal',
-    'from-accent-teal to-accent-blue',
+    'from-brand to-brand-light',
+    'from-brand-light to-accent-blue',
     'from-accent-blue to-accent-purple',
     'from-accent-purple to-accent-pink',
     'from-accent-pink to-accent-orange',
     'from-accent-orange to-accent-yellow',
-    'from-accent-yellow to-accent-emerald',
-    'from-secondary to-accent-emerald',
+    'from-accent-yellow to-brand',
+    'from-secondary to-brand',
   ];
 
   return (
@@ -62,11 +62,11 @@ export function BloqueStatsCard() {
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-lg font-semibold text-foreground flex items-center gap-2">
-            <FaChartPie className="text-accent-emerald" />
+            <FaChartPie className="text-brand" />
             Composición por Bloques
           </h3>
           <div className="text-right">
-            <p className="text-2xl font-bold text-accent-emerald">{sortedStats.length}</p>
+            <p className="text-2xl font-bold text-brand">{sortedStats.length}</p>
             <p className="text-xs text-secondary">Bloques</p>
           </div>
         </div>
@@ -96,7 +96,7 @@ export function BloqueStatsCard() {
             return (
               <div
                 key={`${stat.bloque}-${index}`}
-                className="p-3 rounded-lg bg-panel border border-border hover:border-accent-emerald/30 transition-all"
+                className="p-3 rounded-lg bg-panel border border-border hover:border-brand/30 transition-all"
               >
                 {/* Bloque info */}
                 <div className="flex items-center justify-between mb-2">
@@ -107,9 +107,7 @@ export function BloqueStatsCard() {
                       {index + 1}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-foreground font-medium text-sm truncate">
-                        {stat.bloque}
-                      </p>
+                      <p className="text-foreground font-medium text-sm truncate">{stat.bloque}</p>
                       <p className="text-xs text-secondary">
                         {stat.senadores} sen. • {stat.diputados} dip.
                       </p>
@@ -117,12 +115,12 @@ export function BloqueStatsCard() {
                   </div>
                   <div className="text-right flex-shrink-0 ml-3">
                     <p className="text-lg font-bold text-foreground">{stat.total}</p>
-                    <p className="text-xs text-accent-emerald">{percentage}%</p>
+                    <p className="text-xs text-brand">{percentage}%</p>
                   </div>
                 </div>
 
                 {/* Progress bar */}
-                <div className="w-full h-2 bg-dark-bg rounded-full overflow-hidden">
+                <div className="w-full h-2 bg-background rounded-full overflow-hidden">
                   <div
                     className={`h-full bg-gradient-to-r ${colorClass} transition-all duration-300`}
                     style={{ width: `${percentage}%` }}
@@ -138,7 +136,7 @@ export function BloqueStatsCard() {
           <div className="mt-4 pt-4 border-t border-border">
             <button
               onClick={() => setShowAll(!showAll)}
-              className="w-full px-3 py-2 rounded-lg bg-panel border border-border text-foreground hover:bg-white/5 hover:border-accent-emerald/50 transition-all text-sm"
+              className="w-full px-3 py-2 rounded-lg bg-panel border border-border text-foreground hover:bg-white/5 hover:border-brand/50 transition-all text-sm"
             >
               {showAll ? 'Mostrar menos' : `Ver todos (${sortedStats.length - 8} más)`}
             </button>

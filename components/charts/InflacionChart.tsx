@@ -66,7 +66,7 @@ export function InflacionChart({
     return (
       <Card variant="elevated" padding="lg">
         <div className="flex items-center justify-center h-80">
-          <FaSpinner className="animate-spin text-4xl text-accent-emerald" />
+          <FaSpinner className="animate-spin text-4xl text-brand" />
         </div>
       </Card>
     );
@@ -83,7 +83,7 @@ export function InflacionChart({
   }
 
   return (
-    <div className="glass-strong p-6 md:p-8 rounded-2xl border border-border">
+    <div className="bg-panel p-6 md:p-8 rounded-xl border border-white/5">
       {/* Header */}
       <div className="mb-6 flex items-start justify-between">
         <div>
@@ -97,8 +97,8 @@ export function InflacionChart({
             onClick={onToggleFavorite}
             className={`p-2 rounded-lg transition-all ${
               isFavorite
-                ? 'bg-accent-emerald/20 text-accent-emerald'
-                : 'glass text-secondary hover:text-accent-emerald hover:bg-white/5'
+                ? 'bg-brand/20 text-brand'
+                : 'bg-white/5 text-secondary hover:text-brand hover:bg-white/10'
             }`}
             aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
           >
@@ -108,7 +108,7 @@ export function InflacionChart({
       </div>
 
       {/* Chart */}
-      <div className="p-4 rounded-xl bg-transparent border border-border">
+      <div className="p-4 rounded-xl bg-transparent border border-white/5">
         <ResponsiveContainer width="100%" height={400}>
           <LineChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 10 }}>
             <CartesianGrid strokeDasharray="3 3" stroke={chartTheme.gridColor} />
@@ -143,20 +143,20 @@ export function InflacionChart({
             <Line
               type="monotone"
               dataKey="mensual"
-              stroke="#10b981"
+              stroke="#0047FF"
               strokeWidth={2.5}
               name="Inflación Mensual"
-              dot={{ fill: '#10b981', r: 3 }}
+              dot={{ fill: '#0047FF', r: 3 }}
               activeDot={{ r: 5 }}
             />
             {showInteranual && (
               <Line
                 type="monotone"
                 dataKey="interanual"
-                stroke="#06b6d4"
+                stroke="#3366FF"
                 strokeWidth={2.5}
                 name="Inflación Interanual"
-                dot={{ fill: '#06b6d4', r: 3 }}
+                dot={{ fill: '#3366FF', r: 3 }}
                 activeDot={{ r: 5 }}
               />
             )}
@@ -165,8 +165,10 @@ export function InflacionChart({
       </div>
 
       {/* Footer */}
-      <div className="mt-4 pt-4 border-t border-border">
-        <p className="text-xs text-secondary text-center">Fuente: ArgentinaData API</p>
+      <div className="mt-4 pt-4 border-t border-white/5">
+        <p className="text-xs text-secondary text-center">
+          Fuente: ArgentinaData API (agrega datos públicos) • Los datos se actualizan diariamente
+        </p>
       </div>
     </div>
   );

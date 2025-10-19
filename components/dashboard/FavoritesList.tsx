@@ -2,10 +2,10 @@
  * FavoritesList Component
  *
  * Single Responsibility: Render unified favorites table (dolares, currencies, cryptos)
- * Pure presentation component with typed data handling
+ * Features: Sorting, sparklines, hover actions
  */
 
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   Table,
   TableHeader,
@@ -14,13 +14,26 @@ import {
   TableCell,
   TableHeaderCell,
 } from '@/components/ui/Table';
-import { FaStar, FaArrowUp, FaArrowDown, FaMinus } from 'react-icons/fa';
+import {
+  FaStar,
+  FaArrowUp,
+  FaArrowDown,
+  FaMinus,
+  FaShareAlt,
+  FaCopy,
+  FaRegStar,
+  FaSort,
+  FaSortUp,
+  FaSortDown,
+} from 'react-icons/fa';
 import { CryptoSparkline } from '@/components/charts/CryptoSparkline';
 import { useMultipleDolarHistoricoRange } from '@/hooks/useDolarHistoricoRange';
 import type { DolarWithVariation } from '@/hooks/useDolarVariations';
 import type { CotizacionWithVariation } from '@/hooks/useCotizaciones';
 import type { CryptoData } from '@/types/api/crypto';
 import type { Quotation } from '@/types/api/dolar';
+import { DolarLogo } from '@/components/ui/DolarLogo';
+import { CurrencyBadge } from '@/components/ui/CurrencyBadge';
 
 interface FavoritesListProps {
   items: Array<DolarWithVariation | CotizacionWithVariation | CryptoData>;
@@ -30,6 +43,9 @@ interface FavoritesListProps {
   onToggleCrypto: (id: string) => void;
 }
 
+type SortField = 'nombre' | 'precioUSD' | 'precioARS' | 'variacion';
+type SortDirection = 'asc' | 'desc';
+
 export function FavoritesList({
   items,
   selectedDolar,
@@ -37,6 +53,8 @@ export function FavoritesList({
   onToggleCurrency,
   onToggleCrypto,
 }: FavoritesListProps) {
+  const [sortField, setSortField] = useState<SortField>('nombre');
+  const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
   // Extract dolar casas for historical data
   const dolarCasas = items
     .filter(
@@ -48,6 +66,86 @@ export function FavoritesList({
   // Fetch 7-day historical data for dolares
   const { data: dolarHistorical, isLoading: loadingDolarHistorical } =
     useMultipleDolarHistoricoRange(dolarCasas, 7);
+
+  // Sorting logic
+  const sortedItems = useMemo(() => {
+    return [...items].sort((a, b) => {
+      let aValue: number | string = 0;
+      let bValue: number | string = 0;
+
+      // Helper para obtener nombre
+      const getName = (item: typeof a) => {
+        if ('nombre' in item) return item.nombre;
+        if ('name' in item) return item.name;
+        return '';
+      };
+
+      // Helper para obtener precio USD
+      const getPriceUSD = (item: typeof a) => {
+        if ('venta' in item) return item.venta;
+        if ('current_price' in item) return item.current_price;
+        return 0;
+      };
+
+      // Helper para obtener variación
+      const getVariation = (item: typeof a) => {
+        if ('variation' in item) return item.variation.percentage;
+        if ('price_change_percentage_24h' in item)
+          return Math.abs(item.price_change_percentage_24h);
+        return 0;
+      };
+
+      switch (sortField) {
+        case 'nombre':
+          aValue = getName(a).toLowerCase();
+          bValue = getName(b).toLowerCase();
+          break;
+        case 'precioUSD':
+          aValue = getPriceUSD(a);
+          bValue = getPriceUSD(b);
+          break;
+        case 'precioARS':
+          const aPriceUSD = getPriceUSD(a);
+          const bPriceUSD = getPriceUSD(b);
+          aValue = selectedDolar ? aPriceUSD * selectedDolar.venta : aPriceUSD;
+          bValue = selectedDolar ? bPriceUSD * selectedDolar.venta : bPriceUSD;
+          break;
+        case 'variacion':
+          aValue = getVariation(a);
+          bValue = getVariation(b);
+          break;
+      }
+
+      if (typeof aValue === 'string' && typeof bValue === 'string') {
+        return sortDirection === 'asc'
+          ? aValue.localeCompare(bValue)
+          : bValue.localeCompare(aValue);
+      }
+
+      return sortDirection === 'asc'
+        ? (aValue as number) - (bValue as number)
+        : (bValue as number) - (aValue as number);
+    });
+  }, [items, sortField, sortDirection, selectedDolar]);
+
+  const handleSort = (field: SortField) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortDirection('asc');
+    }
+  };
+
+  const SortIcon = ({ field }: { field: SortField }) => {
+    if (sortField !== field) return <FaSort className="text-xs text-secondary/50" />;
+    return sortDirection === 'asc' ? (
+      <FaSortUp className="text-xs text-brand" />
+    ) : (
+      <FaSortDown className="text-xs text-brand" />
+    );
+  };
+
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('es-AR', {
       style: 'currency',
@@ -71,15 +169,55 @@ export function FavoritesList({
     <Table>
       <TableHeader>
         <TableRow hoverable={false}>
-          <TableHeaderCell align="left">Nombre</TableHeaderCell>
-          <TableHeaderCell align="right">Precio USD</TableHeaderCell>
-          <TableHeaderCell align="right">Precio ARS</TableHeaderCell>
-          <TableHeaderCell align="right">24h %</TableHeaderCell>
-          <TableHeaderCell align="center">7D Trend</TableHeaderCell>
+          <TableHeaderCell align="left" sortable onSort={() => handleSort('nombre')} width="30%">
+            <div className="flex items-center gap-2">
+              Nombre
+              <SortIcon field="nombre" />
+            </div>
+          </TableHeaderCell>
+          <TableHeaderCell
+            align="right"
+            sortable
+            onSort={() => handleSort('precioUSD')}
+            width="14%"
+          >
+            <div className="flex items-center justify-end gap-2">
+              Precio USD
+              <SortIcon field="precioUSD" />
+            </div>
+          </TableHeaderCell>
+          <TableHeaderCell
+            align="right"
+            sortable
+            onSort={() => handleSort('precioARS')}
+            width="14%"
+          >
+            <div className="flex items-center justify-end gap-2">
+              Precio ARS
+              <SortIcon field="precioARS" />
+            </div>
+          </TableHeaderCell>
+          <TableHeaderCell
+            align="right"
+            sortable
+            onSort={() => handleSort('variacion')}
+            width="10%"
+          >
+            <div className="flex items-center justify-end gap-2">
+              24h %
+              <SortIcon field="variacion" />
+            </div>
+          </TableHeaderCell>
+          <TableHeaderCell align="center" width="12%">
+            7D Trend
+          </TableHeaderCell>
+          <TableHeaderCell align="right" width="14%">
+            Acciones
+          </TableHeaderCell>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {items.map((item) => {
+        {sortedItems.map((item) => {
           // Type guards
           const isDolar = 'casa' in item && 'moneda' in item && item.moneda === 'USD';
           const isCrypto = 'symbol' in item && 'market_cap' in item;
@@ -93,20 +231,15 @@ export function FavoritesList({
 
             return (
               <React.Fragment key={`dolar-${dolar.casa}`}>
-                <TableRow className="group">
+                <TableRow className="group hover:bg-background-secondary/30 transition-colors">
+                  {/* Nombre con Logo */}
                   <TableCell align="left">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-3">
+                      <DolarLogo casa={dolar.casa} size="md" />
                       <div className="flex-1">
                         <p className="text-sm font-semibold text-foreground">{dolar.nombre}</p>
                         <p className="text-xs text-secondary uppercase">{dolar.casa}</p>
                       </div>
-                      <button
-                        onClick={() => onToggleDolar(dolar.casa)}
-                        className="p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100 text-accent-emerald hover:bg-accent-emerald/10 flex-shrink-0 hover:scale-110 active:scale-95"
-                        aria-label="Quitar de favoritos"
-                      >
-                        <FaStar className="text-sm" />
-                      </button>
                     </div>
                   </TableCell>
                   <TableCell align="right">
@@ -115,7 +248,7 @@ export function FavoritesList({
                     </span>
                   </TableCell>
                   <TableCell align="right">
-                    <span className="text-sm font-semibold text-accent-emerald tabular-nums">
+                    <span className="text-sm font-semibold text-brand tabular-nums">
                       ${(dolar.venta * 1).toFixed(2)}
                     </span>
                   </TableCell>
@@ -128,22 +261,66 @@ export function FavoritesList({
                     </div>
                   </TableCell>
                   <TableCell align="center">
-                    {loadingDolarHistorical ? (
-                      <div className="w-28 h-12 mx-auto bg-white/5 rounded animate-pulse" />
-                    ) : dolarHistorical?.[dolar.casa]?.data ? (
-                      <CryptoSparkline
-                        data={dolarHistorical[dolar.casa].data.map((d) => d.valor)}
-                        trend={
-                          dolarHistorical[dolar.casa].changePercent > 0
-                            ? 'up'
-                            : dolarHistorical[dolar.casa].changePercent < 0
-                              ? 'down'
-                              : 'neutral'
-                        }
-                      />
-                    ) : (
-                      <span className="text-xs text-secondary">-</span>
-                    )}
+                    <div className="flex items-center justify-center gap-2">
+                      {loadingDolarHistorical ? (
+                        <div className="w-28 h-12 bg-white/5 rounded animate-pulse" />
+                      ) : dolarHistorical?.[dolar.casa]?.data ? (
+                        <CryptoSparkline
+                          data={dolarHistorical[dolar.casa].data.map((d) => d.valor)}
+                          trend={
+                            dolarHistorical[dolar.casa].changePercent > 0
+                              ? 'up'
+                              : dolarHistorical[dolar.casa].changePercent < 0
+                                ? 'down'
+                                : 'neutral'
+                          }
+                          isCrypto={false}
+                        />
+                      ) : (
+                        <span className="text-xs text-secondary">-</span>
+                      )}
+                    </div>
+                  </TableCell>
+
+                  {/* Acciones - nueva columna */}
+                  <TableCell align="right">
+                    <div className="flex items-center justify-end gap-1">
+                      <button
+                        onClick={() => onToggleDolar(dolar.casa)}
+                        className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 bg-brand/10 text-brand hover:bg-brand/20"
+                        aria-label="Quitar de favoritos"
+                        title="Quitar de favoritos"
+                      >
+                        <FaStar className="text-sm" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(
+                            `${dolar.nombre}: $${dolar.venta.toFixed(2)}`
+                          );
+                        }}
+                        className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 bg-panel-hover text-foreground/70 hover:text-brand hover:bg-brand/10"
+                        aria-label="Copiar"
+                        title="Copiar valor"
+                      >
+                        <FaCopy className="text-sm" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          if (navigator.share) {
+                            navigator.share({
+                              title: dolar.nombre,
+                              text: `${dolar.nombre}: $${dolar.venta.toFixed(2)}`,
+                            });
+                          }
+                        }}
+                        className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 bg-panel-hover text-foreground/70 hover:text-brand hover:bg-brand/10"
+                        aria-label="Compartir"
+                        title="Compartir"
+                      >
+                        <FaShareAlt className="text-sm" />
+                      </button>
+                    </div>
                   </TableCell>
                 </TableRow>
               </React.Fragment>
@@ -161,7 +338,8 @@ export function FavoritesList({
 
             return (
               <React.Fragment key={`crypto-${crypto.id}`}>
-                <TableRow className="group">
+                <TableRow className="group hover:bg-background-secondary/30 transition-colors">
+                  {/* Nombre */}
                   <TableCell align="left">
                     <div className="flex items-center gap-2">
                       <img
@@ -174,13 +352,6 @@ export function FavoritesList({
                         <p className="text-sm font-semibold text-foreground">{crypto.name}</p>
                         <p className="text-xs text-secondary uppercase">{crypto.symbol}</p>
                       </div>
-                      <button
-                        onClick={() => onToggleCrypto(crypto.id)}
-                        className="p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100 text-accent-emerald hover:bg-accent-emerald/10 flex-shrink-0 hover:scale-110 active:scale-95"
-                        aria-label="Quitar de favoritos"
-                      >
-                        <FaStar className="text-sm" />
-                      </button>
                     </div>
                   </TableCell>
                   <TableCell align="right">
@@ -190,7 +361,7 @@ export function FavoritesList({
                   </TableCell>
                   <TableCell align="right">
                     {selectedDolar ? (
-                      <span className="text-sm font-semibold text-accent-emerald tabular-nums">
+                      <span className="text-sm font-semibold text-brand tabular-nums">
                         $
                         {(crypto.current_price * selectedDolar.venta).toLocaleString('es-AR', {
                           minimumFractionDigits: 0,
@@ -211,30 +382,70 @@ export function FavoritesList({
                     </div>
                   </TableCell>
                   <TableCell align="center">
-                    {crypto.sparkline_in_7d?.price && crypto.sparkline_in_7d.price.length > 0 ? (
-                      <CryptoSparkline
-                        data={crypto.sparkline_in_7d.price}
-                        trend={
-                          crypto.price_change_percentage_24h > 0
-                            ? 'up'
-                            : crypto.price_change_percentage_24h < 0
-                              ? 'down'
-                              : 'neutral'
-                        }
-                        isCrypto={true}
-                      />
-                    ) : (
-                      <span className="text-xs text-secondary">-</span>
-                    )}
+                    <div className="flex items-center justify-center gap-2">
+                      {crypto.sparkline_in_7d?.price && crypto.sparkline_in_7d.price.length > 0 ? (
+                        <CryptoSparkline
+                          data={crypto.sparkline_in_7d.price}
+                          trend={
+                            crypto.price_change_percentage_24h > 0
+                              ? 'up'
+                              : crypto.price_change_percentage_24h < 0
+                                ? 'down'
+                                : 'neutral'
+                          }
+                          isCrypto={true}
+                        />
+                      ) : (
+                        <span className="text-xs text-secondary">-</span>
+                      )}
+                    </div>
+                  </TableCell>
+
+                  {/* Acciones - nueva columna */}
+                  <TableCell align="right">
+                    <div className="flex items-center justify-end gap-1">
+                      <button
+                        onClick={() => onToggleCrypto(crypto.id)}
+                        className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 bg-brand/10 text-brand hover:bg-brand/20"
+                        aria-label="Quitar de favoritos"
+                        title="Quitar de favoritos"
+                      >
+                        <FaStar className="text-sm" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          const price = formatPrice(crypto.current_price);
+                          navigator.clipboard.writeText(`${crypto.name}: ${price}`);
+                        }}
+                        className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 bg-panel-hover text-foreground/70 hover:text-brand hover:bg-brand/10"
+                        aria-label="Copiar"
+                        title="Copiar valor"
+                      >
+                        <FaCopy className="text-sm" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          if (navigator.share) {
+                            const price = formatPrice(crypto.current_price);
+                            navigator.share({
+                              title: crypto.name,
+                              text: `${crypto.name}: ${price}`,
+                            });
+                          }
+                        }}
+                        className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 bg-panel-hover text-foreground/70 hover:text-brand hover:bg-brand/10"
+                        aria-label="Compartir"
+                        title="Compartir"
+                      >
+                        <FaShareAlt className="text-sm" />
+                      </button>
+                    </div>
                   </TableCell>
                 </TableRow>
 
                 {/* Expandable Row */}
-                <TableRow
-                  hoverable={false}
-                  className="hidden group-hover:table-row bg-accent-emerald/5"
-                >
-                  <TableCell colSpan={5} className="py-4">
+                <TableRow hoverable={false} className="hidden group-hover:table-row">
+                  <TableCell colSpan={6} className="py-4">
                     <div className="grid grid-cols-2 md:grid-cols-5 gap-3 text-xs">
                       <div>
                         <p className="text-secondary text-[10px] mb-0.5">Market Cap</p>
@@ -280,20 +491,15 @@ export function FavoritesList({
 
             return (
               <React.Fragment key={`currency-${cotizacion.moneda}`}>
-                <TableRow className="group">
+                <TableRow className="group hover:bg-background-secondary/30 transition-colors">
+                  {/* Nombre con Badge */}
                   <TableCell align="left">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-3">
+                      <CurrencyBadge moneda={cotizacion.moneda} size="md" />
                       <div className="flex-1">
                         <p className="text-sm font-semibold text-foreground">{cotizacion.nombre}</p>
                         <p className="text-xs text-secondary">{cotizacion.casa}</p>
                       </div>
-                      <button
-                        onClick={() => onToggleCurrency(cotizacion.moneda)}
-                        className="p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100 text-accent-emerald hover:bg-accent-emerald/10 flex-shrink-0 hover:scale-110 active:scale-95"
-                        aria-label="Quitar de favoritos"
-                      >
-                        <FaStar className="text-sm" />
-                      </button>
                     </div>
                   </TableCell>
                   <TableCell align="right">
@@ -302,7 +508,7 @@ export function FavoritesList({
                     </span>
                   </TableCell>
                   <TableCell align="right">
-                    <span className="text-sm font-semibold text-accent-emerald tabular-nums">
+                    <span className="text-sm font-semibold text-brand tabular-nums">
                       ${cotizacion.venta.toFixed(2)}
                     </span>
                   </TableCell>
@@ -316,6 +522,47 @@ export function FavoritesList({
                   </TableCell>
                   <TableCell align="center">
                     <span className="text-xs text-secondary">-</span>
+                  </TableCell>
+
+                  {/* Acciones - nueva columna */}
+                  <TableCell align="right">
+                    <div className="flex items-center justify-end gap-1">
+                      <button
+                        onClick={() => onToggleCurrency(cotizacion.moneda)}
+                        className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 bg-brand/10 text-brand hover:bg-brand/20"
+                        aria-label="Quitar de favoritos"
+                        title="Quitar de favoritos"
+                      >
+                        <FaStar className="text-sm" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(
+                            `${cotizacion.nombre}: $${cotizacion.venta.toFixed(2)}`
+                          );
+                        }}
+                        className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 bg-panel-hover text-foreground/70 hover:text-brand hover:bg-brand/10"
+                        aria-label="Copiar"
+                        title="Copiar valor"
+                      >
+                        <FaCopy className="text-sm" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          if (navigator.share) {
+                            navigator.share({
+                              title: cotizacion.nombre,
+                              text: `${cotizacion.nombre}: $${cotizacion.venta.toFixed(2)}`,
+                            });
+                          }
+                        }}
+                        className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 bg-panel-hover text-foreground/70 hover:text-brand hover:bg-brand/10"
+                        aria-label="Compartir"
+                        title="Compartir"
+                      >
+                        <FaShareAlt className="text-sm" />
+                      </button>
+                    </div>
                   </TableCell>
                 </TableRow>
               </React.Fragment>

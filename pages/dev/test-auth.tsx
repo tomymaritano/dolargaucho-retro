@@ -190,7 +190,7 @@ export default function TestAuthPage() {
   };
 
   return (
-    <div className="min-h-screen bg-dark-bg p-8">
+    <div className="min-h-screen bg-background p-8">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
         <div>
@@ -203,7 +203,7 @@ export default function TestAuthPage() {
         {/* Estado del Sistema */}
         <Card variant="elevated" padding="lg">
           <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-            <FaDatabase className="text-accent-emerald" />
+            <FaDatabase className="text-brand" />
             Estado del Sistema
           </h2>
 
@@ -211,9 +211,7 @@ export default function TestAuthPage() {
             {/* Modo */}
             <div className="flex items-center justify-between p-3 bg-dark-light rounded-lg">
               <span className="text-foreground">Modo de Operación:</span>
-              <span
-                className={`font-semibold ${isDemoMode ? 'text-accent-teal' : 'text-accent-emerald'}`}
-              >
+              <span className={`font-semibold ${isDemoMode ? 'text-brand-light' : 'text-brand'}`}>
                 {isDemoMode ? '🎭 Demo (localStorage)' : '🔐 Producción (Supabase)'}
               </span>
             </div>
@@ -222,9 +220,9 @@ export default function TestAuthPage() {
             <div className="flex items-center justify-between p-3 bg-dark-light rounded-lg">
               <span className="text-foreground">Usuario Autenticado:</span>
               {loading ? (
-                <FaSpinner className="animate-spin text-accent-emerald" />
+                <FaSpinner className="animate-spin text-brand" />
               ) : user ? (
-                <span className="text-accent-emerald flex items-center gap-2">
+                <span className="text-brand flex items-center gap-2">
                   <FaCheckCircle />
                   {user.email}
                 </span>
@@ -239,9 +237,7 @@ export default function TestAuthPage() {
             {/* Supabase URL */}
             <div className="flex items-center justify-between p-3 bg-dark-light rounded-lg">
               <span className="text-foreground">Supabase Configurado:</span>
-              <span
-                className={`font-semibold ${!isDemoMode ? 'text-accent-emerald' : 'text-secondary'}`}
-              >
+              <span className={`font-semibold ${!isDemoMode ? 'text-brand' : 'text-secondary'}`}>
                 {!isDemoMode ? '✅ Sí' : '❌ No (usar .env.local)'}
               </span>
             </div>
@@ -252,7 +248,7 @@ export default function TestAuthPage() {
         {!isDemoMode && (
           <Card variant="elevated" padding="lg">
             <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-              <FaDatabase className="text-accent-emerald" />
+              <FaDatabase className="text-brand" />
               Tests de Base de Datos
             </h2>
 
@@ -286,7 +282,7 @@ export default function TestAuthPage() {
         {/* Tests de Autenticación */}
         <Card variant="elevated" padding="lg">
           <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-            <FaUser className="text-accent-emerald" />
+            <FaUser className="text-brand" />
             Tests de Autenticación
           </h2>
 
@@ -324,8 +320,8 @@ export default function TestAuthPage() {
             )}
 
             {testSuccess && (
-              <div className="p-3 bg-accent-emerald/10 border border-accent-emerald/30 rounded-lg">
-                <p className="text-sm text-accent-emerald">{testSuccess}</p>
+              <div className="p-3 bg-brand/10 border border-brand/30 rounded-lg">
+                <p className="text-sm text-brand">{testSuccess}</p>
               </div>
             )}
 
@@ -350,7 +346,7 @@ export default function TestAuthPage() {
         {/* Test API de Leads */}
         <Card variant="elevated" padding="lg">
           <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-            <FaEnvelope className="text-accent-emerald" />
+            <FaEnvelope className="text-brand" />
             Test API de Leads
           </h2>
 
@@ -381,8 +377,7 @@ export default function TestAuthPage() {
             </p>
             <p>
               <strong className="text-foreground">2. Configurar Supabase:</strong> Copia el archivo{' '}
-              <code className="text-accent-emerald">supabase/schema.sql</code> en el SQL Editor de
-              Supabase.
+              <code className="text-brand">supabase/schema.sql</code> en el SQL Editor de Supabase.
             </p>
             <p>
               <strong className="text-foreground">3. Ejecutar tests:</strong> Usa los botones arriba
@@ -407,7 +402,7 @@ function TestResult({ label, result }: { label: string; result?: boolean }) {
       {result === undefined ? (
         <span className="text-secondary">Pendiente</span>
       ) : result ? (
-        <span className="text-accent-emerald flex items-center gap-2">
+        <span className="text-brand flex items-center gap-2">
           <FaCheckCircle />
           Funciona
         </span>

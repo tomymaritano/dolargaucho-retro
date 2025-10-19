@@ -223,7 +223,7 @@ export function CalculadoraPlazoFijo({ showHeader = true }: CalculadoraPlazoFijo
               value={formatNumber(capital)}
               onChange={(e) => handleCapitalChange(e.target.value)}
               placeholder="100.000"
-              className="w-full pl-10 pr-4 py-3 text-xl font-mono font-bold bg-panel border border-border rounded-xl focus:ring-2 focus:ring-accent-emerald/20 focus:border-accent-emerald/50 focus:outline-none transition-all text-foreground"
+              className="w-full pl-10 pr-4 py-3 text-xl font-mono font-bold bg-panel border border-border rounded-xl focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground"
             />
           </div>
         </div>
@@ -238,8 +238,8 @@ export function CalculadoraPlazoFijo({ showHeader = true }: CalculadoraPlazoFijo
                 onClick={() => setDias(plazo.dias)}
                 className={`px-2 py-2 rounded-lg font-semibold text-xs transition-all border ${
                   dias === plazo.dias
-                    ? 'bg-accent-emerald text-background-dark border-accent-emerald'
-                    : 'glass border-border text-foreground hover:border-accent-emerald/30'
+                    ? 'bg-brand text-background-dark border-brand'
+                    : 'glass border-border text-foreground hover:border-brand/30'
                 }`}
               >
                 {plazo.label}
@@ -254,7 +254,7 @@ export function CalculadoraPlazoFijo({ showHeader = true }: CalculadoraPlazoFijo
               onChange={(e) => setDias(parseInt(e.target.value) || 30)}
               min="1"
               max="730"
-              className="w-full pl-10 pr-4 py-3 text-xl font-mono font-bold bg-panel border border-border rounded-xl focus:ring-2 focus:ring-accent-emerald/20 focus:border-accent-emerald/50 focus:outline-none transition-all text-foreground"
+              className="w-full pl-10 pr-4 py-3 text-xl font-mono font-bold bg-panel border border-border rounded-xl focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground"
             />
           </div>
         </div>
@@ -270,8 +270,8 @@ export function CalculadoraPlazoFijo({ showHeader = true }: CalculadoraPlazoFijo
             onClick={() => setUsarTasaActual(true)}
             className={`flex-1 px-4 py-3 rounded-lg font-semibold text-sm transition-all border ${
               usarTasaActual
-                ? 'bg-accent-emerald text-background-dark border-accent-emerald'
-                : 'glass border-border text-secondary hover:text-foreground hover:border-accent-emerald/30'
+                ? 'bg-brand text-background-dark border-brand'
+                : 'glass border-border text-secondary hover:text-foreground hover:border-brand/30'
             }`}
           >
             Tasa de Mercado
@@ -280,8 +280,8 @@ export function CalculadoraPlazoFijo({ showHeader = true }: CalculadoraPlazoFijo
             onClick={() => setUsarTasaActual(false)}
             className={`flex-1 px-4 py-3 rounded-lg font-semibold text-sm transition-all border ${
               !usarTasaActual
-                ? 'bg-accent-emerald text-background-dark border-accent-emerald'
-                : 'glass border-border text-secondary hover:text-foreground hover:border-accent-emerald/30'
+                ? 'bg-brand text-background-dark border-brand'
+                : 'glass border-border text-secondary hover:text-foreground hover:border-brand/30'
             }`}
           >
             Tasa Personalizada
@@ -298,7 +298,7 @@ export function CalculadoraPlazoFijo({ showHeader = true }: CalculadoraPlazoFijo
               placeholder="Ej: 65"
               step="0.1"
               min="0"
-              className="w-full pl-10 pr-4 py-3 text-xl font-mono font-bold bg-panel border border-border rounded-xl focus:ring-2 focus:ring-accent-emerald/20 focus:border-accent-emerald/50 focus:outline-none transition-all text-foreground"
+              className="w-full pl-10 pr-4 py-3 text-xl font-mono font-bold bg-panel border border-border rounded-xl focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground"
             />
           </div>
         )}
@@ -346,7 +346,7 @@ export function CalculadoraPlazoFijo({ showHeader = true }: CalculadoraPlazoFijo
           <p>
             <strong className="text-foreground">TNA</strong> (Tasa Nominal Anual): tasa de interés
             expresada en términos anuales. El cálculo usa la fórmula estándar de plazo fijo:{' '}
-            <code className="text-accent-emerald">Interés = Capital × TNA × (Días / 365) / 100</code>
+            <code className="text-brand">Interés = Capital × TNA × (Días / 365) / 100</code>
           </p>
         </div>
       </div>

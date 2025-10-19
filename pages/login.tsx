@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useAuth } from '@/lib/contexts/AuthContext';
+import { AuthLayout } from '@/components/layouts/AuthLayout';
 import { Card } from '@/components/ui/Card/Card';
 import { Button } from '@/components/ui/Button/Button';
 import { Input } from '@/components/ui/Input/Input';
@@ -36,8 +37,8 @@ export default function LoginPage() {
   // If already authenticated, show loading
   if (user) {
     return (
-      <div className="min-h-screen bg-dark-bg flex items-center justify-center">
-        <FaSpinner className="animate-spin text-4xl text-accent-emerald" />
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <FaSpinner className="animate-spin text-4xl text-brand" />
       </div>
     );
   }
@@ -89,107 +90,93 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-dark-bg flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-7xl">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">Dólar Gaucho</h1>
-          <p className="text-secondary">
-            Inicia sesión para acceder a tu dashboard
-          </p>
-        </div>
-
-        <Card variant="elevated" padding="lg">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Email */}
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-                Email
-              </label>
-              <div className="relative">
-                <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary" />
-                <Input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="tu@email.com"
-                  className="pl-10"
-                  disabled={loading}
-                  autoComplete="email"
-                />
-              </div>
+    <AuthLayout
+      title="Iniciar Sesión"
+      heading="Bienvenido"
+      subtitle="Inicia sesión para acceder a tu dashboard"
+      maxWidth="md"
+      footerAction={
+        <p className="text-secondary">
+          ¿No tienes cuenta?{' '}
+          <Link
+            href="/signup"
+            className="text-brand hover:text-brand-light transition-colors font-medium"
+          >
+            Regístrate gratis
+          </Link>
+        </p>
+      }
+    >
+      <Card variant="elevated" padding="lg">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Email */}
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
+              Email
+            </label>
+            <div className="relative">
+              <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary" />
+              <Input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="tu@email.com"
+                className="pl-10"
+                disabled={loading}
+                autoComplete="email"
+              />
             </div>
+          </div>
 
-            {/* Password */}
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-foreground mb-2">
+          {/* Password */}
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <label htmlFor="password" className="block text-sm font-medium text-foreground">
                 Contraseña
               </label>
-              <div className="relative">
-                <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary" />
-                <Input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="pl-10"
-                  disabled={loading}
-                  autoComplete="current-password"
-                />
-              </div>
+              <Link
+                href="/forgot-password"
+                className="text-xs text-brand hover:text-brand-light transition-colors"
+              >
+                ¿Olvidaste tu contraseña?
+              </Link>
             </div>
+            <div className="relative">
+              <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary" />
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                className="pl-10"
+                disabled={loading}
+                autoComplete="current-password"
+              />
+            </div>
+          </div>
 
-            {/* Error message */}
-            {error && (
-              <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
-                <p className="text-sm text-red-400">{error}</p>
-              </div>
+          {/* Error message */}
+          {error && (
+            <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
+              <p className="text-sm text-red-400">{error}</p>
+            </div>
+          )}
+
+          {/* Submit button */}
+          <Button type="submit" variant="primary" className="w-full" disabled={loading}>
+            {loading ? (
+              <>
+                <FaSpinner className="animate-spin mr-2" />
+                Iniciando sesión...
+              </>
+            ) : (
+              'Iniciar sesión'
             )}
-
-            {/* Submit button */}
-            <Button
-              type="submit"
-              variant="primary"
-              className="w-full"
-              disabled={loading}
-            >
-              {loading ? (
-                <>
-                  <FaSpinner className="animate-spin mr-2" />
-                  Iniciando sesión...
-                </>
-              ) : (
-                'Iniciar sesión'
-              )}
-            </Button>
-          </form>
-        </Card>
-
-        {/* Sign up link */}
-        <div className="mt-6 text-center">
-          <p className="text-secondary">
-            ¿No tienes cuenta?{' '}
-            <Link
-              href="/register"
-              className="text-accent-emerald hover:text-accent-teal transition-colors font-medium"
-            >
-              Regístrate gratis
-            </Link>
-          </p>
-        </div>
-
-        {/* Back to home */}
-        <div className="mt-4 text-center">
-          <Link
-            href="/"
-            className="text-sm text-secondary hover:text-foreground transition-colors"
-          >
-            ← Volver al inicio
-          </Link>
-        </div>
-      </div>
-    </div>
+          </Button>
+        </form>
+      </Card>
+    </AuthLayout>
   );
 }

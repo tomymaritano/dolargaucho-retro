@@ -1,5 +1,5 @@
 import type { NextConfig } from 'next';
-// @ts-ignore - next-pwa doesn't have type definitions
+// @ts-expect-error - next-pwa doesn't have type definitions
 import withPWA from 'next-pwa';
 
 const nextConfig: NextConfig = {
@@ -13,7 +13,20 @@ const nextConfig: NextConfig = {
 
   // Image optimization
   images: {
-    domains: ['images.unsplash.com', 'https://zvmxlvgonwnkgsjnyxje.supabase.co/storage/v1/s3'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'zvmxlvgonwnkgsjnyxje.supabase.co',
+      },
+      {
+        protocol: 'https',
+        hostname: 'media.licdn.com',
+      },
+    ],
   },
 
   // On-demand entries optimization (prevents Fast Refresh loops)

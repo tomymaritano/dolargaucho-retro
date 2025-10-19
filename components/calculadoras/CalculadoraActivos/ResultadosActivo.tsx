@@ -2,11 +2,7 @@
 
 import React, { useMemo } from 'react';
 import { ResultadoAnalisis } from './types';
-import {
-  formatearMoneda,
-  formatearPorcentaje,
-  determinarResultado,
-} from './utils';
+import { formatearMoneda, formatearPorcentaje, determinarResultado } from './utils';
 import { Card } from '@/components/ui/Card/Card';
 import { Tooltip as InfoTooltip } from '@/components/ui/Tooltip/Tooltip';
 import {
@@ -108,13 +104,11 @@ export function ResultadosActivo({
       {/* Header de Resultados */}
       <div className="text-center">
         <h3 className="text-2xl font-bold text-foreground mb-2">Análisis de Rentabilidad</h3>
-        <p className="text-secondary">
-          Comparación entre inversión real y alternativas
-        </p>
+        <p className="text-secondary">Comparación entre inversión real y alternativas</p>
         {/* Badge de moneda */}
         <div className="flex items-center justify-center gap-2 mt-3">
           <span className="text-sm text-secondary">Moneda:</span>
-          <span className="px-3 py-1 bg-accent-emerald/20 text-accent-emerald rounded-full font-semibold">
+          <span className="px-3 py-1 bg-brand/20 text-brand rounded-full font-semibold">
             {moneda === 'USD' ? '🇺🇸 USD' : '🇦🇷 ARS'}
           </span>
         </div>
@@ -133,7 +127,9 @@ export function ResultadosActivo({
                 {formatearPorcentaje(resultado.rentabilidadNominal)}
               </div>
             </div>
-            <div className={`p-3 rounded-lg ${resultadoNominal === 'ganancia' ? 'bg-success/20' : 'bg-error/20'}`}>
+            <div
+              className={`p-3 rounded-lg ${resultadoNominal === 'ganancia' ? 'bg-success/20' : 'bg-error/20'}`}
+            >
               <FaChartLine
                 className={`text-2xl ${resultadoNominal === 'ganancia' ? 'text-success' : 'text-error'}`}
               />
@@ -152,7 +148,9 @@ export function ResultadosActivo({
                 {formatearPorcentaje(resultado.rentabilidadReal)}
               </div>
             </div>
-            <div className={`p-3 rounded-lg ${resultadoReal === 'ganancia' ? 'bg-success/20' : resultadoReal === 'perdida' ? 'bg-error/20' : 'bg-warning/20'}`}>
+            <div
+              className={`p-3 rounded-lg ${resultadoReal === 'ganancia' ? 'bg-success/20' : resultadoReal === 'perdida' ? 'bg-error/20' : 'bg-warning/20'}`}
+            >
               <IconoResultado className={`text-2xl ${colorResultado}`} />
             </div>
           </div>
@@ -186,7 +184,7 @@ export function ResultadosActivo({
         {/* Gráfico de Barras - Rentabilidades */}
         <Card variant="elevated" padding="lg">
           <h4 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
-            <FaChartBar className="text-accent-emerald" />
+            <FaChartBar className="text-brand" />
             Comparativa de Rentabilidades
           </h4>
           <ResponsiveContainer width="100%" height={300}>
@@ -215,7 +213,7 @@ export function ResultadosActivo({
         {/* Gráfico Circular - Composición */}
         <Card variant="elevated" padding="lg">
           <h4 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
-            <FaChartPie className="text-accent-emerald" />
+            <FaChartPie className="text-brand" />
             Composición de la Inversión
           </h4>
           <ResponsiveContainer width="100%" height={300}>
@@ -253,7 +251,13 @@ export function ResultadosActivo({
       <Card variant="elevated" padding="lg">
         <div className="flex items-center justify-between">
           <div>
-            <InfoTooltip content={moneda === 'USD' ? 'Inflación estadounidense (CPI) en el período de tu inversión' : 'Inflación argentina (IPC) en el período de tu inversión'}>
+            <InfoTooltip
+              content={
+                moneda === 'USD'
+                  ? 'Inflación estadounidense (CPI) en el período de tu inversión'
+                  : 'Inflación argentina (IPC) en el período de tu inversión'
+              }
+            >
               <p className="text-sm text-secondary mb-2">
                 Inflación Acumulada {moneda === 'USD' ? '(USD)' : '(ARS)'}
               </p>
@@ -267,8 +271,7 @@ export function ResultadosActivo({
             <p className="text-lg font-semibold text-warning">
               {moneda === 'USD'
                 ? `$${resultado.valorAjustadoInflacion.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-                : formatearMoneda(resultado.valorAjustadoInflacion)
-              }
+                : formatearMoneda(resultado.valorAjustadoInflacion)}
             </p>
           </div>
         </div>
@@ -278,13 +281,17 @@ export function ResultadosActivo({
             {resultado.rentabilidadReal >= 0 ? (
               <>
                 ✅ <span className="text-success font-semibold">Ganaste</span>{' '}
-                <strong className="text-success">{formatearPorcentaje(resultado.rentabilidadReal)}</strong>{' '}
+                <strong className="text-success">
+                  {formatearPorcentaje(resultado.rentabilidadReal)}
+                </strong>{' '}
                 por encima de la inflación
               </>
             ) : (
               <>
                 ❌ <span className="text-error font-semibold">Perdiste</span>{' '}
-                <strong className="text-error">{formatearPorcentaje(Math.abs(resultado.rentabilidadReal))}</strong>{' '}
+                <strong className="text-error">
+                  {formatearPorcentaje(Math.abs(resultado.rentabilidadReal))}
+                </strong>{' '}
                 en términos reales
               </>
             )}
@@ -296,7 +303,7 @@ export function ResultadosActivo({
       {(resultado.comparativas.dolarBlue || resultado.comparativas.dolarOficial) && (
         <Card variant="elevated" padding="lg">
           <h4 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
-            <FaDollarSign className="text-accent-emerald" />
+            <FaDollarSign className="text-brand" />
             Comparativa con Dólar
           </h4>
 
@@ -311,7 +318,9 @@ export function ResultadosActivo({
                     {resultado.comparativas.dolarBlue.diferenciaPorcentual >= 0
                       ? '📉 Perdiste'
                       : '📈 Ganaste'}{' '}
-                    {formatearPorcentaje(Math.abs(resultado.comparativas.dolarBlue.diferenciaPorcentual))}
+                    {formatearPorcentaje(
+                      Math.abs(resultado.comparativas.dolarBlue.diferenciaPorcentual)
+                    )}
                   </span>
                 </div>
                 <div className="grid grid-cols-2 gap-2 text-xs">
@@ -343,7 +352,9 @@ export function ResultadosActivo({
                     {resultado.comparativas.dolarOficial.diferenciaPorcentual >= 0
                       ? '📉 Perdiste'
                       : '📈 Ganaste'}{' '}
-                    {formatearPorcentaje(Math.abs(resultado.comparativas.dolarOficial.diferenciaPorcentual))}
+                    {formatearPorcentaje(
+                      Math.abs(resultado.comparativas.dolarOficial.diferenciaPorcentual)
+                    )}
                   </span>
                 </div>
                 <div className="grid grid-cols-2 gap-2 text-xs">
@@ -358,7 +369,9 @@ export function ResultadosActivo({
                     <p
                       className={`font-semibold ${resultado.comparativas.dolarOficial.diferenciaPorcentual >= 0 ? 'text-error' : 'text-success'}`}
                     >
-                      {formatearMoneda(resultado.comparativas.dolarOficial.valorFinal - precioVenta)}
+                      {formatearMoneda(
+                        resultado.comparativas.dolarOficial.valorFinal - precioVenta
+                      )}
                     </p>
                   </div>
                 </div>

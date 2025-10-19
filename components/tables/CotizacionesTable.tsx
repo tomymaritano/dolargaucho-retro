@@ -20,6 +20,8 @@ import {
   FaSort,
   FaSortUp,
   FaSortDown,
+  FaShareAlt,
+  FaCopy,
 } from 'react-icons/fa';
 import { CryptoSparkline } from '@/components/charts/CryptoSparkline';
 import { useMultipleCotizacionesHistoricoRange } from '@/hooks/useCotizacionesHistoricoRange';
@@ -32,6 +34,7 @@ import {
   TableCell,
   TableHeaderCell,
 } from '@/components/ui/Table';
+import { CurrencyBadge } from '@/components/ui/CurrencyBadge';
 
 type SortField = 'nombre' | 'compra' | 'venta' | 'variation' | 'sparkline';
 type SortDirection = 'asc' | 'desc';
@@ -112,9 +115,9 @@ export function CotizacionesTable({
   const SortIcon = ({ field }: { field: SortField }) => {
     if (sortField !== field) return <FaSort className="text-xs text-secondary/50" />;
     return sortDirection === 'asc' ? (
-      <FaSortUp className="text-xs text-accent-emerald" />
+      <FaSortUp className="text-xs text-brand" />
     ) : (
-      <FaSortDown className="text-xs text-accent-emerald" />
+      <FaSortDown className="text-xs text-brand" />
     );
   };
 
@@ -127,7 +130,7 @@ export function CotizacionesTable({
       <TableHeader>
         <TableRow hoverable={false}>
           {/* Moneda */}
-          <TableHeaderCell align="left" sortable onSort={() => handleSort('nombre')}>
+          <TableHeaderCell align="left" sortable onSort={() => handleSort('nombre')} width="30%">
             <div className="flex items-center gap-2">
               Nombre
               <SortIcon field="nombre" />
@@ -135,7 +138,7 @@ export function CotizacionesTable({
           </TableHeaderCell>
 
           {/* Compra */}
-          <TableHeaderCell align="right" sortable onSort={() => handleSort('compra')}>
+          <TableHeaderCell align="right" sortable onSort={() => handleSort('compra')} width="12%">
             <div className="flex items-center justify-end gap-2">
               Compra
               <SortIcon field="compra" />
@@ -143,7 +146,7 @@ export function CotizacionesTable({
           </TableHeaderCell>
 
           {/* Venta */}
-          <TableHeaderCell align="right" sortable onSort={() => handleSort('venta')}>
+          <TableHeaderCell align="right" sortable onSort={() => handleSort('venta')} width="12%">
             <div className="flex items-center justify-end gap-2">
               Venta
               <SortIcon field="venta" />
@@ -151,24 +154,44 @@ export function CotizacionesTable({
           </TableHeaderCell>
 
           {/* 24h % */}
-          <TableHeaderCell align="right" sortable onSort={() => handleSort('variation')}>
+          <TableHeaderCell
+            align="right"
+            sortable
+            onSort={() => handleSort('variation')}
+            width="10%"
+          >
             <div className="flex items-center justify-end gap-2">
               24h %
               <SortIcon field="variation" />
             </div>
           </TableHeaderCell>
 
-          {/* 7D Trend */}
-          <TableHeaderCell align="center" sortable onSort={() => handleSort('sparkline')}>
-            <div className="flex items-center justify-center gap-2">
-              7D Trend
+          {/* 7d % */}
+          <TableHeaderCell
+            align="right"
+            sortable
+            onSort={() => handleSort('sparkline')}
+            width="10%"
+          >
+            <div className="flex items-center justify-end gap-2">
+              7d %
               <SortIcon field="sparkline" />
             </div>
+          </TableHeaderCell>
+
+          {/* 7D Trend */}
+          <TableHeaderCell align="center" width="12%">
+            <div className="flex items-center justify-center gap-2">7D Trend</div>
+          </TableHeaderCell>
+
+          {/* Acciones */}
+          <TableHeaderCell align="right" width="14%">
+            Acciones
           </TableHeaderCell>
         </TableRow>
       </TableHeader>
 
-      <TableBody empty={sortedCotizaciones.length === 0} emptyColSpan={5}>
+      <TableBody empty={sortedCotizaciones.length === 0} emptyColSpan={7}>
         {sortedCotizaciones.map((cotizacion) => {
           const isFavorite = favoriteCurrencyIds.includes(cotizacion.moneda);
           const { trend, percentage } = cotizacion.variation;
@@ -190,30 +213,15 @@ export function CotizacionesTable({
 
           return (
             <React.Fragment key={cotizacion.moneda}>
-              <TableRow className="group">
-                {/* Moneda con badge de favorito y botón hover */}
+              <TableRow className="group hover:bg-background-secondary/30 transition-colors">
+                {/* Moneda con Badge */}
                 <TableCell>
-                  <div className="flex items-center gap-2">
-                    {isFavorite && <FaStar className="text-accent-emerald text-xs flex-shrink-0" />}
-                    <div className="flex-1">
+                  <div className="flex items-center gap-3">
+                    <CurrencyBadge moneda={cotizacion.moneda} size="md" />
+                    <div>
                       <p className="text-sm font-semibold text-foreground">{cotizacion.nombre}</p>
                       <p className="text-xs text-secondary">{cotizacion.casa}</p>
                     </div>
-                    <button
-                      onClick={() => onToggleFavorite(cotizacion.moneda)}
-                      className={`p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100 flex-shrink-0 hover:scale-110 active:scale-95 ${
-                        isFavorite
-                          ? 'text-accent-emerald hover:bg-accent-emerald/10'
-                          : 'text-secondary hover:text-accent-emerald hover:bg-white/5'
-                      }`}
-                      aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
-                    >
-                      {isFavorite ? (
-                        <FaStar className="text-sm" />
-                      ) : (
-                        <FaRegStar className="text-sm" />
-                      )}
-                    </button>
                   </div>
                 </TableCell>
 
@@ -226,7 +234,7 @@ export function CotizacionesTable({
 
                 {/* Venta */}
                 <TableCell align="right">
-                  <span className="text-sm font-bold text-accent-emerald tabular-nums">
+                  <span className="text-sm font-bold text-brand tabular-nums">
                     ${cotizacion.venta.toFixed(2)}
                   </span>
                 </TableCell>
@@ -242,24 +250,107 @@ export function CotizacionesTable({
                   </div>
                 </TableCell>
 
-                {/* 7D Trend Sparkline */}
-                <TableCell align="center">
+                {/* 7d % */}
+                <TableCell align="right">
                   {loadingHistorical ? (
-                    <div className="w-28 h-12 mx-auto bg-white/5 rounded animate-pulse" />
-                  ) : sparklineValues.length > 0 ? (
-                    <CryptoSparkline data={sparklineValues} trend={sparklineTrend} />
+                    <div className="h-4 w-12 bg-white/5 rounded animate-pulse ml-auto" />
+                  ) : sparklineData ? (
+                    <div
+                      className={`inline-flex items-center gap-1 ${
+                        sparklineTrend === 'up'
+                          ? 'text-error'
+                          : sparklineTrend === 'down'
+                            ? 'text-success'
+                            : 'text-warning'
+                      }`}
+                    >
+                      {sparklineTrend === 'up' ? (
+                        <FaArrowUp className="text-xs" />
+                      ) : sparklineTrend === 'down' ? (
+                        <FaArrowDown className="text-xs" />
+                      ) : (
+                        <FaMinus className="text-xs" />
+                      )}
+                      <span className="text-sm font-bold tabular-nums">
+                        {sparklineTrend === 'up' ? '+' : sparklineTrend === 'down' ? '-' : ''}
+                        {Math.abs(sparklineData.changePercent).toFixed(2)}%
+                      </span>
+                    </div>
                   ) : (
                     <span className="text-xs text-secondary">-</span>
                   )}
                 </TableCell>
+
+                {/* 7D Trend Sparkline */}
+                <TableCell align="center">
+                  <div className="flex items-center justify-center">
+                    {loadingHistorical ? (
+                      <div className="w-28 h-12 mx-auto bg-white/5 rounded animate-pulse" />
+                    ) : sparklineValues.length > 0 ? (
+                      <CryptoSparkline
+                        data={sparklineValues}
+                        trend={sparklineTrend}
+                        isCrypto={false}
+                      />
+                    ) : (
+                      <span className="text-xs text-secondary">-</span>
+                    )}
+                  </div>
+                </TableCell>
+
+                {/* Acciones - siempre visibles */}
+                <TableCell align="right">
+                  <div className="flex items-center justify-end gap-1">
+                    <button
+                      onClick={() => onToggleFavorite(cotizacion.moneda)}
+                      className={`p-2 rounded-lg transition-all hover:scale-110 active:scale-95 ${
+                        isFavorite
+                          ? 'bg-brand/10 text-brand hover:bg-brand/20'
+                          : 'bg-panel-hover text-foreground/70 hover:text-brand hover:bg-brand/10'
+                      }`}
+                      aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+                      title={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+                    >
+                      {isFavorite ? (
+                        <FaStar className="text-sm" />
+                      ) : (
+                        <FaRegStar className="text-sm" />
+                      )}
+                    </button>
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(
+                          `${cotizacion.nombre}: $${cotizacion.venta.toFixed(2)}`
+                        );
+                      }}
+                      className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 bg-panel-hover text-foreground/70 hover:text-brand hover:bg-brand/10"
+                      aria-label="Copiar"
+                      title="Copiar valor"
+                    >
+                      <FaCopy className="text-sm" />
+                    </button>
+                    <button
+                      onClick={() => {
+                        if (navigator.share) {
+                          navigator.share({
+                            title: cotizacion.nombre,
+                            text: `${cotizacion.nombre}: $${cotizacion.venta.toFixed(2)}`,
+                          });
+                        }
+                      }}
+                      className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 bg-panel-hover text-foreground/70 hover:text-brand hover:bg-brand/10"
+                      aria-label="Compartir"
+                      title="Compartir"
+                    >
+                      <FaShareAlt className="text-sm" />
+                    </button>
+                  </div>
+                </TableCell>
               </TableRow>
 
               {/* Expandable row on hover */}
-              <TableRow
-                hoverable={false}
-                className="hidden group-hover:table-row bg-accent-emerald/5"
-              >
-                <TableCell colSpan={5} className="py-4">
+              <TableRow hoverable={false} className="hidden group-hover:table-row">
+                <TableCell colSpan={7} className="py-4">
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-xs">
                     <div>
                       <p className="text-secondary text-[10px] mb-0.5">Casa</p>

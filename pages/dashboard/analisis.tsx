@@ -72,7 +72,7 @@ export default function AnalisisPage() {
                 </div>
               </div>
               <div className="p-3 glass rounded-xl">
-                <FaDollarSign className="text-accent-emerald text-xl" />
+                <FaDollarSign className="text-brand text-xl" />
               </div>
             </div>
             <div className="text-xs text-secondary">
@@ -141,7 +141,7 @@ export default function AnalisisPage() {
         <Card variant="elevated" padding="lg">
           <Card.Header>
             <div className="flex items-center gap-2">
-              <FaPercent className="text-accent-emerald text-xl" />
+              <FaPercent className="text-brand text-xl" />
               <Card.Title>Brechas Cambiarias</Card.Title>
             </div>
             <p className="text-sm text-secondary mt-1">
@@ -172,7 +172,7 @@ export default function AnalisisPage() {
                     </div>
                     <div className="relative h-2 bg-panel rounded-full overflow-hidden">
                       <div
-                        className="absolute top-0 left-0 h-full bg-gradient-to-r from-accent-emerald to-accent-teal rounded-full transition-all"
+                        className="absolute top-0 left-0 h-full bg-gradient-to-r from-brand to-brand-light rounded-full transition-all"
                         style={{ width: `${Math.min(brecha?.brecha ?? 0, 100)}%` }}
                       />
                     </div>
@@ -236,7 +236,7 @@ export default function AnalisisPage() {
         <Card variant="elevated" padding="lg">
           <div className="flex items-start gap-4">
             <div className="p-3 glass rounded-xl">
-              <FaChartLine className="text-accent-emerald text-2xl" />
+              <FaChartLine className="text-brand text-2xl" />
             </div>
             <div className="flex-1">
               <h3 className="text-foreground font-semibold mb-2">Sobre este análisis</h3>
@@ -247,8 +247,8 @@ export default function AnalisisPage() {
                   brecha alta indica restricciones en el mercado oficial.
                 </p>
                 <p>
-                  <strong className="text-foreground">Riesgo País:</strong> Mide la sobretasa que paga
-                  Argentina respecto a bonos del tesoro de EE.UU. Un valor alto indica mayor
+                  <strong className="text-foreground">Riesgo País:</strong> Mide la sobretasa que
+                  paga Argentina respecto a bonos del tesoro de EE.UU. Un valor alto indica mayor
                   percepción de riesgo de default.
                 </p>
               </div>

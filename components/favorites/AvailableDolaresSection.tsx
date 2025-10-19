@@ -35,7 +35,7 @@ export function AvailableDolaresSection({
         <TableHeader>
           <TableRow hoverable={false}>
             <TableHeaderCell align="center" width="48px">
-              <FaStar className="inline-block text-accent-emerald" />
+              <FaStar className="inline-block text-brand" />
             </TableHeaderCell>
             <TableHeaderCell align="left">Tipo</TableHeaderCell>
             <TableHeaderCell align="right">Compra</TableHeaderCell>
@@ -52,14 +52,14 @@ export function AvailableDolaresSection({
               trend === 'up' ? 'text-error' : trend === 'down' ? 'text-success' : 'text-warning';
 
             return (
-              <TableRow key={dolar.casa} className={isFavorite ? 'bg-accent-emerald/5' : ''}>
+              <TableRow key={dolar.casa} className={isFavorite ? 'bg-brand/5' : ''}>
                 <TableCell align="center">
                   <button
                     onClick={() => onToggleFavorite(dolar.casa)}
                     className={`p-2 rounded-lg transition-all ${
                       isFavorite
-                        ? 'text-accent-emerald bg-accent-emerald/10 hover:bg-accent-emerald/20'
-                        : 'text-secondary bg-secondary/10 hover:bg-secondary/20 hover:text-accent-emerald'
+                        ? 'text-brand bg-brand/10 hover:bg-brand/20'
+                        : 'text-secondary bg-secondary/10 hover:bg-secondary/20 hover:text-brand'
                     }`}
                     aria-label={
                       isFavorite
@@ -90,7 +90,7 @@ export function AvailableDolaresSection({
                 </TableCell>
 
                 <TableCell align="right">
-                  <span className="text-sm font-semibold text-accent-emerald tabular-nums">
+                  <span className="text-sm font-semibold text-brand tabular-nums">
                     ${dolar.venta.toFixed(2)}
                   </span>
                 </TableCell>

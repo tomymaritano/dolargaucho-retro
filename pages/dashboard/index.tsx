@@ -7,6 +7,7 @@
  */
 
 import React, { useState } from 'react';
+import { FaStar } from 'react-icons/fa';
 import { DashboardLayout } from '@/components/layouts/DashboardLayout';
 import Toast from '@/components/Toast';
 import { useToast } from '@/hooks/useToast';
@@ -18,7 +19,7 @@ import { useECBHistorical } from '@/hooks/useECBHistorical';
 import { useInflacion } from '@/hooks/useInflacion';
 
 // Extracted components
-import { HeroBanner } from '@/components/dashboard/HeroBanner';
+import { MarketsHeader } from '@/components/dashboard/MarketsHeader';
 import { FavoritesSection } from '@/components/dashboard/FavoritesSection';
 import { FavoriteChartsSection } from '@/components/dashboard/FavoriteChartsSection';
 import { InflationSection } from '@/components/dashboard/InflationSection';
@@ -31,6 +32,10 @@ import { DolarSection } from '@/components/dashboard/DolarSection';
 export default function DashboardPage() {
   const [showFredCharts, setShowFredCharts] = useState(false);
   const [showECBCharts, setShowECBCharts] = useState(false);
+  const [selectedTableTab, setSelectedTableTab] = useState<
+    'favoritos' | 'dolar' | 'internacional' | 'crypto'
+  >('favoritos');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const { toast, showToast, hideToast } = useToast();
 
@@ -46,13 +51,11 @@ export default function DashboardPage() {
     cryptoPage,
     setCryptoPage,
     cryptoPerPage,
-    selectedDolarType,
-    setSelectedDolarType,
   } = useDashboardData();
 
   const { data: rawFredData, isLoading: fredLoading } = useFredData();
   // Adapt FRED data: hook returns null for nested fields, component expects undefined
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   const fredData = rawFredData as any;
   const { data: ecbData, isLoading: ecbLoading } = useECBRates();
   const { data: ecbHistorical, isLoading: ecbHistoricalLoading } = useECBHistorical();
@@ -76,6 +79,30 @@ export default function DashboardPage() {
     cotizaciones?.filter((c) => favoriteCurrencyIds.includes(c.moneda)) || [];
   const favoriteCryptos = cryptos?.filter((c) => favoriteCryptoIds.includes(c.id)) || [];
 
+  // Filter data based on search query
+  const filterBySearch = <T extends { nombre?: string; name?: string; casa?: string }>(
+    items: T[] | undefined
+  ): T[] => {
+    if (!items) return [];
+    if (!searchQuery) return items;
+
+    const query = searchQuery.toLowerCase();
+    return items.filter((item) => {
+      const nombre = item.nombre?.toLowerCase() || '';
+      const name = item.name?.toLowerCase() || '';
+      const casa = item.casa?.toLowerCase() || '';
+      return nombre.includes(query) || name.includes(query) || casa.includes(query);
+    });
+  };
+
+  // Filtered data
+  const filteredDolares = filterBySearch(dolares);
+  const filteredCotizaciones = filterBySearch(cotizaciones);
+  const filteredCryptos = filterBySearch(cryptos);
+  const filteredFavoriteDolares = filterBySearch(favoriteDolares);
+  const filteredFavoriteCurrencies = filterBySearch(favoriteCurrencies);
+  const filteredFavoriteCryptos = filterBySearch(favoriteCryptos);
+
   // Handler for chart toggle with toast notifications
   const handleToggleChart = (chartId: string) => {
     const result = toggleChart(chartId);
@@ -88,31 +115,122 @@ export default function DashboardPage() {
 
   return (
     <DashboardLayout>
-      {/* Hero Banner */}
-      <HeroBanner />
+      <div className="space-y-6">
+        {/* Markets Header */}
+        <MarketsHeader onSearch={setSearchQuery} />
 
-      {/* Favorites Section */}
-      <FavoritesSection
-        favoriteDolares={favoriteDolares}
-        favoriteCurrencies={favoriteCurrencies}
-        favoriteCryptos={favoriteCryptos}
-        selectedDolar={selectedDolar}
-        onToggleDolar={toggleDolar}
-        onToggleCurrency={toggleCurrency}
-        onToggleCrypto={toggleCrypto}
-      />
+        {/* Tabbed Tables Section */}
+        <div className="space-y-4">
+          {/* Tabs Navigation */}
+          <div className="flex items-center gap-6 overflow-x-auto pb-3 border-b border-slate-700/10">
+            <button
+              onClick={() => setSelectedTableTab('favoritos')}
+              className={`pb-3 font-semibold text-sm transition-all whitespace-nowrap relative flex items-center gap-2 ${
+                selectedTableTab === 'favoritos'
+                  ? 'text-brand'
+                  : 'text-secondary hover:text-foreground'
+              }`}
+            >
+              <FaStar className="text-xs" />
+              Favoritos
+              {selectedTableTab === 'favoritos' && (
+                <div className="absolute -bottom-3 left-0 right-0 h-0.5 bg-brand" />
+              )}
+            </button>
+            <button
+              onClick={() => setSelectedTableTab('dolar')}
+              className={`pb-3 font-semibold text-sm transition-all whitespace-nowrap relative ${
+                selectedTableTab === 'dolar' ? 'text-brand' : 'text-secondary hover:text-foreground'
+              }`}
+            >
+              Dólar
+              {selectedTableTab === 'dolar' && (
+                <div className="absolute -bottom-3 left-0 right-0 h-0.5 bg-brand" />
+              )}
+            </button>
+            <button
+              onClick={() => setSelectedTableTab('internacional')}
+              className={`pb-3 font-semibold text-sm transition-all whitespace-nowrap relative ${
+                selectedTableTab === 'internacional'
+                  ? 'text-brand'
+                  : 'text-secondary hover:text-foreground'
+              }`}
+            >
+              Internacional
+              {selectedTableTab === 'internacional' && (
+                <div className="absolute -bottom-3 left-0 right-0 h-0.5 bg-brand" />
+              )}
+            </button>
+            <button
+              onClick={() => setSelectedTableTab('crypto')}
+              className={`pb-3 font-semibold text-sm transition-all whitespace-nowrap relative ${
+                selectedTableTab === 'crypto'
+                  ? 'text-brand'
+                  : 'text-secondary hover:text-foreground'
+              }`}
+            >
+              Crypto
+              {selectedTableTab === 'crypto' && (
+                <div className="absolute -bottom-3 left-0 right-0 h-0.5 bg-brand" />
+              )}
+            </button>
+          </div>
 
-      {/* Favorite Charts */}
-      <FavoriteChartsSection
-        favoriteChartIds={favoriteChartIds}
-        inflacionData={inflacionData}
-        fredData={fredData}
-        ecbHistorical={ecbHistorical}
-        onToggleChart={handleToggleChart}
-      />
+          {/* Table Content */}
+          {selectedTableTab === 'favoritos' && (
+            <FavoritesSection
+              favoriteDolares={filteredFavoriteDolares}
+              favoriteCurrencies={filteredFavoriteCurrencies}
+              favoriteCryptos={filteredFavoriteCryptos}
+              selectedDolar={selectedDolar}
+              onToggleDolar={toggleDolar}
+              onToggleCurrency={toggleCurrency}
+              onToggleCrypto={toggleCrypto}
+            />
+          )}
 
-      {/* Inflation & International Rates Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {selectedTableTab === 'dolar' && (
+            <DolarSection
+              dolares={filteredDolares}
+              loadingDolares={loadingDolares}
+              favoriteDolarIds={favoriteDolarIds}
+              onToggleDolar={toggleDolar}
+            />
+          )}
+
+          {selectedTableTab === 'internacional' && (
+            <InternationalRatesSection
+              cotizaciones={filteredCotizaciones}
+              loadingCotizaciones={loadingCotizaciones}
+              favoriteCurrencyIds={favoriteCurrencyIds}
+              onToggleCurrency={toggleCurrency}
+            />
+          )}
+
+          {selectedTableTab === 'crypto' && (
+            <CryptoSection
+              cryptos={filteredCryptos}
+              isLoading={loadingCryptos}
+              selectedDolar={selectedDolar}
+              favoriteCryptoIds={favoriteCryptoIds}
+              cryptoPage={cryptoPage}
+              cryptoPerPage={cryptoPerPage}
+              onToggleFavorite={toggleCrypto}
+              onPageChange={setCryptoPage}
+            />
+          )}
+        </div>
+
+        {/* Favorite Charts */}
+        <FavoriteChartsSection
+          favoriteChartIds={favoriteChartIds}
+          inflacionData={inflacionData}
+          fredData={fredData}
+          ecbHistorical={ecbHistorical}
+          onToggleChart={handleToggleChart}
+        />
+
+        {/* Inflation Section - Always Visible */}
         <InflationSection
           inflacionData={inflacionData}
           inflacionLoading={inflacionLoading}
@@ -120,57 +238,28 @@ export default function DashboardPage() {
           onToggleChart={handleToggleChart}
         />
 
-        <InternationalRatesSection
-          cotizaciones={cotizaciones}
-          loadingCotizaciones={loadingCotizaciones}
-          favoriteCurrencyIds={favoriteCurrencyIds}
-          onToggleCurrency={toggleCurrency}
+        {/* FRED - USA Economic Data - Always Visible */}
+        <FredSection
+          fredData={fredData}
+          fredLoading={fredLoading}
+          showFredCharts={showFredCharts}
+          onToggleCharts={() => setShowFredCharts(!showFredCharts)}
+          favoriteChartIds={favoriteChartIds}
+          onToggleChart={handleToggleChart}
+        />
+
+        {/* ECB - European Exchange Rates - Always Visible */}
+        <ECBSection
+          ecbData={ecbData}
+          ecbLoading={ecbLoading}
+          ecbHistorical={ecbHistorical}
+          ecbHistoricalLoading={ecbHistoricalLoading}
+          showECBCharts={showECBCharts}
+          onToggleCharts={() => setShowECBCharts(!showECBCharts)}
+          favoriteChartIds={favoriteChartIds}
+          onToggleChart={handleToggleChart}
         />
       </div>
-
-      {/* Cryptocurrencies */}
-      <CryptoSection
-        cryptos={cryptos}
-        isLoading={loadingCryptos}
-        selectedDolar={selectedDolar}
-        selectedDolarType={selectedDolarType}
-        favoriteCryptoIds={favoriteCryptoIds}
-        cryptoPage={cryptoPage}
-        cryptoPerPage={cryptoPerPage}
-        onToggleFavorite={toggleCrypto}
-        onPageChange={setCryptoPage}
-        onDolarTypeChange={setSelectedDolarType}
-      />
-
-      {/* FRED - USA Economic Data */}
-      <FredSection
-        fredData={fredData}
-        fredLoading={fredLoading}
-        showFredCharts={showFredCharts}
-        onToggleCharts={() => setShowFredCharts(!showFredCharts)}
-        favoriteChartIds={favoriteChartIds}
-        onToggleChart={handleToggleChart}
-      />
-
-      {/* ECB - European Exchange Rates */}
-      <ECBSection
-        ecbData={ecbData}
-        ecbLoading={ecbLoading}
-        ecbHistorical={ecbHistorical}
-        ecbHistoricalLoading={ecbHistoricalLoading}
-        showECBCharts={showECBCharts}
-        onToggleCharts={() => setShowECBCharts(!showECBCharts)}
-        favoriteChartIds={favoriteChartIds}
-        onToggleChart={handleToggleChart}
-      />
-
-      {/* Dollar Rates */}
-      <DolarSection
-        dolares={dolares}
-        loadingDolares={loadingDolares}
-        favoriteDolarIds={favoriteDolarIds}
-        onToggleDolar={toggleDolar}
-      />
 
       {/* Toast Notifications */}
       <Toast

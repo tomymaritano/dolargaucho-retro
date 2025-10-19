@@ -30,7 +30,7 @@ export function CryptoFiltersBar({
     <div className="flex flex-col gap-3">
       <div className="flex flex-col md:flex-row gap-3">
         {/* Search Bar */}
-        <div className="flex-1 flex items-center gap-3 glass px-4 py-3 rounded-xl border border-border hover:border-accent-emerald/30 transition-colors focus-within:border-accent-emerald/50 focus-within:ring-2 focus-within:ring-accent-emerald/20">
+        <div className="flex-1 flex items-center gap-3 glass px-4 py-3 rounded-xl border border-border hover:border-brand/30 transition-colors focus-within:border-brand/50 focus-within:ring-2 focus-within:ring-brand/20">
           <FaSearch className="text-secondary text-sm" />
           <input
             type="text"
@@ -66,7 +66,7 @@ export function CryptoFiltersBar({
             className={
               'px-4 py-2.5 rounded-lg text-xs font-semibold transition-all ' +
               (filterBy === 'all'
-                ? 'bg-accent-emerald text-background-dark'
+                ? 'bg-brand text-background-dark'
                 : 'glass text-secondary hover:text-foreground hover:bg-white/5')
             }
           >
@@ -77,7 +77,7 @@ export function CryptoFiltersBar({
             className={
               'px-4 py-2.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ' +
               (filterBy === 'favorites'
-                ? 'bg-accent-emerald text-background-dark'
+                ? 'bg-brand text-background-dark'
                 : 'glass text-secondary hover:text-foreground hover:bg-white/5')
             }
           >
@@ -89,7 +89,7 @@ export function CryptoFiltersBar({
             className={
               'px-4 py-2.5 rounded-lg text-xs font-semibold transition-all ' +
               (filterBy === 'stablecoins'
-                ? 'bg-accent-emerald text-background-dark'
+                ? 'bg-brand text-background-dark'
                 : 'glass text-secondary hover:text-foreground hover:bg-white/5')
             }
           >
@@ -108,7 +108,7 @@ export function CryptoFiltersBar({
                 className={
                   'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ' +
                   (selectedDolarType === type
-                    ? 'bg-accent-emerald text-background-dark'
+                    ? 'bg-brand text-background-dark'
                     : 'glass text-secondary hover:text-foreground hover:bg-white/5')
                 }
               >

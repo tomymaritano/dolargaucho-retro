@@ -99,11 +99,11 @@ export function LeadCaptureForm({
 
       {/* Success message */}
       {success && (
-        <div className="mb-6 p-4 bg-accent-emerald/10 border border-accent-emerald/30 rounded-lg">
+        <div className="mb-6 p-4 bg-brand/10 border border-brand/30 rounded-lg">
           <div className="flex items-center gap-3">
-            <FaCheck className="text-accent-emerald text-xl flex-shrink-0" />
+            <FaCheck className="text-brand text-xl flex-shrink-0" />
             <div>
-              <p className="text-accent-emerald font-semibold">¡Suscripción exitosa!</p>
+              <p className="text-brand font-semibold">¡Suscripción exitosa!</p>
               <p className="text-sm text-secondary mt-1">
                 Recibirás nuestras actualizaciones en tu email.
               </p>
@@ -152,12 +152,7 @@ export function LeadCaptureForm({
           )}
 
           {/* Submit button */}
-          <Button
-            type="submit"
-            variant="primary"
-            className="w-full"
-            disabled={loading}
-          >
+          <Button type="submit" variant="primary" className="w-full" disabled={loading}>
             {loading ? (
               <>
                 <FaSpinner className="animate-spin mr-2" />

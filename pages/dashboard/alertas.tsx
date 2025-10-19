@@ -38,7 +38,7 @@ export default function AlertasPage() {
       <DashboardLayout>
         <div className="flex items-center justify-center h-96">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent-emerald mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand mx-auto mb-4"></div>
             <p className="text-secondary">Cargando alertas...</p>
           </div>
         </div>
@@ -59,7 +59,7 @@ export default function AlertasPage() {
               <div className="text-3xl font-bold text-foreground">{estadisticas.total}</div>
             </div>
             <div className="p-3 glass rounded-xl">
-              <FaBell className="text-accent-emerald text-xl" />
+              <FaBell className="text-brand text-xl" />
             </div>
           </div>
         </Card>
@@ -71,7 +71,7 @@ export default function AlertasPage() {
               <div className="text-3xl font-bold text-foreground">{estadisticas.activas}</div>
             </div>
             <div className="p-3 glass rounded-xl">
-              <FaChartLine className="text-accent-teal text-xl" />
+              <FaChartLine className="text-brand-light text-xl" />
             </div>
           </div>
         </Card>
@@ -83,7 +83,7 @@ export default function AlertasPage() {
               <div className="text-3xl font-bold text-foreground">{estadisticas.disparadas}</div>
             </div>
             <div className="p-3 glass rounded-xl">
-              <FaCheckCircle className="text-accent-emerald text-xl" />
+              <FaCheckCircle className="text-brand text-xl" />
             </div>
           </div>
         </Card>
@@ -103,20 +103,17 @@ export default function AlertasPage() {
 
       {/* Alertas Recientes Disparadas */}
       {alertasRecientesDisparadas.length > 0 && (
-        <Card variant="elevated" padding="lg" className="mb-8 border-2 border-accent-emerald">
+        <Card variant="elevated" padding="lg" className="mb-8 border-2 border-brand">
           <Card.Header>
             <div className="flex items-center gap-2">
-              <FaCheckCircle className="text-accent-emerald text-xl" />
+              <FaCheckCircle className="text-brand text-xl" />
               <Card.Title>Alertas Recientes (Últimas 24h)</Card.Title>
             </div>
           </Card.Header>
           <Card.Content>
             <div className="space-y-2">
               {alertasRecientesDisparadas.map((alerta) => (
-                <div
-                  key={alerta.id}
-                  className="p-3 glass rounded-lg border border-accent-emerald/30"
-                >
+                <div key={alerta.id} className="p-3 glass rounded-lg border border-brand/30">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-foreground font-semibold">{alerta.nombre}</p>
@@ -130,7 +127,7 @@ export default function AlertasPage() {
                           })}
                       </p>
                     </div>
-                    <div className="text-accent-emerald font-semibold">
+                    <div className="text-brand font-semibold">
                       ${getValorActual(alerta)?.toFixed(2)}
                     </div>
                   </div>
@@ -162,7 +159,7 @@ export default function AlertasPage() {
                 onClick={() => setFiltro(f.key as 'todas' | 'activas' | 'disparadas' | 'pausadas')}
                 className={`px-4 py-2 rounded-lg font-medium transition-all ${
                   filtro === f.key
-                    ? 'bg-accent-emerald text-background'
+                    ? 'bg-brand text-background'
                     : 'glass text-secondary hover:text-foreground'
                 }`}
               >
@@ -185,7 +182,7 @@ export default function AlertasPage() {
       <Card variant="elevated" padding="lg" className="mt-8">
         <div className="flex items-start gap-4">
           <div className="p-3 glass rounded-xl">
-            <FaBell className="text-accent-emerald text-2xl" />
+            <FaBell className="text-brand text-2xl" />
           </div>
           <div className="flex-1">
             <h3 className="text-foreground font-semibold mb-2">Cómo funcionan las Alertas</h3>

@@ -50,7 +50,7 @@ export function CryptoTableRow({
         <TableCell align="center">
           <button
             onClick={onToggleFavorite}
-            className={`p-2 rounded-lg transition-all ${isFavorite ? 'text-accent-emerald bg-accent-emerald/10' : 'text-secondary hover:text-accent-emerald hover:bg-white/5'}`}
+            className={`p-2 rounded-lg transition-all ${isFavorite ? 'text-brand bg-brand/10' : 'text-secondary hover:text-brand hover:bg-white/5'}`}
             aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
           >
             {isFavorite ? <FaStar className="text-base" /> : <FaRegStar className="text-base" />}
@@ -88,7 +88,7 @@ export function CryptoTableRow({
         {/* Precio ARS */}
         <TableCell align="right">
           {selectedDolar ? (
-            <span className="text-sm font-semibold text-accent-emerald tabular-nums">
+            <span className="text-sm font-semibold text-brand tabular-nums">
               $
               {(crypto.current_price * selectedDolar.venta).toLocaleString('es-AR', {
                 minimumFractionDigits: 0,
@@ -120,7 +120,7 @@ export function CryptoTableRow({
       </TableRow>
 
       {/* Fila expandible con detalles (visible al hover) */}
-      <TableRow hoverable={false} className="hidden group-hover:table-row bg-accent-emerald/5">
+      <TableRow hoverable={false} className="hidden group-hover:table-row bg-brand/5">
         <TableCell colSpan={7} className="py-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
             <div>

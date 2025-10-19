@@ -1,11 +1,25 @@
 'use client';
 
 import React, { useState } from 'react';
-import { FaStar, FaRegStar, FaArrowUp, FaArrowDown, FaMinus, FaCopy, FaCheckCircle, FaShareAlt } from 'react-icons/fa';
+import {
+  FaStar,
+  FaRegStar,
+  FaArrowUp,
+  FaArrowDown,
+  FaMinus,
+  FaCopy,
+  FaCheckCircle,
+  FaShareAlt,
+} from 'react-icons/fa';
 import { Card } from '@/components/ui/Card/Card';
 import type { CryptoData } from '@/types/api/crypto';
 import { logger } from '@/lib/utils/logger';
-import { formatPrice, formatPriceARS, formatCompactNumber, formatPercentage } from '@/lib/utils/formatters';
+import {
+  formatPrice,
+  formatPriceARS,
+  formatCompactNumber,
+  formatPercentage,
+} from '@/lib/utils/formatters';
 
 interface CryptoCardProps {
   crypto: CryptoData;
@@ -67,7 +81,10 @@ export function CryptoCard({ crypto, isFavorite, onToggleFavorite, priceInArs }:
           url: window.location.href,
         });
       } catch (error) {
-        logger.error('Error al compartir crypto', error, { component: 'CryptoCard', crypto: crypto.id });
+        logger.error('Error al compartir crypto', error, {
+          component: 'CryptoCard',
+          crypto: crypto.id,
+        });
       }
     }
   };
@@ -84,9 +101,7 @@ export function CryptoCard({ crypto, isFavorite, onToggleFavorite, priceInArs }:
             loading="lazy"
           />
           <div className="flex-1 min-w-0">
-            <h3 className="text-base font-bold text-foreground truncate">
-              {crypto.name}
-            </h3>
+            <h3 className="text-base font-bold text-foreground truncate">{crypto.name}</h3>
             <div className="flex items-center gap-2">
               <span className="text-xs text-secondary uppercase font-semibold">
                 {crypto.symbol.toUpperCase()}
@@ -101,8 +116,8 @@ export function CryptoCard({ crypto, isFavorite, onToggleFavorite, priceInArs }:
           onClick={() => onToggleFavorite(crypto.id)}
           className={`p-2 rounded-lg transition-all flex-shrink-0 ${
             isFavorite
-              ? 'bg-accent-emerald/20 text-accent-emerald'
-              : 'glass text-secondary hover:text-accent-emerald hover:bg-white/5'
+              ? 'bg-brand/20 text-brand'
+              : 'glass text-secondary hover:text-brand hover:bg-white/5'
           }`}
           aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
         >
@@ -123,13 +138,11 @@ export function CryptoCard({ crypto, isFavorite, onToggleFavorite, priceInArs }:
             </span>
           </div>
         </div>
-        <p className="text-3xl font-bold text-accent-emerald tabular-nums mb-1">
+        <p className="text-3xl font-bold text-brand tabular-nums mb-1">
           {formatPrice(crypto.current_price)}
         </p>
         {priceInArs && priceInArs > 0 && (
-          <p className="text-sm text-secondary tabular-nums">
-            ≈ {formatPriceARS(priceInArs)} ARS
-          </p>
+          <p className="text-sm text-secondary tabular-nums">≈ {formatPriceARS(priceInArs)} ARS</p>
         )}
       </div>
 
@@ -168,12 +181,12 @@ export function CryptoCard({ crypto, isFavorite, onToggleFavorite, priceInArs }:
       <div className="flex gap-2 pt-3 border-t border-border">
         <button
           onClick={handleCopy}
-          className="flex-1 px-3 py-2 rounded-lg glass hover:bg-accent-emerald/10 transition-all text-secondary hover:text-accent-emerald flex items-center justify-center gap-2 text-xs font-medium"
+          className="flex-1 px-3 py-2 rounded-lg glass hover:bg-brand/10 transition-all text-secondary hover:text-brand flex items-center justify-center gap-2 text-xs font-medium"
           title="Copiar información"
         >
           {copied ? (
             <>
-              <FaCheckCircle className="text-accent-emerald" />
+              <FaCheckCircle className="text-brand" />
               Copiado
             </>
           ) : (
@@ -186,7 +199,7 @@ export function CryptoCard({ crypto, isFavorite, onToggleFavorite, priceInArs }:
         {typeof navigator !== 'undefined' && typeof navigator.share === 'function' && (
           <button
             onClick={handleShare}
-            className="px-3 py-2 rounded-lg glass hover:bg-accent-emerald/10 transition-all text-secondary hover:text-accent-emerald"
+            className="px-3 py-2 rounded-lg glass hover:bg-brand/10 transition-all text-secondary hover:text-brand"
             title="Compartir"
           >
             <FaShareAlt className="text-sm" />

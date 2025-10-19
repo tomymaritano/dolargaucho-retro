@@ -20,24 +20,40 @@ import {
   FaSignOutAlt,
   FaUser,
   FaBitcoin,
+  FaCog,
+  FaChevronDown,
 } from 'react-icons/fa';
 import { useFavoritesStore } from '@/lib/store/favorites';
 import { useAlertasStore } from '@/lib/store/alertas';
 import { useAuth } from '@/lib/contexts/AuthContext';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { GlobalSearch } from '@/components/ui/GlobalSearch';
-import { RiesgoPaisBadge } from '@/components/ui/RiesgoPaisBadge/RiesgoPaisBadge';
 import { DolarMarquee } from '@/components/ui/DolarMarquee/DolarMarquee';
 
-const menuItems = [
-  { icon: FaHome, label: 'Dashboard', href: '/dashboard', description: 'Panel principal' },
-  { icon: FaBitcoin, label: 'Criptomonedas', href: '/dashboard/crypto', description: 'Bitcoin, Ethereum, USDT y más', badge: 'NUEVO' },
-  { icon: FaChartLine, label: 'Análisis', href: '/dashboard/analisis', description: 'Análisis de mercado' },
-  { icon: FaLandmark, label: 'Política', href: '/dashboard/politica', description: 'Senado y Diputados' },
-  { icon: FaChartBar, label: 'Finanzas', href: '/dashboard/finanzas', description: 'Índices y FCIs' },
-  { icon: FaCalculator, label: 'Calculadoras', href: '/dashboard/calculadoras', description: 'Inflación, Plazo Fijo, UVA, y más' },
-  { icon: FaBell, label: 'Alertas', href: '/dashboard/alertas', description: 'Notificaciones personalizadas' },
-  { icon: FaCalendarAlt, label: 'Calendario', href: '/dashboard/calendario', description: 'Eventos y feriados' },
+const menuSections = [
+  {
+    title: 'Principal',
+    items: [
+      { icon: FaHome, label: 'Dashboard', href: '/dashboard' },
+      { icon: FaBitcoin, label: 'Criptomonedas', href: '/dashboard/crypto', badge: 'NUEVO' },
+    ],
+  },
+  {
+    title: 'Análisis',
+    items: [
+      { icon: FaChartLine, label: 'Análisis', href: '/dashboard/analisis' },
+      { icon: FaLandmark, label: 'Política', href: '/dashboard/politica' },
+      { icon: FaChartBar, label: 'Finanzas', href: '/dashboard/finanzas' },
+    ],
+  },
+  {
+    title: 'Herramientas',
+    items: [
+      { icon: FaCalculator, label: 'Calculadoras', href: '/dashboard/calculadoras' },
+      { icon: FaBell, label: 'Alertas', href: '/dashboard/alertas' },
+      { icon: FaCalendarAlt, label: 'Calendario', href: '/dashboard/calendario' },
+    ],
+  },
 ];
 
 export function UnifiedNavbar() {
@@ -45,6 +61,7 @@ export function UnifiedNavbar() {
   const { user, signOut } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const getTotalCount = useFavoritesStore((state) => state.getTotalCount);
   const getTotalAlertas = useAlertasStore((state) => state.getTotalCount);
 
@@ -77,11 +94,14 @@ export function UnifiedNavbar() {
 
   return (
     <>
+      {/* Dolar Marquee */}
+      <DolarMarquee />
+
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.3 }}
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 glass-strong border-b border-border backdrop-blur-xl"
+        className="fixed top-12 left-0 right-0 z-50 transition-all duration-300 backdrop-blur-xl bg-background/80 border-b border-white/5"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">
@@ -95,7 +115,7 @@ export function UnifiedNavbar() {
                   alt="Dolar Gaucho"
                   className="w-8 h-8 sm:w-10 sm:h-10"
                 />
-                <div className="absolute -inset-2 bg-accent-emerald/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
+                <div className="absolute -inset-2 bg-brand/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
               </div>
               <div className="hidden sm:block">
                 <div className="font-display font-bold text-lg sm:text-xl gradient-text">
@@ -107,11 +127,6 @@ export function UnifiedNavbar() {
 
             {/* Right Actions */}
             <div className="flex items-center gap-2 sm:gap-3">
-              {/* Riesgo País - Desktop only */}
-              <div className="hidden lg:block">
-                <RiesgoPaisBadge />
-              </div>
-
               {/* Theme Toggle - Desktop only */}
               <div className="hidden md:block">
                 <ThemeToggle />
@@ -120,19 +135,19 @@ export function UnifiedNavbar() {
               {/* Search Button */}
               <button
                 onClick={() => setSearchOpen(!searchOpen)}
-                className="p-2.5 rounded-lg glass hover:bg-white/5 transition-colors text-secondary hover:text-accent-emerald"
+                className="p-2 rounded-md hover:bg-brand/10 transition-colors text-foreground/60 hover:text-brand"
                 aria-label="Buscar"
               >
-                <FaSearch className="text-lg" />
+                <FaSearch className="text-base" />
               </button>
 
               {/* Menu Toggle */}
               <button
                 onClick={() => setMenuOpen(!menuOpen)}
-                className="p-2.5 rounded-lg glass hover:bg-white/5 transition-colors text-foreground z-50"
+                className="p-2 rounded-md hover:bg-brand/10 transition-colors text-foreground/60 hover:text-brand z-50"
                 aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
               >
-                {menuOpen ? <FaTimes className="text-lg" /> : <FaBars className="text-lg" />}
+                {menuOpen ? <FaTimes className="text-base" /> : <FaBars className="text-base" />}
               </button>
             </div>
           </div>
@@ -154,7 +169,7 @@ export function UnifiedNavbar() {
                   <input
                     type="text"
                     placeholder="Buscar cotizaciones, senadores, diputados..."
-                    className="w-full pl-12 pr-4 py-3 bg-panel border border-border rounded-lg text-foreground placeholder-secondary focus:outline-none focus:border-accent-emerald/50 focus:ring-2 focus:ring-accent-emerald/20 transition-all text-sm sm:text-base"
+                    className="w-full pl-12 pr-4 py-3 bg-panel border border-border rounded-lg text-foreground placeholder-secondary focus:outline-none focus:border-brand/50 focus:ring-2 focus:ring-brand/20 transition-all text-sm sm:text-base"
                     autoFocus
                   />
                 </div>
@@ -163,9 +178,6 @@ export function UnifiedNavbar() {
           )}
         </AnimatePresence>
       </motion.nav>
-
-      {/* Dolar Marquee */}
-      <DolarMarquee />
 
       {/* Mobile/Desktop Menu */}
       <AnimatePresence>
@@ -192,147 +204,163 @@ export function UnifiedNavbar() {
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: -300, opacity: 0 }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="absolute left-0 top-0 bottom-0 w-full md:w-80 md:max-w-[85vw] glass-strong md:border-r border-border flex flex-col overflow-hidden bg-background"
+              className="absolute left-0 top-0 bottom-0 w-full md:w-64 md:max-w-[85vw] backdrop-blur-xl bg-background/80 md:border-r border-white/5 flex flex-col overflow-hidden"
             >
               {/* Header */}
-              <div className="p-6 border-b border-border">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-3">
-                    <Image src="/logo.svg" width={48} height={48} alt="Dolar Gaucho" />
+              <div className="p-3 border-b border-white/5">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Image src="/logo.svg" width={28} height={28} alt="Dolar Gaucho" />
                     <div>
-                      <div className="font-display font-bold text-xl gradient-text">Dólar Gaucho</div>
-                      <div className="text-xs text-secondary uppercase tracking-wider">
-                        Dashboard Profesional
+                      <div className="font-display font-bold text-sm gradient-text">
+                        Dólar Gaucho
+                      </div>
+                      <div className="text-[8px] text-brand uppercase tracking-wider font-semibold">
+                        Pro
                       </div>
                     </div>
                   </div>
-                  {/* Close button - Visible en mobile */}
-                  <button
-                    onClick={() => setMenuOpen(false)}
-                    className="md:hidden p-2 rounded-lg glass hover:bg-white/5 transition-colors text-foreground"
-                    aria-label="Cerrar menú"
-                  >
-                    <FaTimes className="text-xl" />
-                  </button>
+                  <div className="flex items-center gap-1">
+                    {/* Theme Toggle - Visible en mobile */}
+                    <div className="md:hidden">
+                      <ThemeToggle />
+                    </div>
+                    {/* Close button - Visible en mobile */}
+                    <button
+                      onClick={() => setMenuOpen(false)}
+                      className="md:hidden p-1.5 rounded-md hover:bg-white/5 transition-colors text-foreground/60"
+                      aria-label="Cerrar menú"
+                    >
+                      <FaTimes className="text-base" />
+                    </button>
+                  </div>
                 </div>
               </div>
 
               {/* Menu Items */}
-              <nav className="flex-1 overflow-y-auto py-4 px-3 md:px-3 custom-scrollbar">
-                <div className="space-y-2 md:space-y-1">
-                  {menuItems.map((item, index) => {
-                    const active = isActive(item.href);
-                    return (
-                      <motion.div
-                        key={item.href}
-                        initial={{ x: -50, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        transition={{ delay: index * 0.05 }}
-                      >
-                        <Link
-                          href={item.href}
-                          className={`flex items-start gap-4 p-4 md:p-3 rounded-xl transition-all group ${
-                            active
-                              ? 'bg-accent-emerald/20 text-accent-emerald'
-                              : 'hover:bg-white/5 dark:hover:bg-white/5 text-secondary hover:text-foreground'
-                          }`}
-                        >
-                          <div
-                            className={`p-3 md:p-2 rounded-lg transition-colors ${
+              <nav className="flex-1 overflow-y-auto p-3 custom-scrollbar">
+                {menuSections.map((section, sectionIndex) => (
+                  <div key={section.title} className={sectionIndex > 0 ? 'mt-4' : ''}>
+                    {/* Section Title */}
+                    <div className="px-3 mb-2">
+                      <span className="text-[10px] text-secondary uppercase tracking-wider font-semibold">
+                        {section.title}
+                      </span>
+                    </div>
+
+                    {/* Section Items */}
+                    <div className="space-y-0.5">
+                      {section.items.map((item) => {
+                        const active = isActive(item.href);
+                        return (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            className={`group flex items-center gap-3 px-3 py-2.5 rounded-md transition-all duration-200 my-0.5 ${
                               active
-                                ? 'bg-accent-emerald/30'
-                                : 'bg-white/5 dark:bg-white/5 group-hover:bg-accent-emerald/10'
+                                ? 'bg-brand/10 text-brand border-l-3 border-brand'
+                                : 'text-foreground/70 hover:text-foreground hover:bg-white/10 hover:scale-[1.02] border-l-3 border-transparent'
                             }`}
                           >
                             <item.icon
-                              className={`text-xl md:text-lg ${active ? 'text-accent-emerald' : 'text-foreground'}`}
+                              className={`text-lg flex-shrink-0 transition-transform group-hover:scale-110 ${active ? '' : 'opacity-70'}`}
                             />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2">
-                              <div
-                                className={`font-medium text-base md:text-sm ${active ? 'text-accent-emerald' : 'text-foreground'}`}
-                              >
-                                {item.label}
-                              </div>
-                              {'badge' in item && item.badge && (
-                                <span className="px-1.5 py-0.5 text-[10px] bg-accent-emerald text-background-dark rounded font-bold uppercase">
-                                  {item.badge}
-                                </span>
-                              )}
-                            </div>
-                            <div className="text-sm md:text-xs text-secondary mt-1 md:mt-0.5 line-clamp-1">
-                              {item.description}
-                            </div>
-                          </div>
-                        </Link>
-                      </motion.div>
-                    );
-                  })}
-                </div>
+                            <span className="font-medium text-sm">{item.label}</span>
+                            {'badge' in item && item.badge && (
+                              <span className="ml-auto px-2 py-0.5 text-[8px] bg-brand text-white rounded-full font-bold uppercase animate-pulse">
+                                {item.badge}
+                              </span>
+                            )}
+                          </Link>
+                        );
+                      })}
+                    </div>
+
+                    {/* Separator */}
+                    {sectionIndex < menuSections.length - 1 && (
+                      <div className="border-t border-white/5 mt-3" />
+                    )}
+                  </div>
+                ))}
               </nav>
 
-              {/* Footer - Quick Stats & User */}
-              <div className="border-t border-border">
-                {/* Quick Stats */}
-                <div className="p-6 md:p-6 pb-4">
-                  <div className="flex items-center justify-between text-sm md:text-xs text-secondary mb-3">
-                    <span>Quick Stats</span>
-                    {/* Theme Toggle en mobile */}
-                    <div className="md:hidden">
-                      <ThemeToggle />
+              {/* Footer - User Menu Dropdown (BingX Style) */}
+              <div className="border-t border-white/5 p-2.5">
+                {/* User Info Button - Clickeable */}
+                <button
+                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  className="w-full flex items-center gap-2 p-2 rounded-md hover:bg-white/5 transition-all group"
+                >
+                  <div className="relative flex-shrink-0">
+                    <div className="w-8 h-8 rounded-full bg-brand/10 flex items-center justify-center ring-1 ring-brand/20 group-hover:ring-brand/40 transition-all">
+                      <FaUser className="text-brand text-[10px]" />
+                    </div>
+                    <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-success rounded-full border border-background" />
+                  </div>
+                  <div className="flex-1 min-w-0 text-left">
+                    <div className="text-[11px] font-semibold text-foreground truncate leading-tight">
+                      {user?.name || 'Usuario'}
+                    </div>
+                    <div className="text-[9px] text-secondary truncate leading-tight mt-0.5">
+                      Plan Gratuito
                     </div>
                   </div>
-                  <div className="flex gap-4">
-                    <Link
-                      href="/dashboard/favoritos"
-                      className="flex-1 glass p-4 md:p-3 rounded-lg hover:bg-accent-emerald/10 transition-all cursor-pointer group"
-                    >
-                      <div className="text-2xl md:text-lg font-bold text-accent-emerald group-hover:scale-110 transition-transform">{getTotalCount()}</div>
-                      <div className="text-xs md:text-[10px] text-secondary uppercase mt-1 flex items-center gap-1">
-                        <FaStar className="text-[10px]" />
-                        Favoritos
-                      </div>
-                    </Link>
-                    <Link
-                      href="/dashboard/alertas"
-                      className="flex-1 glass p-4 md:p-3 rounded-lg hover:bg-accent-emerald/10 transition-all cursor-pointer group"
-                    >
-                      <div className="text-2xl md:text-lg font-bold text-accent-emerald group-hover:scale-110 transition-transform">{getTotalAlertas()}</div>
-                      <div className="text-xs md:text-[10px] text-secondary uppercase mt-1 flex items-center gap-1">
-                        <FaBell className="text-[10px]" />
-                        Alertas
-                      </div>
-                    </Link>
-                  </div>
-                </div>
+                  <FaChevronDown
+                    className={`text-[10px] text-foreground/50 transition-transform duration-200 ${
+                      userMenuOpen ? 'rotate-180' : ''
+                    }`}
+                  />
+                </button>
 
-                {/* User Info & Logout */}
-                <div className="p-6 md:p-6 pt-0 pb-8 md:pb-6">
-                  <div className="glass rounded-lg p-4 md:p-4 border border-border">
-                    {/* User Info */}
-                    <div className="flex items-center gap-3 mb-4 md:mb-3">
-                      <div className="w-12 h-12 md:w-10 md:h-10 rounded-full bg-accent-emerald/20 flex items-center justify-center">
-                        <FaUser className="text-accent-emerald text-lg md:text-base" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="text-base md:text-sm font-medium text-foreground truncate">
-                          {user?.name || 'Usuario'}
-                        </div>
-                        <div className="text-sm md:text-xs text-secondary truncate">{user?.email}</div>
-                      </div>
-                    </div>
-
-                    {/* Logout Button */}
-                    <button
-                      onClick={handleLogout}
-                      className="w-full flex items-center justify-center gap-2 px-4 py-3 md:py-2.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 transition-all font-medium text-base md:text-sm group"
+                {/* Dropdown Menu - Expandible */}
+                <AnimatePresence>
+                  {userMenuOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="overflow-hidden"
                     >
-                      <FaSignOutAlt className="text-base md:text-sm group-hover:translate-x-0.5 transition-transform" />
-                      Cerrar sesión
-                    </button>
-                  </div>
-                </div>
+                      <div className="pt-2 space-y-0.5">
+                        {/* Profile */}
+                        <Link
+                          href="/dashboard/perfil"
+                          className="flex items-center gap-2.5 px-3 py-2 rounded-md hover:bg-white/10 text-foreground/70 hover:text-foreground transition-all group"
+                        >
+                          <FaUser className="text-[11px] group-hover:scale-110 transition-transform" />
+                          <span className="text-[11px] font-medium">Mi Perfil</span>
+                        </Link>
+
+                        {/* Notifications */}
+                        <Link
+                          href="/dashboard/alertas"
+                          className="flex items-center gap-2.5 px-3 py-2 rounded-md hover:bg-white/10 text-foreground/70 hover:text-foreground transition-all group"
+                        >
+                          <FaBell className="text-[11px] group-hover:scale-110 transition-transform" />
+                          <span className="text-[11px] font-medium">Notificaciones</span>
+                          {getTotalAlertas() > 0 && (
+                            <span className="ml-auto px-1.5 py-0.5 text-[8px] bg-brand text-white rounded-full font-bold">
+                              {getTotalAlertas()}
+                            </span>
+                          )}
+                        </Link>
+
+                        {/* Separator */}
+                        <div className="border-t border-white/5 my-1.5" />
+
+                        {/* Logout */}
+                        <button
+                          onClick={handleLogout}
+                          className="w-full flex items-center gap-2.5 px-3 py-2 rounded-md hover:bg-white/10 text-foreground/60 hover:text-red-400 transition-all group"
+                        >
+                          <FaSignOutAlt className="text-[11px] group-hover:scale-110 transition-transform" />
+                          <span className="text-[11px] font-medium">Cerrar sesión</span>
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </motion.div>
           </motion.div>
@@ -344,18 +372,20 @@ export function UnifiedNavbar() {
 
       <style jsx global>{`
         .custom-scrollbar::-webkit-scrollbar {
-          width: 6px;
+          width: 8px;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 10px;
+          background: rgba(255, 255, 255, 0.03);
+          border-radius: 12px;
+          margin: 4px 0;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(16, 185, 129, 0.3);
-          border-radius: 10px;
+          background: rgba(0, 71, 255, 0.4);
+          border-radius: 12px;
+          transition: background 0.2s ease;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: rgba(16, 185, 129, 0.5);
+          background: rgba(0, 71, 255, 0.6);
         }
       `}</style>
     </>

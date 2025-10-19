@@ -1,11 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { FaExchangeAlt } from 'react-icons/fa';
 import { useDolarQuery } from '@/hooks/useDolarQuery';
-import {
-  CalculatorLayout,
-  CalculatorResultCard,
-  CalculatorModeToggle,
-} from './CalculatorLayout';
+import { CalculatorLayout, CalculatorResultCard, CalculatorModeToggle } from './CalculatorLayout';
 
 type ConversionType = 'ars-to-usd' | 'usd-to-ars';
 type DolarCasa = 'oficial' | 'blue' | 'bolsa' | 'cripto' | 'tarjeta';
@@ -93,9 +89,7 @@ export default function ConversorMoneda({ showHeader = true }: ConversorMonedaPr
 
       {/* Dollar Type Selector */}
       <div className="mb-6">
-        <label className="block text-sm font-medium text-foreground mb-3">
-          Tipo de Cotización
-        </label>
+        <label className="block text-sm font-medium text-foreground mb-3">Tipo de Cotización</label>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
           {(Object.keys(DOLAR_LABELS) as DolarCasa[]).map((casa) => (
             <button
@@ -103,8 +97,8 @@ export default function ConversorMoneda({ showHeader = true }: ConversorMonedaPr
               onClick={() => setSelectedCasa(casa)}
               className={`px-4 py-3 rounded-lg font-semibold text-sm transition-all border ${
                 selectedCasa === casa
-                  ? 'bg-accent-emerald text-background-dark border-accent-emerald'
-                  : 'glass border-border text-secondary hover:text-foreground hover:border-accent-emerald/30'
+                  ? 'bg-brand text-background-dark border-brand'
+                  : 'glass border-border text-secondary hover:text-foreground hover:border-brand/30'
               }`}
             >
               {DOLAR_LABELS[casa]}
@@ -115,21 +109,22 @@ export default function ConversorMoneda({ showHeader = true }: ConversorMonedaPr
 
       {/* Exchange Rate Info */}
       {selectedDolar && !isLoading && (
-        <div className="mb-8 p-5 rounded-xl border border-accent-emerald/20 bg-accent-emerald/5">
+        <div className="mb-8 p-5 rounded-xl border border-brand/20 bg-brand/5">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-xs uppercase tracking-wider text-secondary mb-1">
                 Dólar {DOLAR_LABELS[selectedCasa]}
               </p>
               <p className="text-sm text-secondary">
-                Compra: ${selectedDolar.compra.toFixed(2)} | Venta: ${selectedDolar.venta.toFixed(2)}
+                Compra: ${selectedDolar.compra.toFixed(2)} | Venta: $
+                {selectedDolar.venta.toFixed(2)}
               </p>
             </div>
             <div className="text-right">
               <p className="text-xs uppercase tracking-wider text-secondary mb-1">
                 Usando tasa de {conversion?.operation}
               </p>
-              <p className="text-2xl font-bold font-mono text-accent-emerald">
+              <p className="text-2xl font-bold font-mono text-brand">
                 ${conversion?.rate.toFixed(2)}
               </p>
             </div>
@@ -151,7 +146,7 @@ export default function ConversorMoneda({ showHeader = true }: ConversorMonedaPr
             value={formatNumber(amount)}
             onChange={(e) => handleAmountChange(e.target.value)}
             placeholder={conversionType === 'ars-to-usd' ? '1.000' : '100'}
-            className="w-full pl-16 pr-4 py-3 text-xl font-mono font-bold bg-panel border border-border rounded-xl focus:ring-2 focus:ring-accent-emerald/20 focus:border-accent-emerald/50 focus:outline-none transition-all text-foreground"
+            className="w-full pl-16 pr-4 py-3 text-xl font-mono font-bold bg-panel border border-border rounded-xl focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground"
           />
         </div>
       </div>
@@ -160,7 +155,7 @@ export default function ConversorMoneda({ showHeader = true }: ConversorMonedaPr
       <div className="mb-8 flex justify-center">
         <button
           onClick={swapConversion}
-          className="px-6 py-3 bg-accent-emerald hover:bg-accent-teal text-background-dark rounded-lg font-semibold flex items-center gap-2 transition-all shadow-lg hover:shadow-xl"
+          className="px-6 py-3 bg-brand hover:bg-brand-light text-background-dark rounded-lg font-semibold flex items-center gap-2 transition-all shadow-lg hover:shadow-xl"
         >
           <FaExchangeAlt /> Invertir Conversión
         </button>
@@ -197,10 +192,16 @@ export default function ConversorMoneda({ showHeader = true }: ConversorMonedaPr
                 <span className="text-sm font-medium text-foreground">{dolar.nombre}</span>
                 <div className="flex items-center gap-4 text-sm">
                   <span className="text-secondary">
-                    C: <span className="font-mono font-semibold text-foreground">${dolar.compra.toFixed(2)}</span>
+                    C:{' '}
+                    <span className="font-mono font-semibold text-foreground">
+                      ${dolar.compra.toFixed(2)}
+                    </span>
                   </span>
                   <span className="text-secondary">
-                    V: <span className="font-mono font-semibold text-foreground">${dolar.venta.toFixed(2)}</span>
+                    V:{' '}
+                    <span className="font-mono font-semibold text-foreground">
+                      ${dolar.venta.toFixed(2)}
+                    </span>
                   </span>
                 </div>
               </div>
@@ -221,9 +222,9 @@ export default function ConversorMoneda({ showHeader = true }: ConversorMonedaPr
         <div className="flex items-start gap-2 text-xs text-secondary">
           <span>ℹ️</span>
           <p>
-            <strong className="text-foreground">Compra:</strong> precio al que el banco/cueva te compra dólares.{' '}
-            <strong className="text-foreground">Venta:</strong> precio al que te venden dólares.
-            Las cotizaciones se actualizan automáticamente.
+            <strong className="text-foreground">Compra:</strong> precio al que el banco/cueva te
+            compra dólares. <strong className="text-foreground">Venta:</strong> precio al que te
+            venden dólares. Las cotizaciones se actualizan automáticamente.
           </p>
         </div>
       </div>

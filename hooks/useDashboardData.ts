@@ -13,13 +13,15 @@ import { useDolarByType } from './useDolarQuery';
 import { useFredData } from './useFredData';
 import { useECBRates } from './useECBRates';
 import { useECBHistorical } from './useECBHistorical';
-import { useInflacion } from './useInflacion';
-import type { DolarType } from '@/types/api/dolar';
+import { useInflacionMensual } from './useFinanzas';
+import { useDolarTypeStore } from '@/lib/store/dolarType';
 
 export function useDashboardData() {
   const [cryptoPage, setCryptoPage] = useState(1);
-  const [selectedDolarType, setSelectedDolarType] = useState<DolarType>('cripto');
   const cryptoPerPage = 15;
+
+  // Get selected dolar type from global store
+  const selectedDolarType = useDolarTypeStore((state) => state.selectedType);
 
   // Data queries
   const { data: dolares, isLoading: loadingDolares } = useDolarVariations();
@@ -29,7 +31,7 @@ export function useDashboardData() {
   const { data: fredData, isLoading: fredLoading } = useFredData();
   const { data: ecbData, isLoading: ecbLoading } = useECBRates();
   const { data: ecbHistorical, isLoading: ecbHistoricalLoading } = useECBHistorical();
-  const { data: inflacionData, isLoading: inflacionLoading } = useInflacion();
+  const { data: inflacionData, isLoading: inflacionLoading } = useInflacionMensual();
 
   return {
     // Data
@@ -55,9 +57,5 @@ export function useDashboardData() {
     cryptoPage,
     setCryptoPage,
     cryptoPerPage,
-
-    // Dolar type selection
-    selectedDolarType,
-    setSelectedDolarType,
   };
 }

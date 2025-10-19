@@ -31,11 +31,10 @@ const buttonVariants = cva(
     variants: {
       // Variante de estilo
       variant: {
-        primary: 'bg-accent-emerald text-dark hover:bg-accent-teal focus:ring-accent-emerald',
+        primary: 'bg-brand text-dark hover:bg-brand-light focus:ring-brand',
         secondary: 'glass border border-white/5 text-white hover:bg-white/10 focus:ring-white',
-        outline:
-          'border-2 border-accent-emerald text-accent-emerald hover:bg-accent-emerald/10 focus:ring-accent-emerald',
-        ghost: 'text-accent-emerald hover:bg-accent-emerald/10',
+        outline: 'border-2 border-brand text-brand hover:bg-brand/10 focus:ring-brand',
+        ghost: 'text-brand hover:bg-brand/10',
         danger: 'bg-error text-white hover:bg-error/90 focus:ring-error',
       },
       // Tamaño
@@ -105,7 +104,7 @@ const cardVariants = cva('rounded-xl transition-all', {
   variants: {
     variant: {
       default: 'glass-strong border border-white/5',
-      outlined: 'border-2 border-accent-emerald/20 bg-transparent',
+      outlined: 'border-2 border-brand/20 bg-transparent',
       elevated: 'glass-strong shadow-2xl border border-white/10',
       solid: 'bg-dark-light border border-white/5',
     },
@@ -119,7 +118,7 @@ const cardVariants = cva('rounded-xl transition-all', {
     hover: {
       none: '',
       scale: 'hover:scale-[1.02]',
-      glow: 'hover:border-accent-emerald/40 hover:shadow-lg hover:shadow-accent-emerald/10',
+      glow: 'hover:border-brand/40 hover:shadow-lg hover:shadow-brand/10',
       lift: 'hover:-translate-y-1 hover:shadow-xl',
     },
   },
@@ -198,7 +197,7 @@ Card.Footer = function CardFooter({
     <Card.Description>Cotización del mercado paralelo</Card.Description>
   </Card.Header>
   <Card.Content>
-    <p className="text-3xl font-mono text-accent-emerald">$1,250</p>
+    <p className="text-3xl font-mono text-brand">$1,250</p>
   </Card.Content>
   <Card.Footer>
     <Button variant="outline" size="sm">Ver histórico</Button>
@@ -213,7 +212,7 @@ Card.Footer = function CardFooter({
 const badgeVariants = cva('inline-flex items-center rounded-full font-semibold', {
   variants: {
     variant: {
-      default: 'bg-accent-emerald/10 text-accent-emerald border border-accent-emerald/20',
+      default: 'bg-brand/10 text-brand border border-brand/20',
       success: 'bg-success/10 text-success border border-success/20',
       warning: 'bg-warning/10 text-warning border border-warning/20',
       error: 'bg-error/10 text-error border border-error/20',
@@ -253,10 +252,8 @@ const inputVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          'border-white/5 bg-dark-light text-white focus:ring-accent-emerald focus:border-accent-emerald',
-        outlined:
-          'border-accent-emerald/40 bg-transparent text-white focus:ring-accent-emerald focus:border-accent-emerald',
+        default: 'border-white/5 bg-dark-light text-white focus:ring-brand focus:border-brand',
+        outlined: 'border-brand/40 bg-transparent text-white focus:ring-brand focus:border-brand',
         error: 'border-error bg-error/5 text-white focus:ring-error focus:border-error',
       },
       size: {

@@ -1,148 +1,19 @@
 import React, { useState } from 'react';
-import Link from 'next/link';
-import { NavbarPro } from '@/components/ui/NavbarPro/NavbarPro';
+import { NavbarFloating } from '@/components/NavbarFloating';
 import Footer from '@/components/Footer';
-import {
-  FaChevronDown,
-  FaQuestionCircle,
-  FaChartLine,
-  FaCalculator,
-  FaBell,
-  FaBook,
-} from 'react-icons/fa';
-import { motion, AnimatePresence } from 'framer-motion';
-
-const faqCategories = [
-  {
-    title: 'General',
-    icon: FaQuestionCircle,
-    faqs: [
-      {
-        question: '¿Qué es Dólar Gaucho?',
-        answer:
-          'Dólar Gaucho es una plataforma completa de información financiera argentina que proporciona cotizaciones en tiempo real del dólar, inflación, riesgo país, calculadoras financieras, calendario económico, datos políticos y más.',
-      },
-      {
-        question: '¿Cómo se actualizan las cotizaciones?',
-        answer:
-          'Las cotizaciones en Dólar Gaucho se actualizan automáticamente cada 30 segundos a través de diversas fuentes financieras confiables y APIs oficiales de Argentina.',
-      },
-      {
-        question: '¿Dólar Gaucho es un sitio oficial?',
-        answer:
-          'No, Dólar Gaucho es un servicio independiente que brinda información actualizada sobre el mercado cambiario y financiero en Argentina. No estamos afiliados con ninguna entidad gubernamental.',
-      },
-      {
-        question: '¿Los datos son confiables?',
-        answer:
-          'Sí, utilizamos fuentes oficiales y APIs verificadas como DolarAPI.com y ArgentinaDatos.com para garantizar la precisión de la información. Sin embargo, te recomendamos contrastar con fuentes oficiales antes de tomar decisiones financieras importantes.',
-      },
-    ],
-  },
-  {
-    title: 'Cotizaciones',
-    icon: FaChartLine,
-    faqs: [
-      {
-        question: '¿Cuáles son los tipos de cambio que puedo consultar?',
-        answer:
-          'Puedes consultar: Dólar Oficial, Blue, MEP (Bolsa), CCL (Contado con Liquidación), Crypto, y cotizaciones internacionales como Euro, Real Brasileño, Peso Chileno y Peso Uruguayo.',
-      },
-      {
-        question: '¿Qué significa cada tipo de dólar?',
-        answer:
-          'Oficial: tipo de cambio regulado por el BCRA. Blue: mercado paralelo o informal. MEP: operaciones bursátiles con bonos. CCL: transferencias al exterior vía bonos. Crypto: cotización en exchanges de criptomonedas.',
-      },
-      {
-        question: '¿Cómo funcionan las variaciones diarias?',
-        answer:
-          'Las variaciones muestran el cambio porcentual entre el precio actual y el del día anterior. Verde indica baja (favorable para comprar), rojo indica suba (desfavorable para comprar).',
-      },
-      {
-        question: '¿Puedo agregar cotizaciones a favoritos?',
-        answer:
-          'Sí, en el Dashboard puedes marcar tus cotizaciones favoritas haciendo clic en la estrella. Esto las destacará y te permitirá acceder rápidamente a ellas.',
-      },
-    ],
-  },
-  {
-    title: 'Calculadoras',
-    icon: FaCalculator,
-    faqs: [
-      {
-        question: '¿Qué calculadoras están disponibles?',
-        answer:
-          'Ofrecemos: Calculadora de Inflación (poder adquisitivo), Plazo Fijo (rendimiento), UVA (ajuste por inflación), Conversores de Moneda y Crypto, y Calculadora de Activos.',
-      },
-      {
-        question: '¿Cómo funciona la calculadora de inflación?',
-        answer:
-          'Ingresa un monto inicial y años de proyección. La calculadora estima la pérdida de valor del dinero debido a la inflación, mostrándote el poder adquisitivo futuro basado en la tasa de inflación interanual actual.',
-      },
-      {
-        question: '¿Las calculadoras usan datos reales?',
-        answer:
-          'Sí, todas las calculadoras utilizan datos actualizados de APIs oficiales como tasas de inflación, cotizaciones de divisas y valores UVA en tiempo real.',
-      },
-      {
-        question: '¿Puedo exportar los resultados?',
-        answer:
-          'Actualmente puedes copiar y guardar manualmente los resultados. Estamos trabajando en funciones de exportación a PDF y CSV.',
-      },
-    ],
-  },
-  {
-    title: 'Dashboard y Alertas',
-    icon: FaBell,
-    faqs: [
-      {
-        question: '¿Cómo creo alertas de precio?',
-        answer:
-          'En el Dashboard, ve a la sección de Alertas y configura alertas personalizadas para recibir notificaciones cuando una cotización alcance el valor que definas.',
-      },
-      {
-        question: '¿Qué es el Dashboard?',
-        answer:
-          'El Dashboard es tu panel personalizado donde puedes ver tus cotizaciones favoritas, alertas configuradas, gráficos históricos, calculadoras y más herramientas profesionales.',
-      },
-      {
-        question: '¿Necesito crear una cuenta?',
-        answer:
-          'No es necesario para ver cotizaciones básicas. Sin embargo, para acceder al Dashboard completo, guardar favoritos y configurar alertas, recomendamos crear una cuenta gratuita.',
-      },
-    ],
-  },
-  {
-    title: 'Técnico',
-    icon: FaBook,
-    faqs: [
-      {
-        question: '¿Puedo usar la API de Dólar Gaucho?',
-        answer:
-          'Actualmente no contamos con una API pública propia, pero estamos trabajando en ello. Mientras tanto, usamos APIs públicas como DolarAPI.com que puedes consultar directamente.',
-      },
-      {
-        question: '¿Es open source?',
-        answer:
-          'Sí, Dólar Gaucho es un proyecto open source. Puedes ver el código fuente y contribuir en nuestro repositorio de GitHub.',
-      },
-      {
-        question: '¿Qué tecnologías usa la plataforma?',
-        answer:
-          'Dólar Gaucho está construido con Next.js, React, TypeScript, TailwindCSS, TanStack Query, Zustand, Chart.js y otras tecnologías modernas.',
-      },
-      {
-        question: '¿Cómo reporto un bug o sugiero una mejora?',
-        answer:
-          'Puedes reportar bugs o sugerir mejoras a través del formulario de contacto en la página principal, o directamente en nuestro repositorio de GitHub.',
-      },
-    ],
-  },
-];
+import { FaQuestionCircle, FaSearch } from 'react-icons/fa';
+import { motion } from 'framer-motion';
+import { GradientText } from '@/components/ui/GradientText';
+import { FaqItem } from '@/components/ui/FaqItem';
+import { CategoryFilter } from '@/components/ui/CategoryFilter';
+import { LinkButton } from '@/components/ui/Button';
+import { FAQ_CATEGORIES } from '@/constants/faqCategories';
+import Head from 'next/head';
 
 const HelpCenter: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<{ category: number; faq: number } | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const toggleFaq = (categoryIndex: number, faqIndex: number) => {
     if (openIndex?.category === categoryIndex && openIndex?.faq === faqIndex) {
@@ -152,149 +23,179 @@ const HelpCenter: React.FC = () => {
     }
   };
 
-  const filteredCategories =
-    selectedCategory !== null ? [faqCategories[selectedCategory]] : faqCategories;
+  // Filter by category and search
+  const filteredCategories = FAQ_CATEGORIES.filter((category, index) => {
+    // Filter by selected category
+    if (selectedCategory !== null && index !== selectedCategory) return false;
+
+    // Filter by search query
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      const categoryMatch = category.title.toLowerCase().includes(query);
+      const faqMatch = category.faqs.some(
+        (faq) =>
+          faq.question.toLowerCase().includes(query) || faq.answer.toLowerCase().includes(query)
+      );
+      return categoryMatch || faqMatch;
+    }
+
+    return true;
+  });
 
   return (
-    <div className="bg-background text-foreground min-h-screen font-sans">
-      <NavbarPro />
+    <>
+      <Head>
+        <title>Centro de Ayuda | Dólar Gaucho</title>
+        <meta
+          name="description"
+          content="Encuentra respuestas a las preguntas más frecuentes sobre Dólar Gaucho"
+        />
+      </Head>
 
-      {/* Hero Section */}
-      <section className="relative w-full bg-background text-foreground pt-32 pb-20 px-6 border-b border-border">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-accent-emerald/5 rounded-full blur-3xl" />
+      <div className="bg-background text-foreground min-h-screen font-sans">
+        <NavbarFloating />
 
-        <div className="relative max-w-7xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 mb-6">
-            <FaQuestionCircle className="text-accent-emerald text-2xl" />
-            <span className="text-xs uppercase tracking-wider text-secondary font-semibold">
-              Centro de Ayuda
-            </span>
-          </div>
-          <h1 className="text-4xl md:text-5xl font-display font-bold mb-4">
-            ¿En qué podemos <span className="gradient-text">ayudarte</span>?
-          </h1>
-          <p className="text-secondary text-lg max-w-7xl mx-auto">
-            Encuentra respuestas a las preguntas más frecuentes sobre Dólar Gaucho
-          </p>
-        </div>
-      </section>
+        {/* Hero Section */}
+        <section className="relative w-full bg-background text-foreground pt-32 pb-20 px-6">
+          {/* Simple gradient background */}
+          <div className="absolute inset-0 bg-gradient-to-b from-background via-background-secondary/10 to-background"></div>
 
-      {/* Category Filter */}
-      <section className="max-w-7xl mx-auto px-6 py-12">
-        <div className="flex flex-wrap gap-3 justify-center mb-12">
-          <button
-            onClick={() => setSelectedCategory(null)}
-            className={`px-6 py-3 rounded-lg font-medium text-sm transition-all border ${
-              selectedCategory === null
-                ? 'bg-accent-emerald text-background-dark border-accent-emerald'
-                : 'glass border-border text-secondary hover:text-foreground hover:border-accent-emerald/30'
-            }`}
-          >
-            Todas
-          </button>
-          {faqCategories.map((category, index) => {
-            const Icon = category.icon;
-            return (
-              <button
-                key={index}
-                onClick={() => setSelectedCategory(index)}
-                className={`px-6 py-3 rounded-lg font-medium text-sm transition-all border flex items-center gap-2 ${
-                  selectedCategory === index
-                    ? 'bg-accent-emerald text-background-dark border-accent-emerald'
-                    : 'glass border-border text-secondary hover:text-foreground hover:border-accent-emerald/30'
-                }`}
-              >
-                <Icon className="text-base" />
-                {category.title}
-              </button>
-            );
-          })}
-        </div>
+          <div className="relative max-w-7xl mx-auto text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-brand/10 border border-brand/20"
+            >
+              <FaQuestionCircle className="text-brand text-lg" />
+              <span className="text-xs uppercase tracking-wider text-brand font-semibold">
+                Centro de Ayuda
+              </span>
+            </motion.div>
 
-        {/* FAQs */}
-        <div className="space-y-8">
-          {filteredCategories.map((category, categoryIndex) => {
-            const actualCategoryIndex =
-              selectedCategory !== null ? selectedCategory : categoryIndex;
-            const Icon = category.icon;
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-4xl md:text-5xl lg:text-6xl font-display font-black mb-6 leading-tight"
+            >
+              ¿En qué podemos <GradientText className="font-black">ayudarte</GradientText>?
+            </motion.h1>
 
-            return (
-              <div key={actualCategoryIndex}>
-                <div className="flex items-center gap-3 mb-6">
-                  <Icon className="text-accent-emerald text-xl" />
-                  <h2 className="text-2xl font-display font-bold text-foreground">
-                    {category.title}
-                  </h2>
-                </div>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-secondary text-lg sm:text-xl max-w-3xl mx-auto mb-8"
+            >
+              Encuentra respuestas a las preguntas más frecuentes sobre Dólar Gaucho y todas sus
+              funcionalidades
+            </motion.p>
 
-                <div className="space-y-3">
-                  {category.faqs.map((faq, faqIndex) => (
-                    <div
-                      key={faqIndex}
-                      className="glass-strong border border-border rounded-xl overflow-hidden hover:border-accent-emerald/30 transition-all"
-                    >
-                      <button
-                        className="w-full text-left px-6 py-4 flex justify-between items-center transition-all hover:bg-accent-emerald/5"
-                        onClick={() => toggleFaq(actualCategoryIndex, faqIndex)}
-                      >
-                        <span className="text-foreground font-medium text-base pr-4">
-                          {faq.question}
-                        </span>
-                        <FaChevronDown
-                          className={`text-accent-emerald transition-transform flex-shrink-0 text-sm ${
-                            openIndex?.category === actualCategoryIndex &&
-                            openIndex?.faq === faqIndex
-                              ? 'rotate-180'
-                              : 'rotate-0'
-                          }`}
-                        />
-                      </button>
-
-                      <AnimatePresence>
-                        {openIndex?.category === actualCategoryIndex &&
-                          openIndex?.faq === faqIndex && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: 'auto', opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              transition={{ duration: 0.2 }}
-                              className="overflow-hidden"
-                            >
-                              <div className="px-6 pb-4 pt-2 text-secondary text-sm leading-relaxed border-t border-border">
-                                {faq.answer}
-                              </div>
-                            </motion.div>
-                          )}
-                      </AnimatePresence>
-                    </div>
-                  ))}
-                </div>
+            {/* Search bar */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="max-w-2xl mx-auto"
+            >
+              <div className="relative">
+                <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-secondary text-sm" />
+                <input
+                  type="text"
+                  placeholder="Buscar en el centro de ayuda..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-12 pr-4 py-4 rounded-xl bg-white/5 border border-white/10 text-foreground placeholder-secondary/60 focus:bg-white/[0.07] focus:border-white/20 hover:border-white/15 transition-all outline-none"
+                />
               </div>
-            );
-          })}
-        </div>
-      </section>
+            </motion.div>
+          </div>
+        </section>
 
-      {/* CTA Section */}
-      <section className="max-w-7xl mx-auto px-6 py-16">
-        <div className="glass-strong p-8 md:p-12 rounded-2xl border border-border text-center">
-          <h2 className="text-2xl md:text-3xl font-display font-bold mb-4">
-            ¿No encontraste lo que buscabas?
-          </h2>
-          <p className="text-secondary mb-8 max-w-7xl mx-auto">
-            Contáctanos y estaremos encantados de ayudarte con cualquier consulta
-          </p>
-          <Link
-            href="/#contacto"
-            className="inline-block px-8 py-4 rounded-xl font-semibold text-base transition-all bg-accent-emerald hover:bg-accent-teal text-background-dark"
-          >
-            Contactar Soporte
-          </Link>
-        </div>
-      </section>
+        {/* Category Filter - Componente reutilizable */}
+        <section className="max-w-7xl mx-auto px-6 py-12">
+          <CategoryFilter
+            categories={FAQ_CATEGORIES}
+            selectedCategory={selectedCategory}
+            onSelectCategory={setSelectedCategory}
+            allLabel="Todas las categorías"
+            className="mb-16"
+          />
 
-      <Footer />
-    </div>
+          {/* FAQs - Enhanced with hover effects */}
+          <div className="space-y-12">
+            {filteredCategories.map((category, categoryIndex) => {
+              const actualCategoryIndex =
+                selectedCategory !== null ? selectedCategory : categoryIndex;
+              const Icon = category.icon;
+
+              return (
+                <motion.div
+                  key={actualCategoryIndex}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: categoryIndex * 0.1 }}
+                >
+                  {/* Category Header */}
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="p-3 rounded-xl bg-brand/10 border border-brand/20">
+                      <Icon className="text-brand text-xl" />
+                    </div>
+                    <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground">
+                      {category.title}
+                    </h2>
+                  </div>
+
+                  {/* FAQs List - Usando componente reutilizable */}
+                  <div className="space-y-3">
+                    {category.faqs.map((faq, faqIndex) => {
+                      const isOpen =
+                        openIndex?.category === actualCategoryIndex && openIndex?.faq === faqIndex;
+
+                      return (
+                        <FaqItem
+                          key={faqIndex}
+                          faq={faq}
+                          isOpen={isOpen}
+                          onToggle={() => toggleFaq(actualCategoryIndex, faqIndex)}
+                          index={faqIndex}
+                        />
+                      );
+                    })}
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="max-w-7xl mx-auto px-6 py-16 mb-12">
+          <div className="bg-gradient-to-br from-panel/80 via-panel to-panel/60 backdrop-blur-xl rounded-3xl p-8 md:p-12 text-center border border-white/10">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 className="text-2xl md:text-3xl font-display font-bold mb-4">
+                ¿No encontraste lo que <GradientText className="font-black">buscabas</GradientText>?
+              </h2>
+              <p className="text-secondary mb-8 max-w-2xl mx-auto text-base sm:text-lg">
+                Contactanos y estaremos encantados de ayudarte con cualquier consulta sobre Dólar
+                Gaucho
+              </p>
+              <LinkButton variant="primary" size="lg" href="/#contacto">
+                Contactar Soporte
+              </LinkButton>
+            </motion.div>
+          </div>
+        </section>
+
+        <Footer />
+      </div>
+    </>
   );
 };
 

@@ -44,7 +44,7 @@ export function TasasChart({ limit = 10, isFavorite, onToggleFavorite }: TasasCh
     return (
       <Card variant="elevated" padding="lg">
         <div className="flex items-center justify-center h-80">
-          <FaSpinner className="animate-spin text-4xl text-accent-emerald" />
+          <FaSpinner className="animate-spin text-4xl text-brand" />
         </div>
       </Card>
     );
@@ -66,7 +66,7 @@ export function TasasChart({ limit = 10, isFavorite, onToggleFavorite }: TasasCh
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="p-3 glass rounded-xl">
-              <FaUniversity className="text-accent-emerald text-xl" />
+              <FaUniversity className="text-brand text-xl" />
             </div>
             <div>
               <Card.Title>Tasas de Plazo Fijo - Top {limit} Bancos</Card.Title>
@@ -80,8 +80,8 @@ export function TasasChart({ limit = 10, isFavorite, onToggleFavorite }: TasasCh
               onClick={onToggleFavorite}
               className={`p-2 rounded-lg transition-all ${
                 isFavorite
-                  ? 'bg-accent-emerald/20 text-accent-emerald'
-                  : 'glass text-secondary hover:text-accent-emerald hover:bg-white/5'
+                  ? 'bg-brand/20 text-brand'
+                  : 'glass text-secondary hover:text-brand hover:bg-white/5'
               }`}
               aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
             >
@@ -118,10 +118,10 @@ export function TasasChart({ limit = 10, isFavorite, onToggleFavorite }: TasasCh
               formatter={(value: number) => [`${value}%`, '']}
             />
             <Legend wrapperStyle={{ color: chartTheme.tooltipColor }} />
-            <Bar dataKey="tnaClientes" fill="#10b981" name="TNA Clientes" radius={[4, 4, 0, 0]} />
+            <Bar dataKey="tnaClientes" fill="#0047FF" name="TNA Clientes" radius={[4, 4, 0, 0]} />
             <Bar
               dataKey="tnaNoClientes"
-              fill="#06b6d4"
+              fill="#3366FF"
               name="TNA No Clientes"
               radius={[4, 4, 0, 0]}
             />
@@ -131,7 +131,7 @@ export function TasasChart({ limit = 10, isFavorite, onToggleFavorite }: TasasCh
 
       <Card.Footer>
         <div className="flex items-center justify-between text-xs text-secondary">
-          <span>Fuente: ArgentinaData API (BCRA)</span>
+          <span>Fuente: ArgentinaData API (agrega datos públicos)</span>
           <span>TNA: Tasa Nominal Anual</span>
         </div>
       </Card.Footer>

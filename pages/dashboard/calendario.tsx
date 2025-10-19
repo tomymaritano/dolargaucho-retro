@@ -79,7 +79,7 @@ export default function CalendarioPage() {
       <DashboardLayout>
         <div className="flex items-center justify-center h-96">
           <div className="text-center">
-            <FaSpinner className="animate-spin text-4xl text-accent-emerald mx-auto mb-4" />
+            <FaSpinner className="animate-spin text-4xl text-brand mx-auto mb-4" />
             <p className="text-secondary">Cargando calendario...</p>
           </div>
         </div>
@@ -106,7 +106,7 @@ export default function CalendarioPage() {
               <div className="text-3xl font-bold text-foreground">{stats.totalCombinado}</div>
             </div>
             <div className="p-3 glass rounded-xl">
-              <FaCalendarAlt className="text-accent-emerald text-xl" />
+              <FaCalendarAlt className="text-brand text-xl" />
             </div>
           </div>
         </Card>
@@ -120,7 +120,7 @@ export default function CalendarioPage() {
               <div className="text-3xl font-bold text-foreground">{stats.totalFeriados}</div>
             </div>
             <div className="p-3 glass rounded-xl">
-              <FaCalendarDay className="text-accent-emerald text-xl" />
+              <FaCalendarDay className="text-brand text-xl" />
             </div>
           </div>
         </Card>
@@ -134,7 +134,7 @@ export default function CalendarioPage() {
               <div className="text-3xl font-bold text-foreground">{stats.feriadosProximos}</div>
             </div>
             <div className="p-3 glass rounded-xl">
-              <FaCalendarDay className="text-accent-teal text-xl" />
+              <FaCalendarDay className="text-brand-light text-xl" />
             </div>
           </div>
         </Card>
@@ -148,7 +148,7 @@ export default function CalendarioPage() {
               <div className="text-3xl font-bold text-foreground">{stats.totalEventos}</div>
             </div>
             <div className="p-3 glass rounded-xl">
-              <FaMapMarkerAlt className="text-accent-teal text-xl" />
+              <FaMapMarkerAlt className="text-brand-light text-xl" />
             </div>
           </div>
         </Card>
@@ -186,11 +186,11 @@ export default function CalendarioPage() {
                     {diaSeleccionado.feriados.map((feriado) => (
                       <div
                         key={feriado.fecha}
-                        className="p-4 bg-accent-emerald/10 border border-accent-emerald/30 rounded-lg"
+                        className="p-4 bg-brand/10 border border-brand/30 rounded-lg"
                       >
                         <div className="flex items-start gap-3">
-                          <div className="p-2 bg-accent-emerald/20 rounded-lg">
-                            <FaCalendarDay className="text-accent-emerald" />
+                          <div className="p-2 bg-brand/20 rounded-lg">
+                            <FaCalendarDay className="text-brand" />
                           </div>
                           <div className="flex-1">
                             <h4 className="text-foreground font-semibold mb-1">{feriado.nombre}</h4>
@@ -204,16 +204,15 @@ export default function CalendarioPage() {
                     ))}
 
                     {diaSeleccionado.eventos.map((evento, index) => (
-                      <div
-                        key={`${evento.fecha}-${index}`}
-                        className="p-4 glass rounded-lg"
-                      >
+                      <div key={`${evento.fecha}-${index}`} className="p-4 glass rounded-lg">
                         <div className="flex items-start gap-3">
-                          <div className="p-2 bg-accent-teal/20 rounded-lg">
-                            <FaMapMarkerAlt className="text-accent-teal" />
+                          <div className="p-2 bg-brand-light/20 rounded-lg">
+                            <FaMapMarkerAlt className="text-brand-light" />
                           </div>
                           <div className="flex-1">
-                            <h4 className="text-foreground font-semibold mb-1">{evento.descripcion}</h4>
+                            <h4 className="text-foreground font-semibold mb-1">
+                              {evento.descripcion}
+                            </h4>
                             <div className="space-y-1 text-sm text-secondary">
                               <p>
                                 <strong>Tipo:</strong> {evento.tipo}
@@ -247,7 +246,7 @@ export default function CalendarioPage() {
       <Card variant="elevated" padding="lg" className="mt-8">
         <div className="flex items-start gap-4">
           <div className="p-3 glass rounded-xl">
-            <FaCalendarAlt className="text-accent-emerald text-2xl" />
+            <FaCalendarAlt className="text-brand text-2xl" />
           </div>
           <div className="flex-1">
             <h3 className="text-foreground font-semibold mb-2">Fuente de Datos</h3>
@@ -257,7 +256,7 @@ export default function CalendarioPage() {
                 href="https://argentinadatos.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-accent-emerald hover:text-accent-teal transition-colors"
+                className="text-brand hover:text-brand-light transition-colors"
               >
                 ArgentinaData API
               </a>

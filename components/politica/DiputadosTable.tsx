@@ -73,7 +73,7 @@ export function DiputadosTable() {
     return (
       <Card variant="elevated" padding="lg">
         <div className="flex flex-col items-center justify-center py-12 gap-4">
-          <FaSpinner className="animate-spin text-accent-emerald text-4xl" />
+          <FaSpinner className="animate-spin text-brand text-4xl" />
           <p className="text-secondary">Cargando diputados...</p>
         </div>
       </Card>
@@ -104,7 +104,7 @@ export function DiputadosTable() {
               placeholder="Buscar por nombre..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 bg-panel border border-border rounded-lg text-foreground placeholder-secondary focus:outline-none focus:border-accent-emerald/50 focus:ring-2 focus:ring-accent-emerald/20 transition-all"
+              className="w-full pl-10 pr-4 py-2.5 bg-panel border border-border rounded-lg text-foreground placeholder-secondary focus:outline-none focus:border-brand/50 focus:ring-2 focus:ring-brand/20 transition-all"
             />
           </div>
 
@@ -112,7 +112,7 @@ export function DiputadosTable() {
           <select
             value={selectedProvincia}
             onChange={(e) => setSelectedProvincia(e.target.value)}
-            className="px-4 py-2.5 bg-panel border border-border rounded-lg text-foreground focus:outline-none focus:border-accent-emerald/50 focus:ring-2 focus:ring-accent-emerald/20 transition-all"
+            className="px-4 py-2.5 bg-panel border border-border rounded-lg text-foreground focus:outline-none focus:border-brand/50 focus:ring-2 focus:ring-brand/20 transition-all"
           >
             <option value="">Todas las provincias</option>
             {provincias.map((p) => (
@@ -126,7 +126,7 @@ export function DiputadosTable() {
           <select
             value={selectedBloque}
             onChange={(e) => setSelectedBloque(e.target.value)}
-            className="px-4 py-2.5 bg-panel border border-border rounded-lg text-foreground focus:outline-none focus:border-accent-emerald/50 focus:ring-2 focus:ring-accent-emerald/20 transition-all"
+            className="px-4 py-2.5 bg-panel border border-border rounded-lg text-foreground focus:outline-none focus:border-brand/50 focus:ring-2 focus:ring-brand/20 transition-all"
           >
             <option value="">Todos los bloques</option>
             {bloques.map((b) => (
@@ -141,11 +141,11 @@ export function DiputadosTable() {
         <div className="mt-4 pt-4 border-t border-border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <p className="text-sm text-secondary">
             Mostrando{' '}
-            <span className="text-accent-emerald font-semibold">
+            <span className="text-brand font-semibold">
               {filteredDiputados.length === 0 ? 0 : startIndex + 1}
             </span>
             {' - '}
-            <span className="text-accent-emerald font-semibold">
+            <span className="text-brand font-semibold">
               {Math.min(endIndex, filteredDiputados.length)}
             </span>{' '}
             de <span className="text-foreground font-semibold">{filteredDiputados.length}</span>{' '}
@@ -158,7 +158,7 @@ export function DiputadosTable() {
             <select
               value={itemsPerPage}
               onChange={(e) => setItemsPerPage(Number(e.target.value))}
-              className="px-3 py-1.5 bg-panel border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-accent-emerald/50 focus:ring-2 focus:ring-accent-emerald/20 transition-all"
+              className="px-3 py-1.5 bg-panel border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-brand/50 focus:ring-2 focus:ring-brand/20 transition-all"
             >
               <option value={10}>10</option>
               <option value={20}>20</option>
@@ -179,13 +179,13 @@ export function DiputadosTable() {
               </TableHeaderCell>
               <TableHeaderCell align="left" className="px-6 py-4">
                 <div className="flex items-center gap-2">
-                  <FaMapMarkerAlt className="text-accent-emerald" />
+                  <FaMapMarkerAlt className="text-brand" />
                   Provincia
                 </div>
               </TableHeaderCell>
               <TableHeaderCell align="left" className="px-6 py-4">
                 <div className="flex items-center gap-2">
-                  <FaUsers className="text-accent-emerald" />
+                  <FaUsers className="text-brand" />
                   Bloque
                 </div>
               </TableHeaderCell>
@@ -204,8 +204,8 @@ export function DiputadosTable() {
               <TableRow key={`${diputado.nombre}-${diputado.apellido}-${index}`}>
                 <TableCell className="px-6 py-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-accent-emerald/20 flex items-center justify-center">
-                      <FaUser className="text-accent-emerald" />
+                    <div className="w-10 h-10 rounded-full bg-brand/20 flex items-center justify-center">
+                      <FaUser className="text-brand" />
                     </div>
                     <div>
                       <p className="text-foreground font-semibold">
@@ -221,7 +221,7 @@ export function DiputadosTable() {
                   <span className="text-foreground">{diputado.provincia}</span>
                 </TableCell>
                 <TableCell className="px-6 py-4">
-                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-accent-emerald/10 text-accent-emerald border border-accent-emerald/20">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-brand/10 text-brand border border-brand/20">
                     {diputado.bloque}
                   </span>
                 </TableCell>
@@ -249,7 +249,7 @@ export function DiputadosTable() {
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             {/* Page info */}
             <p className="text-sm text-secondary">
-              Página <span className="text-accent-emerald font-semibold">{currentPage}</span> de{' '}
+              Página <span className="text-brand font-semibold">{currentPage}</span> de{' '}
               <span className="text-foreground font-semibold">{totalPages}</span>
             </p>
 
@@ -295,7 +295,7 @@ export function DiputadosTable() {
                       onClick={() => setCurrentPage(pageNum)}
                       className={`w-10 h-10 rounded-lg border transition-all ${
                         currentPage === pageNum
-                          ? 'bg-accent-emerald text-dark-bg border-accent-emerald font-semibold'
+                          ? 'bg-brand text-background border-brand font-semibold'
                           : 'border-border bg-panel text-foreground hover:bg-white/5'
                       }`}
                     >

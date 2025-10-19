@@ -50,7 +50,7 @@ export function RiesgoPaisChart({
     return (
       <Card variant="elevated" padding="lg">
         <div className="flex items-center justify-center h-80">
-          <FaSpinner className="animate-spin text-4xl text-accent-emerald" />
+          <FaSpinner className="animate-spin text-4xl text-brand" />
         </div>
       </Card>
     );
@@ -85,8 +85,8 @@ export function RiesgoPaisChart({
                 onClick={onToggleFavorite}
                 className={`p-2 rounded-lg transition-all ${
                   isFavorite
-                    ? 'bg-accent-emerald/20 text-accent-emerald'
-                    : 'glass text-secondary hover:text-accent-emerald hover:bg-white/5'
+                    ? 'bg-brand/20 text-brand'
+                    : 'glass text-secondary hover:text-brand hover:bg-white/5'
                 }`}
                 aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
               >
@@ -143,7 +143,7 @@ export function RiesgoPaisChart({
 
       <Card.Footer>
         <div className="flex items-center justify-between text-xs text-secondary">
-          <span>Fuente: ArgentinaData API</span>
+          <span>Fuente: ArgentinaData API (agrega datos públicos)</span>
           <span>Actualizado diariamente</span>
         </div>
       </Card.Footer>

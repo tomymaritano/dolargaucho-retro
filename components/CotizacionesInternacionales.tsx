@@ -4,7 +4,16 @@ import React, { useState } from 'react';
 import { useCotizacionesWithVariations } from '@/hooks/useCotizaciones';
 import { useFavoritesStore } from '@/lib/store/favorites';
 import { Card } from '@/components/ui/Card';
-import { FaStar, FaRegStar, FaArrowUp, FaArrowDown, FaMinus, FaCopy, FaShareAlt, FaCheckCircle } from 'react-icons/fa';
+import {
+  FaStar,
+  FaRegStar,
+  FaArrowUp,
+  FaArrowDown,
+  FaMinus,
+  FaCopy,
+  FaShareAlt,
+  FaCheckCircle,
+} from 'react-icons/fa';
 import { logger } from '@/lib/utils/logger';
 
 const CotizacionesInternacionales: React.FC = () => {
@@ -12,7 +21,7 @@ const CotizacionesInternacionales: React.FC = () => {
   const { currencies: favoriteCurrencyIds, toggleCurrency } = useFavoritesStore();
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
-  const handleCopy = async (cotizacion: typeof data[0]) => {
+  const handleCopy = async (cotizacion: (typeof data)[0]) => {
     try {
       await navigator.clipboard.writeText(
         `${cotizacion.nombre}: Compra $${cotizacion.compra.toFixed(2)} | Venta $${cotizacion.venta.toFixed(2)}`
@@ -20,11 +29,14 @@ const CotizacionesInternacionales: React.FC = () => {
       setCopiedId(cotizacion.moneda);
       setTimeout(() => setCopiedId(null), 2000);
     } catch (error) {
-      logger.error('Error al copiar cotización', error, { component: 'CotizacionesInternacionales', moneda: cotizacion.moneda });
+      logger.error('Error al copiar cotización', error, {
+        component: 'CotizacionesInternacionales',
+        moneda: cotizacion.moneda,
+      });
     }
   };
 
-  const handleShare = async (cotizacion: typeof data[0]) => {
+  const handleShare = async (cotizacion: (typeof data)[0]) => {
     if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
       try {
         await navigator.share({
@@ -33,7 +45,10 @@ const CotizacionesInternacionales: React.FC = () => {
           url: window.location.href,
         });
       } catch (error) {
-        logger.error('Error al compartir cotización', error, { component: 'CotizacionesInternacionales', moneda: cotizacion.moneda });
+        logger.error('Error al compartir cotización', error, {
+          component: 'CotizacionesInternacionales',
+          moneda: cotizacion.moneda,
+        });
       }
     }
   };
@@ -42,7 +57,7 @@ const CotizacionesInternacionales: React.FC = () => {
     return (
       <Card variant="elevated" padding="lg">
         <div className="flex flex-col items-center gap-3 py-8">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-accent-emerald border-t-transparent" />
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-brand border-t-transparent" />
           <p className="text-sm text-secondary">Cargando cotizaciones internacionales...</p>
         </div>
       </Card>
@@ -74,8 +89,10 @@ const CotizacionesInternacionales: React.FC = () => {
           const { trend, percentage, previousValue } = cotizacion.variation;
 
           const TrendIcon = trend === 'up' ? FaArrowUp : trend === 'down' ? FaArrowDown : FaMinus;
-          const trendColor = trend === 'up' ? 'text-error' : trend === 'down' ? 'text-success' : 'text-warning';
-          const trendBg = trend === 'up' ? 'bg-error/10' : trend === 'down' ? 'bg-success/10' : 'bg-warning/10';
+          const trendColor =
+            trend === 'up' ? 'text-error' : trend === 'down' ? 'text-success' : 'text-warning';
+          const trendBg =
+            trend === 'up' ? 'bg-error/10' : trend === 'down' ? 'bg-success/10' : 'bg-warning/10';
 
           return (
             <Card key={cotizacion.moneda} variant="elevated" padding="lg" hover="glow">
@@ -90,8 +107,8 @@ const CotizacionesInternacionales: React.FC = () => {
                   onClick={() => toggleCurrency(cotizacion.moneda)}
                   className={`p-2 rounded-lg transition-all ${
                     isFavorite
-                      ? 'bg-accent-emerald/20 text-accent-emerald'
-                      : 'glass text-secondary hover:text-accent-emerald hover:bg-white/5'
+                      ? 'bg-brand/20 text-brand'
+                      : 'glass text-secondary hover:text-brand hover:bg-white/5'
                   }`}
                   aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
                 >
@@ -115,7 +132,7 @@ const CotizacionesInternacionales: React.FC = () => {
                     </div>
                   )}
                 </div>
-                <p className="text-4xl font-bold text-accent-emerald tabular-nums">
+                <p className="text-4xl font-bold text-brand tabular-nums">
                   ${cotizacion.venta.toFixed(2)}
                 </p>
               </div>
@@ -129,7 +146,9 @@ const CotizacionesInternacionales: React.FC = () => {
                   </p>
                 </div>
                 <div className="p-3 rounded-lg bg-panel/50 border border-border">
-                  <p className="text-[10px] text-secondary uppercase tracking-wider mb-1">Diferencia</p>
+                  <p className="text-[10px] text-secondary uppercase tracking-wider mb-1">
+                    Diferencia
+                  </p>
                   <div className="flex items-center gap-1">
                     <p className="text-lg font-bold text-foreground tabular-nums">
                       ${(cotizacion.venta - cotizacion.compra).toFixed(2)}
@@ -142,12 +161,12 @@ const CotizacionesInternacionales: React.FC = () => {
               <div className="flex gap-2 pt-3 border-t border-border">
                 <button
                   onClick={() => handleCopy(cotizacion)}
-                  className="flex-1 px-3 py-2 rounded-lg glass hover:bg-accent-emerald/10 transition-all text-secondary hover:text-accent-emerald flex items-center justify-center gap-2 text-xs font-medium"
+                  className="flex-1 px-3 py-2 rounded-lg glass hover:bg-brand/10 transition-all text-secondary hover:text-brand flex items-center justify-center gap-2 text-xs font-medium"
                   title="Copiar cotización"
                 >
                   {copiedId === cotizacion.moneda ? (
                     <>
-                      <FaCheckCircle className="text-accent-emerald" />
+                      <FaCheckCircle className="text-brand" />
                       Copiado
                     </>
                   ) : (
@@ -160,7 +179,7 @@ const CotizacionesInternacionales: React.FC = () => {
                 {typeof navigator !== 'undefined' && typeof navigator.share === 'function' && (
                   <button
                     onClick={() => handleShare(cotizacion)}
-                    className="px-3 py-2 rounded-lg glass hover:bg-accent-emerald/10 transition-all text-secondary hover:text-accent-emerald"
+                    className="px-3 py-2 rounded-lg glass hover:bg-brand/10 transition-all text-secondary hover:text-brand"
                     title="Compartir cotización"
                   >
                     <FaShareAlt className="text-sm" />

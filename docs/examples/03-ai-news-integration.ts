@@ -461,8 +461,8 @@ export function NewsWithAI({ article }: NewsCardProps) {
       {showAnalysis && analysis && (
         <div className="mt-4 space-y-4">
           // Resumen
-          <div className="p-4 glass rounded-lg border border-accent-emerald/20">
-            <h4 className="text-sm font-semibold text-accent-emerald mb-2 flex items-center gap-2">
+          <div className="p-4 glass rounded-lg border border-brand/20">
+            <h4 className="text-sm font-semibold text-brand mb-2 flex items-center gap-2">
               <FaChartLine /> Resumen Ejecutivo
             </h4>
             <p className="text-sm text-secondary">{analysis.summary}</p>
@@ -500,7 +500,7 @@ export function NewsWithAI({ article }: NewsCardProps) {
             </div>
             <div className="p-3 glass rounded-lg text-center">
               <p className="text-xs text-secondary mb-1">Confianza</p>
-              <p className="text-sm font-bold text-accent-emerald">
+              <p className="text-sm font-bold text-brand">
                 {analysis.impact.confidence}%
               </p>
             </div>

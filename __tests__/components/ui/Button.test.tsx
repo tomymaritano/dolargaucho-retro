@@ -20,7 +20,7 @@ describe('Button Component', () => {
 
   it('renders with different variants', () => {
     const { rerender } = render(<Button variant="primary">Primary</Button>);
-    expect(screen.getByText('Primary')).toHaveClass('bg-accent-emerald');
+    expect(screen.getByText('Primary')).toHaveClass('bg-brand');
 
     rerender(<Button variant="secondary">Secondary</Button>);
     expect(screen.getByText('Secondary')).toBeInTheDocument();

@@ -68,7 +68,7 @@ export function Tooltip({ content, children, placement = 'top', icon = true }: T
       >
         {children}
         {icon && (
-          <FaInfoCircle className="text-secondary hover:text-accent-emerald transition-colors text-xs" />
+          <FaInfoCircle className="text-secondary hover:text-brand transition-colors text-xs" />
         )}
       </span>
 

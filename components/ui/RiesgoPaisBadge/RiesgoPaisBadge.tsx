@@ -2,17 +2,16 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { FaArrowUp, FaArrowDown, FaExclamationTriangle } from 'react-icons/fa';
+import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import { useRiesgoPaisWithVariation } from '@/hooks/useFinanzas';
-import ElectricBorder from '@/components/ui/ElectricBorder/ElectricBorder';
 
 export function RiesgoPaisBadge() {
   const { data, isLoading } = useRiesgoPaisWithVariation();
 
   if (isLoading) {
     return (
-      <div className="hidden md:flex items-center gap-2 px-3 py-2 glass rounded-lg animate-pulse">
-        <div className="h-4 w-24 bg-white/10 rounded" />
+      <div className="hidden md:flex items-center gap-2 px-3 py-2 rounded-lg animate-pulse">
+        <div className="h-4 w-20 bg-white/10 rounded" />
       </div>
     );
   }
@@ -32,45 +31,26 @@ export function RiesgoPaisBadge() {
       ? 'text-error'
       : 'text-success';
 
-  // Electric border color based on trend
-  // Up = red (bad), Down = green (good), Neutral = orange
-  const electricColor = trend === 'up' ? '#ef4444' : trend === 'down' ? '#10b981' : '#f59e0b';
-
   return (
     <Link
       href="/dashboard/finanzas"
       className="hidden md:block group"
       title="Ver detalles de Riesgo País"
     >
-      <ElectricBorder
-        color={electricColor}
-        speed={1}
-        chaos={0.5}
-        thickness={2}
-        style={{ borderRadius: 12 }}
-      >
-        <div className="flex items-center gap-2 px-3 py-2 bg-panel/80 backdrop-blur-sm hover:bg-panel transition-colors cursor-pointer">
-          <FaExclamationTriangle
-            className={`text-sm flex-shrink-0 ${trend === 'up' ? 'text-error' : trend === 'down' ? 'text-success' : 'text-warning'}`}
-          />
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-secondary font-medium uppercase tracking-wider">
-              Riesgo País
-            </span>
-            <span className="text-sm font-bold text-foreground tabular-nums">
-              {riesgoPais.valor.toLocaleString('es-AR')}
-            </span>
-            {!isNeutral && VariationIcon && (
-              <div className={`flex items-center gap-1 ${variationColor}`}>
-                <VariationIcon className="text-xs" />
-                <span className="text-xs font-semibold tabular-nums">
-                  {percentage.toFixed(1)}%
-                </span>
-              </div>
-            )}
-          </div>
+      <div className="flex flex-col gap-1 px-3 py-2 rounded-lg hover:bg-background-secondary/50 transition-colors cursor-pointer">
+        <span className="text-[10px] text-secondary uppercase tracking-wider">Riesgo País</span>
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-bold text-foreground/70 group-hover:text-foreground tabular-nums transition-colors">
+            {riesgoPais.valor.toLocaleString('es-AR')}
+          </span>
+          {!isNeutral && VariationIcon && (
+            <div className={`flex items-center gap-1 ${variationColor}`}>
+              <VariationIcon className="text-xs" />
+              <span className="text-xs font-semibold tabular-nums">{percentage.toFixed(1)}%</span>
+            </div>
+          )}
         </div>
-      </ElectricBorder>
+      </div>
     </Link>
   );
 }

@@ -91,9 +91,8 @@ export function ArgentinaUSAComparison({ argInflacion, fredData }: ArgentinaUSAC
             </div>
             <div className="pt-3 border-t border-border">
               <p className="text-xs text-secondary">
-                <strong className="text-accent-emerald">Ratio: {inflationRatio.toFixed(1)}x</strong>{' '}
-                La inflación argentina es {inflationRatio.toFixed(0)} veces mayor que la
-                estadounidense
+                <strong className="text-brand">Ratio: {inflationRatio.toFixed(1)}x</strong> La
+                inflación argentina es {inflationRatio.toFixed(0)} veces mayor que la estadounidense
               </p>
             </div>
           </div>

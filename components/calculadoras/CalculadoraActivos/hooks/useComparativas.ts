@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useDolarQuery } from '@/hooks/useDolarQuery';
-import { useInflacion } from '@/hooks/useInflacion';
+import { useInflacionMensual } from '@/hooks/useFinanzas';
 import { useInflacionUS } from '@/hooks/useInflacionUS';
 import { Activo, ResultadoAnalisis } from '../types';
 import {
@@ -12,7 +12,7 @@ import {
 } from '../utils';
 
 export function useComparativas(activo: Activo | null) {
-  const { data: inflacionARSData } = useInflacion();
+  const { data: inflacionARSData } = useInflacionMensual();
   const { data: inflacionUSDData } = useInflacionUS();
   const { data: dolarActualData } = useDolarQuery();
 

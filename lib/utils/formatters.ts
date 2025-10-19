@@ -36,6 +36,21 @@ export function formatPrice(price: number): string {
 }
 
 /**
+ * Formatea un precio en dólares usando Intl.NumberFormat
+ * Ajusta automáticamente los decimales según el valor
+ * @param price - Precio a formatear
+ * @returns String formateado con símbolo USD (ej: "US$ 1,234.56")
+ */
+export function formatPriceUSD(price: number): string {
+  return new Intl.NumberFormat('es-AR', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: price < 1 ? 6 : 2,
+  }).format(price);
+}
+
+/**
  * Formatea un precio en pesos argentinos
  * @param price - Precio a formatear
  * @returns String formateado con símbolo $ (ej: "$1.234,56 ARS")

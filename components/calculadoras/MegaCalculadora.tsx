@@ -44,9 +44,7 @@ export function MegaCalculadora() {
   });
 
   // Dates for plazo fijo
-  const [fechaInicio, setFechaInicio] = useState<string>(
-    new Date().toISOString().split('T')[0]
-  );
+  const [fechaInicio, setFechaInicio] = useState<string>(new Date().toISOString().split('T')[0]);
   const [fechaFin, setFechaFin] = useState<string>(() => {
     const date = new Date();
     date.setDate(date.getDate() + 180);
@@ -73,7 +71,7 @@ export function MegaCalculadora() {
   const devaluacionMensualAuto = useMemo(() => {
     if (!dolarBlue || !dolarHistorico) return 8; // Default 8%
 
-    const blueHistorico = dolarHistorico.find(d => d.nombre === 'Blue');
+    const blueHistorico = dolarHistorico.find((d) => d.nombre === 'Blue');
     if (!blueHistorico) return 8;
 
     const devaluacion = ((dolarBlue.venta - blueHistorico.venta) / blueHistorico.venta) * 100;
@@ -137,19 +135,19 @@ export function MegaCalculadora() {
     const interesPF = (capitalNum * tna * (dias / 365)) / 100;
     const totalPF = capitalNum + interesPF;
     const rendimientoPF = ((totalPF - capitalNum) / capitalNum) * 100;
-    const rendimientoRealPF = ((totalPF / capitalNum) / (1 + inflacionAcumulada / 100) - 1) * 100;
+    const rendimientoRealPF = (totalPF / capitalNum / (1 + inflacionAcumulada / 100) - 1) * 100;
 
     // 2. DÓLAR BLUE
     const usdInicio = capitalNum / dolarInicio;
     const totalBlue = usdInicio * dolarFinal;
     const rendimientoBlue = ((totalBlue - capitalNum) / capitalNum) * 100;
-    const rendimientoRealBlue = ((totalBlue / capitalNum) / (1 + inflacionAcumulada / 100) - 1) * 100;
+    const rendimientoRealBlue = (totalBlue / capitalNum / (1 + inflacionAcumulada / 100) - 1) * 100;
 
     // 3. DÓLAR MEP
     const usdMEPInicio = capitalNum / dolarMEPInicio;
     const totalMEP = usdMEPInicio * dolarMEPFinal;
     const rendimientoMEP = ((totalMEP - capitalNum) / capitalNum) * 100;
-    const rendimientoRealMEP = ((totalMEP / capitalNum) / (1 + inflacionAcumulada / 100) - 1) * 100;
+    const rendimientoRealMEP = (totalMEP / capitalNum / (1 + inflacionAcumulada / 100) - 1) * 100;
 
     // 4. PORTAFOLIO DIVERSIFICADO
     const capitalPF = capitalNum * (allocation.plazoFijo / 100);
@@ -162,7 +160,8 @@ export function MegaCalculadora() {
 
     const totalDiversificado = retornoPF + retornoBlue + retornoMEP;
     const rendimientoDiversificado = ((totalDiversificado - capitalNum) / capitalNum) * 100;
-    const rendimientoRealDiversificado = ((totalDiversificado / capitalNum) / (1 + inflacionAcumulada / 100) - 1) * 100;
+    const rendimientoRealDiversificado =
+      (totalDiversificado / capitalNum / (1 + inflacionAcumulada / 100) - 1) * 100;
 
     // ========== TIR & VAN ==========
 
@@ -186,9 +185,9 @@ export function MegaCalculadora() {
     const volatilidadBlue = 15; // Alta
     const volatilidadMEP = 12; // Media-Alta
     const volatilidadDiversificado = Math.sqrt(
-      Math.pow(allocation.plazoFijo / 100 * volatilidadPF, 2) +
-      Math.pow(allocation.dolarBlue / 100 * volatilidadBlue, 2) +
-      Math.pow(allocation.dolarMEP / 100 * volatilidadMEP, 2)
+      Math.pow((allocation.plazoFijo / 100) * volatilidadPF, 2) +
+        Math.pow((allocation.dolarBlue / 100) * volatilidadBlue, 2) +
+        Math.pow((allocation.dolarMEP / 100) * volatilidadMEP, 2)
     );
 
     // Sharpe Ratio (rendimiento / volatilidad)
@@ -242,7 +241,9 @@ export function MegaCalculadora() {
       },
     ];
 
-    const mejorPorRendimiento = [...estrategias].sort((a, b) => b.rendimientoReal - a.rendimientoReal)[0];
+    const mejorPorRendimiento = [...estrategias].sort(
+      (a, b) => b.rendimientoReal - a.rendimientoReal
+    )[0];
     const mejorPorSharpe = [...estrategias].sort((a, b) => b.sharpe - a.sharpe)[0];
     const mejorPorVAN = [...estrategias].sort((a, b) => b.van - a.van)[0];
 
@@ -275,7 +276,8 @@ export function MegaCalculadora() {
       dataMEP.push(usdMEPInicio * dolarMEPParcial);
 
       // Diversificado
-      const pfParcial = capitalPF * (1 + (interesParcial / capitalNum) * (allocation.plazoFijo / 100));
+      const pfParcial =
+        capitalPF * (1 + (interesParcial / capitalNum) * (allocation.plazoFijo / 100));
       const blueParcial = capitalBlue * (dolarParcial / dolarInicio);
       const mepParcial = capitalMEP * (dolarMEPParcial / dolarMEPInicio);
       dataDiversificado.push(pfParcial + blueParcial + mepParcial);
@@ -344,7 +346,17 @@ export function MegaCalculadora() {
         ],
       },
     };
-  }, [capital, dias, allocation, devaluacionMensualAuto, inflacionMensualAuto, spreadMEPAuto, dolarBlue, dolarMEP, tasas]);
+  }, [
+    capital,
+    dias,
+    allocation,
+    devaluacionMensualAuto,
+    inflacionMensualAuto,
+    spreadMEPAuto,
+    dolarBlue,
+    dolarMEP,
+    tasas,
+  ]);
 
   const chartOptions = {
     responsive: true,
@@ -383,7 +395,8 @@ export function MegaCalculadora() {
         },
         ticks: {
           color: '#9CA3AF',
-          callback: (value: number | string) => `$${Number(value).toLocaleString('es-AR', { maximumFractionDigits: 0 })}`,
+          callback: (value: number | string) =>
+            `$${Number(value).toLocaleString('es-AR', { maximumFractionDigits: 0 })}`,
         },
       },
       x: {
@@ -462,7 +475,7 @@ export function MegaCalculadora() {
               value={formatNumber(capital)}
               onChange={(e) => handleCapitalChange(e.target.value)}
               placeholder="1.000.000"
-              className="w-full pl-10 pr-4 py-3 text-xl font-mono font-bold bg-panel border border-border rounded-xl focus:ring-2 focus:ring-accent-emerald/20 focus:border-accent-emerald/50 focus:outline-none transition-all text-foreground"
+              className="w-full pl-10 pr-4 py-3 text-xl font-mono font-bold bg-panel border border-border rounded-xl focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground"
             />
           </div>
         </div>
@@ -473,7 +486,7 @@ export function MegaCalculadora() {
             type="date"
             value={fechaInicio}
             onChange={(e) => setFechaInicio(e.target.value)}
-            className="w-full px-4 py-3 bg-panel border border-border rounded-xl focus:ring-2 focus:ring-accent-emerald/20 focus:border-accent-emerald/50 focus:outline-none transition-all text-foreground"
+            className="w-full px-4 py-3 bg-panel border border-border rounded-xl focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground"
           />
         </div>
 
@@ -483,7 +496,7 @@ export function MegaCalculadora() {
             type="date"
             value={fechaFin}
             onChange={(e) => setFechaFin(e.target.value)}
-            className="w-full px-4 py-3 bg-panel border border-border rounded-xl focus:ring-2 focus:ring-accent-emerald/20 focus:border-accent-emerald/50 focus:outline-none transition-all text-foreground"
+            className="w-full px-4 py-3 bg-panel border border-border rounded-xl focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground"
           />
         </div>
 
@@ -500,12 +513,14 @@ export function MegaCalculadora() {
       {/* Parámetros económicos automáticos desde API */}
       <div className="mb-8 p-6 rounded-xl bg-panel/50 border border-border">
         <h3 className="text-sm font-semibold text-foreground mb-4 uppercase tracking-wider flex items-center gap-2">
-          <FaChartLine className="text-accent-emerald" />
+          <FaChartLine className="text-brand" />
           Parámetros Económicos (Automáticos desde API)
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
-            <label className="block text-xs font-medium text-secondary uppercase mb-2">Inflación Mensual</label>
+            <label className="block text-xs font-medium text-secondary uppercase mb-2">
+              Inflación Mensual
+            </label>
             <div className="relative">
               <FaPercent className="absolute left-4 top-1/2 -translate-y-1/2 text-secondary" />
               <input
@@ -517,12 +532,16 @@ export function MegaCalculadora() {
               />
             </div>
             <p className="text-xs text-secondary mt-1">
-              {ultimaInflacion ? `📊 Dato oficial del ${ultimaInflacion.fecha}` : '⚠️ Usando valor estimado'}
+              {ultimaInflacion
+                ? `📊 Dato oficial del ${ultimaInflacion.fecha}`
+                : '⚠️ Usando valor estimado'}
             </p>
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-secondary uppercase mb-2">Devaluación Mensual</label>
+            <label className="block text-xs font-medium text-secondary uppercase mb-2">
+              Devaluación Mensual
+            </label>
             <div className="relative">
               <FaPercent className="absolute left-4 top-1/2 -translate-y-1/2 text-secondary" />
               <input
@@ -534,12 +553,16 @@ export function MegaCalculadora() {
               />
             </div>
             <p className="text-xs text-secondary mt-1">
-              {dolarHistorico && dolarBlue ? '📈 Calculado desde dato histórico' : '⚠️ Usando valor estimado'}
+              {dolarHistorico && dolarBlue
+                ? '📈 Calculado desde dato histórico'
+                : '⚠️ Usando valor estimado'}
             </p>
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-secondary uppercase mb-2">Spread MEP vs Blue</label>
+            <label className="block text-xs font-medium text-secondary uppercase mb-2">
+              Spread MEP vs Blue
+            </label>
             <div className="relative">
               <FaPercent className="absolute left-4 top-1/2 -translate-y-1/2 text-secondary" />
               <input
@@ -547,11 +570,17 @@ export function MegaCalculadora() {
                 value={`${spreadMEPAuto.toFixed(2)}%`}
                 readOnly
                 className="w-full pl-10 pr-4 py-3 font-mono font-bold bg-dark-light border border-border rounded-xl text-foreground cursor-not-allowed"
-                title={dolarMEP ? `Blue: $${dolarBlue?.venta.toFixed(2)} | MEP: $${dolarMEP.venta.toFixed(2)}` : 'Calculado estimado'}
+                title={
+                  dolarMEP
+                    ? `Blue: $${dolarBlue?.venta.toFixed(2)} | MEP: $${dolarMEP.venta.toFixed(2)}`
+                    : 'Calculado estimado'
+                }
               />
             </div>
             <p className="text-xs text-secondary mt-1">
-              {dolarMEP ? `💵 Blue $${dolarBlue?.venta.toFixed(2)} | MEP $${dolarMEP.venta.toFixed(2)}` : '⚠️ Usando valor estimado'}
+              {dolarMEP
+                ? `💵 Blue $${dolarBlue?.venta.toFixed(2)} | MEP $${dolarMEP.venta.toFixed(2)}`
+                : '⚠️ Usando valor estimado'}
             </p>
           </div>
         </div>
@@ -603,27 +632,37 @@ export function MegaCalculadora() {
       {analisisCompleto && (
         <>
           {/* Mejor estrategia - Destacado */}
-          <div className="mb-8 p-6 rounded-2xl bg-gradient-to-r from-accent-emerald/20 via-accent-teal/20 to-accent-emerald/20 border border-accent-emerald/30">
+          <div className="mb-8 p-6 rounded-2xl bg-gradient-to-r from-brand/20 via-brand-light/20 to-brand/20 border border-brand/30">
             <div className="flex items-start gap-4">
-              <FaTrophy className="text-3xl text-accent-emerald" />
+              <FaTrophy className="text-3xl text-brand" />
               <div className="flex-1">
-                <h3 className="text-lg font-bold text-foreground mb-2">Mejor Estrategia (por Rendimiento Real)</h3>
+                <h3 className="text-lg font-bold text-foreground mb-2">
+                  Mejor Estrategia (por Rendimiento Real)
+                </h3>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                   <div>
                     <p className="text-xs text-secondary uppercase mb-1">Estrategia</p>
-                    <p className="text-xl font-bold text-accent-emerald">{analisisCompleto.mejorPorRendimiento.nombre}</p>
+                    <p className="text-xl font-bold text-brand">
+                      {analisisCompleto.mejorPorRendimiento.nombre}
+                    </p>
                   </div>
                   <div>
                     <p className="text-xs text-secondary uppercase mb-1">Rendimiento Real</p>
-                    <p className="text-xl font-bold text-foreground">{analisisCompleto.mejorPorRendimiento.rendimientoReal.toFixed(2)}%</p>
+                    <p className="text-xl font-bold text-foreground">
+                      {analisisCompleto.mejorPorRendimiento.rendimientoReal.toFixed(2)}%
+                    </p>
                   </div>
                   <div>
                     <p className="text-xs text-secondary uppercase mb-1">Total Final</p>
-                    <p className="text-xl font-bold text-foreground">{formatCurrency(analisisCompleto.mejorPorRendimiento.total)}</p>
+                    <p className="text-xl font-bold text-foreground">
+                      {formatCurrency(analisisCompleto.mejorPorRendimiento.total)}
+                    </p>
                   </div>
                   <div>
                     <p className="text-xs text-secondary uppercase mb-1">Sharpe Ratio</p>
-                    <p className="text-xl font-bold text-foreground">{analisisCompleto.mejorPorRendimiento.sharpe.toFixed(2)}</p>
+                    <p className="text-xl font-bold text-foreground">
+                      {analisisCompleto.mejorPorRendimiento.sharpe.toFixed(2)}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -650,13 +689,17 @@ export function MegaCalculadora() {
                   <div className="grid grid-cols-2 gap-3 text-sm">
                     <div>
                       <p className="text-xs text-secondary uppercase">Rend. Nominal</p>
-                      <p className={`font-semibold ${est.rendimiento > 0 ? 'text-success' : 'text-error'}`}>
+                      <p
+                        className={`font-semibold ${est.rendimiento > 0 ? 'text-success' : 'text-error'}`}
+                      >
                         {est.rendimiento.toFixed(2)}%
                       </p>
                     </div>
                     <div>
                       <p className="text-xs text-secondary uppercase">Rend. Real</p>
-                      <p className={`font-semibold ${est.rendimientoReal > 0 ? 'text-success' : 'text-error'}`}>
+                      <p
+                        className={`font-semibold ${est.rendimientoReal > 0 ? 'text-success' : 'text-error'}`}
+                      >
                         {est.rendimientoReal.toFixed(2)}%
                       </p>
                     </div>
@@ -678,7 +721,9 @@ export function MegaCalculadora() {
                     </div>
                     <div className="col-span-2">
                       <p className="text-xs text-secondary uppercase">Total Final</p>
-                      <p className="font-bold text-foreground text-lg">{formatCurrency(est.total)}</p>
+                      <p className="font-bold text-foreground text-lg">
+                        {formatCurrency(est.total)}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -725,11 +770,29 @@ export function MegaCalculadora() {
               <div className="text-xs text-secondary">
                 <p className="font-semibold text-foreground mb-2">Consideraciones importantes:</p>
                 <ul className="space-y-1 list-disc list-inside">
-                  <li><strong className="text-foreground">VAN (Valor Actual Neto):</strong> Valor presente del flujo futuro descontado por inflación. VAN positivo indica ganancia real.</li>
-                  <li><strong className="text-foreground">TIR (Tasa Interna de Retorno):</strong> Rentabilidad mensual efectiva. Compará con la inflación mensual ({analisisCompleto.inflacionAcumulada.toFixed(1)}% / {analisisCompleto.meses} = {(analisisCompleto.inflacionAcumulada / analisisCompleto.meses).toFixed(2)}%).</li>
-                  <li><strong className="text-foreground">Sharpe Ratio:</strong> Rendimiento ajustado por riesgo. Mayor valor = mejor relación riesgo/retorno.</li>
-                  <li><strong className="text-foreground">Rendimiento Real:</strong> Ya descontada la inflación. Este es tu ganancia/pérdida de poder adquisitivo real.</li>
-                  <li>Las proyecciones asumen tasas constantes. La realidad puede variar significativamente.</li>
+                  <li>
+                    <strong className="text-foreground">VAN (Valor Actual Neto):</strong> Valor
+                    presente del flujo futuro descontado por inflación. VAN positivo indica ganancia
+                    real.
+                  </li>
+                  <li>
+                    <strong className="text-foreground">TIR (Tasa Interna de Retorno):</strong>{' '}
+                    Rentabilidad mensual efectiva. Compará con la inflación mensual (
+                    {analisisCompleto.inflacionAcumulada.toFixed(1)}% / {analisisCompleto.meses} ={' '}
+                    {(analisisCompleto.inflacionAcumulada / analisisCompleto.meses).toFixed(2)}%).
+                  </li>
+                  <li>
+                    <strong className="text-foreground">Sharpe Ratio:</strong> Rendimiento ajustado
+                    por riesgo. Mayor valor = mejor relación riesgo/retorno.
+                  </li>
+                  <li>
+                    <strong className="text-foreground">Rendimiento Real:</strong> Ya descontada la
+                    inflación. Este es tu ganancia/pérdida de poder adquisitivo real.
+                  </li>
+                  <li>
+                    Las proyecciones asumen tasas constantes. La realidad puede variar
+                    significativamente.
+                  </li>
                 </ul>
               </div>
             </div>

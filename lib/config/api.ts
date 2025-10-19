@@ -83,6 +83,31 @@ export const API_CONFIG = {
 } as const;
 
 /**
+ * APIs oficiales deprecadas o no disponibles
+ * Mantenidas solo como referencia histórica
+ *
+ * NOTA: ArgentinaDatos agrega datos de estas fuentes oficiales
+ * y provee una API más estable y confiable.
+ */
+export const DEPRECATED_APIS = {
+  // BCRA API Oficial v2 (DEPRECADA desde 2024)
+  bcraOficial: {
+    baseUrl: 'https://api.bcra.gob.ar',
+    status: 'deprecated',
+    reason: 'API v2 deprecada por BCRA',
+    alternative: 'Usar argentinaData para datos del BCRA',
+  },
+
+  // INDEC API Oficial (NO DISPONIBLE)
+  indecOficial: {
+    baseUrl: 'https://apis.datos.gob.ar/series/api',
+    status: 'unavailable',
+    reason: 'Error 502 - servidor no responde',
+    alternative: 'Usar argentinaData para datos del INDEC',
+  },
+} as const;
+
+/**
  * Retry configuration for TanStack Query
  * Implements exponential backoff strategy
  */

@@ -13,9 +13,66 @@ interface CryptoSparklineProps {
   isCrypto?: boolean;
 }
 
+/**
+ * Interpola datos usando spline Catmull-Rom para crear una curva suave
+ * Similar a cómo SVG path usa "smooth" curves
+ */
+function catmullRomSpline(data: number[], pointsPerSegment: number = 20): number[] {
+  if (data.length < 2) return data;
+  if (data.length === 2) {
+    // Solo 2 puntos, interpolación lineal simple
+    const result: number[] = [];
+    const step = (data[1] - data[0]) / pointsPerSegment;
+    for (let i = 0; i <= pointsPerSegment; i++) {
+      result.push(data[0] + step * i);
+    }
+    return result;
+  }
+
+  const result: number[] = [];
+
+  // Catmull-Rom spline interpolation
+  for (let i = 0; i < data.length - 1; i++) {
+    const p0 = data[Math.max(0, i - 1)];
+    const p1 = data[i];
+    const p2 = data[i + 1];
+    const p3 = data[Math.min(data.length - 1, i + 2)];
+
+    for (let t = 0; t < pointsPerSegment; t++) {
+      const tt = t / pointsPerSegment;
+      const tt2 = tt * tt;
+      const tt3 = tt2 * tt;
+
+      // Catmull-Rom formula
+      const q =
+        0.5 *
+        (2 * p1 +
+          (-p0 + p2) * tt +
+          (2 * p0 - 5 * p1 + 4 * p2 - p3) * tt2 +
+          (-p0 + 3 * p1 - 3 * p2 + p3) * tt3);
+
+      result.push(q);
+    }
+  }
+
+  // Agregar el último punto
+  result.push(data[data.length - 1]);
+
+  return result;
+}
+
 export function CryptoSparkline({ data, color, trend, isCrypto = false }: CryptoSparklineProps) {
+  // Para dólar/moneda (pocos puntos), interpolar con spline para curva suave
+  // Para crypto (muchos puntos), usar directamente
+  const shouldInterpolate = data.length < 20;
+
+  // Aumentar puntos de interpolación para datos con pocos puntos (7 puntos → ~180 puntos)
+  // Esto hace que las curvas se vean tan suaves como crypto
+  const pointsPerSegment = data.length < 10 ? 30 : 15;
+  const processedData = shouldInterpolate ? catmullRomSpline(data, pointsPerSegment) : data;
+
   // Convertir array de números a formato para Recharts
-  const chartData: SparklineData[] = data.map((value) => ({ value }));
+  const chartData: SparklineData[] = processedData.map((value) => ({ value }));
 
   // Si no hay suficientes datos, mostrar placeholder
   if (!data || data.length < 2) {
@@ -44,10 +101,10 @@ export function CryptoSparkline({ data, color, trend, isCrypto = false }: Crypto
         <LineChart data={chartData} margin={{ top: 4, right: 4, bottom: 4, left: 4 }}>
           <YAxis domain={['dataMin', 'dataMax']} hide />
           <Line
-            type="monotone"
+            type="natural"
             dataKey="value"
             stroke={lineColor}
-            strokeWidth={2}
+            strokeWidth={1.5}
             dot={false}
             isAnimationActive={false}
             strokeLinecap="round"

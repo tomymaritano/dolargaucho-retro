@@ -310,11 +310,11 @@ export function DolarList() {
           <div className="flex justify-between">
             <div>
               <p className="text-xs text-secondary">Compra</p>
-              <p className="text-lg font-mono text-accent-emerald">${dolar.compra.toFixed(2)}</p>
+              <p className="text-lg font-mono text-brand">${dolar.compra.toFixed(2)}</p>
             </div>
             <div className="text-right">
               <p className="text-xs text-secondary">Venta</p>
-              <p className="text-lg font-mono text-accent-teal">${dolar.venta.toFixed(2)}</p>
+              <p className="text-lg font-mono text-brand-light">${dolar.venta.toFixed(2)}</p>
             </div>
           </div>
         </div>
@@ -340,7 +340,7 @@ export function DolarTabs() {
             onClick={() => setSelectedType(type)}
             className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
               selectedType === type
-                ? 'bg-accent-emerald text-dark'
+                ? 'bg-brand text-dark'
                 : 'glass border border-white/5 text-secondary hover:text-white'
             }`}
           >
@@ -357,9 +357,7 @@ export function DolarTabs() {
         </div>
       ) : data ? (
         <div>
-          <h2 className="text-3xl font-mono font-bold text-accent-emerald">
-            ${data.venta.toFixed(2)}
-          </h2>
+          <h2 className="text-3xl font-mono font-bold text-brand">${data.venta.toFixed(2)}</h2>
           <p className="text-sm text-secondary mt-2">
             Actualizado: {new Date(data.fechaActualizacion).toLocaleString('es-AR')}
           </p>
@@ -411,14 +409,14 @@ export function NewsAnalysisForm() {
       <button
         onClick={handleAnalyze}
         disabled={mutation.isPending}
-        className="w-full py-3 bg-accent-emerald text-dark rounded-lg font-semibold hover:bg-accent-teal transition-all disabled:opacity-50"
+        className="w-full py-3 bg-brand text-dark rounded-lg font-semibold hover:bg-brand-light transition-all disabled:opacity-50"
       >
         {mutation.isPending ? 'Analizando...' : 'Analizar con AI'}
       </button>
 
       {mutation.isSuccess && (
-        <div className="mt-4 p-4 glass rounded-lg border border-accent-emerald/20">
-          <h3 className="font-semibold text-accent-emerald mb-2">Resultado:</h3>
+        <div className="mt-4 p-4 glass rounded-lg border border-brand/20">
+          <h3 className="font-semibold text-brand mb-2">Resultado:</h3>
           <p className="text-sm text-secondary">{mutation.data.analysis}</p>
           <p className="text-xs text-secondary mt-2">
             Sentimiento: <span className="text-white">{mutation.data.sentiment}</span>

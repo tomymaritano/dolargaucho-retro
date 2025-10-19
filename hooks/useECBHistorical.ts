@@ -35,7 +35,8 @@ async function fetchECBHistorical(): Promise<Record<string, ECBHistoricalData>> 
     const end = endDate.toISOString().split('T')[0];
 
     // Fetch historical data for main currencies
-    const currencies = ['USD', 'ARS', 'GBP', 'JPY', 'CHF', 'BRL'];
+    // Note: Frankfurter API does not support ARS
+    const currencies = ['USD', 'GBP', 'JPY', 'CHF', 'BRL'];
     const response = await fetch(
       `https://api.frankfurter.app/${start}..${end}?from=EUR&to=${currencies.join(',')}`
     );

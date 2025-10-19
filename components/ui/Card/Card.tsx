@@ -5,10 +5,10 @@ import { cn } from '@/lib/utils/cn';
 const cardVariants = cva('rounded-xl transition-all', {
   variants: {
     variant: {
-      default: 'glass-strong border border-border',
-      outlined: 'border-2 border-accent-emerald/20 bg-transparent',
-      elevated: 'glass-strong border border-border',
-      solid: 'bg-panel border border-border',
+      default: 'bg-panel',
+      outlined: 'bg-transparent',
+      elevated: 'bg-panel shadow-lg',
+      solid: 'bg-panel',
     },
     padding: {
       none: 'p-0',
@@ -20,14 +20,22 @@ const cardVariants = cva('rounded-xl transition-all', {
     hover: {
       none: '',
       scale: 'hover:scale-[1.02]',
-      glow: 'hover:border-accent-emerald/40',
-      lift: 'hover:-translate-y-1',
+      glow: 'hover:border-brand/40',
+      lift: 'hover:-translate-y-1 hover:shadow-2xl',
+    },
+    elevation: {
+      none: '',
+      sm: 'shadow-sm',
+      md: 'shadow-md',
+      lg: 'shadow-lg',
+      xl: 'shadow-xl dark:shadow-2xl',
     },
   },
   defaultVariants: {
     variant: 'default',
     padding: 'md',
     hover: 'none',
+    elevation: 'none',
   },
 });
 
@@ -38,9 +46,17 @@ export interface CardProps
   className?: string;
 }
 
-const CardComponent = memo(function Card({ variant, padding, hover, className, children, ...rest }: CardProps) {
+const CardComponent = memo(function Card({
+  variant,
+  padding,
+  hover,
+  elevation,
+  className,
+  children,
+  ...rest
+}: CardProps) {
   return (
-    <div className={cn(cardVariants({ variant, padding, hover, className }))} {...rest}>
+    <div className={cn(cardVariants({ variant, padding, hover, elevation, className }))} {...rest}>
       {children}
     </div>
   );
@@ -94,7 +110,7 @@ const CardFooter = function CardFooter({
   children: React.ReactNode;
   className?: string;
 }) {
-  return <div className={cn('mt-4 pt-4 border-t border-border', className)}>{children}</div>;
+  return <div className={cn('mt-4 pt-4', className)}>{children}</div>;
 };
 
 // Export Card with compound components attached

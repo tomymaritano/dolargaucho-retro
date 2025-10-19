@@ -190,20 +190,20 @@ export function CalendarioMensual({
                     ? 'text-secondary/30 cursor-not-allowed'
                     : 'text-white hover:bg-white/10 cursor-pointer'
                 }
-                ${hoy ? 'ring-2 ring-accent-emerald' : ''}
-                ${dia.esFeriado ? 'bg-accent-emerald/20' : 'glass'}
-                ${dia.tieneEvento && !dia.esFeriado ? 'bg-accent-teal/10' : ''}
+                ${hoy ? 'ring-2 ring-brand' : ''}
+                ${dia.esFeriado ? 'bg-brand/20' : 'glass'}
+                ${dia.tieneEvento && !dia.esFeriado ? 'bg-brand-light/10' : ''}
               `}
             >
               <div className="flex flex-col items-center justify-center h-full">
-                <span className={`text-sm font-semibold ${hoy ? 'text-accent-emerald' : ''}`}>
+                <span className={`text-sm font-semibold ${hoy ? 'text-brand' : ''}`}>
                   {dia.numero}
                 </span>
 
                 {/* Indicadores */}
                 <div className="flex gap-1 mt-1">
-                  {dia.esFeriado && <div className="w-1.5 h-1.5 rounded-full bg-accent-emerald" />}
-                  {dia.tieneEvento && <div className="w-1.5 h-1.5 rounded-full bg-accent-teal" />}
+                  {dia.esFeriado && <div className="w-1.5 h-1.5 rounded-full bg-brand" />}
+                  {dia.tieneEvento && <div className="w-1.5 h-1.5 rounded-full bg-brand-light" />}
                 </div>
               </div>
 
@@ -212,12 +212,12 @@ export function CalendarioMensual({
                 <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-10 pointer-events-none">
                   <div className="glass-strong border border-border rounded-lg p-2 text-xs whitespace-nowrap">
                     {dia.feriados.map((f) => (
-                      <div key={f.fecha} className="text-accent-emerald">
+                      <div key={f.fecha} className="text-brand">
                         📅 {f.nombre}
                       </div>
                     ))}
                     {dia.eventos.map((e) => (
-                      <div key={e.fecha} className="text-accent-teal">
+                      <div key={e.fecha} className="text-brand-light">
                         🗓️ {e.descripcion}
                       </div>
                     ))}
@@ -232,15 +232,15 @@ export function CalendarioMensual({
       {/* Leyenda */}
       <div className="flex items-center justify-center gap-6 mt-6 pt-6 border-t border-border">
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-accent-emerald" />
+          <div className="w-3 h-3 rounded-full bg-brand" />
           <span className="text-sm text-secondary">Feriado</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-accent-teal" />
+          <div className="w-3 h-3 rounded-full bg-brand-light" />
           <span className="text-sm text-secondary">Evento Presidencial</span>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full border-2 border-accent-emerald" />
+          <div className="w-3 h-3 rounded-full border-2 border-brand" />
           <span className="text-sm text-secondary">Hoy</span>
         </div>
       </div>

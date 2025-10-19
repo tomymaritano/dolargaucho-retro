@@ -41,7 +41,10 @@ export default function CalculadoraInflacion({ showHeader = true }: CalculadoraI
           setInflationRate(lastValue.valor);
         }
       } catch (error) {
-        logger.error('Error al obtener la inflación', error, { component: 'CalculadoraInflacion', endpoint: 'inflacionInteranual' });
+        logger.error('Error al obtener la inflación', error, {
+          component: 'CalculadoraInflacion',
+          endpoint: 'inflacionInteranual',
+        });
       } finally {
         setLoading(false);
       }
@@ -78,7 +81,10 @@ export default function CalculadoraInflacion({ showHeader = true }: CalculadoraI
           setHistoricalRate(closest.valor);
         }
       } catch (error) {
-        logger.error('Error al obtener inflación histórica', error, { component: 'CalculadoraInflacion', startDate });
+        logger.error('Error al obtener inflación histórica', error, {
+          component: 'CalculadoraInflacion',
+          startDate,
+        });
       }
     };
 
@@ -95,7 +101,8 @@ export default function CalculadoraInflacion({ showHeader = true }: CalculadoraI
   }, [initialAmount, inflationRate, historicalRate, years, useCustomDate]);
 
   // Determine if purchasing power is decreasing or increasing
-  const isPowerDecreasing = futureValues.length > 1 && futureValues[futureValues.length - 1] < futureValues[0];
+  const isPowerDecreasing =
+    futureValues.length > 1 && futureValues[futureValues.length - 1] < futureValues[0];
   const chartColor = isPowerDecreasing ? '#EF4444' : '#10B981'; // Red if decreasing, green if increasing
   const chartColorRgba = isPowerDecreasing ? 'rgba(239, 68, 68, 0.1)' : 'rgba(16, 185, 129, 0.1)';
 
@@ -194,7 +201,11 @@ export default function CalculadoraInflacion({ showHeader = true }: CalculadoraI
 
   return (
     <CalculatorLayout
-      title={<>Calculadora de <span className="gradient-text">Inflación</span></>}
+      title={
+        <>
+          Calculadora de <span className="gradient-text">Inflación</span>
+        </>
+      }
       description="Proyecta el impacto de la inflación en tu dinero a lo largo del tiempo"
       showHeader={showHeader}
     >
@@ -289,7 +300,7 @@ export default function CalculadoraInflacion({ showHeader = true }: CalculadoraI
             ¿Cómo se calcula esto?
           </span>
           <FaChevronDown
-            className={`transition-transform text-accent-emerald text-xs ${showExplanation ? 'rotate-180' : 'rotate-0'}`}
+            className={`transition-transform text-brand text-xs ${showExplanation ? 'rotate-180' : 'rotate-0'}`}
           />
         </button>
 
@@ -298,25 +309,31 @@ export default function CalculadoraInflacion({ showHeader = true }: CalculadoraI
             {useCustomDate ? (
               <>
                 <p>
-                  <strong className="text-foreground">Modo Histórico:</strong> Calcula cuánto perdió tu dinero desde una fecha pasada hasta hoy.
+                  <strong className="text-foreground">Modo Histórico:</strong> Calcula cuánto perdió
+                  tu dinero desde una fecha pasada hasta hoy.
                 </p>
                 <p>
-                  Ideal para saber: "Compré algo por $1000 el año pasado, ¿cuánto vale hoy con la inflación?"
+                  Ideal para saber: &quot;Compré algo por $1000 el año pasado, ¿cuánto vale hoy con
+                  la inflación?&quot;
                 </p>
                 <p className="text-xs italic">
-                  Usa la tasa de inflación interanual del momento de compra para calcular la devaluación hasta hoy.
+                  Usa la tasa de inflación interanual del momento de compra para calcular la
+                  devaluación hasta hoy.
                 </p>
               </>
             ) : (
               <>
                 <p>
-                  <strong className="text-foreground">Modo Proyección:</strong> Estima cómo se devaluará tu dinero hacia el futuro.
+                  <strong className="text-foreground">Modo Proyección:</strong> Estima cómo se
+                  devaluará tu dinero hacia el futuro.
                 </p>
                 <p>
-                  Utiliza la tasa de inflación interanual actual para proyectar el poder adquisitivo futuro.
+                  Utiliza la tasa de inflación interanual actual para proyectar el poder adquisitivo
+                  futuro.
                 </p>
                 <p className="text-xs italic">
-                  Las proyecciones asumen que la tasa de inflación se mantiene constante, lo cual puede no reflejar la realidad económica.
+                  Las proyecciones asumen que la tasa de inflación se mantiene constante, lo cual
+                  puede no reflejar la realidad económica.
                 </p>
               </>
             )}

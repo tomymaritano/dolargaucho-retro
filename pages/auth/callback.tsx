@@ -30,7 +30,7 @@ export default function AuthCallbackPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-dark via-dark-light to-dark flex items-center justify-center">
       <div className="text-center">
-        <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-accent-emerald border-t-transparent" />
+        <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-brand border-t-transparent" />
         <p className="mt-4 text-white text-lg">Autenticando...</p>
       </div>
     </div>

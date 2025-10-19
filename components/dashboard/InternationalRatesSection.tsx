@@ -33,22 +33,13 @@ export function InternationalRatesSection({
   onToggleCurrency,
 }: InternationalRatesSectionProps) {
   return (
-    <Card variant="elevated" padding="lg">
-      <Card.Header>
-        <div className="flex items-center gap-3">
-          <FaGlobeAmericas className="text-accent-emerald text-xl" />
-          <Card.Title className="mb-0">Cotizaciones Internacionales</Card.Title>
-        </div>
-      </Card.Header>
-
-      <Card.Content>
-        <CotizacionesTable
-          cotizaciones={cotizaciones || []}
-          isLoading={loadingCotizaciones}
-          favoriteCurrencyIds={favoriteCurrencyIds}
-          onToggleFavorite={onToggleCurrency}
-        />
-      </Card.Content>
+    <Card variant="outlined" padding="none">
+      <CotizacionesTable
+        cotizaciones={cotizaciones || []}
+        isLoading={loadingCotizaciones}
+        favoriteCurrencyIds={favoriteCurrencyIds}
+        onToggleFavorite={onToggleCurrency}
+      />
     </Card>
   );
 }

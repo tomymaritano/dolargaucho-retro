@@ -1,0 +1,1 @@
+export { CurrencyBadge } from './CurrencyBadge';

@@ -22,11 +22,10 @@ export default function Custom500() {
 
           {/* Mensaje */}
           <div className="mb-8">
-            <h2 className="text-3xl font-bold text-foreground mb-3">
-              Error interno del servidor
-            </h2>
+            <h2 className="text-3xl font-bold text-foreground mb-3">Error interno del servidor</h2>
             <p className="text-secondary text-lg leading-relaxed">
-              Ocurrió un error inesperado en nuestros servidores. Estamos trabajando para solucionarlo.
+              Ocurrió un error inesperado en nuestros servidores. Estamos trabajando para
+              solucionarlo.
             </p>
           </div>
 
@@ -34,14 +33,14 @@ export default function Custom500() {
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <button
               onClick={() => window.location.reload()}
-              className="flex items-center justify-center gap-2 px-6 py-3 bg-accent-emerald hover:bg-accent-teal text-background-dark font-semibold rounded-lg transition-all active:scale-[0.98]"
+              className="flex items-center justify-center gap-2 px-6 py-3 bg-brand hover:bg-brand-light text-background-dark font-semibold rounded-lg transition-all active:scale-[0.98]"
             >
               <FaRedo />
               Reintentar
             </button>
             <Link
               href="/"
-              className="flex items-center justify-center gap-2 px-6 py-3 bg-panel border border-border hover:bg-accent-emerald/10 hover:border-accent-emerald text-foreground font-semibold rounded-lg transition-all active:scale-[0.98]"
+              className="flex items-center justify-center gap-2 px-6 py-3 bg-panel border border-border hover:bg-brand/10 hover:border-brand text-foreground font-semibold rounded-lg transition-all active:scale-[0.98]"
             >
               <FaHome />
               Ir al inicio
@@ -56,11 +55,11 @@ export default function Custom500() {
                 href="https://github.com/anthropics/claude-code/issues"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-accent-emerald hover:underline"
+                className="text-brand hover:underline"
               >
                 reportalo en GitHub
-              </a>
-              {' '}o intentá más tarde.
+              </a>{' '}
+              o intentá más tarde.
             </p>
           </div>
         </div>

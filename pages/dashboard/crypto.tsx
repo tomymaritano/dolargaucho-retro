@@ -113,7 +113,7 @@ export default function CryptoPage() {
         <div className="flex items-start justify-between">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <FaBitcoin className="text-accent-emerald text-3xl" />
+              <FaBitcoin className="text-brand text-3xl" />
               <h1 className="text-3xl font-bold text-foreground">Criptomonedas</h1>
             </div>
             <p className="text-secondary">
@@ -144,7 +144,7 @@ export default function CryptoPage() {
         {/* Disclaimer */}
         <Card variant="default" padding="md">
           <div className="flex items-start gap-3">
-            <FaInfoCircle className="text-accent-emerald text-lg mt-0.5 flex-shrink-0" />
+            <FaInfoCircle className="text-brand text-lg mt-0.5 flex-shrink-0" />
             <div className="flex-1 text-sm text-secondary">
               <p>
                 <strong className="text-foreground">Aviso importante:</strong> Los precios son
@@ -160,7 +160,7 @@ export default function CryptoPage() {
         {isLoading && (
           <Card variant="elevated" padding="lg">
             <div className="flex flex-col items-center gap-3 py-8">
-              <div className="h-8 w-8 animate-spin rounded-full border-2 border-accent-emerald border-t-transparent" />
+              <div className="h-8 w-8 animate-spin rounded-full border-2 border-brand border-t-transparent" />
               <p className="text-sm text-secondary">Cargando criptomonedas...</p>
             </div>
           </Card>
@@ -196,7 +196,7 @@ export default function CryptoPage() {
               <TableHeader>
                 <TableRow hoverable={false}>
                   <TableHeaderCell align="center" className="w-12">
-                    <FaStar className="inline-block text-accent-emerald" />
+                    <FaStar className="inline-block text-brand" />
                   </TableHeaderCell>
                   <TableHeaderCell align="left" className="w-16">
                     #

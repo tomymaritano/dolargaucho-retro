@@ -30,7 +30,10 @@ const CurrencyConverter: React.FC = () => {
           url: window.location.href,
         });
       } catch (error) {
-        logger.error('Error al compartir conversión', error, { component: 'CurrencyConverter', currency: selectedCurrency });
+        logger.error('Error al compartir conversión', error, {
+          component: 'CurrencyConverter',
+          currency: selectedCurrency,
+        });
       }
     } else {
       alert('Tu navegador no soporta la función de compartir.');
@@ -49,7 +52,7 @@ const CurrencyConverter: React.FC = () => {
             type="number"
             value={amount}
             onChange={(e) => setAmount(Number(e.target.value))}
-            className="w-full p-4 text-2xl font-mono font-semibold border border-white/5 rounded-lg bg-dark-light focus:ring-1 focus:ring-accent-emerald focus:outline-none text-right text-white"
+            className="w-full p-4 text-2xl font-mono font-semibold border border-white/5 rounded-lg bg-dark-light focus:ring-1 focus:ring-brand focus:outline-none text-right text-white"
             placeholder={`Monto en ${conversionType === 'buy' ? 'ARS' : 'USD'}`}
           />
           <span className="absolute left-4 top-5 text-secondary font-semibold text-sm uppercase tracking-wider">
@@ -60,7 +63,7 @@ const CurrencyConverter: React.FC = () => {
         {/* Botón de conversión */}
         <button
           onClick={() => setConversionType(conversionType === 'buy' ? 'sell' : 'buy')}
-          className="w-full py-3 text-sm font-semibold text-dark bg-accent-emerald rounded-lg hover:bg-accent-teal flex items-center justify-center gap-2 transition-all"
+          className="w-full py-3 text-sm font-semibold text-dark bg-brand rounded-lg hover:bg-brand-light flex items-center justify-center gap-2 transition-all"
         >
           <FaExchangeAlt /> Invertir Conversión
         </button>
@@ -70,7 +73,7 @@ const CurrencyConverter: React.FC = () => {
           <select
             value={selectedCurrency}
             onChange={(e) => setSelectedCurrency(e.target.value)}
-            className="w-full p-4 text-sm bg-dark-light border border-white/5 rounded-lg appearance-none focus:ring-1 focus:ring-accent-emerald focus:outline-none text-white font-semibold"
+            className="w-full p-4 text-sm bg-dark-light border border-white/5 rounded-lg appearance-none focus:ring-1 focus:ring-brand focus:outline-none text-white font-semibold"
           >
             {dolar.map((tipo) => (
               <option key={tipo.nombre} value={tipo.nombre}>
@@ -82,7 +85,7 @@ const CurrencyConverter: React.FC = () => {
         </div>
 
         {/* Resultado de la conversión */}
-        <div className="text-center text-2xl font-bold font-mono text-accent-emerald p-5 border border-accent-emerald/20 rounded-lg glass-strong">
+        <div className="text-center text-2xl font-bold font-mono text-brand p-5 border border-brand/20 rounded-lg glass-strong">
           {conversionType === 'buy' ? 'USD' : 'ARS'} {conversion}
         </div>
 

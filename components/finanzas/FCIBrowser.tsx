@@ -53,7 +53,7 @@ export function FCIBrowser() {
     return (
       <Card variant="elevated" padding="lg">
         <div className="flex items-center justify-center h-80">
-          <FaSpinner className="animate-spin text-4xl text-accent-emerald" />
+          <FaSpinner className="animate-spin text-4xl text-brand" />
         </div>
       </Card>
     );
@@ -79,7 +79,7 @@ export function FCIBrowser() {
               placeholder="Buscar fondo..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-dark-light border border-white/10 rounded-lg text-white placeholder-secondary focus:outline-none focus:border-accent-emerald/50 focus:ring-2 focus:ring-accent-emerald/20 transition-all"
+              className="w-full pl-10 pr-4 py-2 bg-dark-light border border-white/10 rounded-lg text-white placeholder-secondary focus:outline-none focus:border-brand/50 focus:ring-2 focus:ring-brand/20 transition-all"
             />
           </div>
 
@@ -87,7 +87,7 @@ export function FCIBrowser() {
           <select
             value={tipoFilter}
             onChange={(e) => setTipoFilter(e.target.value as TipoFCI)}
-            className="px-4 py-2 bg-dark-light border border-white/10 rounded-lg text-white focus:outline-none focus:border-accent-emerald/50 focus:ring-2 focus:ring-accent-emerald/20 transition-all"
+            className="px-4 py-2 bg-dark-light border border-white/10 rounded-lg text-white focus:outline-none focus:border-brand/50 focus:ring-2 focus:ring-brand/20 transition-all"
           >
             <option value="Todos">Todos los tipos</option>
             <option value="Mercado de Dinero">Mercado de Dinero</option>
@@ -101,7 +101,7 @@ export function FCIBrowser() {
           <select
             value={monedaFilter}
             onChange={(e) => setMonedaFilter(e.target.value as MonedaFCI)}
-            className="px-4 py-2 bg-dark-light border border-white/10 rounded-lg text-white focus:outline-none focus:border-accent-emerald/50 focus:ring-2 focus:ring-accent-emerald/20 transition-all"
+            className="px-4 py-2 bg-dark-light border border-white/10 rounded-lg text-white focus:outline-none focus:border-brand/50 focus:ring-2 focus:ring-brand/20 transition-all"
           >
             <option value="Todas">Todas las monedas</option>
             <option value="ARS">ARS - Pesos</option>
@@ -113,7 +113,7 @@ export function FCIBrowser() {
           <select
             value={claseFilter}
             onChange={(e) => setClaseFilter(e.target.value as ClaseFCI)}
-            className="px-4 py-2 bg-dark-light border border-white/10 rounded-lg text-white focus:outline-none focus:border-accent-emerald/50 focus:ring-2 focus:ring-accent-emerald/20 transition-all"
+            className="px-4 py-2 bg-dark-light border border-white/10 rounded-lg text-white focus:outline-none focus:border-brand/50 focus:ring-2 focus:ring-brand/20 transition-all"
           >
             <option value="Todas">Todas las clases</option>
             <option value="A">Clase A</option>
@@ -171,7 +171,7 @@ export function FCIBrowser() {
                       </td>
                       <td className="py-3 px-4">
                         {fci.clase ? (
-                          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-accent-emerald/20 text-accent-emerald">
+                          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-brand/20 text-brand">
                             {fci.clase}
                           </span>
                         ) : (

@@ -28,7 +28,7 @@ export function DisclaimerBanner({
       border: 'border-accent-blue/20',
       icon: 'text-accent-blue',
       text: 'text-secondary',
-      link: 'text-accent-emerald hover:text-accent-teal',
+      link: 'text-brand hover:text-brand-light',
     },
   };
 

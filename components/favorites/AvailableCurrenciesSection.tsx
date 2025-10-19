@@ -35,7 +35,7 @@ export function AvailableCurrenciesSection({
         <TableHeader>
           <TableRow hoverable={false}>
             <TableHeaderCell align="center" width="48px">
-              <FaStar className="inline-block text-accent-emerald" />
+              <FaStar className="inline-block text-brand" />
             </TableHeaderCell>
             <TableHeaderCell align="left">Moneda</TableHeaderCell>
             <TableHeaderCell align="right">Compra</TableHeaderCell>
@@ -52,14 +52,14 @@ export function AvailableCurrenciesSection({
               trend === 'up' ? 'text-error' : trend === 'down' ? 'text-success' : 'text-warning';
 
             return (
-              <TableRow key={cotizacion.moneda} className={isFavorite ? 'bg-accent-emerald/5' : ''}>
+              <TableRow key={cotizacion.moneda} className={isFavorite ? 'bg-brand/5' : ''}>
                 <TableCell align="center">
                   <button
                     onClick={() => onToggleFavorite(cotizacion.moneda)}
                     className={`p-2 rounded-lg transition-all ${
                       isFavorite
-                        ? 'text-accent-emerald bg-accent-emerald/10 hover:bg-accent-emerald/20'
-                        : 'text-secondary bg-secondary/10 hover:bg-secondary/20 hover:text-accent-emerald'
+                        ? 'text-brand bg-brand/10 hover:bg-brand/20'
+                        : 'text-secondary bg-secondary/10 hover:bg-secondary/20 hover:text-brand'
                     }`}
                     aria-label={
                       isFavorite
@@ -78,10 +78,8 @@ export function AvailableCurrenciesSection({
 
                 <TableCell align="left">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-accent-emerald/20 flex items-center justify-center flex-shrink-0">
-                      <span className="text-accent-emerald font-bold text-sm">
-                        {cotizacion.moneda}
-                      </span>
+                    <div className="w-10 h-10 rounded-full bg-brand/20 flex items-center justify-center flex-shrink-0">
+                      <span className="text-brand font-bold text-sm">{cotizacion.moneda}</span>
                     </div>
                     <div>
                       <p className="text-sm font-semibold text-foreground">{cotizacion.nombre}</p>
@@ -97,7 +95,7 @@ export function AvailableCurrenciesSection({
                 </TableCell>
 
                 <TableCell align="right">
-                  <span className="text-sm font-semibold text-accent-emerald tabular-nums">
+                  <span className="text-sm font-semibold text-brand tabular-nums">
                     ${cotizacion.venta.toFixed(2)}
                   </span>
                 </TableCell>

@@ -8,20 +8,22 @@ export function ThemeToggle() {
 
   // Evitar mismatch hydration
   if (!mounted) {
-    return <div className="w-10 h-10 rounded-lg glass animate-pulse" />;
+    return <div className="w-10 h-10 rounded-full bg-background-secondary/50 animate-pulse" />;
   }
+
+  const isDark = theme === 'dark';
 
   return (
     <button
       onClick={toggleTheme}
-      className="h-10 w-10 flex items-center justify-center rounded-lg glass hover:bg-white/5 transition-colors text-secondary hover:text-accent-emerald"
-      aria-label={`Cambiar a modo ${theme === 'dark' ? 'claro' : 'oscuro'}`}
-      title={`Modo ${theme === 'dark' ? 'claro' : 'oscuro'}`}
+      className="p-3 rounded-full hover:bg-background-secondary/50 transition-all duration-200 group"
+      aria-label={`Cambiar a modo ${isDark ? 'claro' : 'oscuro'}`}
+      title={`Modo ${isDark ? 'claro' : 'oscuro'}`}
     >
-      {theme === 'dark' ? (
-        <FaSun className="text-lg text-accent-gold" />
+      {isDark ? (
+        <FaMoon className="text-base text-indigo-400 group-hover:text-indigo-300 transition-colors" />
       ) : (
-        <FaMoon className="text-lg text-accent-indigo" />
+        <FaSun className="text-base text-yellow-500 group-hover:text-yellow-400 transition-colors" />
       )}
     </button>
   );

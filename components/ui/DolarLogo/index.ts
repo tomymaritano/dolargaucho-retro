@@ -1,0 +1,1 @@
+export { DolarLogo } from './DolarLogo';

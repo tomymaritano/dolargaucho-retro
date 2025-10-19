@@ -2,10 +2,10 @@
  * CryptoTable Component
  *
  * Single Responsibility: Render cryptocurrency table with favorites
- * Pure presentation component
+ * Features: Sorting, sparklines, always-visible actions, hover effects
  */
 
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   Table,
   TableHeader,
@@ -14,10 +14,24 @@ import {
   TableCell,
   TableHeaderCell,
 } from '@/components/ui/Table';
-import { FaStar, FaRegStar, FaArrowUp, FaArrowDown, FaMinus } from 'react-icons/fa';
+import {
+  FaStar,
+  FaRegStar,
+  FaArrowUp,
+  FaArrowDown,
+  FaMinus,
+  FaShareAlt,
+  FaCopy,
+  FaSort,
+  FaSortUp,
+  FaSortDown,
+} from 'react-icons/fa';
 import { CryptoSparkline } from '@/components/charts/CryptoSparkline';
 import type { CryptoData } from '@/types/api/crypto';
 import type { Quotation } from '@/types/api/dolar';
+
+type SortField = 'nombre' | 'precio_usd' | 'precio_ars' | '24h' | '7d';
+type SortDirection = 'asc' | 'desc';
 
 interface CryptoTableProps {
   cryptos: CryptoData[];
@@ -36,6 +50,9 @@ export function CryptoTable({
   cryptoPerPage,
   onToggleFavorite,
 }: CryptoTableProps) {
+  const [sortField, setSortField] = useState<SortField>('nombre');
+  const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
+
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('es-AR', {
       style: 'currency',
@@ -66,20 +83,121 @@ export function CryptoTable({
     return { icon: FaMinus, color: 'text-warning' };
   };
 
+  // Sorting logic
+  const sortedCryptos = useMemo(() => {
+    const sorted = [...cryptos].sort((a, b) => {
+      let aValue: number | string = 0;
+      let bValue: number | string = 0;
+
+      switch (sortField) {
+        case 'nombre':
+          aValue = a.name.toLowerCase();
+          bValue = b.name.toLowerCase();
+          break;
+        case 'precio_usd':
+          aValue = a.current_price;
+          bValue = b.current_price;
+          break;
+        case 'precio_ars':
+          aValue = selectedDolar ? a.current_price * selectedDolar.venta : a.current_price;
+          bValue = selectedDolar ? b.current_price * selectedDolar.venta : b.current_price;
+          break;
+        case '24h':
+          aValue = a.price_change_percentage_24h;
+          bValue = b.price_change_percentage_24h;
+          break;
+        case '7d':
+          aValue = a.price_change_percentage_7d_in_currency || 0;
+          bValue = b.price_change_percentage_7d_in_currency || 0;
+          break;
+      }
+
+      if (typeof aValue === 'string' && typeof bValue === 'string') {
+        return sortDirection === 'asc'
+          ? aValue.localeCompare(bValue)
+          : bValue.localeCompare(aValue);
+      }
+
+      return sortDirection === 'asc'
+        ? (aValue as number) - (bValue as number)
+        : (bValue as number) - (aValue as number);
+    });
+
+    return sorted;
+  }, [cryptos, sortField, sortDirection, selectedDolar]);
+
+  const handleSort = (field: SortField) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortDirection('asc');
+    }
+  };
+
+  const SortIcon = ({ field }: { field: SortField }) => {
+    if (sortField !== field) return <FaSort className="text-xs text-secondary/50" />;
+    return sortDirection === 'asc' ? (
+      <FaSortUp className="text-xs text-brand" />
+    ) : (
+      <FaSortDown className="text-xs text-brand" />
+    );
+  };
+
   return (
     <Table>
       <TableHeader>
         <TableRow hoverable={false}>
-          <TableHeaderCell align="left">Nombre</TableHeaderCell>
-          <TableHeaderCell align="right">Precio USD</TableHeaderCell>
-          <TableHeaderCell align="right">Precio ARS</TableHeaderCell>
-          <TableHeaderCell align="right">24h %</TableHeaderCell>
-          <TableHeaderCell align="right">7d %</TableHeaderCell>
-          <TableHeaderCell align="center">7D Trend</TableHeaderCell>
+          <TableHeaderCell align="left" sortable onSort={() => handleSort('nombre')} width="30%">
+            <div className="flex items-center gap-2">
+              Nombre
+              <SortIcon field="nombre" />
+            </div>
+          </TableHeaderCell>
+          <TableHeaderCell
+            align="right"
+            sortable
+            onSort={() => handleSort('precio_usd')}
+            width="12%"
+          >
+            <div className="flex items-center justify-end gap-2">
+              Precio USD
+              <SortIcon field="precio_usd" />
+            </div>
+          </TableHeaderCell>
+          <TableHeaderCell
+            align="right"
+            sortable
+            onSort={() => handleSort('precio_ars')}
+            width="12%"
+          >
+            <div className="flex items-center justify-end gap-2">
+              Precio ARS
+              <SortIcon field="precio_ars" />
+            </div>
+          </TableHeaderCell>
+          <TableHeaderCell align="right" sortable onSort={() => handleSort('24h')} width="10%">
+            <div className="flex items-center justify-end gap-2">
+              24h %
+              <SortIcon field="24h" />
+            </div>
+          </TableHeaderCell>
+          <TableHeaderCell align="right" sortable onSort={() => handleSort('7d')} width="10%">
+            <div className="flex items-center justify-end gap-2">
+              7d %
+              <SortIcon field="7d" />
+            </div>
+          </TableHeaderCell>
+          <TableHeaderCell align="center" width="12%">
+            7D Trend
+          </TableHeaderCell>
+          <TableHeaderCell align="right" width="14%">
+            Acciones
+          </TableHeaderCell>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {cryptos.map((crypto, index) => {
+        {sortedCryptos.map((crypto, index) => {
           const isFavorite = favoriteCryptoIds.includes(crypto.id);
           const trend24h = getTrendData(crypto.price_change_percentage_24h);
           const trend7d = getTrendData(crypto.price_change_percentage_7d_in_currency || 0);
@@ -88,11 +206,10 @@ export function CryptoTable({
 
           return (
             <React.Fragment key={crypto.id}>
-              <TableRow className="group">
-                {/* Nombre con badge de favorito y botón hover */}
+              <TableRow className="group hover:bg-background-secondary/30 transition-colors">
+                {/* Nombre */}
                 <TableCell align="left">
                   <div className="flex items-center gap-2">
-                    {isFavorite && <FaStar className="text-accent-emerald text-xs flex-shrink-0" />}
                     <img
                       src={crypto.image}
                       alt={crypto.name}
@@ -103,21 +220,6 @@ export function CryptoTable({
                       <p className="text-sm font-semibold text-foreground">{crypto.name}</p>
                       <p className="text-xs text-secondary uppercase">{crypto.symbol}</p>
                     </div>
-                    <button
-                      onClick={() => onToggleFavorite(crypto.id)}
-                      className={`p-1.5 rounded-lg transition-all opacity-0 group-hover:opacity-100 flex-shrink-0 hover:scale-110 active:scale-95 ${
-                        isFavorite
-                          ? 'text-accent-emerald hover:bg-accent-emerald/10'
-                          : 'text-secondary hover:text-accent-emerald hover:bg-white/5'
-                      }`}
-                      aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
-                    >
-                      {isFavorite ? (
-                        <FaStar className="text-sm" />
-                      ) : (
-                        <FaRegStar className="text-sm" />
-                      )}
-                    </button>
                   </div>
                 </TableCell>
 
@@ -131,7 +233,7 @@ export function CryptoTable({
                 {/* Precio ARS */}
                 <TableCell align="right">
                   {selectedDolar ? (
-                    <span className="text-sm font-semibold text-accent-emerald tabular-nums">
+                    <span className="text-sm font-semibold text-brand tabular-nums">
                       $
                       {(crypto.current_price * selectedDolar.venta).toLocaleString('es-AR', {
                         minimumFractionDigits: 0,
@@ -167,30 +269,78 @@ export function CryptoTable({
 
                 {/* 7D Trend Sparkline */}
                 <TableCell align="center">
-                  {crypto.sparkline_in_7d?.price && crypto.sparkline_in_7d.price.length > 0 ? (
-                    <CryptoSparkline
-                      data={crypto.sparkline_in_7d.price}
-                      trend={
-                        (crypto.price_change_percentage_7d_in_currency || 0) > 0
-                          ? 'up'
-                          : (crypto.price_change_percentage_7d_in_currency || 0) < 0
-                            ? 'down'
-                            : 'neutral'
-                      }
-                      isCrypto={true}
-                    />
-                  ) : (
-                    <span className="text-xs text-secondary">-</span>
-                  )}
+                  <div className="flex items-center justify-center">
+                    {crypto.sparkline_in_7d?.price && crypto.sparkline_in_7d.price.length > 0 ? (
+                      <CryptoSparkline
+                        data={crypto.sparkline_in_7d.price}
+                        trend={
+                          (crypto.price_change_percentage_7d_in_currency || 0) > 0
+                            ? 'up'
+                            : (crypto.price_change_percentage_7d_in_currency || 0) < 0
+                              ? 'down'
+                              : 'neutral'
+                        }
+                        isCrypto={true}
+                      />
+                    ) : (
+                      <span className="text-xs text-secondary">-</span>
+                    )}
+                  </div>
+                </TableCell>
+
+                {/* Acciones - siempre visibles */}
+                <TableCell align="right">
+                  <div className="flex items-center justify-end gap-1">
+                    <button
+                      onClick={() => onToggleFavorite(crypto.id)}
+                      className={`p-2 rounded-lg transition-all hover:scale-110 active:scale-95 ${
+                        isFavorite
+                          ? 'bg-brand/10 text-brand hover:bg-brand/20'
+                          : 'bg-panel-hover text-foreground/70 hover:text-brand hover:bg-brand/10'
+                      }`}
+                      aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+                      title={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+                    >
+                      {isFavorite ? (
+                        <FaStar className="text-sm" />
+                      ) : (
+                        <FaRegStar className="text-sm" />
+                      )}
+                    </button>
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(
+                          `${crypto.name}: ${formatPrice(crypto.current_price)}`
+                        );
+                      }}
+                      className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 bg-panel-hover text-foreground/70 hover:text-brand hover:bg-brand/10"
+                      aria-label="Copiar"
+                      title="Copiar valor"
+                    >
+                      <FaCopy className="text-sm" />
+                    </button>
+                    <button
+                      onClick={() => {
+                        if (navigator.share) {
+                          navigator.share({
+                            title: crypto.name,
+                            text: `${crypto.name}: ${formatPrice(crypto.current_price)}`,
+                          });
+                        }
+                      }}
+                      className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 bg-panel-hover text-foreground/70 hover:text-brand hover:bg-brand/10"
+                      aria-label="Compartir"
+                      title="Compartir"
+                    >
+                      <FaShareAlt className="text-sm" />
+                    </button>
+                  </div>
                 </TableCell>
               </TableRow>
 
               {/* Expandable Row */}
-              <TableRow
-                hoverable={false}
-                className="hidden group-hover:table-row bg-accent-emerald/5"
-              >
-                <TableCell colSpan={6} className="py-4">
+              <TableRow hoverable={false} className="hidden group-hover:table-row">
+                <TableCell colSpan={7} className="py-4">
                   <div className="grid grid-cols-2 md:grid-cols-6 gap-3 text-xs">
                     <div>
                       <p className="text-secondary text-[10px] mb-0.5">Ranking</p>

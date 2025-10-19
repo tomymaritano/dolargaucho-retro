@@ -35,7 +35,7 @@ export function FavoriteCurrenciesSection({
         <TableHeader>
           <TableRow hoverable={false}>
             <TableHeaderCell align="center" width="48px">
-              <FaStar className="inline-block text-accent-emerald" />
+              <FaStar className="inline-block text-brand" />
             </TableHeaderCell>
             <TableHeaderCell align="left">Moneda</TableHeaderCell>
             <TableHeaderCell align="right">Compra</TableHeaderCell>
@@ -55,7 +55,7 @@ export function FavoriteCurrenciesSection({
                 <TableCell align="center">
                   <button
                     onClick={() => onToggleFavorite(cotizacion.moneda)}
-                    className="p-2 rounded-lg text-accent-emerald bg-accent-emerald/10 hover:bg-accent-emerald/20 transition-all"
+                    className="p-2 rounded-lg text-brand bg-brand/10 hover:bg-brand/20 transition-all"
                     aria-label={`Quitar ${cotizacion.nombre} de favoritos`}
                   >
                     <FaStar className="text-base" />
@@ -64,10 +64,8 @@ export function FavoriteCurrenciesSection({
 
                 <TableCell align="left">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-accent-emerald/20 flex items-center justify-center flex-shrink-0">
-                      <span className="text-accent-emerald font-bold text-sm">
-                        {cotizacion.moneda}
-                      </span>
+                    <div className="w-10 h-10 rounded-full bg-brand/20 flex items-center justify-center flex-shrink-0">
+                      <span className="text-brand font-bold text-sm">{cotizacion.moneda}</span>
                     </div>
                     <div>
                       <p className="text-sm font-semibold text-foreground">{cotizacion.nombre}</p>
@@ -83,7 +81,7 @@ export function FavoriteCurrenciesSection({
                 </TableCell>
 
                 <TableCell align="right">
-                  <span className="text-sm font-semibold text-accent-emerald tabular-nums">
+                  <span className="text-sm font-semibold text-brand tabular-nums">
                     ${cotizacion.venta.toFixed(2)}
                   </span>
                 </TableCell>

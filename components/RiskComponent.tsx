@@ -80,9 +80,9 @@ const CountryRisk: React.FC = () => {
   const trend30Days = getTrend(percentChange30);
 
   return (
-    <div className="glass-strong border border-white/5 rounded-xl p-5 text-center shadow-lg w-full max-w-7xl transition-all hover:border-accent-emerald/20">
+    <div className="glass-strong border border-white/5 rounded-xl p-5 text-center shadow-lg w-full max-w-7xl transition-all hover:border-brand/20">
       <h2 className="text-xs font-medium text-secondary flex items-center justify-center gap-1 uppercase tracking-wider">
-        <FaChartLine className="text-accent-emerald text-sm" /> Riesgo País Argentina
+        <FaChartLine className="text-brand text-sm" /> Riesgo País Argentina
       </h2>
 
       {loading ? (
@@ -92,7 +92,7 @@ const CountryRisk: React.FC = () => {
       ) : (
         <>
           {/* Valor de Hoy */}
-          <p className="text-4xl font-extrabold font-mono text-accent-emerald mt-3">
+          <p className="text-4xl font-extrabold font-mono text-brand mt-3">
             {riskToday !== null ? riskToday.toFixed(2) : 'N/A'}
           </p>
           <p className="text-secondary text-xs mt-2 uppercase tracking-wider">Hoy</p>

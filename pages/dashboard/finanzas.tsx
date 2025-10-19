@@ -36,7 +36,7 @@ export default function FinanzasPage() {
           <div className="flex items-start justify-between">
             <div className="flex-1">
               <div className="flex items-center gap-2 text-secondary text-sm mb-2">
-                <FaPercentage className="text-accent-emerald" />
+                <FaPercentage className="text-brand" />
                 <span className="uppercase tracking-wider">Inflación Mensual</span>
               </div>
               <div className="text-3xl font-bold text-foreground mb-1">
@@ -52,7 +52,7 @@ export default function FinanzasPage() {
               </p>
             </div>
             <div className="p-3 glass rounded-xl">
-              <FaChartLine className="text-accent-emerald text-xl" />
+              <FaChartLine className="text-brand text-xl" />
             </div>
           </div>
         </Card>
@@ -85,7 +85,7 @@ export default function FinanzasPage() {
           <div className="flex items-start justify-between">
             <div className="flex-1">
               <div className="flex items-center gap-2 text-secondary text-sm mb-2">
-                <FaCalendar className="text-accent-teal" />
+                <FaCalendar className="text-brand-light" />
                 <span className="uppercase tracking-wider">Índice UVA</span>
               </div>
               <div className="text-3xl font-bold text-foreground mb-1">
@@ -96,7 +96,7 @@ export default function FinanzasPage() {
               </p>
             </div>
             <div className="p-3 glass rounded-xl">
-              <FaCalendar className="text-accent-teal text-xl" />
+              <FaCalendar className="text-brand-light text-xl" />
             </div>
           </div>
         </Card>
@@ -133,7 +133,7 @@ export default function FinanzasPage() {
           onClick={() => setActiveTab('indices')}
           className={`px-6 py-3 font-semibold transition-all border-b-2 ${
             activeTab === 'indices'
-              ? 'border-accent-emerald text-accent-emerald'
+              ? 'border-brand text-brand'
               : 'border-transparent text-secondary hover:text-foreground'
           }`}
         >
@@ -143,7 +143,7 @@ export default function FinanzasPage() {
           onClick={() => setActiveTab('tasas')}
           className={`px-6 py-3 font-semibold transition-all border-b-2 ${
             activeTab === 'tasas'
-              ? 'border-accent-emerald text-accent-emerald'
+              ? 'border-brand text-brand'
               : 'border-transparent text-secondary hover:text-foreground'
           }`}
         >
@@ -153,7 +153,7 @@ export default function FinanzasPage() {
           onClick={() => setActiveTab('fci')}
           className={`px-6 py-3 font-semibold transition-all border-b-2 ${
             activeTab === 'fci'
-              ? 'border-accent-emerald text-accent-emerald'
+              ? 'border-brand text-brand'
               : 'border-transparent text-secondary hover:text-foreground'
           }`}
         >
@@ -187,7 +187,6 @@ export default function FinanzasPage() {
           </>
         )}
       </div>
-
     </DashboardLayout>
   );
 }

@@ -61,8 +61,8 @@ export function FormularioActivo({ onCalcular }: FormularioActivoProps) {
                     flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-all
                     ${
                       isSelected
-                        ? 'border-accent-emerald bg-accent-emerald/10 text-accent-emerald'
-                        : 'border-border hover:border-accent-emerald/50 text-secondary hover:text-foreground'
+                        ? 'border-brand bg-brand/10 text-brand'
+                        : 'border-border hover:border-brand/50 text-secondary hover:text-foreground'
                     }
                   `}
                 >
@@ -85,8 +85,8 @@ export function FormularioActivo({ onCalcular }: FormularioActivoProps) {
                 flex items-center justify-center gap-2 p-4 rounded-lg border-2 transition-all
                 ${
                   moneda === 'ARS'
-                    ? 'border-accent-emerald bg-accent-emerald/10 text-accent-emerald'
-                    : 'border-border hover:border-accent-emerald/50 text-secondary hover:text-foreground'
+                    ? 'border-brand bg-brand/10 text-brand'
+                    : 'border-border hover:border-brand/50 text-secondary hover:text-foreground'
                 }
               `}
             >
@@ -100,8 +100,8 @@ export function FormularioActivo({ onCalcular }: FormularioActivoProps) {
                 flex items-center justify-center gap-2 p-4 rounded-lg border-2 transition-all
                 ${
                   moneda === 'USD'
-                    ? 'border-accent-emerald bg-accent-emerald/10 text-accent-emerald'
-                    : 'border-border hover:border-accent-emerald/50 text-secondary hover:text-foreground'
+                    ? 'border-brand bg-brand/10 text-brand'
+                    : 'border-border hover:border-brand/50 text-secondary hover:text-foreground'
                 }
               `}
             >
@@ -125,7 +125,7 @@ export function FormularioActivo({ onCalcular }: FormularioActivoProps) {
             onChange={(e) => setFechaCompra(e.target.value)}
             max={new Date().toISOString().split('T')[0]}
             required
-            className="w-full px-4 py-3 bg-panel border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-accent-emerald/50"
+            className="w-full px-4 py-3 bg-panel border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-brand/50"
           />
         </div>
 
@@ -142,7 +142,7 @@ export function FormularioActivo({ onCalcular }: FormularioActivoProps) {
             min="0"
             step={moneda === 'ARS' ? '1000' : '100'}
             required
-            className="w-full px-4 py-3 bg-panel border border-border rounded-lg text-foreground placeholder-secondary focus:outline-none focus:ring-2 focus:ring-accent-emerald/50"
+            className="w-full px-4 py-3 bg-panel border border-border rounded-lg text-foreground placeholder-secondary focus:outline-none focus:ring-2 focus:ring-brand/50"
           />
         </div>
       </div>
@@ -160,7 +160,7 @@ export function FormularioActivo({ onCalcular }: FormularioActivoProps) {
             onChange={(e) => setFechaVenta(e.target.value)}
             max={new Date().toISOString().split('T')[0]}
             required
-            className="w-full px-4 py-3 bg-panel border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-accent-emerald/50"
+            className="w-full px-4 py-3 bg-panel border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-brand/50"
           />
         </div>
 
@@ -177,7 +177,7 @@ export function FormularioActivo({ onCalcular }: FormularioActivoProps) {
             min="0"
             step={moneda === 'ARS' ? '1000' : '100'}
             required
-            className="w-full px-4 py-3 bg-panel border border-border rounded-lg text-foreground placeholder-secondary focus:outline-none focus:ring-2 focus:ring-accent-emerald/50"
+            className="w-full px-4 py-3 bg-panel border border-border rounded-lg text-foreground placeholder-secondary focus:outline-none focus:ring-2 focus:ring-brand/50"
           />
         </div>
       </div>
@@ -185,18 +185,18 @@ export function FormularioActivo({ onCalcular }: FormularioActivoProps) {
       {/* Botón */}
       <button
         type="submit"
-        className="w-full py-4 bg-accent-emerald hover:bg-accent-teal text-background-dark font-semibold rounded-lg transition-all active:scale-[0.98] flex items-center justify-center gap-2"
+        className="w-full py-4 bg-brand hover:bg-brand-light text-background-dark font-semibold rounded-lg transition-all active:scale-[0.98] flex items-center justify-center gap-2"
       >
         <FaChartLine />
         Calcular Rentabilidad
       </button>
 
       {/* Info */}
-      <div className="p-4 bg-accent-emerald/10 border border-accent-emerald/30 rounded-lg">
+      <div className="p-4 bg-brand/10 border border-brand/30 rounded-lg">
         <p className="text-sm text-secondary leading-relaxed">
-          <span className="text-accent-emerald font-semibold">💡 Tip:</span> Esta calculadora te
-          mostrará si tu inversión le ganó a la inflación y cuánto hubieras ganado con alternativas
-          como el dólar.
+          <span className="text-brand font-semibold">💡 Tip:</span> Esta calculadora te mostrará si
+          tu inversión le ganó a la inflación y cuánto hubieras ganado con alternativas como el
+          dólar.
         </p>
       </div>
     </form>

@@ -7,7 +7,7 @@ import { CalculatorTabs, type CalculadoraType } from '@/components/calculadoras/
 import { FREDSection } from '@/components/calculadoras/FREDSection';
 import { ArgentinaUSAComparison } from '@/components/calculadoras/ArgentinaUSAComparison';
 import { useFredData } from '@/hooks/useFredData';
-import { useInflacion } from '@/hooks/useInflacion';
+import { useInflacionMensual } from '@/hooks/useFinanzas';
 
 // Loading skeleton for lazy-loaded calculators
 const LoadingSkeleton = () => (
@@ -63,7 +63,7 @@ export default function CalculadorasPage() {
 
   // Data hooks
   const { data: rawFredData, isLoading: fredLoading } = useFredData();
-  const { data: argInflacion } = useInflacion();
+  const { data: argInflacion } = useInflacionMensual();
 
   // Adapt FRED data: validate all required fields exist, then use type assertion
   const fredData = (
@@ -75,7 +75,7 @@ export default function CalculadorasPage() {
     rawFredData.treasury10y
       ? rawFredData
       : undefined
-  ) as any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  ) as any;
 
   const renderCalculator = () => {
     switch (activeTab) {
@@ -110,11 +110,11 @@ export default function CalculadorasPage() {
         {/* Page Footer */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-border/50 mt-8">
           <div className="flex items-center gap-4 text-xs text-secondary">
-            <Link href="/help" className="hover:text-accent-emerald transition-colors">
+            <Link href="/help" className="hover:text-brand transition-colors">
               Ayuda
             </Link>
             <span>•</span>
-            <Link href="/help/fuentes" className="hover:text-accent-emerald transition-colors">
+            <Link href="/help/fuentes" className="hover:text-brand transition-colors">
               Fuentes de Datos
             </Link>
             <span>•</span>
@@ -122,7 +122,7 @@ export default function CalculadorasPage() {
           </div>
           <p className="text-xs text-secondary text-center sm:text-right">
             Estimaciones aproximadas.{' '}
-            <Link href="/help/precision" className="text-accent-emerald hover:underline">
+            <Link href="/help/precision" className="text-brand hover:underline">
               Más información
             </Link>
           </p>

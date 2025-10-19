@@ -22,11 +22,11 @@ export function HelpButton({ title, faqs }: HelpButtonProps) {
       {/* Help Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="p-2 glass rounded-lg hover:bg-accent-emerald/10 transition-colors group"
+        className="p-2 glass rounded-lg hover:bg-brand/10 transition-colors group"
         aria-label="Abrir ayuda"
         title="Preguntas frecuentes"
       >
-        <FaQuestionCircle className="text-secondary group-hover:text-accent-emerald transition-colors text-xl" />
+        <FaQuestionCircle className="text-secondary group-hover:text-brand transition-colors text-xl" />
       </button>
 
       {/* Modal */}
@@ -51,7 +51,7 @@ export function HelpButton({ title, faqs }: HelpButtonProps) {
               <div className="sticky top-0 bg-panel border-b border-border p-6 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="p-2 glass rounded-lg">
-                    <FaQuestionCircle className="text-accent-emerald text-xl" />
+                    <FaQuestionCircle className="text-brand text-xl" />
                   </div>
                   <h2 id="help-modal-title" className="text-xl font-bold text-foreground">
                     {title}
@@ -71,11 +71,11 @@ export function HelpButton({ title, faqs }: HelpButtonProps) {
                 {faqs.map((faq, index) => (
                   <Card key={index} variant="elevated" padding="lg">
                     <h3 className="text-foreground font-semibold mb-2 flex items-start gap-2">
-                      <span className="text-accent-emerald">Q:</span>
+                      <span className="text-brand">Q:</span>
                       <span>{faq.question}</span>
                     </h3>
                     <div className="text-secondary text-sm leading-relaxed pl-6">
-                      <span className="text-accent-teal font-semibold">A:</span>{' '}
+                      <span className="text-brand-light font-semibold">A:</span>{' '}
                       <span dangerouslySetInnerHTML={{ __html: faq.answer }} />
                     </div>
                   </Card>
@@ -86,10 +86,7 @@ export function HelpButton({ title, faqs }: HelpButtonProps) {
               <div className="border-t border-border p-6 bg-background/50">
                 <p className="text-xs text-secondary text-center">
                   ¿Necesitás más ayuda?{' '}
-                  <a
-                    href="mailto:support@dolargaucho.com"
-                    className="text-accent-emerald hover:underline"
-                  >
+                  <a href="mailto:support@dolargaucho.com" className="text-brand hover:underline">
                     Contactanos
                   </a>
                 </p>

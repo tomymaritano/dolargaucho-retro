@@ -8,7 +8,6 @@
 import React from 'react';
 import { Card } from '@/components/ui/Card/Card';
 import { DolaresTable } from '@/components/tables/DolaresTable';
-import { FaDollarSign } from 'react-icons/fa';
 
 import type { DolarWithVariation } from '@/hooks/useDolarVariations';
 
@@ -33,22 +32,13 @@ export function DolarSection({
   onToggleDolar,
 }: DolarSectionProps) {
   return (
-    <Card variant="elevated" padding="lg" className="mt-6">
-      <Card.Header>
-        <div className="flex items-center gap-3">
-          <FaDollarSign className="text-accent-emerald text-xl" />
-          <Card.Title className="mb-0">Todas las Cotizaciones del Dolar</Card.Title>
-        </div>
-      </Card.Header>
-
-      <Card.Content>
-        <DolaresTable
-          dolares={dolares || []}
-          isLoading={loadingDolares}
-          favoriteDolarIds={favoriteDolarIds}
-          onToggleFavorite={onToggleDolar}
-        />
-      </Card.Content>
+    <Card variant="outlined" padding="none">
+      <DolaresTable
+        dolares={dolares || []}
+        isLoading={loadingDolares}
+        favoriteDolarIds={favoriteDolarIds}
+        onToggleFavorite={onToggleDolar}
+      />
     </Card>
   );
 }

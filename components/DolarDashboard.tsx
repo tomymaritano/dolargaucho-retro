@@ -24,7 +24,7 @@ export function DolarDashboard() {
     return (
       <Card variant="elevated" padding="lg">
         <div className="flex flex-col items-center gap-3">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-accent-emerald border-t-transparent" />
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-brand border-t-transparent" />
           <p className="text-sm text-secondary">Cargando cotizaciones...</p>
         </div>
       </Card>
@@ -78,7 +78,7 @@ export function DolarDashboard() {
           {/* Selected dolar display */}
           {loadingSelected ? (
             <div className="text-center py-4">
-              <div className="inline-block h-6 w-6 animate-spin rounded-full border-2 border-accent-emerald border-t-transparent" />
+              <div className="inline-block h-6 w-6 animate-spin rounded-full border-2 border-brand border-t-transparent" />
             </div>
           ) : selectedDolar ? (
             <div className="text-center p-6 glass rounded-xl">
@@ -88,13 +88,13 @@ export function DolarDashboard() {
               <div className="grid grid-cols-2 gap-4 max-w-7xl mx-auto">
                 <div>
                   <p className="text-xs text-secondary mb-1">Compra</p>
-                  <p className="text-2xl font-mono font-bold text-accent-emerald">
+                  <p className="text-2xl font-mono font-bold text-brand">
                     ${selectedDolar.compra.toFixed(2)}
                   </p>
                 </div>
                 <div>
                   <p className="text-xs text-secondary mb-1">Venta</p>
-                  <p className="text-2xl font-mono font-bold text-accent-teal">
+                  <p className="text-2xl font-mono font-bold text-brand-light">
                     ${selectedDolar.venta.toFixed(2)}
                   </p>
                 </div>
@@ -121,11 +121,11 @@ export function DolarDashboard() {
             <div className="flex justify-between items-center">
               <div>
                 <p className="text-xs text-secondary uppercase tracking-wider">Compra</p>
-                <p className="text-xl font-mono text-accent-emerald">${dolar.compra.toFixed(2)}</p>
+                <p className="text-xl font-mono text-brand">${dolar.compra.toFixed(2)}</p>
               </div>
               <div className="text-right">
                 <p className="text-xs text-secondary uppercase tracking-wider">Venta</p>
-                <p className="text-xl font-mono text-accent-teal">${dolar.venta.toFixed(2)}</p>
+                <p className="text-xl font-mono text-brand-light">${dolar.venta.toFixed(2)}</p>
               </div>
             </div>
 
