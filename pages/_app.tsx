@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app';
 import { Providers } from '@/app/providers';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { VercelBackground } from '@/components/ui/VercelBackground';
+import { Analytics } from '@vercel/analytics/react';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -10,6 +11,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Providers>
         <VercelBackground />
         <Component {...pageProps} />
+        <Analytics />
       </Providers>
     </ErrorBoundary>
   );

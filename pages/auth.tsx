@@ -12,12 +12,12 @@ import Link from 'next/link';
 import { useAuth } from '@/lib/contexts/AuthContext';
 import { NavbarFloating } from '@/components/NavbarFloating';
 import Aurora from '@/components/ui/Aurora/Aurora';
-import Head from 'next/head';
 import { Card } from '@/components/ui/Card/Card';
 import { Button } from '@/components/ui/Button/Button';
 import { Input } from '@/components/ui/Input/Input';
 import { FaEnvelope, FaLock, FaSpinner, FaUser, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
+import { SEO } from '@/components/SEO';
 
 type AuthTab = 'login' | 'signup';
 
@@ -186,9 +186,15 @@ export default function AuthPage() {
 
   return (
     <>
-      <Head>
-        <title>{activeTab === 'login' ? 'Iniciar Sesión' : 'Crear Cuenta'} | Dólar Gaucho</title>
-      </Head>
+      <SEO
+        title={activeTab === 'login' ? 'Iniciar Sesión' : 'Crear Cuenta'}
+        description={
+          activeTab === 'login'
+            ? 'Iniciá sesión en Dólar Gaucho para acceder a tu dashboard personalizado con cotizaciones del dólar, alertas y más.'
+            : 'Creá tu cuenta gratis en Dólar Gaucho y accedé a análisis financiero completo, alertas personalizadas y seguimiento del dólar en tiempo real.'
+        }
+        noindex={true}
+      />
 
       <div className="min-h-screen bg-background overflow-hidden">
         {/* Same navbar as marketing site */}

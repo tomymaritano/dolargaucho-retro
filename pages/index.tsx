@@ -7,6 +7,7 @@ import { FounderStory } from '@/components/marketing/FounderStory';
 import { DataSourcesSection } from '@/components/marketing/DataSourcesSection';
 import { FinalCTA } from '@/components/marketing/FinalCTA';
 import { FaSpinner } from 'react-icons/fa';
+import { SEO } from '@/components/SEO';
 
 // Lazy load FAQs only
 const Faqs = lazy(() => import('@/components/Faqs'));
@@ -23,34 +24,37 @@ const LoadingSpinner = () => (
 
 export default function Home() {
   return (
-    <div className="text-foreground min-h-screen font-sans">
-      {/* Floating Navbar */}
-      <NavbarFloating />
+    <>
+      <SEO />
+      <div className="text-foreground min-h-screen font-sans">
+        {/* Floating Navbar */}
+        <NavbarFloating />
 
-      {/* Hero - Main message + CTA */}
-      <Hero />
+        {/* Hero - Main message + CTA */}
+        <Hero />
 
-      {/* Features - Bento grid with capabilities */}
-      <FeaturesSimple />
+        {/* Features - Bento grid with capabilities */}
+        <FeaturesSimple />
 
-      {/* Founder Story - Mission & Team */}
-      <FounderStory />
+        {/* Founder Story - Mission & Team */}
+        <FounderStory />
 
-      {/* Data Sources - Credibility */}
-      <DataSourcesSection />
+        {/* Data Sources - Credibility */}
+        <DataSourcesSection />
 
-      {/* Final CTA - Conversion */}
-      <FinalCTA />
+        {/* Final CTA - Conversion */}
+        <FinalCTA />
 
-      {/* FAQs */}
-      <section id="faqs">
-        <Suspense fallback={<LoadingSpinner />}>
-          <Faqs />
-        </Suspense>
-      </section>
+        {/* FAQs */}
+        <section id="faqs">
+          <Suspense fallback={<LoadingSpinner />}>
+            <Faqs />
+          </Suspense>
+        </section>
 
-      {/* Footer */}
-      <Footer />
-    </div>
+        {/* Footer */}
+        <Footer />
+      </div>
+    </>
   );
 }
