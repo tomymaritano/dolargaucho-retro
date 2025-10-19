@@ -52,7 +52,7 @@ const HelpCenter: React.FC = () => {
         />
       </Head>
 
-      <div className="bg-background text-foreground min-h-screen font-sans">
+      <div className="text-foreground min-h-screen font-sans">
         <NavbarFloating />
 
         {/* Hero Section */}

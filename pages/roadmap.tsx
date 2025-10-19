@@ -78,7 +78,7 @@ export default function RoadmapPage() {
   };
 
   return (
-    <div className="bg-background text-foreground min-h-screen font-sans">
+    <div className="text-foreground min-h-screen font-sans">
       <UnifiedNavbarMarketing />
 
       {/* Hero Section */}

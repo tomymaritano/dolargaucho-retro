@@ -23,7 +23,7 @@ const LoadingSpinner = () => (
 
 export default function Home() {
   return (
-    <div className="bg-background text-foreground min-h-screen font-sans">
+    <div className="text-foreground min-h-screen font-sans">
       {/* Floating Navbar */}
       <NavbarFloating />
 
