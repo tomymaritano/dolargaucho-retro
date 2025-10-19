@@ -25,13 +25,12 @@ export default function HelpPage() {
     }
   };
 
-  // Create tabs from categories
+  // Create tabs from categories (without icons for compact view)
   const tabs: Tab[] = [
-    { id: 'all', label: 'Todas las categorías' },
+    { id: 'all', label: 'Todas' },
     ...FAQ_CATEGORIES.map((category, index) => ({
       id: `category-${index}`,
       label: category.title,
-      icon: category.icon,
     })),
   ];
 
@@ -88,7 +87,13 @@ export default function HelpPage() {
           </div>
 
           {/* Category Tabs */}
-          <Tabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab} variant="pills" />
+          <Tabs
+            tabs={tabs}
+            activeTab={activeTab}
+            onChange={setActiveTab}
+            variant="pills"
+            size="sm"
+          />
 
           {/* FAQs by Category */}
           <div className="space-y-12 mt-8">
