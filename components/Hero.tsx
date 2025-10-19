@@ -69,7 +69,7 @@ const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="flex flex-col sm:flex-row gap-3"
+              className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto"
             >
               {/* Primary CTA - Registrarse */}
               <LinkButton
@@ -79,12 +79,19 @@ const Hero: React.FC = () => {
                 rightIcon={<FaArrowRight />}
                 showStars
                 shimmer
+                className="w-full sm:w-auto"
               >
                 Registrarse
               </LinkButton>
 
               {/* Secondary CTA - Iniciar Sesión */}
-              <LinkButton href="/auth" variant="secondary" size="xl" shimmer>
+              <LinkButton
+                href="/auth"
+                variant="secondary"
+                size="xl"
+                shimmer
+                className="w-full sm:w-auto"
+              >
                 Iniciar Sesión
               </LinkButton>
             </motion.div>

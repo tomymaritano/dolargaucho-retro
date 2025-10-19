@@ -178,7 +178,7 @@ function DolarMiniTable() {
 
 export function FinalCTA() {
   return (
-    <section className="relative w-full py-20 sm:py-28 overflow-hidden">
+    <section className="relative w-full py-12 sm:py-20 lg:py-28 overflow-hidden">
       {/* Animated background gradient orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-30">
         <motion.div
@@ -207,7 +207,7 @@ export function FinalCTA() {
         />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
         {/* Main Card */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -216,10 +216,10 @@ export function FinalCTA() {
           transition={{ duration: 0.6 }}
         >
           <SpotlightCard
-            className="bg-gradient-to-br from-panel/80 via-panel to-panel/60 backdrop-blur-xl rounded-3xl p-8 sm:p-12 overflow-hidden"
+            className="bg-gradient-to-br from-panel/80 via-panel to-panel/60 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 overflow-hidden"
             spotlightColor="rgba(0, 71, 255, 0.3)"
           >
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Left: Copy + CTA */}
               <div className="text-center lg:text-left">
                 {/* Badge */}
@@ -242,12 +242,10 @@ export function FinalCTA() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.2 }}
-                  className="text-4xl sm:text-5xl lg:text-6xl font-display font-black leading-tight mb-6"
+                  className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-display font-black leading-tight mb-6"
                 >
                   Empezá a tomar mejores decisiones{' '}
-                  <GradientText className="font-black">financieras</GradientText>
-                  <br />
-                  hoy mismo
+                  <GradientText className="font-black">financieras</GradientText> hoy mismo
                 </motion.h2>
 
                 {/* Subheadline */}
@@ -256,7 +254,7 @@ export function FinalCTA() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.3 }}
-                  className="text-lg text-secondary mb-8 max-w-xl"
+                  className="text-base sm:text-lg text-secondary mb-8 max-w-xl mx-auto lg:mx-0"
                 >
                   Creá tu cuenta gratis y accedé al dashboard completo. Datos actualizados,
                   herramientas profesionales y todo lo que necesitás para estar informado.
@@ -277,6 +275,7 @@ export function FinalCTA() {
                     rightIcon={<FaArrowRight />}
                     showStars
                     shimmer
+                    className="w-full sm:w-auto"
                   >
                     Comenzar Gratis
                   </LinkButton>
