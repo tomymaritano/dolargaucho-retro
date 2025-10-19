@@ -105,8 +105,8 @@ export function InflacionChart({
         </div>
       </div>
 
-      {/* Chart - Sin bordes ni fondos pesados */}
-      <div className="bg-white/[0.02] rounded-xl p-4">
+      {/* Chart */}
+      <div className="pt-4">
         <ResponsiveContainer width="100%" height={320}>
           <LineChart data={chartData} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
@@ -160,9 +160,6 @@ export function InflacionChart({
           </LineChart>
         </ResponsiveContainer>
       </div>
-
-      {/* Footer minimalista */}
-      <div className="text-xs text-secondary text-right">Fuente: INDEC vía ArgentinaData</div>
     </div>
   );
 }

@@ -92,8 +92,8 @@ export function RiesgoPaisChart({
         </div>
       </div>
 
-      {/* Chart - Sin bordes ni fondos pesados */}
-      <div className="bg-white/[0.02] rounded-xl p-4">
+      {/* Chart */}
+      <div className="pt-4">
         <ResponsiveContainer width="100%" height={320}>
           <AreaChart data={chartData} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
             <defs>
@@ -140,9 +140,6 @@ export function RiesgoPaisChart({
           </AreaChart>
         </ResponsiveContainer>
       </div>
-
-      {/* Footer minimalista */}
-      <div className="text-xs text-secondary text-right">Fuente: BCRA vía ArgentinaData</div>
     </div>
   );
 }
