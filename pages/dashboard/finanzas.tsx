@@ -3,12 +3,16 @@ import { DashboardLayout } from '@/components/layouts/DashboardLayout';
 import { Card } from '@/components/ui/Card/Card';
 import { TasasChart } from '@/components/charts/TasasChart';
 import { FCIBrowser } from '@/components/finanzas/FCIBrowser';
+import { RendimientosCalculator } from '@/components/finanzas/RendimientosCalculator';
+import { InstrumentosComparator } from '@/components/finanzas/InstrumentosComparator';
 import { useUltimoUVA, useUltimaTasaPlazoFijo } from '@/hooks/useFinanzas';
 import { FaChartLine, FaCalendar, FaMoneyBillWave } from 'react-icons/fa';
 import { PageHeader } from '@/components/ui/PageHeader';
 
 export default function FinanzasPage() {
-  const [activeTab, setActiveTab] = useState<'tasas' | 'fci'>('tasas');
+  const [activeTab, setActiveTab] = useState<'tasas' | 'calculadora' | 'comparador' | 'fci'>(
+    'tasas'
+  );
 
   const { data: ultimoUVA } = useUltimoUVA();
   const { data: ultimaTasaPF } = useUltimaTasaPlazoFijo();
@@ -73,26 +77,46 @@ export default function FinanzasPage() {
       </div>
 
       {/* Tabs Navigation */}
-      <div className="flex items-center gap-4 mb-6 border-b border-border">
+      <div className="flex items-center gap-2 mb-6 border-b border-border overflow-x-auto">
         <button
           onClick={() => setActiveTab('tasas')}
-          className={`px-6 py-3 font-semibold transition-all border-b-2 ${
+          className={`px-4 md:px-6 py-3 font-semibold transition-all border-b-2 whitespace-nowrap text-sm md:text-base ${
             activeTab === 'tasas'
               ? 'border-brand text-brand'
               : 'border-transparent text-secondary hover:text-foreground'
           }`}
         >
-          Tasas de Interés
+          Tasas
+        </button>
+        <button
+          onClick={() => setActiveTab('calculadora')}
+          className={`px-4 md:px-6 py-3 font-semibold transition-all border-b-2 whitespace-nowrap text-sm md:text-base ${
+            activeTab === 'calculadora'
+              ? 'border-brand text-brand'
+              : 'border-transparent text-secondary hover:text-foreground'
+          }`}
+        >
+          Calculadora
+        </button>
+        <button
+          onClick={() => setActiveTab('comparador')}
+          className={`px-4 md:px-6 py-3 font-semibold transition-all border-b-2 whitespace-nowrap text-sm md:text-base ${
+            activeTab === 'comparador'
+              ? 'border-brand text-brand'
+              : 'border-transparent text-secondary hover:text-foreground'
+          }`}
+        >
+          Comparador
         </button>
         <button
           onClick={() => setActiveTab('fci')}
-          className={`px-6 py-3 font-semibold transition-all border-b-2 ${
+          className={`px-4 md:px-6 py-3 font-semibold transition-all border-b-2 whitespace-nowrap text-sm md:text-base ${
             activeTab === 'fci'
               ? 'border-brand text-brand'
               : 'border-transparent text-secondary hover:text-foreground'
           }`}
         >
-          Fondos Comunes (FCI)
+          FCIs
         </button>
       </div>
 
@@ -102,6 +126,23 @@ export default function FinanzasPage() {
           <>
             {/* Gráfico de Tasas */}
             <TasasChart limit={12} />
+          </>
+        )}
+
+        {activeTab === 'calculadora' && (
+          <>
+            {/* Calculadora de Rendimientos */}
+            <RendimientosCalculator
+              tasaPF={ultimaTasaPF?.tnaClientes || 0.75}
+              valorUVA={ultimoUVA?.valor}
+            />
+          </>
+        )}
+
+        {activeTab === 'comparador' && (
+          <>
+            {/* Comparador de Instrumentos */}
+            <InstrumentosComparator tasaPF={ultimaTasaPF?.tnaClientes || 0.75} />
           </>
         )}
 

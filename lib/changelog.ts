@@ -24,27 +24,31 @@ export const CHANGELOG: ChangelogEntry[] = [
   {
     version: '1.3.0',
     date: '2025-10-20',
-    title: 'Optimización UX y Eliminación de Duplicados',
+    title: 'Optimización UX y Nuevas Herramientas Financieras',
     emoji: '✨',
     highlight: true,
     description:
-      'Mejoramos significativamente la experiencia de usuario eliminando datos duplicados y organizando mejor las páginas del dashboard.',
+      'Mejoramos significativamente la experiencia de usuario eliminando datos duplicados, organizando mejor las páginas y agregando herramientas útiles para inversores.',
+    features: [
+      'Calculadora de Rendimientos: Estimá cuánto ganás con Plazo Fijo, UVA y FCIs',
+      'Comparador de Instrumentos: Compará 5 opciones de inversión (PF, UVA, FCIs, Stablecoins)',
+      'Dashboard: Overview rápido con todos los indicadores principales',
+      'Análisis: Visualización avanzada y análisis técnico exclusivo',
+      'Finanzas: Ahora con 4 tabs (Tasas, Calculadora, Comparador, FCIs)',
+    ],
     improvements: [
       'Página Análisis optimizada: de 642 a 494 líneas (23% reducción)',
-      'Página Finanzas enfocada solo en instrumentos financieros (Tasas, FCIs)',
+      'Página Finanzas con herramientas prácticas para inversores',
       'Eliminados indicadores duplicados entre Dashboard y otras páginas',
       'Navegación más clara con botones de "Volver al Dashboard"',
       'Mejor separación de responsabilidades entre páginas',
-    ],
-    features: [
-      'Dashboard: Overview rápido con todos los indicadores principales',
-      'Análisis: Visualización avanzada y análisis técnico exclusivo',
-      'Finanzas: Foco en tasas de interés y fondos comunes de inversión',
+      'Gráficos de análisis técnico sin bordes para look más profesional',
     ],
     fixes: [
       'Eliminada duplicación de gráficos de Inflación y Riesgo País',
       'Removidos quick stats redundantes en Finanzas',
       'Mejorada consistencia visual entre páginas',
+      'Bordes transparentes en gráficos de análisis técnico',
     ],
   },
   {
