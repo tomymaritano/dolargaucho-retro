@@ -1,0 +1,106 @@
+name: Weekly Roadmap Digest
+
+on:
+  schedule:
+    # Every Monday at 9 AM UTC (6 AM Argentina)
+    - cron: '0 9 * * 1'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  generate-digest:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate Progress Report
+        id: progress
+        run: |
+          node scripts/roadmap-progress.js > digest.txt
+          echo "report<<EOF" >> $GITHUB_OUTPUT
+          cat digest.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Get Open Roadmap Issues
+        uses: actions/github-script@v7
+        id: issues
+        with:
+          script: |
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: 'roadmap',
+              state: 'open',
+              sort: 'updated',
+              direction: 'desc',
+            });
+
+            const inProgress = issues.filter(i => i.labels.some(l => l.name === 'in-progress'));
+            const blocked = issues.filter(i => i.labels.some(l => l.name === 'blocked'));
+            const planned = issues.filter(i => !i.labels.some(l => ['in-progress', 'blocked'].includes(l.name)));
+
+            return {
+              inProgress: inProgress.slice(0, 5),
+              blocked: blocked.slice(0, 3),
+              planned: planned.slice(0, 5),
+            };
+
+      - name: Create Weekly Digest Issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const data = ${{ steps.issues.outputs.result }};
+            const date = new Date().toISOString().split('T')[0];
+
+            const body = `
+            # 📊 Weekly Roadmap Digest - ${date}
+
+            ## Progress Report
+
+            \`\`\`
+            ${{ steps.progress.outputs.report }}
+            \`\`\`
+
+            ## 🟠 In Progress (${data.inProgress.length})
+
+            ${data.inProgress.map(i => `- #${i.number}: ${i.title}`).join('\n') || 'No issues in progress'}
+
+            ## 🔴 Blocked (${data.blocked.length})
+
+            ${data.blocked.map(i => `- #${i.number}: ${i.title}`).join('\n') || 'No blocked issues'}
+
+            ## 🟡 Up Next (${data.planned.length})
+
+            ${data.planned.map(i => `- #${i.number}: ${i.title}`).join('\n') || 'No planned issues'}
+
+            ---
+
+            **Actions**:
+            - [ ] Review blocked issues and remove blockers
+            - [ ] Verify in-progress issues are on track
+            - [ ] Assign upcoming issues to team members
+
+            **Resources**:
+            - [Full Roadmap](/docs/ROADMAP_Q1_Q2_2025.md)
+            - [GitHub Project](https://github.com/${context.repo.owner}/${context.repo.repo}/projects)
+            - [All Roadmap Issues](https://github.com/${context.repo.owner}/${context.repo.repo}/issues?q=label:roadmap)
+            `;
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `📊 Weekly Roadmap Digest - ${date}`,
+              body: body,
+              labels: ['roadmap', 'digest', 'report'],
+            });
+
+            console.log('✅ Weekly digest created successfully');
