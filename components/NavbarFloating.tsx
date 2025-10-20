@@ -5,18 +5,25 @@
  *
  * Features:
  * - Floating design with padding from edges
- * - Minimal design: Logo + Theme Toggle + Login button only
+ * - Minimal design: Logo + Theme Toggle + Auth button (context-aware)
  * - Glass morphism background
  * - Rounded borders
+ * - Detects user session and shows "Iniciar Sesión" or "Ver Dashboard"
  */
 
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { FaSpinner } from 'react-icons/fa';
 import { ThemeToggle } from './ui/ThemeToggle/ThemeToggle';
 import { AnimatedLogo } from './ui/AnimatedLogo';
+import { ChangelogButton } from './ChangelogButton';
+import { RoadmapButton } from './RoadmapButton';
+import { useAuth } from '@/hooks/useAuth';
 
 export function NavbarFloating() {
+  const { user, loading } = useAuth();
+
   return (
     <motion.nav
       initial={{ y: -20, opacity: 0 }}
@@ -33,14 +40,31 @@ export function NavbarFloating() {
 
           {/* Right Actions */}
           <div className="flex items-center gap-3">
+            <ChangelogButton />
+            <RoadmapButton />
             <ThemeToggle />
 
-            <Link
-              href="/auth"
-              className="px-4 py-2 text-sm font-medium bg-brand text-white rounded-lg shadow-sm shadow-black/10 hover:shadow hover:shadow-black/20 hover:bg-brand/90 transition-all"
-            >
-              Iniciar Sesión
-            </Link>
+            {/* Auth Button - Context Aware */}
+            {loading ? (
+              <div className="px-4 py-2 text-sm font-medium bg-white/5 text-secondary rounded-lg flex items-center gap-2">
+                <FaSpinner className="animate-spin text-xs" />
+                <span className="hidden sm:inline">Cargando...</span>
+              </div>
+            ) : user ? (
+              <Link
+                href="/dashboard"
+                className="px-4 py-2 text-sm font-medium bg-brand text-white rounded-lg shadow-sm shadow-black/10 hover:shadow hover:shadow-black/20 hover:bg-brand/90 transition-all"
+              >
+                Ver Dashboard
+              </Link>
+            ) : (
+              <Link
+                href="/auth"
+                className="px-4 py-2 text-sm font-medium bg-brand text-white rounded-lg shadow-sm shadow-black/10 hover:shadow hover:shadow-black/20 hover:bg-brand/90 transition-all"
+              >
+                Iniciar Sesión
+              </Link>
+            )}
           </div>
         </div>
       </div>

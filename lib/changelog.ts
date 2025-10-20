@@ -22,6 +22,34 @@ export interface ChangelogEntry {
  */
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.3.1',
+    date: '2025-10-20',
+    title: 'Landing Page Mejorada con Tema Adaptativo',
+    emoji: '🎨',
+    highlight: true,
+    description:
+      'Mejoramos completamente la landing page con detección de sesión inteligente, adaptación completa a light/dark mode, contador de usuarios en vivo y gráficos profesionales unificados.',
+    features: [
+      'Navbar inteligente: muestra "Iniciar Sesión" o "Ver Dashboard" según tu estado de sesión',
+      'Logo adaptativo: cambia automáticamente entre light y dark mode',
+      'Contador de usuarios: muestra usuarios registrados en tiempo real con prueba social',
+      'Gráfico profesional en CTA: reemplazamos sparklines con gráfico interactivo estilo TradingView',
+      'Componentes ThemedImage y DecorativeLine para adaptación perfecta entre temas',
+    ],
+    improvements: [
+      'Hero mejorado con badge de usuarios registrados',
+      'Detección automática de sesión con loading states',
+      'Experiencia visual consistente en light y dark mode',
+      'Gráficos unificados con estilo TradingView profesional',
+      'API endpoint optimizado para contador de usuarios con fallback gracioso',
+    ],
+    fixes: [
+      'Logo ahora se adapta correctamente al cambiar de tema',
+      'Eliminados elementos que no adaptaban a light mode',
+      'Mejorada la navegación contextual según estado de autenticación',
+    ],
+  },
+  {
     version: '1.3.0',
     date: '2025-10-20',
     title: 'Optimización UX y Nuevas Herramientas Financieras',

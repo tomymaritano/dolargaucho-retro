@@ -5,6 +5,7 @@ import { GradientText } from '@/components/ui/GradientText';
 import { LinkButton } from '@/components/ui/Button';
 import { EconomicChartsCarousel } from '@/components/marketing/EconomicChartsCarousel';
 import Aurora from '@/components/ui/Aurora/Aurora';
+import { UserCounter } from '@/components/marketing/UserCounter';
 
 const Hero: React.FC = () => {
   return (
@@ -32,17 +33,21 @@ const Hero: React.FC = () => {
             className="text-left"
           >
             {/* Badge */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.1 }}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand/10 border border-brand/20 mb-6"
-            >
-              <div className="w-2 h-2 bg-brand rounded-full animate-pulse"></div>
-              <span className="text-xs font-semibold text-brand uppercase tracking-wider">
-                Datos en tiempo real
-              </span>
-            </motion.div>
+            <div className="flex flex-wrap items-center gap-3 mb-6">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.1 }}
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand/10 border border-brand/20"
+              >
+                <div className="w-2 h-2 bg-brand rounded-full animate-pulse"></div>
+                <span className="text-xs font-semibold text-brand uppercase tracking-wider">
+                  Datos en tiempo real
+                </span>
+              </motion.div>
+
+              <UserCounter variant="compact" />
+            </div>
 
             <motion.h1
               className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display font-bold leading-tight mb-6"

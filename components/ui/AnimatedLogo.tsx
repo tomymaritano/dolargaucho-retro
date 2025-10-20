@@ -7,11 +7,13 @@
  * - Rotates 360° while scaling up
  * - Smooth entrance effect
  * - Uses actual logo.svg file
+ * - Adapts to light/dark theme automatically
  */
 
 import React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { useTheme } from 'next-themes';
 
 interface AnimatedLogoProps {
   size?: number;
@@ -19,6 +21,8 @@ interface AnimatedLogoProps {
 }
 
 export function AnimatedLogo({ size = 32, className = '' }: AnimatedLogoProps) {
+  const { theme } = useTheme();
+
   return (
     <motion.div
       className={className}
@@ -40,7 +44,7 @@ export function AnimatedLogo({ size = 32, className = '' }: AnimatedLogoProps) {
         width={size}
         height={size}
         alt="Dolar Gaucho"
-        className="w-full h-full"
+        className={`w-full h-full ${theme === 'light' ? 'brightness-0' : ''}`}
         priority
       />
     </motion.div>
