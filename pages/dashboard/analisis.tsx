@@ -1,17 +1,10 @@
 import React, { useState } from 'react';
 import { DashboardLayout } from '@/components/layouts/DashboardLayout';
 import { useDolarQuery } from '@/hooks/useDolarQuery';
-import {
-  useInflacionMensual,
-  useInflacionInteranual,
-  useRiesgoPais,
-  useUltimoUVA,
-} from '@/hooks/useFinanzas';
 import { useMultipleDolarHistoricoRange } from '@/hooks/useDolarHistoricoRange';
-import { InflacionChart } from '@/components/charts/InflacionChart';
-import { RiesgoPaisChart } from '@/components/charts/RiesgoPaisChart';
-import { TasasChart } from '@/components/charts/TasasChart';
-import { FaArrowUp, FaArrowDown, FaMinus, FaInfoCircle } from 'react-icons/fa';
+import { TradingViewAdvancedChart } from '@/components/tradingview/TradingViewAdvancedChart';
+import { DolarAreaChart } from '@/components/charts/DolarAreaChart';
+import { FaInfoCircle, FaChartLine, FaChartBar } from 'react-icons/fa';
 import {
   LineChart,
   Line,
@@ -26,13 +19,12 @@ import { SEO } from '@/components/SEO';
 
 export default function AnalisisPage() {
   const { data: dolares } = useDolarQuery();
-  const { data: inflacionMensual } = useInflacionMensual();
-  const { data: inflacionInteranual } = useInflacionInteranual();
-  const { data: riesgoPais } = useRiesgoPais();
-  const { data: uva } = useUltimoUVA();
 
   // Selector de rango de fechas para comparativa
   const [selectedRange, setSelectedRange] = useState<7 | 30 | 90>(30);
+
+  // TradingView symbol selector
+  const [selectedSymbol, setSelectedSymbol] = useState('BINANCE:BTCUSDT');
 
   // Tipos de dólar a comparar
   const casasToCompare = ['oficial', 'blue', 'bolsa', 'contadoconliqui', 'tarjeta'];
@@ -47,41 +39,6 @@ export default function AnalisisPage() {
   const dolarMEP = dolares?.find((d) => d.casa === 'bolsa');
   const dolarCCL = dolares?.find((d) => d.casa === 'contadoconliqui');
 
-  const brechaBlue =
-    dolarOficial?.venta && dolarBlue?.venta
-      ? ((dolarBlue.venta - dolarOficial.venta) / dolarOficial.venta) * 100
-      : null;
-
-  const ultimaInflacionMensual = inflacionMensual?.[inflacionMensual.length - 1];
-  const inflacionMensualAnterior = inflacionMensual?.[inflacionMensual.length - 2];
-  const cambioInflacionMensual =
-    ultimaInflacionMensual && inflacionMensualAnterior
-      ? ultimaInflacionMensual.valor - inflacionMensualAnterior.valor
-      : null;
-
-  const ultimaInflacionInteranual = inflacionInteranual?.[inflacionInteranual.length - 1];
-
-  const ultimoRiesgoPais = riesgoPais?.[riesgoPais.length - 1];
-  const riesgoPaisAnterior = riesgoPais?.[riesgoPais.length - 2];
-  const cambioRiesgo =
-    ultimoRiesgoPais && riesgoPaisAnterior
-      ? ultimoRiesgoPais.valor - riesgoPaisAnterior.valor
-      : null;
-
-  const getTendenciaIcon = (cambio: number | null) => {
-    if (cambio === null) return <FaMinus className="text-secondary text-sm" />;
-    if (cambio > 0) return <FaArrowUp className="text-red-400 text-sm" />;
-    if (cambio < 0) return <FaArrowDown className="text-green-400 text-sm" />;
-    return <FaMinus className="text-secondary text-sm" />;
-  };
-
-  const getTendenciaColor = (cambio: number | null) => {
-    if (cambio === null) return 'text-secondary';
-    if (cambio > 0) return 'text-red-400';
-    if (cambio < 0) return 'text-green-400';
-    return 'text-secondary';
-  };
-
   return (
     <>
       <SEO
@@ -92,97 +49,19 @@ export default function AnalisisPage() {
       <DashboardLayout>
         <div className="space-y-8">
           {/* Header */}
-          <div>
-            <h1 className="text-2xl font-bold text-foreground mb-1">Análisis Económico</h1>
-            <p className="text-sm text-secondary">
-              Indicadores clave, cotizaciones y evolución del mercado
-            </p>
-          </div>
-
-          {/* Grid de indicadores principales */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            {/* Brecha */}
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-secondary uppercase tracking-wider">Brecha</span>
-                {getTendenciaIcon(brechaBlue)}
-              </div>
-              <div className="text-2xl md:text-3xl font-bold text-foreground">
-                {brechaBlue ? `${brechaBlue.toFixed(1)}%` : '—'}
-              </div>
-              <div className="text-xs text-secondary">Blue vs Oficial</div>
+          <div className="flex items-start justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-foreground mb-1">Análisis Económico</h1>
+              <p className="text-sm text-secondary">
+                Visualización avanzada y análisis técnico del mercado
+              </p>
             </div>
-
-            {/* Inflación Mensual */}
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-secondary uppercase tracking-wider">IPC Mensual</span>
-                {getTendenciaIcon(cambioInflacionMensual)}
-              </div>
-              <div className="text-2xl md:text-3xl font-bold text-foreground">
-                {ultimaInflacionMensual ? `${ultimaInflacionMensual.valor.toFixed(1)}%` : '—'}
-              </div>
-              <div className="flex items-center gap-1.5 text-xs">
-                <span className="text-secondary">
-                  {ultimaInflacionMensual
-                    ? new Date(ultimaInflacionMensual.fecha).toLocaleDateString('es-AR', {
-                        month: 'short',
-                      })
-                    : '—'}
-                </span>
-                {cambioInflacionMensual !== null && (
-                  <span className={`font-medium ${getTendenciaColor(cambioInflacionMensual)}`}>
-                    {cambioInflacionMensual > 0 ? '+' : ''}
-                    {cambioInflacionMensual.toFixed(1)}pp
-                  </span>
-                )}
-              </div>
-            </div>
-
-            {/* Inflación Interanual */}
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-secondary uppercase tracking-wider">IPC Anual</span>
-              </div>
-              <div className="text-2xl md:text-3xl font-bold text-foreground">
-                {ultimaInflacionInteranual ? `${ultimaInflacionInteranual.valor.toFixed(1)}%` : '—'}
-              </div>
-              <div className="text-xs text-secondary">Interanual</div>
-            </div>
-
-            {/* Riesgo País */}
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-secondary uppercase tracking-wider">Riesgo</span>
-                {getTendenciaIcon(cambioRiesgo)}
-              </div>
-              <div className="text-2xl md:text-3xl font-bold text-foreground">
-                {ultimoRiesgoPais ? ultimoRiesgoPais.valor.toFixed(0) : '—'}
-                <span className="text-sm text-secondary ml-1">pb</span>
-              </div>
-              <div className="flex items-center gap-1.5 text-xs">
-                <span className="text-secondary">País</span>
-                {cambioRiesgo !== null && (
-                  <span className={`font-medium ${getTendenciaColor(cambioRiesgo)}`}>
-                    {cambioRiesgo > 0 ? '+' : ''}
-                    {cambioRiesgo.toFixed(0)}
-                  </span>
-                )}
-              </div>
-            </div>
-
-            {/* UVA */}
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-secondary uppercase tracking-wider">UVA</span>
-              </div>
-              <div className="text-2xl md:text-3xl font-bold text-foreground">
-                {uva ? `$${uva.valor.toFixed(2)}` : '—'}
-              </div>
-              <div className="text-xs text-secondary">
-                {uva ? new Date(uva.fecha).toLocaleDateString('es-AR', { month: 'short' }) : '—'}
-              </div>
-            </div>
+            <a
+              href="/dashboard"
+              className="px-4 py-2 rounded-lg bg-white/5 text-secondary hover:bg-white/10 hover:text-brand text-sm font-semibold transition-all"
+            >
+              ← Ver Dashboard
+            </a>
           </div>
 
           {/* Evolución Comparativa de Cotizaciones */}
@@ -376,24 +255,115 @@ export default function AnalisisPage() {
             ) : null}
           </div>
 
-          {/* Gráficos principales - Sin cards, solo contenido */}
-          <div className="space-y-8">
-            <h2 className="text-lg font-semibold text-foreground">Evolución de Indicadores</h2>
+          {/* Professional Candlestick Charts */}
+          <div className="space-y-4">
+            <div>
+              <h2 className="text-lg font-semibold text-foreground mb-1 flex items-center gap-2">
+                <FaChartBar className="text-brand" />
+                Análisis Técnico Profesional
+              </h2>
+              <p className="text-xs text-secondary">
+                Visualización avanzada con baseline y medias móviles
+              </p>
+            </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Inflación */}
-              <div>
-                <InflacionChart showInteranual={true} limit={12} />
+            {/* Dolar Area Chart with Selector */}
+            <div className="rounded-lg">
+              <DolarAreaChart />
+            </div>
+
+            {/* Info sobre el gráfico */}
+            <div className="bg-white/[0.02] rounded-lg p-4 border border-white/5">
+              <div className="flex items-start gap-3">
+                <FaInfoCircle className="text-brand text-sm mt-0.5 flex-shrink-0" />
+                <div className="space-y-1 text-xs text-secondary">
+                  <p>
+                    <span className="text-foreground font-medium">Baseline:</span> Rojo = dólar más
+                    caro (difícil comprar), Verde = dólar más barato (fácil comprar).
+                  </p>
+                  <p>
+                    <span className="text-foreground font-medium">Media Móvil 7D:</span> Línea
+                    morada que promedia los últimos 7 días para identificar tendencias.
+                  </p>
+                  <p>
+                    <span className="text-foreground font-medium">Controles:</span> Todos los
+                    controles están integrados en el gráfico (estilo TradingView). Cambia período,
+                    tipo de dólar y activa/desactiva indicadores.
+                  </p>
+                </div>
               </div>
+            </div>
+          </div>
 
-              {/* Riesgo País */}
+          {/* TradingView Advanced Chart */}
+          <div className="space-y-4">
+            <div className="flex items-end justify-between">
               <div>
-                <RiesgoPaisChart limit={60} />
+                <h2 className="text-lg font-semibold text-foreground mb-1 flex items-center gap-2">
+                  <FaChartLine className="text-brand" />
+                  Análisis Técnico Avanzado
+                </h2>
+                <p className="text-xs text-secondary">
+                  Gráficos profesionales con indicadores técnicos de TradingView
+                </p>
               </div>
+            </div>
 
-              {/* Tasas */}
-              <div className="lg:col-span-2">
-                <TasasChart />
+            {/* Symbol Selector */}
+            <div className="flex flex-wrap gap-2">
+              {[
+                { label: 'Bitcoin', symbol: 'BINANCE:BTCUSDT' },
+                { label: 'Ethereum', symbol: 'BINANCE:ETHUSDT' },
+                { label: 'S&P 500', symbol: 'SP:SPX' },
+                { label: 'NASDAQ', symbol: 'NASDAQ:NDX' },
+                { label: 'Oro', symbol: 'OANDA:XAUUSD' },
+                { label: 'Petróleo', symbol: 'TVC:USOIL' },
+                { label: 'DXY', symbol: 'TVC:DXY' },
+                { label: 'YPF', symbol: 'NYSE:YPF' },
+              ].map((item) => (
+                <button
+                  key={item.symbol}
+                  onClick={() => setSelectedSymbol(item.symbol)}
+                  className={`px-3 py-2 rounded-lg text-xs font-semibold transition-all ${
+                    selectedSymbol === item.symbol
+                      ? 'bg-brand text-white'
+                      : 'bg-white/5 text-secondary hover:bg-white/10 hover:text-foreground'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+
+            {/* TradingView Chart */}
+            <div className="rounded-lg overflow-hidden">
+              <TradingViewAdvancedChart
+                symbol={selectedSymbol}
+                height={600}
+                interval="D"
+                theme="dark"
+                allow_symbol_change={true}
+                save_image={true}
+              />
+            </div>
+
+            {/* Info sobre TradingView */}
+            <div className="bg-white/[0.02] rounded-lg p-4 border border-white/5">
+              <div className="flex items-start gap-3">
+                <FaInfoCircle className="text-brand text-sm mt-0.5 flex-shrink-0" />
+                <div className="space-y-1 text-xs text-secondary">
+                  <p>
+                    <span className="text-foreground font-medium">TradingView:</span> Plataforma
+                    profesional de análisis técnico. Podés cambiar indicadores, dibujar líneas de
+                    tendencia y explorar diferentes marcos temporales.
+                  </p>
+                  <p>
+                    <span className="text-foreground font-medium">Uso:</span> Clickea en el símbolo
+                    para cambiar el activo, usa la rueda del mouse para hacer zoom, y clickea en los
+                    botones superiores para agregar indicadores como RSI, MACD, Bollinger Bands,
+                    etc.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -502,19 +472,18 @@ export default function AnalisisPage() {
               <FaInfoCircle className="text-brand text-lg mt-0.5 flex-shrink-0" />
               <div className="space-y-2 text-sm text-secondary">
                 <p>
-                  <span className="text-foreground font-medium">IPC:</span> Índice de Precios al
-                  Consumidor. Mide la variación de precios de una canasta de bienes y servicios
-                  representativa del consumo de los hogares.
+                  <span className="text-foreground font-medium">Página de Análisis:</span> Esta
+                  sección está dedicada a visualización avanzada y análisis técnico. Para ver
+                  indicadores básicos (IPC, Riesgo País, UVA), visitá el{' '}
+                  <a href="/dashboard" className="text-brand hover:underline">
+                    Dashboard principal
+                  </a>
+                  .
                 </p>
                 <p>
-                  <span className="text-foreground font-medium">UVA:</span> Unidad de Valor
-                  Adquisitivo. Coeficiente de actualización que refleja la evolución de la
-                  inflación.
-                </p>
-                <p>
-                  <span className="text-foreground font-medium">Riesgo país:</span> Sobretasa que
-                  pagan los bonos argentinos respecto a los bonos del tesoro de EE.UU. Medido en
-                  puntos básicos (pb).
+                  <span className="text-foreground font-medium">Brechas cambiarias:</span> La
+                  diferencia entre el dólar oficial y los paralelos (Blue, MEP, CCL) indica la
+                  tensión cambiaria del mercado argentino.
                 </p>
               </div>
             </div>

@@ -1,85 +1,30 @@
 import React, { useState } from 'react';
 import { DashboardLayout } from '@/components/layouts/DashboardLayout';
 import { Card } from '@/components/ui/Card/Card';
-import { InflacionChart } from '@/components/charts/InflacionChart';
-import { RiesgoPaisChart } from '@/components/charts/RiesgoPaisChart';
 import { TasasChart } from '@/components/charts/TasasChart';
 import { FCIBrowser } from '@/components/finanzas/FCIBrowser';
-import {
-  useUltimaInflacion,
-  useUltimoRiesgoPais,
-  useUltimoUVA,
-  useUltimaTasaPlazoFijo,
-} from '@/hooks/useFinanzas';
-import {
-  FaChartLine,
-  FaPercentage,
-  FaExclamationTriangle,
-  FaCalendar,
-  FaMoneyBillWave,
-} from 'react-icons/fa';
+import { useUltimoUVA, useUltimaTasaPlazoFijo } from '@/hooks/useFinanzas';
+import { FaChartLine, FaCalendar, FaMoneyBillWave } from 'react-icons/fa';
+import { PageHeader } from '@/components/ui/PageHeader';
 
 export default function FinanzasPage() {
-  const [activeTab, setActiveTab] = useState<'indices' | 'tasas' | 'fci'>('indices');
+  const [activeTab, setActiveTab] = useState<'tasas' | 'fci'>('tasas');
 
-  const { data: ultimaInflacion } = useUltimaInflacion();
-  const { data: ultimoRiesgoPais } = useUltimoRiesgoPais();
   const { data: ultimoUVA } = useUltimoUVA();
   const { data: ultimaTasaPF } = useUltimaTasaPlazoFijo();
 
   return (
     <DashboardLayout>
-      {/* Quick Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        {/* Inflación */}
-        <Card variant="elevated" padding="lg" hover="glow">
-          <div className="flex items-start justify-between">
-            <div className="flex-1">
-              <div className="flex items-center gap-2 text-secondary text-sm mb-2">
-                <FaPercentage className="text-brand" />
-                <span className="uppercase tracking-wider">Inflación Mensual</span>
-              </div>
-              <div className="text-3xl font-bold text-foreground mb-1">
-                {ultimaInflacion ? `${ultimaInflacion.valor.toFixed(2)}%` : '-'}
-              </div>
-              <p className="text-xs text-secondary">
-                {ultimaInflacion
-                  ? new Date(ultimaInflacion.fecha).toLocaleDateString('es-AR', {
-                      month: 'long',
-                      year: 'numeric',
-                    })
-                  : 'Cargando...'}
-              </p>
-            </div>
-            <div className="p-3 glass rounded-xl">
-              <FaChartLine className="text-brand text-xl" />
-            </div>
-          </div>
-        </Card>
+      {/* Page Header */}
+      <PageHeader
+        breadcrumbs={[{ label: 'Dashboard', href: '/dashboard' }, { label: 'Finanzas' }]}
+        icon={FaChartLine}
+        title="Indicadores Financieros"
+        description="Tasas de interés, instrumentos de inversión y fondos comunes (FCI)"
+      />
 
-        {/* Riesgo País */}
-        <Card variant="elevated" padding="lg" hover="glow">
-          <div className="flex items-start justify-between">
-            <div className="flex-1">
-              <div className="flex items-center gap-2 text-secondary text-sm mb-2">
-                <FaExclamationTriangle className="text-error" />
-                <span className="uppercase tracking-wider">Riesgo País</span>
-              </div>
-              <div className="text-3xl font-bold text-foreground mb-1">
-                {ultimoRiesgoPais?.valor ? ultimoRiesgoPais.valor.toLocaleString('es-AR') : '—'}
-              </div>
-              <p className="text-xs text-secondary">
-                {ultimoRiesgoPais?.fecha
-                  ? new Date(ultimoRiesgoPais.fecha).toLocaleDateString('es-AR')
-                  : '—'}
-              </p>
-            </div>
-            <div className="p-3 glass rounded-xl">
-              <FaExclamationTriangle className="text-error text-xl" />
-            </div>
-          </div>
-        </Card>
-
+      {/* Quick Stats Grid - Solo instrumentos financieros */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         {/* Índice UVA */}
         <Card variant="elevated" padding="lg" hover="glow">
           <div className="flex items-start justify-between">
@@ -130,16 +75,6 @@ export default function FinanzasPage() {
       {/* Tabs Navigation */}
       <div className="flex items-center gap-4 mb-6 border-b border-border">
         <button
-          onClick={() => setActiveTab('indices')}
-          className={`px-6 py-3 font-semibold transition-all border-b-2 ${
-            activeTab === 'indices'
-              ? 'border-brand text-brand'
-              : 'border-transparent text-secondary hover:text-foreground'
-          }`}
-        >
-          Índices Económicos
-        </button>
-        <button
           onClick={() => setActiveTab('tasas')}
           className={`px-6 py-3 font-semibold transition-all border-b-2 ${
             activeTab === 'tasas'
@@ -163,16 +98,6 @@ export default function FinanzasPage() {
 
       {/* Tab Content */}
       <div className="space-y-6">
-        {activeTab === 'indices' && (
-          <>
-            {/* Gráfico de Inflación */}
-            <InflacionChart showInteranual={true} limit={12} />
-
-            {/* Gráfico de Riesgo País */}
-            <RiesgoPaisChart limit={30} />
-          </>
-        )}
-
         {activeTab === 'tasas' && (
           <>
             {/* Gráfico de Tasas */}
