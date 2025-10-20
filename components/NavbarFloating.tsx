@@ -19,10 +19,33 @@ import { ThemeToggle } from './ui/ThemeToggle/ThemeToggle';
 import { AnimatedLogo } from './ui/AnimatedLogo';
 import { ChangelogButton } from './ChangelogButton';
 import { RoadmapButton } from './RoadmapButton';
-import { useAuth } from '@/hooks/useAuth';
 
 export function NavbarFloating() {
-  const { user, loading } = useAuth();
+  // For landing page, we don't have auth context, so we show "Iniciar Sesión"
+  // This component is used both in landing and auth pages
+  const [user, setUser] = React.useState<any>(null);
+  const [loading, setLoading] = React.useState(false);
+
+  // Try to get auth state if available (only on client side)
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Check if we're in an authenticated page
+      const checkAuth = async () => {
+        try {
+          const { supabase } = await import('@/lib/supabase');
+          const {
+            data: { session },
+          } = await supabase.auth.getSession();
+          setUser(session?.user || null);
+        } catch {
+          // AuthProvider not available, stay as guest
+          setUser(null);
+        }
+        setLoading(false);
+      };
+      checkAuth();
+    }
+  }, []);
 
   return (
     <motion.nav
