@@ -24,26 +24,54 @@ export function NavbarFloating() {
   // For landing page, we don't have auth context, so we show "Iniciar Sesión"
   // This component is used both in landing and auth pages
   const [user, setUser] = React.useState<any>(null);
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
 
   // Try to get auth state if available (only on client side)
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
-      // Check if we're in an authenticated page
+      let mounted = true;
+
       const checkAuth = async () => {
         try {
           const { supabase } = await import('@/lib/supabase');
+
+          // Get initial session
           const {
             data: { session },
           } = await supabase.auth.getSession();
-          setUser(session?.user || null);
+
+          if (mounted) {
+            setUser(session?.user || null);
+            setLoading(false);
+          }
+
+          // Listen to auth changes
+          const {
+            data: { subscription },
+          } = supabase.auth.onAuthStateChange((_event, session) => {
+            if (mounted) {
+              setUser(session?.user || null);
+            }
+          });
+
+          return () => {
+            subscription.unsubscribe();
+          };
         } catch {
           // AuthProvider not available, stay as guest
-          setUser(null);
+          if (mounted) {
+            setUser(null);
+            setLoading(false);
+          }
         }
-        setLoading(false);
       };
-      checkAuth();
+
+      const cleanup = checkAuth();
+
+      return () => {
+        mounted = false;
+        cleanup?.then((unsub) => unsub?.());
+      };
     }
   }, []);
 
