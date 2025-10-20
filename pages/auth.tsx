@@ -19,6 +19,10 @@ import { FaEnvelope, FaLock, FaSpinner, FaUser, FaEye, FaEyeSlash } from 'react-
 import { motion, AnimatePresence } from 'framer-motion';
 import { SEO } from '@/components/SEO';
 
+// Memoize heavy components to prevent re-renders on keystroke
+const MemoizedAurora = React.memo(Aurora);
+const MemoizedNavbar = React.memo(NavbarFloating);
+
 type AuthTab = 'login' | 'signup';
 
 export default function AuthPage() {
@@ -198,11 +202,11 @@ export default function AuthPage() {
 
       <div className="min-h-screen bg-background overflow-hidden">
         {/* Same navbar as marketing site */}
-        <NavbarFloating />
+        <MemoizedNavbar />
 
         {/* Aurora background */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-50">
-          <Aurora
+          <MemoizedAurora
             colorStops={['#0047FF', '#8B5CF6', '#6366F1']}
             amplitude={1.2}
             blend={0.6}

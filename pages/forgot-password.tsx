@@ -7,7 +7,7 @@
  * Matches the design of auth.tsx for consistency
  */
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { NavbarFloating } from '@/components/NavbarFloating';
 import Aurora from '@/components/ui/Aurora/Aurora';
@@ -16,6 +16,10 @@ import { Button } from '@/components/ui/Button/Button';
 import { Input } from '@/components/ui/Input/Input';
 import { FaEnvelope, FaArrowLeft, FaCheckCircle } from 'react-icons/fa';
 import { SEO } from '@/components/SEO';
+
+// Memoize Aurora to prevent re-renders on every keystroke
+const MemoizedAurora = React.memo(Aurora);
+const MemoizedNavbar = React.memo(NavbarFloating);
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
@@ -78,11 +82,11 @@ export default function ForgotPasswordPage() {
 
       <div className="min-h-screen bg-background overflow-hidden">
         {/* Same navbar as auth page */}
-        <NavbarFloating />
+        <MemoizedNavbar />
 
         {/* Aurora background */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-50">
-          <Aurora
+          <MemoizedAurora
             colorStops={['#0047FF', '#8B5CF6', '#6366F1']}
             amplitude={1.2}
             blend={0.6}
