@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { Card } from '@/components/ui/Card/Card';
-import { FredChart } from '@/components/charts/FredChart';
+import { UniversalLightweightChart } from '@/components/charts/UniversalLightweightChart';
 import {
   FaUniversity,
   FaChartLine,
@@ -77,7 +77,7 @@ export function FredSection({
 
   return (
     <Card variant="outlined" padding="none">
-      <div className="p-6 pb-4">
+      <div className="p-6 pb-4 border-b border-slate-700/10">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <FaUniversity className="text-xl text-blue-400" />
@@ -130,7 +130,7 @@ export function FredSection({
             className="p-4 rounded-lg bg-panel transition-all cursor-pointer hover:bg-panel-hover"
             onClick={onToggleCharts}
           >
-            <p className="text-xs text-secondary mb-2">Inflacion USA</p>
+            <p className="text-xs text-secondary mb-2">Inflación USA</p>
             <p className="text-2xl font-bold text-blue-400 tabular-nums">
               {fredData.inflationCPI?.yearOverYear.toFixed(1)}%
             </p>
@@ -179,54 +179,24 @@ export function FredSection({
 
         {/* Interactive Charts */}
         {showFredCharts && (
-          <div className="mt-6 pt-6">
+          <div className="mt-6 pt-6 border-t border-slate-700/10">
             <h3 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
               <FaChartLine className="text-blue-400" />
-              Evolucion Historica (ultimos 12 meses)
+              Evolución Histórica (últimos 24 meses)
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* FED Rate Chart */}
               {fredData.federalFundsRate?.data && (
-                <div className="p-4 rounded-lg bg-panel">
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="text-xs font-semibold text-secondary flex-1">
-                      <div className="mb-1">Tasa de Interes FED</div>
-                      <span className="text-blue-400">
-                        {fredData.federalFundsRate.latest.toFixed(2)}%
-                      </span>
-                    </h4>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onToggleChart('fred-rate');
-                      }}
-                      className={`p-1.5 rounded-lg transition-all ${
-                        favoriteChartIds.includes('fred-rate')
-                          ? 'bg-brand/20 text-brand'
-                          : 'text-secondary hover:text-brand'
-                      }`}
-                      aria-label={
-                        favoriteChartIds.includes('fred-rate')
-                          ? 'Quitar de favoritos'
-                          : 'Agregar a favoritos'
-                      }
-                    >
-                      {favoriteChartIds.includes('fred-rate') ? (
-                        <FaStar className="text-sm" />
-                      ) : (
-                        <FaRegStar className="text-sm" />
-                      )}
-                    </button>
-                  </div>
-                  <div className="h-48">
-                    <FredChart
+                <div className="relative overflow-hidden rounded-lg bg-background-secondary/30">
+                  <div className="h-72">
+                    <UniversalLightweightChart
                       data={fredData.federalFundsRate.data}
                       title="Tasa FED"
                       color="#3b82f6"
-                      yAxisLabel="Tasa"
                       formatValue={(v) => `${v.toFixed(2)}%`}
-                      showPoints={true}
-                      monthsToShow={12}
+                      height={288}
+                      isFavorite={favoriteChartIds.includes('fred-rate')}
+                      onToggleFavorite={() => onToggleChart('fred-rate')}
                     />
                   </div>
                 </div>
@@ -234,46 +204,16 @@ export function FredSection({
 
               {/* CPI Chart */}
               {fredData.inflationCPI?.data && (
-                <div className="p-4 rounded-lg bg-panel">
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="text-xs font-semibold text-secondary flex-1">
-                      <div className="mb-1">Indice de Precios (CPI)</div>
-                      <span className="text-blue-400">
-                        {fredData.inflationCPI.latest.toFixed(1)}
-                      </span>
-                    </h4>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onToggleChart('fred-cpi');
-                      }}
-                      className={`p-1.5 rounded-lg transition-all ${
-                        favoriteChartIds.includes('fred-cpi')
-                          ? 'bg-brand/20 text-brand'
-                          : 'text-secondary hover:text-brand'
-                      }`}
-                      aria-label={
-                        favoriteChartIds.includes('fred-cpi')
-                          ? 'Quitar de favoritos'
-                          : 'Agregar a favoritos'
-                      }
-                    >
-                      {favoriteChartIds.includes('fred-cpi') ? (
-                        <FaStar className="text-sm" />
-                      ) : (
-                        <FaRegStar className="text-sm" />
-                      )}
-                    </button>
-                  </div>
-                  <div className="h-48">
-                    <FredChart
+                <div className="relative overflow-hidden rounded-lg bg-background-secondary/30">
+                  <div className="h-72">
+                    <UniversalLightweightChart
                       data={fredData.inflationCPI.data}
-                      title="CPI"
+                      title="CPI USA"
                       color="#8b5cf6"
-                      yAxisLabel="Indice"
                       formatValue={(v) => v.toFixed(1)}
-                      showPoints={true}
-                      monthsToShow={12}
+                      height={288}
+                      isFavorite={favoriteChartIds.includes('fred-cpi')}
+                      onToggleFavorite={() => onToggleChart('fred-cpi')}
                     />
                   </div>
                 </div>
@@ -281,46 +221,16 @@ export function FredSection({
 
               {/* Unemployment Chart */}
               {fredData.unemploymentRate?.data && (
-                <div className="p-4 rounded-lg bg-panel">
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="text-xs font-semibold text-secondary flex-1">
-                      <div className="mb-1">Tasa de Desempleo</div>
-                      <span className="text-blue-400">
-                        {fredData.unemploymentRate.latest.toFixed(1)}%
-                      </span>
-                    </h4>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onToggleChart('fred-unemployment');
-                      }}
-                      className={`p-1.5 rounded-lg transition-all ${
-                        favoriteChartIds.includes('fred-unemployment')
-                          ? 'bg-brand/20 text-brand'
-                          : 'text-secondary hover:text-brand'
-                      }`}
-                      aria-label={
-                        favoriteChartIds.includes('fred-unemployment')
-                          ? 'Quitar de favoritos'
-                          : 'Agregar a favoritos'
-                      }
-                    >
-                      {favoriteChartIds.includes('fred-unemployment') ? (
-                        <FaStar className="text-sm" />
-                      ) : (
-                        <FaRegStar className="text-sm" />
-                      )}
-                    </button>
-                  </div>
-                  <div className="h-48">
-                    <FredChart
+                <div className="relative overflow-hidden rounded-lg bg-background-secondary/30">
+                  <div className="h-72">
+                    <UniversalLightweightChart
                       data={fredData.unemploymentRate.data}
-                      title="Desempleo"
+                      title="Desempleo USA"
                       color="#10b981"
-                      yAxisLabel="Tasa"
                       formatValue={(v) => `${v.toFixed(1)}%`}
-                      showPoints={true}
-                      monthsToShow={12}
+                      height={288}
+                      isFavorite={favoriteChartIds.includes('fred-unemployment')}
+                      onToggleFavorite={() => onToggleChart('fred-unemployment')}
                     />
                   </div>
                 </div>
@@ -328,46 +238,16 @@ export function FredSection({
 
               {/* Treasury 10Y Chart */}
               {fredData.treasury10y?.data && (
-                <div className="p-4 rounded-lg bg-panel">
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="text-xs font-semibold text-secondary flex-1">
-                      <div className="mb-1">Bonos del Tesoro 10 anos</div>
-                      <span className="text-blue-400">
-                        {fredData.treasury10y.latest.toFixed(2)}%
-                      </span>
-                    </h4>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onToggleChart('fred-treasury');
-                      }}
-                      className={`p-1.5 rounded-lg transition-all ${
-                        favoriteChartIds.includes('fred-treasury')
-                          ? 'bg-brand/20 text-brand'
-                          : 'text-secondary hover:text-brand'
-                      }`}
-                      aria-label={
-                        favoriteChartIds.includes('fred-treasury')
-                          ? 'Quitar de favoritos'
-                          : 'Agregar a favoritos'
-                      }
-                    >
-                      {favoriteChartIds.includes('fred-treasury') ? (
-                        <FaStar className="text-sm" />
-                      ) : (
-                        <FaRegStar className="text-sm" />
-                      )}
-                    </button>
-                  </div>
-                  <div className="h-48">
-                    <FredChart
+                <div className="relative overflow-hidden rounded-lg bg-background-secondary/30">
+                  <div className="h-72">
+                    <UniversalLightweightChart
                       data={fredData.treasury10y.data}
                       title="Treasury 10Y"
                       color="#f59e0b"
-                      yAxisLabel="Rendimiento"
                       formatValue={(v) => `${v.toFixed(2)}%`}
-                      showPoints={true}
-                      monthsToShow={12}
+                      height={288}
+                      isFavorite={favoriteChartIds.includes('fred-treasury')}
+                      onToggleFavorite={() => onToggleChart('fred-treasury')}
                     />
                   </div>
                 </div>
@@ -377,7 +257,7 @@ export function FredSection({
         )}
 
         {/* Info Footer */}
-        <div className="mt-4 pt-6">
+        <div className="mt-4 pt-6 border-t border-slate-700/10">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <p className="text-xs text-secondary">
               <strong className="text-foreground">FRED</strong> (Federal Reserve Economic Data) -

@@ -22,6 +22,23 @@ export interface ChangelogEntry {
  */
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.2.1',
+    date: '2025-10-20',
+    title: 'Filtros de Tiempo Corregidos',
+    emoji: '📊',
+    description:
+      'Arreglamos un problema importante en los gráficos históricos que impedía que los filtros de tiempo funcionaran correctamente.',
+    fixes: [
+      'Filtros de tiempo (6M, 12M, 24M, 5Y) ahora funcionan correctamente en todos los gráficos',
+      'Gráficos de Argentina (IPC, UVA, Riesgo País) ahora respetan el período seleccionado',
+      'Gráficos de FRED (Tasa FED, CPI, Desempleo, Treasury) ahora muestran datos correctos según el filtro',
+    ],
+    improvements: [
+      'Mejor experiencia al explorar datos históricos en diferentes períodos',
+      'Visualización más precisa de tendencias económicas',
+    ],
+  },
+  {
     version: '1.2.0',
     date: '2025-10-19',
     title: 'Seguridad Mejorada y Password Reset',
@@ -106,4 +123,69 @@ export function getChangelogSince(version: string): ChangelogEntry[] {
 export function hasNewUpdates(lastSeenVersion: string | null): boolean {
   if (!lastSeenVersion) return true;
   return lastSeenVersion !== getCurrentVersion();
+}
+
+/**
+ * Storage key for skipped versions
+ */
+const SKIPPED_VERSIONS_KEY = 'dg_skipped_versions';
+
+/**
+ * Obtener versiones que el usuario decidió no ver
+ */
+export function getSkippedVersions(): string[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    const skipped = localStorage.getItem(SKIPPED_VERSIONS_KEY);
+    return skipped ? JSON.parse(skipped) : [];
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Marcar una versión como "no mostrar"
+ */
+export function skipVersion(version: string): void {
+  if (typeof window === 'undefined') return;
+  try {
+    const skipped = getSkippedVersions();
+    if (!skipped.includes(version)) {
+      skipped.push(version);
+      localStorage.setItem(SKIPPED_VERSIONS_KEY, JSON.stringify(skipped));
+    }
+  } catch (error) {
+    console.error('Error skipping version:', error);
+  }
+}
+
+/**
+ * Verificar si una versión fue marcada como "no mostrar"
+ */
+export function isVersionSkipped(version: string): boolean {
+  return getSkippedVersions().includes(version);
+}
+
+/**
+ * Contar versiones no vistas (nuevas y no skipped)
+ */
+export function getUnseenCount(lastSeenVersion: string | null): number {
+  const skipped = getSkippedVersions();
+  let count = 0;
+
+  for (const entry of CHANGELOG) {
+    // Si no hay última versión vista, todas son nuevas
+    if (!lastSeenVersion) {
+      if (!skipped.includes(entry.version)) count++;
+      continue;
+    }
+
+    // Si llegamos a la última versión vista, paramos
+    if (entry.version === lastSeenVersion) break;
+
+    // Si esta versión no está skipped, contamos
+    if (!skipped.includes(entry.version)) count++;
+  }
+
+  return count;
 }
