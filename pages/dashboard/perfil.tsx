@@ -10,10 +10,10 @@ import { useRouter } from 'next/router';
 import { useRequireAuth } from '@/lib/contexts/AuthContext';
 import { DashboardLayout } from '@/components/layouts/DashboardLayout';
 import { Card } from '@/components/ui/Card/Card';
-import { FaUser, FaEnvelope, FaLock, FaSave, FaCheckCircle } from 'react-icons/fa';
-import { PageHeader } from '@/components/ui/PageHeader';
+import { FaUser, FaEnvelope, FaLock, FaSave, FaCheckCircle, FaChevronLeft } from 'react-icons/fa';
 
 export default function ProfilePage() {
+  const router = useRouter();
   const { user, loading: authLoading, refreshUser } = useRequireAuth();
 
   // Profile form state
@@ -136,18 +136,46 @@ export default function ProfilePage() {
       </Head>
 
       <DashboardLayout>
-        <div className="max-w-4xl mx-auto">
+        <div className="space-y-6">
           {/* Page Header */}
-          <PageHeader
-            breadcrumbs={[{ label: 'Dashboard', href: '/dashboard' }, { label: 'Perfil' }]}
-            icon={FaUser}
-            title="Mi Perfil"
-            description="Gestiona tu información personal y configuración de cuenta"
-          />
+          <div className="flex items-start justify-between">
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <button
+                  onClick={() => router.push('/dashboard')}
+                  className="p-2 rounded-lg hover:bg-white/5 transition-colors text-secondary hover:text-brand"
+                  aria-label="Volver al Dashboard"
+                >
+                  <FaChevronLeft className="text-sm" />
+                </button>
+                <div className="flex items-center gap-2 text-sm text-secondary">
+                  <span
+                    onClick={() => router.push('/dashboard')}
+                    className="hover:text-brand cursor-pointer transition-colors"
+                  >
+                    Dashboard
+                  </span>
+                  <span>/</span>
+                  <span className="text-foreground">Perfil</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 ml-12">
+                <div className="w-12 h-12 rounded-xl bg-brand/20 flex items-center justify-center">
+                  <FaUser className="text-brand text-xl" />
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-foreground">Mi Perfil</h1>
+                  <p className="text-sm text-secondary mt-1">
+                    Gestiona tu información personal y configuración de cuenta
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
 
-          <div className="space-y-6">
+          <div className="space-y-6 max-w-4xl">
             {/* Profile Information */}
-            <Card variant="elevated" padding="lg">
+            <Card variant="outlined" padding="lg">
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-3 bg-brand/20 rounded-lg">
                   <FaUser className="text-xl text-brand" />
@@ -225,7 +253,7 @@ export default function ProfilePage() {
             </Card>
 
             {/* Change Password */}
-            <Card variant="elevated" padding="lg">
+            <Card variant="outlined" padding="lg">
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-3 bg-brand/20 rounded-lg">
                   <FaLock className="text-xl text-brand" />
@@ -341,7 +369,7 @@ export default function ProfilePage() {
             </Card>
 
             {/* Account Info */}
-            <Card variant="elevated" padding="lg">
+            <Card variant="outlined" padding="lg">
               <h2 className="text-xl font-bold text-foreground mb-4">Información de la Cuenta</h2>
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between items-center py-2 border-b border-border">
