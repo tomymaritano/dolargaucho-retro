@@ -375,8 +375,7 @@ export function NavbarSearch() {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: -30 }}
                 transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-                className="w-full max-w-2xl bg-panel/95 backdrop-blur-xl border border-white/10
-                           rounded-2xl shadow-2xl overflow-hidden"
+                className="w-full max-w-2xl bg-panel/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden"
               >
                 {/* Header */}
                 <div className="sticky top-0 bg-gradient-to-b from-panel to-panel/95 backdrop-blur-sm px-6 py-4 border-b border-white/10">
@@ -390,13 +389,11 @@ export function NavbarSearch() {
                       value={query}
                       onChange={(e) => setQuery(e.target.value)}
                       placeholder="Buscar páginas, cotizaciones, cryptos..."
-                      className="flex-1 bg-transparent text-foreground placeholder-secondary
-                                 outline-none text-lg font-medium"
+                      className="flex-1 bg-transparent text-foreground placeholder-secondary outline-none text-lg font-medium"
                     />
                     <button
                       onClick={handleClose}
-                      className="p-2 rounded-lg hover:bg-white/10 text-secondary
-                                 hover:text-foreground transition-all"
+                      className="p-2 rounded-lg hover:bg-white/10 text-secondary hover:text-foreground transition-all"
                       aria-label="Cerrar búsqueda"
                     >
                       <FaTimes className="text-sm" />
@@ -422,33 +419,27 @@ export function NavbarSearch() {
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.03 }}
-                            className={`w-full flex items-center gap-3 px-4 py-3.5
-                                       rounded-xl text-left transition-all group
-                                       ${isSelected ? 'bg-brand/10 border border-brand/30 shadow-lg shadow-brand/10' : 'hover:bg-white/5 border border-transparent'}`}
+                            className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl text-left transition-all group ${isSelected ? 'bg-brand/10 border border-brand/30 shadow-lg shadow-brand/10' : 'hover:bg-white/5 border border-transparent'}`}
                           >
                             {/* Icon */}
                             <div
-                              className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-all
-                                          ${isSelected ? 'bg-brand/20' : 'bg-white/5 group-hover:bg-white/10'}`}
+                              className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-all ${isSelected ? 'bg-brand/20' : 'bg-white/5 group-hover:bg-white/10'}`}
                             >
                               <Icon
-                                className={`text-base transition-colors
-                                            ${isSelected ? 'text-brand' : 'text-foreground/70 group-hover:text-brand'}`}
+                                className={`text-base transition-colors ${isSelected ? 'text-brand' : 'text-foreground/70 group-hover:text-brand'}`}
                               />
                             </div>
 
                             {/* Content */}
                             <div className="flex-1 min-w-0">
                               <div
-                                className={`text-sm font-semibold transition-colors mb-1
-                                            ${isSelected ? 'text-brand' : 'text-foreground group-hover:text-brand'}`}
+                                className={`text-sm font-semibold transition-colors mb-1 ${isSelected ? 'text-brand' : 'text-foreground group-hover:text-brand'}`}
                               >
                                 {result.title}
                               </div>
                               <div className="flex items-center gap-2">
                                 <span
-                                  className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold
-                                              border ${categoryColor}`}
+                                  className={`inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-semibold border ${categoryColor}`}
                                 >
                                   {result.category}
                                 </span>
@@ -462,8 +453,7 @@ export function NavbarSearch() {
 
                             {/* Arrow */}
                             <FaArrowRight
-                              className={`text-sm transition-all flex-shrink-0
-                                          ${isSelected ? 'text-brand translate-x-1' : 'text-secondary group-hover:text-brand group-hover:translate-x-1'}`}
+                              className={`text-sm transition-all flex-shrink-0 ${isSelected ? 'text-brand translate-x-1' : 'text-secondary group-hover:text-brand group-hover:translate-x-1'}`}
                             />
                           </motion.button>
                         );
