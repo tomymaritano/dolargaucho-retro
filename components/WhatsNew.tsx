@@ -2,7 +2,15 @@
 
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaTimes, FaCheckCircle, FaWrench, FaBug, FaStar } from 'react-icons/fa';
+import {
+  FaTimes,
+  FaCheckCircle,
+  FaWrench,
+  FaBug,
+  FaStar,
+  FaChevronDown,
+  FaChevronUp,
+} from 'react-icons/fa';
 import {
   CHANGELOG,
   getCurrentVersion,
@@ -107,98 +115,143 @@ function WhatsNew({
   setDontShowAgain,
   handleClose,
 }: WhatsNewProps) {
-  const renderEntry = (entry: ChangelogEntry) => (
-    <motion.div
-      key={entry.version}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className={`mb-6 ${entry.highlight ? 'border-l-4 border-brand pl-4' : ''}`}
-    >
-      {/* Header */}
-      <div className="flex items-center gap-3 mb-3">
-        {entry.emoji && <span className="text-3xl">{entry.emoji}</span>}
-        <div className="flex-1">
-          <div className="flex items-center gap-2">
-            <h3 className="text-lg font-bold text-foreground">{entry.title}</h3>
-            {entry.highlight && (
-              <span className="px-2 py-0.5 bg-brand/20 text-brand text-xs font-semibold rounded-full">
-                Destacado
+  // Estado para controlar qué entradas están expandidas
+  // Por defecto, solo la primera (índice 0) está expandida
+  const [expandedEntries, setExpandedEntries] = useState<Set<number>>(new Set([0]));
+
+  const toggleEntry = (index: number) => {
+    setExpandedEntries((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(index)) {
+        newSet.delete(index);
+      } else {
+        newSet.add(index);
+      }
+      return newSet;
+    });
+  };
+
+  const renderEntry = (entry: ChangelogEntry, index: number) => {
+    const isExpanded = expandedEntries.has(index);
+    const isFirstEntry = index === 0;
+
+    return (
+      <motion.div
+        key={entry.version}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+        className={`mb-4 ${entry.highlight && isExpanded ? 'border-l-4 border-brand pl-4' : ''} ${!isExpanded ? 'pb-4 border-b border-white/5' : ''}`}
+      >
+        {/* Header - Always visible, clickable for old entries */}
+        <div
+          className={`flex items-center gap-3 ${!isFirstEntry ? 'cursor-pointer hover:bg-white/5 rounded-lg p-2 -m-2' : ''}`}
+          onClick={() => !isFirstEntry && toggleEntry(index)}
+        >
+          {entry.emoji && <span className="text-3xl">{entry.emoji}</span>}
+          <div className="flex-1">
+            <div className="flex items-center gap-2">
+              <h3 className="text-lg font-bold text-foreground">{entry.title}</h3>
+              {entry.highlight && isExpanded && (
+                <span className="px-2 py-0.5 bg-brand/20 text-brand text-xs font-semibold rounded-full">
+                  Destacado
+                </span>
+              )}
+            </div>
+            <div className="flex items-center gap-2 text-xs text-secondary mt-0.5">
+              <span>v{entry.version}</span>
+              <span>•</span>
+              <span>
+                {new Date(entry.date).toLocaleDateString('es-AR', {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                })}
               </span>
-            )}
+            </div>
           </div>
-          <div className="flex items-center gap-2 text-xs text-secondary mt-0.5">
-            <span>v{entry.version}</span>
-            <span>•</span>
-            <span>
-              {new Date(entry.date).toLocaleDateString('es-AR', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric',
-              })}
-            </span>
-          </div>
+          {/* Toggle icon for old entries */}
+          {!isFirstEntry && (
+            <div className="text-secondary">{isExpanded ? <FaChevronUp /> : <FaChevronDown />}</div>
+          )}
         </div>
-      </div>
 
-      {/* Description */}
-      <p className="text-sm text-secondary mb-3">{entry.description}</p>
+        {/* Collapsible content */}
+        <AnimatePresence>
+          {isExpanded && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="overflow-hidden"
+            >
+              <div className="mt-3">
+                {/* Description */}
+                <p className="text-sm text-secondary mb-3">{entry.description}</p>
 
-      {/* Features */}
-      {entry.features && entry.features.length > 0 && (
-        <div className="mb-3">
-          <div className="flex items-center gap-2 mb-2">
-            <FaStar className="text-yellow-500 text-sm" />
-            <h4 className="text-sm font-semibold text-foreground">Nuevas Funcionalidades</h4>
-          </div>
-          <ul className="space-y-1.5 ml-6">
-            {entry.features.map((feature, i) => (
-              <li key={i} className="text-sm text-secondary flex items-start gap-2">
-                <span className="text-brand mt-0.5">•</span>
-                <span>{feature}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+                {/* Features */}
+                {entry.features && entry.features.length > 0 && (
+                  <div className="mb-3">
+                    <div className="flex items-center gap-2 mb-2">
+                      <FaStar className="text-yellow-500 text-sm" />
+                      <h4 className="text-sm font-semibold text-foreground">
+                        Nuevas Funcionalidades
+                      </h4>
+                    </div>
+                    <ul className="space-y-1.5 ml-6">
+                      {entry.features.map((feature, i) => (
+                        <li key={i} className="text-sm text-secondary flex items-start gap-2">
+                          <span className="text-brand mt-0.5">•</span>
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
 
-      {/* Improvements */}
-      {entry.improvements && entry.improvements.length > 0 && (
-        <div className="mb-3">
-          <div className="flex items-center gap-2 mb-2">
-            <FaWrench className="text-blue-500 text-sm" />
-            <h4 className="text-sm font-semibold text-foreground">Mejoras</h4>
-          </div>
-          <ul className="space-y-1.5 ml-6">
-            {entry.improvements.map((improvement, i) => (
-              <li key={i} className="text-sm text-secondary flex items-start gap-2">
-                <span className="text-brand mt-0.5">•</span>
-                <span>{improvement}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+                {/* Improvements */}
+                {entry.improvements && entry.improvements.length > 0 && (
+                  <div className="mb-3">
+                    <div className="flex items-center gap-2 mb-2">
+                      <FaWrench className="text-blue-500 text-sm" />
+                      <h4 className="text-sm font-semibold text-foreground">Mejoras</h4>
+                    </div>
+                    <ul className="space-y-1.5 ml-6">
+                      {entry.improvements.map((improvement, i) => (
+                        <li key={i} className="text-sm text-secondary flex items-start gap-2">
+                          <span className="text-brand mt-0.5">•</span>
+                          <span>{improvement}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
 
-      {/* Fixes */}
-      {entry.fixes && entry.fixes.length > 0 && (
-        <div className="mb-3">
-          <div className="flex items-center gap-2 mb-2">
-            <FaBug className="text-green-500 text-sm" />
-            <h4 className="text-sm font-semibold text-foreground">Correcciones</h4>
-          </div>
-          <ul className="space-y-1.5 ml-6">
-            {entry.fixes.map((fix, i) => (
-              <li key={i} className="text-sm text-secondary flex items-start gap-2">
-                <span className="text-brand mt-0.5">•</span>
-                <span>{fix}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </motion.div>
-  );
+                {/* Fixes */}
+                {entry.fixes && entry.fixes.length > 0 && (
+                  <div className="mb-3">
+                    <div className="flex items-center gap-2 mb-2">
+                      <FaBug className="text-green-500 text-sm" />
+                      <h4 className="text-sm font-semibold text-foreground">Correcciones</h4>
+                    </div>
+                    <ul className="space-y-1.5 ml-6">
+                      {entry.fixes.map((fix, i) => (
+                        <li key={i} className="text-sm text-secondary flex items-start gap-2">
+                          <span className="text-brand mt-0.5">•</span>
+                          <span>{fix}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    );
+  };
 
   return (
     <>
@@ -275,7 +328,7 @@ function WhatsNew({
 
                 {/* Content */}
                 <div className="px-6 py-6 overflow-y-auto max-h-[calc(85vh-140px)] custom-scrollbar">
-                  {CHANGELOG.slice(0, 3).map(renderEntry)}
+                  {CHANGELOG.map((entry, index) => renderEntry(entry, index))}
                 </div>
 
                 {/* Footer */}

@@ -22,11 +22,43 @@ export interface ChangelogEntry {
  */
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.4.0',
+    date: '2025-10-21',
+    title: 'Dashboard Navbar Rediseñado y Formularios Optimizados',
+    emoji: '🚀',
+    highlight: true,
+    description:
+      'Rediseñamos completamente el navbar del dashboard con marquesina de cotizaciones en vivo, menú hamburguesa mejorado y formularios de autenticación optimizados sin page refresh.',
+    features: [
+      'Navbar del Dashboard: Marquesina de cotizaciones arriba del todo con datos en tiempo real',
+      'Menú Hamburguesa Premium: Organizado en secciones (Principal, Mercados, Herramientas)',
+      'Glass Morphism Design: Panel del menú con transparencia y blur elegante',
+      'Sistema de Nickname: Campo opcional para personalizar tu perfil de usuario',
+      'Búsqueda Universal: NavbarSearch con fuzzy search para encontrar cualquier sección (⌘K)',
+    ],
+    improvements: [
+      'Formularios sin refresh: Ahora podés escribir en login/signup sin que la página se recargue',
+      'Validaciones extraídas: Lógica de validación modular y reutilizable',
+      'Menú con estados activos: El item actual se destaca con color brand y sombra',
+      'Avatar de usuario: Tarjeta con tu nombre y email en el menú',
+      'Dropdown de perfil: Acceso rápido a "Mi Perfil" y "Cerrar Sesión" desde el navbar',
+      'Accesibilidad mejorada: Aria-labels en todos los botones interactivos',
+      'Performance optimizada: Todos los handlers memoizados con useCallback',
+    ],
+    fixes: [
+      'Eliminado page refresh al escribir en formularios de auth',
+      'Router.push en vez de window.location.href para navegación client-side',
+      'Limpieza de estado al cambiar entre tabs de login/signup',
+      'Console.logs solo en desarrollo (no en producción)',
+      'Email validation mejorada con regex RFC 5322 compliant',
+    ],
+  },
+  {
     version: '1.3.1',
     date: '2025-10-20',
     title: 'Landing Page Mejorada con Tema Adaptativo',
     emoji: '🎨',
-    highlight: true,
+    highlight: false,
     description:
       'Mejoramos completamente la landing page con detección de sesión inteligente, adaptación completa a light/dark mode, contador de usuarios en vivo con datos reales y sistema de notificación de cambios de auth.',
     features: [
