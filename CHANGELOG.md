@@ -5,6 +5,11 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## 1.3.0 (2025-10-21)
+
+- refactor: migrate favorites store to sync engine infrastructure ([c5feab8](https://github.com/tomymaritano/dolargaucho-retro/commit/c5feab8))
+- feat: add reusable sync engine for cross-device state management ([2f40657](https://github.com/tomymaritano/dolargaucho-retro/commit/2f40657))
+
 ## 1.2.0 (2025-10-21)
 
 - feat(favorites): implement cross-device favorites synchronization ([f6c3a42](https://github.com/tomymaritano/dolargaucho-retro/commit/f6c3a42))
