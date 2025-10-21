@@ -337,16 +337,11 @@ export function NavbarSearch() {
       {/* Search Button - Desktop */}
       <button
         onClick={() => setIsOpen(true)}
-        className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5
-                   border border-white/10 hover:border-brand/30 hover:bg-white/10
-                   text-secondary hover:text-foreground transition-all group"
+        className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-brand/30 hover:bg-white/10 text-secondary hover:text-foreground transition-all group"
       >
         <FaSearch className="text-xs group-hover:text-brand transition-colors" />
         <span className="text-xs">Buscar</span>
-        <kbd
-          className="hidden md:inline-block px-1.5 py-0.5 text-[10px] font-mono
-                        bg-white/10 border border-white/10 rounded"
-        >
+        <kbd className="hidden md:inline-block px-1.5 py-0.5 text-[10px] font-mono bg-white/10 border border-white/10 rounded">
           ⌘K
         </kbd>
       </button>
@@ -354,8 +349,7 @@ export function NavbarSearch() {
       {/* Search Button - Mobile */}
       <button
         onClick={() => setIsOpen(true)}
-        className="sm:hidden p-2 rounded-lg hover:bg-white/10 text-secondary
-                   hover:text-foreground transition-all"
+        className="sm:hidden p-2 rounded-lg hover:bg-white/10 text-secondary hover:text-foreground transition-all"
         aria-label="Buscar"
       >
         <FaSearch className="text-sm" />
