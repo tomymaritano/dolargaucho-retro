@@ -17,6 +17,7 @@ interface InternationalRatesSectionProps {
   loadingCotizaciones: boolean;
   favoriteCurrencyIds: string[];
   onToggleCurrency: (currencyId: string) => void;
+  onSelectCurrency?: (moneda: string) => void;
 }
 
 /**
@@ -25,12 +26,14 @@ interface InternationalRatesSectionProps {
  * @param loadingCotizaciones - Loading state
  * @param favoriteCurrencyIds - Array of favorited currency IDs
  * @param onToggleCurrency - Function to toggle currency favorite status
+ * @param onSelectCurrency - Function to select a currency for chart display
  */
 export function InternationalRatesSection({
   cotizaciones,
   loadingCotizaciones,
   favoriteCurrencyIds,
   onToggleCurrency,
+  onSelectCurrency,
 }: InternationalRatesSectionProps) {
   return (
     <Card variant="outlined" padding="none">
@@ -39,6 +42,7 @@ export function InternationalRatesSection({
         isLoading={loadingCotizaciones}
         favoriteCurrencyIds={favoriteCurrencyIds}
         onToggleFavorite={onToggleCurrency}
+        onSelectCurrency={onSelectCurrency}
       />
     </Card>
   );

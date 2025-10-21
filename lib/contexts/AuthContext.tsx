@@ -15,6 +15,7 @@ export interface User {
   id: string;
   email: string;
   name?: string;
+  nickname?: string;
   created_at: Date;
 }
 
@@ -37,12 +38,28 @@ interface AuthContextType {
   preferences: UserPreferences | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<{ error?: string }>;
-  signUp: (email: string, password: string, name?: string) => Promise<{ error?: string }>;
+  signUp: (
+    email: string,
+    password: string,
+    name?: string,
+    nickname?: string
+  ) => Promise<{ error?: string }>;
   signOut: () => Promise<void>;
   refreshUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+/**
+ * Helper function to notify other components of auth state changes
+ */
+function notifyAuthChange() {
+  if (typeof window !== 'undefined') {
+    // Trigger a storage event to notify NavbarFloating and other components
+    localStorage.setItem('auth-change', Date.now().toString());
+    localStorage.removeItem('auth-change');
+  }
+}
 
 /**
  * Auth Provider Component
@@ -112,6 +129,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           setUser(data.user);
           // Fetch full user data including preferences
           await fetchUser();
+          // Notify other components of auth change
+          notifyAuthChange();
           return {};
         } else {
           return { error: data.error || 'Error al iniciar sesión' };
@@ -125,10 +144,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   );
 
   /**
-   * Sign up with email, password, and optional name
+   * Sign up with email, password, optional name and optional nickname
    */
   const signUp = useCallback(
-    async (email: string, password: string, name?: string): Promise<{ error?: string }> => {
+    async (
+      email: string,
+      password: string,
+      name?: string,
+      nickname?: string
+    ): Promise<{ error?: string }> => {
       try {
         console.log('[AuthContext] Registering user:', email);
 
@@ -138,7 +162,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             'Content-Type': 'application/json',
           },
           credentials: 'same-origin', // IMPORTANTE: Incluir cookies
-          body: JSON.stringify({ email, password, name }),
+          body: JSON.stringify({ email, password, name, nickname }),
         });
 
         console.log('[AuthContext] Register response status:', response.status);
@@ -155,6 +179,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             console.warn('[AuthContext] Failed to fetch user preferences:', err);
             // Ignore error - we already have the user
           });
+
+          // Notify other components of auth change
+          notifyAuthChange();
 
           return {};
         } else {
@@ -181,6 +208,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       setUser(null);
       setPreferences(null);
+
+      // Notify other components of auth change
+      notifyAuthChange();
+
       router.push('/');
     } catch (error) {
       console.error('Sign out error:', error);

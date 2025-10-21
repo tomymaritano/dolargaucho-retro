@@ -17,26 +17,30 @@ import { useFredData } from '@/hooks/useFredData';
 import { useECBRates } from '@/hooks/useECBRates';
 import { useECBHistorical } from '@/hooks/useECBHistorical';
 import { useInflacion } from '@/hooks/useInflacion';
+import { useIndiceUVA, useRiesgoPais } from '@/hooks/useFinanzas';
 import { SEO } from '@/components/SEO';
 
 // Extracted components
 import { MarketsHeader } from '@/components/dashboard/MarketsHeader';
 import { FavoritesSection } from '@/components/dashboard/FavoritesSection';
 import { FavoriteChartsSection } from '@/components/dashboard/FavoriteChartsSection';
-import { InflationSection } from '@/components/dashboard/InflationSection';
 import { InternationalRatesSection } from '@/components/dashboard/InternationalRatesSection';
 import { CryptoSection } from '@/components/dashboard/CryptoSection';
 import { FredSection } from '@/components/dashboard/FredSection';
 import { ECBSection } from '@/components/dashboard/ECBSection';
+import { ArgentinaSection } from '@/components/dashboard/ArgentinaSection';
 import { DolarSection } from '@/components/dashboard/DolarSection';
+import { DolarAreaChart } from '@/components/charts/DolarAreaChart';
 
 export default function DashboardPage() {
   const [showFredCharts, setShowFredCharts] = useState(false);
   const [showECBCharts, setShowECBCharts] = useState(false);
+  const [showArgentinaCharts, setShowArgentinaCharts] = useState(false);
   const [selectedTableTab, setSelectedTableTab] = useState<
     'favoritos' | 'dolar' | 'internacional' | 'crypto'
   >('favoritos');
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedDolarForChart, setSelectedDolarForChart] = useState<string>('blue');
 
   const { toast, showToast, hideToast } = useToast();
 
@@ -61,6 +65,8 @@ export default function DashboardPage() {
   const { data: ecbData, isLoading: ecbLoading } = useECBRates();
   const { data: ecbHistorical, isLoading: ecbHistoricalLoading } = useECBHistorical();
   const { data: inflacionData, isLoading: inflacionLoading } = useInflacion();
+  const { data: uvaData, isLoading: uvaLoading } = useIndiceUVA();
+  const { data: riesgoPaisData, isLoading: riesgoPaisLoading } = useRiesgoPais();
 
   // Favorites store
   const {
@@ -103,6 +109,15 @@ export default function DashboardPage() {
   const filteredFavoriteDolares = filterBySearch(favoriteDolares);
   const filteredFavoriteCurrencies = filterBySearch(favoriteCurrencies);
   const filteredFavoriteCryptos = filterBySearch(favoriteCryptos);
+
+  // Determine asset type based on what's available in the data
+  const selectedAssetType = (() => {
+    if (dolares?.find((d) => d.casa === selectedDolarForChart)) return 'dolar';
+    if (cotizaciones?.find((c) => c.moneda.toLowerCase() === selectedDolarForChart.toLowerCase()))
+      return 'internacional';
+    if (cryptos?.find((c) => c.id === selectedDolarForChart)) return 'crypto';
+    return 'dolar'; // default
+  })();
 
   // Handler for chart toggle with toast notifications
   const handleToggleChart = (chartId: string) => {
@@ -195,6 +210,7 @@ export default function DashboardPage() {
                 onToggleDolar={toggleDolar}
                 onToggleCurrency={toggleCurrency}
                 onToggleCrypto={toggleCrypto}
+                onSelectItem={setSelectedDolarForChart}
               />
             )}
 
@@ -204,6 +220,7 @@ export default function DashboardPage() {
                 loadingDolares={loadingDolares}
                 favoriteDolarIds={favoriteDolarIds}
                 onToggleDolar={toggleDolar}
+                onSelectDolar={setSelectedDolarForChart}
               />
             )}
 
@@ -213,6 +230,7 @@ export default function DashboardPage() {
                 loadingCotizaciones={loadingCotizaciones}
                 favoriteCurrencyIds={favoriteCurrencyIds}
                 onToggleCurrency={toggleCurrency}
+                onSelectCurrency={setSelectedDolarForChart}
               />
             )}
 
@@ -226,23 +244,32 @@ export default function DashboardPage() {
                 cryptoPerPage={cryptoPerPage}
                 onToggleFavorite={toggleCrypto}
                 onPageChange={setCryptoPage}
+                onSelectCrypto={setSelectedDolarForChart}
               />
             )}
           </div>
+
+          {/* Professional Asset Chart - REMOVED: Now charts expand inline within tables */}
 
           {/* Favorite Charts */}
           <FavoriteChartsSection
             favoriteChartIds={favoriteChartIds}
             inflacionData={inflacionData}
+            uvaData={uvaData}
+            riesgoPaisData={riesgoPaisData}
             fredData={fredData}
             ecbHistorical={ecbHistorical}
             onToggleChart={handleToggleChart}
           />
 
-          {/* Inflation Section - Always Visible */}
-          <InflationSection
+          {/* Argentina - Economic Data - Always Visible */}
+          <ArgentinaSection
+            argentinaeLoading={inflacionLoading || uvaLoading || riesgoPaisLoading}
+            uvaData={uvaData}
+            riesgoPaisData={riesgoPaisData}
             inflacionData={inflacionData}
-            inflacionLoading={inflacionLoading}
+            showArgentinaCharts={showArgentinaCharts}
+            onToggleCharts={() => setShowArgentinaCharts(!showArgentinaCharts)}
             favoriteChartIds={favoriteChartIds}
             onToggleChart={handleToggleChart}
           />

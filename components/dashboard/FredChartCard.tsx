@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { FredChart } from '@/components/charts/FredChart';
+import { FredLightweightChart } from '@/components/charts/FredLightweightChart';
 import { FaStar, FaRegStar } from 'react-icons/fa';
 import { formatFredValue, type FredIndicatorConfig } from '@/lib/utils/fredUtils';
 
@@ -26,43 +26,33 @@ export function FredChartCard({
   onToggleFavorite,
 }: FredChartCardProps) {
   return (
-    <div className="group relative p-4 rounded-lg transition-all duration-300 overflow-hidden">
+    <div className="group relative rounded-lg transition-all duration-300 overflow-hidden">
       {/* Content */}
       <div className="relative z-10">
-        {/* Header with favorite button */}
-        <div className="flex items-center justify-between mb-3">
-          <h4 className="text-xs font-semibold text-secondary flex-1 group-hover:text-blue-300 transition-colors duration-300">
-            <div className="mb-1">{config.label}</div>
-            <span className="text-blue-400 group-hover:scale-105 inline-block transition-transform duration-300">
-              {formatFredValue(latest, config.id)}
-            </span>
-          </h4>
+        {/* Favorite button - absolute positioned */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggleFavorite(config.chartId);
+          }}
+          className={`absolute top-2 right-2 z-20 p-1.5 rounded-lg transition-all duration-300 hover:scale-110 active:scale-95 ${
+            isFavorite
+              ? 'bg-brand/20 text-brand'
+              : 'bg-background/90 backdrop-blur-sm text-secondary hover:text-brand border border-white/5'
+          }`}
+          aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+        >
+          {isFavorite ? <FaStar className="text-sm" /> : <FaRegStar className="text-sm" />}
+        </button>
 
-          {/* Favorite button with gradient hover */}
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onToggleFavorite(config.chartId);
-            }}
-            className={`p-1.5 rounded-lg transition-all duration-300 hover:scale-110 active:scale-95 ${
-              isFavorite ? 'bg-brand/20 text-brand' : 'text-secondary hover:text-brand'
-            }`}
-            aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
-          >
-            {isFavorite ? <FaStar className="text-sm" /> : <FaRegStar className="text-sm" />}
-          </button>
-        </div>
-
-        {/* Chart */}
-        <div className="h-48 group-hover:scale-[1.01] transition-transform duration-300">
-          <FredChart
+        {/* Chart with integrated controls */}
+        <div className="h-60 group-hover:scale-[1.01] transition-transform duration-300">
+          <FredLightweightChart
             data={data}
             title={config.label}
             color={config.color}
-            yAxisLabel={config.description}
             formatValue={(v) => formatFredValue(v, config.id)}
-            showPoints={true}
-            monthsToShow={12}
+            height={240}
           />
         </div>
       </div>

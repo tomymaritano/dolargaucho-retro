@@ -22,9 +22,17 @@ import {
   FaSortDown,
   FaShareAlt,
   FaCopy,
+  FaChartLine,
+  FaChevronDown,
+  FaChevronUp,
 } from 'react-icons/fa';
 import { CryptoSparkline } from '@/components/charts/CryptoSparkline';
-import { useMultipleDolarHistoricoRange } from '@/hooks/useDolarHistoricoRange';
+import { UniversalLightweightChart } from '@/components/charts/UniversalLightweightChart';
+import {
+  useMultipleDolarHistoricoRange,
+  useDolarHistoricoRange,
+} from '@/hooks/useDolarHistoricoRange';
+import type { DolarHistoricoDataPoint } from '@/hooks/useDolarHistoricoRange';
 import type { DolarWithVariation } from '@/hooks/useDolarVariations';
 import {
   Table,
@@ -44,6 +52,64 @@ interface DolaresTableProps {
   isLoading?: boolean;
   favoriteDolarIds: string[];
   onToggleFavorite: (casa: string) => void;
+  onSelectDolar?: (casa: string) => void;
+}
+
+/**
+ * Expanded chart component for a specific dollar
+ */
+function ExpandedDolarChart({ casa, nombre }: { casa: string; nombre: string }) {
+  const { data: chartDataRange, isLoading } = useDolarHistoricoRange(casa, 365); // 1 year
+
+  if (isLoading) {
+    return (
+      <div className="w-full h-96 flex items-center justify-center">
+        <div className="animate-pulse text-secondary">Cargando gráfico...</div>
+      </div>
+    );
+  }
+
+  if (!chartDataRange || !chartDataRange.data || chartDataRange.data.length === 0) {
+    return (
+      <div className="w-full h-96 flex items-center justify-center">
+        <div className="text-secondary text-sm">No hay datos disponibles</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full">
+      <div className="mb-4 flex items-center justify-between">
+        <div>
+          <h3 className="text-lg font-bold text-foreground">{nombre}</h3>
+          <p className="text-xs text-secondary mt-1">Evolución histórica - Último año</p>
+        </div>
+        <div className="text-right">
+          <p className="text-sm text-secondary">Variación anual</p>
+          <p
+            className={`text-lg font-bold tabular-nums ${chartDataRange.changePercent >= 0 ? 'text-error' : 'text-success'}`}
+          >
+            {chartDataRange.changePercent >= 0 ? '+' : ''}
+            {chartDataRange.changePercent.toFixed(2)}%
+          </p>
+        </div>
+      </div>
+      <div className="relative overflow-hidden rounded-lg bg-background-secondary/30">
+        <div className="h-96">
+          <UniversalLightweightChart
+            data={chartDataRange.data.map((d: DolarHistoricoDataPoint) => ({
+              date: d.fecha,
+              value: d.valor,
+            }))}
+            title={nombre}
+            color="#3b82f6"
+            formatValue={(v) => `$${v.toFixed(2)}`}
+            height={384}
+          />
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export function DolaresTable({
@@ -51,15 +117,17 @@ export function DolaresTable({
   isLoading,
   favoriteDolarIds,
   onToggleFavorite,
+  onSelectDolar,
 }: DolaresTableProps) {
   const [sortField, setSortField] = useState<SortField>('nombre');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
+  const [expandedRow, setExpandedRow] = useState<string | null>(null);
 
-  // Obtener datos históricos de todos los dólares
+  // Obtener datos históricos de todos los dólares (30 días)
   const casas = dolares.map((d) => d.casa);
   const { data: historicalData, isLoading: loadingHistorical } = useMultipleDolarHistoricoRange(
     casas,
-    7
+    30
   );
 
   // Sorting logic
@@ -168,7 +236,7 @@ export function DolaresTable({
             </div>
           </TableHeaderCell>
 
-          {/* 7d % */}
+          {/* 30d % */}
           <TableHeaderCell
             align="right"
             sortable
@@ -176,14 +244,14 @@ export function DolaresTable({
             width="10%"
           >
             <div className="flex items-center justify-end gap-2">
-              7d %
+              30d %
               <SortIcon field="sparkline" />
             </div>
           </TableHeaderCell>
 
-          {/* 7D Trend */}
+          {/* 30D Trend */}
           <TableHeaderCell align="center" width="12%">
-            <div className="flex items-center justify-center gap-2">7D Trend</div>
+            <div className="flex items-center justify-center gap-2">30D Trend</div>
           </TableHeaderCell>
 
           {/* Acciones */}
@@ -213,9 +281,11 @@ export function DolaresTable({
                 : 'neutral'
             : 'neutral';
 
+          const isExpanded = expandedRow === dolar.casa;
+
           return (
             <React.Fragment key={dolar.casa}>
-              <TableRow className="group hover:bg-background-secondary/30 transition-colors">
+              <TableRow className="group hover:bg-background-secondary/30 transition-colors relative">
                 {/* Nombre con Logo */}
                 <TableCell>
                   <div className="flex items-center gap-3">
@@ -304,7 +374,25 @@ export function DolaresTable({
                 <TableCell align="right">
                   <div className="flex items-center justify-end gap-1">
                     <button
-                      onClick={() => onToggleFavorite(dolar.casa)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setExpandedRow(isExpanded ? null : dolar.casa);
+                      }}
+                      className={`p-2 rounded-lg transition-all hover:scale-110 active:scale-95 ${
+                        isExpanded
+                          ? 'bg-brand/10 text-brand hover:bg-brand/20'
+                          : 'bg-panel-hover text-foreground/70 hover:text-brand hover:bg-brand/10'
+                      }`}
+                      aria-label={isExpanded ? 'Ocultar gráfico' : 'Ver gráfico'}
+                      title={isExpanded ? 'Ocultar gráfico' : 'Ver gráfico'}
+                    >
+                      <FaChartLine className="text-sm" />
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onToggleFavorite(dolar.casa);
+                      }}
                       className={`p-2 rounded-lg transition-all hover:scale-110 active:scale-95 ${
                         isFavorite
                           ? 'bg-brand/10 text-brand hover:bg-brand/20'
@@ -320,7 +408,8 @@ export function DolaresTable({
                       )}
                     </button>
                     <button
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         navigator.clipboard.writeText(
                           `${dolar.nombre}: $${dolar.venta.toFixed(2)}`
                         );
@@ -332,7 +421,8 @@ export function DolaresTable({
                       <FaCopy className="text-sm" />
                     </button>
                     <button
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         if (navigator.share) {
                           navigator.share({
                             title: dolar.nombre,
@@ -350,37 +440,14 @@ export function DolaresTable({
                 </TableCell>
               </TableRow>
 
-              {/* Expandable row on hover */}
-              <TableRow hoverable={false} className="hidden group-hover:table-row">
-                <TableCell colSpan={7} className="py-4">
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-xs">
-                    <div>
-                      <p className="text-secondary text-[10px] mb-0.5">Casa</p>
-                      <p className="font-semibold text-foreground text-xs uppercase">
-                        {dolar.casa}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-secondary text-[10px] mb-0.5">Última actualización</p>
-                      <p className="font-semibold text-foreground text-xs">
-                        {new Date(dolar.fechaActualizacion).toLocaleString('es-AR', {
-                          day: '2-digit',
-                          month: '2-digit',
-                          hour: '2-digit',
-                          minute: '2-digit',
-                        })}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-secondary text-[10px] mb-0.5">Spread</p>
-                      <p className="font-semibold text-foreground text-xs">
-                        ${(dolar.venta - dolar.compra).toFixed(2)} (
-                        {(((dolar.venta - dolar.compra) / dolar.compra) * 100).toFixed(2)}%)
-                      </p>
-                    </div>
-                  </div>
-                </TableCell>
-              </TableRow>
+              {/* Expandable chart row */}
+              {isExpanded && (
+                <TableRow hoverable={false}>
+                  <TableCell colSpan={7} className="py-6 bg-background-secondary/20">
+                    <ExpandedDolarChart casa={dolar.casa} nombre={dolar.nombre} />
+                  </TableCell>
+                </TableRow>
+              )}
             </React.Fragment>
           );
         })}

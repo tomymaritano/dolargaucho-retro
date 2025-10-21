@@ -25,9 +25,21 @@ import {
   FaSort,
   FaSortUp,
   FaSortDown,
+  FaChartLine,
 } from 'react-icons/fa';
 import { CryptoSparkline } from '@/components/charts/CryptoSparkline';
-import { useMultipleDolarHistoricoRange } from '@/hooks/useDolarHistoricoRange';
+import { UniversalLightweightChart } from '@/components/charts/UniversalLightweightChart';
+import {
+  useMultipleDolarHistoricoRange,
+  useDolarHistoricoRange,
+} from '@/hooks/useDolarHistoricoRange';
+import {
+  useCotizacionHistoricoRange,
+  useMultipleCotizacionesHistoricoRange,
+} from '@/hooks/useCotizacionesHistoricoRange';
+import { useCryptoHistoricoRange } from '@/hooks/useCryptoHistoricalRange';
+import type { DolarHistoricoDataPoint } from '@/hooks/useDolarHistoricoRange';
+import type { CotizacionHistoricoDataPoint } from '@/hooks/useCotizacionesHistoricoRange';
 import type { DolarWithVariation } from '@/hooks/useDolarVariations';
 import type { CotizacionWithVariation } from '@/hooks/useCotizaciones';
 import type { CryptoData } from '@/types/api/crypto';
@@ -41,10 +53,182 @@ interface FavoritesListProps {
   onToggleDolar: (casa: string) => void;
   onToggleCurrency: (moneda: string) => void;
   onToggleCrypto: (id: string) => void;
+  onSelectItem?: (id: string) => void;
 }
 
 type SortField = 'nombre' | 'precioUSD' | 'precioARS' | 'variacion';
 type SortDirection = 'asc' | 'desc';
+
+/**
+ * Expanded chart component for a specific dollar
+ */
+function ExpandedDolarChart({ casa, nombre }: { casa: string; nombre: string }) {
+  const { data: chartDataRange, isLoading } = useDolarHistoricoRange(casa, 365);
+
+  if (isLoading) {
+    return (
+      <div className="w-full h-96 flex items-center justify-center">
+        <div className="animate-pulse text-secondary">Cargando gráfico...</div>
+      </div>
+    );
+  }
+
+  if (!chartDataRange || !chartDataRange.data || chartDataRange.data.length === 0) {
+    return (
+      <div className="w-full h-96 flex items-center justify-center">
+        <div className="text-secondary text-sm">No hay datos disponibles</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full">
+      <div className="mb-4 flex items-center justify-between">
+        <div>
+          <h3 className="text-lg font-bold text-foreground">{nombre}</h3>
+          <p className="text-xs text-secondary mt-1">Evolución histórica - Último año</p>
+        </div>
+        <div className="text-right">
+          <p className="text-sm text-secondary">Variación anual</p>
+          <p
+            className={`text-lg font-bold tabular-nums ${chartDataRange.changePercent >= 0 ? 'text-error' : 'text-success'}`}
+          >
+            {chartDataRange.changePercent >= 0 ? '+' : ''}
+            {chartDataRange.changePercent.toFixed(2)}%
+          </p>
+        </div>
+      </div>
+      <div className="relative overflow-hidden rounded-lg bg-background-secondary/30">
+        <div className="h-96">
+          <UniversalLightweightChart
+            data={chartDataRange.data.map((d: DolarHistoricoDataPoint) => ({
+              date: d.fecha,
+              value: d.valor,
+            }))}
+            title={nombre}
+            color="#3b82f6"
+            formatValue={(v) => `$${v.toFixed(2)}`}
+            height={384}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Expanded chart component for a specific currency
+ */
+function ExpandedCurrencyChart({ moneda, nombre }: { moneda: string; nombre: string }) {
+  const { data: chartDataRange, isLoading } = useCotizacionHistoricoRange(
+    moneda.toLowerCase(),
+    365
+  );
+
+  if (isLoading) {
+    return (
+      <div className="w-full h-96 flex items-center justify-center">
+        <div className="animate-pulse text-secondary">Cargando gráfico...</div>
+      </div>
+    );
+  }
+
+  if (!chartDataRange || !chartDataRange.data || chartDataRange.data.length === 0) {
+    return (
+      <div className="w-full h-96 flex items-center justify-center">
+        <div className="text-secondary text-sm">No hay datos disponibles</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full">
+      <div className="mb-4 flex items-center justify-between">
+        <div>
+          <h3 className="text-lg font-bold text-foreground">{nombre}</h3>
+          <p className="text-xs text-secondary mt-1">Evolución histórica - Último año</p>
+        </div>
+        <div className="text-right">
+          <p className="text-sm text-secondary">Variación anual</p>
+          <p
+            className={`text-lg font-bold tabular-nums ${chartDataRange.changePercent >= 0 ? 'text-error' : 'text-success'}`}
+          >
+            {chartDataRange.changePercent >= 0 ? '+' : ''}
+            {chartDataRange.changePercent.toFixed(2)}%
+          </p>
+        </div>
+      </div>
+      <div className="relative overflow-hidden rounded-lg bg-background-secondary/30">
+        <div className="h-96">
+          <UniversalLightweightChart
+            data={chartDataRange.data.map((d: CotizacionHistoricoDataPoint) => ({
+              date: d.fecha,
+              value: d.valor,
+            }))}
+            title={nombre}
+            color="#10b981"
+            formatValue={(v) => `$${v.toFixed(2)}`}
+            height={384}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Expanded chart component for a specific cryptocurrency
+ */
+function ExpandedCryptoChart({ cryptoId, name }: { cryptoId: string; name: string }) {
+  const { data: chartDataRange, isLoading } = useCryptoHistoricoRange(cryptoId, 365);
+
+  if (isLoading) {
+    return (
+      <div className="w-full h-96 flex items-center justify-center">
+        <div className="animate-pulse text-secondary">Cargando gráfico...</div>
+      </div>
+    );
+  }
+
+  if (!chartDataRange || !chartDataRange.data || chartDataRange.data.length === 0) {
+    return (
+      <div className="w-full h-96 flex items-center justify-center">
+        <div className="text-secondary text-sm">No hay datos disponibles</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full">
+      <div className="mb-4 flex items-center justify-between">
+        <div>
+          <h3 className="text-lg font-bold text-foreground">{name}</h3>
+          <p className="text-xs text-secondary mt-1">Evolución histórica - Último año</p>
+        </div>
+        <div className="text-right">
+          <p className="text-sm text-secondary">Variación anual</p>
+          <p
+            className={`text-lg font-bold tabular-nums ${chartDataRange.changePercent >= 0 ? 'text-success' : 'text-error'}`}
+          >
+            {chartDataRange.changePercent >= 0 ? '+' : ''}
+            {chartDataRange.changePercent.toFixed(2)}%
+          </p>
+        </div>
+      </div>
+      <div className="relative overflow-hidden rounded-lg bg-background-secondary/30">
+        <div className="h-96">
+          <UniversalLightweightChart
+            data={chartDataRange.data.map((d) => ({ date: d.fecha, value: d.valor }))}
+            title={name}
+            color="#f59e0b"
+            formatValue={(v) => `$${v.toFixed(2)}`}
+            height={384}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function FavoritesList({
   items,
@@ -52,9 +236,11 @@ export function FavoritesList({
   onToggleDolar,
   onToggleCurrency,
   onToggleCrypto,
+  onSelectItem,
 }: FavoritesListProps) {
   const [sortField, setSortField] = useState<SortField>('nombre');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
+  const [expandedRow, setExpandedRow] = useState<string | null>(null);
   // Extract dolar casas for historical data
   const dolarCasas = items
     .filter(
@@ -63,9 +249,21 @@ export function FavoritesList({
     )
     .map((d) => d.casa);
 
-  // Fetch 7-day historical data for dolares
+  // Extract currency monedas for historical data
+  const currencyMonedas = items
+    .filter(
+      (item): item is CotizacionWithVariation =>
+        'casa' in item && 'moneda' in item && item.moneda !== 'USD'
+    )
+    .map((c) => c.moneda.toLowerCase());
+
+  // Fetch 30-day historical data for dolares
   const { data: dolarHistorical, isLoading: loadingDolarHistorical } =
-    useMultipleDolarHistoricoRange(dolarCasas, 7);
+    useMultipleDolarHistoricoRange(dolarCasas, 30);
+
+  // Fetch 30-day historical data for currencies
+  const { data: currencyHistorical, isLoading: loadingCurrencyHistorical } =
+    useMultipleCotizacionesHistoricoRange(currencyMonedas, 30);
 
   // Sorting logic
   const sortedItems = useMemo(() => {
@@ -209,7 +407,7 @@ export function FavoritesList({
             </div>
           </TableHeaderCell>
           <TableHeaderCell align="center" width="12%">
-            7D Trend
+            30D Trend
           </TableHeaderCell>
           <TableHeaderCell align="right" width="14%">
             Acciones
@@ -228,6 +426,7 @@ export function FavoritesList({
             const TrendIcon = trend === 'up' ? FaArrowUp : trend === 'down' ? FaArrowDown : FaMinus;
             const trendColor =
               trend === 'up' ? 'text-error' : trend === 'down' ? 'text-success' : 'text-warning';
+            const isExpanded = expandedRow === `dolar-${dolar.casa}`;
 
             return (
               <React.Fragment key={`dolar-${dolar.casa}`}>
@@ -286,7 +485,25 @@ export function FavoritesList({
                   <TableCell align="right">
                     <div className="flex items-center justify-end gap-1">
                       <button
-                        onClick={() => onToggleDolar(dolar.casa)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setExpandedRow(isExpanded ? null : `dolar-${dolar.casa}`);
+                        }}
+                        className={`p-2 rounded-lg transition-all hover:scale-110 active:scale-95 ${
+                          isExpanded
+                            ? 'bg-brand/10 text-brand hover:bg-brand/20'
+                            : 'bg-panel-hover text-foreground/70 hover:text-brand hover:bg-brand/10'
+                        }`}
+                        aria-label={isExpanded ? 'Ocultar gráfico' : 'Ver gráfico'}
+                        title={isExpanded ? 'Ocultar gráfico' : 'Ver gráfico'}
+                      >
+                        <FaChartLine className="text-sm" />
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onToggleDolar(dolar.casa);
+                        }}
                         className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 bg-brand/10 text-brand hover:bg-brand/20"
                         aria-label="Quitar de favoritos"
                         title="Quitar de favoritos"
@@ -294,7 +511,8 @@ export function FavoritesList({
                         <FaStar className="text-sm" />
                       </button>
                       <button
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
                           navigator.clipboard.writeText(
                             `${dolar.nombre}: $${dolar.venta.toFixed(2)}`
                           );
@@ -306,7 +524,8 @@ export function FavoritesList({
                         <FaCopy className="text-sm" />
                       </button>
                       <button
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
                           if (navigator.share) {
                             navigator.share({
                               title: dolar.nombre,
@@ -323,6 +542,15 @@ export function FavoritesList({
                     </div>
                   </TableCell>
                 </TableRow>
+
+                {/* Expandable chart row */}
+                {isExpanded && (
+                  <TableRow hoverable={false}>
+                    <TableCell colSpan={6} className="py-6 bg-background-secondary/20">
+                      <ExpandedDolarChart casa={dolar.casa} nombre={dolar.nombre} />
+                    </TableCell>
+                  </TableRow>
+                )}
               </React.Fragment>
             );
           } else if (isCrypto) {
@@ -335,6 +563,7 @@ export function FavoritesList({
             };
             const trend24h = getTrendData(crypto.price_change_percentage_24h);
             const TrendIcon = trend24h.icon;
+            const isExpanded = expandedRow === `crypto-${crypto.id}`;
 
             return (
               <React.Fragment key={`crypto-${crypto.id}`}>
@@ -405,7 +634,25 @@ export function FavoritesList({
                   <TableCell align="right">
                     <div className="flex items-center justify-end gap-1">
                       <button
-                        onClick={() => onToggleCrypto(crypto.id)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setExpandedRow(isExpanded ? null : `crypto-${crypto.id}`);
+                        }}
+                        className={`p-2 rounded-lg transition-all hover:scale-110 active:scale-95 ${
+                          isExpanded
+                            ? 'bg-brand/10 text-brand hover:bg-brand/20'
+                            : 'bg-panel-hover text-foreground/70 hover:text-brand hover:bg-brand/10'
+                        }`}
+                        aria-label={isExpanded ? 'Ocultar gráfico' : 'Ver gráfico'}
+                        title={isExpanded ? 'Ocultar gráfico' : 'Ver gráfico'}
+                      >
+                        <FaChartLine className="text-sm" />
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onToggleCrypto(crypto.id);
+                        }}
                         className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 bg-brand/10 text-brand hover:bg-brand/20"
                         aria-label="Quitar de favoritos"
                         title="Quitar de favoritos"
@@ -413,7 +660,8 @@ export function FavoritesList({
                         <FaStar className="text-sm" />
                       </button>
                       <button
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
                           const price = formatPrice(crypto.current_price);
                           navigator.clipboard.writeText(`${crypto.name}: ${price}`);
                         }}
@@ -424,7 +672,8 @@ export function FavoritesList({
                         <FaCopy className="text-sm" />
                       </button>
                       <button
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
                           if (navigator.share) {
                             const price = formatPrice(crypto.current_price);
                             navigator.share({
@@ -443,43 +692,14 @@ export function FavoritesList({
                   </TableCell>
                 </TableRow>
 
-                {/* Expandable Row */}
-                <TableRow hoverable={false} className="hidden group-hover:table-row">
-                  <TableCell colSpan={6} className="py-4">
-                    <div className="grid grid-cols-2 md:grid-cols-5 gap-3 text-xs">
-                      <div>
-                        <p className="text-secondary text-[10px] mb-0.5">Market Cap</p>
-                        <p className="font-semibold text-foreground text-xs">
-                          {formatMarketCap(crypto.market_cap)}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-secondary text-[10px] mb-0.5">24h High</p>
-                        <p className="font-semibold text-success text-xs">
-                          {formatPrice(crypto.high_24h)}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-secondary text-[10px] mb-0.5">24h Low</p>
-                        <p className="font-semibold text-error text-xs">
-                          {formatPrice(crypto.low_24h)}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-secondary text-[10px] mb-0.5">Volumen 24h</p>
-                        <p className="font-semibold text-foreground text-xs">
-                          {formatMarketCap(crypto.total_volume)}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-secondary text-[10px] mb-0.5">Suministro</p>
-                        <p className="font-semibold text-foreground text-xs">
-                          {formatMarketCap(crypto.circulating_supply)} {crypto.symbol.toUpperCase()}
-                        </p>
-                      </div>
-                    </div>
-                  </TableCell>
-                </TableRow>
+                {/* Expandable chart row */}
+                {isExpanded && (
+                  <TableRow hoverable={false}>
+                    <TableCell colSpan={6} className="py-6 bg-background-secondary/20">
+                      <ExpandedCryptoChart cryptoId={crypto.id} name={crypto.name} />
+                    </TableCell>
+                  </TableRow>
+                )}
               </React.Fragment>
             );
           } else {
@@ -488,6 +708,18 @@ export function FavoritesList({
             const TrendIcon = trend === 'up' ? FaArrowUp : trend === 'down' ? FaArrowDown : FaMinus;
             const trendColor =
               trend === 'up' ? 'text-error' : trend === 'down' ? 'text-success' : 'text-warning';
+            const isExpanded = expandedRow === `currency-${cotizacion.moneda}`;
+
+            // Datos históricos para sparkline
+            const sparklineData = currencyHistorical?.[cotizacion.moneda];
+            const sparklineValues = sparklineData?.data.map((d) => d.valor) || [];
+            const sparklineTrend = sparklineData
+              ? sparklineData.changePercent > 0
+                ? 'up'
+                : sparklineData.changePercent < 0
+                  ? 'down'
+                  : 'neutral'
+              : 'neutral';
 
             return (
               <React.Fragment key={`currency-${cotizacion.moneda}`}>
@@ -521,14 +753,44 @@ export function FavoritesList({
                     </div>
                   </TableCell>
                   <TableCell align="center">
-                    <span className="text-xs text-secondary">-</span>
+                    <div className="flex items-center justify-center">
+                      {loadingCurrencyHistorical ? (
+                        <div className="w-28 h-12 mx-auto bg-white/5 rounded animate-pulse" />
+                      ) : sparklineValues.length > 0 ? (
+                        <CryptoSparkline
+                          data={sparklineValues}
+                          trend={sparklineTrend}
+                          isCrypto={false}
+                        />
+                      ) : (
+                        <span className="text-xs text-secondary">-</span>
+                      )}
+                    </div>
                   </TableCell>
 
                   {/* Acciones - nueva columna */}
                   <TableCell align="right">
                     <div className="flex items-center justify-end gap-1">
                       <button
-                        onClick={() => onToggleCurrency(cotizacion.moneda)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setExpandedRow(isExpanded ? null : `currency-${cotizacion.moneda}`);
+                        }}
+                        className={`p-2 rounded-lg transition-all hover:scale-110 active:scale-95 ${
+                          isExpanded
+                            ? 'bg-brand/10 text-brand hover:bg-brand/20'
+                            : 'bg-panel-hover text-foreground/70 hover:text-brand hover:bg-brand/10'
+                        }`}
+                        aria-label={isExpanded ? 'Ocultar gráfico' : 'Ver gráfico'}
+                        title={isExpanded ? 'Ocultar gráfico' : 'Ver gráfico'}
+                      >
+                        <FaChartLine className="text-sm" />
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onToggleCurrency(cotizacion.moneda);
+                        }}
                         className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 bg-brand/10 text-brand hover:bg-brand/20"
                         aria-label="Quitar de favoritos"
                         title="Quitar de favoritos"
@@ -536,7 +798,8 @@ export function FavoritesList({
                         <FaStar className="text-sm" />
                       </button>
                       <button
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
                           navigator.clipboard.writeText(
                             `${cotizacion.nombre}: $${cotizacion.venta.toFixed(2)}`
                           );
@@ -548,7 +811,8 @@ export function FavoritesList({
                         <FaCopy className="text-sm" />
                       </button>
                       <button
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
                           if (navigator.share) {
                             navigator.share({
                               title: cotizacion.nombre,
@@ -565,6 +829,18 @@ export function FavoritesList({
                     </div>
                   </TableCell>
                 </TableRow>
+
+                {/* Expandable chart row */}
+                {isExpanded && (
+                  <TableRow hoverable={false}>
+                    <TableCell colSpan={6} className="py-6 bg-background-secondary/20">
+                      <ExpandedCurrencyChart
+                        moneda={cotizacion.moneda}
+                        nombre={cotizacion.nombre}
+                      />
+                    </TableCell>
+                  </TableRow>
+                )}
               </React.Fragment>
             );
           }

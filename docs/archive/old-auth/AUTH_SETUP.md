@@ -25,12 +25,14 @@ Documentación completa del sistema de autenticación con Supabase y modo demo.
 ## 🎭 Modo Demo vs Producción
 
 ### Modo Demo (Sin Supabase)
+
 - Los datos se guardan en `localStorage`
 - Ideal para desarrollo y testing
 - No requiere configuración
 - Se activa automáticamente si no hay credenciales de Supabase
 
 ### Modo Producción (Con Supabase)
+
 - Autenticación real con Supabase Auth
 - Base de datos PostgreSQL
 - OAuth con providers externos
@@ -48,6 +50,7 @@ Documentación completa del sistema de autenticación con Supabase y modo demo.
 ### 2. Obtener credenciales
 
 En tu proyecto de Supabase:
+
 1. Ve a **Settings** → **API**
 2. Copia el **Project URL** y el **anon/public key**
 3. Crea un archivo `.env.local` en la raíz del proyecto:
@@ -61,12 +64,14 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=tu-anon-key-aqui
 ### 3. Configurar Auth Providers (Opcional)
 
 #### Google OAuth
+
 1. Ve a **Authentication** → **Providers** → **Google**
 2. Habilita el provider
 3. Sigue las instrucciones para crear OAuth app en Google Cloud Console
 4. Agrega las credenciales en Supabase
 
 #### GitHub OAuth
+
 1. Ve a **Authentication** → **Providers** → **GitHub**
 2. Habilita el provider
 3. Crea una OAuth app en GitHub Settings
@@ -75,6 +80,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=tu-anon-key-aqui
 ### 4. Configurar URLs de Redirect
 
 En **Authentication** → **URL Configuration**:
+
 - **Site URL**: `http://localhost:3000` (desarrollo)
 - **Redirect URLs**:
   - `http://localhost:3000/auth/callback`
@@ -332,10 +338,11 @@ POST /api/leads
 ```json
 {
   "email": "user@example.com",
-  "name": "Juan Pérez",          // opcional
-  "source": "homepage",           // homepage | register | newsletter | cta | other
+  "name": "Juan Pérez", // opcional
+  "source": "homepage", // homepage | register | newsletter | cta | other
   "subscribed_to_newsletter": true,
-  "metadata": {                   // opcional
+  "metadata": {
+    // opcional
     "utm_source": "google",
     "utm_campaign": "verano2025"
   }
@@ -394,6 +401,7 @@ function HomePage() {
 ## 🧪 Testing
 
 Modo demo permite testing sin configuración:
+
 1. No configures variables de entorno
 2. La app usará localStorage automáticamente
 3. Puedes probar login/registro sin backend
@@ -420,6 +428,7 @@ Modo demo permite testing sin configuración:
 ## 🆘 Soporte
 
 Si tienes problemas:
+
 1. Revisa que las variables de entorno estén correctas
 2. Verifica que las tablas estén creadas en Supabase
 3. Revisa la consola del navegador para errores

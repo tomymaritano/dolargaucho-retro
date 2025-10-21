@@ -8,6 +8,8 @@ import { FREDSection } from '@/components/calculadoras/FREDSection';
 import { ArgentinaUSAComparison } from '@/components/calculadoras/ArgentinaUSAComparison';
 import { useFredData } from '@/hooks/useFredData';
 import { useInflacionMensual } from '@/hooks/useFinanzas';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { FaCalculator } from 'react-icons/fa';
 
 // Loading skeleton for lazy-loaded calculators
 const LoadingSkeleton = () => (
@@ -93,6 +95,14 @@ export default function CalculadorasPage() {
   return (
     <DashboardLayout>
       <div className="space-y-6 max-w-7xl mx-auto">
+        {/* Page Header */}
+        <PageHeader
+          breadcrumbs={[{ label: 'Dashboard', href: '/dashboard' }, { label: 'Calculadoras' }]}
+          icon={FaCalculator}
+          title="Calculadoras Financieras"
+          description="Simula inversiones, compara activos y calcula rendimientos con datos en tiempo real"
+        />
+
         {/* Calculator Navigation Tabs */}
         <CalculatorTabs activeTab={activeTab} onTabChange={setActiveTab} />
 

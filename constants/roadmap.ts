@@ -15,6 +15,12 @@ import {
   FaUsers,
   FaFileExport,
   FaComments,
+  FaEnvelope,
+  FaShieldAlt,
+  FaFlask,
+  FaDiscord,
+  FaChartBar,
+  FaWallet,
 } from 'react-icons/fa';
 
 export type RoadmapStatus = 'completed' | 'in-progress' | 'planned';
@@ -34,6 +40,10 @@ export interface RoadmapFeature {
   priority?: 'high' | 'medium' | 'low';
   /** User votes (future feature) */
   votes?: number;
+  /** Estimated effort (in weeks) */
+  effort?: string;
+  /** Target quarter (Q1 2025, Q2 2025, etc.) */
+  quarter?: string;
 }
 
 export const ROADMAP_FEATURES: RoadmapFeature[] = [
@@ -93,7 +103,9 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     status: 'in-progress',
     icon: FaMobileAlt,
     category: 'Platform',
-    progress: 65,
+    progress: 75,
+    quarter: 'Q1 2025',
+    effort: '2 semanas',
   },
   {
     id: 'api-public',
@@ -102,7 +114,9 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     status: 'in-progress',
     icon: FaCode,
     category: 'Platform',
-    progress: 40,
+    progress: 50,
+    quarter: 'Q2 2025',
+    effort: '3-4 semanas',
   },
   {
     id: 'auth-system',
@@ -111,28 +125,97 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     status: 'in-progress',
     icon: FaLock,
     category: 'Core',
-    progress: 80,
+    progress: 90,
+    quarter: 'Q1 2025',
+    effort: '2 semanas',
   },
 
-  // ========== PLANNED ==========
+  // ========== PLANNED - Q1 2025 (Próximos 3 meses) ==========
+  {
+    id: 'discord-community',
+    title: 'Discord Server',
+    description: 'Comunidad en Discord para usuarios activos, discusiones y soporte',
+    status: 'planned',
+    icon: FaDiscord,
+    category: 'Social',
+    priority: 'high',
+    quarter: 'Q1 2025',
+    effort: '1-2 semanas',
+    votes: 178,
+  },
+  {
+    id: 'email-service',
+    title: 'Servicio de Email',
+    description:
+      'Integración con Resend/SendGrid para alertas, newsletter y recuperación de contraseña',
+    status: 'planned',
+    icon: FaEnvelope,
+    category: 'Core',
+    priority: 'high',
+    quarter: 'Q1 2025',
+    effort: '1 semana',
+    votes: 156,
+  },
+  {
+    id: 'alerts-backend',
+    title: 'Alertas Backend Funcional',
+    description: 'Backend completo con Supabase y notificaciones por email',
+    status: 'planned',
+    icon: FaBell,
+    category: 'Features',
+    priority: 'high',
+    quarter: 'Q1 2025',
+    effort: '2 semanas',
+    votes: 198,
+  },
+  {
+    id: 'testing-suite',
+    title: 'Testing Suite (60% Coverage)',
+    description: 'Tests unitarios, integración y E2E con Jest, Testing Library y Playwright',
+    status: 'planned',
+    icon: FaFlask,
+    category: 'DevOps',
+    priority: 'high',
+    quarter: 'Q1 2025',
+    effort: '3 semanas',
+    votes: 134,
+  },
+  {
+    id: 'security-improvements',
+    title: 'Mejoras de Seguridad',
+    description: 'Refresh tokens, CSP headers, rate limiting global y auditoría de seguridad',
+    status: 'planned',
+    icon: FaShieldAlt,
+    category: 'Core',
+    priority: 'high',
+    quarter: 'Q1 2025',
+    effort: '2 semanas',
+    votes: 165,
+  },
+
+  // ========== PLANNED - Q2 2025 (3-6 meses) ==========
   {
     id: 'ai-insights',
     title: 'Insights con IA',
-    description: 'Análisis predictivo y recomendaciones personalizadas usando AI/ML',
+    description: 'Análisis predictivo y recomendaciones personalizadas usando OpenAI GPT-4',
     status: 'planned',
     icon: FaRobot,
     category: 'AI',
     priority: 'high',
+    quarter: 'Q2 2025',
+    effort: '4 semanas',
     votes: 245,
   },
   {
     id: 'advanced-search',
     title: 'Búsqueda Avanzada',
-    description: 'Búsqueda global con filtros avanzados y búsqueda semántica',
+    description: 'Búsqueda global con filtros avanzados, fuzzy search y búsqueda semántica',
     status: 'planned',
     icon: FaSearch,
     category: 'UX',
     priority: 'high',
+    quarter: 'Q2 2025',
+    effort: '2 semanas',
     votes: 189,
   },
   {
@@ -143,8 +226,37 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     icon: FaFileExport,
     category: 'Features',
     priority: 'medium',
+    quarter: 'Q2 2025',
+    effort: '2 semanas',
     votes: 156,
   },
+  {
+    id: 'interactive-charts',
+    title: 'Gráficos Interactivos Mejorados',
+    description: 'Charts con zoom, pan, anotaciones y comparación de múltiples indicadores',
+    status: 'planned',
+    icon: FaChartBar,
+    category: 'Features',
+    priority: 'medium',
+    quarter: 'Q2 2025',
+    effort: '3 semanas',
+    votes: 142,
+  },
+  {
+    id: 'wallet-integration',
+    title: 'Integración con Billeteras',
+    description:
+      'Conectar Mercado Pago, Ualá, MetaMask para mostrar saldos reales y hacer simulaciones',
+    status: 'planned',
+    icon: FaWallet,
+    category: 'Features',
+    priority: 'high',
+    quarter: 'Q2 2025',
+    effort: '6 semanas',
+    votes: 223,
+  },
+
+  // ========== PLANNED - FUTURO (6+ meses) ==========
   {
     id: 'multi-language',
     title: 'Multiidioma',
@@ -153,16 +265,20 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     icon: FaGlobe,
     category: 'Platform',
     priority: 'medium',
+    quarter: 'Q3 2025',
+    effort: '3 semanas',
     votes: 134,
   },
   {
     id: 'community',
     title: 'Comunidad y Foros',
-    description: 'Espacio para discutir economía, compartir análisis y hacer preguntas',
+    description: 'Migración a Discourse para foros avanzados y comunidad escalable',
     status: 'planned',
     icon: FaComments,
     category: 'Social',
     priority: 'low',
+    quarter: 'Q3 2025',
+    effort: '4 semanas',
     votes: 98,
   },
   {
@@ -173,6 +289,8 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     icon: FaUsers,
     category: 'Social',
     priority: 'low',
+    quarter: 'Q4 2025',
+    effort: '3 semanas',
     votes: 87,
   },
 ];
@@ -186,4 +304,5 @@ export const ROADMAP_CATEGORIES = [
   'UX',
   'AI',
   'Social',
+  'DevOps',
 ];

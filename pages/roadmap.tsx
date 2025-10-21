@@ -12,7 +12,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { UnifiedNavbarMarketing } from '@/components/layouts/UnifiedNavbarMarketing';
+import { NavbarFloating } from '@/components/NavbarFloating';
 import Footer from '@/components/Footer';
 import { GradientText } from '@/components/ui/GradientText';
 import { SpotlightCard } from '@/components/ui/SpotlightCard';
@@ -24,7 +24,15 @@ import {
   RoadmapFeature,
   RoadmapStatus,
 } from '@/constants/roadmap';
-import { FaCheckCircle, FaSpinner, FaClock, FaFilter, FaThumbsUp } from 'react-icons/fa';
+import {
+  FaCheckCircle,
+  FaSpinner,
+  FaClock,
+  FaFilter,
+  FaThumbsUp,
+  FaCalendarAlt,
+  FaHourglass,
+} from 'react-icons/fa';
 
 const statusConfig = {
   completed: {
@@ -79,7 +87,7 @@ export default function RoadmapPage() {
 
   return (
     <div className="text-foreground min-h-screen font-sans">
-      <UnifiedNavbarMarketing />
+      <NavbarFloating />
 
       {/* Hero Section */}
       <section className="relative w-full bg-background text-foreground pt-32 pb-20 px-6">
@@ -281,6 +289,24 @@ export default function RoadmapPage() {
                         <p className="text-sm text-secondary leading-relaxed mb-4">
                           {feature.description}
                         </p>
+
+                        {/* Metadata badges */}
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          {feature.quarter && (
+                            <div className="flex items-center gap-1 px-2 py-1 bg-white/5 rounded-md">
+                              <FaCalendarAlt className="text-brand text-xs" />
+                              <span className="text-xs font-semibold text-foreground">
+                                {feature.quarter}
+                              </span>
+                            </div>
+                          )}
+                          {feature.effort && (
+                            <div className="flex items-center gap-1 px-2 py-1 bg-white/5 rounded-md">
+                              <FaHourglass className="text-secondary text-xs" />
+                              <span className="text-xs text-secondary">{feature.effort}</span>
+                            </div>
+                          )}
+                        </div>
 
                         {/* Footer - Status specific info */}
                         <div className="pt-4 border-t border-white/5 mt-auto">

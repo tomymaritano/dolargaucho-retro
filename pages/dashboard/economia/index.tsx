@@ -10,7 +10,6 @@
 
 import React from 'react';
 import { DashboardLayout } from '@/components/layouts/DashboardLayout';
-import { Breadcrumb, type BreadcrumbItem } from '@/components/ui/Breadcrumb';
 import { Card } from '@/components/ui/Card/Card';
 import Link from 'next/link';
 import {
@@ -28,13 +27,7 @@ import {
   useUltimoRiesgoPais,
   useUltimaTasaPlazoFijo,
 } from '@/hooks/useFinanzas';
-
-const breadcrumbItems: BreadcrumbItem[] = [
-  {
-    label: 'Economía',
-    icon: FaUniversity,
-  },
-];
+import { PageHeader } from '@/components/ui/PageHeader';
 
 const economiaCards = [
   {
@@ -105,16 +98,21 @@ export default function EconomiaHubPage() {
   return (
     <DashboardLayout>
       <div className="space-y-6">
-        {/* Breadcrumb */}
-        <Breadcrumb items={breadcrumbItems} />
-
         {/* Page Header */}
+        <PageHeader
+          breadcrumbs={[{ label: 'Dashboard', href: '/dashboard' }, { label: 'Economía' }]}
+          icon={FaUniversity}
+          title="Hub de Economía"
+          description="Indicadores macroeconómicos y datos del mercado financiero argentino"
+        />
+
+        {/* Page Section Header - Preserved for context */}
         <div className="flex items-start justify-between flex-wrap gap-4">
           <div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-2 flex items-center gap-3">
-              <FaUniversity className="text-brand" />
-              Economía
-            </h1>
+            <h2 className="text-2xl font-bold text-foreground mb-2 flex items-center gap-3">
+              <FaGlobeAmericas className="text-brand" />
+              Indicadores Principales
+            </h2>
             <p className="text-secondary text-lg">Indicadores económicos de Argentina y el mundo</p>
           </div>
         </div>

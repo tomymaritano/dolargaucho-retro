@@ -6,6 +6,7 @@ import { ProximosEventos } from '@/components/calendario/ProximosEventos';
 import { useFeriadosActuales, useEventosPresidenciales } from '@/hooks/useEventos';
 import type { Feriado, EventoPresidencial } from '@/types/api/argentina';
 import { FaCalendarAlt, FaCalendarDay, FaMapMarkerAlt, FaSpinner } from 'react-icons/fa';
+import { PageHeader } from '@/components/ui/PageHeader';
 
 export default function CalendarioPage() {
   const hoy = new Date();
@@ -89,11 +90,14 @@ export default function CalendarioPage() {
 
   return (
     <DashboardLayout>
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold gradient-text mb-2">Calendario de Eventos</h1>
-        <p className="text-secondary">Feriados nacionales y eventos presidenciales de Argentina</p>
-      </div>
+      {/* Page Header */}
+      <PageHeader
+        breadcrumbs={[{ label: 'Dashboard', href: '/dashboard' }, { label: 'Calendario' }]}
+        icon={FaCalendarAlt}
+        title="Calendario de Eventos"
+        titleGradient
+        description="Feriados nacionales y eventos presidenciales de Argentina"
+      />
 
       {/* Quick Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">

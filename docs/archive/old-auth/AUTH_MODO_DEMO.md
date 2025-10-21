@@ -206,6 +206,7 @@ Cuando estás en modo demo, verás un banner en el login/register:
 ⚠️ **IMPORTANTE:** El modo demo es **solo para desarrollo**.
 
 **NO uses modo demo en producción** porque:
+
 - ❌ Las contraseñas se hashean pero están en el navegador
 - ❌ Cualquiera con acceso al navegador puede ver los datos
 - ❌ Los datos se pierden si se limpia el navegador
@@ -242,18 +243,18 @@ El sistema detectará automáticamente Supabase y cambiará de modo demo a produ
 
 ## 📊 Comparación: Demo vs Producción
 
-| Feature | Modo Demo | Modo Producción (Supabase) |
-|---------|-----------|----------------------------|
-| **Configuración** | ✅ Ninguna | ⚠️ Requiere Supabase |
-| **Base de datos** | localStorage | PostgreSQL |
-| **Sincronización** | ❌ Solo local | ✅ Multi-dispositivo |
-| **Email confirmación** | ❌ No | ✅ Sí |
-| **OAuth (Google/GitHub)** | ❌ No | ✅ Sí |
-| **Persistencia** | Browser only | ✅ Servidor |
-| **Seguridad** | ⚠️ Básica | ✅ Enterprise |
-| **Costo** | ✅ Gratis | ✅ Gratis (hasta 50k users) |
-| **Para desarrollo** | ✅✅✅ Perfecto | ⚠️ Overkill |
-| **Para producción** | ❌ No recomendado | ✅✅✅ Recomendado |
+| Feature                   | Modo Demo         | Modo Producción (Supabase)  |
+| ------------------------- | ----------------- | --------------------------- |
+| **Configuración**         | ✅ Ninguna        | ⚠️ Requiere Supabase        |
+| **Base de datos**         | localStorage      | PostgreSQL                  |
+| **Sincronización**        | ❌ Solo local     | ✅ Multi-dispositivo        |
+| **Email confirmación**    | ❌ No             | ✅ Sí                       |
+| **OAuth (Google/GitHub)** | ❌ No             | ✅ Sí                       |
+| **Persistencia**          | Browser only      | ✅ Servidor                 |
+| **Seguridad**             | ⚠️ Básica         | ✅ Enterprise               |
+| **Costo**                 | ✅ Gratis         | ✅ Gratis (hasta 50k users) |
+| **Para desarrollo**       | ✅✅✅ Perfecto   | ⚠️ Overkill                 |
+| **Para producción**       | ❌ No recomendado | ✅✅✅ Recomendado          |
 
 ## 🧹 Limpiar Datos de Demo
 
@@ -282,7 +283,7 @@ localStorage.clear();
 
 ```javascript
 // En DevTools Console
-JSON.parse(localStorage.getItem('dg_demo_users'))
+JSON.parse(localStorage.getItem('dg_demo_users'));
 ```
 
 Deberías ver tu usuario ahí.
@@ -293,7 +294,7 @@ Deberías ver tu usuario ahí.
 
 ```javascript
 // En DevTools Console
-JSON.parse(localStorage.getItem('dg_demo_session'))
+JSON.parse(localStorage.getItem('dg_demo_session'));
 ```
 
 Si no hay sesión, registrate/logeate de nuevo.
@@ -301,6 +302,7 @@ Si no hay sesión, registrate/logeate de nuevo.
 ### Problema: Dice "Credenciales inválidas"
 
 **Causas posibles:**
+
 1. Email o password incorrectos
 2. Usuario no existe (registrate primero)
 3. Password debe tener mínimo 6 caracteres
@@ -327,6 +329,7 @@ npm test -- auth-system.test.tsx
 ```
 
 Los tests cubren:
+
 - ✅ Registro de usuarios
 - ✅ Login correcto
 - ✅ Login con credenciales inválidas
@@ -354,6 +357,7 @@ Cada uno tendrá sus propias preferencias y favoritos.
 Abrí DevTools → Application → Local Storage → localhost:3000
 
 Vas a ver todas las keys:
+
 - `dg_demo_users` - Todos los usuarios registrados
 - `dg_demo_session` - Sesión actual
 - `dg_demo_preferences` - Preferencias por usuario
@@ -371,8 +375,9 @@ location.reload();
 
 ```javascript
 console.table(
-  Object.entries(JSON.parse(localStorage.getItem('dg_demo_users') || '{}'))
-    .map(([email, data]) => ({ email, id: data.id }))
+  Object.entries(JSON.parse(localStorage.getItem('dg_demo_users') || '{}')).map(
+    ([email, data]) => ({ email, id: data.id })
+  )
 );
 ```
 

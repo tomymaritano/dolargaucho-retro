@@ -6,29 +6,23 @@
  */
 
 import React, { useState } from 'react';
-import { Card } from '@/components/ui/Card/Card';
-import { FredChart } from '@/components/charts/FredChart';
-import {
-  FaChartLine,
-  FaStar,
-  FaRegStar,
-  FaGlobeAmericas,
-  FaEuroSign,
-  FaChartArea,
-} from 'react-icons/fa';
+import { UniversalLightweightChart } from '@/components/charts/UniversalLightweightChart';
+import { FaChartLine, FaStar, FaGlobeAmericas, FaEuroSign, FaChartArea } from 'react-icons/fa';
 import type { ECBHistoricalData } from '@/hooks/useECBHistorical';
 import type { InflacionData } from '@/hooks/useInflacion';
+import type { IndiceUVAResponse, RiesgoPaisResponse } from '@/types/api/argentina';
 
 interface FavoriteChartsSectionProps {
   favoriteChartIds: string[];
   inflacionData: InflacionData[] | undefined;
-
+  uvaData: IndiceUVAResponse | undefined;
+  riesgoPaisData: RiesgoPaisResponse | undefined;
   fredData: any; // Accept any structure from useFredData
   ecbHistorical: Record<string, ECBHistoricalData> | undefined;
   onToggleChart: (chartId: string) => void;
 }
 
-type ChartCategory = 'favoritos' | 'inflacion' | 'fred' | 'ecb' | 'todos';
+type ChartCategory = 'favoritos' | 'argentina' | 'fred' | 'ecb' | 'todos';
 
 interface ChartConfig {
   id: string;
@@ -43,6 +37,8 @@ interface ChartConfig {
 export function FavoriteChartsSection({
   favoriteChartIds,
   inflacionData,
+  uvaData,
+  riesgoPaisData,
   fredData,
   ecbHistorical,
   onToggleChart,
@@ -67,26 +63,47 @@ export function FavoriteChartsSection({
 
   // All available charts configuration
   const allCharts: ChartConfig[] = [
-    // Inflación Argentina - Mensual
+    // IPC Argentina - Mensual
     {
       id: 'inflacion-mensual',
-      title: 'Inflación Mensual',
+      title: 'IPC Mensual',
       color: '#f87171',
-      yAxisLabel: 'Inflación',
+      yAxisLabel: 'IPC',
       formatValue: (v) => `${v.toFixed(1)}%`,
-      category: 'inflacion',
+      category: 'argentina',
       getData: (props) =>
         props.inflacionData?.map((d) => ({ date: d.fecha, value: d.valor })) || null,
     },
-    // Inflación Argentina - Interanual
+    // IPC Argentina - Interanual
     {
       id: 'inflacion-interanual',
-      title: 'Inflación Interanual',
+      title: 'IPC Interanual',
       color: '#ef4444',
-      yAxisLabel: 'Inflación acumulada',
+      yAxisLabel: 'IPC acumulado',
       formatValue: (v) => `${v.toFixed(1)}%`,
-      category: 'inflacion',
+      category: 'argentina',
       getData: (props) => calculateInterannualData(props.inflacionData),
+    },
+    // UVA - Argentina
+    {
+      id: 'indice-uva',
+      title: 'Índice UVA',
+      color: '#8b5cf6',
+      yAxisLabel: 'Valor UVA',
+      formatValue: (v) => `$${v.toFixed(2)}`,
+      category: 'argentina',
+      getData: (props) => props.uvaData?.map((d) => ({ date: d.fecha, value: d.valor })) || null,
+    },
+    // Riesgo País - Argentina
+    {
+      id: 'riesgo-pais',
+      title: 'Riesgo País',
+      color: '#06b6d4',
+      yAxisLabel: 'EMBI+',
+      formatValue: (v) => `${v.toFixed(0)} bps`,
+      category: 'argentina',
+      getData: (props) =>
+        props.riesgoPaisData?.map((d) => ({ date: d.fecha, value: d.valor })) || null,
     },
     // FRED - USA
     {
@@ -178,7 +195,7 @@ export function FavoriteChartsSection({
   // Count charts per category
   const countByCategory = {
     favoritos: favoriteChartIds.length,
-    inflacion: allCharts.filter((c) => c.category === 'inflacion').length,
+    argentina: allCharts.filter((c) => c.category === 'argentina').length,
     fred: allCharts.filter((c) => c.category === 'fred').length,
     ecb: allCharts.filter((c) => c.category === 'ecb').length,
     todos: allCharts.length,
@@ -218,15 +235,15 @@ export function FavoriteChartsSection({
           )}
         </button>
         <button
-          onClick={() => setSelectedCategory('inflacion')}
+          onClick={() => setSelectedCategory('argentina')}
           className={`pb-3 font-semibold text-sm transition-all whitespace-nowrap relative flex items-center gap-2 ${
-            selectedCategory === 'inflacion' ? 'text-brand' : 'text-secondary hover:text-foreground'
+            selectedCategory === 'argentina' ? 'text-brand' : 'text-secondary hover:text-foreground'
           }`}
         >
           <FaChartArea className="text-xs" />
-          Inflación
-          <span className="text-xs opacity-70">({countByCategory.inflacion})</span>
-          {selectedCategory === 'inflacion' && (
+          ARG
+          <span className="text-xs opacity-70">({countByCategory.argentina})</span>
+          {selectedCategory === 'argentina' && (
             <div className="absolute -bottom-3 left-0 right-0 h-0.5 bg-brand" />
           )}
         </button>
@@ -277,6 +294,8 @@ export function FavoriteChartsSection({
           const chartData = chart.getData({
             favoriteChartIds,
             inflacionData,
+            uvaData,
+            riesgoPaisData,
             fredData,
             ecbHistorical,
             onToggleChart,
@@ -286,66 +305,35 @@ export function FavoriteChartsSection({
           // Show placeholder if no data
           if (!chartData || chartData.length === 0) {
             return (
-              <Card
+              <div
                 key={chart.id}
-                variant="outlined"
-                padding="none"
-                className="relative overflow-hidden opacity-50"
+                className="relative overflow-hidden opacity-50 rounded-lg bg-background-secondary/30"
               >
-                <div className="flex items-center justify-between p-4 pb-2">
-                  <h3 className="text-sm font-semibold text-foreground">{chart.title}</h3>
-                  <button
-                    onClick={() => onToggleChart(chart.id)}
-                    className={`p-1.5 rounded-lg transition-all ${
-                      isFavorite ? 'bg-brand/20 text-brand' : 'text-secondary hover:text-brand'
-                    }`}
-                    aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
-                  >
-                    {isFavorite ? (
-                      <FaStar className="text-sm" />
-                    ) : (
-                      <FaRegStar className="text-sm" />
-                    )}
-                  </button>
-                </div>
-                <div className="h-72 p-4 flex items-center justify-center">
+                <div className="h-72 flex items-center justify-center">
                   <p className="text-xs text-secondary">Cargando datos...</p>
                 </div>
-              </Card>
+              </div>
             );
           }
 
           return (
-            <Card
+            <div
               key={chart.id}
-              variant="outlined"
-              padding="none"
-              className="relative overflow-hidden"
+              className="relative overflow-hidden rounded-lg bg-background-secondary/30"
             >
-              <div className="flex items-center justify-between p-4 pb-2">
-                <h3 className="text-sm font-semibold text-foreground">{chart.title}</h3>
-                <button
-                  onClick={() => onToggleChart(chart.id)}
-                  className={`p-1.5 rounded-lg transition-all ${
-                    isFavorite ? 'bg-brand/20 text-brand' : 'text-secondary hover:text-brand'
-                  }`}
-                  aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
-                >
-                  {isFavorite ? <FaStar className="text-sm" /> : <FaRegStar className="text-sm" />}
-                </button>
-              </div>
-              <div className="h-72 p-2 pt-0">
-                <FredChart
+              {/* Chart with integrated controls and favorite button */}
+              <div className="h-72">
+                <UniversalLightweightChart
                   data={chartData}
                   title={chart.title}
                   color={chart.color}
-                  yAxisLabel={chart.yAxisLabel}
                   formatValue={chart.formatValue}
-                  showPoints={true}
-                  monthsToShow={12}
+                  height={288}
+                  isFavorite={isFavorite}
+                  onToggleFavorite={() => onToggleChart(chart.id)}
                 />
               </div>
-            </Card>
+            </div>
           );
         })}
       </div>

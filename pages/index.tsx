@@ -6,6 +6,7 @@ import { FeaturesSimple } from '@/components/marketing/FeaturesSimple';
 import { FounderStory } from '@/components/marketing/FounderStory';
 import { DataSourcesSection } from '@/components/marketing/DataSourcesSection';
 import { FinalCTA } from '@/components/marketing/FinalCTA';
+import { CommunityThanks } from '@/components/CommunityThanks';
 import { FaSpinner } from 'react-icons/fa';
 import { SEO } from '@/components/SEO';
 
@@ -51,6 +52,9 @@ export default function Home() {
             <Faqs />
           </Suspense>
         </section>
+
+        {/* Community Thanks - Early Adopters */}
+        <CommunityThanks />
 
         {/* Footer */}
         <Footer />

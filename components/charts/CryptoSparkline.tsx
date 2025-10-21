@@ -62,17 +62,12 @@ function catmullRomSpline(data: number[], pointsPerSegment: number = 20): number
 }
 
 export function CryptoSparkline({ data, color, trend, isCrypto = false }: CryptoSparklineProps) {
-  // Para dólar/moneda (pocos puntos), interpolar con spline para curva suave
-  // Para crypto (muchos puntos), usar directamente
-  const shouldInterpolate = data.length < 20;
+  // Usar datos directos sin interpolación
+  // type="linear" da líneas COMPLETAMENTE RECTAS como Bloomberg/TradingView/CoinMarketCap
+  // Esto es el estándar en dashboards financieros profesionales
 
-  // Aumentar puntos de interpolación para datos con pocos puntos (7 puntos → ~180 puntos)
-  // Esto hace que las curvas se vean tan suaves como crypto
-  const pointsPerSegment = data.length < 10 ? 30 : 15;
-  const processedData = shouldInterpolate ? catmullRomSpline(data, pointsPerSegment) : data;
-
-  // Convertir array de números a formato para Recharts
-  const chartData: SparklineData[] = processedData.map((value) => ({ value }));
+  // Convertir array de números a formato para Recharts directamente
+  const chartData: SparklineData[] = data.map((value) => ({ value }));
 
   // Si no hay suficientes datos, mostrar placeholder
   if (!data || data.length < 2) {
@@ -101,7 +96,7 @@ export function CryptoSparkline({ data, color, trend, isCrypto = false }: Crypto
         <LineChart data={chartData} margin={{ top: 4, right: 4, bottom: 4, left: 4 }}>
           <YAxis domain={['dataMin', 'dataMax']} hide />
           <Line
-            type="natural"
+            type="linear"
             dataKey="value"
             stroke={lineColor}
             strokeWidth={1.5}

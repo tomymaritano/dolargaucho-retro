@@ -16,6 +16,7 @@ interface DolarSectionProps {
   loadingDolares: boolean;
   favoriteDolarIds: string[];
   onToggleDolar: (dolarId: string) => void;
+  onSelectDolar?: (casa: string) => void;
 }
 
 /**
@@ -24,12 +25,14 @@ interface DolarSectionProps {
  * @param loadingDolares - Loading state
  * @param favoriteDolarIds - Array of favorited dollar IDs
  * @param onToggleDolar - Function to toggle dollar favorite status
+ * @param onSelectDolar - Function to select a dollar for chart display
  */
 export function DolarSection({
   dolares,
   loadingDolares,
   favoriteDolarIds,
   onToggleDolar,
+  onSelectDolar,
 }: DolarSectionProps) {
   return (
     <Card variant="outlined" padding="none">
@@ -38,6 +41,7 @@ export function DolarSection({
         isLoading={loadingDolares}
         favoriteDolarIds={favoriteDolarIds}
         onToggleFavorite={onToggleDolar}
+        onSelectDolar={onSelectDolar}
       />
     </Card>
   );

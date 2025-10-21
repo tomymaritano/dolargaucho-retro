@@ -4,7 +4,10 @@ import { Card } from '@/components/ui/Card/Card';
 import { AlertForm } from '@/components/alertas/AlertForm';
 import { AlertsList } from '@/components/alertas/AlertsList';
 import { useAlertas } from '@/hooks/useAlertas';
-import { FaBell, FaCheckCircle, FaPause, FaChartLine } from 'react-icons/fa';
+import { FaBell, FaCheckCircle, FaPause, FaChartLine, FaPlus } from 'react-icons/fa';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { EmptyState } from '@/components/ui/EmptyState';
+import { Button } from '@/components/ui/Button/Button';
 
 export default function AlertasPage() {
   const {
@@ -19,6 +22,7 @@ export default function AlertasPage() {
   } = useAlertas();
 
   const [filtro, setFiltro] = useState<'todas' | 'activas' | 'disparadas' | 'pausadas'>('todas');
+  const [showForm, setShowForm] = useState(false);
 
   const alertasFiltradas = React.useMemo(() => {
     switch (filtro) {
@@ -48,160 +52,202 @@ export default function AlertasPage() {
 
   return (
     <DashboardLayout>
-      {/* Estadísticas */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <Card variant="elevated" padding="lg" hover="glow">
-          <div className="flex items-start justify-between">
-            <div>
-              <div className="text-secondary text-sm mb-1 uppercase tracking-wider">
-                Total Alertas
-              </div>
-              <div className="text-3xl font-bold text-foreground">{estadisticas.total}</div>
-            </div>
-            <div className="p-3 glass rounded-xl">
-              <FaBell className="text-brand text-xl" />
-            </div>
-          </div>
-        </Card>
-
-        <Card variant="elevated" padding="lg" hover="glow">
-          <div className="flex items-start justify-between">
-            <div>
-              <div className="text-secondary text-sm mb-1 uppercase tracking-wider">Activas</div>
-              <div className="text-3xl font-bold text-foreground">{estadisticas.activas}</div>
-            </div>
-            <div className="p-3 glass rounded-xl">
-              <FaChartLine className="text-brand-light text-xl" />
-            </div>
-          </div>
-        </Card>
-
-        <Card variant="elevated" padding="lg" hover="glow">
-          <div className="flex items-start justify-between">
-            <div>
-              <div className="text-secondary text-sm mb-1 uppercase tracking-wider">Disparadas</div>
-              <div className="text-3xl font-bold text-foreground">{estadisticas.disparadas}</div>
-            </div>
-            <div className="p-3 glass rounded-xl">
-              <FaCheckCircle className="text-brand text-xl" />
-            </div>
-          </div>
-        </Card>
-
-        <Card variant="elevated" padding="lg" hover="glow">
-          <div className="flex items-start justify-between">
-            <div>
-              <div className="text-secondary text-sm mb-1 uppercase tracking-wider">Pausadas</div>
-              <div className="text-3xl font-bold text-foreground">{estadisticas.pausadas}</div>
-            </div>
-            <div className="p-3 glass rounded-xl">
-              <FaPause className="text-secondary text-xl" />
-            </div>
-          </div>
-        </Card>
-      </div>
-
-      {/* Alertas Recientes Disparadas */}
-      {alertasRecientesDisparadas.length > 0 && (
-        <Card variant="elevated" padding="lg" className="mb-8 border-2 border-brand">
-          <Card.Header>
-            <div className="flex items-center gap-2">
-              <FaCheckCircle className="text-brand text-xl" />
-              <Card.Title>Alertas Recientes (Últimas 24h)</Card.Title>
-            </div>
-          </Card.Header>
-          <Card.Content>
-            <div className="space-y-2">
-              {alertasRecientesDisparadas.map((alerta) => (
-                <div key={alerta.id} className="p-3 glass rounded-lg border border-brand/30">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-foreground font-semibold">{alerta.nombre}</p>
-                      <p className="text-sm text-secondary">
-                        {alerta.fechaDisparada &&
-                          new Date(alerta.fechaDisparada).toLocaleString('es-AR', {
-                            day: '2-digit',
-                            month: 'short',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                          })}
-                      </p>
-                    </div>
-                    <div className="text-brand font-semibold">
-                      ${getValorActual(alerta)?.toFixed(2)}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </Card.Content>
-        </Card>
-      )}
-
-      {/* Formulario de creación */}
-      <div className="mb-8">
-        <AlertForm onCrear={crearAlerta} />
-      </div>
-
-      {/* Filtros */}
-      {alertas.length > 0 && (
-        <div className="flex items-center gap-4 mb-6">
-          <span className="text-secondary text-sm font-medium">Filtrar:</span>
-          <div className="flex gap-2">
-            {[
-              { key: 'todas', label: 'Todas' },
-              { key: 'activas', label: 'Activas' },
-              { key: 'disparadas', label: 'Disparadas' },
-              { key: 'pausadas', label: 'Pausadas' },
-            ].map((f) => (
-              <button
-                key={f.key}
-                onClick={() => setFiltro(f.key as 'todas' | 'activas' | 'disparadas' | 'pausadas')}
-                className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                  filtro === f.key
-                    ? 'bg-brand text-background'
-                    : 'glass text-secondary hover:text-foreground'
-                }`}
-              >
-                {f.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Lista de alertas */}
-      <AlertsList
-        alertas={alertasFiltradas}
-        onEliminar={eliminarAlerta}
-        onToggle={toggleAlerta}
-        getValorActual={getValorActual}
+      {/* Page Header */}
+      <PageHeader
+        breadcrumbs={[{ label: 'Dashboard', href: '/dashboard' }, { label: 'Alertas' }]}
+        icon={FaBell}
+        title="Mis Alertas"
+        description="Crea y gestiona alertas personalizadas para recibir notificaciones cuando las cotizaciones alcancen tus objetivos"
+        action={
+          <Button variant="primary" size="lg" onClick={() => setShowForm(!showForm)}>
+            <FaPlus className="mr-2" />
+            {showForm ? 'Ocultar Formulario' : 'Nueva Alerta'}
+          </Button>
+        }
       />
 
-      {/* Info Footer */}
-      <Card variant="elevated" padding="lg" className="mt-8">
-        <div className="flex items-start gap-4">
-          <div className="p-3 glass rounded-xl">
-            <FaBell className="text-brand text-2xl" />
+      {/* Formulario de creación (condicional) */}
+      {showForm && (
+        <div className="mb-8">
+          <AlertForm
+            onCrear={(alerta) => {
+              crearAlerta(alerta);
+              setShowForm(false);
+            }}
+          />
+        </div>
+      )}
+
+      {/* Empty State - Si no hay alertas */}
+      {alertas.length === 0 ? (
+        <EmptyState
+          icon={FaBell}
+          title="No tienes alertas"
+          description="Crea tu primera alerta para recibir notificaciones cuando las cotizaciones alcancen el precio que definiste"
+          actionLabel="Crear Primera Alerta"
+          onAction={() => setShowForm(true)}
+        />
+      ) : (
+        <>
+          {/* Estadísticas */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <Card variant="elevated" padding="lg" hover="glow">
+              <div className="flex items-start justify-between">
+                <div>
+                  <div className="text-secondary text-sm mb-1 uppercase tracking-wider">
+                    Total Alertas
+                  </div>
+                  <div className="text-3xl font-bold text-foreground">{estadisticas.total}</div>
+                </div>
+                <div className="p-3 glass rounded-xl">
+                  <FaBell className="text-brand text-xl" />
+                </div>
+              </div>
+            </Card>
+
+            <Card variant="elevated" padding="lg" hover="glow">
+              <div className="flex items-start justify-between">
+                <div>
+                  <div className="text-secondary text-sm mb-1 uppercase tracking-wider">
+                    Activas
+                  </div>
+                  <div className="text-3xl font-bold text-foreground">{estadisticas.activas}</div>
+                </div>
+                <div className="p-3 glass rounded-xl">
+                  <FaChartLine className="text-brand-light text-xl" />
+                </div>
+              </div>
+            </Card>
+
+            <Card variant="elevated" padding="lg" hover="glow">
+              <div className="flex items-start justify-between">
+                <div>
+                  <div className="text-secondary text-sm mb-1 uppercase tracking-wider">
+                    Disparadas
+                  </div>
+                  <div className="text-3xl font-bold text-foreground">
+                    {estadisticas.disparadas}
+                  </div>
+                </div>
+                <div className="p-3 glass rounded-xl">
+                  <FaCheckCircle className="text-brand text-xl" />
+                </div>
+              </div>
+            </Card>
+
+            <Card variant="elevated" padding="lg" hover="glow">
+              <div className="flex items-start justify-between">
+                <div>
+                  <div className="text-secondary text-sm mb-1 uppercase tracking-wider">
+                    Pausadas
+                  </div>
+                  <div className="text-3xl font-bold text-foreground">{estadisticas.pausadas}</div>
+                </div>
+                <div className="p-3 glass rounded-xl">
+                  <FaPause className="text-secondary text-xl" />
+                </div>
+              </div>
+            </Card>
           </div>
-          <div className="flex-1">
-            <h3 className="text-foreground font-semibold mb-2">Cómo funcionan las Alertas</h3>
-            <div className="text-secondary text-sm space-y-2">
-              <p>
-                • Las alertas se verifican automáticamente cada{' '}
-                <strong className="text-foreground">30 segundos</strong>
-              </p>
-              <p>• Cuando una alerta se dispara, cambia su estado y se muestra destacada</p>
-              <p>• Podés pausar/reactivar alertas sin eliminarlas</p>
-              <p>• Los datos se guardan en tu navegador (localStorage)</p>
-              <p className="text-warning">
-                ⚠️ <strong>Nota:</strong> En esta versión las notificaciones son solo visuales. Las
-                notificaciones push llegarán en una próxima actualización.
-              </p>
+
+          {/* Alertas Recientes Disparadas */}
+          {alertasRecientesDisparadas.length > 0 && (
+            <Card variant="elevated" padding="lg" className="mb-8 border-2 border-brand">
+              <Card.Header>
+                <div className="flex items-center gap-2">
+                  <FaCheckCircle className="text-brand text-xl" />
+                  <Card.Title>Alertas Recientes (Últimas 24h)</Card.Title>
+                </div>
+              </Card.Header>
+              <Card.Content>
+                <div className="space-y-2">
+                  {alertasRecientesDisparadas.map((alerta) => (
+                    <div key={alerta.id} className="p-3 glass rounded-lg border border-brand/30">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-foreground font-semibold">{alerta.nombre}</p>
+                          <p className="text-sm text-secondary">
+                            {alerta.fechaDisparada &&
+                              new Date(alerta.fechaDisparada).toLocaleString('es-AR', {
+                                day: '2-digit',
+                                month: 'short',
+                                hour: '2-digit',
+                                minute: '2-digit',
+                              })}
+                          </p>
+                        </div>
+                        <div className="text-brand font-semibold">
+                          ${getValorActual(alerta)?.toFixed(2)}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </Card.Content>
+            </Card>
+          )}
+
+          {/* Filtros */}
+          <div className="flex items-center gap-4 mb-6">
+            <span className="text-secondary text-sm font-medium">Filtrar:</span>
+            <div className="flex gap-2">
+              {[
+                { key: 'todas', label: 'Todas' },
+                { key: 'activas', label: 'Activas' },
+                { key: 'disparadas', label: 'Disparadas' },
+                { key: 'pausadas', label: 'Pausadas' },
+              ].map((f) => (
+                <button
+                  key={f.key}
+                  onClick={() =>
+                    setFiltro(f.key as 'todas' | 'activas' | 'disparadas' | 'pausadas')
+                  }
+                  className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                    filtro === f.key
+                      ? 'bg-brand text-background'
+                      : 'glass text-secondary hover:text-foreground'
+                  }`}
+                >
+                  {f.label}
+                </button>
+              ))}
             </div>
           </div>
-        </div>
-      </Card>
+
+          {/* Lista de alertas */}
+          <AlertsList
+            alertas={alertasFiltradas}
+            onEliminar={eliminarAlerta}
+            onToggle={toggleAlerta}
+            getValorActual={getValorActual}
+          />
+
+          {/* Info Footer */}
+          <Card variant="elevated" padding="lg" className="mt-8">
+            <div className="flex items-start gap-4">
+              <div className="p-3 glass rounded-xl">
+                <FaBell className="text-brand text-2xl" />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-foreground font-semibold mb-2">Cómo funcionan las Alertas</h3>
+                <div className="text-secondary text-sm space-y-2">
+                  <p>
+                    • Las alertas se verifican automáticamente cada{' '}
+                    <strong className="text-foreground">30 segundos</strong>
+                  </p>
+                  <p>• Cuando una alerta se dispara, cambia su estado y se muestra destacada</p>
+                  <p>• Podés pausar/reactivar alertas sin eliminarlas</p>
+                  <p>• Los datos se guardan en tu navegador (localStorage)</p>
+                  <p className="text-warning">
+                    ⚠️ <strong>Nota:</strong> En esta versión las notificaciones son solo visuales.
+                    Las notificaciones push llegarán en una próxima actualización.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </Card>
+        </>
+      )}
     </DashboardLayout>
   );
 }

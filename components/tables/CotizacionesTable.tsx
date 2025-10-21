@@ -22,9 +22,15 @@ import {
   FaSortDown,
   FaShareAlt,
   FaCopy,
+  FaChartLine,
 } from 'react-icons/fa';
 import { CryptoSparkline } from '@/components/charts/CryptoSparkline';
-import { useMultipleCotizacionesHistoricoRange } from '@/hooks/useCotizacionesHistoricoRange';
+import { UniversalLightweightChart } from '@/components/charts/UniversalLightweightChart';
+import {
+  useMultipleCotizacionesHistoricoRange,
+  useCotizacionHistoricoRange,
+} from '@/hooks/useCotizacionesHistoricoRange';
+import type { CotizacionHistoricoDataPoint } from '@/hooks/useCotizacionesHistoricoRange';
 import type { CotizacionWithVariation } from '@/hooks/useCotizaciones';
 import {
   Table,
@@ -44,6 +50,67 @@ interface CotizacionesTableProps {
   isLoading?: boolean;
   favoriteCurrencyIds: string[];
   onToggleFavorite: (moneda: string) => void;
+  onSelectCurrency?: (moneda: string) => void;
+}
+
+/**
+ * Expanded chart component for a specific currency
+ */
+function ExpandedCurrencyChart({ moneda, nombre }: { moneda: string; nombre: string }) {
+  const { data: chartDataRange, isLoading } = useCotizacionHistoricoRange(
+    moneda.toLowerCase(),
+    365
+  ); // 1 year
+
+  if (isLoading) {
+    return (
+      <div className="w-full h-96 flex items-center justify-center">
+        <div className="animate-pulse text-secondary">Cargando gráfico...</div>
+      </div>
+    );
+  }
+
+  if (!chartDataRange || !chartDataRange.data || chartDataRange.data.length === 0) {
+    return (
+      <div className="w-full h-96 flex items-center justify-center">
+        <div className="text-secondary text-sm">No hay datos disponibles</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full">
+      <div className="mb-4 flex items-center justify-between">
+        <div>
+          <h3 className="text-lg font-bold text-foreground">{nombre}</h3>
+          <p className="text-xs text-secondary mt-1">Evolución histórica - Último año</p>
+        </div>
+        <div className="text-right">
+          <p className="text-sm text-secondary">Variación anual</p>
+          <p
+            className={`text-lg font-bold tabular-nums ${chartDataRange.changePercent >= 0 ? 'text-error' : 'text-success'}`}
+          >
+            {chartDataRange.changePercent >= 0 ? '+' : ''}
+            {chartDataRange.changePercent.toFixed(2)}%
+          </p>
+        </div>
+      </div>
+      <div className="relative overflow-hidden rounded-lg bg-background-secondary/30">
+        <div className="h-96">
+          <UniversalLightweightChart
+            data={chartDataRange.data.map((d: CotizacionHistoricoDataPoint) => ({
+              date: d.fecha,
+              value: d.valor,
+            }))}
+            title={nombre}
+            color="#10b981"
+            formatValue={(v) => `$${v.toFixed(2)}`}
+            height={384}
+          />
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export function CotizacionesTable({
@@ -51,14 +118,16 @@ export function CotizacionesTable({
   isLoading,
   favoriteCurrencyIds,
   onToggleFavorite,
+  onSelectCurrency,
 }: CotizacionesTableProps) {
   const [sortField, setSortField] = useState<SortField>('nombre');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
+  const [expandedRow, setExpandedRow] = useState<string | null>(null);
 
-  // Obtener datos históricos de todas las cotizaciones
+  // Obtener datos históricos de todas las cotizaciones (30 días)
   const monedas = cotizaciones.map((c) => c.moneda.toLowerCase());
   const { data: historicalData, isLoading: loadingHistorical } =
-    useMultipleCotizacionesHistoricoRange(monedas, 7);
+    useMultipleCotizacionesHistoricoRange(monedas, 30);
 
   // Sorting logic
   const sortedCotizaciones = useMemo(() => {
@@ -166,7 +235,7 @@ export function CotizacionesTable({
             </div>
           </TableHeaderCell>
 
-          {/* 7d % */}
+          {/* 30d % */}
           <TableHeaderCell
             align="right"
             sortable
@@ -174,14 +243,14 @@ export function CotizacionesTable({
             width="10%"
           >
             <div className="flex items-center justify-end gap-2">
-              7d %
+              30d %
               <SortIcon field="sparkline" />
             </div>
           </TableHeaderCell>
 
-          {/* 7D Trend */}
+          {/* 30D Trend */}
           <TableHeaderCell align="center" width="12%">
-            <div className="flex items-center justify-center gap-2">7D Trend</div>
+            <div className="flex items-center justify-center gap-2">30D Trend</div>
           </TableHeaderCell>
 
           {/* Acciones */}
@@ -211,9 +280,11 @@ export function CotizacionesTable({
                 : 'neutral'
             : 'neutral';
 
+          const isExpanded = expandedRow === cotizacion.moneda;
+
           return (
             <React.Fragment key={cotizacion.moneda}>
-              <TableRow className="group hover:bg-background-secondary/30 transition-colors">
+              <TableRow className="group hover:bg-background-secondary/30 transition-colors relative">
                 {/* Moneda con Badge */}
                 <TableCell>
                   <div className="flex items-center gap-3">
@@ -302,7 +373,25 @@ export function CotizacionesTable({
                 <TableCell align="right">
                   <div className="flex items-center justify-end gap-1">
                     <button
-                      onClick={() => onToggleFavorite(cotizacion.moneda)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setExpandedRow(isExpanded ? null : cotizacion.moneda);
+                      }}
+                      className={`p-2 rounded-lg transition-all hover:scale-110 active:scale-95 ${
+                        isExpanded
+                          ? 'bg-brand/10 text-brand hover:bg-brand/20'
+                          : 'bg-panel-hover text-foreground/70 hover:text-brand hover:bg-brand/10'
+                      }`}
+                      aria-label={isExpanded ? 'Ocultar gráfico' : 'Ver gráfico'}
+                      title={isExpanded ? 'Ocultar gráfico' : 'Ver gráfico'}
+                    >
+                      <FaChartLine className="text-sm" />
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onToggleFavorite(cotizacion.moneda);
+                      }}
                       className={`p-2 rounded-lg transition-all hover:scale-110 active:scale-95 ${
                         isFavorite
                           ? 'bg-brand/10 text-brand hover:bg-brand/20'
@@ -318,7 +407,8 @@ export function CotizacionesTable({
                       )}
                     </button>
                     <button
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         navigator.clipboard.writeText(
                           `${cotizacion.nombre}: $${cotizacion.venta.toFixed(2)}`
                         );
@@ -330,7 +420,8 @@ export function CotizacionesTable({
                       <FaCopy className="text-sm" />
                     </button>
                     <button
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         if (navigator.share) {
                           navigator.share({
                             title: cotizacion.nombre,
@@ -348,34 +439,14 @@ export function CotizacionesTable({
                 </TableCell>
               </TableRow>
 
-              {/* Expandable row on hover */}
-              <TableRow hoverable={false} className="hidden group-hover:table-row">
-                <TableCell colSpan={7} className="py-4">
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-xs">
-                    <div>
-                      <p className="text-secondary text-[10px] mb-0.5">Casa</p>
-                      <p className="font-semibold text-foreground text-xs">{cotizacion.casa}</p>
-                    </div>
-                    <div>
-                      <p className="text-secondary text-[10px] mb-0.5">Moneda</p>
-                      <p className="font-semibold text-foreground text-xs uppercase">
-                        {cotizacion.moneda}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-secondary text-[10px] mb-0.5">Última actualización</p>
-                      <p className="font-semibold text-foreground text-xs">
-                        {new Date(cotizacion.fechaActualizacion).toLocaleString('es-AR', {
-                          day: '2-digit',
-                          month: '2-digit',
-                          hour: '2-digit',
-                          minute: '2-digit',
-                        })}
-                      </p>
-                    </div>
-                  </div>
-                </TableCell>
-              </TableRow>
+              {/* Expandable chart row */}
+              {isExpanded && (
+                <TableRow hoverable={false}>
+                  <TableCell colSpan={7} className="py-6 bg-background-secondary/20">
+                    <ExpandedCurrencyChart moneda={cotizacion.moneda} nombre={cotizacion.nombre} />
+                  </TableCell>
+                </TableRow>
+              )}
             </React.Fragment>
           );
         })}

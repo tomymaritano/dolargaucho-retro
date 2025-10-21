@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import { DashboardLayout } from '@/components/layouts/DashboardLayout';
 import { useDolarVariations } from '@/hooks/useDolarVariations';
 import { useCotizacionesWithVariations } from '@/hooks/useCotizaciones';
 import { useFavoritesStore } from '@/lib/store/favorites';
 import Toast, { ToastType } from '@/components/Toast';
-import { EmptyFavoritesState } from '@/components/favorites/EmptyFavoritesState';
 import { FavoriteDolaresSection } from '@/components/favorites/FavoriteDolaresSection';
 import { FavoriteCurrenciesSection } from '@/components/favorites/FavoriteCurrenciesSection';
 import { AvailableDolaresSection } from '@/components/favorites/AvailableDolaresSection';
 import { AvailableCurrenciesSection } from '@/components/favorites/AvailableCurrenciesSection';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { EmptyState } from '@/components/ui/EmptyState';
+import { FaStar } from 'react-icons/fa';
 
 /**
  * FavoritosPage
@@ -19,6 +22,7 @@ import { AvailableCurrenciesSection } from '@/components/favorites/AvailableCurr
  * - Toast notifications for user actions
  */
 export default function FavoritosPage() {
+  const router = useRouter();
   const { data: dolares } = useDolarVariations();
   const { data: cotizaciones } = useCotizacionesWithVariations();
 
@@ -76,8 +80,24 @@ export default function FavoritosPage() {
         duration={3000}
       />
       <DashboardLayout>
+        {/* Page Header */}
+        <PageHeader
+          breadcrumbs={[{ label: 'Dashboard', href: '/dashboard' }, { label: 'Favoritos' }]}
+          icon={FaStar}
+          title="Mis Favoritos"
+          description="Accede rápidamente a tus cotizaciones favoritas y gestiona tu lista personalizada"
+        />
+
         {/* Empty State */}
-        {!hasFavorites && <EmptyFavoritesState />}
+        {!hasFavorites && (
+          <EmptyState
+            icon={FaStar}
+            title="No tienes favoritos"
+            description="Guarda tus cotizaciones favoritas para acceder rápidamente desde esta página. Explora el dashboard y marca las cotizaciones que más te interesan."
+            actionLabel="Ir al Dashboard"
+            onAction={() => router.push('/dashboard')}
+          />
+        )}
 
         {/* Favorites Sections */}
         {hasFavorites && (

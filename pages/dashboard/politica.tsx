@@ -8,6 +8,7 @@ import { BloqueStatsCard } from '@/components/politica/BloqueStatsCard';
 import { ActasUnificadas } from '@/components/politica/ActasUnificadas';
 import { Card } from '@/components/ui/Card/Card';
 import { FaLandmark, FaUsers, FaFileAlt } from 'react-icons/fa';
+import { PageHeader } from '@/components/ui/PageHeader';
 
 type TabType = 'senadores' | 'diputados' | 'actas';
 
@@ -24,12 +25,12 @@ export default function PoliticaPage() {
     <DashboardLayout>
       <div className="space-y-6">
         {/* Page Header */}
-        <div>
-          <h1 className="text-3xl font-bold text-foreground mb-2">Congreso Nacional</h1>
-          <p className="text-secondary">
-            Información actualizada sobre la composición del Senado y la Cámara de Diputados
-          </p>
-        </div>
+        <PageHeader
+          breadcrumbs={[{ label: 'Dashboard', href: '/dashboard' }, { label: 'Política' }]}
+          icon={FaLandmark}
+          title="Congreso Nacional"
+          description="Información actualizada sobre la composición del Senado y la Cámara de Diputados"
+        />
 
         {/* Stats Overview - Improved Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

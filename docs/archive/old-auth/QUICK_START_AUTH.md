@@ -58,6 +58,7 @@ npm run dev
 ## 📋 Funcionalidades Disponibles
 
 ### Para Usuarios
+
 - ✅ Registro con email/password
 - ✅ Login con email/password
 - ✅ OAuth con Google/GitHub (requiere configuración)
@@ -66,6 +67,7 @@ npm run dev
 - ✅ Preferencias personalizadas
 
 ### Para Desarrolladores
+
 - ✅ Hook `useAuth()` para cualquier componente
 - ✅ Middleware automático de protección
 - ✅ API `/api/leads` para capturar emails
@@ -140,13 +142,16 @@ function MiComponente() {
 ## 📊 Ver Leads Capturados
 
 ### Modo Demo
+
 Los leads se guardan en localStorage y se muestran en consola:
+
 ```javascript
 // Abrir DevTools → Console
 // Verás: [Demo Mode] Lead captured: {...}
 ```
 
 ### Modo Producción
+
 Accede a Supabase → Table Editor → `leads`
 
 ## 🔄 Cambiar de Modo Demo a Producción
@@ -180,17 +185,21 @@ A: Sí, pero solo en cliente (no server-side).
 ## 🆘 Problemas Comunes
 
 ### "Cannot find module 'types/database'"
+
 - **Solución**: Las types se generan automáticamente. En demo mode no se necesitan.
 
 ### "Infinite loop" o "Too many re-renders"
+
 - **Solución**: Las preferencias están deshabilitadas por defecto. Se habilitan cuando la tabla existe.
 
 ### Dashboard redirige a login
+
 - **Solución**: En modo demo, haz login primero. En producción, verifica las cookies de Supabase.
 
 ## 📚 Documentación Completa
 
 Ver [AUTH_SETUP.md](./AUTH_SETUP.md) para:
+
 - Scripts SQL completos
 - Configuración de OAuth
 - Gestión de preferencias

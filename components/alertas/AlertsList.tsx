@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card } from '@/components/ui/Card/Card';
 import { Button } from '@/components/ui/Button/Button';
+import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import type { Alerta } from '@/types/alertas';
 import {
   FaBell,
@@ -61,6 +62,27 @@ const getCondicionSymbol = (condicion: string) => {
 };
 
 export function AlertsList({ alertas, onEliminar, onToggle, getValorActual }: AlertsListProps) {
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [alertaToDelete, setAlertaToDelete] = useState<string | null>(null);
+
+  const handleDeleteClick = (alertaId: string) => {
+    setAlertaToDelete(alertaId);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (alertaToDelete) {
+      onEliminar(alertaToDelete);
+    }
+    setDeleteDialogOpen(false);
+    setAlertaToDelete(null);
+  };
+
+  const handleCancelDelete = () => {
+    setDeleteDialogOpen(false);
+    setAlertaToDelete(null);
+  };
+
   if (alertas.length === 0) {
     return (
       <Card variant="elevated" padding="lg">
@@ -179,11 +201,7 @@ export function AlertsList({ alertas, onEliminar, onToggle, getValorActual }: Al
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => {
-                    if (confirm('¿Estás seguro de eliminar esta alerta?')) {
-                      onEliminar(alerta.id);
-                    }
-                  }}
+                  onClick={() => handleDeleteClick(alerta.id)}
                   className="text-error hover:bg-error/10"
                   title="Eliminar"
                 >
@@ -194,6 +212,18 @@ export function AlertsList({ alertas, onEliminar, onToggle, getValorActual }: Al
           </Card>
         );
       })}
+
+      {/* Confirm Delete Dialog */}
+      <ConfirmDialog
+        isOpen={deleteDialogOpen}
+        onClose={handleCancelDelete}
+        onConfirm={handleConfirmDelete}
+        title="¿Eliminar alerta?"
+        description="Esta acción no se puede deshacer. La alerta se eliminará permanentemente de tu lista."
+        confirmText="Sí, eliminar"
+        cancelText="Cancelar"
+        variant="danger"
+      />
     </div>
   );
 }

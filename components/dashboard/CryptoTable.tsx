@@ -25,12 +25,15 @@ import {
   FaSort,
   FaSortUp,
   FaSortDown,
+  FaChartLine,
 } from 'react-icons/fa';
 import { CryptoSparkline } from '@/components/charts/CryptoSparkline';
+import { UniversalLightweightChart } from '@/components/charts/UniversalLightweightChart';
+import { useCryptoHistoricoRange } from '@/hooks/useCryptoHistoricalRange';
 import type { CryptoData } from '@/types/api/crypto';
 import type { Quotation } from '@/types/api/dolar';
 
-type SortField = 'nombre' | 'precio_usd' | 'precio_ars' | '24h' | '7d';
+type SortField = 'nombre' | 'precio_usd' | 'precio_ars' | '24h' | '30d';
 type SortDirection = 'asc' | 'desc';
 
 interface CryptoTableProps {
@@ -40,6 +43,61 @@ interface CryptoTableProps {
   cryptoPage: number;
   cryptoPerPage: number;
   onToggleFavorite: (id: string) => void;
+  onSelectCrypto?: (id: string) => void;
+}
+
+/**
+ * Expanded chart component for a specific cryptocurrency
+ */
+function ExpandedCryptoChart({ cryptoId, name }: { cryptoId: string; name: string }) {
+  const { data: chartDataRange, isLoading } = useCryptoHistoricoRange(cryptoId, 365);
+
+  if (isLoading) {
+    return (
+      <div className="w-full h-96 flex items-center justify-center">
+        <div className="animate-pulse text-secondary">Cargando gráfico...</div>
+      </div>
+    );
+  }
+
+  if (!chartDataRange || !chartDataRange.data || chartDataRange.data.length === 0) {
+    return (
+      <div className="w-full h-96 flex items-center justify-center">
+        <div className="text-secondary text-sm">No hay datos disponibles</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full">
+      <div className="mb-4 flex items-center justify-between">
+        <div>
+          <h3 className="text-lg font-bold text-foreground">{name}</h3>
+          <p className="text-xs text-secondary mt-1">Evolución histórica - Último año</p>
+        </div>
+        <div className="text-right">
+          <p className="text-sm text-secondary">Variación anual</p>
+          <p
+            className={`text-lg font-bold tabular-nums ${chartDataRange.changePercent >= 0 ? 'text-success' : 'text-error'}`}
+          >
+            {chartDataRange.changePercent >= 0 ? '+' : ''}
+            {chartDataRange.changePercent.toFixed(2)}%
+          </p>
+        </div>
+      </div>
+      <div className="relative overflow-hidden rounded-lg bg-background-secondary/30">
+        <div className="h-96">
+          <UniversalLightweightChart
+            data={chartDataRange.data.map((d) => ({ date: d.fecha, value: d.valor }))}
+            title={name}
+            color="#f59e0b"
+            formatValue={(v) => `$${v.toFixed(2)}`}
+            height={384}
+          />
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export function CryptoTable({
@@ -49,9 +107,11 @@ export function CryptoTable({
   cryptoPage,
   cryptoPerPage,
   onToggleFavorite,
+  onSelectCrypto,
 }: CryptoTableProps) {
   const [sortField, setSortField] = useState<SortField>('nombre');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
+  const [expandedRow, setExpandedRow] = useState<string | null>(null);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('es-AR', {
@@ -106,9 +166,9 @@ export function CryptoTable({
           aValue = a.price_change_percentage_24h;
           bValue = b.price_change_percentage_24h;
           break;
-        case '7d':
-          aValue = a.price_change_percentage_7d_in_currency || 0;
-          bValue = b.price_change_percentage_7d_in_currency || 0;
+        case '30d':
+          aValue = a.price_change_percentage_30d_in_currency || 0;
+          bValue = b.price_change_percentage_30d_in_currency || 0;
           break;
       }
 
@@ -182,14 +242,14 @@ export function CryptoTable({
               <SortIcon field="24h" />
             </div>
           </TableHeaderCell>
-          <TableHeaderCell align="right" sortable onSort={() => handleSort('7d')} width="10%">
+          <TableHeaderCell align="right" sortable onSort={() => handleSort('30d')} width="10%">
             <div className="flex items-center justify-end gap-2">
-              7d %
-              <SortIcon field="7d" />
+              30d %
+              <SortIcon field="30d" />
             </div>
           </TableHeaderCell>
           <TableHeaderCell align="center" width="12%">
-            7D Trend
+            30D Trend
           </TableHeaderCell>
           <TableHeaderCell align="right" width="14%">
             Acciones
@@ -200,13 +260,14 @@ export function CryptoTable({
         {sortedCryptos.map((crypto, index) => {
           const isFavorite = favoriteCryptoIds.includes(crypto.id);
           const trend24h = getTrendData(crypto.price_change_percentage_24h);
-          const trend7d = getTrendData(crypto.price_change_percentage_7d_in_currency || 0);
+          const trend30d = getTrendData(crypto.price_change_percentage_30d_in_currency || 0);
           const TrendIcon24h = trend24h.icon;
-          const TrendIcon7d = trend7d.icon;
+          const TrendIcon30d = trend30d.icon;
+          const isExpanded = expandedRow === crypto.id;
 
           return (
             <React.Fragment key={crypto.id}>
-              <TableRow className="group hover:bg-background-secondary/30 transition-colors">
+              <TableRow className="group hover:bg-background-secondary/30 transition-colors relative">
                 {/* Nombre */}
                 <TableCell align="left">
                   <div className="flex items-center gap-2">
@@ -256,27 +317,27 @@ export function CryptoTable({
                   </div>
                 </TableCell>
 
-                {/* 7d % */}
+                {/* 30d % */}
                 <TableCell align="right">
-                  <div className={`inline-flex items-center gap-1 ${trend7d.color}`}>
-                    <TrendIcon7d className="text-xs" />
+                  <div className={`inline-flex items-center gap-1 ${trend30d.color}`}>
+                    <TrendIcon30d className="text-xs" />
                     <span className="text-sm font-bold tabular-nums">
-                      {(crypto.price_change_percentage_7d_in_currency || 0) > 0 ? '+' : ''}
-                      {(crypto.price_change_percentage_7d_in_currency || 0).toFixed(2)}%
+                      {(crypto.price_change_percentage_30d_in_currency || 0) > 0 ? '+' : ''}
+                      {(crypto.price_change_percentage_30d_in_currency || 0).toFixed(2)}%
                     </span>
                   </div>
                 </TableCell>
 
-                {/* 7D Trend Sparkline */}
+                {/* 30D Trend Sparkline */}
                 <TableCell align="center">
                   <div className="flex items-center justify-center">
                     {crypto.sparkline_in_7d?.price && crypto.sparkline_in_7d.price.length > 0 ? (
                       <CryptoSparkline
                         data={crypto.sparkline_in_7d.price}
                         trend={
-                          (crypto.price_change_percentage_7d_in_currency || 0) > 0
+                          (crypto.price_change_percentage_30d_in_currency || 0) > 0
                             ? 'up'
-                            : (crypto.price_change_percentage_7d_in_currency || 0) < 0
+                            : (crypto.price_change_percentage_30d_in_currency || 0) < 0
                               ? 'down'
                               : 'neutral'
                         }
@@ -292,7 +353,25 @@ export function CryptoTable({
                 <TableCell align="right">
                   <div className="flex items-center justify-end gap-1">
                     <button
-                      onClick={() => onToggleFavorite(crypto.id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setExpandedRow(isExpanded ? null : crypto.id);
+                      }}
+                      className={`p-2 rounded-lg transition-all hover:scale-110 active:scale-95 ${
+                        isExpanded
+                          ? 'bg-brand/10 text-brand hover:bg-brand/20'
+                          : 'bg-panel-hover text-foreground/70 hover:text-brand hover:bg-brand/10'
+                      }`}
+                      aria-label={isExpanded ? 'Ocultar gráfico' : 'Ver gráfico'}
+                      title={isExpanded ? 'Ocultar gráfico' : 'Ver gráfico'}
+                    >
+                      <FaChartLine className="text-sm" />
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onToggleFavorite(crypto.id);
+                      }}
                       className={`p-2 rounded-lg transition-all hover:scale-110 active:scale-95 ${
                         isFavorite
                           ? 'bg-brand/10 text-brand hover:bg-brand/20'
@@ -308,7 +387,8 @@ export function CryptoTable({
                       )}
                     </button>
                     <button
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         navigator.clipboard.writeText(
                           `${crypto.name}: ${formatPrice(crypto.current_price)}`
                         );
@@ -320,7 +400,8 @@ export function CryptoTable({
                       <FaCopy className="text-sm" />
                     </button>
                     <button
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         if (navigator.share) {
                           navigator.share({
                             title: crypto.name,
@@ -338,49 +419,14 @@ export function CryptoTable({
                 </TableCell>
               </TableRow>
 
-              {/* Expandable Row */}
-              <TableRow hoverable={false} className="hidden group-hover:table-row">
-                <TableCell colSpan={7} className="py-4">
-                  <div className="grid grid-cols-2 md:grid-cols-6 gap-3 text-xs">
-                    <div>
-                      <p className="text-secondary text-[10px] mb-0.5">Ranking</p>
-                      <p className="font-semibold text-foreground text-xs">
-                        #{(cryptoPage - 1) * cryptoPerPage + index + 1}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-secondary text-[10px] mb-0.5">Market Cap</p>
-                      <p className="font-semibold text-foreground text-xs">
-                        {formatMarketCap(crypto.market_cap)}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-secondary text-[10px] mb-0.5">24h High</p>
-                      <p className="font-semibold text-success text-xs">
-                        {formatPrice(crypto.high_24h)}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-secondary text-[10px] mb-0.5">24h Low</p>
-                      <p className="font-semibold text-error text-xs">
-                        {formatPrice(crypto.low_24h)}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-secondary text-[10px] mb-0.5">Volumen 24h</p>
-                      <p className="font-semibold text-foreground text-xs">
-                        {formatMarketCap(crypto.total_volume)}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-secondary text-[10px] mb-0.5">Suministro</p>
-                      <p className="font-semibold text-foreground text-xs">
-                        {formatMarketCap(crypto.circulating_supply)} {crypto.symbol.toUpperCase()}
-                      </p>
-                    </div>
-                  </div>
-                </TableCell>
-              </TableRow>
+              {/* Expandable chart row */}
+              {isExpanded && (
+                <TableRow hoverable={false}>
+                  <TableCell colSpan={7} className="py-6 bg-background-secondary/20">
+                    <ExpandedCryptoChart cryptoId={crypto.id} name={crypto.name} />
+                  </TableCell>
+                </TableRow>
+              )}
             </React.Fragment>
           );
         })}

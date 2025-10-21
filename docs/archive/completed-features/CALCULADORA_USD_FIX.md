@@ -25,7 +25,7 @@ export function useHistoricalDolar(fecha: Date, tipo: 'blue' | 'oficial') {
       // Intentar API histórica primero
       // Si falla, usar aproximación basada en dataset conocido
       return estimateDolarHistorico(fecha, tipo);
-    }
+    },
   });
 }
 
@@ -129,7 +129,6 @@ function calcularAnalisis(
   inflacionData: { fecha: string; valor: number }[],
   dolarActualData: DolarActual[]
 ): ResultadoAnalisis {
-
   const esMonedaLocal = activo.monedaCompra === 'ARS';
 
   // 1. Calcular inflación SOLO si es ARS
@@ -138,10 +137,7 @@ function calcularAnalisis(
     : 0;
 
   // 2. Rentabilidad nominal (igual para ambas monedas)
-  const rentabilidadNominal = calcularRentabilidadNominal(
-    activo.precioCompra,
-    activo.precioVenta
-  );
+  const rentabilidadNominal = calcularRentabilidadNominal(activo.precioCompra, activo.precioVenta);
 
   // 3. Rentabilidad real
   const rentabilidadReal = esMonedaLocal
@@ -349,12 +345,12 @@ export function useDolarHistorico(fecha: Date, casa: string) {
 
 ## Resumen de Cambios
 
-| Archivo | Cambio | Líneas |
-|---------|--------|--------|
-| `useComparativas.ts` | Agregar lógica condicional USD/ARS | ~30 |
-| `ResultadosActivo.tsx` | Agregar UI contextual por moneda | ~40 |
-| `types.ts` | Ya tiene Moneda ✅ | 0 |
-| `FormularioActivo.tsx` | Ya tiene selector ✅ | 0 |
+| Archivo                | Cambio                             | Líneas |
+| ---------------------- | ---------------------------------- | ------ |
+| `useComparativas.ts`   | Agregar lógica condicional USD/ARS | ~30    |
+| `ResultadosActivo.tsx` | Agregar UI contextual por moneda   | ~40    |
+| `types.ts`             | Ya tiene Moneda ✅                 | 0      |
+| `FormularioActivo.tsx` | Ya tiene selector ✅               | 0      |
 
 **Total**: ~70 líneas de código
 **Tiempo estimado**: 3 horas
@@ -363,6 +359,7 @@ export function useDolarHistorico(fecha: Date, casa: string) {
 ## Estado Actual vs Corregido
 
 ### ❌ ANTES (Incorrecto):
+
 ```
 Inversión: USD 10,000 → USD 12,000
 Inflación argentina: 625% ❌ (no aplica a USD)
@@ -370,6 +367,7 @@ Rentabilidad real: -85% ❌ (incorrecto)
 ```
 
 ### ✅ DESPUÉS (Correcto - IMPLEMENTADO):
+
 ```
 Inversión: USD 10,000 → USD 12,000 (2020-2024)
 Inflación estadounidense: ~22% ✅ (correcto)
@@ -412,16 +410,19 @@ Mensaje: "Tu inversión perdió poder adquisitivo en dólares"
 ### Resultados de Prueba:
 
 ✅ **Escenario 1**: USD 10,000 → USD 12,000 (2020-2024)
+
 - Inflación USD: ~22%
 - Nominal: +20%
 - Real: -1.64% (perdió poder adquisitivo)
 
 ✅ **Escenario 2**: USD 10,000 → USD 15,000 (2020-2024)
+
 - Inflación USD: ~22%
 - Nominal: +50%
 - Real: +22.95% (ganó por encima de inflación)
 
 ✅ **Escenario 3**: ARS 1,500,000 → ARS 8,000,000 (2020-2024)
+
 - Inflación ARS: ~625%
 - Nominal: +433%
 - Real: -26.44% (perdió por inflación argentina)

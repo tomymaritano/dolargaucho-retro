@@ -8,11 +8,12 @@ import { useCryptoQuery } from '@/hooks/useCryptoQuery';
 import { useFavoritesStore } from '@/lib/store/favorites';
 import { useDolarByType } from '@/hooks/useDolarQuery';
 import type { DolarType } from '@/types/api/dolar';
-import { FaBitcoin, FaStar, FaSearch, FaInfoCircle } from 'react-icons/fa';
+import { FaBitcoin, FaSearch, FaInfoCircle, FaSort, FaSortUp, FaSortDown } from 'react-icons/fa';
 import { HelpButton } from '@/components/ui/HelpButton/HelpButton';
-import { CryptoStatsCards } from '@/components/crypto/CryptoStatsCards';
-import { CryptoFiltersBar } from '@/components/crypto/CryptoFiltersBar';
+import { CryptoHeader } from '@/components/crypto/CryptoHeader';
 import { CryptoTableRow } from '@/components/crypto/CryptoTableRow';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { EmptyState } from '@/components/ui/EmptyState';
 
 const CRYPTO_FAQ = [
   {
@@ -57,6 +58,7 @@ type FilterOption = 'all' | 'favorites' | 'stablecoins';
 export default function CryptoPage() {
   const [search, setSearch] = useState('');
   const [sortBy, setSortBy] = useState<SortOption>('market_cap');
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
   const [filterBy, setFilterBy] = useState<FilterOption>('all');
   const [selectedDolarType, setSelectedDolarType] = useState<DolarType>('cripto');
 
@@ -89,48 +91,74 @@ export default function CryptoPage() {
 
     // Sort
     const sorted = [...filtered].sort((a, b) => {
+      let aValue: number | string = 0;
+      let bValue: number | string = 0;
+
       switch (sortBy) {
         case 'market_cap':
-          return b.market_cap - a.market_cap;
+          aValue = a.market_cap;
+          bValue = b.market_cap;
+          break;
         case 'price':
-          return b.current_price - a.current_price;
+          aValue = a.current_price;
+          bValue = b.current_price;
+          break;
         case 'change_24h':
-          return b.price_change_percentage_24h - a.price_change_percentage_24h;
+          aValue = a.price_change_percentage_24h;
+          bValue = b.price_change_percentage_24h;
+          break;
         case 'name':
-          return a.name.localeCompare(b.name);
-        default:
-          return 0;
+          aValue = a.name.toLowerCase();
+          bValue = b.name.toLowerCase();
+          break;
       }
+
+      if (typeof aValue === 'string' && typeof bValue === 'string') {
+        return sortDirection === 'asc'
+          ? aValue.localeCompare(bValue)
+          : bValue.localeCompare(aValue);
+      }
+
+      return sortDirection === 'asc'
+        ? (aValue as number) - (bValue as number)
+        : (bValue as number) - (aValue as number);
     });
 
     return sorted;
-  }, [cryptoData, search, sortBy, filterBy, favoriteCryptos]);
+  }, [cryptoData, search, sortBy, sortDirection, filterBy, favoriteCryptos]);
+
+  const handleSort = (field: SortOption) => {
+    if (sortBy === field) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortBy(field);
+      setSortDirection('desc');
+    }
+  };
+
+  const SortIcon = ({ field }: { field: SortOption }) => {
+    if (sortBy !== field) return <FaSort className="text-xs text-secondary/50" />;
+    return sortDirection === 'asc' ? (
+      <FaSortUp className="text-xs text-brand" />
+    ) : (
+      <FaSortDown className="text-xs text-brand" />
+    );
+  };
 
   return (
     <DashboardLayout>
       <div className="space-y-6">
-        {/* Header */}
-        <div className="flex items-start justify-between">
-          <div>
-            <div className="flex items-center gap-3 mb-2">
-              <FaBitcoin className="text-brand text-3xl" />
-              <h1 className="text-3xl font-bold text-foreground">Criptomonedas</h1>
-            </div>
-            <p className="text-secondary">
-              Precios en tiempo real de las principales criptomonedas
-            </p>
-          </div>
-          <HelpButton title="Ayuda - Criptomonedas" faqs={CRYPTO_FAQ} />
-        </div>
-
-        {/* Stats Cards */}
-        <CryptoStatsCards
-          totalCryptos={cryptoData?.length || 0}
-          favoriteCount={favoriteCryptos.length}
+        {/* Page Header */}
+        <PageHeader
+          breadcrumbs={[{ label: 'Dashboard', href: '/dashboard' }, { label: 'Criptomonedas' }]}
+          icon={FaBitcoin}
+          title="Criptomonedas"
+          description="Precios en tiempo real de las principales criptomonedas del mercado"
+          action={<HelpButton title="Ayuda - Criptomonedas" faqs={CRYPTO_FAQ} />}
         />
 
         {/* Search, Filters, and Sorting */}
-        <CryptoFiltersBar
+        <CryptoHeader
           search={search}
           onSearchChange={setSearch}
           sortBy={sortBy}
@@ -140,21 +168,6 @@ export default function CryptoPage() {
           selectedDolarType={selectedDolarType}
           onDolarTypeChange={setSelectedDolarType}
         />
-
-        {/* Disclaimer */}
-        <Card variant="default" padding="md">
-          <div className="flex items-start gap-3">
-            <FaInfoCircle className="text-brand text-lg mt-0.5 flex-shrink-0" />
-            <div className="flex-1 text-sm text-secondary">
-              <p>
-                <strong className="text-foreground">Aviso importante:</strong> Los precios son
-                referenciales y pueden variar según el exchange. Esta información no constituye
-                asesoría financiera. Las criptomonedas son volátiles y su valor puede cambiar
-                rápidamente.
-              </p>
-            </div>
-          </div>
-        </Card>
 
         {/* Loading State */}
         {isLoading && (
@@ -178,34 +191,96 @@ export default function CryptoPage() {
 
         {/* Empty State */}
         {!isLoading && !error && filteredAndSortedData.length === 0 && (
-          <Card variant="elevated" padding="lg">
-            <div className="text-center py-12">
-              <FaSearch className="text-4xl text-secondary mx-auto mb-3 opacity-30" />
-              <p className="text-secondary">No se encontraron resultados</p>
-              <p className="text-sm text-secondary mt-2">
-                Intenta con otros términos de búsqueda o filtros
-              </p>
-            </div>
-          </Card>
+          <EmptyState
+            icon={FaSearch}
+            title="No se encontraron resultados"
+            description="Intenta con otros términos de búsqueda o ajusta los filtros para ver más criptomonedas"
+            actionLabel="Limpiar filtros"
+            onAction={() => {
+              setSearch('');
+              setFilterBy('all');
+            }}
+            variant="secondary"
+          />
         )}
 
         {/* Crypto Table */}
         {!isLoading && !error && filteredAndSortedData.length > 0 && (
-          <Card variant="elevated" padding="none">
+          <Card variant="outlined" padding="none">
             <Table>
               <TableHeader>
                 <TableRow hoverable={false}>
-                  <TableHeaderCell align="center" className="w-12">
-                    <FaStar className="inline-block text-brand" />
+                  {/* Nombre */}
+                  <TableHeaderCell
+                    align="left"
+                    sortable
+                    onSort={() => handleSort('name')}
+                    width="25%"
+                  >
+                    <div className="flex items-center gap-2">
+                      Nombre
+                      <SortIcon field="name" />
+                    </div>
                   </TableHeaderCell>
-                  <TableHeaderCell align="left" className="w-16">
-                    #
+
+                  {/* Precio USD */}
+                  <TableHeaderCell
+                    align="right"
+                    sortable
+                    onSort={() => handleSort('price')}
+                    width="12%"
+                  >
+                    <div className="flex items-center justify-end gap-2">
+                      Precio USD
+                      <SortIcon field="price" />
+                    </div>
                   </TableHeaderCell>
-                  <TableHeaderCell align="left">Nombre</TableHeaderCell>
-                  <TableHeaderCell align="right">Precio USD</TableHeaderCell>
-                  <TableHeaderCell align="right">Precio ARS</TableHeaderCell>
-                  <TableHeaderCell align="right">24h %</TableHeaderCell>
-                  <TableHeaderCell align="right">Market Cap</TableHeaderCell>
+
+                  {/* Precio ARS */}
+                  <TableHeaderCell align="right" width="12%">
+                    Precio ARS
+                  </TableHeaderCell>
+
+                  {/* 24h % */}
+                  <TableHeaderCell
+                    align="right"
+                    sortable
+                    onSort={() => handleSort('change_24h')}
+                    width="10%"
+                  >
+                    <div className="flex items-center justify-end gap-2">
+                      24h %
+                      <SortIcon field="change_24h" />
+                    </div>
+                  </TableHeaderCell>
+
+                  {/* Market Cap */}
+                  <TableHeaderCell
+                    align="right"
+                    sortable
+                    onSort={() => handleSort('market_cap')}
+                    width="12%"
+                  >
+                    <div className="flex items-center justify-end gap-2">
+                      Market Cap
+                      <SortIcon field="market_cap" />
+                    </div>
+                  </TableHeaderCell>
+
+                  {/* 30d % */}
+                  <TableHeaderCell align="right" width="8%">
+                    30d %
+                  </TableHeaderCell>
+
+                  {/* 30D Trend */}
+                  <TableHeaderCell align="center" width="10%">
+                    30D Trend
+                  </TableHeaderCell>
+
+                  {/* Acciones */}
+                  <TableHeaderCell align="right" width="11%">
+                    Acciones
+                  </TableHeaderCell>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -222,6 +297,18 @@ export default function CryptoPage() {
               </TableBody>
             </Table>
           </Card>
+        )}
+
+        {/* Disclaimer Footer - Subtle */}
+        {!isLoading && !error && filteredAndSortedData.length > 0 && (
+          <div className="flex items-start gap-2 p-4 bg-white/5 border border-white/10 rounded-lg">
+            <FaInfoCircle className="text-brand text-sm mt-0.5 flex-shrink-0" />
+            <p className="text-xs text-secondary leading-relaxed">
+              <strong className="text-foreground">Aviso:</strong> Los precios son referenciales y
+              pueden variar según el exchange. Esta información no constituye asesoría financiera.
+              Las criptomonedas son volátiles.
+            </p>
+          </div>
         )}
       </div>
     </DashboardLayout>

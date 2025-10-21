@@ -23,6 +23,7 @@ interface FavoritesSectionProps {
   onToggleDolar: (casa: string) => void;
   onToggleCurrency: (moneda: string) => void;
   onToggleCrypto: (id: string) => void;
+  onSelectItem?: (id: string) => void;
 }
 
 const ITEMS_PER_PAGE = 10;
@@ -35,6 +36,7 @@ export function FavoritesSection({
   onToggleDolar,
   onToggleCurrency,
   onToggleCrypto,
+  onSelectItem,
 }: FavoritesSectionProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const allFavorites = [...favoriteDolares, ...favoriteCurrencies, ...favoriteCryptos];
@@ -80,6 +82,7 @@ export function FavoritesSection({
           onToggleDolar={onToggleDolar}
           onToggleCurrency={onToggleCurrency}
           onToggleCrypto={onToggleCrypto}
+          onSelectItem={onSelectItem}
         />
 
         {/* Pagination Controls - Only show if more than ITEMS_PER_PAGE */}

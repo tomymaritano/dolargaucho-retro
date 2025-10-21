@@ -1,20 +1,47 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext, useContext } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaTimes, FaCheckCircle, FaWrench, FaBug, FaStar } from 'react-icons/fa';
-import { CHANGELOG, getCurrentVersion, hasNewUpdates, type ChangelogEntry } from '@/lib/changelog';
+import {
+  CHANGELOG,
+  getCurrentVersion,
+  hasNewUpdates,
+  skipVersion,
+  isVersionSkipped,
+  type ChangelogEntry,
+} from '@/lib/changelog';
 
 const STORAGE_KEY = 'dg_last_seen_version';
 
-export function WhatsNew() {
+// Context para controlar el modal globalmente
+interface ChangelogContextType {
+  openChangelog: () => void;
+}
+
+const ChangelogContext = createContext<ChangelogContextType | null>(null);
+
+export function useChangelog() {
+  const context = useContext(ChangelogContext);
+  if (!context) {
+    throw new Error('useChangelog must be used within ChangelogProvider');
+  }
+  return context;
+}
+
+// Provider component
+export function ChangelogProvider({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [dontShowAgain, setDontShowAgain] = useState(false);
 
   useEffect(() => {
     // Check if user has seen the latest version
     const lastSeenVersion = localStorage.getItem(STORAGE_KEY);
-    if (hasNewUpdates(lastSeenVersion)) {
+    const currentVersion = getCurrentVersion();
+
+    // No mostrar si ya vio esta versión O si la marcó como skip
+    if (hasNewUpdates(lastSeenVersion) && !isVersionSkipped(currentVersion)) {
       // Small delay before showing
       setTimeout(() => {
         setIsOpen(true);
@@ -26,10 +53,60 @@ export function WhatsNew() {
   const handleClose = () => {
     setIsOpen(false);
     setShowConfetti(false);
-    // Mark current version as seen
-    localStorage.setItem(STORAGE_KEY, getCurrentVersion());
+
+    const currentVersion = getCurrentVersion();
+
+    // Si tildo "No mostrar esta actualización", la skippeamos
+    if (dontShowAgain) {
+      skipVersion(currentVersion);
+    } else {
+      // Si no, marcamos como vista normalmente
+      localStorage.setItem(STORAGE_KEY, currentVersion);
+    }
+
+    // Reset checkbox
+    setDontShowAgain(false);
+
+    // Notify ChangelogButton to update badge count
+    window.dispatchEvent(new Event('changelog-viewed'));
   };
 
+  // Función para abrir manualmente
+  const openChangelog = () => {
+    setIsOpen(true);
+    setShowConfetti(false); // No confetti cuando se abre manualmente
+  };
+
+  return (
+    <ChangelogContext.Provider value={{ openChangelog }}>
+      {children}
+      <WhatsNew
+        isOpen={isOpen}
+        showConfetti={showConfetti}
+        dontShowAgain={dontShowAgain}
+        setDontShowAgain={setDontShowAgain}
+        handleClose={handleClose}
+      />
+    </ChangelogContext.Provider>
+  );
+}
+
+// Modal component (now receives props from Provider)
+interface WhatsNewProps {
+  isOpen: boolean;
+  showConfetti: boolean;
+  dontShowAgain: boolean;
+  setDontShowAgain: (value: boolean) => void;
+  handleClose: () => void;
+}
+
+function WhatsNew({
+  isOpen,
+  showConfetti,
+  dontShowAgain,
+  setDontShowAgain,
+  handleClose,
+}: WhatsNewProps) {
   const renderEntry = (entry: ChangelogEntry) => (
     <motion.div
       key={entry.version}
@@ -202,7 +279,21 @@ export function WhatsNew() {
                 </div>
 
                 {/* Footer */}
-                <div className="sticky bottom-0 bg-gradient-to-t from-panel to-panel/95 backdrop-blur-sm border-t border-white/10 px-6 py-4">
+                <div className="sticky bottom-0 bg-gradient-to-t from-panel to-panel/95 backdrop-blur-sm border-t border-white/10 px-6 py-4 space-y-3">
+                  {/* Checkbox */}
+                  <label className="flex items-center gap-2 cursor-pointer group">
+                    <input
+                      type="checkbox"
+                      checked={dontShowAgain}
+                      onChange={(e) => setDontShowAgain(e.target.checked)}
+                      className="w-4 h-4 rounded border-2 border-white/20 bg-white/5 checked:bg-brand checked:border-brand transition-all cursor-pointer"
+                    />
+                    <span className="text-sm text-secondary group-hover:text-foreground transition-colors">
+                      No mostrar esta actualización
+                    </span>
+                  </label>
+
+                  {/* Button */}
                   <button
                     onClick={handleClose}
                     className="w-full px-6 py-3 bg-brand text-white rounded-xl font-semibold hover:bg-brand-light transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2"

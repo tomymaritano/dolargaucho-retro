@@ -6,7 +6,7 @@
  */
 
 import { NextApiRequest, NextApiResponse } from 'next';
-import { supabase } from '@/lib/supabase';
+import { getUsersCount } from '@/lib/db/queries';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   // Only allow GET requests
@@ -15,26 +15,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    // Get count from Supabase auth.users
-    const { count, error } = await supabase
-      .from('auth.users')
-      .select('*', { count: 'exact', head: true });
+    // Get actual count from database
+    const count = await getUsersCount();
 
-    if (error) {
-      // If auth.users is not accessible, try alternative approach
-      // Count from a custom users table or return a default value
-      console.error('Error fetching user count from auth.users:', error);
-
-      // Return estimated count (you can replace this with actual data)
-      return res.status(200).json({ count: 1250 }); // Placeholder
-    }
-
-    return res.status(200).json({ count: count || 0 });
+    return res.status(200).json({ count });
   } catch (error) {
     console.error('Error in users-count endpoint:', error);
 
     // Return graceful fallback instead of error
     // This ensures the landing page doesn't break
-    return res.status(200).json({ count: 1250 }); // Placeholder
+    // Use a more conservative estimate
+    return res.status(200).json({ count: 0 });
   }
 }

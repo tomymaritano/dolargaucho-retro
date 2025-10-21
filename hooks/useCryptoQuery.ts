@@ -15,10 +15,10 @@ export function useCryptoQuery(page: number = 1, perPage: number = 50) {
     queryFn: async () => {
       try {
         const response = await fetch(
-          `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=${perPage}&page=${page}&sparkline=true&price_change_percentage=24h,7d,30d`,
+          `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=${perPage}&page=${page}&sparkline=true&price_change_percentage=24h,7d,30d&sparkline_days=30`,
           {
             headers: {
-              'Accept': 'application/json',
+              Accept: 'application/json',
             },
           }
         );
@@ -31,14 +31,14 @@ export function useCryptoQuery(page: number = 1, perPage: number = 50) {
         logger.info('Crypto data fetched successfully', {
           count: data.length,
           page,
-          perPage
+          perPage,
         });
         return data;
       } catch (error) {
         logger.error('Error fetching crypto data', error, {
           source: 'useCryptoQuery',
           page,
-          perPage
+          perPage,
         });
         throw error;
       }
@@ -107,10 +107,12 @@ export function useCryptoPricesARS() {
       } catch (error) {
         logger.error('Error calculating ARS prices', error);
         // Si falla, devolver data sin conversión ARS
-        return cryptoData?.map((crypto) => ({
-          ...crypto,
-          current_price_ars: 0,
-        })) || [];
+        return (
+          cryptoData?.map((crypto) => ({
+            ...crypto,
+            current_price_ars: 0,
+          })) || []
+        );
       }
     },
     enabled: !!cryptoData,

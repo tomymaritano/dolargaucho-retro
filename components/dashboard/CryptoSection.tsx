@@ -21,6 +21,7 @@ interface CryptoSectionProps {
   cryptoPerPage: number;
   onToggleFavorite: (id: string) => void;
   onPageChange: (page: number) => void;
+  onSelectCrypto?: (id: string) => void;
 }
 
 export function CryptoSection({
@@ -32,6 +33,7 @@ export function CryptoSection({
   cryptoPerPage,
   onToggleFavorite,
   onPageChange,
+  onSelectCrypto,
 }: CryptoSectionProps) {
   if (isLoading || !cryptos || cryptos.length === 0) {
     return null;
@@ -49,6 +51,7 @@ export function CryptoSection({
         cryptoPage={cryptoPage}
         cryptoPerPage={cryptoPerPage}
         onToggleFavorite={onToggleFavorite}
+        onSelectCrypto={onSelectCrypto}
       />
 
       {/* Pagination Controls */}

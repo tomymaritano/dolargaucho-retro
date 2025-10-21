@@ -7,8 +7,8 @@
 
 import React from 'react';
 import { Card } from '@/components/ui/Card/Card';
-import { FredChart } from '@/components/charts/FredChart';
-import { FaGlobeAmericas, FaChartLine, FaStar, FaRegStar } from 'react-icons/fa';
+import { UniversalLightweightChart } from '@/components/charts/UniversalLightweightChart';
+import { FaGlobeAmericas, FaChartLine } from 'react-icons/fa';
 
 interface ECBRatesData {
   rates: {
@@ -79,7 +79,7 @@ export function ECBSection({
 
   return (
     <Card variant="outlined" padding="none">
-      <div className="p-6 pb-4">
+      <div className="p-6 pb-4 border-b border-slate-700/10">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <FaGlobeAmericas className="text-xl text-indigo-400" />
@@ -110,7 +110,7 @@ export function ECBSection({
             <p className="text-2xl font-bold text-indigo-400 tabular-nums">
               ${ecbData.rates.USD.toFixed(4)}
             </p>
-            <p className="text-[10px] text-secondary mt-1">Dolar estadounidense</p>
+            <p className="text-[10px] text-secondary mt-1">Dólar estadounidense</p>
           </div>
 
           {/* EUR/BRL */}
@@ -151,7 +151,7 @@ export function ECBSection({
               <p className="text-2xl font-bold text-indigo-400 tabular-nums">
                 ¥{ecbData.rates.JPY.toFixed(2)}
               </p>
-              <p className="text-[10px] text-secondary mt-1">Yen japones</p>
+              <p className="text-[10px] text-secondary mt-1">Yen japonés</p>
             </div>
           )}
 
@@ -172,54 +172,24 @@ export function ECBSection({
 
         {/* Interactive Charts */}
         {showECBCharts && !ecbHistoricalLoading && ecbHistorical && (
-          <div className="mt-6 pt-6">
+          <div className="mt-6 pt-6 border-t border-slate-700/10">
             <h3 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
               <FaChartLine className="text-indigo-400" />
-              Evolucion Historica (ultimos 12 meses)
+              Evolución Histórica (últimos 12 meses)
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* EUR/USD Chart */}
               {ecbHistorical.USD?.data && (
-                <div className="p-4 rounded-lg bg-panel">
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="text-xs font-semibold text-secondary flex-1">
-                      <div className="mb-1">EUR / USD</div>
-                      <span className="text-indigo-400">
-                        ${ecbHistorical.USD.latest.toFixed(4)}
-                      </span>
-                    </h4>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onToggleChart('ecb-usd');
-                      }}
-                      className={`p-1.5 rounded-lg transition-all ${
-                        favoriteChartIds.includes('ecb-usd')
-                          ? 'bg-brand/20 text-brand'
-                          : 'text-secondary hover:text-brand'
-                      }`}
-                      aria-label={
-                        favoriteChartIds.includes('ecb-usd')
-                          ? 'Quitar de favoritos'
-                          : 'Agregar a favoritos'
-                      }
-                    >
-                      {favoriteChartIds.includes('ecb-usd') ? (
-                        <FaStar className="text-sm" />
-                      ) : (
-                        <FaRegStar className="text-sm" />
-                      )}
-                    </button>
-                  </div>
-                  <div className="h-48">
-                    <FredChart
+                <div className="relative overflow-hidden rounded-lg bg-background-secondary/30">
+                  <div className="h-72">
+                    <UniversalLightweightChart
                       data={ecbHistorical.USD.data.map((d) => ({ date: d.date, value: d.rate }))}
-                      title="EUR/USD"
+                      title="EUR / USD"
                       color="#6366f1"
-                      yAxisLabel="Tipo de cambio"
                       formatValue={(v) => `$${v.toFixed(4)}`}
-                      showPoints={true}
-                      monthsToShow={12}
+                      height={288}
+                      isFavorite={favoriteChartIds.includes('ecb-usd')}
+                      onToggleFavorite={() => onToggleChart('ecb-usd')}
                     />
                   </div>
                 </div>
@@ -227,46 +197,16 @@ export function ECBSection({
 
               {/* EUR/GBP Chart */}
               {ecbHistorical.GBP?.data && (
-                <div className="p-4 rounded-lg bg-panel">
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="text-xs font-semibold text-secondary flex-1">
-                      <div className="mb-1">EUR / GBP</div>
-                      <span className="text-indigo-400">
-                        ${ecbHistorical.GBP.latest.toFixed(4)}
-                      </span>
-                    </h4>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onToggleChart('ecb-gbp');
-                      }}
-                      className={`p-1.5 rounded-lg transition-all ${
-                        favoriteChartIds.includes('ecb-gbp')
-                          ? 'bg-brand/20 text-brand'
-                          : 'text-secondary hover:text-brand'
-                      }`}
-                      aria-label={
-                        favoriteChartIds.includes('ecb-gbp')
-                          ? 'Quitar de favoritos'
-                          : 'Agregar a favoritos'
-                      }
-                    >
-                      {favoriteChartIds.includes('ecb-gbp') ? (
-                        <FaStar className="text-sm" />
-                      ) : (
-                        <FaRegStar className="text-sm" />
-                      )}
-                    </button>
-                  </div>
-                  <div className="h-48">
-                    <FredChart
+                <div className="relative overflow-hidden rounded-lg bg-background-secondary/30">
+                  <div className="h-72">
+                    <UniversalLightweightChart
                       data={ecbHistorical.GBP.data.map((d) => ({ date: d.date, value: d.rate }))}
-                      title="EUR/GBP"
+                      title="EUR / GBP"
                       color="#10b981"
-                      yAxisLabel="Tipo de cambio"
                       formatValue={(v) => `$${v.toFixed(4)}`}
-                      showPoints={true}
-                      monthsToShow={12}
+                      height={288}
+                      isFavorite={favoriteChartIds.includes('ecb-gbp')}
+                      onToggleFavorite={() => onToggleChart('ecb-gbp')}
                     />
                   </div>
                 </div>
@@ -274,46 +214,16 @@ export function ECBSection({
 
               {/* EUR/BRL Chart */}
               {ecbHistorical.BRL?.data && (
-                <div className="p-4 rounded-lg bg-panel">
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="text-xs font-semibold text-secondary flex-1">
-                      <div className="mb-1">EUR / BRL</div>
-                      <span className="text-indigo-400">
-                        R${ecbHistorical.BRL.latest.toFixed(4)}
-                      </span>
-                    </h4>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onToggleChart('ecb-brl');
-                      }}
-                      className={`p-1.5 rounded-lg transition-all ${
-                        favoriteChartIds.includes('ecb-brl')
-                          ? 'bg-brand/20 text-brand'
-                          : 'text-secondary hover:text-brand'
-                      }`}
-                      aria-label={
-                        favoriteChartIds.includes('ecb-brl')
-                          ? 'Quitar de favoritos'
-                          : 'Agregar a favoritos'
-                      }
-                    >
-                      {favoriteChartIds.includes('ecb-brl') ? (
-                        <FaStar className="text-sm" />
-                      ) : (
-                        <FaRegStar className="text-sm" />
-                      )}
-                    </button>
-                  </div>
-                  <div className="h-48">
-                    <FredChart
+                <div className="relative overflow-hidden rounded-lg bg-background-secondary/30">
+                  <div className="h-72">
+                    <UniversalLightweightChart
                       data={ecbHistorical.BRL.data.map((d) => ({ date: d.date, value: d.rate }))}
-                      title="EUR/BRL"
+                      title="EUR / BRL"
                       color="#f59e0b"
-                      yAxisLabel="Tipo de cambio"
                       formatValue={(v) => `R$${v.toFixed(4)}`}
-                      showPoints={true}
-                      monthsToShow={12}
+                      height={288}
+                      isFavorite={favoriteChartIds.includes('ecb-brl')}
+                      onToggleFavorite={() => onToggleChart('ecb-brl')}
                     />
                   </div>
                 </div>
@@ -323,7 +233,7 @@ export function ECBSection({
         )}
 
         {/* Info Footer */}
-        <div className="mt-4 pt-6">
+        <div className="mt-4 pt-6 border-t border-slate-700/10">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <p className="text-xs text-secondary">
               <strong className="text-foreground">ECB</strong> (European Central Bank) - Tipos de

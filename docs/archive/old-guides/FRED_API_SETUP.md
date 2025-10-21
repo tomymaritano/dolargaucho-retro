@@ -38,6 +38,7 @@ La calculadora de rentabilidad necesita datos de inflación estadounidense para 
 1. Copiar tu API key (ejemplo: `abcdef1234567890abcdef1234567890`)
 
 2. Agregar a tu archivo `.env.local`:
+
    ```bash
    NEXT_PUBLIC_FRED_API_KEY=tu_api_key_aqui
    ```
@@ -50,6 +51,7 @@ La calculadora de rentabilidad necesita datos de inflación estadounidense para 
 ### Verificar que Funciona
 
 Abre la consola del navegador en `/calculadoras` y busca:
+
 - ✅ Si ves "Fetching US inflation from FRED API" → Está funcionando
 - ⚠️ Si ves "FRED API key not found" → Usa fallback (ver Opción 2)
 
@@ -73,22 +75,26 @@ El sistema incluye inflación anual estimada de EE.UU. (2010-2025):
 ```
 
 **Ventajas del fallback:**
+
 - ✅ No requiere configuración
 - ✅ Funciona offline
 - ✅ Suficientemente preciso para cálculos generales
 
 **Desventajas:**
+
 - ⚠️ Datos mensuales aproximados (divide anual / 12)
 - ⚠️ No se actualiza automáticamente
 
 ## Límites de la API
 
 ### Con API Key:
+
 - 120 requests/minuto
 - Ilimitadas por día
 - Datos desde 1947 hasta hoy
 
 ### Sin API Key (Fallback):
+
 - Sin límites (datos locales)
 - Inflación 2010-2025
 
@@ -99,6 +105,7 @@ El sistema incluye inflación anual estimada de EE.UU. (2010-2025):
 **Causa**: No existe la variable de entorno
 
 **Solución**:
+
 1. Verificar que `.env.local` existe en la raíz del proyecto
 2. Verificar que la línea es: `NEXT_PUBLIC_FRED_API_KEY=tu_key`
 3. Reiniciar el servidor: `Ctrl+C` y luego `npm run dev`
@@ -108,6 +115,7 @@ El sistema incluye inflación anual estimada de EE.UU. (2010-2025):
 **Causa**: API key inválida
 
 **Solución**:
+
 1. Verificar que copiaste toda la API key (32 caracteres hexadecimales)
 2. Regenerar la API key en FRED
 3. Actualizar `.env.local`
@@ -117,6 +125,7 @@ El sistema incluye inflación anual estimada de EE.UU. (2010-2025):
 **Causa**: Excediste 120 requests/minuto
 
 **Solución**:
+
 - Esperar 1 minuto
 - El sistema automáticamente usará el fallback
 

@@ -11,6 +11,7 @@ import { useRequireAuth } from '@/lib/contexts/AuthContext';
 import { DashboardLayout } from '@/components/layouts/DashboardLayout';
 import { Card } from '@/components/ui/Card/Card';
 import { FaUser, FaEnvelope, FaLock, FaSave, FaCheckCircle } from 'react-icons/fa';
+import { PageHeader } from '@/components/ui/PageHeader';
 
 export default function ProfilePage() {
   const { user, loading: authLoading, refreshUser } = useRequireAuth();
@@ -136,13 +137,13 @@ export default function ProfilePage() {
 
       <DashboardLayout>
         <div className="max-w-4xl mx-auto">
-          {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-foreground mb-2">Mi Perfil</h1>
-            <p className="text-secondary">
-              Gestiona tu información personal y configuración de cuenta
-            </p>
-          </div>
+          {/* Page Header */}
+          <PageHeader
+            breadcrumbs={[{ label: 'Dashboard', href: '/dashboard' }, { label: 'Perfil' }]}
+            icon={FaUser}
+            title="Mi Perfil"
+            description="Gestiona tu información personal y configuración de cuenta"
+          />
 
           <div className="space-y-6">
             {/* Profile Information */}
