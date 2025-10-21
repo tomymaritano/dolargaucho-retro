@@ -7,6 +7,7 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/router';
+import { useFavoritesStore } from '@/lib/store/favorites';
 
 /**
  * User type
@@ -28,6 +29,8 @@ export interface UserPreferences {
   notifications_enabled: boolean;
   favorite_dolares: string[];
   favorite_currencies: string[];
+  favorite_cryptos: string[];
+  favorite_charts: string[];
 }
 
 /**
@@ -84,6 +87,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (data.success) {
           setUser(data.user);
           setPreferences(data.preferences || null);
+
+          // Sync favorites from backend to localStorage
+          if (data.preferences) {
+            const loadFromBackend = useFavoritesStore.getState().loadFromBackend;
+            loadFromBackend({
+              dolares: data.preferences.favorite_dolares || [],
+              currencies: data.preferences.favorite_currencies || [],
+              cryptos: data.preferences.favorite_cryptos || [],
+              charts: data.preferences.favorite_charts || [],
+            });
+          }
         } else {
           setUser(null);
           setPreferences(null);

@@ -39,6 +39,8 @@ CREATE TABLE IF NOT EXISTS user_preferences (
   notifications_enabled BOOLEAN DEFAULT true,
   favorite_dolares TEXT[] DEFAULT '{"blue", "oficial"}',
   favorite_currencies TEXT[] DEFAULT '{"USD", "EUR"}',
+  favorite_cryptos TEXT[] DEFAULT '{}',
+  favorite_charts TEXT[] DEFAULT '{}',
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -137,6 +139,15 @@ EXECUTE FUNCTION create_user_preferences();
 --   'Test User'
 -- )
 -- ON CONFLICT (email) DO NOTHING;
+
+-- ============================================================================
+-- MIGRATION: Add favorite_cryptos and favorite_charts (v1.2.0)
+-- ============================================================================
+
+-- Run this migration if you have existing user_preferences table without these columns:
+ALTER TABLE user_preferences
+ADD COLUMN IF NOT EXISTS favorite_cryptos TEXT[] DEFAULT '{}',
+ADD COLUMN IF NOT EXISTS favorite_charts TEXT[] DEFAULT '{}';
 
 -- ============================================================================
 -- VERIFICATION QUERIES

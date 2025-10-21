@@ -25,6 +25,16 @@ export interface FavoritesState {
   toggleChart: (chartId: string) => ChartActionResult;
   getTotalCount: () => number;
   clearAll: () => void;
+  // Sync methods
+  loadFromBackend: (
+    favorites: Partial<{
+      dolares: string[];
+      currencies: string[];
+      cryptos: string[];
+      charts: string[];
+    }>
+  ) => void;
+  syncToBackend: () => Promise<void>;
 }
 
 export const useFavoritesStore = create<FavoritesState>()(
@@ -58,9 +68,11 @@ export const useFavoritesStore = create<FavoritesState>()(
         const state = get();
         if (state.dolares.includes(casa)) {
           set({ dolares: state.dolares.filter((d) => d !== casa) });
+          get().syncToBackend(); // Sync to backend
           return { success: true, message: 'Dólar quitado de favoritos' };
         }
         set({ dolares: [...state.dolares, casa] });
+        get().syncToBackend(); // Sync to backend
         return { success: true, message: 'Dólar agregado a favoritos' };
       },
 
@@ -87,9 +99,11 @@ export const useFavoritesStore = create<FavoritesState>()(
         const state = get();
         if (state.currencies.includes(moneda)) {
           set({ currencies: state.currencies.filter((m) => m !== moneda) });
+          get().syncToBackend(); // Sync to backend
           return { success: true, message: 'Moneda quitada de favoritos' };
         }
         set({ currencies: [...state.currencies, moneda] });
+        get().syncToBackend(); // Sync to backend
         return { success: true, message: 'Moneda agregada a favoritos' };
       },
 
@@ -116,9 +130,11 @@ export const useFavoritesStore = create<FavoritesState>()(
         const state = get();
         if (state.cryptos.includes(cryptoId)) {
           set({ cryptos: state.cryptos.filter((c) => c !== cryptoId) });
+          get().syncToBackend(); // Sync to backend
           return { success: true, message: 'Crypto quitada de favoritos' };
         }
         set({ cryptos: [...state.cryptos, cryptoId] });
+        get().syncToBackend(); // Sync to backend
         return { success: true, message: 'Crypto agregada a favoritos' };
       },
 
@@ -132,7 +148,7 @@ export const useFavoritesStore = create<FavoritesState>()(
         if (state.charts.length >= 3) {
           return {
             success: false,
-            message: 'Máximo 3 gráficos favoritos. Quita uno para agregar otro.'
+            message: 'Máximo 3 gráficos favoritos. Quita uno para agregar otro.',
           };
         }
         set({ charts: [...state.charts, chartId] });
@@ -153,16 +169,18 @@ export const useFavoritesStore = create<FavoritesState>()(
         if (state.charts.includes(chartId)) {
           // Si ya está, quitarlo
           set({ charts: state.charts.filter((c) => c !== chartId) });
+          get().syncToBackend(); // Sync to backend
           return { success: true, message: 'Gráfico quitado de favoritos' };
         }
         // Si no está y hay espacio, agregarlo
         if (state.charts.length >= 3) {
           return {
             success: false,
-            message: 'Máximo 3 gráficos favoritos. Quita uno para agregar otro.'
+            message: 'Máximo 3 gráficos favoritos. Quita uno para agregar otro.',
           };
         }
         set({ charts: [...state.charts, chartId] });
+        get().syncToBackend(); // Sync to backend
         return { success: true, message: 'Gráfico agregado a favoritos' };
       },
 
@@ -179,6 +197,47 @@ export const useFavoritesStore = create<FavoritesState>()(
           cryptos: [],
           charts: [],
         }),
+
+      // Sync methods
+      loadFromBackend: (favorites) => {
+        set({
+          dolares: favorites.dolares || get().dolares,
+          currencies: favorites.currencies || get().currencies,
+          cryptos: favorites.cryptos || get().cryptos,
+          charts: favorites.charts || get().charts,
+        });
+      },
+
+      syncToBackend: async () => {
+        try {
+          const { dolares, currencies, cryptos, charts } = get();
+
+          const response = await fetch('/api/auth/favorites', {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            credentials: 'same-origin',
+            body: JSON.stringify({
+              dolares,
+              currencies,
+              cryptos,
+              charts,
+            }),
+          });
+
+          if (!response.ok) {
+            // If user is not authenticated, that's okay - localStorage will work
+            if (response.status === 401) {
+              return;
+            }
+            console.error('Failed to sync favorites to backend');
+          }
+        } catch (error) {
+          // Silently fail - localStorage will continue to work
+          console.error('Error syncing favorites:', error);
+        }
+      },
     }),
     {
       name: 'dolargaucho_favorites', // localStorage key

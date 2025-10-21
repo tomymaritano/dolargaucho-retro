@@ -27,6 +27,8 @@ interface SuccessResponse {
     notifications_enabled: boolean;
     favorite_dolares: string[];
     favorite_currencies: string[];
+    favorite_cryptos: string[];
+    favorite_charts: string[];
   };
 }
 
@@ -37,10 +39,7 @@ interface ErrorResponse {
 
 type MeResponse = SuccessResponse | ErrorResponse;
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<MeResponse>
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<MeResponse>) {
   // Only allow GET requests
   if (req.method !== 'GET') {
     return res.status(405).json({
@@ -99,6 +98,8 @@ export default async function handler(
             notifications_enabled: preferences.notifications_enabled,
             favorite_dolares: preferences.favorite_dolares,
             favorite_currencies: preferences.favorite_currencies,
+            favorite_cryptos: preferences.favorite_cryptos,
+            favorite_charts: preferences.favorite_charts,
           }
         : undefined,
     });

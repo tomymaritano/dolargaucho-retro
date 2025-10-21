@@ -31,6 +31,8 @@ export interface UserPreferences {
   notifications_enabled: boolean;
   favorite_dolares: string[];
   favorite_currencies: string[];
+  favorite_cryptos: string[];
+  favorite_charts: string[];
   created_at: Date;
   updated_at: Date;
 }
@@ -248,8 +250,15 @@ export async function updateUserPreferences(
   userId: string,
   preferences: Partial<Omit<UserPreferences, 'id' | 'user_id' | 'created_at' | 'updated_at'>>
 ): Promise<UserPreferences> {
-  const { theme, currency, notifications_enabled, favorite_dolares, favorite_currencies } =
-    preferences;
+  const {
+    theme,
+    currency,
+    notifications_enabled,
+    favorite_dolares,
+    favorite_currencies,
+    favorite_cryptos,
+    favorite_charts,
+  } = preferences;
 
   const result = await sql`
     UPDATE user_preferences
@@ -259,6 +268,8 @@ export async function updateUserPreferences(
       notifications_enabled = COALESCE(${notifications_enabled ?? null}, notifications_enabled),
       favorite_dolares = COALESCE(${favorite_dolares ? JSON.stringify(favorite_dolares) : null}::text[], favorite_dolares),
       favorite_currencies = COALESCE(${favorite_currencies ? JSON.stringify(favorite_currencies) : null}::text[], favorite_currencies),
+      favorite_cryptos = COALESCE(${favorite_cryptos ? JSON.stringify(favorite_cryptos) : null}::text[], favorite_cryptos),
+      favorite_charts = COALESCE(${favorite_charts ? JSON.stringify(favorite_charts) : null}::text[], favorite_charts),
       updated_at = NOW()
     WHERE user_id = ${userId}
     RETURNING *
