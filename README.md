@@ -84,7 +84,7 @@
 
 ### Data Fetching & State
 
-- **Query Management:** TanStack Query (React Query) v5
+- **Query Management:** TanStack Query v5
 - **HTTP Client:** Fetch API
 - **Caching:** Smart caching with auto-refresh
 

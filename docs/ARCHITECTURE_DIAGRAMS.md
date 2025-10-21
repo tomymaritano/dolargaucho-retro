@@ -9,7 +9,7 @@ Esta documentación contiene los diagramas Mermaid que explican la arquitectura 
 Este diagrama muestra la arquitectura completa del sistema, incluyendo:
 
 - **Frontend**: Next.js 15.1.6 con Pages Router
-- **State Management**: Zustand + React Query
+- **State Management**: Zustand + TanStack Query
 - **API Layer**: Next.js API Routes
 - **Backend Services**: PostgreSQL, Vercel Edge, APIs externas
 
@@ -18,7 +18,7 @@ graph TB
     subgraph "🌐 Client - Browser"
         A[React Components]
         B[Zustand Stores]
-        C[React Query Cache]
+        C[TanStack Query Cache]
         D[LocalStorage/IndexedDB]
     end
 
@@ -187,7 +187,7 @@ graph LR
         B5[Cache 30s]
     end
 
-    subgraph "🔄 React Query"
+    subgraph "🔄 TanStack Query"
         C1[useDolarQuery]
         C2[useCryptoQuery]
         C3[useFredData]

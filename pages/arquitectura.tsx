@@ -42,7 +42,7 @@ const DIAGRAMS = {
     subgraph "🌐 Client - Browser"
         A[React Components]
         B[Zustand Stores]
-        C[React Query Cache]
+        C[TanStack Query Cache]
         D[LocalStorage]
     end
 
@@ -127,7 +127,7 @@ const DIAGRAMS = {
         B5[Cache 30s]
     end
 
-    subgraph "🔄 React Query"
+    subgraph "🔄 TanStack Query"
         C1[useDolarQuery]
         C2[useCryptoQuery]
         C5[Cache 5min]
@@ -197,8 +197,8 @@ export default function ArquitecturaPage() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-secondary text-lg sm:text-xl max-w-3xl mx-auto"
           >
-            Infraestructura preparada para producción con Next.js 15, PostgreSQL, React Query, y un
-            sistema de sincronización custom de nivel enterprise
+            Infraestructura preparada para producción con Next.js 15, PostgreSQL, TanStack Query, y
+            un sistema de sincronización custom de nivel enterprise
           </motion.p>
 
           <motion.div
@@ -295,7 +295,7 @@ export default function ArquitecturaPage() {
               />
               <TechStackCard
                 icon={FaSync}
-                name="React Query"
+                name="TanStack Query"
                 version="5.90.2"
                 description="Server state management con caching automático (SWR pattern)"
                 category="frontend"
@@ -488,7 +488,7 @@ export default function ArquitecturaPage() {
                 <ul className="space-y-2 text-secondary">
                   <li className="flex items-start gap-2">
                     <FaCheckCircle className="text-success mt-1 flex-shrink-0" />
-                    <span>React Query con 5min stale time</span>
+                    <span>TanStack Query con 5min stale time</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <FaCheckCircle className="text-success mt-1 flex-shrink-0" />
