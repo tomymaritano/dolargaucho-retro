@@ -38,6 +38,27 @@ export interface UserPreferences {
 }
 
 /**
+ * User alert type from database
+ */
+export interface UserAlert {
+  id: string;
+  user_id: string;
+  tipo: 'dolar' | 'inflacion' | 'riesgo-pais' | 'uva' | 'tasa';
+  nombre: string;
+  condicion: 'mayor' | 'menor' | 'igual';
+  valor_objetivo: number;
+  estado: 'activa' | 'disparada' | 'pausada';
+  metadata: Record<string, any>;
+  fecha_creacion: Date;
+  fecha_ultima_verificacion?: Date;
+  fecha_disparada?: Date;
+  notificacion_enviada: boolean;
+  mensaje?: string;
+  created_at: Date;
+  updated_at: Date;
+}
+
+/**
  * Lead type from database
  */
 export interface Lead {
@@ -364,4 +385,128 @@ export async function getLeads(
   `;
 
   return result.rows as Lead[];
+}
+
+// ============================================================================
+// USER ALERTS QUERIES
+// ============================================================================
+
+/**
+ * Get user alerts
+ *
+ * @param userId - User ID
+ * @returns Array of user alerts
+ */
+export async function getUserAlerts(userId: string): Promise<UserAlert[]> {
+  const result = await sql`
+    SELECT *
+    FROM user_alerts
+    WHERE user_id = ${userId}
+    ORDER BY created_at DESC
+  `;
+
+  return result.rows as UserAlert[];
+}
+
+/**
+ * Create user alert
+ *
+ * @param userId - User ID
+ * @param alert - Alert data
+ * @returns Created alert
+ */
+export async function createUserAlert(
+  userId: string,
+  alert: {
+    tipo: string;
+    nombre: string;
+    condicion: string;
+    valorObjetivo: number;
+    casaDolar?: string;
+    mensaje?: string;
+  }
+): Promise<UserAlert> {
+  const metadata = alert.casaDolar ? { casaDolar: alert.casaDolar } : {};
+
+  const result = await sql`
+    INSERT INTO user_alerts (
+      user_id,
+      tipo,
+      nombre,
+      condicion,
+      valor_objetivo,
+      metadata,
+      mensaje
+    )
+    VALUES (
+      ${userId},
+      ${alert.tipo},
+      ${alert.nombre},
+      ${alert.condicion},
+      ${alert.valorObjetivo},
+      ${JSON.stringify(metadata)}::jsonb,
+      ${alert.mensaje || null}
+    )
+    RETURNING *
+  `;
+
+  return result.rows[0] as UserAlert;
+}
+
+/**
+ * Update user alert
+ *
+ * @param alertId - Alert ID
+ * @param userId - User ID (for security)
+ * @param updates - Fields to update
+ * @returns Updated alert
+ */
+export async function updateUserAlert(
+  alertId: string,
+  userId: string,
+  updates: {
+    estado?: string;
+    notificacionEnviada?: boolean;
+    fechaDisparada?: string;
+    fechaUltimaVerificacion?: string;
+  }
+): Promise<UserAlert> {
+  const result = await sql`
+    UPDATE user_alerts
+    SET
+      estado = COALESCE(${updates.estado || null}, estado),
+      notificacion_enviada = COALESCE(${updates.notificacionEnviada ?? null}, notificacion_enviada),
+      fecha_disparada = COALESCE(${updates.fechaDisparada || null}::timestamp, fecha_disparada),
+      fecha_ultima_verificacion = COALESCE(${updates.fechaUltimaVerificacion || null}::timestamp, fecha_ultima_verificacion),
+      updated_at = NOW()
+    WHERE id = ${alertId} AND user_id = ${userId}
+    RETURNING *
+  `;
+
+  return result.rows[0] as UserAlert;
+}
+
+/**
+ * Delete user alert
+ *
+ * @param alertId - Alert ID
+ * @param userId - User ID (for security)
+ */
+export async function deleteUserAlert(alertId: string, userId: string): Promise<void> {
+  await sql`
+    DELETE FROM user_alerts
+    WHERE id = ${alertId} AND user_id = ${userId}
+  `;
+}
+
+/**
+ * Delete all user alerts
+ *
+ * @param userId - User ID
+ */
+export async function deleteAllUserAlerts(userId: string): Promise<void> {
+  await sql`
+    DELETE FROM user_alerts
+    WHERE user_id = ${userId}
+  `;
 }

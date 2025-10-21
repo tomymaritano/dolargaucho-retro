@@ -22,7 +22,7 @@ import {
   FaBell,
 } from 'react-icons/fa';
 import { useFavoritesStore } from '@/lib/store/favorites';
-import { useAlertasStore } from '@/lib/store/alertas';
+import { useAlertasStore } from '@/lib/store/alertas-sync';
 
 const mercadosCards = [
   {

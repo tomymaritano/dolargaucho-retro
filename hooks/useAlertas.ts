@@ -12,7 +12,7 @@ import {
   useUltimoUVA,
   useUltimaTasaPlazoFijo,
 } from './useFinanzas';
-import { useAlertasStore } from '@/lib/store/alertas';
+import { useAlertasStore } from '@/lib/store/alertas-sync';
 
 /**
  * Hook para gestionar alertas de precios/indicadores
