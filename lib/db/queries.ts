@@ -15,6 +15,7 @@ export interface User {
   email: string;
   password_hash: string;
   name?: string;
+  nickname?: string;
   created_at: Date;
   updated_at: Date;
 }
@@ -61,17 +62,19 @@ export type SafeUser = Omit<User, 'password_hash'>;
  * @param email - User email (unique)
  * @param passwordHash - Hashed password
  * @param name - Optional user name
+ * @param nickname - Optional user nickname (fallback to name if not provided)
  * @returns Created user (without password hash)
  */
 export async function createUser(
   email: string,
   passwordHash: string,
-  name?: string
+  name?: string,
+  nickname?: string
 ): Promise<SafeUser> {
   const result = await sql`
-    INSERT INTO users (email, password_hash, name)
-    VALUES (${email}, ${passwordHash}, ${name || null})
-    RETURNING id, email, name, created_at, updated_at
+    INSERT INTO users (email, password_hash, name, nickname)
+    VALUES (${email}, ${passwordHash}, ${name || null}, ${nickname || name || null})
+    RETURNING id, email, name, nickname, created_at, updated_at
   `;
 
   return result.rows[0] as SafeUser;
@@ -102,7 +105,7 @@ export async function findUserByEmail(email: string): Promise<User | null> {
  */
 export async function findUserById(id: string): Promise<SafeUser | null> {
   const result = await sql`
-    SELECT id, email, name, created_at, updated_at
+    SELECT id, email, name, nickname, created_at, updated_at
     FROM users
     WHERE id = ${id}
     LIMIT 1
@@ -120,18 +123,19 @@ export async function findUserById(id: string): Promise<SafeUser | null> {
  */
 export async function updateUser(
   id: string,
-  updates: { name?: string; email?: string }
+  updates: { name?: string; email?: string; nickname?: string }
 ): Promise<SafeUser> {
-  const { name, email } = updates;
+  const { name, email, nickname } = updates;
 
   const result = await sql`
     UPDATE users
     SET
       name = COALESCE(${name || null}, name),
       email = COALESCE(${email || null}, email),
+      nickname = COALESCE(${nickname || null}, nickname),
       updated_at = NOW()
     WHERE id = ${id}
-    RETURNING id, email, name, created_at, updated_at
+    RETURNING id, email, name, nickname, created_at, updated_at
   `;
 
   return result.rows[0] as SafeUser;
@@ -143,10 +147,7 @@ export async function updateUser(
  * @param id - User ID
  * @param newPasswordHash - New hashed password
  */
-export async function updateUserPassword(
-  id: string,
-  newPasswordHash: string
-): Promise<void> {
+export async function updateUserPassword(id: string, newPasswordHash: string): Promise<void> {
   await sql`
     UPDATE users
     SET
@@ -168,6 +169,37 @@ export async function deleteUser(id: string): Promise<void> {
   `;
 }
 
+/**
+ * Find user by nickname
+ *
+ * @param nickname - User nickname
+ * @returns User (with password hash) or null if not found
+ */
+export async function findUserByNickname(nickname: string): Promise<User | null> {
+  const result = await sql`
+    SELECT id, email, password_hash, name, nickname, created_at, updated_at
+    FROM users
+    WHERE nickname = ${nickname}
+    LIMIT 1
+  `;
+
+  return (result.rows[0] as User) || null;
+}
+
+/**
+ * Get total count of registered users
+ *
+ * @returns Number of users
+ */
+export async function getUsersCount(): Promise<number> {
+  const result = await sql`
+    SELECT COUNT(*) as count
+    FROM users
+  `;
+
+  return parseInt(result.rows[0].count, 10);
+}
+
 // ============================================================================
 // USER PREFERENCES QUERIES
 // ============================================================================
@@ -178,9 +210,7 @@ export async function deleteUser(id: string): Promise<void> {
  * @param userId - User ID
  * @returns User preferences or null if not found
  */
-export async function getUserPreferences(
-  userId: string
-): Promise<UserPreferences | null> {
+export async function getUserPreferences(userId: string): Promise<UserPreferences | null> {
   const result = await sql`
     SELECT *
     FROM user_preferences
@@ -197,9 +227,7 @@ export async function getUserPreferences(
  * @param userId - User ID
  * @returns Created preferences
  */
-export async function createUserPreferences(
-  userId: string
-): Promise<UserPreferences> {
+export async function createUserPreferences(userId: string): Promise<UserPreferences> {
   const result = await sql`
     INSERT INTO user_preferences (user_id)
     VALUES (${userId})
@@ -218,17 +246,10 @@ export async function createUserPreferences(
  */
 export async function updateUserPreferences(
   userId: string,
-  preferences: Partial<
-    Omit<UserPreferences, 'id' | 'user_id' | 'created_at' | 'updated_at'>
-  >
+  preferences: Partial<Omit<UserPreferences, 'id' | 'user_id' | 'created_at' | 'updated_at'>>
 ): Promise<UserPreferences> {
-  const {
-    theme,
-    currency,
-    notifications_enabled,
-    favorite_dolares,
-    favorite_currencies,
-  } = preferences;
+  const { theme, currency, notifications_enabled, favorite_dolares, favorite_currencies } =
+    preferences;
 
   const result = await sql`
     UPDATE user_preferences
@@ -258,11 +279,7 @@ export async function updateUserPreferences(
  * @param name - Optional lead name
  * @returns Created lead
  */
-export async function createLead(
-  email: string,
-  source: string,
-  name?: string
-): Promise<Lead> {
+export async function createLead(email: string, source: string, name?: string): Promise<Lead> {
   const result = await sql`
     INSERT INTO leads (email, name, source)
     VALUES (${email}, ${name || null}, ${source})

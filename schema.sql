@@ -15,12 +15,17 @@ CREATE TABLE IF NOT EXISTS users (
   email VARCHAR(255) UNIQUE NOT NULL,
   password_hash TEXT NOT NULL,
   name VARCHAR(255),
+  nickname VARCHAR(50),
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
 -- Index on email for fast lookups
 CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
+
+-- Index on nickname for fast lookups and uniqueness
+CREATE UNIQUE INDEX IF NOT EXISTS idx_users_nickname_unique ON users(nickname) WHERE nickname IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_users_nickname ON users(nickname);
 
 -- ============================================================================
 -- USER PREFERENCES TABLE

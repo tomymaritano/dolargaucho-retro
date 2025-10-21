@@ -14,8 +14,17 @@ import { NavbarFloating } from '@/components/NavbarFloating';
 import Aurora from '@/components/ui/Aurora/Aurora';
 import { Card } from '@/components/ui/Card/Card';
 import { Button } from '@/components/ui/Button/Button';
-import { Input } from '@/components/ui/Input/Input';
-import { FaEnvelope, FaLock, FaSpinner, FaUser, FaEye, FaEyeSlash } from 'react-icons/fa';
+import {
+  FaEnvelope,
+  FaLock,
+  FaSpinner,
+  FaUser,
+  FaEye,
+  FaEyeSlash,
+  FaCheck,
+  FaTimes,
+  FaUserTag,
+} from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SEO } from '@/components/SEO';
 
@@ -24,6 +33,60 @@ const MemoizedAurora = React.memo(Aurora);
 const MemoizedNavbar = React.memo(NavbarFloating);
 
 type AuthTab = 'login' | 'signup';
+
+// ============================================================================
+// VALIDATION HELPERS (Pure functions outside component)
+// ============================================================================
+
+/**
+ * Validates email format with robust regex
+ */
+const isValidEmail = (email: string): boolean => {
+  // More robust email regex that matches RFC 5322 spec
+  const emailRegex =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+  return emailRegex.test(email.trim());
+};
+
+/**
+ * Validates password requirements
+ */
+const validatePassword = (password: string): { valid: boolean; error?: string } => {
+  if (!password) {
+    return { valid: false, error: 'Por favor ingresa una contraseña' };
+  }
+  if (password.length < 6) {
+    return { valid: false, error: 'La contraseña debe tener al menos 6 caracteres' };
+  }
+  return { valid: true };
+};
+
+/**
+ * Validates nickname format and length
+ */
+const validateNickname = (nickname: string): { valid: boolean; error?: string } => {
+  if (!nickname || nickname.length === 0) {
+    return { valid: true }; // Nickname is optional
+  }
+
+  if (nickname.length < 3) {
+    return { valid: false, error: 'El nickname debe tener al menos 3 caracteres' };
+  }
+
+  if (nickname.length > 20) {
+    return { valid: false, error: 'El nickname no puede tener más de 20 caracteres' };
+  }
+
+  const nicknameRegex = /^[a-zA-Z0-9_-]+$/;
+  if (!nicknameRegex.test(nickname)) {
+    return {
+      valid: false,
+      error: 'El nickname solo puede contener letras, números, guiones y guiones bajos',
+    };
+  }
+
+  return { valid: true };
+};
 
 export default function AuthPage() {
   const router = useRouter();
@@ -34,6 +97,9 @@ export default function AuthPage() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [name, setName] = useState('');
+  const [nickname, setNickname] = useState('');
+  const [nicknameAvailable, setNicknameAvailable] = useState<boolean | null>(null);
+  const [checkingNickname, setCheckingNickname] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -45,14 +111,17 @@ export default function AuthPage() {
     setMounted(true);
   }, []);
 
-  // Redirect if already logged in
+  // Redirect if already logged in (optimized to prevent unnecessary refreshes)
   useEffect(() => {
-    if (mounted && user) {
-      console.log('[AuthPage] User already logged in, redirecting...');
-      const redirect = router.query.redirect as string;
-      window.location.href = redirect || '/dashboard';
-    }
-  }, [user, router.query.redirect, mounted]);
+    // Early return if conditions not met
+    if (!mounted || !user) return;
+
+    console.log('[AuthPage] User already logged in, redirecting...');
+    const redirect = router.query.redirect as string;
+
+    // Use router.push instead of window.location.href to avoid full page refresh
+    router.push(redirect || '/dashboard');
+  }, [user, router, mounted]);
 
   // Check for tab query param
   useEffect(() => {
@@ -62,10 +131,91 @@ export default function AuthPage() {
     }
   }, [router.query.tab]);
 
-  const isValidEmail = (email: string): boolean => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
+  // Debounce timer for nickname check
+  const nicknameCheckTimer = React.useRef<NodeJS.Timeout | null>(null);
+
+  // Memoized nickname availability check to prevent recreation
+  const checkNicknameAvailability = React.useCallback(async (nick: string) => {
+    if (nick.length < 3) {
+      setNicknameAvailable(null);
+      return;
+    }
+
+    setCheckingNickname(true);
+
+    try {
+      const response = await fetch(`/api/auth/check-nickname?nickname=${encodeURIComponent(nick)}`);
+      const data = await response.json();
+
+      if (response.ok && 'available' in data) {
+        setNicknameAvailable(data.available);
+      } else {
+        setNicknameAvailable(null);
+      }
+    } catch (error) {
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Error checking nickname:', error);
+      }
+      setNicknameAvailable(null);
+    } finally {
+      setCheckingNickname(false);
+    }
+  }, []);
+
+  const handleNicknameChange = React.useCallback(
+    (value: string) => {
+      setNickname(value);
+      setNicknameAvailable(null);
+
+      // Clear previous timer
+      if (nicknameCheckTimer.current) {
+        clearTimeout(nicknameCheckTimer.current);
+      }
+
+      // Only check if nickname has at least 3 characters
+      if (value.length >= 3) {
+        nicknameCheckTimer.current = setTimeout(() => {
+          checkNicknameAvailability(value);
+        }, 500); // 500ms debounce
+      }
+    },
+    [checkNicknameAvailability]
+  );
+
+  // Memoized handlers to prevent re-renders on keystroke
+  const handleEmailChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  }, []);
+
+  const handlePasswordChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  }, []);
+
+  const handleNameChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+  }, []);
+
+  const handleConfirmPasswordChange = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setConfirmPassword(e.target.value);
+    },
+    []
+  );
+
+  // Handle tab change with state cleanup
+  const handleTabChange = React.useCallback((tab: AuthTab) => {
+    setActiveTab(tab);
+    // Clean up form state to prevent confusion
+    setEmail('');
+    setPassword('');
+    setConfirmPassword('');
+    setName('');
+    setNickname('');
+    setNicknameAvailable(null);
+    setError('');
+    setShowPassword(false);
+    setShowConfirmPassword(false);
+  }, []);
 
   // If already authenticated, show loading
   if (user) {
@@ -86,34 +236,44 @@ export default function AuthPage() {
       return;
     }
 
-    if (!password) {
-      setError('Por favor ingresa tu contraseña');
+    if (!isValidEmail(email)) {
+      setError('Por favor ingresa un email válido');
       return;
     }
 
-    if (!isValidEmail(email)) {
-      setError('Por favor ingresa un email válido');
+    const passwordValidation = validatePassword(password);
+    if (!passwordValidation.valid) {
+      setError(passwordValidation.error || 'Error de validación');
       return;
     }
 
     setLoading(true);
 
     try {
-      console.log('[AuthPage] Starting login...');
+      if (process.env.NODE_ENV === 'development') {
+        console.log('[AuthPage] Starting login...');
+      }
+
       const { error: signInError } = await signIn(email, password);
 
       if (signInError) {
-        console.error('[AuthPage] Login failed:', signInError);
+        if (process.env.NODE_ENV === 'development') {
+          console.error('[AuthPage] Login failed:', signInError);
+        }
         setError(signInError);
       } else {
-        console.log('[AuthPage] Login successful!');
+        if (process.env.NODE_ENV === 'development') {
+          console.log('[AuthPage] Login successful!');
+        }
         const redirect = router.query.redirect as string;
         setTimeout(() => {
-          window.location.href = redirect || '/dashboard';
+          router.push(redirect || '/dashboard');
         }, 500);
       }
     } catch (err) {
-      console.error('[AuthPage] Unexpected error:', err);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('[AuthPage] Unexpected error:', err);
+      }
       setError('Error al iniciar sesión. Intenta nuevamente.');
     } finally {
       setLoading(false);
@@ -124,7 +284,7 @@ export default function AuthPage() {
     e.preventDefault();
     setError('');
 
-    // Validation
+    // Validate name
     if (!name.trim()) {
       setError('Por favor ingresa tu nombre completo');
       return;
@@ -135,6 +295,7 @@ export default function AuthPage() {
       return;
     }
 
+    // Validate email
     if (!email.trim()) {
       setError('Por favor ingresa tu email');
       return;
@@ -145,16 +306,14 @@ export default function AuthPage() {
       return;
     }
 
-    if (!password) {
-      setError('Por favor ingresa una contraseña');
+    // Validate password
+    const passwordValidation = validatePassword(password);
+    if (!passwordValidation.valid) {
+      setError(passwordValidation.error || 'Error de validación');
       return;
     }
 
-    if (password.length < 6) {
-      setError('La contraseña debe tener al menos 6 caracteres');
-      return;
-    }
-
+    // Validate password match
     if (!confirmPassword) {
       setError('Por favor confirma tu contraseña');
       return;
@@ -165,23 +324,44 @@ export default function AuthPage() {
       return;
     }
 
+    // Validate nickname if provided
+    const nicknameValidation = validateNickname(nickname);
+    if (!nicknameValidation.valid) {
+      setError(nicknameValidation.error || 'Error de validación');
+      return;
+    }
+
+    if (nickname && nicknameAvailable === false) {
+      setError('El nickname elegido ya está en uso');
+      return;
+    }
+
     setLoading(true);
 
     try {
-      console.log('[AuthPage] Starting signup...');
-      const { error: signUpError } = await signUp(email, password, name);
+      if (process.env.NODE_ENV === 'development') {
+        console.log('[AuthPage] Starting signup...');
+      }
+
+      const { error: signUpError } = await signUp(email, password, name, nickname || undefined);
 
       if (signUpError) {
-        console.error('[AuthPage] Signup failed:', signUpError);
+        if (process.env.NODE_ENV === 'development') {
+          console.error('[AuthPage] Signup failed:', signUpError);
+        }
         setError(signUpError);
       } else {
-        console.log('[AuthPage] Signup successful!');
+        if (process.env.NODE_ENV === 'development') {
+          console.log('[AuthPage] Signup successful!');
+        }
         setTimeout(() => {
-          window.location.href = '/dashboard';
+          router.push('/dashboard');
         }, 500);
       }
     } catch (err) {
-      console.error('[AuthPage] Unexpected error:', err);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('[AuthPage] Unexpected error:', err);
+      }
       setError('Error al crear cuenta. Intenta nuevamente.');
     } finally {
       setLoading(false);
@@ -223,12 +403,7 @@ export default function AuthPage() {
             {/* Tabs */}
             <div className="flex gap-2 mb-6 p-1 bg-white/5 rounded-xl border border-white/10">
               <button
-                onClick={() => {
-                  setActiveTab('login');
-                  setError('');
-                  setShowPassword(false);
-                  setShowConfirmPassword(false);
-                }}
+                onClick={() => handleTabChange('login')}
                 className={`flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
                   activeTab === 'login'
                     ? 'bg-brand text-white shadow-sm'
@@ -238,12 +413,7 @@ export default function AuthPage() {
                 Iniciar Sesión
               </button>
               <button
-                onClick={() => {
-                  setActiveTab('signup');
-                  setError('');
-                  setShowPassword(false);
-                  setShowConfirmPassword(false);
-                }}
+                onClick={() => handleTabChange('signup')}
                 className={`flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
                   activeTab === 'signup'
                     ? 'bg-brand text-white shadow-sm'
@@ -277,13 +447,16 @@ export default function AuthPage() {
                       </label>
                       <div className="relative">
                         <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-sm" />
-                        <Input
+                        <input
                           id="email"
                           type="email"
                           value={email}
-                          onChange={(e) => setEmail(e.target.value)}
+                          onChange={handleEmailChange}
                           placeholder="tu@email.com"
-                          className="pl-10"
+                          className="w-full px-4 py-3 pl-10 rounded-lg bg-white/5 border border-white/10
+                                     focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none
+                                     text-foreground placeholder-secondary transition-all
+                                     disabled:opacity-50 disabled:cursor-not-allowed"
                           disabled={loading}
                           autoComplete="email"
                           required
@@ -309,13 +482,16 @@ export default function AuthPage() {
                       </div>
                       <div className="relative">
                         <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-sm" />
-                        <Input
+                        <input
                           id="password"
                           type={showPassword ? 'text' : 'password'}
                           value={password}
-                          onChange={(e) => setPassword(e.target.value)}
+                          onChange={handlePasswordChange}
                           placeholder="••••••••"
-                          className="pl-10 pr-10"
+                          className="w-full px-4 py-3 pl-10 pr-10 rounded-lg bg-white/5 border border-white/10
+                                     focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none
+                                     text-foreground placeholder-secondary transition-all
+                                     disabled:opacity-50 disabled:cursor-not-allowed"
                           disabled={loading}
                           autoComplete="current-password"
                           required
@@ -326,6 +502,7 @@ export default function AuthPage() {
                           onClick={() => setShowPassword(!showPassword)}
                           className="absolute right-3 top-1/2 -translate-y-1/2 text-secondary hover:text-foreground transition-colors"
                           tabIndex={-1}
+                          aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
                         >
                           {showPassword ? (
                             <FaEyeSlash className="text-sm" />
@@ -375,19 +552,82 @@ export default function AuthPage() {
                       </label>
                       <div className="relative">
                         <FaUser className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-sm" />
-                        <Input
+                        <input
                           id="name"
                           type="text"
                           value={name}
-                          onChange={(e) => setName(e.target.value)}
+                          onChange={handleNameChange}
                           placeholder="Juan Pérez"
-                          className="pl-10"
+                          className="w-full px-4 py-3 pl-10 rounded-lg bg-white/5 border border-white/10
+                                     focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none
+                                     text-foreground placeholder-secondary transition-all
+                                     disabled:opacity-50 disabled:cursor-not-allowed"
                           disabled={loading}
                           autoComplete="name"
                           required
                           minLength={2}
                         />
                       </div>
+                    </div>
+
+                    {/* Nickname (Optional) */}
+                    <div>
+                      <label
+                        htmlFor="nickname"
+                        className="block text-sm font-medium text-foreground mb-2"
+                      >
+                        Nickname{' '}
+                        <span className="text-xs text-secondary font-normal">(opcional)</span>
+                      </label>
+                      <div className="relative">
+                        <FaUserTag className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-sm" />
+                        <input
+                          id="nickname"
+                          type="text"
+                          value={nickname}
+                          onChange={(e) => handleNicknameChange(e.target.value)}
+                          placeholder="tucoolnickname"
+                          className="w-full px-4 py-3 pl-10 pr-10 rounded-lg bg-white/5 border border-white/10
+                                     focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none
+                                     text-foreground placeholder-secondary transition-all
+                                     disabled:opacity-50 disabled:cursor-not-allowed"
+                          disabled={loading}
+                          autoComplete="off"
+                          minLength={3}
+                          maxLength={20}
+                        />
+                        {/* Status Icon */}
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                          {checkingNickname && (
+                            <FaSpinner className="animate-spin text-brand text-sm" />
+                          )}
+                          {!checkingNickname && nickname && nicknameAvailable === true && (
+                            <FaCheck className="text-success text-sm" />
+                          )}
+                          {!checkingNickname && nickname && nicknameAvailable === false && (
+                            <FaTimes className="text-error text-sm" />
+                          )}
+                        </div>
+                      </div>
+                      {/* Helper text */}
+                      <p className="text-xs text-secondary mt-1">
+                        Tu nombre visible en la comunidad. Si no eliges uno, usaremos tu nombre
+                        completo.
+                      </p>
+                      {/* Validation messages */}
+                      {nickname && nicknameAvailable === false && !checkingNickname && (
+                        <p className="text-xs text-error mt-1 flex items-center gap-1">
+                          <FaTimes className="flex-shrink-0" /> Este nickname ya está en uso
+                        </p>
+                      )}
+                      {nickname && nicknameAvailable === true && !checkingNickname && (
+                        <p className="text-xs text-success mt-1 flex items-center gap-1">
+                          <FaCheck className="flex-shrink-0" /> Nickname disponible
+                        </p>
+                      )}
+                      {nickname && nickname.length > 0 && nickname.length < 3 && (
+                        <p className="text-xs text-warning mt-1">Mínimo 3 caracteres</p>
+                      )}
                     </div>
 
                     {/* Email */}
@@ -400,13 +640,16 @@ export default function AuthPage() {
                       </label>
                       <div className="relative">
                         <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-sm" />
-                        <Input
+                        <input
                           id="signup-email"
                           type="email"
                           value={email}
-                          onChange={(e) => setEmail(e.target.value)}
+                          onChange={handleEmailChange}
                           placeholder="tu@email.com"
-                          className="pl-10"
+                          className="w-full px-4 py-3 pl-10 rounded-lg bg-white/5 border border-white/10
+                                     focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none
+                                     text-foreground placeholder-secondary transition-all
+                                     disabled:opacity-50 disabled:cursor-not-allowed"
                           disabled={loading}
                           autoComplete="email"
                           required
@@ -424,13 +667,16 @@ export default function AuthPage() {
                       </label>
                       <div className="relative">
                         <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-sm" />
-                        <Input
+                        <input
                           id="signup-password"
                           type={showPassword ? 'text' : 'password'}
                           value={password}
-                          onChange={(e) => setPassword(e.target.value)}
+                          onChange={handlePasswordChange}
                           placeholder="Mínimo 6 caracteres"
-                          className="pl-10 pr-10"
+                          className="w-full px-4 py-3 pl-10 pr-10 rounded-lg bg-white/5 border border-white/10
+                                     focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none
+                                     text-foreground placeholder-secondary transition-all
+                                     disabled:opacity-50 disabled:cursor-not-allowed"
                           disabled={loading}
                           autoComplete="new-password"
                           required
@@ -441,6 +687,7 @@ export default function AuthPage() {
                           onClick={() => setShowPassword(!showPassword)}
                           className="absolute right-3 top-1/2 -translate-y-1/2 text-secondary hover:text-foreground transition-colors"
                           tabIndex={-1}
+                          aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
                         >
                           {showPassword ? (
                             <FaEyeSlash className="text-sm" />
@@ -461,13 +708,16 @@ export default function AuthPage() {
                       </label>
                       <div className="relative">
                         <FaLock className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-sm" />
-                        <Input
+                        <input
                           id="confirm-password"
                           type={showConfirmPassword ? 'text' : 'password'}
                           value={confirmPassword}
-                          onChange={(e) => setConfirmPassword(e.target.value)}
+                          onChange={handleConfirmPasswordChange}
                           placeholder="Repite tu contraseña"
-                          className="pl-10 pr-10"
+                          className="w-full px-4 py-3 pl-10 pr-10 rounded-lg bg-white/5 border border-white/10
+                                     focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none
+                                     text-foreground placeholder-secondary transition-all
+                                     disabled:opacity-50 disabled:cursor-not-allowed"
                           disabled={loading}
                           autoComplete="new-password"
                           required
@@ -478,6 +728,9 @@ export default function AuthPage() {
                           onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                           className="absolute right-3 top-1/2 -translate-y-1/2 text-secondary hover:text-foreground transition-colors"
                           tabIndex={-1}
+                          aria-label={
+                            showConfirmPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'
+                          }
                         >
                           {showConfirmPassword ? (
                             <FaEyeSlash className="text-sm" />
@@ -509,10 +762,7 @@ export default function AuthPage() {
 
                     {/* Terms */}
                     <p className="text-xs text-secondary text-center -mt-2">
-                      Al crear una cuenta, aceptas nuestros{' '}
-                      <Link href="#" className="text-brand hover:text-brand-light">
-                        términos y condiciones
-                      </Link>
+                      Al crear una cuenta, aceptas nuestros términos y condiciones
                     </p>
                   </motion.form>
                 )}

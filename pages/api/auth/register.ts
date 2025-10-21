@@ -10,7 +10,7 @@ import { z } from 'zod';
 import { hashPassword, validatePassword } from '@/lib/auth/password';
 import { generateToken } from '@/lib/auth/jwt';
 import { setAuthCookie } from '@/lib/auth/cookies';
-import { createUser, findUserByEmail } from '@/lib/db/queries';
+import { createUser, findUserByEmail, findUserByNickname } from '@/lib/db/queries';
 
 /**
  * Request body validation schema
@@ -19,6 +19,7 @@ const registerSchema = z.object({
   email: z.string().email({ message: 'Email inválido' }),
   password: z.string().min(8, { message: 'La contraseña debe tener al menos 8 caracteres' }),
   name: z.string().optional(),
+  nickname: z.string().min(3).max(20).optional(),
 });
 
 /**
@@ -30,6 +31,7 @@ interface SuccessResponse {
     id: string;
     email: string;
     name?: string;
+    nickname?: string;
   };
 }
 
@@ -40,10 +42,7 @@ interface ErrorResponse {
 
 type RegisterResponse = SuccessResponse | ErrorResponse;
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<RegisterResponse>
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<RegisterResponse>) {
   // Only allow POST requests
   if (req.method !== 'POST') {
     return res.status(405).json({
@@ -64,7 +63,7 @@ export default async function handler(
       });
     }
 
-    const { email, password, name } = body.data;
+    const { email, password, name, nickname } = body.data;
 
     // Validate password strength
     const passwordValidation = validatePassword(password);
@@ -84,11 +83,22 @@ export default async function handler(
       });
     }
 
+    // Check if nickname is already taken
+    if (nickname) {
+      const existingNickname = await findUserByNickname(nickname);
+      if (existingNickname) {
+        return res.status(400).json({
+          success: false,
+          error: 'Este nickname ya está en uso',
+        });
+      }
+    }
+
     // Hash password
     const passwordHash = await hashPassword(password);
 
     // Create user in database
-    const user = await createUser(email.toLowerCase(), passwordHash, name);
+    const user = await createUser(email.toLowerCase(), passwordHash, name, nickname);
 
     // Generate JWT token
     const token = generateToken(user.id, user.email);
