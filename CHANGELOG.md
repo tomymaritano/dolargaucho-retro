@@ -5,6 +5,10 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## 1.6.0 (2025-10-21)
+
+- feat: mark auth system as completed in roadmap ([0932680](https://github.com/tomymaritano/dolargaucho-retro/commit/0932680))
+
 ## 1.5.0 (2025-10-21)
 
 - feat: add backend sync infrastructure for alerts system ([d0c0c31](https://github.com/tomymaritano/dolargaucho-retro/commit/d0c0c31))
