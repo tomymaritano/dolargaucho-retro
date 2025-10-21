@@ -5,6 +5,10 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## 1.2.0 (2025-10-21)
+
+- feat(favorites): implement cross-device favorites synchronization ([f6c3a42](https://github.com/tomymaritano/dolargaucho-retro/commit/f6c3a42))
+
 ## 1.1.0 (2025-10-21)
 
 - feat(perfil): redesign profile page with modern dashboard ui ([5034643](https://github.com/tomymaritano/dolargaucho-retro/commit/5034643))
