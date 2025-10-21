@@ -1,5 +1,12 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+# Skip commitlint for automated commits (semantic-release, etc.)
+# These commits include [skip ci] in their message
+if grep -q "\[skip ci\]" "$1"; then
+  echo "Skipping commitlint for automated commit [skip ci]"
+  exit 0
+fi
+
 # Validate commit message format using commitlint
 npx --no -- commitlint --edit "$1"
