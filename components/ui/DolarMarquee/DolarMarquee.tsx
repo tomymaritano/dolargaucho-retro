@@ -39,7 +39,7 @@ export function DolarMarquee() {
 
   if (dolaresLoading || !dolares || dolares.length === 0) {
     return (
-      <div className="fixed top-0 left-0 right-0 z-40 bg-background">
+      <div className="bg-background border-b border-white/5">
         <div className="h-12 flex items-center justify-center">
           <div className="animate-pulse h-4 w-64 bg-white/10 rounded" />
         </div>
@@ -62,7 +62,7 @@ export function DolarMarquee() {
     riesgoTrend === 'up' ? 'text-error' : riesgoTrend === 'down' ? 'text-success' : 'text-warning';
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-40 bg-background">
+    <div className="bg-background border-b border-white/5">
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center gap-6 h-12">
         {/* Riesgo País */}
         {riesgoPais && (
@@ -103,7 +103,7 @@ export function DolarMarquee() {
           </button>
 
           {dropdownOpen && (
-            <div className="absolute top-full left-0 mt-2 w-32 bg-panel rounded-lg shadow-2xl overflow-hidden z-[100]">
+            <div className="absolute top-full left-0 mt-2 w-32 bg-panel rounded-lg shadow-2xl overflow-hidden z-[60]">
               {(['blue', 'oficial', 'cripto'] as DolarType[]).map((type) => {
                 const isSelected = selectedType === type;
                 return (

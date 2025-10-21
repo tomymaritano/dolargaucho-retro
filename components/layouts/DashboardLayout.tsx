@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useRequireAuth } from '@/lib/contexts/AuthContext';
-import { UnifiedNavbar } from './UnifiedNavbar';
+import { DashboardNavbar } from '@/components/DashboardNavbar';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -31,10 +31,10 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
   return (
     <div className="min-h-screen bg-background">
-      <UnifiedNavbar />
+      <DashboardNavbar />
 
       {/* Main Content - Full width, adjusted for navbar + marquee */}
-      <main className="pt-32 px-4 sm:px-6 lg:px-8">
+      <main className="pt-28 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto py-6 lg:py-8">{children}</div>
       </main>
     </div>

@@ -19,61 +19,69 @@ import { ThemeToggle } from './ui/ThemeToggle/ThemeToggle';
 import { AnimatedLogo } from './ui/AnimatedLogo';
 import { ChangelogButton } from './ChangelogButton';
 import { RoadmapButton } from './RoadmapButton';
+import { NavbarSearch } from './NavbarSearch';
 
 export function NavbarFloating() {
-  // For landing page, we don't have auth context, so we show "Iniciar Sesión"
-  // This component is used both in landing and auth pages
   const [user, setUser] = React.useState<any>(null);
   const [loading, setLoading] = React.useState(true);
 
-  // Try to get auth state if available (only on client side)
-  React.useEffect(() => {
-    if (typeof window !== 'undefined') {
-      let mounted = true;
+  // Check auth state by calling the API endpoint
+  const checkAuth = React.useCallback(async () => {
+    try {
+      console.log('[NavbarFloating] Checking auth state...');
+      const response = await fetch('/api/auth/me', {
+        credentials: 'same-origin',
+      });
 
-      const checkAuth = async () => {
-        try {
-          const { supabase } = await import('@/lib/supabase');
-
-          // Get initial session
-          const {
-            data: { session },
-          } = await supabase.auth.getSession();
-
-          if (mounted) {
-            setUser(session?.user || null);
-            setLoading(false);
-          }
-
-          // Listen to auth changes
-          const {
-            data: { subscription },
-          } = supabase.auth.onAuthStateChange((_event, session) => {
-            if (mounted) {
-              setUser(session?.user || null);
-            }
-          });
-
-          return () => {
-            subscription.unsubscribe();
-          };
-        } catch {
-          // AuthProvider not available, stay as guest
-          if (mounted) {
-            setUser(null);
-            setLoading(false);
-          }
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success && data.user) {
+          console.log('[NavbarFloating] User authenticated:', data.user.email);
+          setUser(data.user);
+        } else {
+          console.log('[NavbarFloating] No user session');
+          setUser(null);
         }
-      };
-
-      const cleanup = checkAuth();
-
-      return () => {
-        mounted = false;
-        cleanup?.then((unsub) => unsub?.());
-      };
+      } else {
+        console.log('[NavbarFloating] Auth check failed');
+        setUser(null);
+      }
+    } catch (error) {
+      console.error('[NavbarFloating] Error checking auth:', error);
+      setUser(null);
+    } finally {
+      setLoading(false);
     }
   }, []);
+
+  // Check auth on mount
+  React.useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
+  // Check auth when window regains focus (e.g., user returns from auth page)
+  React.useEffect(() => {
+    const handleFocus = () => {
+      console.log('[NavbarFloating] Window focused, rechecking auth...');
+      checkAuth();
+    };
+
+    window.addEventListener('focus', handleFocus);
+    return () => window.removeEventListener('focus', handleFocus);
+  }, [checkAuth]);
+
+  // Also listen for storage events (in case auth changes in another tab)
+  React.useEffect(() => {
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === 'auth-change') {
+        console.log('[NavbarFloating] Auth change detected in storage');
+        checkAuth();
+      }
+    };
+
+    window.addEventListener('storage', handleStorage);
+    return () => window.removeEventListener('storage', handleStorage);
+  }, [checkAuth]);
 
   return (
     <motion.nav
@@ -91,6 +99,7 @@ export function NavbarFloating() {
 
           {/* Right Actions */}
           <div className="flex items-center gap-3">
+            <NavbarSearch />
             <ChangelogButton />
             <RoadmapButton />
             <ThemeToggle />
