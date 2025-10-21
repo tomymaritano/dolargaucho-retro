@@ -1,8 +1,16 @@
 /**
  * Changelog / What's New
  *
- * Mantené este archivo actualizado con cada release importante.
- * El sistema mostrará automáticamente las novedades a los usuarios.
+ * NOTA IMPORTANTE:
+ * A partir del próximo release, este archivo será generado automáticamente
+ * por scripts/sync-changelog.js desde CHANGELOG.md (generado por semantic-release).
+ *
+ * Para agregar entradas al changelog:
+ * 1. Hacer commits con formato convencional (feat:, fix:, etc.)
+ * 2. Mergear a main
+ * 3. El sistema automático creará el release y actualizará este archivo
+ *
+ * NO EDITAR MANUALMENTE después del primer release automático.
  */
 
 export interface ChangelogEntry {
@@ -21,6 +29,35 @@ export interface ChangelogEntry {
  * Changelog completo (orden: más reciente primero)
  */
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.5.0',
+    date: '2025-10-21',
+    title: 'Rediseño Completo de Favoritos y Crypto',
+    emoji: '✨',
+    highlight: true,
+    description:
+      'Páginas de Favoritos y Criptomonedas completamente rediseñadas con el UI del dashboard principal. Ahora todas las páginas comparten el mismo diseño profesional y consistente.',
+    features: [
+      'Página Favoritos Unificada: Ahora usa el mismo componente FavoritesList del dashboard con todas las funcionalidades',
+      'Sparklines Integrados: Gráficos de tendencia de 30 días en tabla de favoritos',
+      'Gráficos Expandibles: Click en botón de gráfico para ver evolución histórica completa',
+      'Acciones Completas: Botones de gráfico, favorito, copiar y compartir en todas las tablas',
+      'Headers Consistentes: Breadcrumbs y botón de volver al dashboard en todas las páginas',
+    ],
+    improvements: [
+      'UI Unificada: Diseño consistente entre Dashboard, Favoritos y Crypto',
+      'Mejor Navegación: Breadcrumbs clicables y botón de volver con hover states',
+      'Paginación Mejorada: Sistema de paginación uniforme en favoritos',
+      'Componente Reutilizable: FavoritesList ahora se usa en dashboard y favoritos',
+      'Empty States Mejorados: Estados vacíos más atractivos con CTAs claros',
+      'Iconos en Headers: Iconos grandes en cards de colores brand en headers',
+    ],
+    fixes: [
+      'Eliminados componentes viejos de favoritos (FavoriteDolaresSection, FavoriteCurrenciesSection)',
+      'Card variant="outlined" consistente en todas las páginas',
+      'Tipografía unificada entre páginas',
+    ],
+  },
   {
     version: '1.4.0',
     date: '2025-10-21',

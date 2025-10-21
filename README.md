@@ -2,6 +2,10 @@
 
 <div align="center">
 
+![Version](https://img.shields.io/github/package-json/v/tomasmaritano/dolargaucho-retro?style=for-the-badge&logo=semanticrelease&label=Version)
+![Release](https://img.shields.io/github/v/release/tomasmaritano/dolargaucho-retro?style=for-the-badge&logo=github)
+![Commits](https://img.shields.io/github/commit-activity/m/tomasmaritano/dolargaucho-retro?style=for-the-badge&logo=git)
+
 ![Next.js](https://img.shields.io/badge/Next.js-15.1.6-black?style=for-the-badge&logo=next.js)
 ![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript)
@@ -24,6 +28,8 @@
 - [Documentación](#-documentación)
 - [Scripts Disponibles](#-scripts-disponibles)
 - [Variables de Entorno](#-variables-de-entorno)
+- [Conventional Commits](#-conventional-commits)
+- [Releases Automáticos](#-releases-automáticos)
 - [Roadmap](#-roadmap)
 
 ---
@@ -237,9 +243,21 @@ npm run start        # Inicia servidor de producción
 
 # Calidad de Código
 npm run lint         # Ejecuta ESLint
+npm run lint:fix     # Ejecuta ESLint y corrige automáticamente
+npm run format       # Formatea código con Prettier
+npm run format:check # Verifica formato con Prettier
+npm run type-check   # Verifica tipos TypeScript
+npm run validate     # Ejecuta lint + format + type-check
 
-# Análisis
-npm run analyze      # Analiza bundle size (después de build)
+# Testing
+npm test             # Ejecuta tests con Jest
+npm run test:watch   # Ejecuta tests en modo watch
+npm run test:coverage # Genera reporte de cobertura
+
+# Releases (Automático)
+npm run release      # Ejecuta semantic-release (solo en CI)
+npm run release:dry  # Simula release sin publicar
+npm run commit       # Helper interactivo para commits convencionales
 ```
 
 ---
@@ -272,6 +290,172 @@ NEWS_API_KEY=...
 ```
 
 Ver [.env.example](./.env.example) para lista completa.
+
+---
+
+## 📝 Conventional Commits
+
+Este proyecto usa **Conventional Commits** para mensajes de commits estructurados.
+
+### Formato
+
+```
+<tipo>(<scope>): <descripción>
+
+[cuerpo opcional]
+
+[footer opcional]
+```
+
+### Tipos Permitidos
+
+| Tipo       | Descripción                                 | Version Bump              |
+| ---------- | ------------------------------------------- | ------------------------- |
+| `feat`     | Nueva funcionalidad                         | **MINOR** (1.5.0 → 1.6.0) |
+| `fix`      | Corrección de bug                           | **PATCH** (1.5.0 → 1.5.1) |
+| `perf`     | Mejora de performance                       | **PATCH**                 |
+| `docs`     | Solo documentación                          | -                         |
+| `style`    | Cambios de formato (espacios, punto y coma) | -                         |
+| `refactor` | Refactorización de código                   | -                         |
+| `test`     | Agregar o modificar tests                   | -                         |
+| `build`    | Cambios en build system o dependencias      | -                         |
+| `ci`       | Cambios en CI/CD                            | -                         |
+| `chore`    | Tareas de mantenimiento                     | -                         |
+
+### Breaking Changes
+
+Para cambios que rompen compatibilidad (MAJOR version: 1.5.0 → 2.0.0):
+
+```bash
+# Opción 1: Usar !
+feat!: cambio que rompe compatibilidad
+
+# Opción 2: Footer BREAKING CHANGE
+feat: nuevo sistema de auth
+
+BREAKING CHANGE: La API de autenticación cambió completamente
+```
+
+### Ejemplos
+
+```bash
+# Feature (minor bump)
+feat(crypto): add sparklines to favorites table
+
+# Fix (patch bump)
+fix(auth): correct token expiration logic
+
+# Multiple líneas
+feat(dashboard): redesign navbar with marquee
+
+- Add DolarMarquee component
+- Implement hamburger menu
+- Add user dropdown
+
+Closes #123
+
+# Con scope
+fix(api): handle null values in FRED data
+docs(readme): update installation instructions
+chore(deps): upgrade next to 15.1.6
+```
+
+### Helper Interactivo
+
+Usá el helper interactivo para commits:
+
+```bash
+npm run commit
+```
+
+Esto abre un wizard que te guía paso a paso.
+
+---
+
+## 🚀 Releases Automáticos
+
+Este proyecto usa **semantic-release** para automatizar completamente el proceso de releases.
+
+### Cómo Funciona
+
+1. **Hacés commits convencionales** (feat, fix, etc.)
+2. **Mergeás a `main`**
+3. **GitHub Actions se dispara automáticamente:**
+   - Analiza commits desde el último release
+   - Determina el tipo de versión (patch/minor/major)
+   - Actualiza `package.json`
+   - Genera `CHANGELOG.md`
+   - Sincroniza `lib/changelog.ts` (para el modal WhatsNew)
+   - Crea git tag
+   - Crea GitHub Release
+   - Publica release notes
+
+### Flujo de Trabajo
+
+```mermaid
+graph LR
+    A[Commits] -->|feat, fix| B[Merge to main]
+    B --> C[GitHub Actions]
+    C --> D[Analyze Commits]
+    D --> E[Bump Version]
+    E --> F[Update CHANGELOG]
+    F --> G[Sync changelog.ts]
+    G --> H[Create Tag]
+    H --> I[GitHub Release]
+```
+
+### Ejemplo Práctico
+
+```bash
+# 1. Hacés commits convencionales
+git commit -m "feat(crypto): add trading view widget"
+git commit -m "fix(dashboard): correct chart tooltips"
+git commit -m "docs: update API documentation"
+
+# 2. Push a rama
+git push origin feature/crypto-improvements
+
+# 3. Creás PR y mergeás a main
+# Título del PR: "feat: crypto improvements"
+
+# 4. Automáticamente:
+# ✅ Version bump: 1.5.0 → 1.6.0 (por el feat)
+# ✅ CHANGELOG.md actualizado con:
+#    - ✨ Nuevas Funcionalidades
+#      - Add trading view widget
+#    - 🐛 Correcciones
+#      - Correct chart tooltips
+# ✅ lib/changelog.ts sincronizado
+# ✅ Tag v1.6.0 creado
+# ✅ GitHub Release publicado
+
+# 5. Modal WhatsNew se actualiza automáticamente
+# Usuarios ven: "¡Versión 1.6.0 disponible!"
+```
+
+### Validación Local
+
+Antes de mergear, podés simular el release:
+
+```bash
+npm run release:dry
+```
+
+Esto muestra qué versión se generaría sin publicar nada.
+
+### Configuración
+
+- **`.releaserc.js`** - Configuración de semantic-release
+- **`commitlint.config.js`** - Validación de commits
+- **`.github/workflows/release.yml`** - Workflow de CI/CD
+- **`scripts/sync-changelog.js`** - Sincronización de changelog
+
+### Notas Importantes
+
+- Solo commits en `main` generan releases
+- Commits con `[skip ci]` son ignorados
+- `docs`, `chore`, `style` no generan releases
+- PRs deben tener título en formato convencional
 
 ---
 

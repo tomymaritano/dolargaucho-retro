@@ -1,0 +1,101 @@
+name: Release
+
+# Trigger on push to main branch (after merge)
+on:
+  push:
+    branches:
+      - main
+
+# Prevent concurrent releases
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+
+    # Required permissions for semantic-release
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+
+    steps:
+      # 1. Checkout code with full history (needed for conventional commits analysis)
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      # 2. Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # 3. Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. Run semantic-release
+      # This will:
+      # - Analyze commits to determine version
+      # - Generate CHANGELOG.md
+      # - Update package.json
+      # - Create git tag
+      # - Create GitHub Release
+      - name: Run semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release
+
+      # 5. Sync lib/changelog.ts from CHANGELOG.md
+      - name: Sync changelog.ts
+        run: node scripts/sync-changelog.js
+
+      # 6. Commit and push changelog.ts if it changed
+      - name: Commit changelog.ts
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          # Check if lib/changelog.ts changed
+          if git diff --quiet lib/changelog.ts; then
+            echo "No changes in lib/changelog.ts"
+          else
+            git add lib/changelog.ts
+            git commit -m "chore: sync changelog.ts [skip ci]"
+
+            # Get the latest version from package.json
+            VERSION=$(node -p "require('./package.json').version")
+
+            # Push to the release tag (created by semantic-release)
+            git push origin HEAD:refs/tags/v${VERSION} --force
+
+            # Also push to main
+            git push origin HEAD:main
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 7. Notify about new release (optional)
+      - name: Release notification
+        if: success()
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "✅ Release v${VERSION} created successfully!"
+          echo "🎉 Changelog synced to lib/changelog.ts"
+          echo "📦 GitHub Release published"
+
+      # 8. Handle failures
+      - name: Handle release failure
+        if: failure()
+        run: |
+          echo "❌ Release process failed"
+          echo "Check the logs above for details"
+          exit 1
