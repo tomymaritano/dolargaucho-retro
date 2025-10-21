@@ -22,11 +22,11 @@ async function fetchUsersCount(): Promise<UsersCountResponse> {
 }
 
 export function useUsersCount() {
-  return useQuery({
+  return useQuery<UsersCountResponse>({
     queryKey: ['stats', 'users-count'],
     queryFn: fetchUsersCount,
     staleTime: 1000 * 60 * 5, // 5 minutos - no necesita actualizarse frecuentemente
-    cacheTime: 1000 * 60 * 30, // 30 minutos
+    gcTime: 1000 * 60 * 30, // 30 minutos (gcTime reemplaza cacheTime en v5)
     retry: 1, // Solo un reintento si falla
   });
 }
