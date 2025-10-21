@@ -1,0 +1,189 @@
+# Changelog
+
+Todos los cambios notables de este proyecto serán documentados en este archivo.
+
+El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
+y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
+
+## 1.0.0 (2025-10-21)
+
+- chore: install next-themes dependency ([31170d3](https://github.com/tomymaritano/dolargaucho-retro/commit/31170d3))
+- chore: remove unused Supabase and legacy component files ([4969958](https://github.com/tomymaritano/dolargaucho-retro/commit/4969958))
+- chore: trigger release workflow ([f188ba1](https://github.com/tomymaritano/dolargaucho-retro/commit/f188ba1))
+- chore: update contact email to tomymaritano@gmail.com ([19a4cc5](https://github.com/tomymaritano/dolargaucho-retro/commit/19a4cc5))
+- fix: add explicit type to useUsersCount hook ([eaa0e4d](https://github.com/tomymaritano/dolargaucho-retro/commit/eaa0e4d))
+- fix: anchor auth tabs to prevent movement when switching forms ([fd677a4](https://github.com/tomymaritano/dolargaucho-retro/commit/fd677a4))
+- fix: corregir filtros de tiempo en gráficos históricos ([1ff40dd](https://github.com/tomymaritano/dolargaucho-retro/commit/1ff40dd))
+- fix: filter international currencies from /cotizaciones endpoint ([36a3ecc](https://github.com/tomymaritano/dolargaucho-retro/commit/36a3ecc))
+- fix: improve hover button positioning with flex-1 layout ([da5290f](https://github.com/tomymaritano/dolargaucho-retro/commit/da5290f))
+- fix: invert crypto trend colors to match investment perspective ([97c388c](https://github.com/tomymaritano/dolargaucho-retro/commit/97c388c))
+- fix: make dot pattern much more subtle ([ef48aa8](https://github.com/tomymaritano/dolargaucho-retro/commit/ef48aa8))
+- fix: make NavbarFloating work without AuthProvider ([7be46b9](https://github.com/tomymaritano/dolargaucho-retro/commit/7be46b9))
+- fix: make Vercel background fully visible ([046092c](https://github.com/tomymaritano/dolargaucho-retro/commit/046092c)), closes [#0A0A0A](https://github.com/tomymaritano/dolargaucho-retro/issues/0A0A0A)
+- fix: navbar button now updates when user logs in/out ([6cce193](https://github.com/tomymaritano/dolargaucho-retro/commit/6cce193))
+- fix: normalize sparkline data points for visual consistency ([5825c17](https://github.com/tomymaritano/dolargaucho-retro/commit/5825c17))
+- fix: prevent form repositioning when switching auth tabs ([120b94f](https://github.com/tomymaritano/dolargaucho-retro/commit/120b94f))
+- fix: prevent input refresh on every keystroke in auth forms ([a296443](https://github.com/tomymaritano/dolargaucho-retro/commit/a296443))
+- fix: remove all remaining line breaks in className strings ([778d718](https://github.com/tomymaritano/dolargaucho-retro/commit/778d718))
+- fix: remove bg-background from page wrappers to show gradient ([3eb40db](https://github.com/tomymaritano/dolargaucho-retro/commit/3eb40db))
+- fix: remove duplicate bullets in disclaimer warning list ([1e148f5](https://github.com/tomymaritano/dolargaucho-retro/commit/1e148f5))
+- fix: remove line breaks in className strings ([5c57978](https://github.com/tomymaritano/dolargaucho-retro/commit/5c57978))
+- fix: remove solid backgrounds from DataSources and FAQs sections ([542d6ae](https://github.com/tomymaritano/dolargaucho-retro/commit/542d6ae))
+- fix: remove unnecessary useTransition causing constant re-renders in auth inputs ([ff7b676](https://github.com/tomymaritano/dolargaucho-retro/commit/ff7b676))
+- fix: Rename calculadorainflacion.tsx to CalculadoraInflacion.tsx ([2800347](https://github.com/tomymaritano/dolargaucho-retro/commit/2800347))
+- fix: resolve build errors in help.tsx and tailwind.config.ts ([26f4ef1](https://github.com/tomymaritano/dolargaucho-retro/commit/26f4ef1))
+- fix: resolve ESLint errors in refactored components ([929be2e](https://github.com/tomymaritano/dolargaucho-retro/commit/929be2e))
+- fix: restore mini table with sparklines in FinalCTA ([0c1ae0d](https://github.com/tomymaritano/dolargaucho-retro/commit/0c1ae0d))
+- fix: simplify disclaimer warning to single clean alert ([bbb1cb5](https://github.com/tomymaritano/dolargaucho-retro/commit/bbb1cb5))
+- fix: standardize sparkline rendering to monotone curves ([c7d59c1](https://github.com/tomymaritano/dolargaucho-retro/commit/c7d59c1))
+- fix: unify sparkline colors to match financial standard ([bdcefd5](https://github.com/tomymaritano/dolargaucho-retro/commit/bdcefd5))
+- fix: use actual logo.svg with reveal animation ([199e1a7](https://github.com/tomymaritano/dolargaucho-retro/commit/199e1a7))
+- fix: use invisible field to maintain consistent form height ([f128493](https://github.com/tomymaritano/dolargaucho-retro/commit/f128493))
+- fix(release): skip commitlint for automated semantic-release commits ([8447fd4](https://github.com/tomymaritano/dolargaucho-retro/commit/8447fd4))
+- feat: add animated logo with drawing effect ([e1f41c6](https://github.com/tomymaritano/dolargaucho-retro/commit/e1f41c6))
+- feat: add comprehensive favicon and PWA support ([6bb40ed](https://github.com/tomymaritano/dolargaucho-retro/commit/6bb40ed)), closes [Hi#res](https://github.com/Hi/issues/res)
+- feat: add comprehensive legal framework with Argentine compliance ([cb98bc5](https://github.com/tomymaritano/dolargaucho-retro/commit/cb98bc5))
+- feat: add comprehensive SEO and social sharing meta tags ([4446663](https://github.com/tomymaritano/dolargaucho-retro/commit/4446663))
+- feat: add DashboardNavbar with marquee and improved menu ([41d3158](https://github.com/tomymaritano/dolargaucho-retro/commit/41d3158))
+- feat: add gradient action bar with favorite, copy, and share buttons ([47a0838](https://github.com/tomymaritano/dolargaucho-retro/commit/47a0838))
+- feat: add hover animation to logo ([95201c9](https://github.com/tomymaritano/dolargaucho-retro/commit/95201c9))
+- feat: add interactive animations to FeaturesSimple with GSAP and tilt effect ([87a9b28](https://github.com/tomymaritano/dolargaucho-retro/commit/87a9b28))
+- feat: add missing components and charts for dashboard ([a70495f](https://github.com/tomymaritano/dolargaucho-retro/commit/a70495f))
+- feat: add reusable Tabs component and improve Help Center navigation ([076db25](https://github.com/tomymaritano/dolargaucho-retro/commit/076db25))
+- feat: add smooth form transitions with Framer Motion ([40738fe](https://github.com/tomymaritano/dolargaucho-retro/commit/40738fe))
+- feat: add sparklines to favorites and fix international rates overflow ([431da42](https://github.com/tomymaritano/dolargaucho-retro/commit/431da42))
+- feat: add useDolarWith7DayTrend hook for 24h and 7-day trends ([de91dd7](https://github.com/tomymaritano/dolargaucho-retro/commit/de91dd7))
+- feat: add Vercel-style background with radial gradient and dots ([3aa143d](https://github.com/tomymaritano/dolargaucho-retro/commit/3aa143d))
+- feat: add visual bar chart for dollar comparison analysis ([45e35c3](https://github.com/tomymaritano/dolargaucho-retro/commit/45e35c3))
+- feat: add What's New changelog system with elegant modal ([17392a8](https://github.com/tomymaritano/dolargaucho-retro/commit/17392a8))
+- feat: agregar herramientas financieras y mejorar análisis técnico ([cc2f24f](https://github.com/tomymaritano/dolargaucho-retro/commit/cc2f24f))
+- feat: Complete FASE 0 - Production-ready build ([8465429](https://github.com/tomymaritano/dolargaucho-retro/commit/8465429))
+- feat: complete landing page redesign with fintech aesthetics ([e1485f5](https://github.com/tomymaritano/dolargaucho-retro/commit/e1485f5))
+- feat: create unified Table component system with UX principles ([dcef6f3](https://github.com/tomymaritano/dolargaucho-retro/commit/dcef6f3))
+- feat: enhance Vercel background visibility and depth ([7bc0511](https://github.com/tomymaritano/dolargaucho-retro/commit/7bc0511))
+- feat: fix auth forms and add nickname support ([41e2fc5](https://github.com/tomymaritano/dolargaucho-retro/commit/41e2fc5))
+- feat: fix password reset functionality and redesign forgot password page ([4efa482](https://github.com/tomymaritano/dolargaucho-retro/commit/4efa482))
+- feat: implement comprehensive security best practices ([20c3e16](https://github.com/tomymaritano/dolargaucho-retro/commit/20c3e16))
+- feat: improve auth forms with password visibility and confirmation ([43a11b0](https://github.com/tomymaritano/dolargaucho-retro/commit/43a11b0))
+- feat: improve changelog modal with collapsible entries ([6ad8598](https://github.com/tomymaritano/dolargaucho-retro/commit/6ad8598))
+- feat: improve dashboard layout and add 7-day percentage column ([d020214](https://github.com/tomymaritano/dolargaucho-retro/commit/d020214))
+- feat: improve favorites UX with hover buttons and badges ([b3fc215](https://github.com/tomymaritano/dolargaucho-retro/commit/b3fc215))
+- feat: improve UX with interactive tooltips and mobile responsiveness ([dbf38d6](https://github.com/tomymaritano/dolargaucho-retro/commit/dbf38d6))
+- feat: mejora completa de landing page con tema adaptativo y social proof ([01f3818](https://github.com/tomymaritano/dolargaucho-retro/commit/01f3818))
+- feat: optimizar UX del dashboard eliminando duplicación de datos ([b783496](https://github.com/tomymaritano/dolargaucho-retro/commit/b783496))
+- feat: redesign search modal with premium style ([556b56e](https://github.com/tomymaritano/dolargaucho-retro/commit/556b56e))
+- feat: replace placeholder images with interactive mockups ([d4cb4aa](https://github.com/tomymaritano/dolargaucho-retro/commit/d4cb4aa))
+- feat: replace quotation cards with historical comparison chart ([0380d97](https://github.com/tomymaritano/dolargaucho-retro/commit/0380d97)), closes [#3b82f6](https://github.com/tomymaritano/dolargaucho-retro/issues/3b82f6) [#0047FF](https://github.com/tomymaritano/dolargaucho-retro/issues/0047FF) [#8B5CF6](https://github.com/tomymaritano/dolargaucho-retro/issues/8B5CF6) [#f97316](https://github.com/tomymaritano/dolargaucho-retro/issues/f97316) [#10b981](https://github.com/tomymaritano/dolargaucho-retro/issues/10b981)
+- feat: sistema completo de GitHub Projects para tracking de roadmap ([48e4a88](https://github.com/tomymaritano/dolargaucho-retro/commit/48e4a88))
+- feat: unify card layout and add favorite button animations ([f22fed1](https://github.com/tomymaritano/dolargaucho-retro/commit/f22fed1))
+- feat: unify dashboard with professional tables and consistent sparklines ([aea8dfb](https://github.com/tomymaritano/dolargaucho-retro/commit/aea8dfb))
+- feat: unify table UI across all components ([c8df81b](https://github.com/tomymaritano/dolargaucho-retro/commit/c8df81b))
+- feat(crypto): add expandable historical charts to crypto table ([ba46f3a](https://github.com/tomymaritano/dolargaucho-retro/commit/ba46f3a))
+- feat(crypto): redesign page header with breadcrumbs and back button ([57f2af1](https://github.com/tomymaritano/dolargaucho-retro/commit/57f2af1))
+- feat(favoritos): remove available items sections ([e2350c9](https://github.com/tomymaritano/dolargaucho-retro/commit/e2350c9))
+- feat(release): implement automated semantic release system ([17554f4](https://github.com/tomymaritano/dolargaucho-retro/commit/17554f4))
+- refactor: complete redesign of analysis page with clean minimal UI ([0817a5c](https://github.com/tomymaritano/dolargaucho-retro/commit/0817a5c))
+- refactor: drastically simplify marketing site structure ([339d675](https://github.com/tomymaritano/dolargaucho-retro/commit/339d675))
+- refactor: extract favoritos and crypto page components ([fb2a79b](https://github.com/tomymaritano/dolargaucho-retro/commit/fb2a79b))
+- refactor: improve disclaimer warning block structure ([ccb3946](https://github.com/tomymaritano/dolargaucho-retro/commit/ccb3946))
+- refactor: improve form validations and remove height placeholders ([6e7aae3](https://github.com/tomymaritano/dolargaucho-retro/commit/6e7aae3))
+- refactor: improve warning block structure in terms page ([e551dc4](https://github.com/tomymaritano/dolargaucho-retro/commit/e551dc4))
+- refactor: integrate Help Center into legal layout structure ([eb9a573](https://github.com/tomymaritano/dolargaucho-retro/commit/eb9a573))
+- refactor: make Help Center tabs more compact ([860d623](https://github.com/tomymaritano/dolargaucho-retro/commit/860d623))
+- refactor: massive dashboard refactorization - 89% code reduction ([72fb76f](https://github.com/tomymaritano/dolargaucho-retro/commit/72fb76f))
+- refactor: merge analysis and finance pages into unified view ([0fe15ac](https://github.com/tomymaritano/dolargaucho-retro/commit/0fe15ac))
+- refactor: migrate DiputadosTable and SenadoresTable to unified Table system ([f02f716](https://github.com/tomymaritano/dolargaucho-retro/commit/f02f716))
+- refactor: redesign analysis page with modern cohesive UI ([75c14dd](https://github.com/tomymaritano/dolargaucho-retro/commit/75c14dd))
+- refactor: redesign chart components with modern minimal style ([251f7bf](https://github.com/tomymaritano/dolargaucho-retro/commit/251f7bf))
+- refactor: redesign Tasas and Brechas sections with intuitive visual UI ([be22b49](https://github.com/tomymaritano/dolargaucho-retro/commit/be22b49))
+- refactor: remove chart backgrounds and footer sources for cleaner design ([c9e3109](https://github.com/tomymaritano/dolargaucho-retro/commit/c9e3109))
+- refactor: remove currency/dollar icons from tables, keep only crypto images ([91bb2a8](https://github.com/tomymaritano/dolargaucho-retro/commit/91bb2a8))
+- refactor: remove welcome header from auth page ([961c3f3](https://github.com/tomymaritano/dolargaucho-retro/commit/961c3f3))
+- refactor: rename all components to PascalCase convention ([6b13820](https://github.com/tomymaritano/dolargaucho-retro/commit/6b13820))
+- refactor: replace logo with animated SVG dollar sign ([e483cc0](https://github.com/tomymaritano/dolargaucho-retro/commit/e483cc0))
+- refactor: simplify logo animation to rotate + scale ([a42271b](https://github.com/tomymaritano/dolargaucho-retro/commit/a42271b))
+- refactor: simplify NavbarFloating to minimal design ([1333a7d](https://github.com/tomymaritano/dolargaucho-retro/commit/1333a7d))
+- refactor: simplify ProductShowcase section - reduce information overload ([0e698c5](https://github.com/tomymaritano/dolargaucho-retro/commit/0e698c5))
+- perf: optimize auth inputs and simplify header text ([90e43a7](https://github.com/tomymaritano/dolargaucho-retro/commit/90e43a7))
+- revert: remove data sampling from sparklines ([ad12360](https://github.com/tomymaritano/dolargaucho-retro/commit/ad12360))
+- blog ([7e998c2](https://github.com/tomymaritano/dolargaucho-retro/commit/7e998c2))
+- Initial commit from Create Next App ([7f339bd](https://github.com/tomymaritano/dolargaucho-retro/commit/7f339bd))
+- udp ([9c29673](https://github.com/tomymaritano/dolargaucho-retro/commit/9c29673))
+- udp ([831215f](https://github.com/tomymaritano/dolargaucho-retro/commit/831215f))
+- udp ([efc70a5](https://github.com/tomymaritano/dolargaucho-retro/commit/efc70a5))
+- udp ([e209d2a](https://github.com/tomymaritano/dolargaucho-retro/commit/e209d2a))
+- udp ([e59a0c8](https://github.com/tomymaritano/dolargaucho-retro/commit/e59a0c8))
+- udp ([20407da](https://github.com/tomymaritano/dolargaucho-retro/commit/20407da))
+- udp ([dd5ead5](https://github.com/tomymaritano/dolargaucho-retro/commit/dd5ead5))
+- udp ([3bd752f](https://github.com/tomymaritano/dolargaucho-retro/commit/3bd752f))
+- udp ([676a609](https://github.com/tomymaritano/dolargaucho-retro/commit/676a609))
+- udp ([1b88e1e](https://github.com/tomymaritano/dolargaucho-retro/commit/1b88e1e))
+- udp ([d965847](https://github.com/tomymaritano/dolargaucho-retro/commit/d965847))
+- udpates ([97bbf4b](https://github.com/tomymaritano/dolargaucho-retro/commit/97bbf4b))
+- udpates ([d3f16e0](https://github.com/tomymaritano/dolargaucho-retro/commit/d3f16e0))
+- udpates ([b1694da](https://github.com/tomymaritano/dolargaucho-retro/commit/b1694da))
+- udpates ([c7a5aa3](https://github.com/tomymaritano/dolargaucho-retro/commit/c7a5aa3))
+- up ([a8867c8](https://github.com/tomymaritano/dolargaucho-retro/commit/a8867c8))
+- updates ([6f4ae90](https://github.com/tomymaritano/dolargaucho-retro/commit/6f4ae90))
+- updates ([b847415](https://github.com/tomymaritano/dolargaucho-retro/commit/b847415))
+- updates ([a08a8b0](https://github.com/tomymaritano/dolargaucho-retro/commit/a08a8b0))
+- updates ([411aeed](https://github.com/tomymaritano/dolargaucho-retro/commit/411aeed))
+- updates ([c5303c0](https://github.com/tomymaritano/dolargaucho-retro/commit/c5303c0))
+- updates ([250ec9f](https://github.com/tomymaritano/dolargaucho-retro/commit/250ec9f))
+- updates ([6018fd2](https://github.com/tomymaritano/dolargaucho-retro/commit/6018fd2))
+- updates ([cbcc430](https://github.com/tomymaritano/dolargaucho-retro/commit/cbcc430))
+- updates ([4b29992](https://github.com/tomymaritano/dolargaucho-retro/commit/4b29992))
+- updates ([70994b0](https://github.com/tomymaritano/dolargaucho-retro/commit/70994b0))
+- updates ([ad632f1](https://github.com/tomymaritano/dolargaucho-retro/commit/ad632f1))
+- updates ([aa18c2e](https://github.com/tomymaritano/dolargaucho-retro/commit/aa18c2e))
+- updates ([dd85802](https://github.com/tomymaritano/dolargaucho-retro/commit/dd85802))
+- updates ([a864064](https://github.com/tomymaritano/dolargaucho-retro/commit/a864064))
+- updates ([f5606a6](https://github.com/tomymaritano/dolargaucho-retro/commit/f5606a6))
+- Updates ([bef2c1c](https://github.com/tomymaritano/dolargaucho-retro/commit/bef2c1c))
+- Updates ([a2bce84](https://github.com/tomymaritano/dolargaucho-retro/commit/a2bce84))
+- Updates ([13cedd2](https://github.com/tomymaritano/dolargaucho-retro/commit/13cedd2))
+
+### BREAKING CHANGE
+
+- Combines analisis and finanzas into single comprehensive page
+
+Changes:
+
+- Merge both pages into unified Análisis Económico page
+- Add 6-column indicator grid: Brecha, IPC Mensual, IPC Anual, Riesgo, UVA
+- Show trend indicators (arrows) and change values for all metrics
+- Include IPC interanual (yearly inflation) as separate indicator
+- Add comprehensive chart section: Inflación, Riesgo País, Tasas
+- Keep clean minimal design without borders
+- Simplify cotizaciones visualization with thin bars
+- Charts now displayed in cleaner layout without heavy cards
+- Add contextual info for IPC, UVA, and Riesgo País
+- Better responsive grid (2 cols mobile, 3 tablet, 5/6 desktop)
+- All data in single scrollable view
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+
+- Complete UX/UI overhaul
+
+Changes:
+
+- Remove all unnecessary borders and boxes
+- Simplify header (no icons, just text)
+- Redesign indicators as clean stat blocks (no cards/borders)
+- Add trend indicators (arrows) for all metrics
+- Show change values (pp, pb) next to trends
+- Streamline dollar comparison with thin progress bars
+- Sort dollars by value (highest first)
+- Simplify brecha cards with minimal bg (bg-white/[0.02])
+- Remove heavy Card components throughout
+- Use consistent spacing (space-y-8)
+- Cleaner typography hierarchy
+- Minimal info footer with subtle background
+- Better visual flow and breathing room
+- Align with modern dashboard aesthetics
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
