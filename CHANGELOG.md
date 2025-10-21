@@ -5,6 +5,10 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## 1.4.0 (2025-10-21)
+
+- feat: add technical architecture page and improve roadmap with timeline ([8e9d6f5](https://github.com/tomymaritano/dolargaucho-retro/commit/8e9d6f5))
+
 ## 1.3.0 (2025-10-21)
 
 - refactor: migrate favorites store to sync engine infrastructure ([c5feab8](https://github.com/tomymaritano/dolargaucho-retro/commit/c5feab8))
