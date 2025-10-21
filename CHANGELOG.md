@@ -5,6 +5,12 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## 1.5.0 (2025-10-21)
+
+- feat: add backend sync infrastructure for alerts system ([d0c0c31](https://github.com/tomymaritano/dolargaucho-retro/commit/d0c0c31))
+- docs: standardize to tanstack query terminology ([c798fc9](https://github.com/tomymaritano/dolargaucho-retro/commit/c798fc9))
+- refactor: modernize dashboard ui across all pages ([83efd29](https://github.com/tomymaritano/dolargaucho-retro/commit/83efd29))
+
 ## 1.4.0 (2025-10-21)
 
 - feat: add technical architecture page and improve roadmap with timeline ([8e9d6f5](https://github.com/tomymaritano/dolargaucho-retro/commit/8e9d6f5))
