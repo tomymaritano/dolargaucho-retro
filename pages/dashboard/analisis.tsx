@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { DashboardLayout } from '@/components/layouts/DashboardLayout';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { Card } from '@/components/ui/Card/Card';
 import { useDolarQuery } from '@/hooks/useDolarQuery';
 import { useMultipleDolarHistoricoRange } from '@/hooks/useDolarHistoricoRange';
 import { TradingViewAdvancedChart } from '@/components/tradingview/TradingViewAdvancedChart';
@@ -49,20 +51,12 @@ export default function AnalisisPage() {
       <DashboardLayout>
         <div className="space-y-8">
           {/* Header */}
-          <div className="flex items-start justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-foreground mb-1">Análisis Económico</h1>
-              <p className="text-sm text-secondary">
-                Visualización avanzada y análisis técnico del mercado
-              </p>
-            </div>
-            <a
-              href="/dashboard"
-              className="px-4 py-2 rounded-lg bg-white/5 text-secondary hover:bg-white/10 hover:text-brand text-sm font-semibold transition-all"
-            >
-              ← Ver Dashboard
-            </a>
-          </div>
+          <PageHeader
+            title="Análisis Económico"
+            description="Visualización avanzada y análisis técnico del mercado"
+            icon={FaChartLine}
+            breadcrumbs={[{ label: 'Análisis' }]}
+          />
 
           {/* Evolución Comparativa de Cotizaciones */}
           <div className="space-y-4">
@@ -234,7 +228,7 @@ export default function AnalisisPage() {
                     };
 
                     return (
-                      <div key={casa} className="p-3 rounded-lg bg-white/[0.02]">
+                      <Card key={casa} variant="elevated" padding="md" hover="glow">
                         <div className="text-xs text-secondary mb-1">{nombres[casa]}</div>
                         <div className="text-lg font-black text-foreground mb-1">
                           ${casaData.latest.toFixed(2)}
@@ -247,7 +241,7 @@ export default function AnalisisPage() {
                           {casaData.change > 0 ? '+' : ''}
                           {casaData.changePercent.toFixed(1)}%
                         </div>
-                      </div>
+                      </Card>
                     );
                   })}
                 </div>
@@ -273,9 +267,11 @@ export default function AnalisisPage() {
             </div>
 
             {/* Info sobre el gráfico */}
-            <div className="bg-white/[0.02] rounded-lg p-4 border border-white/5">
+            <Card variant="elevated" padding="md">
               <div className="flex items-start gap-3">
-                <FaInfoCircle className="text-brand text-sm mt-0.5 flex-shrink-0" />
+                <div className="p-2 rounded-lg bg-brand/10 flex-shrink-0">
+                  <FaInfoCircle className="text-brand text-sm" />
+                </div>
                 <div className="space-y-1 text-xs text-secondary">
                   <p>
                     <span className="text-foreground font-medium">Baseline:</span> Rojo = dólar más
@@ -292,7 +288,7 @@ export default function AnalisisPage() {
                   </p>
                 </div>
               </div>
-            </div>
+            </Card>
           </div>
 
           {/* TradingView Advanced Chart */}
@@ -348,9 +344,11 @@ export default function AnalisisPage() {
             </div>
 
             {/* Info sobre TradingView */}
-            <div className="bg-white/[0.02] rounded-lg p-4 border border-white/5">
+            <Card variant="elevated" padding="md">
               <div className="flex items-start gap-3">
-                <FaInfoCircle className="text-brand text-sm mt-0.5 flex-shrink-0" />
+                <div className="p-2 rounded-lg bg-brand/10 flex-shrink-0">
+                  <FaInfoCircle className="text-brand text-sm" />
+                </div>
                 <div className="space-y-1 text-xs text-secondary">
                   <p>
                     <span className="text-foreground font-medium">TradingView:</span> Plataforma
@@ -365,7 +363,7 @@ export default function AnalisisPage() {
                   </p>
                 </div>
               </div>
-            </div>
+            </Card>
           </div>
 
           {/* Brechas Cambiarias - Comparativa Visual */}
@@ -467,9 +465,11 @@ export default function AnalisisPage() {
           </div>
 
           {/* Info contextual */}
-          <div className="bg-white/[0.02] rounded-lg p-5">
+          <Card variant="elevated" padding="lg">
             <div className="flex items-start gap-3">
-              <FaInfoCircle className="text-brand text-lg mt-0.5 flex-shrink-0" />
+              <div className="p-3 rounded-xl bg-brand/10 flex-shrink-0">
+                <FaInfoCircle className="text-brand text-lg" />
+              </div>
               <div className="space-y-2 text-sm text-secondary">
                 <p>
                   <span className="text-foreground font-medium">Página de Análisis:</span> Esta
@@ -487,7 +487,7 @@ export default function AnalisisPage() {
                 </p>
               </div>
             </div>
-          </div>
+          </Card>
         </div>
       </DashboardLayout>
     </>

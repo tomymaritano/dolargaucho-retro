@@ -10,7 +10,7 @@
 
 import React from 'react';
 import { DashboardLayout } from '@/components/layouts/DashboardLayout';
-import { Breadcrumb, type BreadcrumbItem } from '@/components/ui/Breadcrumb';
+import { PageHeader } from '@/components/ui/PageHeader';
 import { Card } from '@/components/ui/Card/Card';
 import Link from 'next/link';
 import {
@@ -25,13 +25,6 @@ import {
 } from 'react-icons/fa';
 import { useFavoritesStore } from '@/lib/store/favorites';
 import { useAlertasStore } from '@/lib/store/alertas';
-
-const breadcrumbItems: BreadcrumbItem[] = [
-  {
-    label: 'Herramientas',
-    icon: FaTools,
-  },
-];
 
 const herramientasCards = [
   {
@@ -102,21 +95,13 @@ export default function HerramientasHubPage() {
   return (
     <DashboardLayout>
       <div className="space-y-6">
-        {/* Breadcrumb */}
-        <Breadcrumb items={breadcrumbItems} />
-
         {/* Page Header */}
-        <div className="flex items-start justify-between flex-wrap gap-4">
-          <div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-2 flex items-center gap-3">
-              <FaTools className="text-brand" />
-              Herramientas
-            </h1>
-            <p className="text-secondary text-lg">
-              Utilidades y calculadoras para tomar mejores decisiones financieras
-            </p>
-          </div>
-        </div>
+        <PageHeader
+          title="Herramientas"
+          description="Utilidades y calculadoras para tomar mejores decisiones financieras"
+          icon={FaTools}
+          breadcrumbs={[{ label: 'Herramientas' }]}
+        />
 
         {/* Quick Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
