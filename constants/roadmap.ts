@@ -122,12 +122,10 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     id: 'auth-system',
     title: 'Sistema de Autenticación',
     description: 'Login, registro, y perfiles de usuario con preferencias personalizadas',
-    status: 'in-progress',
+    status: 'completed',
     icon: FaLock,
     category: 'Core',
-    progress: 90,
-    quarter: 'Q1 2025',
-    effort: '2 semanas',
+    completedDate: '2025-01',
   },
 
   // ========== PLANNED - Q1 2025 (Próximos 3 meses) ==========
