@@ -1,6 +1,17 @@
+/**
+ * Crypto Page (Redesigned)
+ *
+ * Unified crypto view matching main dashboard UI
+ * - Professional header with breadcrumbs
+ * - Search, filters, and sorting
+ * - Sparklines and action buttons
+ * - Help FAQ
+ */
+
 'use client';
 
 import React, { useState, useMemo } from 'react';
+import { useRouter } from 'next/router';
 import { DashboardLayout } from '@/components/layouts/DashboardLayout';
 import { Card } from '@/components/ui/Card/Card';
 import { Table, TableHeader, TableBody, TableRow, TableHeaderCell } from '@/components/ui/Table';
@@ -8,11 +19,18 @@ import { useCryptoQuery } from '@/hooks/useCryptoQuery';
 import { useFavoritesStore } from '@/lib/store/favorites';
 import { useDolarByType } from '@/hooks/useDolarQuery';
 import type { DolarType } from '@/types/api/dolar';
-import { FaBitcoin, FaSearch, FaInfoCircle, FaSort, FaSortUp, FaSortDown } from 'react-icons/fa';
+import {
+  FaBitcoin,
+  FaSearch,
+  FaInfoCircle,
+  FaSort,
+  FaSortUp,
+  FaSortDown,
+  FaChevronLeft,
+} from 'react-icons/fa';
 import { HelpButton } from '@/components/ui/HelpButton/HelpButton';
 import { CryptoHeader } from '@/components/crypto/CryptoHeader';
 import { CryptoTableRow } from '@/components/crypto/CryptoTableRow';
-import { PageHeader } from '@/components/ui/PageHeader';
 import { EmptyState } from '@/components/ui/EmptyState';
 
 const CRYPTO_FAQ = [
@@ -29,7 +47,7 @@ const CRYPTO_FAQ = [
   {
     question: '¿Cómo se calcula el precio en ARS?',
     answer:
-      'El precio en pesos argentinos se calcula multiplicando el valor en USD por la <strong>cotización del dólar blue</strong>. Esto te da una referencia aproximada del valor en el mercado paralelo.',
+      'El precio en pesos argentinos se calcula multiplicando el valor en USD por la <strong>cotización del dólar seleccionado</strong>. Podés cambiar el tipo de dólar usado en el selector de la página.',
   },
   {
     question: '¿Qué significa Market Cap?',
@@ -46,16 +64,8 @@ const CRYPTO_FAQ = [
 type SortOption = 'market_cap' | 'price' | 'change_24h' | 'name';
 type FilterOption = 'all' | 'favorites' | 'stablecoins';
 
-/**
- * CryptoPage
- *
- * Display cryptocurrency prices with:
- * - Real-time prices from CoinGecko
- * - ARS conversion using selected dolar rate
- * - Search, filter, and sort capabilities
- * - Favorites management
- */
 export default function CryptoPage() {
+  const router = useRouter();
   const [search, setSearch] = useState('');
   const [sortBy, setSortBy] = useState<SortOption>('market_cap');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
@@ -149,13 +159,43 @@ export default function CryptoPage() {
     <DashboardLayout>
       <div className="space-y-6">
         {/* Page Header */}
-        <PageHeader
-          breadcrumbs={[{ label: 'Dashboard', href: '/dashboard' }, { label: 'Criptomonedas' }]}
-          icon={FaBitcoin}
-          title="Criptomonedas"
-          description="Precios en tiempo real de las principales criptomonedas del mercado"
-          action={<HelpButton title="Ayuda - Criptomonedas" faqs={CRYPTO_FAQ} />}
-        />
+        <div className="flex items-start justify-between">
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <button
+                onClick={() => router.push('/dashboard')}
+                className="p-2 rounded-lg hover:bg-white/5 transition-colors text-secondary hover:text-brand"
+                aria-label="Volver al Dashboard"
+              >
+                <FaChevronLeft className="text-sm" />
+              </button>
+              <div className="flex items-center gap-2 text-sm text-secondary">
+                <span
+                  onClick={() => router.push('/dashboard')}
+                  className="hover:text-brand cursor-pointer transition-colors"
+                >
+                  Dashboard
+                </span>
+                <span>/</span>
+                <span className="text-foreground">Criptomonedas</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 ml-12">
+              <div className="w-12 h-12 rounded-xl bg-brand/20 flex items-center justify-center">
+                <FaBitcoin className="text-brand text-xl" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-foreground">Criptomonedas</h1>
+                <p className="text-sm text-secondary mt-1">
+                  Precios en tiempo real de las principales criptomonedas del mercado
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="mt-14">
+            <HelpButton title="Ayuda - Criptomonedas" faqs={CRYPTO_FAQ} />
+          </div>
+        </div>
 
         {/* Search, Filters, and Sorting */}
         <CryptoHeader
@@ -171,7 +211,7 @@ export default function CryptoPage() {
 
         {/* Loading State */}
         {isLoading && (
-          <Card variant="elevated" padding="lg">
+          <Card variant="outlined" padding="lg">
             <div className="flex flex-col items-center gap-3 py-8">
               <div className="h-8 w-8 animate-spin rounded-full border-2 border-brand border-t-transparent" />
               <p className="text-sm text-secondary">Cargando criptomonedas...</p>
@@ -181,7 +221,7 @@ export default function CryptoPage() {
 
         {/* Error State */}
         {error && (
-          <Card variant="elevated" padding="lg">
+          <Card variant="outlined" padding="lg">
             <div className="text-center py-8">
               <p className="text-error">Error al cargar datos de criptomonedas</p>
               <p className="text-sm text-secondary mt-2">Por favor, intenta nuevamente</p>
@@ -299,7 +339,7 @@ export default function CryptoPage() {
           </Card>
         )}
 
-        {/* Disclaimer Footer - Subtle */}
+        {/* Disclaimer Footer */}
         {!isLoading && !error && filteredAndSortedData.length > 0 && (
           <div className="flex items-start gap-2 p-4 bg-white/5 border border-white/10 rounded-lg">
             <FaInfoCircle className="text-brand text-sm mt-0.5 flex-shrink-0" />
