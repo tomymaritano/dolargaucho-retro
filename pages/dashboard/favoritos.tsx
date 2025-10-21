@@ -27,8 +27,7 @@ export default function FavoritosPage() {
   // Data fetching
   const { data: dolares } = useDolarVariations();
   const { data: cotizaciones } = useCotizacionesWithVariations();
-  const { data: cryptoData } = useCryptoQuery();
-  const cryptos = cryptoData?.cryptos || [];
+  const { data: cryptos } = useCryptoQuery();
 
   const { toast, showToast, hideToast } = useToast();
 
