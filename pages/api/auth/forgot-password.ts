@@ -9,7 +9,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';
 import { findUserByEmail } from '@/lib/db/queries';
 import { createPasswordResetToken } from '@/lib/auth/password-reset';
-import { sendPasswordResetEmail } from '@/lib/email/password-reset';
+import { sendPasswordResetEmail } from '@/lib/email';
 import { rateLimitMiddleware, getClientIdentifier } from '@/lib/security/rate-limit';
 
 /**
@@ -88,11 +88,23 @@ export default async function handler(
     const token = await createPasswordResetToken(user.id);
 
     // Send password reset email
-    const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/reset-password?token=${token}`;
-
     try {
-      await sendPasswordResetEmail(user.email, user.name || 'Usuario', resetUrl);
-      console.log('[Forgot Password] Reset email sent to:', user.email);
+      // Only send email if RESEND_API_KEY is configured
+      if (process.env.RESEND_API_KEY) {
+        await sendPasswordResetEmail({
+          to: user.email,
+          name: user.name || undefined,
+          resetToken: token,
+        });
+        console.log('[Forgot Password] Reset email sent to:', user.email);
+      } else {
+        console.warn('[Forgot Password] Email service not configured - email not sent');
+        console.log('[Forgot Password] Reset token:', token);
+        console.log(
+          '[Forgot Password] Reset URL:',
+          `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/reset-password?token=${token}`
+        );
+      }
     } catch (emailError) {
       console.error('[Forgot Password] Failed to send email:', emailError);
       // Don't reveal email sending failure to user for security

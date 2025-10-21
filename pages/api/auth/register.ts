@@ -11,6 +11,7 @@ import { hashPassword, validatePassword } from '@/lib/auth/password';
 import { generateToken } from '@/lib/auth/jwt';
 import { setAuthCookie } from '@/lib/auth/cookies';
 import { createUser, findUserByEmail, findUserByNickname } from '@/lib/db/queries';
+import { sendWelcomeEmail } from '@/lib/email';
 
 /**
  * Request body validation schema
@@ -107,6 +108,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     // Set HTTP-only cookie
     setAuthCookie(res, token);
     console.log('[Register API] Cookie set for user:', user.email);
+
+    // Send welcome email (non-blocking - don't wait for it)
+    if (process.env.RESEND_API_KEY) {
+      sendWelcomeEmail({
+        to: user.email,
+        name: user.name || undefined,
+      }).catch((emailError) => {
+        console.error('[Register API] Failed to send welcome email:', emailError);
+        // Continue anyway - email failure shouldn't block registration
+      });
+    } else {
+      console.warn('[Register API] Email service not configured - welcome email not sent');
+    }
 
     // Return success response
     return res.status(201).json({
