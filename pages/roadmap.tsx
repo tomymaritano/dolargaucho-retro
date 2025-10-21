@@ -18,6 +18,7 @@ import { GradientText } from '@/components/ui/GradientText';
 import { SpotlightCard } from '@/components/ui/SpotlightCard';
 import { AnimatedOrbs } from '@/components/ui/AnimatedOrbs';
 import { LinkButton } from '@/components/ui/Button';
+import { TimelineQuarters } from '@/components/roadmap/TimelineQuarters';
 import {
   ROADMAP_FEATURES,
   ROADMAP_CATEGORIES,
@@ -32,6 +33,7 @@ import {
   FaThumbsUp,
   FaCalendarAlt,
   FaHourglass,
+  FaCode,
 } from 'react-icons/fa';
 
 const statusConfig = {
@@ -126,6 +128,38 @@ export default function RoadmapPage() {
             próximamente
           </motion.p>
         </div>
+      </section>
+
+      {/* Architecture Link Banner */}
+      <section className="max-w-7xl mx-auto px-6 pb-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="bg-gradient-to-r from-brand/10 via-purple-500/10 to-brand/10 border border-brand/20 rounded-xl p-6 flex flex-col md:flex-row items-center justify-between gap-4"
+        >
+          <div className="flex items-center gap-3">
+            <div className="p-3 bg-brand/10 rounded-lg">
+              <FaCode className="text-brand text-2xl" />
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-foreground">
+                ¿Querés ver cómo está construido?
+              </h3>
+              <p className="text-sm text-secondary">
+                Explorá la arquitectura técnica, stack completo y por qué es escalable
+              </p>
+            </div>
+          </div>
+          <LinkButton variant="primary" size="md" href="/arquitectura">
+            Ver Arquitectura Técnica
+          </LinkButton>
+        </motion.div>
+      </section>
+
+      {/* Timeline Section */}
+      <section className="max-w-7xl mx-auto px-6 pb-12">
+        <TimelineQuarters />
       </section>
 
       {/* Filters Section */}
