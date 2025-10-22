@@ -188,17 +188,18 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     effort: '1 semana',
   },
 
-  // ========== IN PROGRESS - Q1 2026 ==========
+  // ========== PLANNED - Q1 2026 (Próximo Trimestre) ==========
   {
     id: 'mobile-app',
     title: 'App Mobile (PWA)',
     description: 'Progressive Web App con notificaciones push y modo offline',
-    status: 'in-progress',
+    status: 'planned',
     icon: FaMobileAlt,
     category: 'Platform',
-    progress: 75,
+    priority: 'high',
     quarter: 'Q1 2026',
     effort: '2 semanas',
+    votes: 0,
   },
   {
     id: 'voting-system',
@@ -211,19 +212,20 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     completedDate: '2025-01',
     quarter: 'Q1 2025',
   },
+
+  // ========== PLANNED - Q2 2026 (3-6 meses) ==========
   {
     id: 'api-public',
     title: 'API Pública',
     description: 'REST API con autenticación para desarrolladores externos',
-    status: 'in-progress',
+    status: 'planned',
     icon: FaCode,
     category: 'Platform',
-    progress: 50,
+    priority: 'high',
     quarter: 'Q2 2026',
     effort: '3-4 semanas',
+    votes: 0,
   },
-
-  // ========== PLANNED - Q1 2026 (Próximo Trimestre) ==========
   {
     id: 'discord-community',
     title: 'Discord Server',
@@ -260,8 +262,6 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     effort: '2 semanas',
     votes: 165,
   },
-
-  // ========== PLANNED - Q2 2026 (3-6 meses) ==========
   {
     id: 'ai-insights',
     title: 'Insights con IA',
