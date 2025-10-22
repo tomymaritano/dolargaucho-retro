@@ -8,17 +8,21 @@
 ## 🎯 Objetivos Cumplidos
 
 ### 1. ✅ TypeScript Build Errors (RESUELTO)
+
 - **Antes**: 9 errores bloqueando el build
 - **Después**: 0 errores, build exitoso
 
 **Archivos corregidos**:
+
 - `lib/auth/auth-context.tsx` - Supabase type assertions con `as unknown as never`
 - `pages/dashboard/analisis.tsx` - Null safety con optional chaining (`?.` y `??`)
 
 ### 2. ✅ State Management Unificado (IMPLEMENTADO)
+
 **Problema Original**: Contador de favoritos en sidebar mostraba `0` y nunca actualizaba
 
 **Solución**:
+
 - ✅ Instalado Zustand v5.0.8
 - ✅ Creado `lib/store/favorites.ts` con persist middleware
 - ✅ Creado `lib/store/alertas.ts` con persist middleware
@@ -28,10 +32,12 @@
 **Resultado**: Los counters ahora actualizan en tiempo real cuando agregás/quitás favoritos o alertas.
 
 ### 3. ✅ Code Formatting (COMPLETADO)
+
 - **Antes**: 104 archivos con formato inconsistente
 - **Después**: Todo el codebase formateado con Prettier
 
 ### 4. ✅ Auditoría Técnica (DOCUMENTADA)
+
 - Creado `docs/TECHNICAL_AUDIT.md` con análisis completo:
   - Estado del proyecto (80% funcional)
   - Deuda técnica identificada
@@ -52,6 +58,7 @@
 ```
 
 ### Build Output
+
 ```
 Route (pages)                             Size     First Load JS
 ┌ ○ /                                     47.7 kB         166 kB
@@ -75,6 +82,7 @@ Route (pages)                             Size     First Load JS
 **Problema**: Durante el build con credenciales placeholder, Supabase types se resolvían a `never`, bloqueando operaciones de insert/update.
 
 **Solución**:
+
 ```typescript
 // Agregado import
 import { Database } from '@/types/database';
@@ -82,14 +90,14 @@ import { Database } from '@/types/database';
 // Insert operation (línea 91-95)
 const { data: newPrefs, error: insertError } = (await supabase
   .from('user_preferences')
-  .insert(defaultPrefs as unknown as never)  // Type assertion
+  .insert(defaultPrefs as unknown as never) // Type assertion
   .select()
   .single()) as unknown as { data: UserPreferences | null; error: unknown };
 
 // Update operation (línea 264-267)
 const { error } = (await supabase
   .from('user_preferences')
-  .update(updateData as unknown as never)  // Type assertion
+  .update(updateData as unknown as never) // Type assertion
   .eq('user_id', user.id)) as unknown as { error: unknown };
 ```
 
@@ -100,6 +108,7 @@ const { error } = (await supabase
 **pages/dashboard/analisis.tsx (líneas 160-190)**
 
 **Antes**:
+
 ```typescript
 <div key={brecha.nombre}>  // Error: possibly null
   <span>{brecha.nombre}</span>
@@ -109,6 +118,7 @@ const { error } = (await supabase
 ```
 
 **Después**:
+
 ```typescript
 <div key={brecha?.nombre}>  // Safe
   <span>{brecha?.nombre}</span>
@@ -123,6 +133,7 @@ const { error } = (await supabase
 ### 3. Zustand Stores
 
 **lib/store/favorites.ts** (Nuevo archivo)
+
 ```typescript
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
@@ -132,29 +143,32 @@ export const useFavoritesStore = create<FavoritesState>()(
     (set, get) => ({
       dolares: [],
       currencies: [],
-      toggleDolar: (casa: string) => set((state) => ({
-        dolares: state.dolares.includes(casa)
-          ? state.dolares.filter((d) => d !== casa)
-          : [...state.dolares, casa],
-      })),
+      toggleDolar: (casa: string) =>
+        set((state) => ({
+          dolares: state.dolares.includes(casa)
+            ? state.dolares.filter((d) => d !== casa)
+            : [...state.dolares, casa],
+        })),
       getTotalCount: () => {
         const { dolares, currencies } = get();
         return dolares.length + currencies.length;
       },
       // ... más actions
     }),
-    { name: 'dolargaucho_favorites' }  // localStorage key
+    { name: 'dolargaucho_favorites' } // localStorage key
   )
 );
 ```
 
 **lib/store/alertas.ts** (Nuevo archivo)
+
 - Similar estructura
 - Manejo de estados: activa/pausada/disparada
 - Actions: addAlerta, removeAlerta, toggleAlerta, updateAlerta
 - Persist en localStorage con key 'dolargaucho_alertas'
 
 **hooks/useAlertas.ts** (Refactorizado)
+
 ```typescript
 // ANTES: useState + useEffect manual
 const [alertas, setAlertas] = useState<Alerta[]>([]);
@@ -169,6 +183,7 @@ const { alertas, addAlerta, removeAlerta, toggleAlerta } = useAlertasStore();
 ```
 
 **components/layouts/DashboardLayout.tsx** (Modificado)
+
 ```typescript
 // ANTES: Hardcoded
 <span className="text-white font-semibold">0</span>
@@ -186,6 +201,7 @@ const getTotalAlertas = useAlertasStore((state) => state.getTotalCount);
 ## ✅ Verificación
 
 ### Comandos de Verificación
+
 ```bash
 # Build exitoso
 npm run build
@@ -205,6 +221,7 @@ npm run format
 ```
 
 ### Funcionalidades Verificadas
+
 - ✅ Agregar favorito → Counter actualiza inmediatamente
 - ✅ Quitar favorito → Counter actualiza inmediatamente
 - ✅ Crear alerta → Counter actualiza inmediatamente
@@ -217,6 +234,7 @@ npm run format
 ## 📋 Estado del Proyecto Post-FASE 0
 
 ### ✅ Funciona (80%)
+
 - Dashboard principal con cotizaciones en tiempo real
 - Favoritos con sync reactivo
 - Alertas visuales con verificación cada 30s
@@ -225,12 +243,14 @@ npm run format
 - Sidebar responsive con hamburguesa
 
 ### ⚠️ Incompleto (20%)
+
 - **Auth UI**: Backend configurado, falta UI de login/signup
 - **Alertas Backend**: Solo localStorage, sin emails
 - **Finanzas Avanzadas**: APIs de FCI y Tasas fallando
 - **Error Boundaries**: No hay manejo global de errores
 
 ### 🧹 Deuda Técnica
+
 - **~20 componentes** sin usar (Toast, Modal, Tabs, etc.)
 - **Coverage de tests**: ~15% (solo componentes core)
 - **TypeScript `as unknown`**: 2 ocurrencias en auth-context (necesario por placeholder Supabase)
@@ -241,11 +261,13 @@ npm run format
 ## 🚀 Próximos Pasos
 
 ### Inmediato (Antes de lanzar)
+
 1. **Verificar en navegador**: Abrir app y testear counters
 2. **Deploy a Vercel**: Verificar build en producción
 3. **Environment Variables**: Configurar Supabase credentials
 
 ### FASE 1 (1-2 semanas)
+
 - [ ] Auth UI completo (login/signup/forgot-password/profile)
 - [ ] Alertas backend (Supabase + Edge Functions + Resend emails)
 - [ ] Error Boundaries globales
@@ -253,17 +275,20 @@ npm run format
 - [ ] Custom 404/500 pages
 
 ### FASE 2 (1 semana)
+
 - [ ] Aumentar coverage a 60%
 - [ ] Accessibility audit (axe-core)
 - [ ] Lighthouse audit (objetivo: 90+)
 - [ ] SEO (meta tags, sitemap, robots.txt)
 
 ### FASE 3 (1-2 semanas)
+
 - [ ] Fix APIs de FCI/Tasas o usar alternativas
 - [ ] Discord integration para comunidad
 - [ ] Push notifications (OneSignal)
 
 ### FASE 4 (Pre-Launch)
+
 - [ ] Supabase RLS habilitado
 - [ ] Rate limiting
 - [ ] Analytics (Vercel Analytics)
@@ -277,15 +302,18 @@ npm run format
 ### Decisión: Zustand + TanStack Query
 
 **¿Por qué ambos?**
+
 - **Zustand** → Cliente (favoritos, alertas, UI state)
 - **TanStack Query** → Servidor (APIs, caching, revalidation)
 - **React useState** → Local (modales, forms)
 
 **No se pisan**:
+
 - Zustand maneja datos que el usuario MODIFICA (favoritos, alertas)
 - TanStack Query maneja datos que el servidor PROVEE (cotizaciones, inflación)
 
 **Beneficios**:
+
 - ✅ Zero boilerplate (vs Redux)
 - ✅ TypeScript nativo
 - ✅ DevTools integradas
@@ -298,10 +326,12 @@ npm run format
 ## 📚 Recursos
 
 ### Documentación Creada
+
 - `docs/TECHNICAL_AUDIT.md` - Auditoría completa (700+ líneas)
 - `docs/PHASE0_COMPLETION.md` - Este documento
 
 ### Comandos Útiles
+
 ```bash
 # Desarrollo
 npm run dev              # Dev server (http://localhost:3000)
@@ -324,6 +354,7 @@ npm run validate         # Todo junto
 ### Estado de Deployment
 
 **Vercel** (Configurado):
+
 ```json
 {
   "buildCommand": "npm run build",
@@ -334,6 +365,7 @@ npm run validate         # Todo junto
 ```
 
 **Environment Variables Necesarias**:
+
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=https://xxxxxxx.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
@@ -347,6 +379,7 @@ SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9... (SECRET)
 ### FASE 0: ✅ EXITOSA
 
 **Logrado**:
+
 1. ✅ Build exitoso sin errores de TypeScript
 2. ✅ State management unificado con Zustand
 3. ✅ Counters reactivos funcionando
@@ -354,11 +387,13 @@ SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9... (SECRET)
 5. ✅ Auditoría técnica completa documentada
 
 **Listo para**:
+
 - ✅ Deploy a Vercel
 - ✅ Testing en navegador
 - ✅ Comenzar FASE 1
 
 **No listo para** (aún):
+
 - ❌ Producción con usuarios reales (falta Auth UI)
 - ❌ Notificaciones por email (falta backend)
 

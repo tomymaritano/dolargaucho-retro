@@ -72,7 +72,7 @@ export const MAIN_CRYPTO_IDS = [
   'polkadot',
 ] as const;
 
-export type CryptoId = typeof MAIN_CRYPTO_IDS[number];
+export type CryptoId = (typeof MAIN_CRYPTO_IDS)[number];
 
 // Mapeo de símbolos a nombres completos
 export const CRYPTO_NAMES: Record<string, string> = {

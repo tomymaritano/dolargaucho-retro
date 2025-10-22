@@ -66,8 +66,12 @@ describe('Auth System - Helper Functions', () => {
 
   describe('formatAuthError', () => {
     it('formats known error messages to Spanish', () => {
-      expect(formatAuthError({ message: 'Invalid login credentials' })).toBe('Credenciales inválidas');
-      expect(formatAuthError({ message: 'User already registered' })).toBe('El usuario ya está registrado');
+      expect(formatAuthError({ message: 'Invalid login credentials' })).toBe(
+        'Credenciales inválidas'
+      );
+      expect(formatAuthError({ message: 'User already registered' })).toBe(
+        'El usuario ya está registrado'
+      );
       expect(formatAuthError({ message: 'Email not confirmed' })).toBe('Email no confirmado');
     });
 

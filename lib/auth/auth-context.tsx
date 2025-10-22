@@ -68,7 +68,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       // If table doesn't exist (404), return default preferences without trying to create
       if (error && error.code === '42P01') {
-        logger.warn('user_preferences table does not exist', { context: 'auth', action: 'fetchPreferences' });
+        logger.warn('user_preferences table does not exist', {
+          context: 'auth',
+          action: 'fetchPreferences',
+        });
         return null;
       }
 

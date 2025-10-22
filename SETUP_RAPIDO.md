@@ -21,11 +21,13 @@ http://localhost:3000/test-auth
 ### 3. Crear una cuenta de prueba
 
 Ve a:
+
 ```
 http://localhost:3000/register
 ```
 
 Registra un usuario:
+
 - **Email:** `test@dolargaucho.com`
 - **Password:** `test123456`
 
@@ -51,6 +53,7 @@ http://localhost:3000/dashboard
 ### Paso 2: Copiar credenciales
 
 En Supabase:
+
 1. **Settings** ⚙️ → **API**
 2. Copia:
    - `Project URL`
@@ -80,6 +83,7 @@ Deberías ver: `Success. No rows returned`
 En Supabase: **Table Editor**
 
 Deberías ver:
+
 - ✅ `leads`
 - ✅ `user_preferences`
 - ✅ `price_alerts`
@@ -95,17 +99,20 @@ npm run dev
 ### Paso 7: Probar
 
 Ve a:
+
 ```
 http://localhost:3000/test-auth
 ```
 
 Deberías ver:
+
 - ✅ **Modo:** 🔐 Producción (Supabase)
 - ✅ **Supabase Configurado:** Sí
 
 Click en **"Ejecutar Tests de DB"**
 
 Todos deben ser ✅:
+
 - ✅ Conexión con Supabase
 - ✅ Tabla user_preferences
 - ✅ Tabla leads
@@ -125,6 +132,7 @@ http://localhost:3000/register
 - Click **"Crear cuenta"**
 
 **En Modo Producción:**
+
 - Recibirás un email de confirmación
 - Revisa inbox y spam
 - Click en **"Confirm your mail"**
@@ -142,10 +150,12 @@ http://localhost:3000/login
 ### 3. Verificar en Supabase (solo producción)
 
 **Authentication → Users:**
+
 - ✅ Tu usuario debe aparecer
 - ✅ Status: `confirmed`
 
 **Table Editor → user_preferences:**
+
 - ✅ Debe haber una fila con tu `user_id`
 - ✅ `theme`: `dark` (por defecto)
 
@@ -156,6 +166,7 @@ En: `http://localhost:3000/test-auth`
 Click **"Probar Captura de Lead"**
 
 **Table Editor → leads:**
+
 - ✅ Nuevo lead capturado
 - ✅ `status`: `pending`
 
@@ -168,12 +179,14 @@ npm test
 ```
 
 Deberías ver:
+
 ```
 Test Suites: 22+ passed
 Tests:       83+ passed
 ```
 
 Test específico de auth:
+
 ```bash
 npm test -- auth-system.test.tsx
 ```
@@ -183,21 +196,26 @@ npm test -- auth-system.test.tsx
 ## 📁 Archivos Importantes
 
 ### Configuración
+
 - `.env.local` - Variables de entorno (crear)
 - `supabase/schema.sql` - Script SQL completo
 
 ### Páginas
+
 - `pages/login.tsx` - Login
 - `pages/register.tsx` - Registro
 - `pages/test-auth.tsx` - Testing/Debug
 
 ### API
+
 - `pages/api/leads.ts` - Captura de leads
 
 ### Componentes
+
 - `components/LeadCaptureForm.tsx` - Form de suscripción
 
 ### Documentación
+
 - `docs/TESTING_GUIDE.md` - Guía completa
 - `docs/AUTH_SETUP.md` - Setup detallado
 - `docs/QUICK_START_AUTH.md` - Inicio rápido
@@ -207,6 +225,7 @@ npm test -- auth-system.test.tsx
 ## ✅ Checklist
 
 ### Básico (Modo Demo)
+
 - [ ] `npm run dev` funciona
 - [ ] `/test-auth` muestra "Modo Demo"
 - [ ] Puedo registrar usuario
@@ -215,6 +234,7 @@ npm test -- auth-system.test.tsx
 - [ ] Tests pasan: `npm test`
 
 ### Producción (Con Supabase)
+
 - [ ] Proyecto creado en Supabase
 - [ ] `.env.local` configurado
 - [ ] Script SQL ejecutado
@@ -234,6 +254,7 @@ npm test -- auth-system.test.tsx
 ## 🐛 Problemas Comunes
 
 ### "Supabase no configurado"
+
 ```bash
 # Verifica que .env.local existe
 cat .env.local
@@ -243,12 +264,14 @@ cat .env.local
 ```
 
 ### "Tabla no existe"
+
 ```bash
 # Ejecuta el script SQL completo en Supabase
 # Archivo: supabase/schema.sql
 ```
 
 ### "Invalid credentials"
+
 ```bash
 # Verifica que confirmaste tu email (en producción)
 # Revisa spam
@@ -256,6 +279,7 @@ cat .env.local
 ```
 
 ### Tests fallan
+
 ```bash
 # Reinstalar dependencias
 rm -rf node_modules package-lock.json
@@ -304,6 +328,7 @@ import { LeadCaptureForm } from '@/components/LeadCaptureForm';
 **¿Todo funciona?** 🎉
 
 Ahora tienes:
+
 - ✅ Sistema de autenticación completo
 - ✅ Login y registro funcionales
 - ✅ Dashboard protegido

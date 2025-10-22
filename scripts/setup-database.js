@@ -79,18 +79,18 @@ async function setupDatabase() {
     `;
 
     console.log('\n📊 Tablas en la base de datos:');
-    rows.forEach(row => {
+    rows.forEach((row) => {
       console.log(`   ✅ ${row.table_name}`);
     });
 
     // Verificar que están todas las tablas necesarias
     const requiredTables = ['users', 'user_preferences', 'leads'];
-    const existingTables = rows.map(r => r.table_name);
-    const missingTables = requiredTables.filter(t => !existingTables.includes(t));
+    const existingTables = rows.map((r) => r.table_name);
+    const missingTables = requiredTables.filter((t) => !existingTables.includes(t));
 
     if (missingTables.length > 0) {
       console.log('\n⚠️  Faltan tablas:');
-      missingTables.forEach(table => {
+      missingTables.forEach((table) => {
         console.log(`   ❌ ${table}`);
       });
       process.exit(1);
@@ -102,7 +102,6 @@ async function setupDatabase() {
     console.log('   2. Ve a: http://localhost:3000/register');
     console.log('   3. Crea una cuenta de prueba');
     console.log('\n');
-
   } catch (error) {
     console.error('\n❌ Error durante el setup:');
     console.error(error.message);

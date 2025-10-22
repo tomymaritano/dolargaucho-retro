@@ -328,11 +328,11 @@ Abrir DevTools Console y verificar:
 
 ## 📝 Notas de Testing
 
-### Página testeada: ******\_\_\_******
+### Página testeada: **\*\***\_\_\_**\*\***
 
-### Fecha: ******\_\_\_******
+### Fecha: **\*\***\_\_\_**\*\***
 
-### Testeado por: ******\_\_\_******
+### Testeado por: **\*\***\_\_\_**\*\***
 
 ### Resultados:
 

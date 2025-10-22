@@ -32,9 +32,7 @@ async function fetchECBRates(): Promise<ECBData> {
   try {
     // ECB provides daily reference rates
     // https://data.ecb.europa.eu/help/api/data
-    const response = await fetch(
-      'https://api.frankfurter.app/latest?from=EUR'
-    );
+    const response = await fetch('https://api.frankfurter.app/latest?from=EUR');
 
     if (!response.ok) {
       throw new Error(`ECB API error: ${response.status}`);

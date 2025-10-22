@@ -48,8 +48,8 @@ const useArgentinaData = () => {
   if (process.env.NODE_ENV === 'development') {
     console.warn(
       '[DEPRECATED] useArgentinaData está deprecado. ' +
-      'Use hooks específicos: useInflacionMensual, useSenadores, useFCIMercadoDinero, etc. ' +
-      'Ver: /hooks/useFinanzas.ts, /hooks/usePolitica.ts'
+        'Use hooks específicos: useInflacionMensual, useSenadores, useFCIMercadoDinero, etc. ' +
+        'Ver: /hooks/useFinanzas.ts, /hooks/usePolitica.ts'
     );
   }
 
@@ -120,7 +120,11 @@ const useArgentinaData = () => {
               const json = await response.json();
               return [key, json];
             } catch (err) {
-              logger.error('Error en API ArgentinaData', err, { hook: 'useArgentinaData', endpoint, key });
+              logger.error('Error en API ArgentinaData', err, {
+                hook: 'useArgentinaData',
+                endpoint,
+                key,
+              });
               return [key, null]; // Retorna `null` si hay error en esa request
             }
           })

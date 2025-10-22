@@ -28,6 +28,7 @@ logger.debug('Estado actual', { data });
 ```
 
 **Beneficios**:
+
 - ✅ Logs estructurados con contexto
 - ✅ Fácil filtrado en producción
 - ✅ Integrable con servicios externos (Sentry, LogRocket)
@@ -57,11 +58,13 @@ export default async function handler(req, res) {
 ```
 
 **Rate Limiters Pre-configurados**:
+
 - `strict`: 5 req/min (auth, pagos)
 - `standard`: 30 req/min (APIs normales)
 - `generous`: 100 req/min (solo lectura)
 
 **Headers de Respuesta**:
+
 ```
 X-RateLimit-Limit: 30
 X-RateLimit-Remaining: 27
@@ -69,6 +72,7 @@ X-RateLimit-Reset: 2025-10-13T10:45:00.000Z
 ```
 
 **API Proxy Creado**: `pages/api/proxy/dolar.ts`
+
 - ✅ Rate limiting aplicado
 - ✅ Cache de 30 segundos
 - ✅ Logging automático
@@ -98,11 +102,13 @@ trackEvent.searchPerformed('dolar blue', 5);
 ```
 
 **Integraciones Soportadas**:
+
 - ✅ Google Analytics 4
 - ✅ Vercel Analytics
 - ✅ Endpoint custom (opcional)
 
 **Eventos Pre-configurados**:
+
 - Favoritos (agregar/remover)
 - Alertas (crear/disparar)
 - Calculadoras (uso)
@@ -113,6 +119,7 @@ trackEvent.searchPerformed('dolar blue', 5);
 - Errores de API
 
 **Configuración**:
+
 ```env
 # .env.local
 NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
@@ -124,12 +131,14 @@ NEXT_PUBLIC_ANALYTICS_ENDPOINT=https://api.tudominio.com/analytics
 ### 4. **Progressive Web App (PWA)** 📱
 
 **Ubicación**:
+
 - `public/manifest.json`
 - `next.config.ts` (withPWA)
 
 La app ahora es instalable en móviles y desktop.
 
 **Características**:
+
 - ✅ Instalable en iOS/Android/Desktop
 - ✅ Funciona offline (caching inteligente)
 - ✅ Iconos y splash screens
@@ -137,6 +146,7 @@ La app ahora es instalable en móviles y desktop.
 - ✅ Service Worker con estrategias de cache
 
 **Estrategias de Cache**:
+
 ```typescript
 // DolarAPI - NetworkFirst (datos en tiempo real)
 - Intenta red primero
@@ -153,11 +163,13 @@ La app ahora es instalable en móviles y desktop.
 ```
 
 **Instalación para usuarios**:
+
 1. Android Chrome: Menú → "Agregar a pantalla de inicio"
 2. iOS Safari: Compartir → "Agregar a pantalla de inicio"
 3. Desktop: Icono ➕ en barra de direcciones
 
 **Shortcuts Incluidos**:
+
 - Dashboard
 - Calculadoras
 - Alertas
@@ -166,14 +178,14 @@ La app ahora es instalable en móviles y desktop.
 
 ## 📈 Impacto de las Mejoras
 
-| Métrica | Antes | Después | Mejora |
-|---------|-------|---------|--------|
-| Tests pasando | 60% | 95% | +58% ✅ |
-| Console.logs en producción | 52 | 0 | -100% ✅ |
-| Protección contra spam | ❌ No | ✅ Sí | Nuevo ✅ |
-| Analytics | ❌ No | ✅ Sí | Nuevo ✅ |
-| PWA Score | 0 | 90+ | Nuevo ✅ |
-| Instalable | ❌ No | ✅ Sí | Nuevo ✅ |
+| Métrica                    | Antes | Después | Mejora   |
+| -------------------------- | ----- | ------- | -------- |
+| Tests pasando              | 60%   | 95%     | +58% ✅  |
+| Console.logs en producción | 52    | 0       | -100% ✅ |
+| Protección contra spam     | ❌ No | ✅ Sí   | Nuevo ✅ |
+| Analytics                  | ❌ No | ✅ Sí   | Nuevo ✅ |
+| PWA Score                  | 0     | 90+     | Nuevo ✅ |
+| Instalable                 | ❌ No | ✅ Sí   | Nuevo ✅ |
 
 ---
 
@@ -239,11 +251,13 @@ npm start
 ### Corto Plazo (1-2 semanas)
 
 1. **Generar Iconos PWA**
+
    ```bash
    pwa-asset-generator logo.svg public/icons
    ```
 
 2. **Configurar Google Analytics**
+
    ```env
    NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
    ```

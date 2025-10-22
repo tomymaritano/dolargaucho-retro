@@ -21,7 +21,8 @@ const mockSenadores = Array.from({ length: 72 }, (_, i) => ({
   nombre: `Senador${i}`,
   apellido: `Apellido${i}`,
   provincia: i % 3 === 0 ? 'Buenos Aires' : i % 3 === 1 ? 'Córdoba' : 'Santa Fe',
-  bloque: i % 4 === 0 ? 'Bloque A' : i % 4 === 1 ? 'Bloque B' : i % 4 === 2 ? 'Bloque C' : 'Bloque D',
+  bloque:
+    i % 4 === 0 ? 'Bloque A' : i % 4 === 1 ? 'Bloque B' : i % 4 === 2 ? 'Bloque C' : 'Bloque D',
 }));
 
 describe('SenadoresTable', () => {

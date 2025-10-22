@@ -41,9 +41,9 @@ export const FUSE_CONFIG = {
    * Mayor peso = más importante en la búsqueda
    */
   keys: [
-    { name: 'title', weight: 2 },      // Título es más importante
-    { name: 'subtitle', weight: 1 },   // Subtítulo peso normal
-    { name: 'type', weight: 0.5 },     // Tipo menos importante
+    { name: 'title', weight: 2 }, // Título es más importante
+    { name: 'subtitle', weight: 1 }, // Subtítulo peso normal
+    { name: 'type', weight: 0.5 }, // Tipo menos importante
   ],
 };
 

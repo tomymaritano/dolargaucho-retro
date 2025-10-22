@@ -54,11 +54,13 @@ Deberías ver: `Success. No rows returned`
 ### **Paso 5: Verificar Tablas**
 
 En el Query Editor, ejecutar:
+
 ```sql
 SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';
 ```
 
 Debe mostrar:
+
 - ✅ `users`
 - ✅ `user_preferences`
 - ✅ `leads`
@@ -107,6 +109,7 @@ POSTGRES_URL=postgresql://user:pass@ep-xxx.neon.tech/dbname?sslmode=require
 ### **Paso 5: Verificar Tablas**
 
 En SQL Editor, ejecutar:
+
 ```sql
 SELECT * FROM information_schema.tables WHERE table_schema = 'public';
 ```
@@ -125,12 +128,14 @@ npm run dev
 ### **Paso 1: Instalar PostgreSQL**
 
 **macOS:**
+
 ```bash
 brew install postgresql@15
 brew services start postgresql@15
 ```
 
 **Linux:**
+
 ```bash
 sudo apt-get install postgresql postgresql-contrib
 sudo systemctl start postgresql
@@ -159,6 +164,7 @@ POSTGRES_URL=postgresql://localhost:5432/dolargaucho
 ```
 
 Si tienes usuario/password:
+
 ```bash
 POSTGRES_URL=postgresql://usuario:password@localhost:5432/dolargaucho
 ```
@@ -208,6 +214,7 @@ http://localhost:3000/register
 ### **4. Click "Crear cuenta"**
 
 Debe:
+
 - ✅ Crear el usuario
 - ✅ Logearte automáticamente
 - ✅ Redirigir a `/dashboard`
@@ -234,6 +241,7 @@ Debe:
 ✅ Ya está configurado en `.env.local`
 
 Si sigue el error, reinicia el dev server:
+
 ```bash
 # Ctrl+C
 npm run dev
@@ -246,6 +254,7 @@ npm run dev
 **Causa:** `POSTGRES_URL` no está configurado o es inválido
 
 **Solución:**
+
 1. Verificar que agregaste `POSTGRES_URL` en `.env.local`
 2. Verificar que la base de datos existe
 3. Verificar el connection string (copiar de Vercel/Neon)
@@ -258,6 +267,7 @@ npm run dev
 **Causa:** No ejecutaste el `schema.sql`
 
 **Solución:**
+
 1. Ir a Vercel/Neon → SQL Editor / Query
 2. Copiar TODO el contenido de `/schema.sql`
 3. Ejecutar
@@ -268,11 +278,13 @@ npm run dev
 ### **Error 500 en /api/auth/register o /api/auth/login**
 
 **Causas posibles:**
+
 1. Base de datos no conectada
 2. Schema SQL no ejecutado
 3. Variables de entorno incorrectas
 
 **Solución:**
+
 1. Ver logs del servidor en la terminal donde corre `npm run dev`
 2. El error exacto aparecerá ahí
 3. Seguir las instrucciones según el error
@@ -284,6 +296,7 @@ npm run dev
 **Causa:** Problemas con cookies
 
 **Solución:**
+
 1. Verificar en DevTools → Application → Cookies
 2. Debe existir `dg_auth_token`
 3. Si no está, puede ser un bloqueador de cookies

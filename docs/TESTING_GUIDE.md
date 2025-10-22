@@ -21,17 +21,20 @@ npm run dev
 Abre tu navegador y ve a:
 
 **Página de Testing:**
+
 ```
 http://localhost:3000/test-auth
 ```
 
 Esta página te permite:
+
 - ✅ Ver el estado del sistema
 - ✅ Verificar si estás en modo demo o producción
 - ✅ Probar registro y login
 - ✅ Probar la API de leads
 
 **Páginas de Usuario:**
+
 ```
 http://localhost:3000/login      # Página de login
 http://localhost:3000/register   # Página de registro
@@ -59,6 +62,7 @@ npm test -- auth-system.test.tsx
 ```
 
 Deberías ver:
+
 ```
 PASS  __tests__/auth/auth-system.test.tsx
   Auth System - Helper Functions
@@ -125,6 +129,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=tu-key-muy-larga-aqui
 4. Haz clic en **Run** (botón verde abajo a la derecha)
 
 Deberías ver:
+
 ```
 Success. No rows returned
 ```
@@ -155,6 +160,7 @@ http://localhost:3000/test-auth
 ```
 
 Deberías ver:
+
 - ✅ **Modo de Operación:** 🔐 Producción (Supabase)
 - ✅ **Supabase Configurado:** ✅ Sí
 
@@ -167,6 +173,7 @@ Deberías ver:
    - ✅ Tabla leads: **Funciona**
 
 Si alguno falla:
+
 - ❌ Verifica que ejecutaste el script SQL
 - ❌ Verifica las variables de entorno en `.env.local`
 - ❌ Reinicia el servidor
@@ -180,6 +187,7 @@ Si alguno falla:
 2. Haz clic en **"Test Registro"**
 
 Deberías ver:
+
 - ✅ **Email de confirmación enviado** (revisa tu email)
 - O si el email ya existe: ✅ Usuario ya existe
 
@@ -199,6 +207,7 @@ Deberías ver:
 3. Haz clic en **"Iniciar sesión"**
 
 Deberías:
+
 - ✅ Ser redirigido a `/dashboard`
 - ✅ Ver tu email en el dashboard
 
@@ -218,6 +227,7 @@ Deberías:
 3. Haz clic en **"Probar Captura de Lead"**
 
 Deberías ver:
+
 - ✅ API de leads funciona correctamente
 
 #### 5.2. Verificar en Supabase
@@ -264,6 +274,7 @@ npm test
 ```
 
 Todos los tests deberían pasar:
+
 ```
 Test Suites: 22 passed, 22 total
 Tests:       83+ passed, 83+ total
@@ -272,6 +283,7 @@ Tests:       83+ passed, 83+ total
 ## ✅ Checklist de Verificación
 
 ### Modo Demo
+
 - [ ] Servidor corriendo en http://localhost:3000
 - [ ] Página de testing muestra "Modo Demo"
 - [ ] Puedo registrar usuario
@@ -281,6 +293,7 @@ Tests:       83+ passed, 83+ total
 - [ ] Tests de Jest pasan
 
 ### Modo Producción
+
 - [ ] Proyecto creado en Supabase
 - [ ] Variables en `.env.local` configuradas
 - [ ] Servidor reiniciado
@@ -304,6 +317,7 @@ Tests:       83+ passed, 83+ total
 ### Problema: "Supabase Configurado: ❌ No"
 
 **Solución:**
+
 ```bash
 # 1. Verifica que el archivo .env.local exista
 ls -la .env.local
@@ -322,6 +336,7 @@ npm run dev
 ### Problema: "Tabla user_preferences: ❌ Error"
 
 **Solución:**
+
 1. Ve a Supabase → SQL Editor
 2. Ejecuta:
    ```sql
@@ -334,6 +349,7 @@ npm run dev
 ### Problema: "Invalid login credentials"
 
 **Solución:**
+
 1. Verifica que confirmaste tu email
 2. Revisa tu bandeja de spam
 3. En Supabase → Auth → Users, verifica que el usuario esté "confirmed"
@@ -348,6 +364,7 @@ Las preferencias están deshabilitadas por defecto (líneas 139-145 de auth-cont
 ### Problema: Tests fallan con "Cannot find module"
 
 **Solución:**
+
 ```bash
 # Reinstalar dependencias
 rm -rf node_modules package-lock.json
@@ -360,6 +377,7 @@ npm test
 ## 📞 Soporte
 
 Si sigues teniendo problemas:
+
 1. Revisa la consola del navegador (F12 → Console)
 2. Revisa la consola del servidor (donde corre `npm run dev`)
 3. Verifica los logs en Supabase → Logs
@@ -370,6 +388,7 @@ Si sigues teniendo problemas:
 Si llegaste aquí y todos los checks están ✅, tu sistema de autenticación está **100% funcional**.
 
 Próximos pasos:
+
 - Personalizar emails en Supabase
 - Configurar OAuth con Google/GitHub
 - Agregar LeadCaptureForm al homepage

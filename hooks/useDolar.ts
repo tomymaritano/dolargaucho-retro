@@ -30,7 +30,10 @@ const useDolar = () => {
       const data = await response.json();
       return data;
     } catch (error) {
-      logger.error('Error al obtener datos históricos', error, { hook: 'useDolar', date: formattedDate });
+      logger.error('Error al obtener datos históricos', error, {
+        hook: 'useDolar',
+        date: formattedDate,
+      });
       return [];
     }
   };

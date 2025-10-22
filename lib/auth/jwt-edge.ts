@@ -103,7 +103,10 @@ export async function verifyTokenEdge(token: string): Promise<JWTPayload | null>
     return payload as unknown as JWTPayload;
   } catch (error) {
     // Token is invalid, expired, or malformed
-    console.error('[JWT Edge] Token verification failed:', error instanceof Error ? error.message : error);
+    console.error(
+      '[JWT Edge] Token verification failed:',
+      error instanceof Error ? error.message : error
+    );
     return null;
   }
 }

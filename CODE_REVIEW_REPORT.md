@@ -1,4 +1,5 @@
 # Code Review Report - Dólar Gaucho
+
 **Fecha**: 2025-10-09
 **Revisor**: AI Code Review
 **Status**: ✅ FIXES COMPLETADOS
@@ -6,6 +7,7 @@
 ## 🎯 Resumen Ejecutivo
 
 Revisión completa del código buscando:
+
 - ✅ Hooks mal implementados
 - ✅ Código hardcodeado
 - ✅ Problemas de performance
@@ -17,6 +19,7 @@ Revisión completa del código buscando:
 ## ✅ ASPECTOS POSITIVOS
 
 ### 1. **Arquitectura de Hooks** ⭐⭐⭐⭐⭐
+
 - **Excelente uso de TanStack Query** en todos los hooks de datos
 - Configuración centralizada de cache en `/lib/config/api.ts`
 - Separación adecuada de concerns (dolar, cotizaciones, finanzas, política)
@@ -24,12 +27,15 @@ Revisión completa del código buscando:
 - Dependency arrays correctamente configuradas
 
 **Ejemplos de buenas prácticas encontradas:**
+
 ```typescript
 // hooks/useDolarQuery.ts - Perfecto
 export function useDolarQuery() {
   return useQuery({
     queryKey: ['dolares'],
-    queryFn: async () => { /* ... */ },
+    queryFn: async () => {
+      /* ... */
+    },
     staleTime: CACHE_CONFIG.dolar.staleTime,
     refetchInterval: CACHE_CONFIG.dolar.refetchInterval,
     retry: 3,
@@ -38,12 +44,14 @@ export function useDolarQuery() {
 ```
 
 ### 2. **Zustand Stores** ⭐⭐⭐⭐⭐
+
 - Implementación perfecta de `favorites.ts` y `alertas.ts`
 - Uso correcto del middleware `persist`
 - Funciones puras en todos los reducers
 - Tipo-safe con TypeScript
 
 ### 3. **Configuración Centralizada** ⭐⭐⭐⭐⭐
+
 - `/lib/config/api.ts` centraliza todas las URLs y endpoints
 - Configuración de cache bien estructurada
 - Uso de `as const` para type safety
@@ -57,6 +65,7 @@ export function useDolarQuery() {
 **Problema**: A pesar de tener `API_CONFIG`, algunos hooks tienen URLs hardcodeadas.
 
 **Archivos afectados:**
+
 - `/hooks/useDolar.ts:28` - URL hardcodeada
 - `/hooks/useDolarQuery.ts:89` - URL hardcodeada
 - `/hooks/useDolarVariations.ts:49` - URL hardcodeada
@@ -66,6 +75,7 @@ export function useDolarQuery() {
 - `/hooks/useInflacionUS.ts:41` - URL hardcodeada
 
 **Ejemplo del problema:**
+
 ```typescript
 // ❌ MAL - hooks/useDolarVariations.ts:49
 const url = `https://api.argentinadatos.com/v1/cotizaciones/dolares/${casa}/${yesterdayStr}/`;
@@ -75,6 +85,7 @@ const url = `${API_CONFIG.argentinaData.baseUrl}/cotizaciones/dolares/${casa}/${
 ```
 
 **Impacto**:
+
 - Dificultad para cambiar APIs en producción/desarrollo
 - Duplicación de lógica
 - Violación del principio DRY
@@ -86,10 +97,12 @@ const url = `${API_CONFIG.argentinaData.baseUrl}/cotizaciones/dolares/${casa}/${
 **Problema**: Existe código duplicado entre `/hooks/useDolar.ts` y `/hooks/useDolarQuery.ts`
 
 **Archivos afectados:**
+
 - `/hooks/useDolar.ts` - Wrapper legacy
 - `/hooks/useDolarQuery.ts` - Tiene función `fetchHistoricalData` duplicada
 
 **Código duplicado encontrado:**
+
 ```typescript
 // Aparece en AMBOS archivos con URLs hardcodeadas
 fetchHistoricalData: async (date: Date) => {
@@ -102,10 +115,11 @@ fetchHistoricalData: async (date: Date) => {
     console.error('Error al obtener datos históricos', error);
     return [];
   }
-}
+};
 ```
 
 **Recomendación**:
+
 1. Crear un hook dedicado `useDolarHistorico(date)`
 2. Deprecar completamente `useDolar.ts`
 
@@ -116,6 +130,7 @@ fetchHistoricalData: async (date: Date) => {
 **Archivo**: `/hooks/useFuzzySearch.ts`
 
 **Valores hardcodeados:**
+
 ```typescript
 threshold: 0.4,        // Sin explicación
 minMatchCharLength: 2, // Sin constante
@@ -123,13 +138,14 @@ minMatchCharLength: 2, // Sin constante
 ```
 
 **Recomendación**: Crear constantes configurables:
+
 ```typescript
 // En /lib/config/search.ts
 export const SEARCH_CONFIG = {
-  threshold: 0.4,           // 0 = exact match, 1 = match anything
-  minMatchCharLength: 2,    // Mínimo 2 caracteres
-  maxResults: 8,            // Límite de resultados
-  minQueryLength: 2,        // Mínima longitud de query
+  threshold: 0.4, // 0 = exact match, 1 = match anything
+  minMatchCharLength: 2, // Mínimo 2 caracteres
+  maxResults: 8, // Límite de resultados
+  minQueryLength: 2, // Mínima longitud de query
 } as const;
 ```
 
@@ -142,12 +158,13 @@ export const SEARCH_CONFIG = {
 Tiene comentario `@deprecated` pero el hook sigue siendo usado sin advertencias en runtime.
 
 **Recomendación**: Agregar warning en desarrollo:
+
 ```typescript
 export default function useDolar() {
   if (process.env.NODE_ENV === 'development') {
     console.warn(
       '[DEPRECATED] useDolar() está deprecado. Use useDolarQuery() en su lugar. ' +
-      'Ver: hooks/useDolarQuery.ts'
+        'Ver: hooks/useDolarQuery.ts'
     );
   }
   // ...
@@ -161,6 +178,7 @@ export default function useDolar() {
 **Problema**: La API de Argentina Data tiene endpoint `/cotizaciones/dolares/{casa}/{fecha}` usado en `useDolarVariations` pero no está definido en `API_CONFIG`.
 
 **Solución**: Agregar a `/lib/config/api.ts`:
+
 ```typescript
 argentinaData: {
   // ...
@@ -179,6 +197,7 @@ argentinaData: {
 ### 6. **URLs Hardcodeadas en Hooks Legacy** 🔴 CRÍTICO
 
 **Archivos**:
+
 - `/hooks/useArgentinaData.ts:3` - `const BASE_URL = 'https://api.argentinadatos.com/v1/';`
 - `/hooks/useInflacion.ts:3` - `const BASE_URL = 'https://api.argentinadatos.com/v1/';`
 
@@ -187,6 +206,7 @@ argentinaData: {
 **Impacto**: Inconsistencia en el manejo de APIs.
 
 **Recomendación**:
+
 1. Migrar a usar `API_CONFIG.argentinaData.baseUrl`
 2. O deprecar estos hooks si ya no se usan
 
@@ -203,6 +223,7 @@ baseUrl: process.env.NEXT_PUBLIC_API_URL || '/api',
 **Problema**: No existe documentación de qué variables de entorno se necesitan.
 
 **Recomendación**: Crear archivo `.env.example`:
+
 ```bash
 # API Configuration
 NEXT_PUBLIC_API_URL=/api
@@ -263,6 +284,7 @@ const fuse = useMemo(() => {
    - Agregar endpoints faltantes a `API_CONFIG`
 
 2. **Crear hook para datos históricos**
+
    ```typescript
    // hooks/useDolarHistorico.ts
    export function useDolarHistorico(date: Date) {
@@ -303,15 +325,15 @@ const fuse = useMemo(() => {
 
 ## 📈 MÉTRICAS DE CALIDAD
 
-| Categoría | Calificación | Observaciones |
-|-----------|--------------|---------------|
-| **Arquitectura de Hooks** | ⭐⭐⭐⭐⭐ | Excelente uso de TanStack Query |
-| **TypeScript** | ⭐⭐⭐⭐⭐ | Type safety completo |
-| **Zustand Stores** | ⭐⭐⭐⭐⭐ | Implementación perfecta |
-| **Configuración** | ⭐⭐⭐⭐ | Buena pero URLs hardcodeadas |
-| **Performance** | ⭐⭐⭐⭐⭐ | Sin problemas detectados |
-| **Mantenibilidad** | ⭐⭐⭐⭐ | Algunas duplicaciones |
-| **Documentación** | ⭐⭐⭐ | Falta docs de env vars |
+| Categoría                 | Calificación | Observaciones                   |
+| ------------------------- | ------------ | ------------------------------- |
+| **Arquitectura de Hooks** | ⭐⭐⭐⭐⭐   | Excelente uso de TanStack Query |
+| **TypeScript**            | ⭐⭐⭐⭐⭐   | Type safety completo            |
+| **Zustand Stores**        | ⭐⭐⭐⭐⭐   | Implementación perfecta         |
+| **Configuración**         | ⭐⭐⭐⭐     | Buena pero URLs hardcodeadas    |
+| **Performance**           | ⭐⭐⭐⭐⭐   | Sin problemas detectados        |
+| **Mantenibilidad**        | ⭐⭐⭐⭐     | Algunas duplicaciones           |
+| **Documentación**         | ⭐⭐⭐       | Falta docs de env vars          |
 
 **Calificación General**: ⭐⭐⭐⭐ (8.5/10)
 
@@ -320,22 +342,26 @@ const fuse = useMemo(() => {
 ## 📝 PLAN DE ACCIÓN - ✅ COMPLETADO
 
 ### ✅ Semana 1 - COMPLETADO:
+
 - [x] Centralizar todas las URLs en `API_CONFIG`
 - [x] Crear hook `useDolarHistorico`
 - [x] Deprecar hooks legacy con warnings
 
 ### ✅ Semana 2 - COMPLETADO:
+
 - [x] Crear `SEARCH_CONFIG`
 - [x] Documentar environment variables
 - [x] Crear `.env.example`
 - [x] Migrar componentes a hooks nuevos
 
 ### ✅ Semana 3 - COMPLETADO:
+
 - [x] Implementar validación con Zod en todos los hooks principales
 - [x] Agregar logging estructurado con performance tracking
 - [x] Configurar retry strategies con exponential backoff
 
 ### Backlog:
+
 - [ ] Agregar más schemas de validación para hooks restantes (opcional)
 - [ ] Configurar error boundaries para mejor UX (opcional)
 
@@ -344,7 +370,9 @@ const fuse = useMemo(() => {
 ## 🎉 FIXES IMPLEMENTADOS
 
 ### 1. URLs Centralizadas ✅
+
 **Archivos modificados:**
+
 - `/lib/config/api.ts` - Agregados endpoints faltantes
 - `/hooks/useDolarVariations.ts` - Usa `API_CONFIG`
 - `/hooks/useCotizaciones.ts` - Usa `API_CONFIG`
@@ -354,7 +382,9 @@ const fuse = useMemo(() => {
 - `/components/calculadoras/FinancialCalculator.tsx` - Eliminada URL hardcodeada
 
 ### 2. Nuevo Hook Histórico ✅
+
 **Archivo creado:**
+
 - `/hooks/useDolarHistorico.ts`
   - `useDolarHistorico(date)` - Hook principal
   - `useYesterdayDolar()` - Conveniente wrapper
@@ -362,30 +392,40 @@ const fuse = useMemo(() => {
   - Type-safe con TypeScript
 
 ### 3. Deprecaciones Implementadas ✅
+
 **Warnings en desarrollo:**
+
 - `useDolar()` - Muestra warning
 - `useArgentinaData()` - Muestra warning
 - `useInflacion()` - Muestra warning
 - Documentación `@deprecated` en JSDoc
 
 ### 4. Configuración de Búsqueda ✅
+
 **Archivo creado:**
+
 - `/lib/config/search.ts`
   - `FUSE_CONFIG` - Configuración de Fuse.js
   - `SEARCH_CONFIG` - Configuración de comportamiento
   - `/hooks/useFuzzySearch.ts` - Actualizado para usar config
 
 ### 5. Migración de Componentes ✅
+
 **Componentes migrados:**
+
 - `/components/currencyconverter.tsx` - Usa `useDolarQuery()`
 - `/components/calculadoras/FinancialCalculator.tsx` - Usa `useDolarQuery()` + `useInflacionInteranual()`
 
 ### 6. Documentación ✅
+
 **Archivo creado:**
+
 - `.env.example` - Variables de entorno documentadas
 
 ### 7. Validación con Zod ✅
+
 **Archivos creados y modificados:**
+
 - `/lib/schemas/api.ts` - Schemas de validación completos
   - DolarQuotationSchema, CurrencyQuotationSchema
   - InflacionMensualSchema, InflacionInteranualSchema
@@ -396,7 +436,9 @@ const fuse = useMemo(() => {
 - `/hooks/useCotizaciones.ts` - Integrada validación Zod
 
 ### 8. Logging Estructurado ✅
+
 **Archivo creado:**
+
 - `/lib/utils/logger.ts` - Sistema de logging completo
   - Niveles: debug, info, warn, error
   - Loggers especializados: logger.api, logger.hook
@@ -406,7 +448,9 @@ const fuse = useMemo(() => {
 - Todos los hooks principales ahora tienen logging de API requests/responses
 
 ### 9. Retry Strategies ✅
+
 **Archivo modificado:**
+
 - `/lib/config/api.ts` - Configuración de retry con exponential backoff
   - RETRY_CONFIG con maxRetries, retryDelay, shouldRetry
   - Exponential backoff: 1s, 2s, 4s
@@ -420,6 +464,7 @@ const fuse = useMemo(() => {
 ## ✅ CONCLUSIÓN
 
 El código está **muy bien estructurado** en general. ✅ **TODOS LOS PROBLEMAS IDENTIFICADOS HAN SIDO RESUELTOS Y MEJORADOS**:
+
 1. ✅ URLs hardcodeadas - **SOLUCIONADO**
 2. ✅ Hooks legacy duplicados - **SOLUCIONADO**
 3. ✅ Valores mágicos - **SOLUCIONADO**
@@ -430,6 +475,7 @@ El código está **muy bien estructurado** en general. ✅ **TODOS LOS PROBLEMAS
 8. ✅ Retry strategies - **IMPLEMENTADO**
 
 **Estado actual**:
+
 - ✅ Hooks correctamente implementados
 - ✅ Sin memory leaks
 - ✅ Sin infinite loops

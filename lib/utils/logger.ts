@@ -26,8 +26,8 @@ const CONFIG = {
   // Prefijos de color para consola (solo en desarrollo)
   colors: {
     debug: '\x1b[36m', // Cyan
-    info: '\x1b[34m',  // Blue
-    warn: '\x1b[33m',  // Yellow
+    info: '\x1b[34m', // Blue
+    warn: '\x1b[33m', // Yellow
     error: '\x1b[31m', // Red
     reset: '\x1b[0m',
   },
@@ -61,11 +61,7 @@ function shouldLog(level: LogLevel): boolean {
 /**
  * Formatea el mensaje de log con contexto
  */
-function formatMessage(
-  level: LogLevel,
-  message: string,
-  context?: LogContext
-): string {
+function formatMessage(level: LogLevel, message: string, context?: LogContext): string {
   const timestamp = new Date().toISOString();
   const isDev = process.env.NODE_ENV === 'development';
 
@@ -90,11 +86,7 @@ function formatMessage(
 /**
  * Función interna de logging
  */
-function log(
-  level: LogLevel,
-  message: string,
-  context?: LogContext
-): void {
+function log(level: LogLevel, message: string, context?: LogContext): void {
   if (!isEnabled() || !shouldLog(level)) {
     return;
   }
@@ -146,11 +138,14 @@ export const logger = {
   error: (message: string, error?: Error | unknown, context?: LogContext) => {
     const errorContext = {
       ...context,
-      error: error instanceof Error ? {
-        name: error.name,
-        message: error.message,
-        stack: error.stack,
-      } : error,
+      error:
+        error instanceof Error
+          ? {
+              name: error.name,
+              message: error.message,
+              stack: error.stack,
+            }
+          : error,
     };
 
     log('error', message, errorContext);
@@ -194,10 +189,7 @@ export const logger = {
 /**
  * Helper para medir tiempo de ejecución
  */
-export function measureTime<T>(
-  label: string,
-  fn: () => T
-): T {
+export function measureTime<T>(label: string, fn: () => T): T {
   const start = performance.now();
   const result = fn();
   const duration = performance.now() - start;
@@ -210,10 +202,7 @@ export function measureTime<T>(
 /**
  * Helper para medir tiempo de async functions
  */
-export async function measureTimeAsync<T>(
-  label: string,
-  fn: () => Promise<T>
-): Promise<T> {
+export async function measureTimeAsync<T>(label: string, fn: () => Promise<T>): Promise<T> {
   const start = performance.now();
   const result = await fn();
   const duration = performance.now() - start;

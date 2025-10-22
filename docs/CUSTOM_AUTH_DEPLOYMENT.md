@@ -3,6 +3,7 @@
 ## 📋 Resumen
 
 Sistema de autenticación profesional sin dependencias de terceros (Supabase, Auth0, etc.), utilizando:
+
 - **JWT** para tokens
 - **bcrypt** para passwords
 - **HTTP-only cookies** para seguridad
@@ -84,6 +85,7 @@ Sistema de autenticación profesional sin dependencias de terceros (Supabase, Au
 4. Click **Run** ▶️
 
 5. Verificar que las tablas se crearon:
+
    ```sql
    SELECT table_name
    FROM information_schema.tables
@@ -120,6 +122,7 @@ NEXT_PUBLIC_APP_URL=https://dolargaucho.com
 #### Generar JWT_SECRET Seguro
 
 Ejecutar en tu terminal:
+
 ```bash
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
@@ -127,6 +130,7 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 Copiar el resultado y usarlo como `JWT_SECRET`.
 
 **Ejemplo de resultado:**
+
 ```
 8f7a3c9d2e1b4a6c5f8d7e9a3b2c1d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0
 ```
@@ -136,6 +140,7 @@ Copiar el resultado y usarlo como `JWT_SECRET`.
 ### **Paso 3: Deploy Automático (0 minutos)**
 
 1. Push tu código a GitHub:
+
    ```bash
    git add .
    git commit -m "feat: Implement custom JWT authentication system"
@@ -188,11 +193,13 @@ npm install
 ### **Paso 2: Configurar Variables de Entorno**
 
 1. Copiar el archivo de ejemplo:
+
    ```bash
    cp .env.example .env.local
    ```
 
 2. Editar `.env.local`:
+
    ```bash
    # JWT Secret (generar uno único)
    JWT_SECRET=tu-secret-key-minimo-32-caracteres
@@ -271,6 +278,7 @@ Abrir: http://localhost:3000
 5. Ejecutar `schema.sql` en Neon SQL Editor
 
 **Ventajas:**
+
 - Free tier generoso (3 GB storage)
 - Serverless (sin idle time)
 - Backups automáticos
@@ -305,30 +313,36 @@ Abrir: http://localhost:3000
 ### **Medidas Implementadas**
 
 ✅ **Passwords:**
+
 - Hasheados con bcrypt (12 rounds)
 - Nunca se almacenan en texto plano
 - Validación de longitud y complejidad
 
 ✅ **JWT Tokens:**
+
 - Firmados con secret de 256 bits
 - Expiración configurable (default: 7 días)
 - Verificación en cada request
 
 ✅ **Cookies:**
+
 - HTTP-only (no accesibles desde JavaScript)
 - SameSite=Lax (protección CSRF)
 - Secure flag en producción (HTTPS only)
 
 ✅ **SQL:**
+
 - Queries parametrizadas (previene SQL injection)
 - No hay concatenación de strings en queries
 
 ✅ **Input Validation:**
+
 - Email format validation
 - Password strength requirements
 - Sanitización de inputs con Zod
 
 ✅ **Middleware:**
+
 - Protección de rutas `/dashboard/*`
 - Verificación de JWT en cada request
 - Redirección automática a login
@@ -360,6 +374,7 @@ Abrir: http://localhost:3000
 **Causa:** Falta configurar `JWT_SECRET` en environment variables
 
 **Solución:**
+
 1. Generar secret: `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`
 2. Vercel → Settings → Environment Variables → Agregar `JWT_SECRET`
 3. Redeploy: Vercel → Deployments → **Redeploy**
@@ -371,6 +386,7 @@ Abrir: http://localhost:3000
 **Causa:** Connection string inválido o database no creada
 
 **Solución:**
+
 1. Verificar que Vercel Postgres está conectado al proyecto
 2. Vercel → Storage → Ver databases
 3. Si no hay ninguna, crear una nueva
@@ -384,6 +400,7 @@ Abrir: http://localhost:3000
 **Causa:** Schema SQL no fue ejecutado
 
 **Solución:**
+
 1. Vercel → Storage → Tu database → **Query**
 2. Copiar contenido de `schema.sql`
 3. Ejecutar en el query editor
@@ -394,11 +411,13 @@ Abrir: http://localhost:3000
 ### **Problema: "Invalid credentials" al hacer login**
 
 **Causas posibles:**
+
 1. Usuario no existe (registrarse primero)
 2. Password incorrecto
 3. Email con mayúsculas/minúsculas diferente
 
 **Solución:**
+
 1. Verificar usuario en database:
    ```sql
    SELECT email FROM users WHERE email = 'tu@email.com';
@@ -413,6 +432,7 @@ Abrir: http://localhost:3000
 **Causa:** Configuración incorrecta de cookies en desarrollo
 
 **Solución:**
+
 1. Verificar que usas HTTP (no HTTPS) en localhost
 2. Verificar que no hay bloqueadores de cookies activos
 3. Probar en modo incógnito
@@ -429,6 +449,7 @@ Abrir: http://localhost:3000
 Backups automáticos cada 24 horas (incluidos en plan free)
 
 Para backup manual:
+
 1. Vercel → Storage → Tu database → **Backups**
 2. Click **Create Backup**
 
@@ -445,6 +466,7 @@ Para backup manual:
 Si quieres cambiar de Vercel Postgres a otra:
 
 1. **Exportar datos actuales:**
+
    ```bash
    pg_dump $POSTGRES_URL > backup.sql
    ```
@@ -452,6 +474,7 @@ Si quieres cambiar de Vercel Postgres a otra:
 2. **Crear nueva base de datos** (Neon, Railway, etc.)
 
 3. **Importar datos:**
+
    ```bash
    psql $NEW_DATABASE_URL < backup.sql
    ```
@@ -563,6 +586,7 @@ Si quieres cambiar de Vercel Postgres a otra:
 Tu sistema de autenticación profesional está deployeado y funcionando.
 
 **Features incluidas:**
+
 - ✅ Registro de usuarios
 - ✅ Login/Logout
 - ✅ Protección de rutas
@@ -574,6 +598,7 @@ Tu sistema de autenticación profesional está deployeado y funcionando.
 - ✅ Escalable a millones de usuarios
 
 **Next steps recomendados:**
+
 1. Agregar password reset (forgot password)
 2. Agregar email verification
 3. Agregar OAuth (Google/GitHub) si necesario

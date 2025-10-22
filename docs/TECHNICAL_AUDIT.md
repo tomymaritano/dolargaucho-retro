@@ -9,6 +9,7 @@
 ## 🎯 Resumen Ejecutivo
 
 ### Estado General
+
 - **Build Status**: ✅ TypeScript compilando sin errores
 - **Tests**: ✅ 66/66 tests pasando (20 suites)
 - **Linting**: ✅ 0 errores de ESLint
@@ -16,6 +17,7 @@
 - **Funcionalidad**: 🟢 80% operativo | 🟡 20% incompleto
 
 ### Métricas Clave
+
 ```
 Total Tests:        66 ✅
 Test Suites:        20 ✅
@@ -30,6 +32,7 @@ Prettier Issues:    0 ✅ (previamente: 104)
 ## 🏗️ Arquitectura Actual
 
 ### Stack Tecnológico
+
 ```
 Frontend:           Next.js 15.1.6 (App Router + Pages Router híbrido)
 Styling:            Tailwind CSS 3.4.17
@@ -43,11 +46,13 @@ Deployment:         Vercel (configurado)
 ### Gestión de Estado (Ahora Unificada)
 
 **Zustand** → Estado del Cliente
+
 - ✅ `lib/store/favorites.ts` - Favoritos (dolares + monedas)
 - ✅ `lib/store/alertas.ts` - Alertas de precio
 - Persistencia: localStorage automático vía `persist()` middleware
 
 **TanStack Query** → Estado del Servidor
+
 - ✅ `hooks/useDolarQuery.ts` - Cotizaciones de dólares
 - ✅ `hooks/useCotizaciones.ts` - Monedas internacionales
 - ✅ `hooks/useInflacion.ts` - Datos de inflación
@@ -57,6 +62,7 @@ Deployment:         Vercel (configurado)
 - Cache: 5 minutos, stale-while-revalidate
 
 **React useState** → Estado Local
+
 - Componentes individuales (modales, forms, tabs)
 
 ---
@@ -68,12 +74,12 @@ Deployment:         Vercel (configurado)
 ### 1. TypeScript Build Errors → RESUELTO
 
 #### Error 1: `lib/auth/auth-context.tsx`
+
 **Problema**: Supabase types resolvían a `never` con placeholder credentials
+
 ```typescript
 // ❌ ANTES - Type error: Argument of type 'X' is not assignable to parameter of type 'never'
-const { data, error } = await supabase
-  .from('user_preferences')
-  .insert(defaultPrefs)  // Error here
+const { data, error } = await supabase.from('user_preferences').insert(defaultPrefs); // Error here
 
 // ✅ DESPUÉS - Solución con type assertion (as unknown as never)
 const { data: newPrefs, error: insertError } = (await supabase
@@ -91,30 +97,34 @@ const { error } = (await supabase
 **Razón**: Durante el build, Supabase no tiene conexión real al DB, por lo que los tipos generados no pueden inferir el schema correctamente. La solución usa `as unknown as never` para satisfacer los tipos en tiempo de compilación.
 
 **Archivos modificados**:
+
 - `lib/auth/auth-context.tsx:91-95` (insert operation)
 - `lib/auth/auth-context.tsx:264-267` (update operation)
 - Añadido import de `Database` type desde `@/types/database`
 
 #### Error 2: `pages/dashboard/analisis.tsx`
+
 **Problema**: 7 errores de null safety en objeto `brecha`
+
 ```typescript
 // ❌ ANTES (líneas 161-183)
-brecha.valor.toFixed(2)       // Possibly null
-brecha.brecha > 0             // Possibly null
-brecha.brecha.toFixed(1)      // Possibly null
+brecha.valor.toFixed(2); // Possibly null
+brecha.brecha > 0; // Possibly null
+brecha.brecha.toFixed(1); // Possibly null
 
 // ✅ DESPUÉS
-brecha?.valor?.toFixed(2) ?? '—'
-(brecha?.brecha ?? 0) > 0
-brecha?.brecha?.toFixed(1) ?? '0'
+brecha?.valor?.toFixed(2) ?? '—'(brecha?.brecha ?? 0) > 0;
+brecha?.brecha?.toFixed(1) ?? '0';
 ```
 
 **Archivos modificados**:
+
 - `pages/dashboard/analisis.tsx:160-190` (7 occurrences fixed)
 
 ### 2. State Management Unificado → IMPLEMENTADO
 
 #### Migración de Favoritos
+
 **Antes**: localStorage manual + useState
 **Después**: Zustand con persist middleware
 
@@ -134,11 +144,13 @@ export const useFavoritesStore = create<FavoritesState>()(
 ```
 
 **Impacto**:
+
 - ✅ Contador en sidebar actualiza en tiempo real
 - ✅ Sincronización automática entre componentes
 - ✅ localStorage gestionado automáticamente
 
 #### Migración de Alertas
+
 **Antes**: useState + useEffect manual
 **Después**: Zustand con lógica completa
 
@@ -159,11 +171,13 @@ export const useAlertasStore = create<AlertasState>()(
 ```
 
 **Impacto**:
+
 - ✅ Contador de alertas en tiempo real
 - ✅ Verificación automática cada 30s (desde `useAlertas` hook)
 - ⚠️ **NOTA**: Alertas son solo visuales (sin backend/emails)
 
 ### 3. Code Formatting → COMPLETADO
+
 ```bash
 npm run format  # 104 archivos formateados
 ```
@@ -173,6 +187,7 @@ npm run format  # 104 archivos formateados
 ## 🟢 Funcionalidades Operativas (80%)
 
 ### Dashboard Principal ✅
+
 - [x] Grid de cotizaciones en tiempo real
 - [x] Actualización automática (stale-while-revalidate)
 - [x] Sidebar responsive con hamburguesa
@@ -180,33 +195,39 @@ npm run format  # 104 archivos formateados
 - [x] Quick Stars (favoritos) - contador en tiempo real
 
 **Archivos**:
+
 - `pages/dashboard/index.tsx` → Componente principal
 - `components/layouts/DashboardLayout.tsx` → Layout + sidebar
 - `hooks/useDolarQuery.ts` → Data fetching
 
 ### Favoritos ✅
+
 - [x] Agregar/quitar dólares favoritos
 - [x] Agregar/quitar monedas favoritas
 - [x] Contador en sidebar actualiza instantáneamente
 - [x] Persistencia en localStorage
 
 **Archivos**:
+
 - `pages/dashboard/favoritos.tsx` → UI
 - `lib/store/favorites.ts` → Store Zustand
 
 ### Calculadoras ✅
+
 - [x] Calculadora de Plazo Fijo → Funcional
 - [x] Calculadora de Inflación → Funcional
 - [x] Calculadora de Crédito UVA → Funcional
 - [x] Tabs funcionan correctamente (onClick fixed)
 
 **Archivos**:
+
 - `pages/dashboard/calculadoras.tsx` → Container
 - `components/calculadoras/CalculadoraPlazoFijo.tsx` → Tests passing ✅
 - `components/calculadoras/CalculadoraInflacion.tsx` → Tests passing ✅
 - `components/calculadoras/CalculadoraUVA.tsx` → Tests passing ✅
 
 ### Análisis de Mercado ✅
+
 - [x] Brecha cambiaria (Blue, MEP, CCL)
 - [x] Gráficos de inflación mensual
 - [x] Gráficos de riesgo país
@@ -214,11 +235,13 @@ npm run format  # 104 archivos formateados
 - [x] Null safety resuelto
 
 **Archivos**:
+
 - `pages/dashboard/analisis.tsx` → Fixed TypeScript errors ✅
 - `components/charts/InflacionChart.tsx` → Tests passing ✅
 - `components/charts/RiesgoPaisChart.tsx` → Tests passing ✅
 
 ### Alertas (Visual) ⚠️
+
 - [x] Crear alertas de precio (UI)
 - [x] Verificación automática cada 30s
 - [x] Estados: activa/pausada/disparada
@@ -230,6 +253,7 @@ npm run format  # 104 archivos formateados
 **Estado**: Funcional como demo/prototipo, no listo para producción
 
 **Archivos**:
+
 - `pages/dashboard/alertas.tsx` → UI
 - `lib/store/alertas.ts` → Store Zustand ✅
 - `hooks/useAlertas.ts` → Refactorizado para Zustand ✅
@@ -240,6 +264,7 @@ npm run format  # 104 archivos formateados
 ## 🟡 Funcionalidades Incompletas (20%)
 
 ### 1. Autenticación 🔴 BLOQUEADO
+
 **Estado**: Backend configurado, UI faltante
 
 ```
@@ -252,17 +277,20 @@ npm run format  # 104 archivos formateados
 ```
 
 **Impacto**:
+
 - App funciona sin auth (modo público)
 - Preferencias de usuario no se guardan entre sesiones
 - No hay personalización por usuario
 
 **Archivos Involucrados**:
+
 - `lib/auth/auth-context.tsx` → Context provider ✅
 - `pages/login.tsx` → ❌ NO EXISTE
 - `pages/signup.tsx` → ❌ NO EXISTE
 - `pages/forgot-password.tsx` → ❌ NO EXISTE
 
 ### 2. Alertas Backend 🟡 PARCIAL
+
 **Estado**: Frontend completo, backend faltante
 
 ```
@@ -275,6 +303,7 @@ npm run format  # 104 archivos formateados
 ```
 
 **Roadmap**:
+
 1. Crear tabla `alertas` en Supabase
 2. Migrar store Zustand a server state
 3. Implementar Supabase Edge Functions para verificación
@@ -282,14 +311,17 @@ npm run format  # 104 archivos formateados
 5. Agregar push notifications (OneSignal/FCM)
 
 **Archivos**:
+
 - `lib/store/alertas.ts` → Cambiar a API calls
 - `types/supabase.ts` → Agregar tipo `Alerta`
 - `supabase/migrations/` → Nueva migración
 
 ### 3. Finanzas Avanzadas 🟡 API ISSUES
+
 **Estado**: Hooks implementados, APIs fallando
 
 #### FCI (Fondos Comunes de Inversión)
+
 ```typescript
 // hooks/useFCI.ts
 export function useFCI() {
@@ -307,6 +339,7 @@ export function useFCI() {
 **Producción**: 🔴 Failing (API real)
 
 #### Tasas de Interés
+
 ```typescript
 // hooks/useTasas.ts
 export function useTasas() {
@@ -324,6 +357,7 @@ export function useTasas() {
 **Producción**: 🔴 Failing (API real)
 
 **Solución Propuesta**:
+
 1. Verificar docs de ArgentinaData API
 2. Considerar API alternativa (BCRA directo)
 3. Implementar fallback graceful (mostrar mensaje "Próximamente")
@@ -361,6 +395,7 @@ components/dashboard/old/   → Legacy code
 ```
 
 **Recomendación**:
+
 - **Eliminar**: Toast, Modal, Tabs, Select, Checkbox, Radio, Switch, Slider, Progress, Dropdown, Accordion, Table, Pagination
 - **Mantener**: Badge, Avatar, Tooltip, Alert, Skeleton (útiles para futuro)
 - **Revisar**: Spinner (consolidar con loading actual)
@@ -387,12 +422,14 @@ components/dashboard/old/   → Legacy code
 ```
 
 **Prioridad Alta**:
+
 1. `lib/store/favorites.ts` → Test all actions
 2. `lib/store/alertas.ts` → Test verification logic
 3. `pages/dashboard/favoritos.tsx` → Integration test
 4. `components/layouts/DashboardLayout.tsx` → Sidebar, navigation
 
 **Prioridad Media**:
+
 - `pages/dashboard/analisis.tsx` → Charts rendering
 - `pages/dashboard/alertas.tsx` → Full flow
 - `lib/auth/auth-context.tsx` → Auth flows
@@ -400,6 +437,7 @@ components/dashboard/old/   → Legacy code
 ### 3. TypeScript `as any` Usage
 
 **Ubicaciones**:
+
 ```typescript
 // lib/auth/auth-context.tsx:88
 .insert(defaultPrefs as any)
@@ -413,6 +451,7 @@ components/dashboard/old/   → Legacy code
 **Riesgo**: Bajo (solo afecta preferencias de usuario)
 
 **Solución Futura**:
+
 1. Actualizar Supabase CLI y regenerar tipos
 2. Crear tipos custom más flexibles
 3. Usar `Partial<>` o `DeepPartial<>` helpers
@@ -420,17 +459,20 @@ components/dashboard/old/   → Legacy code
 ### 4. Error Handling Inconsistente
 
 **Problemas**:
+
 - No hay Error Boundaries globales
 - Algunos hooks tienen `try/catch`, otros no
 - No hay página de error 500 custom
 - Fetch errors muestran pantalla blanca
 
 **Archivos sin error handling**:
+
 - `pages/_app.tsx` → No Error Boundary
 - `hooks/useFCI.ts` → API puede fallar silenciosamente
 - `hooks/useTasas.ts` → Same
 
 **Solución**:
+
 ```typescript
 // components/ErrorBoundary.tsx (crear)
 export class ErrorBoundary extends React.Component {
@@ -460,6 +502,7 @@ export default function App({ Component, pageProps }: AppProps) {
 ### 5. Accesibilidad (a11y)
 
 **Issues**:
+
 - No hay tests de accesibilidad
 - Algunos botones sin aria-labels
 - Falta navegación por teclado en algunos componentes
@@ -468,6 +511,7 @@ export default function App({ Component, pageProps }: AppProps) {
 **Prioridad**: Media (no bloqueante pero importante)
 
 **Herramientas**:
+
 ```bash
 npm install --save-dev @axe-core/react jest-axe
 ```
@@ -477,6 +521,7 @@ npm install --save-dev @axe-core/react jest-axe
 ## 📋 Roadmap Post-FASE 0
 
 ### FASE 1: Completar Features Core (2-3 días)
+
 **Prioridad**: Alta
 
 - [ ] **Auth UI Completo**
@@ -500,6 +545,7 @@ npm install --save-dev @axe-core/react jest-axe
   - Reducir bundle size
 
 ### FASE 2: Calidad y Testing (3-4 días)
+
 **Prioridad**: Alta
 
 - [ ] **Tests Coverage → 60%**
@@ -524,6 +570,7 @@ npm install --save-dev @axe-core/react jest-axe
   - Open Graph images
 
 ### FASE 3: Features Avanzadas (1 semana)
+
 **Prioridad**: Media
 
 - [ ] **Finanzas Avanzadas**
@@ -542,6 +589,7 @@ npm install --save-dev @axe-core/react jest-axe
   - Telegram bot (opcional)
 
 ### FASE 4: Producción (2-3 días)
+
 **Prioridad**: Crítica antes de lanzar
 
 - [ ] **Pre-Launch Checklist**
@@ -568,6 +616,7 @@ npm install --save-dev @axe-core/react jest-axe
 ## 🔧 Comandos Útiles
 
 ### Desarrollo
+
 ```bash
 npm run dev          # Servidor desarrollo (http://localhost:3000)
 npm run build        # Build para producción
@@ -575,6 +624,7 @@ npm run start        # Servidor producción local
 ```
 
 ### Testing
+
 ```bash
 npm test             # Correr todos los tests
 npm run test:watch   # Watch mode
@@ -582,6 +632,7 @@ npm run test:coverage # Generar reporte de coverage
 ```
 
 ### Calidad de Código
+
 ```bash
 npm run lint         # ESLint check
 npm run lint:fix     # ESLint autofix
@@ -590,11 +641,13 @@ npm run type-check   # TypeScript check sin build
 ```
 
 ### Validación Completa
+
 ```bash
 npm run validate     # ESLint + Prettier + TypeScript + Tests
 ```
 
 ### Supabase
+
 ```bash
 npx supabase login
 npx supabase db pull  # Actualizar tipos locales
@@ -606,6 +659,7 @@ npx supabase db push  # Aplicar migraciones
 ## 🚀 Estado de Deployment
 
 ### Vercel (Configurado)
+
 ```json
 {
   "buildCommand": "npm run build",
@@ -616,6 +670,7 @@ npx supabase db push  # Aplicar migraciones
 ```
 
 **Environment Variables Requeridas**:
+
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://xxxxxxx.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
@@ -623,6 +678,7 @@ SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9... (⚠️ SECRET
 ```
 
 **Pre-Deploy Checklist**:
+
 - [x] Build exitoso localmente
 - [x] Tests pasando
 - [x] TypeScript sin errores
@@ -635,6 +691,7 @@ SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9... (⚠️ SECRET
 ## 📊 Métricas de Rendimiento
 
 ### Lighthouse (Objetivo)
+
 ```
 Performance:    90+ ⚠️ (Pendiente medición)
 Accessibility:  90+ ⚠️ (Pendiente audit)
@@ -643,12 +700,14 @@ SEO:           100  ⚠️ (Pendiente meta tags)
 ```
 
 ### Bundle Size (Estimado)
+
 ```
 First Load JS:  ~200KB ⚠️ (No medido aún)
 Total Size:     ~1.5MB ⚠️ (Incluye imágenes/fonts)
 ```
 
 **Optimizaciones Pendientes**:
+
 - Code splitting por ruta
 - Lazy loading de calculadoras
 - Image optimization (Next.js Image)
@@ -661,6 +720,7 @@ Total Size:     ~1.5MB ⚠️ (Incluye imágenes/fonts)
 ### ¿Por qué Zustand + TanStack Query?
 
 **Zustand**:
+
 - ✅ Ligero (1KB gzipped vs 3KB de Redux)
 - ✅ Sin boilerplate (no actions/reducers/dispatchers)
 - ✅ TypeScript nativo
@@ -668,6 +728,7 @@ Total Size:     ~1.5MB ⚠️ (Incluye imágenes/fonts)
 - ✅ DevTools integradas
 
 **TanStack Query**:
+
 - ✅ Caching automático
 - ✅ Stale-while-revalidate
 - ✅ Retry logic
@@ -675,6 +736,7 @@ Total Size:     ~1.5MB ⚠️ (Incluye imágenes/fonts)
 - ✅ Invalidation inteligente
 
 **No se pisan**:
+
 - TanStack Query → Datos del servidor (APIs)
 - Zustand → Datos del cliente (favoritos, UI state)
 
@@ -694,6 +756,7 @@ Total Size:     ~1.5MB ⚠️ (Incluye imágenes/fonts)
 ### FASE 0 Status: ✅ COMPLETADA
 
 **Logros**:
+
 1. ✅ 0 errores de TypeScript (previamente: 9)
 2. ✅ Zustand implementado para favorites y alertas
 3. ✅ Counters en sidebar actualizan en tiempo real
@@ -701,12 +764,14 @@ Total Size:     ~1.5MB ⚠️ (Incluye imágenes/fonts)
 5. ✅ 66 tests pasando sin errores
 
 **Próximos Pasos Inmediatos**:
+
 1. Verificar build en Vercel
 2. Implementar Auth UI (FASE 1)
 3. Migrar alertas a backend (FASE 1)
 4. Agregar Error Boundaries (FASE 1)
 
 ### Contacto para Dudas
+
 - GitHub Issues: `anthropics/claude-code/issues`
 - Discord: (Pendiente setup en FASE 1)
 
@@ -715,6 +780,7 @@ Total Size:     ~1.5MB ⚠️ (Incluye imágenes/fonts)
 ## 🎉 FASE 0: Resumen de Completado
 
 ### Status Final
+
 ```
 ✅ TypeScript Build: EXITOSO (0 errores)
 ✅ ESLint: LIMPIO (0 errores)
@@ -725,6 +791,7 @@ Total Size:     ~1.5MB ⚠️ (Incluye imágenes/fonts)
 ```
 
 ### Build Output
+
 ```
 Route (pages)                             Size     First Load JS
 ┌ ○ /                                     47.7 kB         166 kB
@@ -743,6 +810,7 @@ Route (pages)                             Size     First Load JS
 **Smallest Page**: /404 (103 kB)
 
 ### Cambios Realizados (Resumen)
+
 1. **lib/auth/auth-context.tsx** → Fixeado Supabase types con type assertions
 2. **pages/dashboard/analisis.tsx** → Agregado null safety con optional chaining
 3. **lib/store/favorites.ts** → Creado Zustand store con persist
@@ -752,6 +820,7 @@ Route (pages)                             Size     First Load JS
 7. **104 archivos** → Formateados con Prettier
 
 ### Verificación
+
 ```bash
 # Comandos para verificar
 npm run build    # ✅ Exitoso
@@ -761,12 +830,15 @@ npm run format   # ✅ 104 files formatted
 ```
 
 ### Próximos Pasos Recomendados
+
 **Inmediato**:
+
 - [ ] Desplegar a Vercel para verificar en producción
 - [ ] Configurar environment variables en Vercel
 - [ ] Testear counters de favoritos/alertas en navegador
 
 **FASE 1** (Next Sprint):
+
 - [ ] Auth UI completo (login/signup/forgot-password)
 - [ ] Alertas backend con Supabase + emails
 - [ ] Error Boundaries globales

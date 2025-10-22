@@ -7,6 +7,7 @@ This guide documents the architectural improvements and migrations performed on 
 ---
 
 ## Table of Contents
+
 1. [Zustand State Management Migration](#zustand-state-management-migration)
 2. [TanStack Query Migration](#tanstack-query-migration)
 3. [Theme System Migration](#theme-system-migration)
@@ -18,11 +19,13 @@ This guide documents the architectural improvements and migrations performed on 
 ## Zustand State Management Migration
 
 ### Objective
+
 Centralize all client-side state management (favorites, alerts) using Zustand with localStorage persistence.
 
 ### Before
 
 **Old Pattern** (Local State + localStorage):
+
 ```typescript
 // pages/dashboard/index.tsx (OLD)
 const [favorites, setFavorites] = useState<Favorites>({
@@ -52,6 +55,7 @@ const toggleFavorite = (casa: string) => {
 ### After
 
 **New Pattern** (Zustand Store):
+
 ```typescript
 // lib/store/favorites.ts
 import { create } from 'zustand';
@@ -90,6 +94,7 @@ export const useFavoritesStore = create<FavoritesState>()(
 ```
 
 **Usage in Components**:
+
 ```typescript
 // pages/dashboard/index.tsx (NEW)
 import { useFavoritesStore } from '@/lib/store/favorites';
@@ -113,6 +118,7 @@ export default function DashboardPage() {
 ```
 
 ### Benefits
+
 ✅ **Centralized state** - Single source of truth across all components
 ✅ **Automatic persistence** - No manual localStorage management
 ✅ **Type safety** - Full TypeScript support
@@ -120,6 +126,7 @@ export default function DashboardPage() {
 ✅ **DevTools support** - Zustand DevTools for debugging
 
 ### Migration Checklist
+
 - [x] Create Zustand stores (`favorites.ts`, `alertas.ts`)
 - [x] Remove duplicate store at `/store/useFavoritesStore.ts`
 - [x] Update all components to use `useFavoritesStore` from `/lib/store/favorites`
@@ -132,11 +139,13 @@ export default function DashboardPage() {
 ## TanStack Query Migration
 
 ### Objective
+
 Replace traditional data fetching (useState + useEffect) with TanStack Query for better caching, error handling, and automatic refetching.
 
 ### Before
 
 **Old Pattern** (useState + useEffect):
+
 ```typescript
 // hooks/useArgentinaData.ts (OLD - NEEDS MIGRATION)
 export function useArgentinaData() {
@@ -200,7 +209,7 @@ export function useSenadores() {
       if (!response.ok) throw new Error('Failed to fetch senadores');
       return response.json();
     },
-    staleTime: CACHE_CONFIG.politica.staleTime,   // 24 hours
+    staleTime: CACHE_CONFIG.politica.staleTime, // 24 hours
     retry: 3,
   });
 }
@@ -229,13 +238,14 @@ export function useInflacion() {
       if (!response.ok) throw new Error('Failed to fetch inflacion');
       return response.json();
     },
-    staleTime: CACHE_CONFIG.finanzas.staleTime,   // 1 hour
+    staleTime: CACHE_CONFIG.finanzas.staleTime, // 1 hour
     retry: 3,
   });
 }
 ```
 
 **Usage in Components**:
+
 ```typescript
 // pages/dashboard/politica.tsx (NEW)
 import { useSenadores, useDiputados } from '@/hooks/usePolitica';
@@ -250,6 +260,7 @@ export default function PoliticaPage() {
 ```
 
 ### Benefits
+
 ✅ **Smart caching** - Data persists across components
 ✅ **Automatic refetching** - Keeps data fresh
 ✅ **Optimized loading** - Only fetch what's needed
@@ -265,20 +276,20 @@ export default function PoliticaPage() {
 export const CACHE_CONFIG = {
   // Real-time data - short cache
   dolares: {
-    staleTime: 30 * 1000,        // 30 seconds
-    refetchInterval: 30 * 1000,  // Auto-refetch every 30s
+    staleTime: 30 * 1000, // 30 seconds
+    refetchInterval: 30 * 1000, // Auto-refetch every 30s
   },
 
   // Financial data - moderate cache
   finanzas: {
-    staleTime: 60 * 60 * 1000,   // 1 hour
+    staleTime: 60 * 60 * 1000, // 1 hour
     refetchInterval: 60 * 60 * 1000,
   },
 
   // Political data - long cache (rarely changes)
   politica: {
-    staleTime: 24 * 60 * 60 * 1000,  // 24 hours
-    refetchInterval: false,           // No auto-refetch
+    staleTime: 24 * 60 * 60 * 1000, // 24 hours
+    refetchInterval: false, // No auto-refetch
   },
 
   // Historical data - very long cache (immutable)
@@ -292,6 +303,7 @@ export const CACHE_CONFIG = {
 ### Migration Status
 
 #### ✅ Migrated Hooks
+
 - [x] `useDolarQuery.ts` - Dollar quotations
 - [x] `useDolarVariations.ts` - Dollar variations with historical data
 - [x] `useCotizaciones.ts` - International currencies
@@ -301,6 +313,7 @@ export const CACHE_CONFIG = {
 - [x] `useEventos.ts` - Events and holidays
 
 #### ⚠️ Needs Migration
+
 - [ ] `useArgentinaData.ts` - **TO BE DEPRECATED**
   - **Action**: Update components to use modular hooks instead
   - **Timeline**: Next version
@@ -311,6 +324,7 @@ export const CACHE_CONFIG = {
 When adding new data fetching:
 
 1. **Create TanStack Query hook**:
+
 ```typescript
 // hooks/useNewData.ts
 export function useNewData() {
@@ -321,13 +335,14 @@ export function useNewData() {
       if (!response.ok) throw new Error('Fetch failed');
       return response.json();
     },
-    staleTime: 60000,  // Adjust based on data freshness needs
+    staleTime: 60000, // Adjust based on data freshness needs
     retry: 3,
   });
 }
 ```
 
 2. **Define TypeScript types** in `/types/api/`:
+
 ```typescript
 // types/api/newdata.ts
 export interface NewDataItem {
@@ -342,6 +357,7 @@ export type NewDataResponse = NewDataItem[];
 3. **Add cache config** to `/lib/config/api.ts`
 
 4. **Use in components**:
+
 ```typescript
 const { data, isLoading, error } = useNewData();
 ```
@@ -351,11 +367,13 @@ const { data, isLoading, error } = useNewData();
 ## Theme System Migration
 
 ### Objective
+
 Migrate from hardcoded colors to CSS variables for consistent theming.
 
 ### Before
 
 **Old Pattern** (Hardcoded Colors):
+
 ```tsx
 // components/sidebar.tsx (OLD - REMOVED)
 <aside className="bg-[#181B2B] border-gray-700">
@@ -368,6 +386,7 @@ Migrate from hardcoded colors to CSS variables for consistent theming.
 ### After
 
 **New Pattern** (CSS Variables):
+
 ```tsx
 // components/layouts/UnifiedNavbar.tsx (NEW)
 <aside className="bg-panel border-border">
@@ -402,6 +421,7 @@ Migrate from hardcoded colors to CSS variables for consistent theming.
 ```
 
 **Tailwind Integration**:
+
 ```typescript
 // tailwind.config.ts
 theme: {
@@ -421,16 +441,17 @@ theme: {
 
 ### Color Reference Table
 
-| Old Hardcoded | New CSS Variable | Tailwind Class |
-|--------------|------------------|----------------|
-| `#181B2B` | `var(--background)` / `var(--panel)` | `bg-background` / `bg-panel` |
-| `#ffffff` | `var(--foreground)` (in dark mode) | `text-foreground` |
-| `#0a0a0a` | `var(--foreground)` (in light mode) | `text-foreground` |
-| `gray-700` | `var(--border)` | `border-border` |
-| `gray-300` | `var(--secondary)` | `text-secondary` |
-| `teal-300` | `var(--accent-emerald)` | `text-accent-emerald` |
+| Old Hardcoded | New CSS Variable                     | Tailwind Class               |
+| ------------- | ------------------------------------ | ---------------------------- |
+| `#181B2B`     | `var(--background)` / `var(--panel)` | `bg-background` / `bg-panel` |
+| `#ffffff`     | `var(--foreground)` (in dark mode)   | `text-foreground`            |
+| `#0a0a0a`     | `var(--foreground)` (in light mode)  | `text-foreground`            |
+| `gray-700`    | `var(--border)`                      | `border-border`              |
+| `gray-300`    | `var(--secondary)`                   | `text-secondary`             |
+| `teal-300`    | `var(--accent-emerald)`              | `text-accent-emerald`        |
 
 ### Migration Checklist
+
 - [x] Define CSS variables in `globals.css`
 - [x] Update Tailwind config to use CSS variables
 - [x] Remove hardcoded colors from components
@@ -451,6 +472,7 @@ theme: {
 **Timeline**: Remove in v2.0.0
 
 **Current Code**:
+
 ```typescript
 /**
  * @deprecated Use useDolarQuery instead
@@ -463,6 +485,7 @@ export function useDolar() {
 ```
 
 **Migration Path**:
+
 ```typescript
 // OLD
 import { useDolar } from '@/hooks/useDolar';
@@ -481,6 +504,7 @@ const { data, isLoading, error } = useDolarQuery();
 
 **Migration Path**:
 Replace with modular hooks:
+
 - `useSenadores()` instead of `data.senadores`
 - `useDiputados()` instead of `data.diputados`
 - `useInflacion()` instead of `data.inflacion`
@@ -495,6 +519,7 @@ Replace with modular hooks:
 ### Files Removed
 
 #### Duplicate Store
+
 - ❌ `/store/useFavoritesStore.ts` - REMOVED
   - **Reason**: Duplicate of `/lib/store/favorites.ts`
   - **Action**: Deleted, updated all imports
@@ -508,11 +533,13 @@ Replace with modular hooks:
 #### Favorites Store Import Path
 
 **Before**:
+
 ```typescript
 import { useFavoritesStore } from '@/store/useFavoritesStore';
 ```
 
 **After**:
+
 ```typescript
 import { useFavoritesStore } from '@/lib/store/favorites';
 ```
@@ -522,18 +549,21 @@ import { useFavoritesStore } from '@/lib/store/favorites';
 #### Favorites Store API
 
 **Before**:
+
 ```typescript
 const { favorites, toggleDolarFavorite, toggleCurrencyFavorite } = useFavoritesStore();
 const isFavorite = favorites.dolares.includes(casa);
 ```
 
 **After**:
+
 ```typescript
 const { dolares, currencies, toggleDolar, toggleCurrency } = useFavoritesStore();
 const isFavorite = dolares.includes(casa);
 ```
 
 **Changes**:
+
 - `favorites.dolares` → `dolares`
 - `favorites.currencies` → `currencies`
 - `toggleDolarFavorite()` → `toggleDolar()`
@@ -542,16 +572,19 @@ const isFavorite = dolares.includes(casa);
 #### TanStack Query Response Shape
 
 **Before** (Manual useState):
+
 ```typescript
 const { data, loading, error } = useCustomHook();
 ```
 
 **After** (TanStack Query):
+
 ```typescript
 const { data, isLoading, error } = useQueryHook();
 ```
 
 **Changes**:
+
 - `loading` → `isLoading`
 - Additional properties available: `isFetching`, `isError`, `refetch()`, etc.
 
@@ -626,11 +659,13 @@ const value = useStore((state) => state.value);
 ```typescript
 // BEFORE
 useEffect(() => {
-  fetch(url).then(res => res.json()).then(setData);
+  fetch(url)
+    .then((res) => res.json())
+    .then(setData);
 }, []);
 
 // AFTER
-const { data } = useQuery({ queryKey: ['key'], queryFn: () => fetch(url).then(r => r.json()) });
+const { data } = useQuery({ queryKey: ['key'], queryFn: () => fetch(url).then((r) => r.json()) });
 ```
 
 #### Pattern 3: Hardcoded Colors → CSS Variables
@@ -669,6 +704,7 @@ const { data } = useQuery({ queryKey: ['key'], queryFn: () => fetch(url).then(r 
 ## Support
 
 For migration questions or issues:
+
 - Check documentation in `/docs`
 - Review code examples in migrated files
 - Create an issue on GitHub

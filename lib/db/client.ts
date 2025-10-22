@@ -62,10 +62,7 @@ export async function tableExists(tableName: string): Promise<boolean> {
  * @param params - Query parameters
  * @returns Query result
  */
-export async function executeQuery<T = any>(
-  query: string,
-  ...params: any[]
-): Promise<T[]> {
+export async function executeQuery<T = any>(query: string, ...params: any[]): Promise<T[]> {
   try {
     const result = await sql.query(query, params);
     return result.rows as T[];

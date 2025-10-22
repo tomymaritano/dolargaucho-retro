@@ -195,11 +195,7 @@ export const trackEvent = {
 // TypeScript declarations for global analytics objects
 declare global {
   interface Window {
-    gtag?: (
-      command: 'config' | 'event',
-      targetId: string,
-      config?: Record<string, any>
-    ) => void;
+    gtag?: (command: 'config' | 'event', targetId: string, config?: Record<string, any>) => void;
     va?: (command: 'track', eventName: string, properties?: Record<string, any>) => void;
   }
 }

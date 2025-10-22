@@ -1,6 +1,7 @@
 # Dólar Gaucho - Project Overview
 
 ## 📋 Table of Contents
+
 - [Project Description](#project-description)
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
@@ -33,16 +34,19 @@
 ## 🛠 Tech Stack
 
 ### Core Framework
+
 - **Next.js 15.1.6** - React framework with App Router
 - **React 19** - UI library
 - **TypeScript 5** - Type safety
 
 ### State & Data Management
+
 - **TanStack Query v5** - Server state management, caching, and data fetching
 - **Zustand** - Client state management (favorites, alerts)
 - **Zustand Persist** - State persistence to localStorage
 
 ### Styling & UI
+
 - **Tailwind CSS 3.4** - Utility-first CSS framework
 - **CVA (Class Variance Authority)** - Component variant management
 - **Framer Motion** - Animations and transitions
@@ -50,12 +54,15 @@
 - **OGL** - WebGL library for Aurora effect
 
 ### Charts & Visualization
+
 - **Recharts** - Chart library for financial data visualization
 
 ### Authentication
+
 - **Supabase** - Backend as a Service (auth, database)
 
 ### Developer Tools
+
 - **ESLint** - Code linting
 - **PostCSS** - CSS processing
 - **TypeScript** - Type checking
@@ -167,36 +174,43 @@ dolargaucho-retro/
 ## ✨ Key Features
 
 ### 1. Real-Time Financial Data
+
 - **Auto-refresh**: Data updates every 30 seconds
 - **Live Ticker**: Scrolling marquee with key rates
 - **Variation Indicators**: Real-time percentage changes with historical comparison
 
 ### 2. Favorites System
+
 - **Centralized State**: Zustand store with localStorage persistence
 - **Multi-type Support**: Save both dollar rates and international currencies
 - **Quick Access**: Favorites appear prominently on dashboard
 
 ### 3. Alert System
+
 - **Price Thresholds**: Set alerts for specific price levels
 - **Multiple Types**: Support for all dollar types and currencies
 - **Persistent Storage**: Alerts saved to localStorage
 
 ### 4. Theme System
+
 - **Dark/Light Modes**: Full theme support
 - **CSS Variables**: Centralized color system
 - **Smooth Transitions**: Animated theme changes
 
 ### 5. Interactive Calculators
+
 - **Inflation Calculator**: Calculate inflation impact over time
 - **Fixed-Term Calculator**: Calculate returns on fixed-term deposits
 - **Dollar Converter**: Convert between different dollar types
 
 ### 6. Political Data
+
 - **Senators & Deputies**: Complete database with filtering
 - **Senate Proceedings**: Historical record of sessions
 - **Statistical Analysis**: Party blocks and province statistics
 
 ### 7. Financial Indices
+
 - **Riesgo País**: Country risk indicator with trend analysis
 - **Mutual Funds (FCI)**: Complete list with performance metrics
 - **Interest Rates**: UVA, TNA, TEA tracking
@@ -217,9 +231,9 @@ export function useDolarQuery() {
       if (!response.ok) throw new Error('Failed to fetch');
       return response.json();
     },
-    staleTime: 30000,           // 30 seconds
-    refetchInterval: 30000,     // Auto-refetch every 30s
-    retry: 3,                   // Retry 3 times on failure
+    staleTime: 30000, // 30 seconds
+    refetchInterval: 30000, // Auto-refetch every 30s
+    retry: 3, // Retry 3 times on failure
   });
 }
 ```
@@ -275,21 +289,24 @@ export default function DashboardPage() {
 ## 🔌 API Integrations
 
 ### DolarAPI (Primary)
+
 **Base URL**: `https://dolarapi.com/v1`
 
 **Endpoints**:
+
 - `GET /dolares` - All dollar quotations
 - `GET /dolares/{type}` - Specific dollar type (oficial, blue, bolsa, etc.)
 - `GET /cotizaciones` - International currencies
 - `GET /cotizaciones/{currency}` - Specific currency (eur, brl, clp, uyu)
 
 **Response Format**:
+
 ```json
 {
   "casa": "oficial",
   "nombre": "Oficial",
-  "compra": 1050.00,
-  "venta": 1090.00,
+  "compra": 1050.0,
+  "venta": 1090.0,
   "fechaActualizacion": "2025-01-15T10:30:00.000Z",
   "moneda": "USD"
 }
@@ -298,6 +315,7 @@ export default function DashboardPage() {
 **Cache Strategy**: 30 seconds stale time, 30 seconds refetch interval
 
 ### ArgentinaData API (Secondary)
+
 **Base URL**: `https://api.argentinadatos.com/v1`
 
 **Categories**:
@@ -322,6 +340,7 @@ export default function DashboardPage() {
    - `/cotizaciones/{currency}/{date}` - Historical currency rates
 
 **Cache Strategy**: Varies by data type
+
 - Political data: 24 hours (changes infrequently)
 - Financial indices: 15 minutes to 1 hour
 - Historical data: 1 hour (immutable)
@@ -333,9 +352,11 @@ export default function DashboardPage() {
 ### Global State (Zustand)
 
 #### Favorites Store
+
 **Location**: `/lib/store/favorites.ts`
 
 **State**:
+
 ```typescript
 {
   dolares: string[],      // Array of casa IDs
@@ -344,6 +365,7 @@ export default function DashboardPage() {
 ```
 
 **Actions**:
+
 - `addDolar(casa)` - Add dollar to favorites
 - `removeDolar(casa)` - Remove dollar from favorites
 - `toggleDolar(casa)` - Toggle dollar favorite status
@@ -356,9 +378,11 @@ export default function DashboardPage() {
 **Persistence**: Saved to `localStorage` under key `dolargaucho_favorites`
 
 #### Alerts Store
+
 **Location**: `/lib/store/alertas.ts`
 
 **State**:
+
 ```typescript
 {
   alertas: Alerta[],  // Array of alert objects
@@ -366,6 +390,7 @@ export default function DashboardPage() {
 ```
 
 **Alert Object**:
+
 ```typescript
 {
   id: string,
@@ -388,17 +413,18 @@ export default function DashboardPage() {
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 60 * 1000,        // 1 minute default
-      gcTime: 5 * 60 * 1000,       // 5 minutes garbage collection
-      retry: 3,                     // Retry failed requests 3 times
-      refetchOnWindowFocus: true,   // Refetch when window regains focus
-      refetchOnReconnect: true,     // Refetch when reconnecting
+      staleTime: 60 * 1000, // 1 minute default
+      gcTime: 5 * 60 * 1000, // 5 minutes garbage collection
+      retry: 3, // Retry failed requests 3 times
+      refetchOnWindowFocus: true, // Refetch when window regains focus
+      refetchOnReconnect: true, // Refetch when reconnecting
     },
   },
 });
 ```
 
 **Query Keys Pattern**:
+
 - `['dolares']` - All dollar quotations
 - `['dolares', type]` - Specific dollar type
 - `['dolares-historical', date]` - Historical dollar rates
@@ -419,6 +445,7 @@ const queryClient = new QueryClient({
 **Location**: `/styles/globals.css`
 
 #### Light Theme (`:root`)
+
 ```css
 :root {
   /* Base colors */
@@ -444,6 +471,7 @@ const queryClient = new QueryClient({
 ```
 
 #### Dark Theme (`.dark`)
+
 ```css
 .dark {
   --background: #0a0a0a;
@@ -479,6 +507,7 @@ theme: {
 ### Utility Classes
 
 **Glass Effects**:
+
 ```css
 .glass {
   backdrop-filter: blur(12px);
@@ -494,6 +523,7 @@ theme: {
 ```
 
 **Gradient Text**:
+
 ```css
 .gradient-text {
   background: linear-gradient(135deg, var(--accent-emerald), var(--accent-teal));
@@ -535,6 +565,7 @@ export const ThemeProvider = ({ children }) => {
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js 18+
 - npm or yarn
 - Supabase account (for authentication)
@@ -542,30 +573,34 @@ export const ThemeProvider = ({ children }) => {
 ### Installation
 
 1. **Clone the repository**
+
 ```bash
 git clone https://github.com/yourusername/dolargaucho-retro.git
 cd dolargaucho-retro
 ```
 
 2. **Install dependencies**
+
 ```bash
 npm install
 ```
 
 3. **Set up environment variables**
-Create a `.env.local` file:
+   Create a `.env.local` file:
+
 ```env
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
 4. **Run development server**
+
 ```bash
 npm run dev
 ```
 
 5. **Open browser**
-Navigate to `http://localhost:3000`
+   Navigate to `http://localhost:3000`
 
 ### Build for Production
 
@@ -587,19 +622,23 @@ npm start
 ## 📊 Performance Optimizations
 
 ### Code Splitting
+
 - Lazy loading of dashboard components
 - Dynamic imports for heavy libraries (charts, calculators)
 
 ### Caching Strategy
+
 - Aggressive caching for political data (24 hours)
 - Moderate caching for financial data (15-60 minutes)
 - Short caching for real-time quotes (30 seconds)
 
 ### Image Optimization
+
 - Next.js Image component for optimized images
 - SVG icons for better performance
 
 ### Bundle Optimization
+
 - Tree shaking for unused code
 - Minification and compression in production
 
@@ -608,16 +647,19 @@ npm start
 ## 🔒 Security
 
 ### API Security
+
 - No API keys exposed (public APIs only)
 - CORS properly configured
 - Rate limiting considerations
 
 ### Authentication
+
 - Supabase RLS (Row Level Security)
 - JWT token-based authentication
 - Secure session management
 
 ### Data Validation
+
 - TypeScript for type safety
 - Input validation on all forms
 - Sanitization of user inputs
@@ -627,6 +669,7 @@ npm start
 ## 🧪 Testing
 
 ### Test Structure
+
 ```
 __tests__/
 ├── components/
@@ -635,6 +678,7 @@ __tests__/
 ```
 
 ### Testing Tools
+
 - Jest (planned)
 - React Testing Library (planned)
 - Cypress for E2E (planned)

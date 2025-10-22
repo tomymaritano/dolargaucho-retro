@@ -57,7 +57,11 @@ export function useInflacionMensual() {
       }
 
       const rawData = await response.json();
-      const data = validateAndParse(InflacionMensualResponseSchema, rawData, 'ArgentinaData /inflacion');
+      const data = validateAndParse(
+        InflacionMensualResponseSchema,
+        rawData,
+        'ArgentinaData /inflacion'
+      );
 
       logger.api.response(url, response.status, duration);
 
@@ -91,7 +95,11 @@ export function useInflacionInteranual() {
       }
 
       const rawData = await response.json();
-      const data = validateAndParse(InflacionInteranualResponseSchema, rawData, 'ArgentinaData /inflacionInteranual');
+      const data = validateAndParse(
+        InflacionInteranualResponseSchema,
+        rawData,
+        'ArgentinaData /inflacionInteranual'
+      );
 
       logger.api.response(url, response.status, duration);
 

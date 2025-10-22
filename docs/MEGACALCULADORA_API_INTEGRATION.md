@@ -7,6 +7,7 @@ La MegaCalculadora ahora obtiene todos los parámetros económicos automáticame
 ## ✨ Mejoras Implementadas
 
 ### 1. **Inflación Mensual Automática** ✅
+
 - **Hook utilizado:** `useUltimaInflacion()` desde `@/hooks/useFinanzas`
 - **Fuente:** ArgentinaData API (`/inflacion`)
 - **Valor anterior:** Input manual del usuario
@@ -19,12 +20,14 @@ const inflacionMensualAuto = ultimaInflacion?.valor ?? 7;
 ```
 
 **UI:** Campo read-only que muestra:
+
 - 📊 Dato oficial del {fecha} - cuando hay datos
 - ⚠️ Usando valor estimado - cuando se usa fallback
 
 ---
 
 ### 2. **Devaluación Mensual Calculada** ✅
+
 - **Hooks utilizados:**
   - `useDolarByType('blue')` - dólar actual
   - `useDolarHistorico(fechaMesAnterior)` - dólar de hace 1 mes
@@ -39,7 +42,7 @@ const inflacionMensualAuto = ultimaInflacion?.valor ?? 7;
 const devaluacionMensualAuto = useMemo(() => {
   if (!dolarBlue || !dolarHistorico) return 8;
 
-  const blueHistorico = dolarHistorico.find(d => d.nombre === 'Blue');
+  const blueHistorico = dolarHistorico.find((d) => d.nombre === 'Blue');
   if (!blueHistorico) return 8;
 
   const devaluacion = ((dolarBlue.venta - blueHistorico.venta) / blueHistorico.venta) * 100;
@@ -48,12 +51,14 @@ const devaluacionMensualAuto = useMemo(() => {
 ```
 
 **UI:** Campo read-only que muestra:
+
 - 📈 Calculado desde dato histórico - cuando hay datos
 - ⚠️ Usando valor estimado - cuando se usa fallback
 
 ---
 
 ### 3. **Dólar MEP Real y Spread Automático** ✅
+
 - **Hook utilizado:** `useDolarByType('bolsa')` - MEP/Dólar Bolsa
 - **Fuente:** DolarAPI (`/dolares/bolsa`)
 - **Cálculo del spread:** `((blue - mep) / blue) * 100`
@@ -76,17 +81,20 @@ const spreadMEPAuto = useMemo(() => {
 ```
 
 **Uso en cálculos:**
+
 ```typescript
 const dolarMEPInicio = dolarMEP?.venta || dolarInicio * (1 - spreadMEPNum);
 ```
 
 **UI:** Campo read-only que muestra:
+
 - 💵 Blue $X.XX | MEP $Y.YY - cuando hay datos
 - ⚠️ Usando valor estimado - cuando se usa fallback
 
 ---
 
 ### 4. **Date Pickers para Fechas de Plazo Fijo** ✅
+
 - **Componente:** Native HTML5 `<input type="date">`
 - **Estado:**
   - `fechaInicio` - Fecha de inicio (default: hoy)
@@ -132,6 +140,7 @@ Reemplaza los 3 inputs manuales con una sección informativa que muestra:
 ```
 
 **Características:**
+
 - ✅ Campos read-only (no editables)
 - ✅ Icono de % para indicar porcentaje
 - ✅ Tooltip con información adicional al hover
@@ -159,17 +168,20 @@ Reemplaza los 3 inputs manuales con una sección informativa que muestra:
 ## 📦 Nuevos Imports y Dependencias
 
 ### Hooks Agregados
+
 ```typescript
 import { useUltimaInflacion } from '@/hooks/useFinanzas';
 import { useDolarHistorico } from '@/hooks/useDolarHistorico';
 ```
 
 ### Nuevo Hook Usado
+
 ```typescript
 const { data: dolarMEP } = useDolarByType('bolsa'); // MEP = Dólar Bolsa
 ```
 
 ### React Hook Agregado
+
 ```typescript
 import React, { useState, useMemo, useEffect } from 'react';
 ```
@@ -293,6 +305,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 ## 📝 Archivos Modificados
 
 ### Principal
+
 - `components/calculadoras/MegaCalculadora.tsx` (646 → 740 líneas)
   - Agregados hooks de datos automáticos
   - Nueva sección UI de parámetros económicos
@@ -301,6 +314,7 @@ import React, { useState, useMemo, useEffect } from 'react';
   - Removidos inputs manuales
 
 ### Sin Modificaciones Requeridas
+
 - `hooks/useFinanzas.ts` - Ya existía `useUltimaInflacion()`
 - `hooks/useDolarHistorico.ts` - Ya existía
 - `hooks/useDolarQuery.ts` - Ya existía `useDolarByType()`
@@ -330,7 +344,9 @@ import React, { useState, useMemo, useEffect } from 'react';
 ## 🐛 Troubleshooting
 
 ### Problema: Valores no se actualizan
+
 **Solución:** Verificar que las APIs respondan correctamente
+
 ```bash
 curl https://api.argentinadatos.com/v1/finanzas/indices/inflacion
 curl https://dolarapi.com/v1/dolares/blue
@@ -338,7 +354,9 @@ curl https://dolarapi.com/v1/dolares/bolsa
 ```
 
 ### Problema: Usa siempre valores por defecto
+
 **Solución:** Revisar console para errores de API
+
 ```typescript
 // En DevTools → Console, buscar:
 // "Error al obtener inflación mensual"
@@ -346,7 +364,9 @@ curl https://dolarapi.com/v1/dolares/bolsa
 ```
 
 ### Problema: Cálculos incorrectos
+
 **Solución:** Verificar que los hooks retornen el formato esperado
+
 ```typescript
 console.log('Inflación:', ultimaInflacion);
 console.log('Dólar Blue:', dolarBlue);

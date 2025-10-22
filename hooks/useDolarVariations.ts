@@ -58,7 +58,10 @@ export function useDolarVariations() {
           const data: HistoricalDolarData = await response.json();
           return { casa, data };
         } catch (error) {
-          logger.error('Error fetching historical dolar data', error, { hook: 'useDolarVariations', casa });
+          logger.error('Error fetching historical dolar data', error, {
+            hook: 'useDolarVariations',
+            casa,
+          });
           return null;
         }
       });
@@ -79,36 +82,37 @@ export function useDolarVariations() {
   });
 
   // Calculate variations
-  const dolaresWithVariations: DolarWithVariation[] = dolares?.map((dolar) => {
-    const historical = historicalData?.[dolar.casa];
-    const currentValue = dolar.venta;
+  const dolaresWithVariations: DolarWithVariation[] =
+    dolares?.map((dolar) => {
+      const historical = historicalData?.[dolar.casa];
+      const currentValue = dolar.venta;
 
-    let percentage = 0;
-    let trend: 'up' | 'down' | 'neutral' = 'neutral';
-    let previousValue: number | undefined = undefined;
-    let difference = 0;
+      let percentage = 0;
+      let trend: 'up' | 'down' | 'neutral' = 'neutral';
+      let previousValue: number | undefined = undefined;
+      let difference = 0;
 
-    if (historical && historical.venta) {
-      previousValue = historical.venta;
+      if (historical && historical.venta) {
+        previousValue = historical.venta;
 
-      if (previousValue !== currentValue) {
-        difference = currentValue - previousValue;
-        percentage = (difference / previousValue) * 100;
-        trend = percentage > 0 ? 'up' : percentage < 0 ? 'down' : 'neutral';
+        if (previousValue !== currentValue) {
+          difference = currentValue - previousValue;
+          percentage = (difference / previousValue) * 100;
+          trend = percentage > 0 ? 'up' : percentage < 0 ? 'down' : 'neutral';
+        }
       }
-    }
 
-    return {
-      ...dolar,
-      variation: {
-        percentage: Math.abs(percentage),
-        trend,
-        previousValue,
-        currentValue,
-        difference: Math.abs(difference),
-      },
-    };
-  }) || [];
+      return {
+        ...dolar,
+        variation: {
+          percentage: Math.abs(percentage),
+          trend,
+          previousValue,
+          currentValue,
+          difference: Math.abs(difference),
+        },
+      };
+    }) || [];
 
   return {
     data: dolaresWithVariations,

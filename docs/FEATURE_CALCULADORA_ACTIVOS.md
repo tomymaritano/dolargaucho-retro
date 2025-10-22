@@ -3,6 +3,7 @@
 ## 🎯 Concepto General
 
 Una herramienta que permite calcular la **rentabilidad real** de activos considerando:
+
 - Inflación acumulada
 - Variación del dólar (oficial, blue, MEP, CCL)
 - Comparación con inversiones alternativas
@@ -13,6 +14,7 @@ Una herramienta que permite calcular la **rentabilidad real** de activos conside
 ## 💡 Casos de Uso
 
 ### Ejemplo 1: Compra de Auto
+
 ```
 Usuario compró un auto en enero 2020 por $1.500.000
 Hoy lo vende en $8.000.000
@@ -26,6 +28,7 @@ La calculadora muestra:
 ```
 
 ### Ejemplo 2: Inversión en Plazo Fijo
+
 ```
 Usuario invirtió $100.000 en plazo fijo UVA en junio 2023
 Hoy tiene $180.000
@@ -39,6 +42,7 @@ La calculadora muestra:
 ```
 
 ### Ejemplo 3: Compra de Inmueble
+
 ```
 Compró depto en 2018 por USD 120.000
 Hoy vale USD 95.000
@@ -59,6 +63,7 @@ La calculadora muestra:
 ### 1. **Entrada de Datos**
 
 **Datos del Activo:**
+
 - Tipo de activo (dropdown):
   - 🚗 Vehículo
   - 🏠 Inmueble
@@ -67,16 +72,19 @@ La calculadora muestra:
   - 🛍️ Otro (personalizado)
 
 **Transacción Inicial:**
+
 - Fecha de compra (date picker)
 - Precio de compra
 - Moneda (ARS/USD)
 
 **Transacción Final:**
+
 - Fecha de venta/valuación (date picker, default: hoy)
 - Precio de venta/valor actual
 - Moneda (ARS/USD)
 
 **Costos Asociados (opcional):**
+
 - Gastos de compra (escribanía, comisiones)
 - Mantenimiento/costos recurrentes
 - Gastos de venta
@@ -86,11 +94,13 @@ La calculadora muestra:
 ### 2. **Cálculos Automáticos**
 
 #### A) **Rentabilidad Nominal**
+
 ```
 Rentabilidad = ((Precio Venta - Precio Compra - Costos) / Precio Compra) * 100
 ```
 
 #### B) **Rentabilidad Real (ajustada por inflación)**
+
 ```
 Inflación Acumulada = IPC desde fecha compra hasta fecha venta
 Valor Real Final = Precio Venta / (1 + Inflación Acumulada)
@@ -98,7 +108,9 @@ Rentabilidad Real = ((Valor Real Final - Precio Compra) / Precio Compra) * 100
 ```
 
 #### C) **Conversión a Dólares**
+
 Si la compra fue en ARS:
+
 ```
 Dólares en Compra = Precio Compra / Cotización Dólar (fecha compra)
 Dólares en Venta = Precio Venta / Cotización Dólar (fecha venta)
@@ -110,6 +122,7 @@ Ganancia/Pérdida en USD = Dólares Venta - Dólares Compra
 Comparar contra alternativas:
 
 1. **Si hubiera comprado dólares:**
+
    ```
    USD Inicial = Precio Compra / Dólar (fecha compra)
    Valor Hoy = USD Inicial * Dólar (hoy)
@@ -117,6 +130,7 @@ Comparar contra alternativas:
    ```
 
 2. **Si hubiera hecho plazo fijo:**
+
    ```
    Usar tasas históricas promedio (TNA)
    Calcular capital final con interés compuesto
@@ -157,12 +171,12 @@ Comparar contra alternativas:
 
 #### Tabla Comparativa
 
-| Escenario | Inversión Inicial | Valor Hoy | Ganancia/Pérdida | Rentabilidad |
-|-----------|------------------|-----------|------------------|--------------|
-| **Tu activo (Auto)** | $1.500.000 | $8.000.000 | -$2.875.000 | -12% real |
-| Dólar Blue | $1.500.000 | $12.500.000 | +$4.500.000 | +36% real |
-| Plazo Fijo UVA | $1.500.000 | $11.200.000 | +$2.325.000 | +3% real |
-| Plazo Fijo Tradicional | $1.500.000 | $9.800.000 | +$925.000 | -10% real |
+| Escenario              | Inversión Inicial | Valor Hoy   | Ganancia/Pérdida | Rentabilidad |
+| ---------------------- | ----------------- | ----------- | ---------------- | ------------ |
+| **Tu activo (Auto)**   | $1.500.000        | $8.000.000  | -$2.875.000      | -12% real    |
+| Dólar Blue             | $1.500.000        | $12.500.000 | +$4.500.000      | +36% real    |
+| Plazo Fijo UVA         | $1.500.000        | $11.200.000 | +$2.325.000      | +3% real     |
+| Plazo Fijo Tradicional | $1.500.000        | $9.800.000  | +$925.000        | -10% real    |
 
 #### Gráfico de Evolución
 
@@ -181,18 +195,21 @@ Comparar contra alternativas:
 #### De ArgentinaData API:
 
 **Inflación:**
+
 ```
 GET /api/inflacion
 Campos: fecha, valor (IPC mensual e interanual)
 ```
 
 **Cotizaciones:**
+
 ```
 GET /api/cotizaciones
 Campos: casa, nombre, compra, venta, fecha
 ```
 
 **UVA:**
+
 ```
 GET /api/uvas
 Campos: fecha, valor
@@ -201,6 +218,7 @@ Campos: fecha, valor
 #### Cálculos propios:
 
 **Tasas de Plazo Fijo:**
+
 - Usar promedio histórico de TNA (podemos estimarlo o buscar API del BCRA)
 - Alternativamente, asumir TNA promedio por período (ej: 2020-2023: 45% anual)
 
@@ -251,6 +269,7 @@ Campos: fecha, valor
 ### Estados Visuales
 
 **Ganancia Real (verde):**
+
 ```
 ┌────────────────────────┐
 │  Rentabilidad Real     │
@@ -261,6 +280,7 @@ Campos: fecha, valor
 ```
 
 **Pérdida Real (rojo):**
+
 ```
 ┌────────────────────────┐
 │  Rentabilidad Real     │
@@ -271,6 +291,7 @@ Campos: fecha, valor
 ```
 
 **Neutro (amarillo):**
+
 ```
 ┌────────────────────────┐
 │  Rentabilidad Real     │
@@ -284,6 +305,7 @@ Campos: fecha, valor
 ## 📋 Roadmap de Desarrollo
 
 ### FASE 1: MVP (1-2 días)
+
 - [ ] Componente básico con inputs
 - [ ] Cálculo de rentabilidad nominal
 - [ ] Cálculo de inflación acumulada (consumir API)
@@ -291,12 +313,14 @@ Campos: fecha, valor
 - [ ] Display de resultados en cards
 
 ### FASE 2: Comparativas (1 día)
+
 - [ ] Comparación con dólar blue
 - [ ] Comparación con dólar oficial
 - [ ] Tabla comparativa
 - [ ] Indicadores visuales (✅❌⚠️)
 
 ### FASE 3: Visualización Avanzada (1 día)
+
 - [ ] Gráfico de evolución (Recharts)
 - [ ] Selector de moneda base (ARS/USD)
 - [ ] Costos adicionales (gastos de compra/venta)
@@ -304,6 +328,7 @@ Campos: fecha, valor
 - [ ] Comparación con plazo fijo
 
 ### FASE 4: Features Avanzadas (2-3 días)
+
 - [ ] Guardar cálculos (localStorage)
 - [ ] Exportar resultados (PDF/imagen)
 - [ ] Múltiples activos simultáneos
@@ -328,9 +353,10 @@ function calcularInflacionAcumulada(
   );
 
   // Calcular inflación compuesta
-  const inflacionTotal = datosEnRango.reduce((acum, dato) => {
-    return acum * (1 + dato.valor / 100);
-  }, 1) - 1;
+  const inflacionTotal =
+    datosEnRango.reduce((acum, dato) => {
+      return acum * (1 + dato.valor / 100);
+    }, 1) - 1;
 
   return inflacionTotal * 100; // Retornar en porcentaje
 }
@@ -339,10 +365,7 @@ function calcularInflacionAcumulada(
 ### 2. Valor Ajustado por Inflación
 
 ```typescript
-function ajustarPorInflacion(
-  valorInicial: number,
-  inflacionAcumulada: number
-): number {
+function ajustarPorInflacion(valorInicial: number, inflacionAcumulada: number): number {
   return valorInicial * (1 + inflacionAcumulada / 100);
 }
 ```
@@ -385,11 +408,13 @@ function compararConDolar(
 ## 🎯 Métricas de Éxito
 
 **Para el usuario:**
+
 - Comprende claramente si ganó o perdió dinero
 - Puede comparar su decisión con alternativas
 - Toma mejores decisiones de inversión futuras
 
 **Para el producto:**
+
 - Engagement: > 3 min de uso promedio
 - Tasa de retorno: > 40% de usuarios vuelven
 - Compartidos en redes: métrica de viralidad
@@ -479,6 +504,7 @@ Incluir tooltips y mensajes que eduquen al usuario:
 ## 🎉 Conclusión
 
 Esta calculadora será una herramienta **única en el mercado argentino** que ayudará a las personas a:
+
 - Entender el valor real de sus activos
 - Tomar mejores decisiones de inversión
 - Comparar opciones de manera objetiva

@@ -90,7 +90,10 @@ export function verifyToken(token: string): JWTPayload | null {
     return decoded;
   } catch (error) {
     // Token is invalid, expired, or malformed
-    console.error('[JWT] Token verification failed:', error instanceof Error ? error.message : error);
+    console.error(
+      '[JWT] Token verification failed:',
+      error instanceof Error ? error.message : error
+    );
     return null;
   }
 }

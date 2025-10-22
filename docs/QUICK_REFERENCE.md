@@ -24,6 +24,7 @@ vercel --prod              # Deploy a producción
 ## 📁 Archivos Clave
 
 ### Hooks (Custom Hooks para Data Fetching)
+
 ```
 hooks/
 ├── useDolarQuery.ts          # Cotizaciones dólar argentino
@@ -35,6 +36,7 @@ hooks/
 ```
 
 ### Stores (Estado Global con Zustand)
+
 ```
 lib/store/
 ├── favorites.ts              # Sistema de favoritos
@@ -42,6 +44,7 @@ lib/store/
 ```
 
 ### Components
+
 ```
 components/
 ├── /layouts
@@ -60,6 +63,7 @@ components/
 ```
 
 ### Pages (Rutas)
+
 ```
 pages/
 ├── index.tsx                     # Landing page
@@ -82,6 +86,7 @@ pages/
 ### Una Nueva Cotización
 
 **1. Agregar al tipo (si no existe)**
+
 ```typescript
 // types/index.ts
 export interface Cotizacion {
@@ -94,6 +99,7 @@ export interface Cotizacion {
 ```
 
 **2. Agregar al hook**
+
 ```typescript
 // hooks/useDolarQuery.ts
 export function useDolarQuery() {
@@ -110,6 +116,7 @@ export function useDolarQuery() {
 ```
 
 **3. Renderizar en el componente**
+
 ```typescript
 // pages/dashboard/index.tsx
 const { data: dolares } = useDolarQuery();
@@ -123,6 +130,7 @@ const { data: dolares } = useDolarQuery();
 ### Una Nueva Calculadora
 
 **1. Crear componente**
+
 ```typescript
 // components/calculadoras/CalculadoraNueva.tsx
 'use client';
@@ -152,6 +160,7 @@ export function CalculadoraNueva() {
 ```
 
 **2. Agregar a la página de calculadoras**
+
 ```typescript
 // pages/dashboard/calculadoras.tsx
 import { CalculadoraNueva } from '@/components/calculadoras/CalculadoraNueva';
@@ -170,6 +179,7 @@ const calculadoras = [
 ```
 
 **3. Agregar al switch de renderizado**
+
 ```typescript
 // pages/dashboard/calculadoras.tsx
 {activeCalc === 'nueva' && <CalculadoraNueva />}
@@ -178,6 +188,7 @@ const calculadoras = [
 ### Un Nuevo Indicador FRED
 
 **1. Agregar serie a la lista**
+
 ```typescript
 // hooks/useFredData.ts
 export const FRED_SERIES = {
@@ -187,6 +198,7 @@ export const FRED_SERIES = {
 ```
 
 **2. Agregar al fetch**
+
 ```typescript
 // hooks/useFredData.ts
 export function useFredData() {
@@ -211,6 +223,7 @@ export function useFredData() {
 ```
 
 **3. Renderizar en calculadoras**
+
 ```typescript
 // pages/dashboard/calculadoras.tsx
 const { data: fredData } = useFredData();
@@ -224,6 +237,7 @@ const { data: fredData } = useFredData();
 ### Una Nueva API
 
 **1. Crear hook**
+
 ```typescript
 // hooks/useMiNuevaAPI.ts
 import { useQuery } from '@tanstack/react-query';
@@ -244,6 +258,7 @@ export function useMiNuevaAPI() {
 ```
 
 **2. Usar en componente**
+
 ```typescript
 // pages/dashboard/mi-pagina.tsx
 import { useMiNuevaAPI } from '@/hooks/useMiNuevaAPI';
@@ -263,6 +278,7 @@ export default function MiPagina() {
 ## 🐛 Troubleshooting Común
 
 ### Error: "Cannot find module..."
+
 ```bash
 # Reinstalar dependencias
 rm -rf node_modules package-lock.json
@@ -270,6 +286,7 @@ npm install
 ```
 
 ### Error: TypeScript errors
+
 ```bash
 # Verificar errores específicos
 npm run type-check
@@ -279,9 +296,11 @@ Cmd+Shift+P → "TypeScript: Restart TS Server"
 ```
 
 ### Error: "Hydration failed"
+
 **Causa**: Diferencia entre HTML renderizado en server y client
 
 **Solución**: Usar `'use client'` al inicio del componente
+
 ```typescript
 'use client';
 
@@ -291,9 +310,11 @@ export function MiComponente() {
 ```
 
 ### Error: "navigator is not defined"
+
 **Causa**: Código del browser corriendo en server (SSR)
 
 **Solución**: Chequear `typeof` antes de usar
+
 ```typescript
 if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
   await navigator.share({ ... });
@@ -301,6 +322,7 @@ if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
 ```
 
 ### Build falla en Vercel
+
 1. Verificar que `npm run build` funcione localmente
 2. Verificar variables de entorno en Vercel dashboard
 3. Revisar logs de build en Vercel
@@ -327,6 +349,7 @@ NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 ```
 
 **Obtener API keys**:
+
 - FRED: https://fred.stlouisfed.org/docs/api/api_key.html (gratis)
 - CoinGecko: https://www.coingecko.com/en/api (free tier disponible)
 - Supabase: https://supabase.com/ (crear proyecto gratis)
@@ -336,6 +359,7 @@ NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 ## 📊 Estructura de Datos
 
 ### Formato de Cotización Dólar
+
 ```typescript
 {
   casa: "blue",           // Identificador único
@@ -347,6 +371,7 @@ NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 ```
 
 ### Formato de Crypto
+
 ```typescript
 {
   id: "bitcoin",
@@ -362,6 +387,7 @@ NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 ```
 
 ### Formato de FRED Data
+
 ```typescript
 {
   latest: 5.33,              // Valor más reciente
@@ -382,6 +408,7 @@ NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 ## 🎨 Clases Tailwind Útiles
 
 ### Colores del Tema
+
 ```css
 /* Backgrounds */
 bg-background         /* Fondo principal */
@@ -403,6 +430,7 @@ glass-strong        /* Glassmorphism más opaco */
 ```
 
 ### Gradientes
+
 ```css
 gradient-text        /* Gradiente en texto (emerald → teal) */
 bg-gradient-to-br    /* Gradiente de fondo (top-left → bottom-right) */
@@ -411,6 +439,7 @@ to-accent-teal/10       /* End color con opacity */
 ```
 
 ### Responsive
+
 ```css
 sm:text-lg          /* Small screens (640px+) */
 md:grid-cols-2      /* Medium screens (768px+) */
@@ -423,6 +452,7 @@ xl:px-8             /* Extra large (1280px+) */
 ## 🧪 Testing Tips
 
 ### Test de un Hook
+
 ```typescript
 // hooks/__tests__/useDolarQuery.test.ts
 import { renderHook, waitFor } from '@testing-library/react';
@@ -449,6 +479,7 @@ test('fetches dolar data', async () => {
 ```
 
 ### Test de Componente
+
 ```typescript
 // components/__tests__/DolarCard.test.tsx
 import { render, screen } from '@testing-library/react';
@@ -473,11 +504,13 @@ test('renders dolar card', () => {
 ## 📱 Mobile Testing
 
 ### Probar en dispositivo físico
+
 1. Obtener IP local: `ifconfig | grep inet`
 2. Correr dev server: `npm run dev`
 3. En el teléfono: abrir `http://TU_IP:3000`
 
 ### Probar responsive en Chrome DevTools
+
 1. F12 → Toggle device toolbar (Cmd+Shift+M)
 2. Seleccionar dispositivo o custom size
 3. Probar rotación (portrait/landscape)
@@ -503,6 +536,7 @@ Antes de hacer deploy a producción:
 ## 📚 Links Útiles
 
 ### Documentación
+
 - [Next.js Docs](https://nextjs.org/docs)
 - [React Query Docs](https://tanstack.com/query/latest)
 - [Zustand Docs](https://zustand-demo.pmnd.rs/)
@@ -510,6 +544,7 @@ Antes de hacer deploy a producción:
 - [Supabase Docs](https://supabase.com/docs)
 
 ### APIs Usadas
+
 - [DolarAPI](https://dolarapi.com/)
 - [Bluelytics API](https://api.bluelytics.com.ar/)
 - [FRED API](https://fred.stlouisfed.org/docs/api/)
@@ -517,6 +552,7 @@ Antes de hacer deploy a producción:
 - [Argentina Datos API](https://argentinadatos.com/)
 
 ### Tools
+
 - [Vercel Dashboard](https://vercel.com/dashboard)
 - [Lighthouse](https://pagespeed.web.dev/)
 - [Bundle Analyzer](https://www.npmjs.com/package/@next/bundle-analyzer)

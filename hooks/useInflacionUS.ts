@@ -50,7 +50,10 @@ export function useInflacionUS() {
         const response = await fetch(url.toString());
 
         if (!response.ok) {
-          logger.error('FRED API error', new Error(response.statusText), { hook: 'useInflacionUS', status: response.status });
+          logger.error('FRED API error', new Error(response.statusText), {
+            hook: 'useInflacionUS',
+            status: response.status,
+          });
           return getFallbackUSInflation();
         }
 

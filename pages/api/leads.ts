@@ -3,25 +3,26 @@ import { supabase } from '@/lib/supabase';
 import { CreateLeadInput, Lead } from '@/types/leads';
 import { isValidEmail } from '@/lib/auth/helpers';
 
-type ResponseData =
-  | { success: true; lead: Lead }
-  | { success: false; error: string };
+type ResponseData = { success: true; lead: Lead } | { success: false; error: string };
 
 /**
  * POST /api/leads - Create a new lead
  * Captures email subscriptions and lead generation
  */
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
   // Only allow POST
   if (req.method !== 'POST') {
     return res.status(405).json({ success: false, error: 'Method not allowed' });
   }
 
   try {
-    const { email, name, source = 'other', subscribed_to_newsletter = true, metadata }: CreateLeadInput = req.body;
+    const {
+      email,
+      name,
+      source = 'other',
+      subscribed_to_newsletter = true,
+      metadata,
+    }: CreateLeadInput = req.body;
 
     // Validation
     if (!email) {

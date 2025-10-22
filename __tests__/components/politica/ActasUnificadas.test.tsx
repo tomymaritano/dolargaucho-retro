@@ -52,8 +52,12 @@ describe('ActasUnificadas', () => {
   ];
 
   beforeEach(() => {
-    const { useActasSenado, useActasDiputados, useActasSenadoByYear, useActasDiputadosByYear } =
-      require('@/hooks/usePolitica');
+    const {
+      useActasSenado,
+      useActasDiputados,
+      useActasSenadoByYear,
+      useActasDiputadosByYear,
+    } = require('@/hooks/usePolitica');
 
     useActasSenado.mockReturnValue({
       data: mockActasSenado,

@@ -21,6 +21,7 @@
 ## 🎯 Resumen Ejecutivo
 
 ### ✅ Fortalezas Actuales
+
 - ✅ **State Management moderno**: Zustand + TanStack Query correctamente implementados
 - ✅ **TypeScript strict mode**: Proyecto fuertemente tipado
 - ✅ **Component architecture**: Estructura por feature (components/, hooks/, lib/)
@@ -28,6 +29,7 @@
 - ✅ **Build successful**: 0 errores de TypeScript/ESLint
 
 ### ⚠️ Áreas de Mejora
+
 - ⚠️ **Theme system**: Sin sistema de dark/light mode implementado
 - ⚠️ **Performance**: Algunos componentes pueden optimizarse (React.memo, useMemo)
 - ⚠️ **Accessibility**: Falta ARIA labels, keyboard navigation incompleta
@@ -51,6 +53,7 @@ UI/UX Consistency:       7.0/10  ⭐⭐⭐⭐⭐⭐⭐⚪⚪⚪
 ### ✅ Excelentes Prácticas Actuales
 
 #### 1. **State Management** (9/10)
+
 ```typescript
 // ✅ CORRECTO: Zustand para client state
 // lib/store/favorites.ts
@@ -78,12 +81,14 @@ export function useDolarQuery() {
 ```
 
 **Puntos Fuertes**:
+
 - Separación clara: Client state (Zustand) vs Server state (React Query)
 - Persist middleware correctamente configurado
 - Cache y revalidación automática
 - No hay prop drilling gracias a stores
 
 #### 2. **Custom Hooks** (8/10)
+
 ```typescript
 // ✅ BIEN: Hooks reutilizables
 hooks/
@@ -95,26 +100,26 @@ hooks/
 ```
 
 **Puntos Fuertes**:
+
 - Hooks bien nombrados y con responsabilidad única
 - Reutilización de lógica entre componentes
 - Encapsulación de side effects
 
 **Mejora Sugerida**:
+
 ```typescript
 // ⚠️ PUEDE MEJORAR: Agregar useMemo en cálculos complejos
 // hooks/useAlertas.ts (línea 50+)
 
 // ANTES
-const alertasActivas = alertas.filter(a => a.estado === 'activa');
+const alertasActivas = alertas.filter((a) => a.estado === 'activa');
 
 // DESPUÉS
-const alertasActivas = useMemo(
-  () => alertas.filter(a => a.estado === 'activa'),
-  [alertas]
-);
+const alertasActivas = useMemo(() => alertas.filter((a) => a.estado === 'activa'), [alertas]);
 ```
 
 #### 3. **Component Structure** (7/10)
+
 ```
 components/
 ├── ui/              ✅ Design system
@@ -128,11 +133,13 @@ components/
 ```
 
 **Puntos Fuertes**:
+
 - Estructura por feature (escalable)
 - Componentes UI reutilizables con CVA
 - Separación clara de responsabilidades
 
 **Mejora Sugerida**:
+
 - Falta carpeta `common/` para componentes compartidos no-UI
 - Algunos componentes legacy con minúsculas (conversorcrypto.tsx)
 
@@ -179,6 +186,7 @@ export default function AnalisisPage() {
 ```
 
 **Archivos que necesitan optimización**:
+
 - `pages/dashboard/analisis.tsx` - Cálculos de brechas sin memoization
 - `pages/dashboard/favoritos.tsx` - Filtrado de arrays sin useMemo
 - `components/charts/*.tsx` - Charts re-renderizando con misma data
@@ -186,6 +194,7 @@ export default function AnalisisPage() {
 #### 2. **Code Splitting** (5/10)
 
 **Problema**:
+
 ```typescript
 // ❌ ACTUAL: Todo se carga de inmediato
 // pages/index.tsx
@@ -194,6 +203,7 @@ import CalculadoraPlazoFijo from '@/components/calculadoras/CalculadoraPlazoFijo
 ```
 
 **Solución**:
+
 ```typescript
 // ✅ MEJORADO: Lazy loading
 import dynamic from 'next/dynamic';
@@ -219,6 +229,7 @@ const CalculadoraPlazoFijo = dynamic(
 **Impacto**: Si un componente falla, toda la app se rompe
 
 **Solución**:
+
 ```typescript
 // ✅ Crear ErrorBoundary.tsx
 import React, { Component, ReactNode } from 'react';
@@ -326,6 +337,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 ```
 
 **Checklist de Accessibility**:
+
 - [ ] ARIA labels en botones interactivos
 - [ ] Keyboard navigation (Tab, Enter, Esc)
 - [ ] Focus visible styles
@@ -340,6 +352,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 ### ✅ Estructura Escalable (8/10)
 
 **Puntos Fuertes**:
+
 ```
 ✅ Modular architecture
    ├── components/ (por feature)
@@ -366,6 +379,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 **Problema**: Todo se carga en el primer visit
 
 **Solución**:
+
 - Route-based code splitting
 - Component-level lazy loading
 - Tree shaking de librerías no usadas
@@ -405,11 +419,13 @@ const SearchBar = () => {
 #### 3. **Testing Coverage** (15%)
 
 **Estado Actual**:
+
 - 66 tests (20 suites)
 - Coverage: ~15%
 - Falta tests de integración
 
 **Recomendación para Escalabilidad**:
+
 ```
 Corto plazo (1 mes):
 - Tests unitarios para stores Zustand
@@ -438,7 +454,7 @@ Largo plazo (6 meses):
 ```css
 /* styles/globals.css */
 :root {
-  --background: #0a0e27;  /* ❌ Solo dark */
+  --background: #0a0e27; /* ❌ Solo dark */
   --foreground: #f8f9fa;
   --accent: #10b981;
 }
@@ -572,26 +588,28 @@ export default {
 @layer base {
   :root {
     /* Light theme */
-    --background: #FFFFFF;
-    --foreground: #1A1A1A;
-    --panel: #F3F4F6;
-    --border: #E5E7EB;
-    --accent: #10B981;
+    --background: #ffffff;
+    --foreground: #1a1a1a;
+    --panel: #f3f4f6;
+    --border: #e5e7eb;
+    --accent: #10b981;
   }
 
   .dark {
     /* Dark theme */
-    --background: #0A0E27;
-    --foreground: #F8F9FA;
-    --panel: #1A1F3A;
+    --background: #0a0e27;
+    --foreground: #f8f9fa;
+    --panel: #1a1f3a;
     --border: rgba(255, 255, 255, 0.1);
-    --accent: #10B981;
+    --accent: #10b981;
   }
 }
 
 body {
   @apply bg-background text-foreground;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 ```
 
@@ -623,7 +641,7 @@ export function ThemeToggle() {
 }
 ```
 
-#### 5. **Actualizar _app.tsx**
+#### 5. **Actualizar \_app.tsx**
 
 ```typescript
 // pages/_app.tsx
@@ -740,6 +758,7 @@ const colors = {
 ### 1. **Consistencia de Diseño** (7/10)
 
 **Problemas Actuales**:
+
 - ⚠️ Algunos componentes usan `glass` effect, otros no
 - ⚠️ Spacing inconsistente (algunos `p-4`, otros `p-6`, otros custom)
 - ⚠️ Botones con diferentes estilos
@@ -750,18 +769,18 @@ const colors = {
 // lib/design-tokens.ts
 export const tokens = {
   spacing: {
-    xs: '0.5rem',    // 8px
-    sm: '0.75rem',   // 12px
-    md: '1rem',      // 16px
-    lg: '1.5rem',    // 24px
-    xl: '2rem',      // 32px
-    '2xl': '3rem',   // 48px
+    xs: '0.5rem', // 8px
+    sm: '0.75rem', // 12px
+    md: '1rem', // 16px
+    lg: '1.5rem', // 24px
+    xl: '2rem', // 32px
+    '2xl': '3rem', // 48px
   },
   borderRadius: {
-    sm: '0.375rem',  // 6px
-    md: '0.5rem',    // 8px
-    lg: '0.75rem',   // 12px
-    xl: '1rem',      // 16px
+    sm: '0.375rem', // 6px
+    md: '0.5rem', // 8px
+    lg: '0.75rem', // 12px
+    xl: '1rem', // 16px
     '2xl': '1.5rem', // 24px
     full: '9999px',
   },
@@ -796,6 +815,7 @@ export const tokens = {
 ```
 
 **Prioridad**: Agregar en FASE 1
+
 - Modal (para alertas, confirmaciones)
 - Toast (para notificaciones)
 - Skeleton (mejor UX de loading)
@@ -837,12 +857,14 @@ return (
 ### 4. **Micro-interactions** (4/10)
 
 **Falta**:
+
 - Hover states más pronunciados
 - Click feedback (ripple effect)
 - Smooth transitions entre estados
 - Animaciones al agregar/quitar favoritos
 
 **Implementación**:
+
 ```css
 /* Agregar a globals.css */
 @layer utilities {
@@ -861,7 +883,9 @@ return (
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.5);
     transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
+    transition:
+      width 0.6s,
+      height 0.6s;
   }
 
   .ripple:active::after {
@@ -888,7 +912,7 @@ return (
 
 - [ ] **Error Boundaries** (3 días)
   - [ ] ErrorBoundary component
-  - [ ] Integrar en _app.tsx
+  - [ ] Integrar en \_app.tsx
   - [ ] Error pages (500, 404 mejoradas)
   - [ ] Error logging (console por ahora)
 
@@ -967,6 +991,7 @@ return (
 ### Prioridad 1: Theme System (2-3 días)
 
 **Día 1**: Setup básico
+
 ```bash
 1. Crear ThemeContext.tsx
 2. Actualizar tailwind.config.ts (darkMode: 'class')
@@ -975,6 +1000,7 @@ return (
 ```
 
 **Día 2**: Migración de colores
+
 ```bash
 1. Migrar Card component
 2. Migrar Button component
@@ -983,6 +1009,7 @@ return (
 ```
 
 **Día 3**: Testing y polish
+
 ```bash
 1. Testear en ambos temas
 2. Verificar contraste
@@ -1037,12 +1064,14 @@ return (
 ## 🔧 Herramientas Recomendadas
 
 ### Development
+
 - ✅ **ESLint plugin accessibility**: `eslint-plugin-jsx-a11y`
 - ✅ **Bundle analyzer**: `@next/bundle-analyzer`
 - ⚠️ **Storybook** (FASE 2): Component documentation
 - ⚠️ **Chromatic** (FASE 2): Visual testing
 
 ### Monitoring
+
 - ⚠️ **Sentry** (FASE 2): Error tracking
 - ⚠️ **Vercel Analytics** (Ya disponible): Usage analytics
 - ⚠️ **Lighthouse CI** (FASE 1): Performance monitoring
@@ -1054,6 +1083,7 @@ return (
 ### Resumen
 
 El proyecto tiene **bases sólidas** para escalar:
+
 - ✅ State management moderno y escalable
 - ✅ TypeScript strict mode
 - ✅ Buena arquitectura de carpetas

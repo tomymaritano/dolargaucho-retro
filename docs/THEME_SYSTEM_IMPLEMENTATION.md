@@ -15,7 +15,7 @@
 - [ ] 1.2 Actualizar Tailwind config
 - [ ] 1.3 Actualizar CSS variables
 - [ ] 1.4 Crear ThemeToggle component
-- [ ] 1.5 Integrar en _app.tsx
+- [ ] 1.5 Integrar en \_app.tsx
 
 ### Día 2: Migración de Componentes (6-7 horas)
 
@@ -258,13 +258,13 @@ export default {
 
   :root {
     /* Light theme (default) */
-    --background: #FFFFFF;
-    --foreground: #1A1A1A;
-    --panel: #F9FAFB;
-    --border: #E5E7EB;
+    --background: #ffffff;
+    --foreground: #1a1a1a;
+    --panel: #f9fafb;
+    --border: #e5e7eb;
     --text-primary: #111827;
-    --text-secondary: #6B7280;
-    --accent: #10B981;
+    --text-secondary: #6b7280;
+    --accent: #10b981;
 
     /* Shadows for light mode */
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
@@ -273,13 +273,13 @@ export default {
 
   .dark {
     /* Dark theme */
-    --background: #0A0E27;
-    --foreground: #F8F9FA;
-    --panel: #1A1F3A;
+    --background: #0a0e27;
+    --foreground: #f8f9fa;
+    --panel: #1a1f3a;
     --border: rgba(255, 255, 255, 0.1);
-    --text-primary: #F8F9FA;
-    --text-secondary: #9CA3AF;
-    --accent: #10B981;
+    --text-primary: #f8f9fa;
+    --text-secondary: #9ca3af;
+    --accent: #10b981;
 
     /* Shadows for dark mode */
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
@@ -296,10 +296,17 @@ export default {
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family:
+      'Inter',
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease;
   }
 
   /* ===========================
@@ -429,7 +436,7 @@ export { ThemeToggle } from './ThemeToggle';
 
 ---
 
-### 1.5 Integrar en _app.tsx (10 min)
+### 1.5 Integrar en \_app.tsx (10 min)
 
 **Archivo**: `pages/_app.tsx`
 
@@ -640,7 +647,7 @@ npm run build && npm run start
 
 ### Problema 1: Flash de tema incorrecto
 
-**Solución**: Script en _document.tsx
+**Solución**: Script en \_document.tsx
 
 ```typescript
 // pages/_document.tsx
@@ -693,7 +700,7 @@ return <ThemeToggle />;
 export default {
   darkMode: 'class', // ✅ DEBE SER 'class', NO 'media'
   // ...
-}
+};
 ```
 
 ---
@@ -761,23 +768,27 @@ git push origin main
 ## 🎯 Success Criteria
 
 ### Funcionalidad
+
 - ✅ Toggle cambia tema instantáneamente
 - ✅ Tema persiste entre sesiones
 - ✅ Respeta preferencia del sistema operativo (inicial)
 - ✅ No hay flash de tema incorrecto
 
 ### Visual
+
 - ✅ Contraste mínimo 4.5:1 en ambos temas
 - ✅ Colores consistentes con brand
 - ✅ Animaciones suaves (300ms transitions)
 - ✅ Iconos intuitivos (Sol/Luna)
 
 ### Performance
+
 - ✅ Bundle size no aumenta >5KB
 - ✅ Lighthouse score mantiene >85
 - ✅ No re-renders innecesarios
 
 ### Accessibility
+
 - ✅ Toggle tiene aria-label
 - ✅ Funciona con teclado (Space/Enter)
 - ✅ Focus visible

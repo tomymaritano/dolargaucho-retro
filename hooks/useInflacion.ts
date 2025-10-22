@@ -18,7 +18,7 @@ export function useInflacion() {
   if (process.env.NODE_ENV === 'development') {
     console.warn(
       '[DEPRECATED] useInflacion() está deprecado. ' +
-      'Use useInflacionMensual() de /hooks/useFinanzas.ts'
+        'Use useInflacionMensual() de /hooks/useFinanzas.ts'
     );
   }
 

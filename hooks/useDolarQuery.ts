@@ -80,7 +80,11 @@ export function useDolarByType(type: DolarType) {
       }
 
       const rawData = await response.json();
-      const data = validateAndParse(DolarQuotationsSchema.element, rawData, `DolarAPI /dolares/${type}`);
+      const data = validateAndParse(
+        DolarQuotationsSchema.element,
+        rawData,
+        `DolarAPI /dolares/${type}`
+      );
 
       logger.api.response(url, response.status, duration);
 
@@ -105,7 +109,7 @@ export default function useDolar() {
   if (process.env.NODE_ENV === 'development') {
     console.warn(
       '[DEPRECATED] useDolar() está deprecado. ' +
-      'Use useDolarQuery() para datos actuales o useDolarHistorico() para datos históricos.'
+        'Use useDolarQuery() para datos actuales o useDolarHistorico() para datos históricos.'
     );
   }
 
@@ -117,15 +121,22 @@ export default function useDolar() {
      * @deprecated Use useDolarHistorico(date) hook instead
      */
     fetchHistoricalData: async (date: Date) => {
-      console.warn('[DEPRECATED] fetchHistoricalData está deprecado. Use useDolarHistorico(date) hook.');
+      console.warn(
+        '[DEPRECATED] fetchHistoricalData está deprecado. Use useDolarHistorico(date) hook.'
+      );
       try {
         const formattedDate = date.toISOString().split('T')[0];
-        const { dolarAPI } = await import('@/lib/config/api').then(m => m.API_CONFIG);
-        const response = await fetch(`${dolarAPI.baseUrl}${dolarAPI.endpoints.dolarHistorico(formattedDate)}`);
+        const { dolarAPI } = await import('@/lib/config/api').then((m) => m.API_CONFIG);
+        const response = await fetch(
+          `${dolarAPI.baseUrl}${dolarAPI.endpoints.dolarHistorico(formattedDate)}`
+        );
         const data = await response.json();
         return data;
       } catch (error) {
-        logger.error('Error al obtener datos históricos', error, { hook: 'useDolar', date: date.toISOString() });
+        logger.error('Error al obtener datos históricos', error, {
+          hook: 'useDolar',
+          date: date.toISOString(),
+        });
         return [];
       }
     },
