@@ -21,6 +21,7 @@ import {
   FaDiscord,
   FaChartBar,
   FaWallet,
+  FaThumbsUp,
 } from 'react-icons/fa';
 
 export type RoadmapStatus = 'completed' | 'in-progress' | 'planned';
@@ -152,7 +153,42 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     quarter: 'Q1 2025',
   },
 
-  // ========== IN PROGRESS - Q1/Q2 2025 ==========
+  // ========== IN PROGRESS - Q4 2025 (Actual) ==========
+  {
+    id: 'user-analytics',
+    title: 'Analytics de Usuario',
+    description: 'Dashboard de métricas: usuarios activos, engagement, retención y uso de features',
+    status: 'in-progress',
+    icon: FaChartBar,
+    category: 'DevOps',
+    progress: 40,
+    quarter: 'Q4 2025',
+    effort: '3 semanas',
+  },
+  {
+    id: 'ux-improvements',
+    title: 'Mejoras de UX',
+    description: 'Pulir detalles de interfaz, microinteracciones y feedback visual',
+    status: 'in-progress',
+    icon: FaCheckCircle,
+    category: 'UX',
+    progress: 60,
+    quarter: 'Q4 2025',
+    effort: '2 semanas',
+  },
+  {
+    id: 'voting-period',
+    title: 'Período de Votación Activa',
+    description: 'Permitir a usuarios votar features prioritarias para 2026',
+    status: 'in-progress',
+    icon: FaThumbsUp,
+    category: 'Platform',
+    progress: 80,
+    quarter: 'Q4 2025',
+    effort: '1 semana',
+  },
+
+  // ========== IN PROGRESS - Q1 2026 ==========
   {
     id: 'mobile-app',
     title: 'App Mobile (PWA)',
@@ -161,7 +197,7 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     icon: FaMobileAlt,
     category: 'Platform',
     progress: 75,
-    quarter: 'Q1 2025',
+    quarter: 'Q1 2026',
     effort: '2 semanas',
   },
   {
@@ -183,11 +219,11 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     icon: FaCode,
     category: 'Platform',
     progress: 50,
-    quarter: 'Q2 2025',
+    quarter: 'Q2 2026',
     effort: '3-4 semanas',
   },
 
-  // ========== PLANNED - Q1 2025 (Próximas semanas) ==========
+  // ========== PLANNED - Q1 2026 (Próximo Trimestre) ==========
   {
     id: 'discord-community',
     title: 'Discord Server',
@@ -196,7 +232,7 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     icon: FaDiscord,
     category: 'Social',
     priority: 'high',
-    quarter: 'Q1 2025',
+    quarter: 'Q1 2026',
     effort: '1-2 semanas',
     votes: 178,
   },
@@ -208,7 +244,7 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     icon: FaFlask,
     category: 'DevOps',
     priority: 'high',
-    quarter: 'Q1 2025',
+    quarter: 'Q1 2026',
     effort: '3 semanas',
     votes: 134,
   },
@@ -220,12 +256,12 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     icon: FaShieldAlt,
     category: 'Core',
     priority: 'high',
-    quarter: 'Q1 2025',
+    quarter: 'Q1 2026',
     effort: '2 semanas',
     votes: 165,
   },
 
-  // ========== PLANNED - Q2 2025 (3-6 meses) ==========
+  // ========== PLANNED - Q2 2026 (3-6 meses) ==========
   {
     id: 'ai-insights',
     title: 'Insights con IA',
@@ -234,7 +270,7 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     icon: FaRobot,
     category: 'AI',
     priority: 'high',
-    quarter: 'Q2 2025',
+    quarter: 'Q2 2026',
     effort: '4 semanas',
     votes: 245,
   },
@@ -246,7 +282,7 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     icon: FaSearch,
     category: 'UX',
     priority: 'high',
-    quarter: 'Q2 2025',
+    quarter: 'Q2 2026',
     effort: '2 semanas',
     votes: 189,
   },
@@ -258,7 +294,7 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     icon: FaFileExport,
     category: 'Features',
     priority: 'medium',
-    quarter: 'Q2 2025',
+    quarter: 'Q2 2026',
     effort: '2 semanas',
     votes: 156,
   },
@@ -270,7 +306,7 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     icon: FaChartBar,
     category: 'Features',
     priority: 'medium',
-    quarter: 'Q2 2025',
+    quarter: 'Q2 2026',
     effort: '3 semanas',
     votes: 142,
   },
@@ -283,12 +319,12 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     icon: FaWallet,
     category: 'Features',
     priority: 'high',
-    quarter: 'Q2 2025',
+    quarter: 'Q2 2026',
     effort: '6 semanas',
     votes: 223,
   },
 
-  // ========== PLANNED - FUTURO (6+ meses) ==========
+  // ========== PLANNED - Q3 2026 (6-9 meses) ==========
   {
     id: 'multi-language',
     title: 'Multiidioma',
@@ -297,7 +333,7 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     icon: FaGlobe,
     category: 'Platform',
     priority: 'medium',
-    quarter: 'Q3 2025',
+    quarter: 'Q3 2026',
     effort: '3 semanas',
     votes: 134,
   },
@@ -309,7 +345,7 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     icon: FaComments,
     category: 'Social',
     priority: 'low',
-    quarter: 'Q3 2025',
+    quarter: 'Q3 2026',
     effort: '4 semanas',
     votes: 98,
   },
@@ -321,7 +357,7 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     icon: FaUsers,
     category: 'Social',
     priority: 'low',
-    quarter: 'Q4 2025',
+    quarter: 'Q3 2026',
     effort: '3 semanas',
     votes: 87,
   },

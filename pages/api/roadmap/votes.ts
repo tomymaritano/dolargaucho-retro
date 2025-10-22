@@ -64,13 +64,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         data: [
           {
             featureId,
-            votes: parseInt(voteCount.rows[0].count),
+            votes: parseInt(voteCount.rows[0]?.count || '0'),
             hasVoted,
           },
         ],
       });
     } else {
-      // Get votes for all features
+      // Get votes for all features - return empty array if no votes yet
       const allVotes = await sql`
         SELECT feature_id, COUNT(*) as count
         FROM feature_votes
@@ -87,22 +87,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         userVotes = userVotesResult.rows.map((row) => row.feature_id);
       }
 
+      // If no votes exist, return empty array (not an error)
       const votesData: VoteData[] = allVotes.rows.map((row) => ({
         featureId: row.feature_id,
-        votes: parseInt(row.count),
+        votes: parseInt(row.count || '0'),
         hasVoted: userVotes.includes(row.feature_id),
       }));
 
       return res.status(200).json({
         success: true,
-        data: votesData,
+        data: votesData, // Empty array if no votes
       });
     }
   } catch (error) {
     console.error('[Votes API] Error fetching votes:', error);
-    return res.status(500).json({
-      success: false,
-      error: 'Error al obtener votos',
+
+    // Return empty array instead of error if table doesn't exist or is empty
+    return res.status(200).json({
+      success: true,
+      data: [],
     });
   }
 }

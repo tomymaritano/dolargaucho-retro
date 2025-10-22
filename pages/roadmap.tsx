@@ -38,6 +38,7 @@ import {
   FaCode,
   FaSignInAlt,
   FaSortAmountDown,
+  FaLayerGroup,
 } from 'react-icons/fa';
 
 const statusConfig = {
@@ -335,7 +336,8 @@ export default function RoadmapPage() {
 
           {/* Category Filter */}
           <div className="flex-1">
-            <label className="text-xs font-semibold text-secondary uppercase tracking-wider mb-2 block">
+            <label className="text-xs font-semibold text-secondary uppercase tracking-wider mb-2 flex items-center gap-2">
+              <FaLayerGroup className="text-brand" />
               Categoría
             </label>
             <select

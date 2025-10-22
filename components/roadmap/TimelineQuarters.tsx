@@ -21,28 +21,32 @@ interface Quarter {
 
 const QUARTER_LABELS = [
   {
-    id: 'Q1 2025',
-    label: 'Q1 2025',
-    period: 'Ene - Mar',
-    months: ['2025-01', '2025-02', '2025-03'],
-  },
-  {
-    id: 'Q2 2025',
-    label: 'Q2 2025',
-    period: 'Abr - Jun',
-    months: ['2025-04', '2025-05', '2025-06'],
-  },
-  {
-    id: 'Q3 2025',
-    label: 'Q3 2025',
-    period: 'Jul - Sep',
-    months: ['2025-07', '2025-08', '2025-09'],
-  },
-  {
     id: 'Q4 2025',
     label: 'Q4 2025',
     period: 'Oct - Dic',
     months: ['2025-10', '2025-11', '2025-12'],
+    isCurrent: true, // Quarter actual
+  },
+  {
+    id: 'Q1 2026',
+    label: 'Q1 2026',
+    period: 'Ene - Mar',
+    months: ['2026-01', '2026-02', '2026-03'],
+    isCurrent: false,
+  },
+  {
+    id: 'Q2 2026',
+    label: 'Q2 2026',
+    period: 'Abr - Jun',
+    months: ['2026-04', '2026-05', '2026-06'],
+    isCurrent: false,
+  },
+  {
+    id: 'Q3 2026',
+    label: 'Q3 2026',
+    period: 'Jul - Sep',
+    months: ['2026-07', '2026-08', '2026-09'],
+    isCurrent: false,
   },
 ];
 
@@ -159,7 +163,7 @@ export function TimelineQuarters({ onQuarterClick, selectedQuarter }: TimelineQu
 
           {/* Progress Line */}
           <motion.div
-            className="absolute top-8 left-12 h-1 bg-gradient-to-r from-success via-brand to-brand-light rounded-full shadow-lg shadow-brand/30"
+            className="absolute top-8 left-12 h-1 bg-brand rounded-full shadow-sm shadow-brand/20"
             initial={{ width: 0 }}
             animate={{ width: `calc(${progressWidth}% - 6rem)` }}
             transition={{ duration: 1.5, ease: 'easeOut' }}
@@ -214,6 +218,17 @@ export function TimelineQuarters({ onQuarterClick, selectedQuarter }: TimelineQu
                   <div className="mt-4 text-center space-y-1">
                     <p className="text-sm font-bold text-foreground">{quarter.label}</p>
                     <p className="text-xs text-secondary">{quarter.period}</p>
+                    {/* Badge ACTUAL para Q4 2025 */}
+                    {QUARTER_LABELS[index].isCurrent && (
+                      <motion.div
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ delay: 0.5, type: 'spring' }}
+                        className="inline-block px-2 py-0.5 bg-gradient-to-r from-brand to-brand-light text-white text-[9px] font-bold rounded-full shadow-lg shadow-brand/30"
+                      >
+                        ACTUAL
+                      </motion.div>
+                    )}
                     <div className="flex items-center justify-center gap-1">
                       <span className="text-xs font-semibold text-foreground">
                         {quarter.features.length}
@@ -228,9 +243,7 @@ export function TimelineQuarters({ onQuarterClick, selectedQuarter }: TimelineQu
                             animate={{ width: `${quarter.completionRate}%` }}
                             transition={{ duration: 0.8, delay: index * 0.1 + 0.3 }}
                             className={`h-full rounded-full ${
-                              quarter.status === 'completed'
-                                ? 'bg-success'
-                                : 'bg-gradient-to-r from-brand to-brand-light'
+                              quarter.status === 'completed' ? 'bg-success' : 'bg-brand'
                             }`}
                           />
                         </div>
@@ -308,7 +321,7 @@ export function TimelineQuarters({ onQuarterClick, selectedQuarter }: TimelineQu
       {/* Overall Progress */}
       <div className="mt-6 pt-6 border-t border-white/5">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-sm font-semibold text-foreground">Progreso General 2025</span>
+          <span className="text-sm font-semibold text-foreground">Progreso General 2025-2026</span>
           <span className="text-sm font-bold text-brand">{Math.round(progressWidth)}%</span>
         </div>
         <div className="w-full h-3 bg-white/5 rounded-full overflow-hidden">
@@ -316,7 +329,7 @@ export function TimelineQuarters({ onQuarterClick, selectedQuarter }: TimelineQu
             initial={{ width: 0 }}
             animate={{ width: `${progressWidth}%` }}
             transition={{ duration: 1.5, ease: 'easeOut', delay: 0.5 }}
-            className="h-full bg-gradient-to-r from-success via-brand to-brand-light rounded-full shadow-lg"
+            className="h-full bg-brand rounded-full shadow-sm"
           />
         </div>
       </div>
