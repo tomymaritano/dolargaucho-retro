@@ -1,13 +1,13 @@
 /**
  * TimelineQuarters Component
  *
- * Interactive horizontal timeline showing quarters and their features
- * Now with dynamic calculation from roadmap data and full interactivity
+ * Interactive vertical timeline showing quarters with lateral information
+ * Clean design with dynamic calculation from roadmap data and full interactivity
  */
 
-import React, { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FaCalendarAlt, FaCheckCircle, FaSpinner, FaClock, FaChevronDown } from 'react-icons/fa';
+import React, { useMemo } from 'react';
+import { motion } from 'framer-motion';
+import { FaCalendarAlt, FaCheckCircle, FaSpinner, FaClock } from 'react-icons/fa';
 import { ROADMAP_FEATURES, RoadmapFeature } from '@/constants/roadmap';
 
 interface Quarter {
@@ -80,8 +80,6 @@ interface TimelineQuartersProps {
 }
 
 export function TimelineQuarters({ onQuarterClick, selectedQuarter }: TimelineQuartersProps) {
-  const [hoveredQuarter, setHoveredQuarter] = useState<string | null>(null);
-
   // Calculate quarters dynamically from roadmap features
   const quarters = useMemo<Quarter[]>(() => {
     return QUARTER_LABELS.map((quarterLabel) => {
@@ -143,101 +141,98 @@ export function TimelineQuarters({ onQuarterClick, selectedQuarter }: TimelineQu
   };
 
   return (
-    <div className="bg-gradient-to-br from-panel to-panel/50 border border-white/10 rounded-xl p-6 md:p-8 overflow-hidden">
+    <div className="bg-panel border border-white/10 rounded-xl p-6 md:p-8">
       {/* Header */}
       <div className="flex items-center gap-3 mb-8">
         <div className="p-2.5 bg-brand/10 rounded-lg">
           <FaCalendarAlt className="text-brand text-xl" />
         </div>
-        <div>
+        <div className="flex-1">
           <h3 className="text-xl md:text-2xl font-bold text-foreground">Timeline de Desarrollo</h3>
-          <p className="text-sm text-secondary">Clickea en cada quarter para ver sus features</p>
+          <p className="text-sm text-secondary">
+            Clickea en cada quarter para filtrar sus features
+          </p>
         </div>
       </div>
 
-      {/* Timeline Container with horizontal scroll */}
-      <div className="overflow-x-auto pb-4">
-        <div className="relative min-w-[700px]">
-          {/* Background Line */}
-          <div className="absolute top-8 left-12 right-12 h-1 bg-white/5 rounded-full" />
+      {/* Vertical Timeline */}
+      <div className="space-y-0">
+        {quarters.map((quarter, index) => {
+          const config = statusConfig[quarter.status];
+          const Icon = config.icon;
+          const isSelected = selectedQuarter === quarter.id;
+          const isLast = index === quarters.length - 1;
+          const quarterLabel = QUARTER_LABELS[index];
 
-          {/* Progress Line */}
-          <motion.div
-            className="absolute top-8 left-12 h-1 bg-brand rounded-full shadow-sm shadow-brand/20"
-            initial={{ width: 0 }}
-            animate={{ width: `calc(${progressWidth}% - 6rem)` }}
-            transition={{ duration: 1.5, ease: 'easeOut' }}
-          />
+          return (
+            <motion.div
+              key={quarter.id}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              className="relative"
+            >
+              {/* Vertical Line Connector */}
+              {!isLast && <div className="absolute left-6 top-12 bottom-0 w-0.5 bg-white/10" />}
 
-          {/* Quarters Grid */}
-          <div className="relative grid grid-cols-4 gap-4">
-            {quarters.map((quarter, index) => {
-              const config = statusConfig[quarter.status];
-              const Icon = config.icon;
-              const isSelected = selectedQuarter === quarter.id;
-              const isHovered = hoveredQuarter === quarter.id;
-
-              return (
-                <motion.div
-                  key={quarter.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  className="flex flex-col items-center"
-                >
-                  {/* Quarter Node */}
-                  <motion.button
-                    onClick={() => handleQuarterClick(quarter.id)}
-                    onMouseEnter={() => setHoveredQuarter(quarter.id)}
-                    onMouseLeave={() => setHoveredQuarter(null)}
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                    className={`relative z-10 w-16 h-16 rounded-full ${config.bg} ${config.border} border-2 flex items-center justify-center transition-all duration-300 ${
-                      isSelected
-                        ? 'ring-4 ring-brand/30 shadow-xl ' + config.glow
-                        : 'hover:shadow-lg ' + config.glow
-                    }`}
+              {/* Quarter Row */}
+              <motion.button
+                onClick={() => handleQuarterClick(quarter.id)}
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
+                className={`w-full flex items-start gap-4 p-4 rounded-lg transition-all duration-300 ${
+                  isSelected
+                    ? 'bg-brand/10 border-2 border-brand/30'
+                    : 'bg-transparent border-2 border-transparent hover:bg-white/5'
+                }`}
+              >
+                {/* Icon Node */}
+                <div className="relative flex-shrink-0">
+                  <div
+                    className={`w-12 h-12 rounded-full ${config.bg} ${config.border} border-2 flex items-center justify-center z-10 relative`}
                   >
                     <Icon
-                      className={`${config.color} text-2xl ${
+                      className={`${config.color} text-xl ${
                         quarter.status === 'in-progress' && 'animate-spin-slow'
                       }`}
                     />
+                  </div>
+                  {isSelected && (
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      className="absolute inset-0 rounded-full bg-brand/20 blur-md -z-10"
+                    />
+                  )}
+                </div>
 
-                    {/* Selection indicator */}
-                    {isSelected && (
-                      <motion.div
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        className="absolute -bottom-2 w-3 h-3 bg-brand rounded-full shadow-lg shadow-brand/50"
-                      />
-                    )}
-                  </motion.button>
-
-                  {/* Quarter Info */}
-                  <div className="mt-4 text-center space-y-1">
-                    <p className="text-sm font-bold text-foreground">{quarter.label}</p>
-                    <p className="text-xs text-secondary">{quarter.period}</p>
-                    {/* Badge ACTUAL para Q4 2025 */}
-                    {QUARTER_LABELS[index].isCurrent && (
-                      <motion.div
-                        initial={{ scale: 0, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{ delay: 0.5, type: 'spring' }}
-                        className="inline-block px-2 py-0.5 bg-gradient-to-r from-brand to-brand-light text-white text-[9px] font-bold rounded-full shadow-lg shadow-brand/30"
-                      >
+                {/* Quarter Info */}
+                <div className="flex-1 text-left">
+                  <div className="flex items-center gap-2 flex-wrap mb-1">
+                    <h4 className="text-lg font-bold text-foreground">{quarter.label}</h4>
+                    <span className="text-sm text-secondary">({quarter.period})</span>
+                    {quarterLabel.isCurrent && (
+                      <span className="px-2 py-0.5 bg-brand text-white text-xs font-bold rounded-full">
                         ACTUAL
-                      </motion.div>
+                      </span>
                     )}
-                    <div className="flex items-center justify-center gap-1">
-                      <span className="text-xs font-semibold text-foreground">
+                  </div>
+
+                  <div className="flex items-center gap-4 flex-wrap">
+                    {/* Features Count */}
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-sm font-semibold text-foreground">
                         {quarter.features.length}
                       </span>
-                      <span className="text-xs text-secondary">features</span>
+                      <span className="text-xs text-secondary">
+                        {quarter.features.length === 1 ? 'feature' : 'features'}
+                      </span>
                     </div>
+
+                    {/* Progress Bar */}
                     {quarter.status !== 'planned' && (
-                      <div className="w-full max-w-[80px] mx-auto">
-                        <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+                      <div className="flex items-center gap-2 flex-1 min-w-[120px] max-w-[200px]">
+                        <div className="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${quarter.completionRate}%` }}
@@ -247,89 +242,42 @@ export function TimelineQuarters({ onQuarterClick, selectedQuarter }: TimelineQu
                             }`}
                           />
                         </div>
-                        <p className="text-xs font-semibold text-brand mt-1">
+                        <span className="text-xs font-semibold text-brand min-w-[32px]">
                           {quarter.completionRate}%
-                        </p>
+                        </span>
                       </div>
                     )}
+
+                    {/* Status Badge */}
+                    <span
+                      className={`text-xs px-2 py-1 rounded-full ${config.bg} ${config.color} font-medium`}
+                    >
+                      {quarter.status === 'completed'
+                        ? 'Completado'
+                        : quarter.status === 'in-progress'
+                          ? 'En Progreso'
+                          : 'Planificado'}
+                    </span>
                   </div>
-
-                  {/* Tooltip on hover */}
-                  <AnimatePresence>
-                    {isHovered && quarter.features.length > 0 && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 10 }}
-                        className="absolute top-24 mt-16 z-50 bg-panel border border-white/20 rounded-lg p-3 shadow-xl min-w-[200px] max-w-[250px]"
-                      >
-                        <p className="text-xs font-bold text-foreground mb-2">
-                          Features en {quarter.label}:
-                        </p>
-                        <ul className="space-y-1">
-                          {quarter.features.slice(0, 5).map((feature) => (
-                            <li
-                              key={feature.id}
-                              className="text-xs text-secondary flex items-start gap-1.5"
-                            >
-                              <span className="text-brand mt-0.5">•</span>
-                              <span>{feature.title}</span>
-                            </li>
-                          ))}
-                          {quarter.features.length > 5 && (
-                            <li className="text-xs text-secondary italic">
-                              +{quarter.features.length - 5} más...
-                            </li>
-                          )}
-                        </ul>
-                        <p className="text-xs text-brand font-semibold mt-2 flex items-center gap-1">
-                          Click para filtrar
-                          <FaChevronDown className="text-[8px]" />
-                        </p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-
-      {/* Legend */}
-      <div className="flex items-center justify-center gap-6 mt-8 pt-6 border-t border-white/5">
-        {Object.entries(statusConfig).map(([status, config]) => {
-          const Icon = config.icon;
-          const count = quarters.filter((q) => q.status === status).length;
-
-          return (
-            <div key={status} className="flex items-center gap-2">
-              <Icon className={config.color} />
-              <span className="text-xs text-secondary">
-                {status === 'in-progress'
-                  ? 'En Progreso'
-                  : status === 'planned'
-                    ? 'Planificado'
-                    : 'Completado'}
-              </span>
-              <span className="text-xs font-bold text-foreground">({count})</span>
-            </div>
+                </div>
+              </motion.button>
+            </motion.div>
           );
         })}
       </div>
 
       {/* Overall Progress */}
-      <div className="mt-6 pt-6 border-t border-white/5">
-        <div className="flex items-center justify-between mb-2">
+      <div className="mt-8 pt-6 border-t border-white/5">
+        <div className="flex items-center justify-between mb-3">
           <span className="text-sm font-semibold text-foreground">Progreso General 2025-2026</span>
-          <span className="text-sm font-bold text-brand">{Math.round(progressWidth)}%</span>
+          <span className="text-lg font-bold text-brand">{Math.round(progressWidth)}%</span>
         </div>
-        <div className="w-full h-3 bg-white/5 rounded-full overflow-hidden">
+        <div className="w-full h-3 bg-white/10 rounded-full overflow-hidden">
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: `${progressWidth}%` }}
             transition={{ duration: 1.5, ease: 'easeOut', delay: 0.5 }}
-            className="h-full bg-brand rounded-full shadow-sm"
+            className="h-full bg-brand rounded-full"
           />
         </div>
       </div>
