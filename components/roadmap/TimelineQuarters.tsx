@@ -1,13 +1,13 @@
 /**
  * TimelineQuarters Component
  *
- * Modern tech-inspired timeline with clean card design
- * Responsive grid layout with visual hierarchy
+ * Modern vertical timeline inspired by react-chrono and Linear
+ * Clean, scalable design with smooth animations
  */
 
 import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { FaCheckCircle, FaSpinner, FaClock, FaChevronRight } from 'react-icons/fa';
+import { FaCheckCircle, FaSpinner, FaClock } from 'react-icons/fa';
 import { ROADMAP_FEATURES, RoadmapFeature } from '@/constants/roadmap';
 
 interface Quarter {
@@ -24,28 +24,24 @@ const QUARTER_LABELS = [
     id: 'Q4 2025',
     label: 'Q4 2025',
     period: 'Oct - Dic',
-    months: ['2025-10', '2025-11', '2025-12'],
-    isCurrent: true, // Quarter actual
+    isCurrent: true,
   },
   {
     id: 'Q1 2026',
     label: 'Q1 2026',
     period: 'Ene - Mar',
-    months: ['2026-01', '2026-02', '2026-03'],
     isCurrent: false,
   },
   {
     id: 'Q2 2026',
     label: 'Q2 2026',
     period: 'Abr - Jun',
-    months: ['2026-04', '2026-05', '2026-06'],
     isCurrent: false,
   },
   {
     id: 'Q3 2026',
     label: 'Q3 2026',
     period: 'Jul - Sep',
-    months: ['2026-07', '2026-08', '2026-09'],
     isCurrent: false,
   },
 ];
@@ -54,22 +50,22 @@ const statusConfig = {
   completed: {
     icon: FaCheckCircle,
     color: 'text-success',
-    bg: 'bg-success/10',
-    border: 'border-success/30',
+    iconBg: 'bg-success',
+    cardBorder: 'border-success/20',
     label: 'Completado',
   },
   'in-progress': {
     icon: FaSpinner,
     color: 'text-brand',
-    bg: 'bg-brand/10',
-    border: 'border-brand/30',
+    iconBg: 'bg-brand',
+    cardBorder: 'border-brand/20',
     label: 'En Progreso',
   },
   planned: {
     icon: FaClock,
     color: 'text-secondary',
-    bg: 'bg-white/5',
-    border: 'border-white/10',
+    iconBg: 'bg-white/20',
+    cardBorder: 'border-white/10',
     label: 'Planificado',
   },
 };
@@ -80,15 +76,12 @@ interface TimelineQuartersProps {
 }
 
 export function TimelineQuarters({ onQuarterClick, selectedQuarter }: TimelineQuartersProps) {
-  // Calculate quarters dynamically from roadmap features
   const quarters = useMemo<Quarter[]>(() => {
     return QUARTER_LABELS.map((quarterLabel) => {
-      // Get features for this quarter
       const features = ROADMAP_FEATURES.filter(
         (f) => f.quarter === quarterLabel.id || f.completedDate?.includes('2025-01')
       );
 
-      // Calculate completion rate
       const completedCount = features.filter((f) => f.status === 'completed').length;
       const inProgressCount = features.filter((f) => f.status === 'in-progress').length;
       const completionRate =
@@ -96,7 +89,6 @@ export function TimelineQuarters({ onQuarterClick, selectedQuarter }: TimelineQu
           ? Math.round(((completedCount + inProgressCount * 0.5) / features.length) * 100)
           : 0;
 
-      // Determine quarter status
       let status: Quarter['status'] = 'planned';
       if (completionRate >= 100) {
         status = 'completed';
@@ -115,7 +107,6 @@ export function TimelineQuarters({ onQuarterClick, selectedQuarter }: TimelineQu
     });
   }, []);
 
-  // Calculate progress bar width
   const progressWidth = useMemo(() => {
     const totalQuarters = quarters.length;
     let progress = 0;
@@ -140,153 +131,209 @@ export function TimelineQuarters({ onQuarterClick, selectedQuarter }: TimelineQu
   };
 
   return (
-    <div className="space-y-6">
-      {/* Overall Progress Header */}
+    <div className="space-y-8">
+      {/* Progress Overview */}
       <div className="bg-panel/50 backdrop-blur-sm border border-white/10 rounded-2xl p-6">
-        <div className="flex items-center justify-between mb-3">
+        <div className="flex items-end justify-between mb-4">
           <div>
-            <h3 className="text-lg font-bold text-foreground">Progreso 2025-2026</h3>
-            <p className="text-sm text-secondary mt-0.5">Roadmap de desarrollo por quarters</p>
+            <h3 className="text-2xl font-bold text-foreground">Roadmap 2025-2026</h3>
+            <p className="text-sm text-secondary mt-1">Timeline de desarrollo por quarters</p>
           </div>
           <div className="text-right">
-            <div className="text-3xl font-bold text-brand">{Math.round(progressWidth)}%</div>
-            <div className="text-xs text-secondary">completado</div>
+            <div className="text-4xl font-bold text-brand">{Math.round(progressWidth)}%</div>
+            <div className="text-xs text-secondary uppercase tracking-wider">Progreso</div>
           </div>
         </div>
-        <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
+        <div className="relative w-full h-2.5 bg-white/5 rounded-full overflow-hidden">
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: `${progressWidth}%` }}
-            transition={{ duration: 1.2, ease: 'easeOut' }}
-            className="h-full bg-gradient-to-r from-brand to-brand-light"
+            transition={{ duration: 1.5, ease: [0.25, 0.1, 0.25, 1] }}
+            className="absolute inset-y-0 left-0 bg-gradient-to-r from-brand via-brand-light to-brand rounded-full"
           />
         </div>
       </div>
 
-      {/* Quarters Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {quarters.map((quarter, index) => {
-          const config = statusConfig[quarter.status];
-          const Icon = config.icon;
-          const isSelected = selectedQuarter === quarter.id;
-          const quarterLabel = QUARTER_LABELS[index];
+      {/* Vertical Timeline */}
+      <div className="relative">
+        {/* Vertical Line */}
+        <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-brand/40 via-brand/20 to-transparent" />
 
-          return (
-            <motion.button
-              key={quarter.id}
-              onClick={() => handleQuarterClick(quarter.id)}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: index * 0.08 }}
-              whileHover={{ y: -4 }}
-              whileTap={{ scale: 0.98 }}
-              className={`group relative bg-panel border rounded-xl p-5 text-left transition-all duration-300 ${
-                isSelected
-                  ? 'border-brand shadow-lg shadow-brand/20'
-                  : 'border-white/10 hover:border-white/20 hover:shadow-lg hover:shadow-black/10'
-              }`}
-            >
-              {/* Status Indicator Bar */}
-              <div
-                className={`absolute top-0 left-0 right-0 h-1 rounded-t-xl ${
-                  quarter.status === 'completed'
-                    ? 'bg-success'
-                    : quarter.status === 'in-progress'
-                      ? 'bg-brand'
-                      : 'bg-white/10'
-                }`}
-              />
+        {/* Timeline Items */}
+        <div className="space-y-8">
+          {quarters.map((quarter, index) => {
+            const config = statusConfig[quarter.status];
+            const Icon = config.icon;
+            const isSelected = selectedQuarter === quarter.id;
+            const isLast = index === quarters.length - 1;
+            const quarterLabel = QUARTER_LABELS[index];
 
-              {/* Header */}
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  {/* Icon */}
-                  <div className={`p-2.5 rounded-lg ${config.bg} ${config.border} border`}>
+            return (
+              <motion.div
+                key={quarter.id}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{
+                  duration: 0.5,
+                  delay: index * 0.15,
+                  ease: [0.25, 0.1, 0.25, 1],
+                }}
+                className="relative flex items-start gap-6"
+              >
+                {/* Timeline Node */}
+                <div className="relative flex-shrink-0 z-10">
+                  <motion.button
+                    onClick={() => handleQuarterClick(quarter.id)}
+                    whileHover={{ scale: 1.15 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`relative w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${
+                      isSelected
+                        ? 'ring-4 ring-brand/30 shadow-lg shadow-brand/40'
+                        : 'ring-2 ring-white/10'
+                    }`}
+                    style={{
+                      background: isSelected
+                        ? `linear-gradient(135deg, ${
+                            quarter.status === 'completed'
+                              ? '#10b981'
+                              : quarter.status === 'in-progress'
+                                ? '#3b82f6'
+                                : '#6b7280'
+                          } 0%, ${
+                            quarter.status === 'completed'
+                              ? '#059669'
+                              : quarter.status === 'in-progress'
+                                ? '#2563eb'
+                                : '#4b5563'
+                          } 100%)`
+                        : 'rgba(255, 255, 255, 0.05)',
+                    }}
+                  >
                     <Icon
-                      className={`${config.color} text-lg ${
-                        quarter.status === 'in-progress' && 'animate-spin-slow'
+                      className={`text-xl ${isSelected ? 'text-white' : config.color} ${
+                        quarter.status === 'in-progress' && !isSelected && 'animate-spin-slow'
                       }`}
                     />
-                  </div>
+                  </motion.button>
 
-                  {/* Quarter Title */}
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <h4 className="text-lg font-bold text-foreground">{quarter.label}</h4>
-                      {quarterLabel.isCurrent && (
-                        <span className="px-2 py-0.5 bg-brand text-white text-[10px] font-bold rounded-md uppercase">
-                          Actual
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-xs text-secondary mt-0.5">{quarter.period}</p>
-                  </div>
+                  {/* Connector Dot */}
+                  {!isLast && (
+                    <div className="absolute left-1/2 -translate-x-1/2 top-14 w-1 h-1 bg-brand/40 rounded-full" />
+                  )}
                 </div>
 
-                {/* Arrow indicator */}
-                <FaChevronRight
-                  className={`text-secondary transition-all duration-300 ${
-                    isSelected ? 'rotate-90 text-brand' : 'group-hover:translate-x-1'
+                {/* Content Card */}
+                <motion.button
+                  onClick={() => handleQuarterClick(quarter.id)}
+                  whileHover={{ x: 4 }}
+                  className={`flex-1 text-left group transition-all duration-300 ${
+                    isSelected ? 'translate-x-2' : ''
                   }`}
-                />
-              </div>
-
-              {/* Stats Row */}
-              <div className="flex items-center gap-4 mb-3">
-                <div className="flex items-baseline gap-1.5">
-                  <span className="text-2xl font-bold text-foreground">
-                    {quarter.features.length}
-                  </span>
-                  <span className="text-xs text-secondary">
-                    {quarter.features.length === 1 ? 'feature' : 'features'}
-                  </span>
-                </div>
-
-                <div className="h-4 w-px bg-white/10" />
-
-                <div
-                  className={`px-2 py-1 rounded-md text-xs font-medium ${config.bg} ${config.color}`}
                 >
-                  {config.label}
-                </div>
-              </div>
+                  <div
+                    className={`relative bg-panel border rounded-xl p-5 transition-all duration-300 ${
+                      isSelected
+                        ? 'border-brand shadow-xl shadow-brand/20'
+                        : `${config.cardBorder} hover:border-white/20 hover:shadow-lg`
+                    }`}
+                  >
+                    {/* Card Header */}
+                    <div className="flex items-start justify-between mb-3">
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <h4 className="text-xl font-bold text-foreground">{quarter.label}</h4>
+                          {quarterLabel.isCurrent && (
+                            <span className="px-2.5 py-0.5 bg-brand text-white text-[10px] font-bold rounded-md uppercase tracking-wider">
+                              Actual
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-sm text-secondary">{quarter.period}</p>
+                      </div>
 
-              {/* Progress Bar */}
-              {quarter.status !== 'planned' && (
-                <div className="space-y-1.5">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs text-secondary">Progreso</span>
-                    <span className="text-xs font-bold text-brand">{quarter.completionRate}%</span>
-                  </div>
-                  <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${quarter.completionRate}%` }}
-                      transition={{ duration: 0.8, delay: index * 0.1 + 0.2 }}
-                      className={`h-full rounded-full ${
-                        quarter.status === 'completed' ? 'bg-success' : 'bg-brand'
-                      }`}
-                    />
-                  </div>
-                </div>
-              )}
+                      <div className="text-right">
+                        <div className="text-3xl font-bold text-foreground">
+                          {quarter.features.length}
+                        </div>
+                        <div className="text-xs text-secondary">
+                          {quarter.features.length === 1 ? 'feature' : 'features'}
+                        </div>
+                      </div>
+                    </div>
 
-              {/* Selected State Glow */}
-              {isSelected && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="absolute inset-0 rounded-xl bg-brand/5 pointer-events-none"
-                />
-              )}
-            </motion.button>
-          );
-        })}
+                    {/* Status Badge */}
+                    <div className="flex items-center gap-2 mb-4">
+                      <div
+                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg ${
+                          quarter.status === 'completed'
+                            ? 'bg-success/10 text-success'
+                            : quarter.status === 'in-progress'
+                              ? 'bg-brand/10 text-brand'
+                              : 'bg-white/5 text-secondary'
+                        } text-xs font-semibold`}
+                      >
+                        <div
+                          className={`w-1.5 h-1.5 rounded-full ${
+                            quarter.status === 'completed'
+                              ? 'bg-success'
+                              : quarter.status === 'in-progress'
+                                ? 'bg-brand animate-pulse'
+                                : 'bg-white/30'
+                          }`}
+                        />
+                        {config.label}
+                      </div>
+                    </div>
+
+                    {/* Progress Bar */}
+                    {quarter.status !== 'planned' && (
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-medium text-secondary uppercase tracking-wider">
+                            Progreso
+                          </span>
+                          <span className="text-sm font-bold text-brand">
+                            {quarter.completionRate}%
+                          </span>
+                        </div>
+                        <div className="relative h-2 bg-white/5 rounded-full overflow-hidden">
+                          <motion.div
+                            initial={{ width: 0 }}
+                            animate={{ width: `${quarter.completionRate}%` }}
+                            transition={{
+                              duration: 1,
+                              delay: index * 0.15 + 0.3,
+                              ease: [0.25, 0.1, 0.25, 1],
+                            }}
+                            className={`absolute inset-y-0 left-0 rounded-full ${
+                              quarter.status === 'completed'
+                                ? 'bg-gradient-to-r from-success to-success/80'
+                                : 'bg-gradient-to-r from-brand to-brand-light'
+                            }`}
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Selection Indicator */}
+                    {isSelected && (
+                      <motion.div
+                        layoutId="activeQuarter"
+                        className="absolute -left-1 top-0 bottom-0 w-1 bg-brand rounded-r-full"
+                        transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+                      />
+                    )}
+                  </div>
+                </motion.button>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
 
-      {/* Help Text */}
-      <p className="text-center text-xs text-secondary">
-        Click en un quarter para filtrar sus features
+      {/* Footer Note */}
+      <p className="text-center text-sm text-secondary">
+        Click en cualquier quarter para filtrar sus features
       </p>
     </div>
   );
