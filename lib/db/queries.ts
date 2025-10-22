@@ -261,6 +261,18 @@ export async function createUserPreferences(userId: string): Promise<UserPrefere
 }
 
 /**
+ * Convert JavaScript array to PostgreSQL array literal format
+ * @param arr - JavaScript string array
+ * @returns PostgreSQL array literal string like '{"item1","item2"}'
+ */
+function toPostgresArray(arr: string[] | null | undefined): string | null {
+  if (!arr || arr.length === 0) return null;
+  // Escape quotes in array elements and wrap in PostgreSQL array format
+  const escaped = arr.map((item) => `"${item.replace(/"/g, '\\"')}"`);
+  return `{${escaped.join(',')}}`;
+}
+
+/**
  * Update user preferences
  *
  * @param userId - User ID
@@ -281,16 +293,22 @@ export async function updateUserPreferences(
     favorite_charts,
   } = preferences;
 
+  // Convert arrays to PostgreSQL format
+  const pgDolares = toPostgresArray(favorite_dolares);
+  const pgCurrencies = toPostgresArray(favorite_currencies);
+  const pgCryptos = toPostgresArray(favorite_cryptos);
+  const pgCharts = toPostgresArray(favorite_charts);
+
   const result = await sql`
     UPDATE user_preferences
     SET
       theme = COALESCE(${theme || null}, theme),
       currency = COALESCE(${currency || null}, currency),
       notifications_enabled = COALESCE(${notifications_enabled ?? null}, notifications_enabled),
-      favorite_dolares = COALESCE(${favorite_dolares ? JSON.stringify(favorite_dolares) : null}::text[], favorite_dolares),
-      favorite_currencies = COALESCE(${favorite_currencies ? JSON.stringify(favorite_currencies) : null}::text[], favorite_currencies),
-      favorite_cryptos = COALESCE(${favorite_cryptos ? JSON.stringify(favorite_cryptos) : null}::text[], favorite_cryptos),
-      favorite_charts = COALESCE(${favorite_charts ? JSON.stringify(favorite_charts) : null}::text[], favorite_charts),
+      favorite_dolares = COALESCE(${pgDolares}::text[], favorite_dolares),
+      favorite_currencies = COALESCE(${pgCurrencies}::text[], favorite_currencies),
+      favorite_cryptos = COALESCE(${pgCryptos}::text[], favorite_cryptos),
+      favorite_charts = COALESCE(${pgCharts}::text[], favorite_charts),
       updated_at = NOW()
     WHERE user_id = ${userId}
     RETURNING *
