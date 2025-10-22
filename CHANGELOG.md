@@ -5,6 +5,23 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## 1.13.0 (2025-10-22)
+
+- refactor: complete auth.tsx refactoring (793→114 lines) ([6877c4f](https://github.com/tomymaritano/dolargaucho-retro/commit/6877c4f))
+- refactor: export types from use favorites sorting hook ([4f63f25](https://github.com/tomymaritano/dolargaucho-retro/commit/4f63f25))
+- refactor: extract auth form logic and components ([fa3f1c8](https://github.com/tomymaritano/dolargaucho-retro/commit/fa3f1c8)), closes [#refactoring](https://github.com/tomymaritano/dolargaucho-retro/issues/refactoring) [#react-principles](https://github.com/tomymaritano/dolargaucho-retro/issues/react-principles)
+- refactor: extract favorites list to focused row components ([69b4546](https://github.com/tomymaritano/dolargaucho-retro/commit/69b4546))
+- refactor: remove unnecessary footer text from timeline ([cb40369](https://github.com/tomymaritano/dolargaucho-retro/commit/cb40369))
+- fix: change future quarters to planned status ([eea1226](https://github.com/tomymaritano/dolargaucho-retro/commit/eea1226))
+- fix: correct postgresql array handling in preferences update ([125ac2e](https://github.com/tomymaritano/dolargaucho-retro/commit/125ac2e))
+- fix: correct z-index layering and selection indicator styling ([c6f2760](https://github.com/tomymaritano/dolargaucho-retro/commit/c6f2760))
+- fix: definitive z-index solution with inline styles and solid backgrounds ([ae2e34d](https://github.com/tomymaritano/dolargaucho-retro/commit/ae2e34d))
+- fix: proper z-index with isolation and add historical q1 2025 ([82ac6d7](https://github.com/tomymaritano/dolargaucho-retro/commit/82ac6d7))
+- feat: create modern vertical timeline inspired by react-chrono ([50ee3c2](https://github.com/tomymaritano/dolargaucho-retro/commit/50ee3c2))
+- feat: redesign timeline as vertical layout with lateral info ([160bf8e](https://github.com/tomymaritano/dolargaucho-retro/commit/160bf8e))
+- feat: redesign timeline with modern tech-inspired card layout ([219dbba](https://github.com/tomymaritano/dolargaucho-retro/commit/219dbba))
+- feat: renovate roadmap for 2026 planning with cleaner design ([6b5ea3d](https://github.com/tomymaritano/dolargaucho-retro/commit/6b5ea3d))
+
 ## 1.12.0 (2025-10-22)
 
 - feat: complete roadmap overhaul with voting system and interactive features ([e292cc4](https://github.com/tomymaritano/dolargaucho-retro/commit/e292cc4))
