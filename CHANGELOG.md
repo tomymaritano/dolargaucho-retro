@@ -5,6 +5,10 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## 1.8.0 (2025-10-22)
+
+- feat: mark email service as completed in roadmap ([16776cb](https://github.com/tomymaritano/dolargaucho-retro/commit/16776cb))
+
 ## 1.7.0 (2025-10-21)
 
 - feat: implement email service with resend and react email ([570306f](https://github.com/tomymaritano/dolargaucho-retro/commit/570306f)), closes [#00D084](https://github.com/tomymaritano/dolargaucho-retro/issues/00D084)
