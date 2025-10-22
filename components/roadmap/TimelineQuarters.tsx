@@ -1,7 +1,7 @@
 /**
  * TimelineQuarters Component
  *
- * Modern vertical timeline with proper z-index and historical context
+ * Modern vertical timeline with proper layering
  * Shows completed Q1 2025 and future quarters
  */
 
@@ -61,25 +61,16 @@ const statusConfig = {
   completed: {
     icon: FaCheckCircle,
     color: 'text-success',
-    iconBg: 'bg-success',
-    cardBg: 'bg-success/5',
-    cardBorder: 'border-success/30',
     label: 'Completado',
   },
   'in-progress': {
     icon: FaSpinner,
     color: 'text-brand',
-    iconBg: 'bg-brand',
-    cardBg: 'bg-brand/5',
-    cardBorder: 'border-brand/30',
     label: 'En Progreso',
   },
   planned: {
     icon: FaClock,
     color: 'text-secondary',
-    iconBg: 'bg-white/20',
-    cardBg: 'bg-white/5',
-    cardBorder: 'border-white/10',
     label: 'Planificado',
   },
 };
@@ -169,17 +160,19 @@ export function TimelineQuarters({ onQuarterClick, selectedQuarter }: TimelineQu
       </div>
 
       {/* Vertical Timeline */}
-      <div className="relative isolate">
-        {/* Background Line Layer (Behind Everything) */}
-        <div className="absolute left-6 top-6 bottom-6 w-0.5 bg-gradient-to-b from-success/30 via-brand/20 to-transparent -z-10" />
+      <div className="relative">
+        {/* Background Line (Non-Interactive Layer) */}
+        <div
+          className="absolute left-6 top-6 bottom-6 w-0.5 bg-gradient-to-b from-success/30 via-brand/20 to-transparent pointer-events-none"
+          style={{ zIndex: 0 }}
+        />
 
-        {/* Timeline Items Layer */}
-        <div className="relative space-y-6">
+        {/* Timeline Items (Interactive Layer) */}
+        <div className="relative space-y-6" style={{ zIndex: 1 }}>
           {quarters.map((quarter, index) => {
             const config = statusConfig[quarter.status];
             const Icon = config.icon;
             const isSelected = selectedQuarter === quarter.id;
-            const isLast = index === quarters.length - 1;
             const quarterLabel = QUARTER_LABELS[index];
 
             return (
@@ -194,24 +187,33 @@ export function TimelineQuarters({ onQuarterClick, selectedQuarter }: TimelineQu
                 }}
                 className="relative flex items-start gap-6"
               >
-                {/* Timeline Node (Always on Top) */}
+                {/* Timeline Node - Always on Top with Solid Background */}
                 <motion.button
                   onClick={() => handleQuarterClick(quarter.id)}
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
-                  className={`relative flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${config.cardBg} ${
-                    isSelected
-                      ? `ring-4 ring-${quarter.status === 'completed' ? 'success' : 'brand'}/30 shadow-lg shadow-${quarter.status === 'completed' ? 'success' : 'brand'}/40`
-                      : 'ring-2 ring-white/10 hover:ring-white/20'
-                  }`}
+                  className="relative flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300"
                   style={{
+                    zIndex: 10,
                     background: isSelected
                       ? quarter.status === 'completed'
                         ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
                         : quarter.status === 'in-progress'
                           ? 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)'
                           : 'linear-gradient(135deg, #6b7280 0%, #4b5563 100%)'
-                      : undefined,
+                      : quarter.status === 'completed'
+                        ? '#0f172a'
+                        : quarter.status === 'in-progress'
+                          ? '#0f172a'
+                          : '#0f172a',
+                    border: isSelected
+                      ? `3px solid ${quarter.status === 'completed' ? '#10b981' : '#3b82f6'}`
+                      : '2px solid rgba(255, 255, 255, 0.1)',
+                    boxShadow: isSelected
+                      ? quarter.status === 'completed'
+                        ? '0 0 20px rgba(16, 185, 129, 0.4)'
+                        : '0 0 20px rgba(59, 130, 246, 0.4)'
+                      : 'none',
                   }}
                 >
                   <Icon
@@ -226,12 +228,15 @@ export function TimelineQuarters({ onQuarterClick, selectedQuarter }: TimelineQu
                   onClick={() => handleQuarterClick(quarter.id)}
                   whileHover={{ x: 4 }}
                   className="flex-1 text-left group"
+                  style={{ zIndex: 5 }}
                 >
                   <div
-                    className={`relative bg-panel border rounded-xl p-5 transition-all duration-300 ${
+                    className={`relative bg-panel rounded-xl p-5 transition-all duration-300 ${
                       isSelected
-                        ? `border-${quarter.status === 'completed' ? 'success' : 'brand'} shadow-xl shadow-${quarter.status === 'completed' ? 'success' : 'brand'}/20`
-                        : `${config.cardBorder} hover:border-white/20 hover:shadow-lg`
+                        ? quarter.status === 'completed'
+                          ? 'border-2 border-success shadow-xl shadow-success/20'
+                          : 'border-2 border-brand shadow-xl shadow-brand/20'
+                        : 'border border-white/10 hover:border-white/20 hover:shadow-lg'
                     }`}
                   >
                     {/* Header */}
