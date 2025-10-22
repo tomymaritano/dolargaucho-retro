@@ -146,13 +146,10 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     title: 'Servicio de Email',
     description:
       'Integración con Resend/SendGrid para alertas, newsletter y recuperación de contraseña',
-    status: 'planned',
+    status: 'completed',
     icon: FaEnvelope,
     category: 'Core',
-    priority: 'high',
-    quarter: 'Q1 2025',
-    effort: '1 semana',
-    votes: 156,
+    completedDate: '2025-01',
   },
   {
     id: 'alerts-backend',
