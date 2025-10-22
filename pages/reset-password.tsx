@@ -69,9 +69,9 @@ export default function ResetPasswordPage() {
 
       if (data.success) {
         setSuccess(true);
-        // Redirect to login after 3 seconds
+        // Redirect to auth page after 3 seconds
         setTimeout(() => {
-          router.push('/login');
+          router.push('/auth');
         }, 3000);
       } else {
         setError(data.error || 'Error al restablecer la contraseña. Por favor intenta de nuevo.');

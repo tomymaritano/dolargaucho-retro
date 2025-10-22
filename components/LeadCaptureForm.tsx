@@ -74,10 +74,10 @@ export function LeadCaptureForm({
       setEmail('');
       setName('');
 
-      // Optional: Redirect to register page
+      // Optional: Redirect to auth page
       if (redirectOnSuccess) {
         setTimeout(() => {
-          router.push('/register');
+          router.push('/auth');
         }, 2000);
       }
     } catch {

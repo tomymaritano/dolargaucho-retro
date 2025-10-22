@@ -34,6 +34,7 @@ interface SuccessResponse {
     name?: string;
     nickname?: string;
   };
+  emailSent: boolean;
 }
 
 interface ErrorResponse {
@@ -111,15 +112,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     // Send welcome email (non-blocking - don't wait for it)
     if (process.env.RESEND_API_KEY) {
+      console.log('[Register API] Sending welcome email to:', user.email);
       sendWelcomeEmail({
         to: user.email,
         name: user.name || undefined,
-      }).catch((emailError) => {
-        console.error('[Register API] Failed to send welcome email:', emailError);
-        // Continue anyway - email failure shouldn't block registration
-      });
+      })
+        .then(() => {
+          console.log('[Register API] ✅ Welcome email sent successfully to:', user.email);
+        })
+        .catch((emailError) => {
+          console.error('[Register API] ❌ Failed to send welcome email:', emailError);
+          // Continue anyway - email failure shouldn't block registration
+        });
     } else {
-      console.warn('[Register API] Email service not configured - welcome email not sent');
+      console.warn(
+        '[Register API] ⚠️  RESEND_API_KEY not configured - welcome email NOT sent to:',
+        user.email
+      );
+      console.warn(
+        '[Register API] Configure RESEND_API_KEY in environment variables to enable emails'
+      );
     }
 
     // Return success response
@@ -129,7 +141,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         id: user.id,
         email: user.email,
         name: user.name,
+        nickname: user.nickname,
       },
+      emailSent: !!process.env.RESEND_API_KEY,
     });
   } catch (error) {
     console.error('Registration error:', error);

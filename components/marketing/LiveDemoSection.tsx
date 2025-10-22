@@ -113,7 +113,7 @@ export function LiveDemoSection() {
             <LinkButton
               variant="primary"
               size="lg"
-              href="/register"
+              href="/auth"
               rightIcon={<FaArrowRight />}
               showStars
             >

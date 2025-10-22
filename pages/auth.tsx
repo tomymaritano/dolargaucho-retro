@@ -32,6 +32,14 @@ import { SEO } from '@/components/SEO';
 const MemoizedAurora = React.memo(Aurora);
 const MemoizedNavbar = React.memo(NavbarFloating);
 
+// Aurora props as constants (prevent recreation on every render)
+const AURORA_PROPS = {
+  colorStops: ['#0047FF', '#8B5CF6', '#6366F1'] as [string, string, string],
+  amplitude: 1.2,
+  blend: 0.6,
+  speed: 0.8,
+} as const;
+
 type AuthTab = 'login' | 'signup';
 
 // ============================================================================
@@ -101,6 +109,7 @@ export default function AuthPage() {
   const [nicknameAvailable, setNicknameAvailable] = useState<boolean | null>(null);
   const [checkingNickname, setCheckingNickname] = useState(false);
   const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -213,6 +222,7 @@ export default function AuthPage() {
     setNickname('');
     setNicknameAvailable(null);
     setError('');
+    setSuccessMessage('');
     setShowPassword(false);
     setShowConfirmPassword(false);
   }, []);
@@ -354,9 +364,14 @@ export default function AuthPage() {
         if (process.env.NODE_ENV === 'development') {
           console.log('[AuthPage] Signup successful!');
         }
+        // Show success message with email info
+        setSuccessMessage(
+          '¡Cuenta creada exitosamente! 🎉 Revisa tu email para el mensaje de bienvenida.'
+        );
+        // Redirect to dashboard
         setTimeout(() => {
           router.push('/dashboard');
-        }, 500);
+        }, 2000);
       }
     } catch (err) {
       if (process.env.NODE_ENV === 'development') {
@@ -386,12 +401,7 @@ export default function AuthPage() {
 
         {/* Aurora background */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-50">
-          <MemoizedAurora
-            colorStops={['#0047FF', '#8B5CF6', '#6366F1']}
-            amplitude={1.2}
-            blend={0.6}
-            speed={0.8}
-          />
+          <MemoizedAurora {...AURORA_PROPS} />
         </div>
 
         {/* Gradient overlay */}
@@ -745,6 +755,13 @@ export default function AuthPage() {
                     {error && (
                       <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
                         <p className="text-sm text-red-400">{error}</p>
+                      </div>
+                    )}
+
+                    {/* Success message */}
+                    {successMessage && (
+                      <div className="p-3 bg-brand/10 border border-brand/30 rounded-lg">
+                        <p className="text-sm text-brand font-medium">{successMessage}</p>
                       </div>
                     )}
 
