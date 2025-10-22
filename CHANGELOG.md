@@ -5,6 +5,11 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## 1.9.0 (2025-10-22)
+
+- chore: update roadmap - mark alerts backend as completed ([534f240](https://github.com/tomymaritano/dolargaucho-retro/commit/534f240))
+- feat: implement functional alerts backend with cron verification ([89a4d0d](https://github.com/tomymaritano/dolargaucho-retro/commit/89a4d0d))
+
 ## 1.8.0 (2025-10-22)
 
 - feat: mark email service as completed in roadmap ([16776cb](https://github.com/tomymaritano/dolargaucho-retro/commit/16776cb))
