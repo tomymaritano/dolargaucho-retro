@@ -157,7 +157,7 @@ export function TimelineQuarters({ onQuarterClick, selectedQuarter }: TimelineQu
       {/* Vertical Timeline */}
       <div className="relative">
         {/* Vertical Line */}
-        <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-brand/40 via-brand/20 to-transparent" />
+        <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-brand/40 via-brand/20 to-transparent z-0" />
 
         {/* Timeline Items */}
         <div className="space-y-8">
@@ -181,7 +181,7 @@ export function TimelineQuarters({ onQuarterClick, selectedQuarter }: TimelineQu
                 className="relative flex items-start gap-6"
               >
                 {/* Timeline Node */}
-                <div className="relative flex-shrink-0 z-10">
+                <div className="relative flex-shrink-0 z-20">
                   <motion.button
                     onClick={() => handleQuarterClick(quarter.id)}
                     whileHover={{ scale: 1.15 }}
@@ -226,7 +226,7 @@ export function TimelineQuarters({ onQuarterClick, selectedQuarter }: TimelineQu
                 <motion.button
                   onClick={() => handleQuarterClick(quarter.id)}
                   whileHover={{ x: 4 }}
-                  className={`flex-1 text-left group transition-all duration-300 ${
+                  className={`flex-1 text-left group transition-all duration-300 z-10 ${
                     isSelected ? 'translate-x-2' : ''
                   }`}
                 >
@@ -319,7 +319,7 @@ export function TimelineQuarters({ onQuarterClick, selectedQuarter }: TimelineQu
                     {isSelected && (
                       <motion.div
                         layoutId="activeQuarter"
-                        className="absolute -left-1 top-0 bottom-0 w-1 bg-brand rounded-r-full"
+                        className="absolute -left-1 top-0 bottom-0 w-1 bg-brand"
                         transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
                       />
                     )}
