@@ -11,8 +11,8 @@ import type { CryptoData } from '@/types/api/crypto';
 import type { Quotation } from '@/types/api/dolar';
 
 type FavoriteItem = DolarWithVariation | CotizacionWithVariation | CryptoData;
-type SortField = 'nombre' | 'precioUSD' | 'precioARS' | 'variacion';
-type SortDirection = 'asc' | 'desc';
+export type SortField = 'nombre' | 'precioUSD' | 'precioARS' | 'variacion';
+export type SortDirection = 'asc' | 'desc';
 
 interface UseFavoritesSortingProps {
   items: FavoriteItem[];
