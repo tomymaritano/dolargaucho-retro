@@ -5,6 +5,10 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## 1.12.0 (2025-10-22)
+
+- feat: complete roadmap overhaul with voting system and interactive features ([e292cc4](https://github.com/tomymaritano/dolargaucho-retro/commit/e292cc4))
+
 ## 1.11.0 (2025-10-22)
 
 - feat: add interactive roadmap timeline and email testing ([6a01c3e](https://github.com/tomymaritano/dolargaucho-retro/commit/6a01c3e))
