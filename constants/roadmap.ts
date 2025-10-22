@@ -47,7 +47,7 @@ export interface RoadmapFeature {
 }
 
 export const ROADMAP_FEATURES: RoadmapFeature[] = [
-  // ========== COMPLETED ==========
+  // ========== COMPLETED - Q1 2025 ==========
   {
     id: 'dashboard-v1',
     title: 'Dashboard Unificado',
@@ -57,6 +57,7 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     icon: FaChartLine,
     category: 'Core',
     completedDate: '2025-01',
+    quarter: 'Q1 2025',
   },
   {
     id: 'calculators',
@@ -66,15 +67,17 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     icon: FaCalculator,
     category: 'Herramientas',
     completedDate: '2025-01',
+    quarter: 'Q1 2025',
   },
   {
     id: 'alerts-system',
-    title: 'Sistema de Alertas',
-    description: 'Alertas personalizadas para cotizaciones de dólar y crypto',
+    title: 'Sistema de Alertas Frontend',
+    description: 'UI para crear y gestionar alertas personalizadas de cotizaciones',
     status: 'completed',
     icon: FaBell,
     category: 'Features',
     completedDate: '2025-01',
+    quarter: 'Q1 2025',
   },
   {
     id: 'calendar',
@@ -84,6 +87,7 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     icon: FaClock,
     category: 'Features',
     completedDate: '2025-01',
+    quarter: 'Q1 2025',
   },
   {
     id: 'favorites',
@@ -93,9 +97,62 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     icon: FaCheckCircle,
     category: 'UX',
     completedDate: '2025-01',
+    quarter: 'Q1 2025',
+  },
+  {
+    id: 'auth-system',
+    title: 'Sistema de Autenticación',
+    description:
+      'Login, registro, perfiles con JWT, cookies HTTP-only y recuperación de contraseña',
+    status: 'completed',
+    icon: FaLock,
+    category: 'Core',
+    completedDate: '2025-01',
+    quarter: 'Q1 2025',
+  },
+  {
+    id: 'email-service',
+    title: 'Servicio de Email',
+    description:
+      'Integración con Resend para welcome emails, password reset y notificaciones de alertas',
+    status: 'completed',
+    icon: FaEnvelope,
+    category: 'Core',
+    completedDate: '2025-01',
+    quarter: 'Q1 2025',
+  },
+  {
+    id: 'alerts-backend',
+    title: 'Alertas Backend Funcional',
+    description: 'Verificación automática cada 5min con Vercel Cron y notificaciones por email',
+    status: 'completed',
+    icon: FaBell,
+    category: 'Features',
+    completedDate: '2025-01',
+    quarter: 'Q1 2025',
+  },
+  {
+    id: 'changelog-system',
+    title: "Sistema de Changelog 'What's New'",
+    description: 'Modal elegante mostrando las últimas actualizaciones y mejoras del producto',
+    status: 'completed',
+    icon: FaCheckCircle,
+    category: 'UX',
+    completedDate: '2025-01',
+    quarter: 'Q1 2025',
+  },
+  {
+    id: 'roadmap-interactive',
+    title: 'Roadmap Público Interactivo',
+    description: 'Timeline dinámico por quarters con filtrado, tooltips y sistema de votación',
+    status: 'completed',
+    icon: FaCheckCircle,
+    category: 'Platform',
+    completedDate: '2025-01',
+    quarter: 'Q1 2025',
   },
 
-  // ========== IN PROGRESS ==========
+  // ========== IN PROGRESS - Q1/Q2 2025 ==========
   {
     id: 'mobile-app',
     title: 'App Mobile (PWA)',
@@ -108,6 +165,17 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     effort: '2 semanas',
   },
   {
+    id: 'voting-system',
+    title: 'Sistema de Votación de Features',
+    description: 'Permitir a usuarios autenticados votar por features del roadmap',
+    status: 'in-progress',
+    icon: FaCheckCircle,
+    category: 'Platform',
+    progress: 60,
+    quarter: 'Q1 2025',
+    effort: '1 semana',
+  },
+  {
     id: 'api-public',
     title: 'API Pública',
     description: 'REST API con autenticación para desarrolladores externos',
@@ -118,17 +186,8 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     quarter: 'Q2 2025',
     effort: '3-4 semanas',
   },
-  {
-    id: 'auth-system',
-    title: 'Sistema de Autenticación',
-    description: 'Login, registro, y perfiles de usuario con preferencias personalizadas',
-    status: 'completed',
-    icon: FaLock,
-    category: 'Core',
-    completedDate: '2025-01',
-  },
 
-  // ========== PLANNED - Q1 2025 (Próximos 3 meses) ==========
+  // ========== PLANNED - Q1 2025 (Próximas semanas) ==========
   {
     id: 'discord-community',
     title: 'Discord Server',
@@ -140,25 +199,6 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     quarter: 'Q1 2025',
     effort: '1-2 semanas',
     votes: 178,
-  },
-  {
-    id: 'email-service',
-    title: 'Servicio de Email',
-    description:
-      'Integración con Resend/SendGrid para alertas, newsletter y recuperación de contraseña',
-    status: 'completed',
-    icon: FaEnvelope,
-    category: 'Core',
-    completedDate: '2025-01',
-  },
-  {
-    id: 'alerts-backend',
-    title: 'Alertas Backend Funcional',
-    description: 'Backend completo con verificación automática y notificaciones por email',
-    status: 'completed',
-    icon: FaBell,
-    category: 'Features',
-    completedDate: '2025-01',
   },
   {
     id: 'testing-suite',

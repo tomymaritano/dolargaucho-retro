@@ -72,12 +72,29 @@ const priorityConfig = {
 export default function RoadmapPage() {
   const [selectedStatus, setSelectedStatus] = useState<RoadmapStatus | 'all'>('all');
   const [selectedCategory, setSelectedCategory] = useState<string>('Todos');
+  const [selectedQuarter, setSelectedQuarter] = useState<string | null>(null);
+  const featuresRef = React.useRef<HTMLElement>(null);
+
+  // Handle quarter selection from timeline
+  const handleQuarterClick = (quarterId: string | null) => {
+    setSelectedQuarter(quarterId);
+    // Scroll to features section
+    if (quarterId && featuresRef.current) {
+      setTimeout(() => {
+        featuresRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
+  };
 
   // Filter features
   const filteredFeatures = ROADMAP_FEATURES.filter((feature) => {
     const matchesStatus = selectedStatus === 'all' || feature.status === selectedStatus;
     const matchesCategory = selectedCategory === 'Todos' || feature.category === selectedCategory;
-    return matchesStatus && matchesCategory;
+    const matchesQuarter =
+      !selectedQuarter ||
+      feature.quarter === selectedQuarter ||
+      (feature.completedDate?.includes('2025-01') && selectedQuarter === 'Q1 2025');
+    return matchesStatus && matchesCategory && matchesQuarter;
   });
 
   // Group by status
@@ -159,8 +176,30 @@ export default function RoadmapPage() {
 
       {/* Timeline Section */}
       <section className="max-w-7xl mx-auto px-6 pb-12">
-        <TimelineQuarters />
+        <TimelineQuarters onQuarterClick={handleQuarterClick} selectedQuarter={selectedQuarter} />
       </section>
+
+      {/* Active Quarter Filter Badge */}
+      {selectedQuarter && (
+        <section className="max-w-7xl mx-auto px-6 pb-4">
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-brand/10 border border-brand/30 rounded-lg"
+          >
+            <FaFilter className="text-brand" />
+            <span className="text-sm font-semibold text-foreground">
+              Filtrando por: {selectedQuarter}
+            </span>
+            <button
+              onClick={() => setSelectedQuarter(null)}
+              className="ml-2 text-xs text-secondary hover:text-foreground transition-colors"
+            >
+              ✕ Limpiar
+            </button>
+          </motion.div>
+        </section>
+      )}
 
       {/* Filters Section */}
       <section className="max-w-7xl mx-auto px-6 pb-12">
@@ -265,7 +304,7 @@ export default function RoadmapPage() {
       </section>
 
       {/* Features List */}
-      <section className="max-w-7xl mx-auto px-6 pb-20">
+      <section ref={featuresRef} className="max-w-7xl mx-auto px-6 pb-20">
         {(['in-progress', 'planned', 'completed'] as const).map((status) => {
           const features = groupedFeatures[status];
           if (features.length === 0) return null;
