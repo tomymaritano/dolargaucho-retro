@@ -154,14 +154,11 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
   {
     id: 'alerts-backend',
     title: 'Alertas Backend Funcional',
-    description: 'Backend completo con Supabase y notificaciones por email',
-    status: 'planned',
+    description: 'Backend completo con verificación automática y notificaciones por email',
+    status: 'completed',
     icon: FaBell,
     category: 'Features',
-    priority: 'high',
-    quarter: 'Q1 2025',
-    effort: '2 semanas',
-    votes: 198,
+    completedDate: '2025-01',
   },
   {
     id: 'testing-suite',
