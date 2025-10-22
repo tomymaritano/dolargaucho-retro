@@ -167,13 +167,13 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
   {
     id: 'voting-system',
     title: 'Sistema de Votación de Features',
-    description: 'Permitir a usuarios autenticados votar por features del roadmap',
-    status: 'in-progress',
+    description:
+      'Permitir a usuarios autenticados votar por features del roadmap con actualización en tiempo real',
+    status: 'completed',
     icon: FaCheckCircle,
     category: 'Platform',
-    progress: 60,
+    completedDate: '2025-01',
     quarter: 'Q1 2025',
-    effort: '1 semana',
   },
   {
     id: 'api-public',
