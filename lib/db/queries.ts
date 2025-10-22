@@ -510,3 +510,21 @@ export async function deleteAllUserAlerts(userId: string): Promise<void> {
     WHERE user_id = ${userId}
   `;
 }
+
+/**
+ * Get all users with active alerts
+ *
+ * @returns Array of users who have active alerts
+ */
+export async function getUsersWithActiveAlerts(): Promise<
+  Array<{ user_id: string; email: string; name: string | null }>
+> {
+  const result = await sql`
+    SELECT DISTINCT u.id as user_id, u.email, u.name
+    FROM users u
+    INNER JOIN user_alerts a ON u.id = a.user_id
+    WHERE a.estado = 'activa'
+  `;
+
+  return result.rows as Array<{ user_id: string; email: string; name: string | null }>;
+}
