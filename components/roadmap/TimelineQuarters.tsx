@@ -323,11 +323,6 @@ export function TimelineQuarters({ onQuarterClick, selectedQuarter }: TimelineQu
           })}
         </div>
       </div>
-
-      {/* Footer Note */}
-      <p className="text-center text-sm text-secondary">
-        Click en cualquier quarter para filtrar sus features
-      </p>
     </div>
   );
 }
