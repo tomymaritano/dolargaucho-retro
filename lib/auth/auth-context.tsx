@@ -4,7 +4,6 @@
 /**
  * Authentication Context
  * Provides auth state and methods throughout the app
- * Supports both Supabase and Demo mode
  */
 
 import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from 'react';
@@ -12,8 +11,6 @@ import { User, Session, AuthError } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
 import { UserPreferences } from '@/types/user';
 import { Database } from '@/types/database';
-import { getAuthMode } from '@/lib/auth/helpers';
-import { useDemoAuth } from '@/hooks/useDemoAuth';
 import { logger } from '@/lib/utils/logger';
 
 interface AuthContextType {
@@ -31,20 +28,13 @@ interface AuthContextType {
   signInWithProvider: (provider: 'google' | 'github') => Promise<{ error: AuthError | null }>;
   updatePreferences: (prefs: Partial<UserPreferences>) => Promise<void>;
   refreshPreferences: () => Promise<void>;
-  isDemoMode: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  // Calculate demo mode ONCE on mount - never changes during component lifetime
-  const [isDemoMode] = useState(() => getAuthMode() === 'demo');
-
   // Track if component is mounted to prevent updates during SSR/hydration
   const [isMounted, setIsMounted] = useState(false);
-
-  // Demo mode auth
-  const demoAuth = useDemoAuth();
 
   // Supabase auth state
   const [user, setUser] = useState<User | null>(null);
@@ -113,13 +103,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  // Initialize Supabase auth (only if not demo mode and after hydration)
+  // Initialize Supabase auth (after hydration)
   useEffect(() => {
-    if (isDemoMode) {
-      setLoading(false);
-      return;
-    }
-
     // Don't initialize auth until component is mounted (after hydration)
     if (!isMounted) {
       return;
@@ -181,16 +166,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       mounted = false;
       subscription.unsubscribe();
     };
-  }, [isDemoMode, isMounted]);
+  }, [isMounted]);
 
   // Sign up
   const signUp = useCallback(
     async (email: string, password: string, metadata?: Record<string, unknown>) => {
-      if (isDemoMode) {
-        await demoAuth.signUp(email, password, metadata);
-        return { error: null };
-      }
-
       const { error } = await supabase.auth.signUp({
         email,
         password,
@@ -199,65 +179,40 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       return { error };
     },
-    [isDemoMode, demoAuth]
+    []
   );
 
   // Sign in
-  const signIn = useCallback(
-    async (email: string, password: string) => {
-      if (isDemoMode) {
-        await demoAuth.signIn(email, password);
-        return { error: null };
-      }
+  const signIn = useCallback(async (email: string, password: string) => {
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
 
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      return { error };
-    },
-    [isDemoMode, demoAuth]
-  );
+    return { error };
+  }, []);
 
   // Sign out
   const signOut = useCallback(async () => {
-    if (isDemoMode) {
-      await demoAuth.signOut();
-      return;
-    }
-
     await supabase.auth.signOut();
     setPreferences(null);
-  }, [isDemoMode, demoAuth]);
+  }, []);
 
   // Sign in with OAuth
-  const signInWithProvider = useCallback(
-    async (provider: 'google' | 'github') => {
-      if (isDemoMode) {
-        return { error: { message: 'OAuth no disponible en modo demo' } as AuthError };
-      }
+  const signInWithProvider = useCallback(async (provider: 'google' | 'github') => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
 
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider,
-        options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
-        },
-      });
-
-      return { error };
-    },
-    [isDemoMode]
-  );
+    return { error };
+  }, []);
 
   // Update preferences
   const updatePreferences = useCallback(
     async (prefs: Partial<UserPreferences>) => {
-      if (isDemoMode) {
-        await demoAuth.updatePreferences(prefs);
-        return;
-      }
-
       if (!user) return;
 
       const updateData: Database['public']['Tables']['user_preferences']['Update'] = {
@@ -278,41 +233,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const updated = await fetchPreferences(user.id);
       setPreferences(updated);
     },
-    [isDemoMode, demoAuth, user, fetchPreferences]
+    [user, fetchPreferences]
   );
 
   // Refresh preferences
   const refreshPreferences = useCallback(async () => {
-    if (isDemoMode) {
-      // Demo mode preferences are already in sync
-      return;
-    }
-
     if (!user) return;
 
     const prefs = await fetchPreferences(user.id);
     setPreferences(prefs);
-  }, [isDemoMode, user, fetchPreferences]);
+  }, [user, fetchPreferences]);
 
   // Memoize context value to prevent unnecessary re-renders
-  // Note: We use the entire demoAuth object to avoid subscribing to individual properties
   const value = useMemo<AuthContextType>(
     () => ({
-      user: isDemoMode ? demoAuth.user : user,
+      user,
       session,
-      preferences: isDemoMode ? demoAuth.preferences : preferences,
-      loading: isDemoMode ? demoAuth.loading : loading,
+      preferences,
+      loading,
       signUp,
       signIn,
       signOut,
       signInWithProvider,
       updatePreferences,
       refreshPreferences,
-      isDemoMode,
     }),
     [
-      isDemoMode,
-      demoAuth, // Use whole object instead of individual properties
       user,
       session,
       preferences,

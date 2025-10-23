@@ -18,13 +18,6 @@ export function isSupabaseConfigured(): boolean {
 }
 
 /**
- * Get auth mode (supabase or demo)
- */
-export function getAuthMode(): 'supabase' | 'demo' {
-  return isSupabaseConfigured() ? 'supabase' : 'demo';
-}
-
-/**
  * Validate email format
  */
 export function isValidEmail(email: string): boolean {
@@ -49,20 +42,6 @@ export function isValidPassword(password: string): {
     valid: errors.length === 0,
     errors,
   };
-}
-
-/**
- * Generate demo user ID
- */
-export function generateDemoUserId(email: string): string {
-  return `demo-${email.replace(/[^a-z0-9]/gi, '-')}`;
-}
-
-/**
- * Check if user ID is from demo mode
- */
-export function isDemoUser(userId: string): boolean {
-  return userId.startsWith('demo-');
 }
 
 /**
