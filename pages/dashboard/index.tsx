@@ -16,8 +16,7 @@ import { useFavoritesStore } from '@/lib/store/favorites';
 import { useFredData } from '@/hooks/useFredData';
 import { useECBRates } from '@/hooks/useECBRates';
 import { useECBHistorical } from '@/hooks/useECBHistorical';
-import { useInflacion } from '@/hooks/useInflacion';
-import { useIndiceUVA, useRiesgoPais } from '@/hooks/useFinanzas';
+import { useInflacionMensual, useIndiceUVA, useRiesgoPais } from '@/hooks/useFinanzas';
 import { SEO } from '@/components/SEO';
 
 // Extracted components
@@ -58,13 +57,10 @@ export default function DashboardPage() {
     cryptoPerPage,
   } = useDashboardData();
 
-  const { data: rawFredData, isLoading: fredLoading } = useFredData();
-  // Adapt FRED data: hook returns null for nested fields, component expects undefined
-
-  const fredData = rawFredData as any;
+  const { data: fredData, isLoading: fredLoading } = useFredData();
   const { data: ecbData, isLoading: ecbLoading } = useECBRates();
   const { data: ecbHistorical, isLoading: ecbHistoricalLoading } = useECBHistorical();
-  const { data: inflacionData, isLoading: inflacionLoading } = useInflacion();
+  const { data: inflacionData, isLoading: inflacionLoading } = useInflacionMensual();
   const { data: uvaData, isLoading: uvaLoading } = useIndiceUVA();
   const { data: riesgoPaisData, isLoading: riesgoPaisLoading } = useRiesgoPais();
 

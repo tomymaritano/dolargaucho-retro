@@ -28,16 +28,6 @@ import { useAlertasStore } from '@/lib/store/alertas-sync';
 
 const herramientasCards = [
   {
-    title: 'Calculadoras',
-    description: '10+ calculadoras: inflación, plazo fijo, UVA, conversores y más',
-    icon: FaCalculator,
-    href: '/dashboard/calculadoras',
-    color: 'from-brand/20 to-brand/5',
-    iconColor: 'text-brand',
-    stats: '10+ herramientas',
-    badge: 'Popular',
-  },
-  {
     title: 'Alertas',
     description: 'Notificaciones cuando una cotización alcanza tu objetivo',
     icon: FaBell,
@@ -67,27 +57,6 @@ const herramientasCards = [
   },
 ];
 
-const calculadorasPopulares = [
-  {
-    name: 'Inflación Argentina',
-    description: 'Calcula el poder adquisitivo entre fechas',
-    icon: FaChartPie,
-    href: '/dashboard/calculadoras',
-  },
-  {
-    name: 'Plazo Fijo',
-    description: 'Simula rendimiento vs inflación',
-    icon: FaClock,
-    href: '/dashboard/calculadoras',
-  },
-  {
-    name: 'Conversores',
-    description: 'USD, EUR, crypto y más',
-    icon: FaCalculator,
-    href: '/dashboard/calculadoras',
-  },
-];
-
 export default function HerramientasHubPage() {
   const getTotalFavorites = useFavoritesStore((state) => state.getTotalCount);
   const getTotalAlertas = useAlertasStore((state) => state.getTotalCount);
@@ -98,26 +67,13 @@ export default function HerramientasHubPage() {
         {/* Page Header */}
         <PageHeader
           title="Herramientas"
-          description="Utilidades y calculadoras para tomar mejores decisiones financieras"
+          description="Utilidades para tomar mejores decisiones financieras"
           icon={FaTools}
           breadcrumbs={[{ label: 'Herramientas' }]}
         />
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card variant="elevated" padding="lg">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-secondary mb-1">Calculadoras</p>
-                <p className="text-3xl font-bold text-brand">10+</p>
-                <p className="text-xs text-secondary mt-1">Herramientas disponibles</p>
-              </div>
-              <div className="p-4 rounded-xl bg-brand/10">
-                <FaCalculator className="text-brand text-2xl" />
-              </div>
-            </div>
-          </Card>
-
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card variant="elevated" padding="lg">
             <div className="flex items-center justify-between">
               <div>
@@ -198,43 +154,6 @@ export default function HerramientasHubPage() {
           })}
         </div>
 
-        {/* Calculadoras Populares */}
-        <div>
-          <h2 className="text-2xl font-bold text-foreground mb-4 flex items-center gap-3">
-            <FaCalculator className="text-brand" />
-            Calculadoras Más Usadas
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {calculadorasPopulares.map((calc, index) => {
-              const Icon = calc.icon;
-
-              return (
-                <Link key={index} href={calc.href}>
-                  <Card
-                    variant="elevated"
-                    padding="md"
-                    hover="lift"
-                    className="cursor-pointer group"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="p-3 rounded-lg bg-brand/10">
-                        <Icon className="text-brand text-xl" />
-                      </div>
-                      <div className="flex-1">
-                        <h4 className="text-sm font-semibold text-foreground group-hover:text-brand transition-colors">
-                          {calc.name}
-                        </h4>
-                        <p className="text-xs text-secondary">{calc.description}</p>
-                      </div>
-                      <FaArrowRight className="text-brand opacity-0 group-hover:opacity-100 transition-opacity text-sm" />
-                    </div>
-                  </Card>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-
         {/* Info Section */}
         <Card variant="elevated" padding="lg">
           <div className="flex items-start gap-4">
@@ -246,9 +165,9 @@ export default function HerramientasHubPage() {
                 Todas las herramientas son gratuitas
               </h3>
               <p className="text-sm text-secondary leading-relaxed">
-                Las calculadoras utilizan datos reales de APIs oficiales para brindarte resultados
-                precisos. Configurá alertas personalizadas para recibir notificaciones cuando una
-                cotización alcance tu objetivo. Todo 100% gratis.
+                Todas las herramientas utilizan datos reales de APIs oficiales para brindarte
+                información precisa y actualizada. Configurá alertas personalizadas para recibir
+                notificaciones cuando una cotización alcance tu objetivo. Todo 100% gratis.
               </p>
             </div>
           </div>
