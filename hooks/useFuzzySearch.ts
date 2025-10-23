@@ -16,7 +16,7 @@ export interface SearchResult {
   icon?: string;
 }
 
-// Static pages and calculators
+// Static pages
 const staticPages: SearchResult[] = [
   {
     id: 'dashboard',
@@ -43,30 +43,6 @@ const staticPages: SearchResult[] = [
     icon: '📈',
   },
   {
-    id: 'politica',
-    type: 'page',
-    title: 'Política',
-    subtitle: 'Datos políticos',
-    href: '/dashboard/politica',
-    icon: '🏛️',
-  },
-  {
-    id: 'finanzas',
-    type: 'page',
-    title: 'Finanzas',
-    subtitle: 'Datos financieros',
-    href: '/dashboard/finanzas',
-    icon: '💰',
-  },
-  {
-    id: 'calculadoras',
-    type: 'page',
-    title: 'Calculadoras',
-    subtitle: 'Herramientas financieras',
-    href: '/dashboard/calculadoras',
-    icon: '🧮',
-  },
-  {
     id: 'alertas',
     type: 'page',
     title: 'Alertas',
@@ -81,38 +57,6 @@ const staticPages: SearchResult[] = [
     subtitle: 'Eventos económicos',
     href: '/dashboard/calendario',
     icon: '📅',
-  },
-  {
-    id: 'calc-activos',
-    type: 'calculator',
-    title: 'Calculadora de Activos',
-    subtitle: 'Rentabilidad de inversiones',
-    href: '/dashboard/calculadoras#activos',
-    icon: '🚗',
-  },
-  {
-    id: 'calc-plazo-fijo',
-    type: 'calculator',
-    title: 'Calculadora de Plazo Fijo',
-    subtitle: 'Simula tu inversión',
-    href: '/dashboard/calculadoras#plazo-fijo',
-    icon: '🏦',
-  },
-  {
-    id: 'calc-inflacion',
-    type: 'calculator',
-    title: 'Calculadora de Inflación',
-    subtitle: 'Impacto de la inflación',
-    href: '/dashboard/calculadoras#inflacion',
-    icon: '📉',
-  },
-  {
-    id: 'calc-uva',
-    type: 'calculator',
-    title: 'Calculadora UVA',
-    subtitle: 'Créditos hipotecarios',
-    href: '/dashboard/calculadoras#uva',
-    icon: '🏠',
   },
 ];
 

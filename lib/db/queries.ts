@@ -263,10 +263,11 @@ export async function createUserPreferences(userId: string): Promise<UserPrefere
 /**
  * Convert JavaScript array to PostgreSQL array literal format
  * @param arr - JavaScript string array
- * @returns PostgreSQL array literal string like '{"item1","item2"}'
+ * @returns PostgreSQL array literal string like '{"item1","item2"}' or '{}' for empty
  */
-function toPostgresArray(arr: string[] | null | undefined): string | null {
-  if (!arr || arr.length === 0) return null;
+function toPostgresArray(arr: string[] | null | undefined): string {
+  // Return empty array literal instead of null to avoid "null::text[]" issues
+  if (!arr || arr.length === 0) return '{}';
   // Escape quotes in array elements and wrap in PostgreSQL array format
   const escaped = arr.map((item) => `"${item.replace(/"/g, '\\"')}"`);
   return `{${escaped.join(',')}}`;

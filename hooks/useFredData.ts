@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import type { FredData, FredDataPoint, FredIndicator } from '@/types/api/fred';
 
 // Series IDs de FRED
 export const FRED_SERIES = {
@@ -10,20 +11,6 @@ export const FRED_SERIES = {
   M2_MONEY_SUPPLY: 'M2SL', // Oferta monetaria M2
   DOLLAR_INDEX: 'DTWEXBGS', // Índice del dólar (Trade Weighted)
 } as const;
-
-interface FredDataPoint {
-  date: string;
-  value: number;
-}
-
-interface FredIndicator {
-  latest: number;
-  previousMonth: number;
-  change: number;
-  changePercent: number;
-  data: FredDataPoint[];
-  lastUpdate: string;
-}
 
 // Fallback data para cuando no hay API key (datos actualizados a 2025)
 const FALLBACK_DATA = {
@@ -136,7 +123,7 @@ function calculateGDPGrowth(gdpData: FredDataPoint[]): number {
  * Incluye múltiples indicadores económicos de USA
  */
 export function useFredData() {
-  return useQuery({
+  return useQuery<FredData>({
     queryKey: ['fred', 'indicators'],
     queryFn: async () => {
       const [fedfundsData, cpiData, gdpData, unrateData, treasury10yData, m2Data, dollarIndexData] =
@@ -150,21 +137,66 @@ export function useFredData() {
           fetchFredSeries(FRED_SERIES.DOLLAR_INDEX, 24),
         ]);
 
-      return {
-        federalFundsRate: calculateIndicator(fedfundsData),
-        inflationCPI: {
-          ...calculateIndicator(cpiData),
+      const federalFundsRate = calculateIndicator(fedfundsData);
+      const cpiIndicator = calculateIndicator(cpiData);
+      const gdpIndicator = calculateIndicator(gdpData);
+      const unemploymentRate = calculateIndicator(unrateData);
+      const treasury10y = calculateIndicator(treasury10yData);
+      const m2MoneySupply = calculateIndicator(m2Data);
+      const dollarIndex = calculateIndicator(dollarIndexData);
+
+      const result: FredData = {};
+
+      // Convert null to undefined for optional properties
+      if (federalFundsRate) {
+        result.federalFundsRate = {
+          latest: federalFundsRate.latest,
+          change: federalFundsRate.change,
+          changePercent: federalFundsRate.changePercent,
+          data: federalFundsRate.data,
+          lastUpdate: federalFundsRate.lastUpdate,
+        };
+      }
+
+      if (cpiIndicator) {
+        result.inflationCPI = {
+          latest: cpiIndicator.latest,
           yearOverYear: calculateInflationYoY(cpiData),
-        },
-        gdp: {
-          ...calculateIndicator(gdpData),
+          data: cpiIndicator.data,
+        };
+      }
+
+      if (gdpIndicator) {
+        result.gdp = {
           quarterlyGrowth: calculateGDPGrowth(gdpData),
-        },
-        unemploymentRate: calculateIndicator(unrateData),
-        treasury10y: calculateIndicator(treasury10yData),
-        m2MoneySupply: calculateIndicator(m2Data),
-        dollarIndex: calculateIndicator(dollarIndexData),
-      };
+        };
+      }
+
+      if (unemploymentRate) {
+        result.unemploymentRate = {
+          latest: unemploymentRate.latest,
+          change: unemploymentRate.change,
+          changePercent: unemploymentRate.changePercent,
+          data: unemploymentRate.data,
+        };
+      }
+
+      if (treasury10y) {
+        result.treasury10y = {
+          latest: treasury10y.latest,
+          data: treasury10y.data,
+        };
+      }
+
+      if (m2MoneySupply) {
+        result.m2MoneySupply = m2MoneySupply;
+      }
+
+      if (dollarIndex) {
+        result.dollarIndex = dollarIndex;
+      }
+
+      return result;
     },
     staleTime: 1000 * 60 * 60, // 1 hour - FRED data doesn't update frequently
     refetchInterval: 1000 * 60 * 60 * 6, // Refetch every 6 hours
