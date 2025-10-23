@@ -5,6 +5,10 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## <small>1.15.1 (2025-10-23)</small>
+
+- fix: resolve test failures and improve ux for error pages and logout ([fabf3e1](https://github.com/tomymaritano/dolargaucho-retro/commit/fabf3e1))
+
 ## 1.15.0 (2025-10-23)
 
 - test: add mocks and update alertform test ([5f9f18f](https://github.com/tomymaritano/dolargaucho-retro/commit/5f9f18f))
