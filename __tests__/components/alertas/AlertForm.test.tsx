@@ -19,7 +19,7 @@ describe('AlertForm', () => {
 
     render(
       <QueryClientProvider client={queryClient}>
-        <AlertForm onCrear={mockOnCrear} />
+        <AlertForm onCrear={mockOnCrear} defaultExpanded={true} />
       </QueryClientProvider>
     );
 
@@ -34,7 +34,7 @@ describe('AlertForm', () => {
 
     render(
       <QueryClientProvider client={queryClient}>
-        <AlertForm onCrear={mockOnCrear} />
+        <AlertForm onCrear={mockOnCrear} defaultExpanded={true} />
       </QueryClientProvider>
     );
 
@@ -48,7 +48,7 @@ describe('AlertForm', () => {
 
     render(
       <QueryClientProvider client={queryClient}>
-        <AlertForm onCrear={mockOnCrear} />
+        <AlertForm onCrear={mockOnCrear} defaultExpanded={true} />
       </QueryClientProvider>
     );
 
