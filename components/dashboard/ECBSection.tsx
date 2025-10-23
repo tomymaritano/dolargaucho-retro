@@ -63,7 +63,7 @@ interface ECBSectionProps {
  * @param favoriteChartIds - Array of favorited chart IDs
  * @param onToggleChart - Function to toggle chart favorite status
  */
-export function ECBSection({
+export const ECBSection = React.memo(function ECBSection({
   ecbData,
   ecbLoading,
   ecbHistorical,
@@ -262,4 +262,4 @@ export function ECBSection({
       </div>
     </Card>
   );
-}
+});

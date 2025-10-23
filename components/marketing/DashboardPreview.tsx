@@ -14,7 +14,9 @@ interface DashboardPreviewProps {
   variant?: 'dashboard' | 'politics' | 'calculator';
 }
 
-export function DashboardPreview({ variant = 'dashboard' }: DashboardPreviewProps) {
+export const DashboardPreview = React.memo(function DashboardPreview({
+  variant = 'dashboard',
+}: DashboardPreviewProps) {
   if (variant === 'dashboard') {
     return (
       <div className="bg-gradient-to-br from-background via-background to-background-secondary rounded-2xl p-6 border border-white/10">
@@ -186,4 +188,4 @@ export function DashboardPreview({ variant = 'dashboard' }: DashboardPreviewProp
       </div>
     </div>
   );
-}
+});

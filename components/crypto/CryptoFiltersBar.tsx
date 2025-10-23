@@ -16,7 +16,7 @@ interface CryptoFiltersBarProps {
   onDolarTypeChange: (value: DolarType) => void;
 }
 
-export function CryptoFiltersBar({
+export const CryptoFiltersBar = React.memo(function CryptoFiltersBar({
   search,
   onSearchChange,
   sortBy,
@@ -120,4 +120,4 @@ export function CryptoFiltersBar({
       </div>
     </div>
   );
-}
+});

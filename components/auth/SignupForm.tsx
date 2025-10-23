@@ -21,7 +21,7 @@ import {
 import { Button } from '@/components/ui/Button/Button';
 import { useSignupForm } from '@/hooks/useSignupForm';
 
-export function SignupForm() {
+export const SignupForm = React.memo(function SignupForm() {
   const {
     email,
     password,
@@ -264,4 +264,4 @@ export function SignupForm() {
       </p>
     </motion.form>
   );
-}
+});

@@ -21,7 +21,7 @@ import {
   FaChevronRight,
 } from 'react-icons/fa';
 
-export function DiputadosTable() {
+export const DiputadosTable = React.memo(function DiputadosTable() {
   const { data: diputados, isLoading, error } = useDiputados();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedProvincia, setSelectedProvincia] = useState<string>('');
@@ -330,4 +330,4 @@ export function DiputadosTable() {
       )}
     </div>
   );
-}
+});

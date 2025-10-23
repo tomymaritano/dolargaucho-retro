@@ -4,7 +4,7 @@
  * Single Responsibility: Render a single cryptocurrency row with professional hover effects
  */
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { TableRow, TableCell } from '@/components/ui/Table';
 import {
   FaStar,
@@ -34,7 +34,7 @@ const getTrendData = (percentage: number) => {
   return { icon: FaMinus, color: 'text-warning' };
 };
 
-export function CryptoTableRow({
+export const CryptoTableRow = React.memo(function CryptoTableRow({
   crypto,
   selectedDolar,
   isFavorite,
@@ -46,18 +46,22 @@ export function CryptoTableRow({
   const TrendIcon24h = trend24h.icon;
   const TrendIcon7d = trend7d.icon;
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(`${crypto.name}: ${formatPriceUSD(crypto.current_price)}`);
-  };
+  const handleToggleFavorite = useCallback(() => {
+    onToggleFavorite(crypto.id);
+  }, [onToggleFavorite, crypto.id]);
 
-  const handleShare = () => {
+  const handleCopy = useCallback(() => {
+    navigator.clipboard.writeText(`${crypto.name}: ${formatPriceUSD(crypto.current_price)}`);
+  }, [crypto.name, crypto.current_price]);
+
+  const handleShare = useCallback(() => {
     if (navigator.share) {
       navigator.share({
         title: crypto.name,
         text: `${crypto.name}: ${formatPriceUSD(crypto.current_price)}`,
       });
     }
-  };
+  }, [crypto.name, crypto.current_price]);
 
   return (
     <React.Fragment>
@@ -154,7 +158,7 @@ export function CryptoTableRow({
         <TableCell align="center">
           <div className="flex items-center justify-center gap-1 opacity-50 group-hover:opacity-100 transition-opacity duration-200">
             <button
-              onClick={() => onToggleFavorite(crypto.id)}
+              onClick={handleToggleFavorite}
               className={`p-1.5 rounded-lg transition-all duration-200 hover:scale-110 active:scale-95 ${
                 isFavorite ? 'text-brand bg-brand/10' : 'text-secondary hover:text-brand'
               }`}
@@ -227,4 +231,4 @@ export function CryptoTableRow({
       </TableRow>
     </React.Fragment>
   );
-}
+});

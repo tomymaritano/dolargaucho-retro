@@ -20,7 +20,7 @@ interface RiesgoPaisChartProps {
   onToggleFavorite?: () => void;
 }
 
-export function RiesgoPaisChart({
+export const RiesgoPaisChart = React.memo(function RiesgoPaisChart({
   limit = 30,
   isFavorite,
   onToggleFavorite,
@@ -142,4 +142,4 @@ export function RiesgoPaisChart({
       </div>
     </div>
   );
-}
+});

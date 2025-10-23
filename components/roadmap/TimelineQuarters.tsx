@@ -5,7 +5,7 @@
  * Shows completed Q1 2025 and future quarters
  */
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { FaCheckCircle, FaSpinner, FaClock } from 'react-icons/fa';
 import { ROADMAP_FEATURES, RoadmapFeature } from '@/constants/roadmap';
@@ -80,7 +80,10 @@ interface TimelineQuartersProps {
   selectedQuarter?: string | null;
 }
 
-export function TimelineQuarters({ onQuarterClick, selectedQuarter }: TimelineQuartersProps) {
+export const TimelineQuarters = React.memo(function TimelineQuarters({
+  onQuarterClick,
+  selectedQuarter,
+}: TimelineQuartersProps) {
   const quarters = useMemo<Quarter[]>(() => {
     return QUARTER_LABELS.map((quarterLabel) => {
       const features = ROADMAP_FEATURES.filter(
@@ -127,13 +130,16 @@ export function TimelineQuarters({ onQuarterClick, selectedQuarter }: TimelineQu
     return Math.min(progress, 100);
   }, [quarters]);
 
-  const handleQuarterClick = (quarterId: string) => {
-    if (selectedQuarter === quarterId) {
-      onQuarterClick?.(null);
-    } else {
-      onQuarterClick?.(quarterId);
-    }
-  };
+  const handleQuarterClick = useCallback(
+    (quarterId: string) => {
+      if (selectedQuarter === quarterId) {
+        onQuarterClick?.(null);
+      } else {
+        onQuarterClick?.(quarterId);
+      }
+    },
+    [selectedQuarter, onQuarterClick]
+  );
 
   return (
     <div className="space-y-8">
@@ -330,4 +336,4 @@ export function TimelineQuarters({ onQuarterClick, selectedQuarter }: TimelineQu
       </div>
     </div>
   );
-}
+});

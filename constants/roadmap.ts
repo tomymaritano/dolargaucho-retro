@@ -199,7 +199,6 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     priority: 'high',
     quarter: 'Q1 2026',
     effort: '2 semanas',
-    votes: 0,
   },
   {
     id: 'voting-system',
@@ -224,7 +223,6 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     priority: 'high',
     quarter: 'Q2 2026',
     effort: '3-4 semanas',
-    votes: 0,
   },
   {
     id: 'discord-community',
@@ -236,7 +234,6 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     priority: 'high',
     quarter: 'Q1 2026',
     effort: '1-2 semanas',
-    votes: 178,
   },
   {
     id: 'testing-suite',
@@ -248,7 +245,6 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     priority: 'high',
     quarter: 'Q1 2026',
     effort: '3 semanas',
-    votes: 134,
   },
   {
     id: 'security-improvements',
@@ -260,7 +256,6 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     priority: 'high',
     quarter: 'Q1 2026',
     effort: '2 semanas',
-    votes: 165,
   },
   {
     id: 'ai-insights',
@@ -272,7 +267,6 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     priority: 'high',
     quarter: 'Q2 2026',
     effort: '4 semanas',
-    votes: 245,
   },
   {
     id: 'advanced-search',
@@ -284,7 +278,6 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     priority: 'high',
     quarter: 'Q2 2026',
     effort: '2 semanas',
-    votes: 189,
   },
   {
     id: 'export-data',
@@ -296,7 +289,6 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     priority: 'medium',
     quarter: 'Q2 2026',
     effort: '2 semanas',
-    votes: 156,
   },
   {
     id: 'interactive-charts',
@@ -308,7 +300,6 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     priority: 'medium',
     quarter: 'Q2 2026',
     effort: '3 semanas',
-    votes: 142,
   },
   {
     id: 'wallet-integration',
@@ -321,7 +312,6 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     priority: 'high',
     quarter: 'Q2 2026',
     effort: '6 semanas',
-    votes: 223,
   },
 
   // ========== PLANNED - Q3 2026 (6-9 meses) ==========
@@ -335,7 +325,6 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     priority: 'medium',
     quarter: 'Q3 2026',
     effort: '3 semanas',
-    votes: 134,
   },
   {
     id: 'community',
@@ -347,7 +336,6 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     priority: 'low',
     quarter: 'Q3 2026',
     effort: '4 semanas',
-    votes: 98,
   },
   {
     id: 'social-features',
@@ -359,7 +347,6 @@ export const ROADMAP_FEATURES: RoadmapFeature[] = [
     priority: 'low',
     quarter: 'Q3 2026',
     effort: '3 semanas',
-    votes: 87,
   },
 ];
 

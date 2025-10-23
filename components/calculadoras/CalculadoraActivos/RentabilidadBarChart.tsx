@@ -2,51 +2,131 @@
  * RentabilidadBarChart Component
  *
  * Single Responsibility: Display rentability comparison bar chart
+ * Uses Lightweight Charts Histogram Series
  */
 
-import React, { useMemo } from 'react';
+'use client';
+
+import React, { useEffect, useRef, useMemo } from 'react';
 import { Card } from '@/components/ui/Card/Card';
 import { FaChartBar } from 'react-icons/fa';
-import { useChartTheme } from '@/lib/hooks/useChartTheme';
-import {
-  BarChart,
-  Bar,
-  Cell,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from 'recharts';
+import { createChart, ColorType, HistogramSeries } from 'lightweight-charts';
+import type { IChartApi, ISeriesApi, Time } from 'lightweight-charts';
 import type { ResultadoAnalisis } from './types';
+import type { BarChartDataPoint, TickFormatter } from '@/types/charts';
 
 interface RentabilidadBarChartProps {
-  resultado: ResultadoAnalisis;
+  resultado: Pick<
+    ResultadoAnalisis,
+    'rentabilidadNominal' | 'rentabilidadReal' | 'inflacionAcumulada'
+  >;
 }
 
 export function RentabilidadBarChart({ resultado }: RentabilidadBarChartProps) {
-  const chartTheme = useChartTheme();
+  const chartContainerRef = useRef<HTMLDivElement>(null);
+  const chartRef = useRef<IChartApi | null>(null);
+  const seriesRefs = useRef<ISeriesApi<'Histogram'>[]>([]);
 
   const dataBarras = useMemo(
     () => [
       {
         name: 'Nominal',
         valor: resultado.rentabilidadNominal,
-        fill: resultado.rentabilidadNominal >= 0 ? '#10B981' : '#EF4444',
+        color: resultado.rentabilidadNominal >= 0 ? '#10B981' : '#EF4444',
       },
       {
         name: 'Real',
         valor: resultado.rentabilidadReal,
-        fill: resultado.rentabilidadReal >= 0 ? '#10B981' : '#EF4444',
+        color: resultado.rentabilidadReal >= 0 ? '#10B981' : '#EF4444',
       },
       {
         name: 'Inflación',
         valor: resultado.inflacionAcumulada,
-        fill: '#F59E0B',
+        color: '#F59E0B',
       },
     ],
     [resultado]
   );
+
+  useEffect(() => {
+    if (!chartContainerRef.current) return;
+
+    // Create chart
+    const chart = createChart(chartContainerRef.current, {
+      width: chartContainerRef.current.clientWidth,
+      height: 300,
+      layout: {
+        background: { type: ColorType.Solid, color: 'transparent' },
+        textColor: '#9CA3AF',
+        fontSize: 11,
+      },
+      grid: {
+        vertLines: { color: 'rgba(148, 163, 184, 0.1)' },
+        horzLines: { color: 'rgba(148, 163, 184, 0.1)' },
+      },
+      rightPriceScale: {
+        borderColor: 'rgba(148, 163, 184, 0.2)',
+      },
+      timeScale: {
+        borderColor: 'rgba(148, 163, 184, 0.2)',
+        timeVisible: false,
+        tickMarkFormatter: ((time: Time) => {
+          const index = typeof time === 'number' ? time : 0;
+          return dataBarras[index]?.name || '';
+        }) as TickFormatter,
+      },
+    });
+
+    chartRef.current = chart;
+    seriesRefs.current = [];
+
+    // Add histogram series for each bar
+    dataBarras.forEach((bar, index) => {
+      const histogramSeries = chart.addSeries(HistogramSeries, {
+        color: bar.color,
+        priceFormat: {
+          type: 'custom',
+          formatter: (price: number) => `${price.toFixed(2)}%`,
+        },
+      });
+
+      const dataPoint: BarChartDataPoint[] = [
+        {
+          time: index as Time,
+          value: bar.valor,
+          color: bar.color,
+        },
+      ];
+
+      histogramSeries.setData(dataPoint);
+
+      seriesRefs.current.push(histogramSeries);
+    });
+
+    // Fit content
+    chart.timeScale().fitContent();
+
+    // Handle resize
+    const handleResize = () => {
+      if (chartContainerRef.current && chartRef.current) {
+        chartRef.current.applyOptions({
+          width: chartContainerRef.current.clientWidth,
+        });
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      if (chartRef.current) {
+        chartRef.current.remove();
+        chartRef.current = null;
+      }
+      seriesRefs.current = [];
+    };
+  }, [dataBarras]);
 
   return (
     <Card
@@ -59,27 +139,11 @@ export function RentabilidadBarChart({ resultado }: RentabilidadBarChartProps) {
         Comparativa de Rentabilidades
       </h4>
       <div className="group-hover:scale-[1.01] transition-transform duration-300">
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={dataBarras}>
-            <CartesianGrid strokeDasharray="3 3" stroke={chartTheme.gridColor} />
-            <XAxis dataKey="name" stroke={chartTheme.axisColor} />
-            <YAxis stroke={chartTheme.axisColor} />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: chartTheme.tooltipBg,
-                color: chartTheme.tooltipColor,
-                border: `1px solid ${chartTheme.tooltipBorder}`,
-                borderRadius: '8px',
-              }}
-              formatter={(value: number) => [`${value.toFixed(2)}%`, 'Rentabilidad']}
-            />
-            <Bar dataKey="valor" radius={[8, 8, 0, 0]}>
-              {dataBarras.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.fill} />
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+        <div
+          ref={chartContainerRef}
+          className="rounded-lg"
+          style={{ width: '100%', height: '300px' }}
+        />
       </div>
     </Card>
   );

@@ -61,7 +61,12 @@ const getCondicionSymbol = (condicion: string) => {
   return symbols[condicion] || condicion;
 };
 
-export function AlertsList({ alertas, onEliminar, onToggle, getValorActual }: AlertsListProps) {
+export const AlertsList = React.memo(function AlertsList({
+  alertas,
+  onEliminar,
+  onToggle,
+  getValorActual,
+}: AlertsListProps) {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [alertaToDelete, setAlertaToDelete] = useState<string | null>(null);
 
@@ -100,7 +105,7 @@ export function AlertsList({ alertas, onEliminar, onToggle, getValorActual }: Al
   }
 
   return (
-    <div className="space-y-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       {alertas.map((alerta) => {
         const Icon = getTipoIcon(alerta.tipo);
         const valorActual = getValorActual(alerta);
@@ -111,47 +116,84 @@ export function AlertsList({ alertas, onEliminar, onToggle, getValorActual }: Al
           <Card
             key={alerta.id}
             variant="elevated"
-            padding="lg"
-            className={`transition-all ${
-              isDisparada ? 'border-2 border-brand' : isPausada ? 'opacity-60' : ''
+            padding="md"
+            hover="glow"
+            className={`transition-all border ${
+              isDisparada
+                ? 'border-brand/50 bg-brand/5'
+                : isPausada
+                  ? 'opacity-60 border-border'
+                  : 'border-white/5'
             }`}
           >
-            <div className="flex items-start justify-between gap-4">
-              {/* Info de la alerta */}
-              <div className="flex-1">
-                <div className="flex items-start gap-3 mb-3">
+            <div className="space-y-3">
+              {/* Header con icon y acciones */}
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-start gap-3 flex-1 min-w-0">
                   <div
-                    className={`p-3 rounded-lg ${
+                    className={`p-2.5 rounded-lg flex-shrink-0 ${
                       isDisparada ? 'bg-brand/20' : isPausada ? 'bg-white/5' : 'bg-white/10'
                     }`}
                   >
                     <Icon
-                      className={`text-xl ${
-                        isDisparada ? 'text-brand' : isPausada ? 'text-secondary' : 'text-white'
+                      className={`text-lg ${
+                        isDisparada
+                          ? 'text-brand'
+                          : isPausada
+                            ? 'text-secondary'
+                            : 'text-foreground'
                       }`}
                     />
                   </div>
-                  <div className="flex-1">
-                    <h3 className="text-white font-semibold mb-1">{alerta.nombre}</h3>
-                    <div className="flex flex-wrap items-center gap-2 text-sm text-secondary">
-                      <span className="px-2 py-1 bg-white/10 rounded-md">
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-foreground font-semibold text-sm mb-1.5 truncate">
+                      {alerta.nombre}
+                    </h3>
+                    <div className="flex flex-wrap items-center gap-1.5 text-xs">
+                      <span className="px-2 py-0.5 bg-white/10 rounded-md text-secondary">
                         {getTipoLabel(alerta.tipo)}
                         {alerta.casaDolar && ` ${alerta.casaDolar.toUpperCase()}`}
                       </span>
-                      <span>
+                      <span className="text-secondary">
                         {getCondicionSymbol(alerta.condicion)} ${alerta.valorObjetivo.toFixed(2)}
                       </span>
                     </div>
                   </div>
                 </div>
 
-                {/* Estado y valor actual */}
-                <div className="flex items-center gap-4 text-sm">
-                  {isDisparada && (
-                    <div className="flex items-center gap-2 text-brand">
-                      <FaCheckCircle />
-                      <span className="font-semibold">¡Alerta disparada!</span>
-                      <span className="text-secondary">
+                {/* Acciones - Más compactas */}
+                <div className="flex gap-1 flex-shrink-0">
+                  {!isDisparada && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => onToggle(alerta.id)}
+                      title={isPausada ? 'Reactivar' : 'Pausar'}
+                      className="h-8 w-8 p-0 flex items-center justify-center"
+                    >
+                      {isPausada ? <FaPlay className="text-xs" /> : <FaPause className="text-xs" />}
+                    </Button>
+                  )}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleDeleteClick(alerta.id)}
+                    className="h-8 w-8 p-0 flex items-center justify-center text-error hover:bg-error/10"
+                    title="Eliminar"
+                  >
+                    <FaTrash className="text-xs" />
+                  </Button>
+                </div>
+              </div>
+
+              {/* Estado y valor actual - Más compacto */}
+              <div className="text-xs">
+                {isDisparada && (
+                  <div className="flex items-center gap-2 p-2 rounded-lg bg-brand/10 border border-brand/30">
+                    <FaCheckCircle className="text-brand flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <span className="font-semibold text-brand">¡Disparada!</span>
+                      <span className="text-secondary ml-2 text-xs">
                         {alerta.fechaDisparada &&
                           new Date(alerta.fechaDisparada).toLocaleString('es-AR', {
                             day: '2-digit',
@@ -161,53 +203,34 @@ export function AlertsList({ alertas, onEliminar, onToggle, getValorActual }: Al
                           })}
                       </span>
                     </div>
-                  )}
+                  </div>
+                )}
 
-                  {isPausada && (
-                    <div className="flex items-center gap-2 text-secondary">
-                      <FaPause />
-                      <span>Pausada</span>
-                    </div>
-                  )}
+                {isPausada && (
+                  <div className="flex items-center gap-2 text-secondary">
+                    <FaPause className="text-xs" />
+                    <span>Pausada</span>
+                  </div>
+                )}
 
-                  {!isDisparada && !isPausada && valorActual !== null && (
-                    <div className="text-secondary">
-                      Valor actual:{' '}
-                      <span className="text-white font-semibold">${valorActual.toFixed(2)}</span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Mensaje personalizado */}
-                {alerta.mensaje && (
-                  <div className="mt-3 p-3 glass rounded-lg border border-border">
-                    <p className="text-sm text-white italic">&quot;{alerta.mensaje}&quot;</p>
+                {!isDisparada && !isPausada && valorActual !== null && (
+                  <div className="flex items-center justify-between p-2 rounded-lg bg-panel border border-border">
+                    <span className="text-secondary">Valor actual:</span>
+                    <span className="text-foreground font-bold font-mono">
+                      ${valorActual.toFixed(2)}
+                    </span>
                   </div>
                 )}
               </div>
 
-              {/* Acciones */}
-              <div className="flex flex-col gap-2">
-                {!isDisparada && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => onToggle(alerta.id)}
-                    title={isPausada ? 'Reactivar' : 'Pausar'}
-                  >
-                    {isPausada ? <FaPlay /> : <FaPause />}
-                  </Button>
-                )}
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => handleDeleteClick(alerta.id)}
-                  className="text-error hover:bg-error/10"
-                  title="Eliminar"
-                >
-                  <FaTrash />
-                </Button>
-              </div>
+              {/* Mensaje personalizado - Si existe */}
+              {alerta.mensaje && (
+                <div className="p-2.5 rounded-lg bg-panel/50 border border-border/50">
+                  <p className="text-xs text-secondary italic line-clamp-2">
+                    &quot;{alerta.mensaje}&quot;
+                  </p>
+                </div>
+              )}
             </div>
           </Card>
         );
@@ -226,4 +249,4 @@ export function AlertsList({ alertas, onEliminar, onToggle, getValorActual }: Al
       />
     </div>
   );
-}
+});

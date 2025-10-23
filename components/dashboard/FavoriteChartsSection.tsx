@@ -5,7 +5,7 @@
  * Users can favorite/unfavorite charts from this view
  */
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { UniversalLightweightChart } from '@/components/charts/UniversalLightweightChart';
 import { FaChartLine, FaStar, FaGlobeAmericas, FaEuroSign, FaChartArea } from 'react-icons/fa';
 import type { ECBHistoricalData } from '@/hooks/useECBHistorical';
@@ -34,7 +34,7 @@ interface ChartConfig {
   getData: (props: FavoriteChartsSectionProps) => Array<{ date: string; value: number }> | null;
 }
 
-export function FavoriteChartsSection({
+export const FavoriteChartsSection = React.memo(function FavoriteChartsSection({
   favoriteChartIds,
   inflacionData,
   uvaData,
@@ -44,6 +44,10 @@ export function FavoriteChartsSection({
   onToggleChart,
 }: FavoriteChartsSectionProps) {
   const [selectedCategory, setSelectedCategory] = useState<ChartCategory>('favoritos');
+
+  const handleCategoryChange = useCallback((category: ChartCategory) => {
+    setSelectedCategory(category);
+  }, []);
 
   // Helper to calculate interannual data
   const calculateInterannualData = (inflacionData: InflacionData[] | undefined) => {
@@ -222,7 +226,7 @@ export function FavoriteChartsSection({
       {/* Category Tabs */}
       <div className="flex items-center gap-6 overflow-x-auto pb-3 mb-4 border-b border-slate-700/10">
         <button
-          onClick={() => setSelectedCategory('favoritos')}
+          onClick={() => handleCategoryChange('favoritos')}
           className={`pb-3 font-semibold text-sm transition-all whitespace-nowrap relative flex items-center gap-2 ${
             selectedCategory === 'favoritos' ? 'text-brand' : 'text-secondary hover:text-foreground'
           }`}
@@ -235,7 +239,7 @@ export function FavoriteChartsSection({
           )}
         </button>
         <button
-          onClick={() => setSelectedCategory('argentina')}
+          onClick={() => handleCategoryChange('argentina')}
           className={`pb-3 font-semibold text-sm transition-all whitespace-nowrap relative flex items-center gap-2 ${
             selectedCategory === 'argentina' ? 'text-brand' : 'text-secondary hover:text-foreground'
           }`}
@@ -248,7 +252,7 @@ export function FavoriteChartsSection({
           )}
         </button>
         <button
-          onClick={() => setSelectedCategory('fred')}
+          onClick={() => handleCategoryChange('fred')}
           className={`pb-3 font-semibold text-sm transition-all whitespace-nowrap relative flex items-center gap-2 ${
             selectedCategory === 'fred' ? 'text-brand' : 'text-secondary hover:text-foreground'
           }`}
@@ -261,7 +265,7 @@ export function FavoriteChartsSection({
           )}
         </button>
         <button
-          onClick={() => setSelectedCategory('ecb')}
+          onClick={() => handleCategoryChange('ecb')}
           className={`pb-3 font-semibold text-sm transition-all whitespace-nowrap relative flex items-center gap-2 ${
             selectedCategory === 'ecb' ? 'text-brand' : 'text-secondary hover:text-foreground'
           }`}
@@ -274,7 +278,7 @@ export function FavoriteChartsSection({
           )}
         </button>
         <button
-          onClick={() => setSelectedCategory('todos')}
+          onClick={() => handleCategoryChange('todos')}
           className={`pb-3 font-semibold text-sm transition-all whitespace-nowrap relative flex items-center gap-2 ${
             selectedCategory === 'todos' ? 'text-brand' : 'text-secondary hover:text-foreground'
           }`}
@@ -339,4 +343,4 @@ export function FavoriteChartsSection({
       </div>
     </div>
   );
-}
+});

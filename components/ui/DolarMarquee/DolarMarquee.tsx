@@ -67,7 +67,7 @@ export function DolarMarquee() {
         {/* Riesgo País */}
         {riesgoPais && (
           <Link
-            href="/dashboard/finanzas"
+            href="/dashboard"
             className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-background-secondary/50 transition-colors flex-shrink-0"
             title="Ver detalles de Riesgo País"
           >

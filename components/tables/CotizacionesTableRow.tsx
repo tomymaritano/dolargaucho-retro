@@ -35,7 +35,7 @@ interface CotizacionesTableRowProps {
   onToggleFavorite: (moneda: string) => void;
 }
 
-export function CotizacionesTableRow({
+export const CotizacionesTableRow = React.memo(function CotizacionesTableRow({
   cotizacion,
   isFavorite,
   historicalData,
@@ -194,4 +194,4 @@ export function CotizacionesTableRow({
       </TableRow>
     </React.Fragment>
   );
-}
+});

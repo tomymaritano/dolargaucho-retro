@@ -28,7 +28,7 @@ interface FavoritesListProps {
   onSelectItem?: (id: string) => void;
 }
 
-export function FavoritesList({
+export const FavoritesList = React.memo(function FavoritesList({
   items,
   selectedDolar,
   onToggleDolar,
@@ -180,4 +180,4 @@ export function FavoritesList({
       </TableBody>
     </Table>
   );
-}
+});

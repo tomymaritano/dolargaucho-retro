@@ -14,6 +14,7 @@
 import React, { useMemo } from 'react';
 import { LightweightAreaChart, AreaChartData } from './LightweightAreaChart';
 import type { CryptoData } from '@/types/api/crypto';
+import type { Time } from 'lightweight-charts';
 import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
 
 interface CryptoPriceChartProps {
@@ -22,7 +23,7 @@ interface CryptoPriceChartProps {
   showBaseline?: boolean;
 }
 
-export function CryptoPriceChart({
+export const CryptoPriceChart = React.memo(function CryptoPriceChart({
   crypto,
   height = 300,
   showBaseline = true,
@@ -38,7 +39,7 @@ export function CryptoPriceChart({
     const intervalMs = (30 * 24 * 60 * 60 * 1000) / prices.length; // 30 days divided by number of points
 
     return prices.map((price, index) => ({
-      time: Math.floor((now - (prices.length - index) * intervalMs) / 1000), // Convert to seconds
+      time: Math.floor((now - (prices.length - index) * intervalMs) / 1000) as Time, // Convert to seconds
       value: price,
     }));
   }, [crypto.sparkline_in_7d]);
@@ -118,4 +119,4 @@ export function CryptoPriceChart({
       </div>
     </div>
   );
-}
+});

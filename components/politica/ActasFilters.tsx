@@ -21,7 +21,7 @@ interface ActasFiltersProps {
   camara: Camara;
 }
 
-export function ActasFilters({
+export const ActasFilters = React.memo(function ActasFilters({
   searchTerm,
   onSearchChange,
   añoSeleccionado,
@@ -79,4 +79,4 @@ export function ActasFilters({
       </div>
     </Card>
   );
-}
+});

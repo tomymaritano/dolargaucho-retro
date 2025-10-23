@@ -1,39 +1,25 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Card } from '@/components/ui/Card/Card';
-import { FormularioActivo } from './FormularioActivo';
-import { ResultadosActivo } from './ResultadosActivo';
+import { CalculatorLayout } from '../CalculatorLayout';
+import { FormularioActivoCompact } from './FormularioActivoCompact';
 import { useComparativas } from './hooks/useComparativas';
 import { Activo } from './types';
 import { FaSpinner } from 'react-icons/fa';
 import { HelpButton } from '@/components/ui/HelpButton/HelpButton';
+import { MetricCard, CollapsibleSection } from '../shared';
+import { RentabilidadCharts } from './RentabilidadCharts';
 
 const FAQ_ACTIVOS = [
   {
     question: '¿Qué es rentabilidad nominal vs real?',
     answer:
-      '<strong>Nominal:</strong> Es la ganancia sin considerar la inflación. Por ejemplo, si compraste un auto en $1M y hoy vale $5M, ganaste 400% nominal.<br><br><strong>Real:</strong> Es la ganancia ajustada por inflación, el <em>valor verdadero</em>. Si la inflación fue 500%, en realidad perdiste dinero en términos reales.',
+      '<strong>Nominal:</strong> Ganancia sin inflación. Ej: $1M → $5M = 400% nominal.<br><strong>Real:</strong> Ganancia ajustada por inflación.',
   },
   {
-    question: '¿Por qué mi inversión en USD muestra inflación?',
+    question: '¿Por qué USD muestra inflación?',
     answer:
-      'El dólar también pierde poder adquisitivo. La inflación estadounidense (2020-2024) fue ~22%. Tu inversión en USD debe superar ese porcentaje para realmente ganar valor. Estás protegido de la inflación <strong>argentina</strong>, pero no de la <strong>estadounidense</strong>.',
-  },
-  {
-    question: '¿De dónde vienen los datos?',
-    answer:
-      '<strong>Inflación Argentina:</strong> INDEC vía ArgentinaData API (datos oficiales mensuales)<br><strong>Inflación USD:</strong> FRED - Federal Reserve (CPI estadounidense)<br><strong>Cotización Dólar:</strong> DolarAPI (actualización diaria)<br><br>Nota: Las comparativas con dólar histórico usan aproximaciones.',
-  },
-  {
-    question: '¿Qué tan preciso es el resultado?',
-    answer:
-      '<strong>Inflación:</strong> Muy precisa (datos oficiales mensuales)<br><strong>Dólar histórico:</strong> Aproximada (sin API histórica disponible)<br><br><strong>Recomendación:</strong> Usar para análisis generales. Para decisiones financieras importantes, consultar con un asesor profesional.',
-  },
-  {
-    question: '¿Qué significa "Costo de Oportunidad"?',
-    answer:
-      'Es lo que <strong>dejaste de ganar</strong> al elegir esta inversión en lugar de alternativas. Por ejemplo, si tu auto ganó 400% pero el dólar blue ganó 600%, tu costo de oportunidad fue 200% (lo que hubieras ganado invirtiendo en dólares).',
+      'El dólar también pierde poder adquisitivo (~22% en 2020-2024). Tu inversión USD debe superar la inflación estadounidense.',
   },
 ];
 
@@ -49,47 +35,112 @@ export function CalculadoraActivos({ showHeader = true }: CalculadoraActivosProp
     setActivo(nuevoActivo);
   };
 
+  const formatValue = (val: number) => {
+    return activo?.monedaCompra === 'USD'
+      ? `$${val.toFixed(0)}`
+      : `$${Math.round(val).toLocaleString('es-AR')}`;
+  };
+
   return (
-    <div className="mx-auto max-w-7xl">
-      <div className="space-y-6">
-        {/* Header with Help Button */}
-        {showHeader && (
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-xl font-bold text-foreground">Calculadora de Rentabilidad</h2>
-              <p className="text-sm text-secondary">
-                Analizá si tu inversión le ganó a la inflación
-              </p>
-            </div>
-            <HelpButton title="Ayuda - Rentabilidad de Activos" faqs={FAQ_ACTIVOS} />
+    <CalculatorLayout
+      title={
+        <>
+          Calculadora de <span className="gradient-text">Rentabilidad</span>
+        </>
+      }
+      description="Analizá si tu inversión le ganó a la inflación"
+      showHeader={showHeader}
+      variant="sidebar"
+      sidebar={<FormularioActivoCompact onCalcular={handleCalcular} />}
+    >
+      {/* Help Button - Compact */}
+      {showHeader && (
+        <div className="absolute top-2 right-2">
+          <HelpButton title="Ayuda" faqs={FAQ_ACTIVOS} />
+        </div>
+      )}
+
+      {/* Loading */}
+      {isLoading && (
+        <div className="flex items-center justify-center h-64">
+          <div className="flex flex-col items-center gap-3">
+            <FaSpinner className="animate-spin text-3xl text-brand" />
+            <p className="text-sm text-secondary">Calculando...</p>
           </div>
-        )}
+        </div>
+      )}
 
-        {/* Formulario */}
-        <Card variant="elevated" padding="lg">
-          <FormularioActivo onCalcular={handleCalcular} />
-        </Card>
+      {/* Results - Compact */}
+      {!isLoading && resultado && activo && (
+        <div className="space-y-3">
+          {/* Main Metrics */}
+          <div className="grid grid-cols-2 gap-3">
+            <MetricCard
+              label="Rent. Nominal"
+              value={`${resultado.rentabilidadNominal.toFixed(1)}%`}
+              sublabel={formatValue(resultado.gananciaAbsoluta)}
+              variant={resultado.rentabilidadNominal >= 0 ? 'success' : 'error'}
+            />
 
-        {/* Loading State */}
-        {isLoading && (
-          <Card variant="elevated" padding="lg">
-            <div className="flex flex-col items-center justify-center py-12 gap-4">
-              <FaSpinner className="animate-spin text-4xl text-brand" />
-              <p className="text-secondary">Calculando rentabilidad...</p>
-            </div>
-          </Card>
-        )}
+            <MetricCard
+              label="Rent. Real"
+              value={`${resultado.rentabilidadReal.toFixed(1)}%`}
+              sublabel={`Infl: ${resultado.inflacionAcumulada.toFixed(0)}%`}
+              variant={resultado.rentabilidadReal >= 0 ? 'success' : 'error'}
+            />
+          </div>
 
-        {/* Resultados */}
-        {!isLoading && resultado && activo && (
-          <ResultadosActivo
-            resultado={resultado}
-            precioCompra={activo.precioCompra}
-            precioVenta={activo.precioVenta}
-            moneda={activo.monedaCompra}
-          />
-        )}
-      </div>
-    </div>
+          {/* Charts - Compact */}
+          <div className="mt-3">
+            <RentabilidadCharts
+              rentabilidadNominal={resultado.rentabilidadNominal}
+              rentabilidadReal={resultado.rentabilidadReal}
+              inflacionAcumulada={resultado.inflacionAcumulada}
+              precioCompra={activo.precioCompra}
+              gananciaReal={resultado.gananciaReal}
+            />
+          </div>
+
+          {/* Comparativas - Collapsible */}
+          {resultado.comparativas && (
+            <CollapsibleSection title="Alternativas de Inversión">
+              <div className="space-y-2">
+                {Object.entries(resultado.comparativas).map(([key, comp]) => (
+                  <div
+                    key={key}
+                    className="flex justify-between items-center p-2 bg-background-dark/30 rounded"
+                  >
+                    <span className="text-xs text-secondary capitalize">
+                      {key.replace('_', ' ')}
+                    </span>
+                    <div className="text-right">
+                      <div className="text-sm font-mono font-bold text-foreground">
+                        {comp.rentabilidad.toFixed(1)}%
+                      </div>
+                      <div
+                        className={`text-xs ${(comp.diferencia || 0) >= 0 ? 'text-success' : 'text-error'}`}
+                      >
+                        {(comp.diferencia || 0) >= 0 ? '+' : ''}
+                        {(comp.diferencia || 0).toFixed(1)}%
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CollapsibleSection>
+          )}
+        </div>
+      )}
+
+      {/* Empty State */}
+      {!isLoading && !resultado && (
+        <div className="flex items-center justify-center h-64 text-center">
+          <div>
+            <p className="text-sm text-secondary mb-2">Completá los datos en el sidebar</p>
+            <p className="text-xs text-secondary">Analizaremos la rentabilidad de tu inversión</p>
+          </div>
+        </div>
+      )}
+    </CalculatorLayout>
   );
 }

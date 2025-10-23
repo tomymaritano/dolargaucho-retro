@@ -25,19 +25,17 @@ const footerSections = [
     links: [
       { label: 'Dashboard', href: '/dashboard' },
       { label: 'Mercados', href: '/dashboard/mercados' },
-      { label: 'Economía', href: '/dashboard/economia' },
       { label: 'Herramientas', href: '/dashboard/herramientas' },
-      { label: 'Política', href: '/dashboard/politica' },
+      { label: 'Análisis', href: '/dashboard/analisis' },
     ],
   },
   {
     title: 'Herramientas',
     icon: FaTools,
     links: [
-      { label: 'Calculadoras', href: '/dashboard/calculadoras' },
       { label: 'Alertas', href: '/dashboard/alertas' },
       { label: 'Calendario', href: '/dashboard/calendario' },
-      { label: 'Favoritos', href: '/dashboard' },
+      { label: 'Favoritos', href: '/dashboard/favoritos' },
     ],
   },
   {
@@ -52,7 +50,7 @@ const footerSections = [
   },
 ];
 
-export function Footer() {
+export const Footer = React.memo(function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
@@ -211,4 +209,4 @@ export function Footer() {
       </div>
     </footer>
   );
-}
+});

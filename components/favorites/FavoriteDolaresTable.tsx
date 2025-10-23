@@ -101,7 +101,10 @@ function ExpandedDolarChart({ casa, nombre }: { casa: string; nombre: string }) 
  *   onToggleFavorite={handleToggle}
  * />
  */
-export function FavoriteDolaresTable({ dolares, onToggleFavorite }: FavoriteDolaresTableProps) {
+export const FavoriteDolaresTable = React.memo(function FavoriteDolaresTable({
+  dolares,
+  onToggleFavorite,
+}: FavoriteDolaresTableProps) {
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
 
   if (!dolares || dolares.length === 0) {
@@ -208,4 +211,4 @@ export function FavoriteDolaresTable({ dolares, onToggleFavorite }: FavoriteDola
       </Table>
     </Card>
   );
-}
+});

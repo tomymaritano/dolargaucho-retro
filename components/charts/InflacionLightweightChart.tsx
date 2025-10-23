@@ -22,7 +22,7 @@ interface InflacionLightweightChartProps {
   height?: number;
 }
 
-export function InflacionLightweightChart({
+export const InflacionLightweightChart = React.memo(function InflacionLightweightChart({
   showInteranual: defaultShowInteranual = true,
   limit: defaultLimit = 12,
   height = 320,
@@ -244,4 +244,4 @@ export function InflacionLightweightChart({
       </div>
     </div>
   );
-}
+});

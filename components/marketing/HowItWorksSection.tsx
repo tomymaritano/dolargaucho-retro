@@ -46,7 +46,7 @@ const steps = [
   },
 ];
 
-export function HowItWorksSection() {
+export const HowItWorksSection = React.memo(function HowItWorksSection() {
   return (
     <section className="relative w-full py-20 sm:py-32 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
@@ -212,4 +212,4 @@ export function HowItWorksSection() {
       </div>
     </section>
   );
-}
+});

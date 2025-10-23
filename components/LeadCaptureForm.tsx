@@ -16,7 +16,7 @@ interface LeadCaptureFormProps {
   redirectOnSuccess?: boolean;
 }
 
-export function LeadCaptureForm({
+export const LeadCaptureForm = React.memo(function LeadCaptureForm({
   source = 'homepage',
   variant = 'card',
   title = 'Suscríbete al Newsletter',
@@ -182,4 +182,4 @@ export function LeadCaptureForm({
       {content}
     </Card>
   );
-}
+});

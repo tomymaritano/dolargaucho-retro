@@ -14,6 +14,7 @@
 import React, { useState, useMemo } from 'react';
 import { LightweightCandlestickChart, CandlestickData } from './LightweightCandlestickChart';
 import { useMultipleDolarHistoricoRange } from '@/hooks/useDolarHistoricoRange';
+import type { Time } from 'lightweight-charts';
 
 interface DolarCandlestickChartProps {
   defaultCasa?: string; // e.g., "blue", "oficial"
@@ -29,7 +30,7 @@ const DOLAR_TYPES = [
   { value: 'tarjeta', label: 'Tarjeta' },
 ] as const;
 
-export function DolarCandlestickChart({
+export const DolarCandlestickChart = React.memo(function DolarCandlestickChart({
   defaultCasa = 'blue',
   title,
   showCasaSelector = true,
@@ -63,7 +64,7 @@ export function DolarCandlestickChart({
       const low = Math.min(open, close, valor * 0.998);
 
       return {
-        time: new Date(point.fecha).getTime() / 1000, // Convert to seconds
+        time: (new Date(point.fecha).getTime() / 1000) as Time, // Convert to seconds
         open,
         high,
         low,
@@ -178,4 +179,4 @@ export function DolarCandlestickChart({
       </div>
     </div>
   );
-}
+});

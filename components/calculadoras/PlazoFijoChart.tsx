@@ -3,15 +3,17 @@
  *
  * Single Responsibility: Render plazo fijo evolution chart
  * Extracted from CalculadoraPlazoFijo.tsx
+ * Uses Lightweight Charts for professional visualization
  */
 
-import React, { useMemo } from 'react';
-import { Line } from 'react-chartjs-2';
-import { Chart, registerables, TooltipItem } from 'chart.js';
+'use client';
+
+import React, { useEffect, useRef } from 'react';
+import { createChart, ColorType, LineStyle, AreaSeries } from 'lightweight-charts';
+import type { IChartApi, ISeriesApi, Time } from 'lightweight-charts';
 import { CalculatorChartContainer } from './CalculatorLayout';
 import type { PlazoFijoResult } from '@/hooks/usePlazoFijoCalculation';
-
-Chart.register(...registerables);
+import type { NumericChartDataPoint, TickFormatter } from '@/types/charts';
 
 interface PlazoFijoChartProps {
   resultado: PlazoFijoResult;
@@ -27,95 +29,103 @@ const formatCurrency = (value: number) => {
 };
 
 export function PlazoFijoChart({ resultado }: PlazoFijoChartProps) {
-  const chartData = useMemo(
-    () => ({
-      labels: resultado.chartLabels,
-      datasets: [
-        {
-          label: 'Capital Total (ARS)',
-          data: resultado.chartData,
-          borderColor: '#10B981',
-          backgroundColor: 'rgba(16, 185, 129, 0.1)',
-          fill: true,
-          pointRadius: 3,
-          pointHoverRadius: 5,
-          pointBackgroundColor: '#10B981',
-          pointBorderColor: '#fff',
-          tension: 0.4,
-          borderWidth: 3,
-        },
-      ],
-    }),
-    [resultado]
-  );
+  const chartContainerRef = useRef<HTMLDivElement>(null);
+  const chartRef = useRef<IChartApi | null>(null);
+  const seriesRef = useRef<ISeriesApi<'Area'> | null>(null);
 
-  const chartOptions = useMemo(
-    () => ({
-      responsive: true,
-      maintainAspectRatio: false,
-      interaction: {
-        mode: 'index' as const,
-        intersect: false,
+  useEffect(() => {
+    if (!chartContainerRef.current || !resultado.chartData.length) return;
+
+    // Convertir datos al formato de Lightweight Charts
+    // Usamos índices numéricos como time (válido en Lightweight Charts)
+    const chartData: NumericChartDataPoint[] = resultado.chartData.map((value, index) => ({
+      time: index as Time,
+      value: value,
+    }));
+
+    // Create chart
+    const chart = createChart(chartContainerRef.current, {
+      width: chartContainerRef.current.clientWidth,
+      height: chartContainerRef.current.clientHeight || 320,
+      layout: {
+        background: { type: ColorType.Solid, color: 'transparent' },
+        textColor: '#9CA3AF',
+        fontSize: 11,
       },
-      plugins: {
-        legend: {
-          display: false,
-        },
-        tooltip: {
-          enabled: true,
-          backgroundColor: 'rgba(18, 23, 46, 0.95)',
-          titleColor: '#fff',
-          bodyColor: '#10B981',
-          borderColor: 'rgba(16, 185, 129, 0.2)',
-          borderWidth: 1,
-          padding: 12,
-          displayColors: false,
-          callbacks: {
-            title: (tooltipItems: TooltipItem<'line'>[]) => {
-              return tooltipItems[0].label;
-            },
-            label: (tooltipItem: TooltipItem<'line'>) => {
-              const value = tooltipItem.raw as number;
-              return `Total: ${formatCurrency(value)}`;
-            },
-          },
-        },
+      grid: {
+        vertLines: { color: 'rgba(148, 163, 184, 0.1)' },
+        horzLines: { color: 'rgba(148, 163, 184, 0.1)' },
       },
-      scales: {
-        y: {
-          beginAtZero: false,
-          grid: {
-            color: 'rgba(255, 255, 255, 0.1)',
-            drawBorder: true,
-            borderColor: 'rgba(255, 255, 255, 0.2)',
-          },
-          ticks: {
-            color: '#9CA3AF',
-            font: { size: 11 },
-            callback: (value: number | string) => formatCurrency(Number(value)),
-          },
+      crosshair: {
+        mode: 1,
+        vertLine: {
+          color: 'rgba(16, 185, 129, 0.5)',
+          width: 1,
+          style: LineStyle.Dashed,
         },
-        x: {
-          grid: {
-            color: 'rgba(255, 255, 255, 0.1)',
-            drawBorder: true,
-            borderColor: 'rgba(255, 255, 255, 0.2)',
-          },
-          ticks: {
-            color: '#9CA3AF',
-            font: { size: 11 },
-            maxRotation: 45,
-            minRotation: 45,
-          },
+        horzLine: {
+          color: 'rgba(16, 185, 129, 0.5)',
+          width: 1,
+          style: LineStyle.Dashed,
         },
       },
-    }),
-    []
-  );
+      rightPriceScale: {
+        borderColor: 'rgba(148, 163, 184, 0.2)',
+      },
+      timeScale: {
+        borderColor: 'rgba(148, 163, 184, 0.2)',
+        timeVisible: false,
+        tickMarkFormatter: ((time: Time) => {
+          const index = typeof time === 'number' ? time : 0;
+          return resultado.chartLabels[index] || '';
+        }) as TickFormatter,
+      },
+    });
+
+    chartRef.current = chart;
+
+    // Add area series (verde porque plazo fijo siempre sube)
+    const areaSeries = chart.addSeries(AreaSeries, {
+      lineColor: '#10B981',
+      topColor: 'rgba(16, 185, 129, 0.28)',
+      bottomColor: 'rgba(16, 185, 129, 0.05)',
+      lineWidth: 3,
+    });
+
+    seriesRef.current = areaSeries;
+    areaSeries.setData(chartData);
+
+    // Fit content
+    chart.timeScale().fitContent();
+
+    // Handle resize
+    const handleResize = () => {
+      if (chartContainerRef.current && chartRef.current) {
+        chartRef.current.applyOptions({
+          width: chartContainerRef.current.clientWidth,
+        });
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      if (chartRef.current) {
+        chartRef.current.remove();
+        chartRef.current = null;
+      }
+    };
+  }, [resultado]);
 
   return (
     <CalculatorChartContainer title="Evolución del Capital">
-      <Line data={chartData} options={chartOptions} />
+      <div
+        ref={chartContainerRef}
+        className="rounded-lg"
+        style={{ width: '100%', height: '100%' }}
+      />
     </CalculatorChartContainer>
   );
 }

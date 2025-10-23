@@ -5,7 +5,7 @@
  * Extracted from FavoritesList.tsx for better separation of concerns
  */
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { TableRow, TableCell } from '@/components/ui/Table';
 import {
   FaStar,
@@ -95,7 +95,7 @@ function ExpandedCurrencyChart({ moneda, nombre }: { moneda: string; nombre: str
   );
 }
 
-export function FavoriteCurrencyRow({
+export const FavoriteCurrencyRow = React.memo(function FavoriteCurrencyRow({
   cotizacion,
   currencyHistorical,
   loadingHistorical,
@@ -118,6 +118,43 @@ export function FavoriteCurrencyRow({
         ? 'down'
         : 'neutral'
     : 'neutral';
+
+  const handleExpand = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      onExpand(`currency-${cotizacion.moneda}`);
+    },
+    [onExpand, cotizacion.moneda]
+  );
+
+  const handleToggle = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      onToggle(cotizacion.moneda);
+    },
+    [onToggle, cotizacion.moneda]
+  );
+
+  const handleCopy = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      navigator.clipboard.writeText(`${cotizacion.nombre}: $${cotizacion.venta.toFixed(2)}`);
+    },
+    [cotizacion.nombre, cotizacion.venta]
+  );
+
+  const handleShare = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      if (navigator.share) {
+        navigator.share({
+          title: cotizacion.nombre,
+          text: `${cotizacion.nombre}: $${cotizacion.venta.toFixed(2)}`,
+        });
+      }
+    },
+    [cotizacion.nombre, cotizacion.venta]
+  );
 
   return (
     <React.Fragment>
@@ -172,10 +209,7 @@ export function FavoriteCurrencyRow({
         <TableCell align="right">
           <div className="flex items-center justify-end gap-1">
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onExpand(`currency-${cotizacion.moneda}`);
-              }}
+              onClick={handleExpand}
               className={`p-2 rounded-lg transition-all hover:scale-110 active:scale-95 ${
                 isExpanded
                   ? 'bg-brand/10 text-brand hover:bg-brand/20'
@@ -187,10 +221,7 @@ export function FavoriteCurrencyRow({
               <FaChartLine className="text-sm" />
             </button>
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onToggle(cotizacion.moneda);
-              }}
+              onClick={handleToggle}
               className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 bg-brand/10 text-brand hover:bg-brand/20"
               aria-label="Quitar de favoritos"
               title="Quitar de favoritos"
@@ -198,12 +229,7 @@ export function FavoriteCurrencyRow({
               <FaStar className="text-sm" />
             </button>
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                navigator.clipboard.writeText(
-                  `${cotizacion.nombre}: $${cotizacion.venta.toFixed(2)}`
-                );
-              }}
+              onClick={handleCopy}
               className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 bg-panel-hover text-foreground/70 hover:text-brand hover:bg-brand/10"
               aria-label="Copiar"
               title="Copiar valor"
@@ -211,15 +237,7 @@ export function FavoriteCurrencyRow({
               <FaCopy className="text-sm" />
             </button>
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                if (navigator.share) {
-                  navigator.share({
-                    title: cotizacion.nombre,
-                    text: `${cotizacion.nombre}: $${cotizacion.venta.toFixed(2)}`,
-                  });
-                }
-              }}
+              onClick={handleShare}
               className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 bg-panel-hover text-foreground/70 hover:text-brand hover:bg-brand/10"
               aria-label="Compartir"
               title="Compartir"
@@ -240,4 +258,4 @@ export function FavoriteCurrencyRow({
       )}
     </React.Fragment>
   );
-}
+});

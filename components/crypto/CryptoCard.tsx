@@ -28,7 +28,12 @@ interface CryptoCardProps {
   priceInArs?: number;
 }
 
-export function CryptoCard({ crypto, isFavorite, onToggleFavorite, priceInArs }: CryptoCardProps) {
+export const CryptoCard = React.memo(function CryptoCard({
+  crypto,
+  isFavorite,
+  onToggleFavorite,
+  priceInArs,
+}: CryptoCardProps) {
   const [copied, setCopied] = useState(false);
 
   const getTrendData = (percentage: number) => {
@@ -208,4 +213,4 @@ export function CryptoCard({ crypto, isFavorite, onToggleFavorite, priceInArs }:
       </div>
     </Card>
   );
-}
+});

@@ -32,7 +32,7 @@ const MESES = [
   'Diciembre',
 ];
 
-export function CalendarioMensual({
+export const CalendarioMensual = React.memo(function CalendarioMensual({
   mes,
   año,
   feriados,
@@ -246,4 +246,4 @@ export function CalendarioMensual({
       </div>
     </Card>
   );
-}
+});

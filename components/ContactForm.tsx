@@ -5,7 +5,7 @@ import Toast from './Toast';
 import { useToast } from '@/hooks/useToast';
 import { logger } from '@/lib/utils/logger';
 
-const CollaborationSection: React.FC = () => {
+const CollaborationSection = React.memo(function CollaborationSection() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -176,6 +176,6 @@ const CollaborationSection: React.FC = () => {
       </section>
     </>
   );
-};
+});
 
 export default CollaborationSection;

@@ -22,7 +22,7 @@ interface InflacionChartProps {
   onToggleFavorite?: () => void;
 }
 
-export function InflacionChart({
+export const InflacionChart = React.memo(function InflacionChart({
   showInteranual = true,
   limit = 12,
   isFavorite,
@@ -162,4 +162,4 @@ export function InflacionChart({
       </div>
     </div>
   );
-}
+});

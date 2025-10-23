@@ -21,7 +21,7 @@ interface RiesgoPaisLightweightChartProps {
   height?: number;
 }
 
-export function RiesgoPaisLightweightChart({
+export const RiesgoPaisLightweightChart = React.memo(function RiesgoPaisLightweightChart({
   limit: defaultLimit = 60,
   height = 320,
 }: RiesgoPaisLightweightChartProps) {
@@ -200,4 +200,4 @@ export function RiesgoPaisLightweightChart({
       </div>
     </div>
   );
-}
+});

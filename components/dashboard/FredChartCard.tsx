@@ -5,7 +5,7 @@
  * and professional hover effects
  */
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { FredLightweightChart } from '@/components/charts/FredLightweightChart';
 import { FaStar, FaRegStar } from 'react-icons/fa';
 import { formatFredValue, type FredIndicatorConfig } from '@/lib/utils/fredUtils';
@@ -18,23 +18,28 @@ interface FredChartCardProps {
   onToggleFavorite: (chartId: string) => void;
 }
 
-export function FredChartCard({
+export const FredChartCard = React.memo(function FredChartCard({
   data,
   latest,
   config,
   isFavorite,
   onToggleFavorite,
 }: FredChartCardProps) {
+  const handleToggleFavorite = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      onToggleFavorite(config.chartId);
+    },
+    [onToggleFavorite, config.chartId]
+  );
+
   return (
     <div className="group relative rounded-lg transition-all duration-300 overflow-hidden">
       {/* Content */}
       <div className="relative z-10">
         {/* Favorite button - absolute positioned */}
         <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onToggleFavorite(config.chartId);
-          }}
+          onClick={handleToggleFavorite}
           className={`absolute top-2 right-2 z-20 p-1.5 rounded-lg transition-all duration-300 hover:scale-110 active:scale-95 ${
             isFavorite
               ? 'bg-brand/20 text-brand'
@@ -58,4 +63,4 @@ export function FredChartCard({
       </div>
     </div>
   );
-}
+});

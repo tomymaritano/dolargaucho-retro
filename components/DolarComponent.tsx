@@ -10,7 +10,7 @@ type DolarData = {
   moneda: string;
 };
 
-const DolarComponent: React.FC = () => {
+const DolarComponent = React.memo(function DolarComponent() {
   const [exchangeRates, setExchangeRates] = useState<DolarData[]>([]);
   const [selectedCurrency, setSelectedCurrency] = useState('oficial');
   const [currentRate, setCurrentRate] = useState<number | null>(null);
@@ -176,6 +176,6 @@ const DolarComponent: React.FC = () => {
       )}
     </motion.div>
   );
-};
+});
 
 export default DolarComponent;

@@ -53,7 +53,7 @@ const features: Feature[] = [
     description:
       'Inflación (INDEC), tasas (BCRA), riesgo país, y datos de FRED (USA) y ECB (Europa).',
     metrics: '20+ indicadores',
-    href: '/dashboard/finanzas',
+    href: '/dashboard',
     color: 'from-green-500 to-emerald-500',
   },
   {
@@ -62,7 +62,7 @@ const features: Feature[] = [
     description:
       'Actas del Congreso, votaciones de senadores y diputados, estadísticas por bloque.',
     metrics: 'Congreso completo',
-    href: '/dashboard/politica',
+    href: '/dashboard',
     color: 'from-purple-500 to-pink-500',
   },
   {
@@ -85,7 +85,7 @@ const features: Feature[] = [
   },
 ];
 
-export function FeaturesSection() {
+export const FeaturesSection = React.memo(function FeaturesSection() {
   return (
     <section
       id="features"
@@ -173,4 +173,4 @@ export function FeaturesSection() {
       </div>
     </section>
   );
-}
+});

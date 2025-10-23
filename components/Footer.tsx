@@ -16,7 +16,7 @@ import { motion } from 'framer-motion';
 import { GradientText } from '@/components/ui/GradientText';
 import { SocialLinks } from '@/components/ui/SocialLinks';
 
-const Footer: React.FC = () => {
+const Footer = React.memo(function Footer() {
   const currentYear = new Date().getFullYear();
 
   const footerSections = [
@@ -173,6 +173,6 @@ const Footer: React.FC = () => {
       </div>
     </footer>
   );
-};
+});
 
 export default Footer;

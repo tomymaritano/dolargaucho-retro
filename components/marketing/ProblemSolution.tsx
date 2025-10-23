@@ -26,7 +26,7 @@ const afterItems = [
   'Alertas ilimitadas configurables por precio',
 ];
 
-export function ProblemSolution() {
+export const ProblemSolution = React.memo(function ProblemSolution() {
   return (
     <section className="relative w-full py-20 sm:py-28 overflow-hidden">
       {/* Subtle gradient background */}
@@ -220,4 +220,4 @@ export function ProblemSolution() {
       </div>
     </section>
   );
-}
+});

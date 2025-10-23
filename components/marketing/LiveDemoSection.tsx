@@ -15,7 +15,7 @@ import { GradientText } from '@/components/ui/GradientText';
 import { NumberTicker } from '@/components/ui/NumberTicker';
 import { LinkButton } from '@/components/ui/Button';
 
-export function LiveDemoSection() {
+export const LiveDemoSection = React.memo(function LiveDemoSection() {
   return (
     <section id="demo" className="relative w-full py-20 sm:py-28 bg-background">
       <div className="max-w-7xl mx-auto px-6">
@@ -180,4 +180,4 @@ export function LiveDemoSection() {
       </div>
     </section>
   );
-}
+});

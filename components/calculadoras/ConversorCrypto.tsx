@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaBitcoin } from 'react-icons/fa';
+import { Card } from '@/components/ui/Card/Card';
 
 export default function CryptoCalculator() {
   const [btcAmount, setBtcAmount] = useState(0.1);
@@ -24,7 +25,11 @@ export default function CryptoCalculator() {
         </p>
       </div>
 
-      <div className="glass-strong p-5 rounded-xl border border-white/5 mb-6">
+      <Card
+        variant="elevated"
+        padding="md"
+        className="border border-border mb-6 hover:border-brand/40 transition-all duration-300"
+      >
         <label className="text-xs font-semibold uppercase tracking-wider text-secondary mb-3 block">
           Cantidad en BTC
         </label>
@@ -32,16 +37,20 @@ export default function CryptoCalculator() {
           type="number"
           value={btcAmount}
           onChange={(e) => setBtcAmount(Number(e.target.value))}
-          className="w-full p-3 text-lg font-mono font-semibold bg-panel border border-white/5 rounded-lg focus:ring-1 focus:ring-brand focus:outline-none transition-all text-foreground"
+          className="w-full p-3 text-lg font-mono font-semibold bg-panel border border-border rounded-lg focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground"
           step="0.001"
           placeholder="0.1"
         />
-      </div>
+      </Card>
 
-      <div className="p-6 glass-strong rounded-xl border border-brand/20 text-center">
+      <Card
+        variant="elevated"
+        padding="lg"
+        className="border border-brand/20 bg-brand/5 text-center hover:border-brand/40 transition-all duration-300"
+      >
         <p className="text-xs uppercase tracking-wider text-secondary mb-2">Valor en ARS</p>
         <p className="text-3xl md:text-4xl font-bold font-mono text-brand">ARS {convertedAmount}</p>
-      </div>
+      </Card>
     </div>
   );
 }

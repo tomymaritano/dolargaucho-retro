@@ -11,7 +11,7 @@
  * - Acciones (Gráfico, Favorito, Copy, Share)
  */
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { TableRow, TableCell } from '@/components/ui/Table';
 import {
   FaStar,
@@ -40,7 +40,13 @@ interface CryptoTableRowProps {
 /**
  * Expanded chart component for a specific cryptocurrency
  */
-function ExpandedCryptoChart({ cryptoId, name }: { cryptoId: string; name: string }) {
+const ExpandedCryptoChart = React.memo(function ExpandedCryptoChart({
+  cryptoId,
+  name,
+}: {
+  cryptoId: string;
+  name: string;
+}) {
   const { data: chartDataRange, isLoading } = useCryptoHistoricoRange(cryptoId, 365);
 
   if (isLoading) {
@@ -89,9 +95,9 @@ function ExpandedCryptoChart({ cryptoId, name }: { cryptoId: string; name: strin
       </div>
     </div>
   );
-}
+});
 
-export function CryptoTableRow({
+export const CryptoTableRow = React.memo(function CryptoTableRow({
   crypto,
   index,
   isFavorite,
@@ -123,6 +129,24 @@ export function CryptoTableRow({
     if (value >= 1_000_000_000) return `$${(value / 1_000_000_000).toFixed(2)}B`;
     return `$${(value / 1_000_000).toFixed(2)}M`;
   };
+
+  const handleToggleExpand = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsExpanded((prev) => !prev);
+  }, []);
+
+  const handleCopyValue = useCallback(() => {
+    navigator.clipboard.writeText(`${crypto.name}: ${formatPrice(crypto.current_price)}`);
+  }, [crypto.name, crypto.current_price]);
+
+  const handleShare = useCallback(() => {
+    if (navigator.share) {
+      navigator.share({
+        title: crypto.name,
+        text: `${crypto.name}: ${formatPrice(crypto.current_price)}`,
+      });
+    }
+  }, [crypto.name, crypto.current_price]);
 
   return (
     <React.Fragment>
@@ -239,10 +263,7 @@ export function CryptoTableRow({
         <TableCell align="right">
           <div className="flex items-center justify-end gap-1">
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsExpanded(!isExpanded);
-              }}
+              onClick={handleToggleExpand}
               className={`p-2 rounded-lg transition-all hover:scale-110 active:scale-95 ${
                 isExpanded
                   ? 'bg-brand/10 text-brand hover:bg-brand/20'
@@ -266,11 +287,7 @@ export function CryptoTableRow({
               {isFavorite ? <FaStar className="text-sm" /> : <FaRegStar className="text-sm" />}
             </button>
             <button
-              onClick={() => {
-                navigator.clipboard.writeText(
-                  `${crypto.name}: ${formatPrice(crypto.current_price)}`
-                );
-              }}
+              onClick={handleCopyValue}
               className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 bg-panel-hover text-foreground/70 hover:text-brand hover:bg-brand/10"
               aria-label="Copiar"
               title="Copiar valor"
@@ -278,14 +295,7 @@ export function CryptoTableRow({
               <FaCopy className="text-sm" />
             </button>
             <button
-              onClick={() => {
-                if (navigator.share) {
-                  navigator.share({
-                    title: crypto.name,
-                    text: `${crypto.name}: ${formatPrice(crypto.current_price)}`,
-                  });
-                }
-              }}
+              onClick={handleShare}
               className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 bg-panel-hover text-foreground/70 hover:text-brand hover:bg-brand/10"
               aria-label="Compartir"
               title="Compartir"
@@ -306,4 +316,4 @@ export function CryptoTableRow({
       )}
     </React.Fragment>
   );
-}
+});

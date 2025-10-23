@@ -1,32 +1,38 @@
 /**
- * StrategyComparisonGrid Component
- *
- * Single Responsibility: Display grid comparison of all strategies
+ * Strategy Comparison Grid
+ * Compares all investment strategies side by side
  */
 
 import React from 'react';
 import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
-import { usePriceFormatters } from '@/hooks/usePriceFormatters';
-import type { StrategyMetrics } from '@/lib/utils/financialMetrics';
+import { Card } from '@/components/ui/Card/Card';
+import type { Estrategia } from '@/hooks/useMegaCalculadora';
 
 interface StrategyComparisonGridProps {
-  strategies: StrategyMetrics[];
+  estrategias: Estrategia[];
+  formatCurrency: (value: number) => string;
 }
 
-export function StrategyComparisonGrid({ strategies }: StrategyComparisonGridProps) {
-  const { formatPriceARS } = usePriceFormatters();
-
+export function StrategyComparisonGrid({
+  estrategias,
+  formatCurrency,
+}: StrategyComparisonGridProps) {
   return (
     <div className="mb-8">
       <h3 className="text-sm font-semibold text-foreground mb-4 uppercase tracking-wider">
         Comparación Completa de Estrategias
       </h3>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        {strategies.map((strategy, idx) => (
-          <div key={idx} className="p-5 rounded-xl border border-border glass-strong">
+        {estrategias.map((est, idx) => (
+          <Card
+            key={idx}
+            variant="elevated"
+            padding="md"
+            className="border border-border hover:border-brand/40 transition-all duration-300"
+          >
             <div className="flex items-center justify-between mb-4">
-              <h4 className="text-base font-bold text-foreground">{strategy.nombre}</h4>
-              {strategy.rendimientoReal > 0 ? (
+              <h4 className="text-base font-bold text-foreground">{est.nombre}</h4>
+              {est.rendimientoReal > 0 ? (
                 <FaArrowUp className="text-success text-lg" />
               ) : (
                 <FaArrowDown className="text-error text-lg" />
@@ -37,43 +43,41 @@ export function StrategyComparisonGrid({ strategies }: StrategyComparisonGridPro
               <div>
                 <p className="text-xs text-secondary uppercase">Rend. Nominal</p>
                 <p
-                  className={`font-semibold ${strategy.rendimiento > 0 ? 'text-success' : 'text-error'}`}
+                  className={`font-semibold ${est.rendimiento > 0 ? 'text-success' : 'text-error'}`}
                 >
-                  {strategy.rendimiento.toFixed(2)}%
+                  {est.rendimiento.toFixed(2)}%
                 </p>
               </div>
               <div>
                 <p className="text-xs text-secondary uppercase">Rend. Real</p>
                 <p
-                  className={`font-semibold ${strategy.rendimientoReal > 0 ? 'text-success' : 'text-error'}`}
+                  className={`font-semibold ${est.rendimientoReal > 0 ? 'text-success' : 'text-error'}`}
                 >
-                  {strategy.rendimientoReal.toFixed(2)}%
+                  {est.rendimientoReal.toFixed(2)}%
                 </p>
               </div>
               <div>
                 <p className="text-xs text-secondary uppercase">VAN</p>
-                <p className="font-semibold text-foreground">${formatPriceARS(strategy.van)}</p>
+                <p className="font-semibold text-foreground">{formatCurrency(est.van)}</p>
               </div>
               <div>
                 <p className="text-xs text-secondary uppercase">TIR Mensual</p>
-                <p className="font-semibold text-foreground">{strategy.tir.toFixed(3)}%</p>
+                <p className="font-semibold text-foreground">{est.tir.toFixed(3)}%</p>
               </div>
               <div>
                 <p className="text-xs text-secondary uppercase">Sharpe Ratio</p>
-                <p className="font-semibold text-foreground">{strategy.sharpe.toFixed(2)}</p>
+                <p className="font-semibold text-foreground">{est.sharpe.toFixed(2)}</p>
               </div>
               <div>
                 <p className="text-xs text-secondary uppercase">Volatilidad</p>
-                <p className="font-semibold text-warning">{strategy.riesgo.toFixed(1)}%</p>
+                <p className="font-semibold text-warning">{est.riesgo.toFixed(1)}%</p>
               </div>
               <div className="col-span-2">
                 <p className="text-xs text-secondary uppercase">Total Final</p>
-                <p className="font-bold text-foreground text-lg">
-                  ${formatPriceARS(strategy.total)}
-                </p>
+                <p className="font-bold text-foreground text-lg">{formatCurrency(est.total)}</p>
               </div>
             </div>
-          </div>
+          </Card>
         ))}
       </div>
     </div>

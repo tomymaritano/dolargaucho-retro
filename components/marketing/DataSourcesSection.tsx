@@ -71,7 +71,7 @@ const dataSources: DataSource[] = [
   },
 ];
 
-export function DataSourcesSection() {
+export const DataSourcesSection = React.memo(function DataSourcesSection() {
   return (
     <section className="relative w-full py-20 sm:py-28">
       <div className="max-w-7xl mx-auto px-6">
@@ -157,4 +157,4 @@ export function DataSourcesSection() {
       </div>
     </section>
   );
-}
+});

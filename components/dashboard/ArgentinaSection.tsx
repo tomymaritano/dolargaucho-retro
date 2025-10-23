@@ -50,7 +50,7 @@ interface ArgentinaSectionProps {
  * @param favoriteChartIds - Array of favorited chart IDs
  * @param onToggleChart - Function to toggle chart favorite status
  */
-export function ArgentinaSection({
+export const ArgentinaSection = React.memo(function ArgentinaSection({
   argentinaeLoading,
   uvaData,
   riesgoPaisData,
@@ -280,4 +280,4 @@ export function ArgentinaSection({
       </div>
     </Card>
   );
-}
+});

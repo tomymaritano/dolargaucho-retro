@@ -11,7 +11,7 @@
  * - User profile dropdown
  */
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -41,15 +41,11 @@ const menuItems = [
   { icon: FaStar, label: 'Favoritos', href: '/dashboard/favoritos' },
   { icon: FaChartLine, label: 'Análisis', href: '/dashboard/analisis' },
   { icon: FaCoins, label: 'Crypto', href: '/dashboard/crypto' },
-  { icon: FaGlobeAmericas, label: 'Economía', href: '/dashboard/economia' },
-  { icon: FaLandmark, label: 'Política', href: '/dashboard/politica' },
-  { icon: FaLandmark, label: 'Finanzas', href: '/dashboard/finanzas' },
-  { icon: FaCalculator, label: 'Calculadoras', href: '/dashboard/calculadoras' },
   { icon: FaBell, label: 'Alertas', href: '/dashboard/alertas' },
   { icon: FaCalendar, label: 'Calendario', href: '/dashboard/calendario' },
 ];
 
-export function DashboardNavbar() {
+export const DashboardNavbar = React.memo(function DashboardNavbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const router = useRouter();
@@ -67,10 +63,26 @@ export function DashboardNavbar() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleSignOut = async () => {
+  const handleSignOut = useCallback(async () => {
     await signOut();
     router.push('/');
-  };
+  }, [signOut, router]);
+
+  const handleMenuToggle = useCallback(() => {
+    setMenuOpen((prev) => !prev);
+  }, []);
+
+  const handleMenuClose = useCallback(() => {
+    setMenuOpen(false);
+  }, []);
+
+  const handleProfileToggle = useCallback(() => {
+    setProfileOpen((prev) => !prev);
+  }, []);
+
+  const handleProfileClose = useCallback(() => {
+    setProfileOpen(false);
+  }, []);
 
   return (
     <>
@@ -85,7 +97,7 @@ export function DashboardNavbar() {
           {/* Left: Hamburger + Logo */}
           <div className="flex items-center gap-4">
             <button
-              onClick={() => setMenuOpen(!menuOpen)}
+              onClick={handleMenuToggle}
               className="p-2 rounded-lg hover:bg-background-secondary/50 transition-colors"
               aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
             >
@@ -108,7 +120,7 @@ export function DashboardNavbar() {
             {/* User Profile Dropdown */}
             <div className="relative" ref={profileRef}>
               <button
-                onClick={() => setProfileOpen(!profileOpen)}
+                onClick={handleProfileToggle}
                 className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-background-secondary/50 transition-colors"
                 aria-label="Menú de usuario"
               >
@@ -134,7 +146,7 @@ export function DashboardNavbar() {
                     </div>
                     <Link
                       href="/dashboard/perfil"
-                      onClick={() => setProfileOpen(false)}
+                      onClick={handleProfileClose}
                       className="flex items-center gap-3 px-4 py-3 hover:bg-background-secondary transition-colors"
                     >
                       <FaUser className="text-sm text-foreground/70" />
@@ -165,7 +177,7 @@ export function DashboardNavbar() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              onClick={() => setMenuOpen(false)}
+              onClick={handleMenuClose}
               className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60]"
             />
 
@@ -185,7 +197,7 @@ export function DashboardNavbar() {
                     <h2 className="text-lg font-bold text-foreground">Dólar Gaucho</h2>
                   </div>
                   <button
-                    onClick={() => setMenuOpen(false)}
+                    onClick={handleMenuClose}
                     className="p-2 rounded-lg hover:bg-white/5 transition-colors"
                     aria-label="Cerrar menú"
                   >
@@ -221,7 +233,7 @@ export function DashboardNavbar() {
                         <Link
                           key={item.href}
                           href={item.href}
-                          onClick={() => setMenuOpen(false)}
+                          onClick={handleMenuClose}
                           className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group ${
                             isActive
                               ? 'bg-brand text-white shadow-lg shadow-brand/20'
@@ -252,7 +264,7 @@ export function DashboardNavbar() {
                         <Link
                           key={item.href}
                           href={item.href}
-                          onClick={() => setMenuOpen(false)}
+                          onClick={handleMenuClose}
                           className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group ${
                             isActive
                               ? 'bg-brand text-white shadow-lg shadow-brand/20'
@@ -283,7 +295,7 @@ export function DashboardNavbar() {
                         <Link
                           key={item.href}
                           href={item.href}
-                          onClick={() => setMenuOpen(false)}
+                          onClick={handleMenuClose}
                           className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group ${
                             isActive
                               ? 'bg-brand text-white shadow-lg shadow-brand/20'
@@ -317,4 +329,4 @@ export function DashboardNavbar() {
       </AnimatePresence>
     </>
   );
-}
+});

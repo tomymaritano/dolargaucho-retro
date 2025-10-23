@@ -10,7 +10,7 @@
  * - Fully responsive
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import {
   FaStar,
   FaRegStar,
@@ -112,7 +112,7 @@ function ExpandedDolarChart({ casa, nombre }: { casa: string; nombre: string }) 
   );
 }
 
-export function DolaresTable({
+export const DolaresTable = React.memo(function DolaresTable({
   dolares,
   isLoading,
   favoriteDolarIds,
@@ -173,14 +173,34 @@ export function DolaresTable({
     return sorted;
   }, [dolares, sortField, sortDirection, historicalData]);
 
-  const handleSort = (field: SortField) => {
-    if (sortField === field) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortField(field);
-      setSortDirection('asc');
+  const handleSort = useCallback(
+    (field: SortField) => {
+      if (sortField === field) {
+        setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+      } else {
+        setSortField(field);
+        setSortDirection('asc');
+      }
+    },
+    [sortField, sortDirection]
+  );
+
+  const handleToggleExpand = useCallback((casa: string) => {
+    setExpandedRow((prev) => (prev === casa ? null : casa));
+  }, []);
+
+  const handleCopyValue = useCallback((nombre: string, venta: number) => {
+    navigator.clipboard.writeText(`${nombre}: $${venta.toFixed(2)}`);
+  }, []);
+
+  const handleShare = useCallback((nombre: string, venta: number) => {
+    if (navigator.share) {
+      navigator.share({
+        title: nombre,
+        text: `${nombre}: $${venta.toFixed(2)}`,
+      });
     }
-  };
+  }, []);
 
   const SortIcon = ({ field }: { field: SortField }) => {
     if (sortField !== field) return <FaSort className="text-xs text-secondary/50" />;
@@ -376,7 +396,7 @@ export function DolaresTable({
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        setExpandedRow(isExpanded ? null : dolar.casa);
+                        handleToggleExpand(dolar.casa);
                       }}
                       className={`p-2 rounded-lg transition-all hover:scale-110 active:scale-95 ${
                         isExpanded
@@ -410,9 +430,7 @@ export function DolaresTable({
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        navigator.clipboard.writeText(
-                          `${dolar.nombre}: $${dolar.venta.toFixed(2)}`
-                        );
+                        handleCopyValue(dolar.nombre, dolar.venta);
                       }}
                       className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 bg-panel-hover text-foreground/70 hover:text-brand hover:bg-brand/10"
                       aria-label="Copiar"
@@ -423,12 +441,7 @@ export function DolaresTable({
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        if (navigator.share) {
-                          navigator.share({
-                            title: dolar.nombre,
-                            text: `${dolar.nombre}: $${dolar.venta.toFixed(2)}`,
-                          });
-                        }
+                        handleShare(dolar.nombre, dolar.venta);
                       }}
                       className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 bg-panel-hover text-foreground/70 hover:text-brand hover:bg-brand/10"
                       aria-label="Compartir"
@@ -454,4 +467,4 @@ export function DolaresTable({
       </TableBody>
     </Table>
   );
-}
+});

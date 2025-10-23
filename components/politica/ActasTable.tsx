@@ -15,7 +15,7 @@ interface ActasTableProps {
   limit: number;
 }
 
-export function ActasTable({ actas, limit }: ActasTableProps) {
+export const ActasTable = React.memo(function ActasTable({ actas, limit }: ActasTableProps) {
   const [expandedActa, setExpandedActa] = useState<number | null>(null);
 
   if (actas.length === 0) {
@@ -208,4 +208,4 @@ export function ActasTable({ actas, limit }: ActasTableProps) {
       )}
     </Card>
   );
-}
+});

@@ -13,7 +13,11 @@ interface ECBRateCardProps {
   onToggleCharts: () => void;
 }
 
-export function ECBRateCard({ rate, config, onToggleCharts }: ECBRateCardProps) {
+export const ECBRateCard = React.memo(function ECBRateCard({
+  rate,
+  config,
+  onToggleCharts,
+}: ECBRateCardProps) {
   return (
     <div
       className="p-4 rounded-lg glass border border-border hover:border-indigo-400/30 transition-all cursor-pointer"
@@ -26,4 +30,4 @@ export function ECBRateCard({ rate, config, onToggleCharts }: ECBRateCardProps) 
       <p className="text-[10px] text-secondary mt-1">{config.description}</p>
     </div>
   );
-}
+});

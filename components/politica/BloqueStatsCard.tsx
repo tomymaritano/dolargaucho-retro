@@ -5,7 +5,7 @@ import { useBloqueStats } from '@/hooks/usePolitica';
 import { Card } from '@/components/ui/Card/Card';
 import { FaUsers, FaSpinner, FaChartPie } from 'react-icons/fa';
 
-export function BloqueStatsCard() {
+export const BloqueStatsCard = React.memo(function BloqueStatsCard() {
   const { data: stats, isLoading } = useBloqueStats();
   const [showAll, setShowAll] = useState(false);
 
@@ -145,4 +145,4 @@ export function BloqueStatsCard() {
       </div>
     </Card>
   );
-}
+});

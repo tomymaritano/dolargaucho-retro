@@ -61,7 +61,12 @@ function catmullRomSpline(data: number[], pointsPerSegment: number = 20): number
   return result;
 }
 
-export function CryptoSparkline({ data, color, trend, isCrypto = false }: CryptoSparklineProps) {
+export const CryptoSparkline = React.memo(function CryptoSparkline({
+  data,
+  color,
+  trend,
+  isCrypto = false,
+}: CryptoSparklineProps) {
   // Usar datos directos sin interpolación
   // type="linear" da líneas COMPLETAMENTE RECTAS como Bloomberg/TradingView/CoinMarketCap
   // Esto es el estándar en dashboards financieros profesionales
@@ -109,4 +114,4 @@ export function CryptoSparkline({ data, color, trend, isCrypto = false }: Crypto
       </ResponsiveContainer>
     </div>
   );
-}
+});

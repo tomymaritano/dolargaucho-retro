@@ -29,7 +29,7 @@ interface ECBLightweightChartProps {
   height?: number;
 }
 
-export function ECBLightweightChart({
+export const ECBLightweightChart = React.memo(function ECBLightweightChart({
   data,
   title,
   color = '#6366f1',
@@ -187,4 +187,4 @@ export function ECBLightweightChart({
       </div>
     </div>
   );
-}
+});

@@ -33,7 +33,7 @@ interface UniversalLightweightChartProps {
   onToggleFavorite?: () => void;
 }
 
-export function UniversalLightweightChart({
+export const UniversalLightweightChart = React.memo(function UniversalLightweightChart({
   data,
   title,
   color = '#0047FF',
@@ -221,4 +221,4 @@ export function UniversalLightweightChart({
       </div>
     </div>
   );
-}
+});

@@ -14,7 +14,11 @@ interface ActasStatsCardsProps {
   extraordinarias: number;
 }
 
-export function ActasStatsCards({ total, ordinarias, extraordinarias }: ActasStatsCardsProps) {
+export const ActasStatsCards = React.memo(function ActasStatsCards({
+  total,
+  ordinarias,
+  extraordinarias,
+}: ActasStatsCardsProps) {
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
       <Card variant="elevated" padding="md">
@@ -42,4 +46,4 @@ export function ActasStatsCards({ total, ordinarias, extraordinarias }: ActasSta
       </Card>
     </div>
   );
-}
+});

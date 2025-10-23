@@ -18,7 +18,7 @@ interface RendimientosCalculatorProps {
   valorUVA?: number;
 }
 
-export function RendimientosCalculator({
+export const RendimientosCalculator = React.memo(function RendimientosCalculator({
   tasaPF = 0.75,
   valorUVA = 1000,
 }: RendimientosCalculatorProps) {
@@ -239,4 +239,4 @@ export function RendimientosCalculator({
       </div>
     </Card>
   );
-}
+});

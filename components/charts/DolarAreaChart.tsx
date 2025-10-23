@@ -11,7 +11,7 @@
 
 'use client';
 
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { createChart, ColorType, AreaSeries, LineSeries, BaselineSeries } from 'lightweight-charts';
 import type { IChartApi, ISeriesApi } from 'lightweight-charts';
 import { useMultipleDolarHistoricoRange } from '@/hooks/useDolarHistoricoRange';
@@ -35,7 +35,7 @@ const DOLAR_TYPES = [
   { value: 'tarjeta', label: 'Tarjeta' },
 ] as const;
 
-export function DolarAreaChart({
+export const DolarAreaChart = React.memo(function DolarAreaChart({
   defaultCasa = 'blue',
   title,
   showCasaSelector = true,
@@ -48,10 +48,14 @@ export function DolarAreaChart({
   // Use controlled casa if provided, otherwise use internal state
   const casa = selectedCasa !== undefined ? selectedCasa : internalCasa;
 
-  const handleCasaChange = (newCasa: string) => {
-    setInternalCasa(newCasa);
-    onCasaChange?.(newCasa);
-  };
+  const handleCasaChange = useCallback(
+    (newCasa: string) => {
+      setInternalCasa(newCasa);
+      onCasaChange?.(newCasa);
+    },
+    [onCasaChange]
+  );
+
   const [timeframe, setTimeframe] = useState<7 | 30 | 90 | 365>(30);
   const [showMA, setShowMA] = useState(true);
   const [showBaseline, setShowBaseline] = useState(true);
@@ -161,6 +165,19 @@ export function DolarAreaChart({
 
     return result;
   }, [chartData, showMA]);
+
+  // Event handlers
+  const handleTimeframeChange = useCallback((period: 7 | 30 | 90 | 365) => {
+    setTimeframe(period);
+  }, []);
+
+  const handleToggleMA = useCallback(() => {
+    setShowMA((prev) => !prev);
+  }, []);
+
+  const handleToggleBaseline = useCallback(() => {
+    setShowBaseline((prev) => !prev);
+  }, []);
 
   useEffect(() => {
     if (!chartContainerRef.current || chartData.length === 0) return;
@@ -342,7 +359,7 @@ export function DolarAreaChart({
             {([7, 30, 90, 365] as const).map((period) => (
               <button
                 key={period}
-                onClick={() => setTimeframe(period)}
+                onClick={() => handleTimeframeChange(period)}
                 className={`px-2.5 py-1 rounded text-[10px] font-bold transition-all ${
                   timeframe === period
                     ? 'bg-brand text-white'
@@ -357,7 +374,7 @@ export function DolarAreaChart({
           {/* Toggles */}
           <div className="bg-background/90 backdrop-blur-sm rounded-lg border border-white/5 p-1 flex gap-1">
             <button
-              onClick={() => setShowMA(!showMA)}
+              onClick={handleToggleMA}
               className={`px-2.5 py-1 rounded text-[10px] font-bold transition-all ${
                 showMA
                   ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30'
@@ -367,7 +384,7 @@ export function DolarAreaChart({
               MA7
             </button>
             <button
-              onClick={() => setShowBaseline(!showBaseline)}
+              onClick={handleToggleBaseline}
               className={`px-2.5 py-1 rounded text-[10px] font-bold transition-all ${
                 showBaseline
                   ? 'bg-brand/20 text-brand border border-brand/30'
@@ -410,4 +427,4 @@ export function DolarAreaChart({
       </div>
     </div>
   );
-}
+});

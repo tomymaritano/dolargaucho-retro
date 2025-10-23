@@ -10,7 +10,10 @@ interface GlobalSearchProps {
   onClose: () => void;
 }
 
-export function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
+export const GlobalSearch = React.memo(function GlobalSearch({
+  isOpen,
+  onClose,
+}: GlobalSearchProps) {
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
   const { results, isSearching } = useFuzzySearch(query);
@@ -95,8 +98,6 @@ export function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
         return 'Moneda';
       case 'page':
         return 'Página';
-      case 'calculator':
-        return 'Calculadora';
       default:
         return '';
     }
@@ -129,7 +130,7 @@ export function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Buscar cotizaciones, páginas, calculadoras..."
+              placeholder="Buscar cotizaciones, páginas..."
               className="flex-1 bg-transparent text-foreground placeholder-secondary focus:outline-none text-lg"
               aria-label="Campo de búsqueda"
             />
@@ -236,4 +237,4 @@ export function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
       </div>
     </>
   );
-}
+});

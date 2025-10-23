@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaArrowUp, FaArrowDown, FaExternalLinkAlt } from 'react-icons/fa';
+import { Card } from '@/components/ui/Card/Card';
 
 interface FredDataMetric {
   latest: number;
@@ -37,7 +38,11 @@ export function FREDStatsCards({
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       {/* Fed Funds Rate */}
-      <div className="p-4 rounded-lg glass border border-border hover:border-blue-400/30 transition-all">
+      <Card
+        variant="elevated"
+        padding="md"
+        className="border border-border hover:border-blue-400/30 transition-all duration-300"
+      >
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-xs font-semibold text-foreground">Tasa FED</h3>
           <span className="text-[10px] text-secondary">Fed Funds</span>
@@ -63,10 +68,14 @@ export function FREDStatsCards({
         >
           Ver en FRED <FaExternalLinkAlt className="text-[10px]" />
         </a>
-      </div>
+      </Card>
 
       {/* Inflation (CPI) */}
-      <div className="p-4 rounded-lg glass border border-border hover:border-blue-400/30 transition-all">
+      <Card
+        variant="elevated"
+        padding="md"
+        className="border border-border hover:border-blue-400/30 transition-all duration-300"
+      >
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-xs font-semibold text-foreground">Inflación</h3>
           <span className="text-[10px] text-secondary">CPI YoY</span>
@@ -85,10 +94,14 @@ export function FREDStatsCards({
         >
           Ver en FRED <FaExternalLinkAlt className="text-[10px]" />
         </a>
-      </div>
+      </Card>
 
       {/* GDP */}
-      <div className="p-4 rounded-lg glass border border-border hover:border-blue-400/30 transition-all">
+      <Card
+        variant="elevated"
+        padding="md"
+        className="border border-border hover:border-blue-400/30 transition-all duration-300"
+      >
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-xs font-semibold text-foreground">PIB</h3>
           <span className="text-[10px] text-secondary">Real GDP</span>
@@ -108,10 +121,14 @@ export function FREDStatsCards({
         >
           Ver en FRED <FaExternalLinkAlt className="text-[10px]" />
         </a>
-      </div>
+      </Card>
 
       {/* Unemployment */}
-      <div className="p-4 rounded-lg glass border border-border hover:border-blue-400/30 transition-all">
+      <Card
+        variant="elevated"
+        padding="md"
+        className="border border-border hover:border-blue-400/30 transition-all duration-300"
+      >
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-xs font-semibold text-foreground">Desempleo</h3>
           <span className="text-[10px] text-secondary">Rate</span>
@@ -130,7 +147,7 @@ export function FREDStatsCards({
         >
           Ver en FRED <FaExternalLinkAlt className="text-[10px]" />
         </a>
-      </div>
+      </Card>
     </div>
   );
 }

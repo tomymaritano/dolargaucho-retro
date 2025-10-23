@@ -10,7 +10,11 @@ interface TasasChartProps {
   onToggleFavorite?: () => void;
 }
 
-export function TasasChart({ limit = 10, isFavorite, onToggleFavorite }: TasasChartProps) {
+export const TasasChart = React.memo(function TasasChart({
+  limit = 10,
+  isFavorite,
+  onToggleFavorite,
+}: TasasChartProps) {
   const { data: tasas, isLoading } = useTasaPlazoFijo();
 
   const chartData = React.useMemo(() => {
@@ -130,4 +134,4 @@ export function TasasChart({ limit = 10, isFavorite, onToggleFavorite }: TasasCh
       </div>
     </div>
   );
-}
+});

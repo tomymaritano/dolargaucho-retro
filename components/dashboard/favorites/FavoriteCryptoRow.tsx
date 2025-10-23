@@ -5,7 +5,7 @@
  * Extracted from FavoritesList.tsx for better separation of concerns
  */
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { TableRow, TableCell } from '@/components/ui/Table';
 import {
   FaStar,
@@ -96,7 +96,7 @@ function formatPrice(price: number): string {
   }).format(price);
 }
 
-export function FavoriteCryptoRow({
+export const FavoriteCryptoRow = React.memo(function FavoriteCryptoRow({
   crypto,
   selectedDolar,
   isExpanded,
@@ -112,6 +112,43 @@ export function FavoriteCryptoRow({
 
   const trend24h = getTrendData(crypto.price_change_percentage_24h);
   const TrendIcon = trend24h.icon;
+
+  const handleExpand = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      onExpand(`crypto-${crypto.id}`);
+    },
+    [onExpand, crypto.id]
+  );
+
+  const handleToggle = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      onToggle(crypto.id);
+    },
+    [onToggle, crypto.id]
+  );
+
+  const handleCopy = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      navigator.clipboard.writeText(`${crypto.name}: ${formatPrice(crypto.current_price)}`);
+    },
+    [crypto.name, crypto.current_price]
+  );
+
+  const handleShare = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      if (navigator.share) {
+        navigator.share({
+          title: crypto.name,
+          text: `${crypto.name}: ${formatPrice(crypto.current_price)}`,
+        });
+      }
+    },
+    [crypto.name, crypto.current_price]
+  );
 
   return (
     <React.Fragment>
@@ -190,10 +227,7 @@ export function FavoriteCryptoRow({
         <TableCell align="right">
           <div className="flex items-center justify-end gap-1">
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onExpand(`crypto-${crypto.id}`);
-              }}
+              onClick={handleExpand}
               className={`p-2 rounded-lg transition-all hover:scale-110 active:scale-95 ${
                 isExpanded
                   ? 'bg-brand/10 text-brand hover:bg-brand/20'
@@ -205,10 +239,7 @@ export function FavoriteCryptoRow({
               <FaChartLine className="text-sm" />
             </button>
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onToggle(crypto.id);
-              }}
+              onClick={handleToggle}
               className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 bg-brand/10 text-brand hover:bg-brand/20"
               aria-label="Quitar de favoritos"
               title="Quitar de favoritos"
@@ -216,12 +247,7 @@ export function FavoriteCryptoRow({
               <FaStar className="text-sm" />
             </button>
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                navigator.clipboard.writeText(
-                  `${crypto.name}: ${formatPrice(crypto.current_price)}`
-                );
-              }}
+              onClick={handleCopy}
               className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 bg-panel-hover text-foreground/70 hover:text-brand hover:bg-brand/10"
               aria-label="Copiar"
               title="Copiar valor"
@@ -229,15 +255,7 @@ export function FavoriteCryptoRow({
               <FaCopy className="text-sm" />
             </button>
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                if (navigator.share) {
-                  navigator.share({
-                    title: crypto.name,
-                    text: `${crypto.name}: ${formatPrice(crypto.current_price)}`,
-                  });
-                }
-              }}
+              onClick={handleShare}
               className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 bg-panel-hover text-foreground/70 hover:text-brand hover:bg-brand/10"
               aria-label="Compartir"
               title="Compartir"
@@ -258,4 +276,4 @@ export function FavoriteCryptoRow({
       )}
     </React.Fragment>
   );
-}
+});

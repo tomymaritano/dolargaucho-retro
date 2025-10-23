@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import { Card } from '@/components/ui/Card/Card';
 
 interface CalculatorLayoutProps {
   title?: ReactNode;
@@ -6,14 +7,26 @@ interface CalculatorLayoutProps {
   children: ReactNode;
   maxWidth?: 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | '6xl' | '7xl' | 'full';
   showHeader?: boolean;
+  /**
+   * Layout variant:
+   * - 'default': Traditional centered card layout (legacy)
+   * - 'sidebar': Sidebar + results area layout (compact, professional)
+   */
+  variant?: 'default' | 'sidebar';
+  /**
+   * Sidebar content (only used when variant='sidebar')
+   */
+  sidebar?: ReactNode;
 }
 
-export function CalculatorLayout({
+export const CalculatorLayout = React.memo(function CalculatorLayout({
   title,
   description,
   children,
-  maxWidth = '6xl',
+  maxWidth = 'full',
   showHeader = true,
+  variant = 'default',
+  sidebar,
 }: CalculatorLayoutProps) {
   const maxWidthClasses = {
     md: 'max-w-md',
@@ -28,21 +41,52 @@ export function CalculatorLayout({
     full: 'max-w-full',
   };
 
+  // Sidebar layout: No card wrapper, grid layout
+  if (variant === 'sidebar') {
+    return (
+      <div className={`mx-auto text-foreground ${maxWidthClasses[maxWidth]}`}>
+        {/* Compact header for sidebar layout */}
+        {showHeader && title && description && (
+          <div className="mb-4">
+            <h2 className="text-lg font-bold mb-1">{title}</h2>
+            <p className="text-secondary text-xs">{description}</p>
+          </div>
+        )}
+
+        {/* Sidebar + Results Grid */}
+        <div className="flex gap-0 rounded-xl overflow-hidden bg-panel">
+          {/* Sidebar */}
+          {sidebar && <>{sidebar}</>}
+
+          {/* Results Area */}
+          <div className="flex-1 p-4 bg-background-dark/30">{children}</div>
+        </div>
+      </div>
+    );
+  }
+
+  // Default legacy layout: Centered card
   return (
     <div className={`mx-auto text-foreground ${maxWidthClasses[maxWidth]}`}>
       {/* Header */}
       {showHeader && title && description && (
-        <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-display font-bold mb-3">{title}</h2>
-          <p className="text-secondary text-base max-w-7xl mx-auto">{description}</p>
+        <div className="text-center mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold mb-2">{title}</h2>
+          <p className="text-secondary text-sm max-w-2xl mx-auto">{description}</p>
         </div>
       )}
 
-      {/* Main Content */}
-      <div className="glass-strong p-8 rounded-2xl border border-border">{children}</div>
+      {/* Main Content - Using Card component */}
+      <Card
+        variant="elevated"
+        padding="lg"
+        className="border border-border hover:border-brand/40 transition-all duration-300"
+      >
+        {children}
+      </Card>
     </div>
   );
-}
+});
 
 interface CalculatorInputProps {
   label: string;
@@ -56,7 +100,7 @@ interface CalculatorInputProps {
   className?: string;
 }
 
-export function CalculatorInput({
+export const CalculatorInput = React.memo(function CalculatorInput({
   label,
   value,
   onChange,
@@ -86,7 +130,7 @@ export function CalculatorInput({
       </div>
     </div>
   );
-}
+});
 
 interface CalculatorResultCardProps {
   label: string;
@@ -95,29 +139,68 @@ interface CalculatorResultCardProps {
   variant?: 'success' | 'error' | 'warning' | 'info';
 }
 
-export function CalculatorResultCard({
+export const CalculatorResultCard = React.memo(function CalculatorResultCard({
   label,
   value,
   sublabel,
   variant = 'success',
 }: CalculatorResultCardProps) {
   const variantStyles = {
-    success: 'bg-brand/5 border-brand/20 text-brand',
-    error: 'bg-error/5 border-error/20 text-error',
-    warning: 'bg-warning/5 border-warning/20 text-warning',
-    info: 'bg-brand-light/5 border-brand-light/20 text-brand-light',
+    success: 'bg-success/10 border-success/20 hover:border-success/40',
+    error: 'bg-error/10 border-error/20 hover:border-error/40',
+    warning: 'bg-warning/10 border-warning/20 hover:border-warning/40',
+    info: 'bg-brand/10 border-brand/20 hover:border-brand/40',
+  };
+
+  const valueColors = {
+    success: 'text-success',
+    error: 'text-error',
+    warning: 'text-warning',
+    info: 'text-brand',
+  };
+
+  const gradientColors = {
+    success: 'from-success/0 via-success/0 to-success/5',
+    error: 'from-error/0 via-error/0 to-error/5',
+    warning: 'from-warning/0 via-warning/0 to-warning/5',
+    info: 'from-brand/0 via-brand/0 to-brand/5',
   };
 
   return (
-    <div className={`p-6 rounded-xl border ${variantStyles[variant]}`}>
-      <p className="text-xs uppercase tracking-wider text-secondary mb-2">{label}</p>
-      <p className={`text-4xl font-bold font-mono ${variantStyles[variant].split(' ')[2]}`}>
-        {value}
-      </p>
-      {sublabel && <p className="text-xs text-secondary mt-2">{sublabel}</p>}
-    </div>
+    <Card
+      variant="solid"
+      padding="md"
+      className={`group relative border ${variantStyles[variant]} hover:scale-[1.02] transition-all duration-300 overflow-hidden cursor-pointer`}
+    >
+      {/* Professional gradient overlay on hover */}
+      <div
+        className={`absolute inset-0 bg-gradient-to-br ${gradientColors[variant]} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+      />
+
+      {/* Content */}
+      <div className="relative z-10">
+        <p className="text-xs uppercase tracking-wider text-secondary mb-1 font-medium group-hover:text-foreground/80 transition-colors duration-300">
+          {label}
+        </p>
+        <p
+          className={`text-3xl md:text-4xl font-bold font-mono ${valueColors[variant]} group-hover:scale-105 transition-transform duration-300`}
+        >
+          {value}
+        </p>
+        {sublabel && (
+          <p className="text-xs text-secondary mt-2 group-hover:text-foreground/70 transition-colors duration-300">
+            {sublabel}
+          </p>
+        )}
+      </div>
+
+      {/* Subtle shine effect on hover */}
+      <div
+        className={`absolute inset-0 bg-gradient-to-tr from-transparent via-${variant === 'info' ? 'brand' : variant}/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000`}
+      />
+    </Card>
   );
-}
+});
 
 interface CalculatorModeToggleProps {
   modes: { label: string; value: string }[];
@@ -125,7 +208,7 @@ interface CalculatorModeToggleProps {
   onModeChange: (mode: string) => void;
 }
 
-export function CalculatorModeToggle({
+export const CalculatorModeToggle = React.memo(function CalculatorModeToggle({
   modes,
   activeMode,
   onModeChange,
@@ -136,10 +219,10 @@ export function CalculatorModeToggle({
         <button
           key={mode.value}
           onClick={() => onModeChange(mode.value)}
-          className={`px-6 py-2 rounded-lg font-medium text-sm transition-all border ${
+          className={`px-6 py-2 rounded-lg font-medium text-sm transition-all duration-300 border ${
             activeMode === mode.value
-              ? 'bg-brand text-background-dark border-brand'
-              : 'glass border-border text-secondary hover:text-foreground hover:border-brand/30'
+              ? 'bg-brand text-background-dark border-brand scale-[1.02]'
+              : 'bg-panel border-border text-secondary hover:text-foreground hover:border-brand/30 hover:scale-[1.02] active:scale-95'
           }`}
         >
           {mode.label}
@@ -147,7 +230,7 @@ export function CalculatorModeToggle({
       ))}
     </div>
   );
-}
+});
 
 interface CalculatorInfoBannerProps {
   title: string;
@@ -156,7 +239,7 @@ interface CalculatorInfoBannerProps {
   loading?: boolean;
 }
 
-export function CalculatorInfoBanner({
+export const CalculatorInfoBanner = React.memo(function CalculatorInfoBanner({
   title,
   subtitle,
   value,
@@ -164,24 +247,41 @@ export function CalculatorInfoBanner({
 }: CalculatorInfoBannerProps) {
   if (loading) {
     return (
-      <div className="mb-8 text-center p-4 glass rounded-xl border border-border">
+      <Card variant="solid" padding="md" className="mb-6 text-center border border-border">
         <p className="text-sm text-secondary">Cargando datos...</p>
-      </div>
+      </Card>
     );
   }
 
   return (
-    <div className="mb-8 p-5 rounded-xl border border-brand/20 bg-brand/5 flex items-center justify-between">
-      <div>
-        <p className="text-xs uppercase tracking-wider text-secondary mb-1">{title}</p>
-        {subtitle && <p className="text-sm text-secondary">{subtitle}</p>}
+    <Card
+      variant="solid"
+      padding="md"
+      className="group mb-6 border border-brand/20 bg-brand/5 hover:bg-brand/10 hover:border-brand/40 transition-all duration-300 relative overflow-hidden"
+    >
+      {/* Subtle gradient on hover */}
+      <div className="absolute inset-0 bg-gradient-to-br from-brand/0 via-brand/0 to-brand/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+      <div className="relative z-10 flex items-center justify-between">
+        <div>
+          <p className="text-xs uppercase tracking-wider text-secondary mb-1 font-medium group-hover:text-brand-light/80 transition-colors duration-300">
+            {title}
+          </p>
+          {subtitle && (
+            <p className="text-xs text-secondary/80 group-hover:text-brand-light/60 transition-colors duration-300">
+              {subtitle}
+            </p>
+          )}
+        </div>
+        <div className="text-right">
+          <p className="text-3xl md:text-4xl font-bold font-mono text-brand group-hover:scale-105 transition-transform duration-300">
+            {value}
+          </p>
+        </div>
       </div>
-      <div className="text-right">
-        <p className="text-4xl font-bold font-mono text-brand">{value}</p>
-      </div>
-    </div>
+    </Card>
   );
-}
+});
 
 interface CalculatorChartContainerProps {
   title?: string;
@@ -189,15 +289,19 @@ interface CalculatorChartContainerProps {
   height?: string;
 }
 
-export function CalculatorChartContainer({
+export const CalculatorChartContainer = React.memo(function CalculatorChartContainer({
   title,
   children,
   height = 'h-80',
 }: CalculatorChartContainerProps) {
   return (
-    <div className="p-6 rounded-xl bg-panel/50 border border-border">
-      {title && <h3 className="text-sm font-semibold text-foreground mb-4">{title}</h3>}
+    <Card
+      variant="elevated"
+      padding="lg"
+      className="border border-border hover:border-brand/40 transition-all duration-300"
+    >
+      {title && <h3 className="text-sm font-semibold text-foreground mb-6">{title}</h3>}
       <div className={height}>{children}</div>
-    </div>
+    </Card>
   );
-}
+});

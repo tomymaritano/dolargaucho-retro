@@ -7,7 +7,10 @@ interface CryptoStatsCardsProps {
   favoriteCount: number;
 }
 
-export function CryptoStatsCards({ totalCryptos, favoriteCount }: CryptoStatsCardsProps) {
+export const CryptoStatsCards = React.memo(function CryptoStatsCards({
+  totalCryptos,
+  favoriteCount,
+}: CryptoStatsCardsProps) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       <Card variant="elevated" padding="md">
@@ -47,4 +50,4 @@ export function CryptoStatsCards({ totalCryptos, favoriteCount }: CryptoStatsCar
       </Card>
     </div>
   );
-}
+});

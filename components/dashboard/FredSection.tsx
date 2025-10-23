@@ -16,34 +16,7 @@ import {
   FaStar,
   FaRegStar,
 } from 'react-icons/fa';
-
-interface FredData {
-  federalFundsRate?: {
-    latest: number;
-    change: number;
-    changePercent: number;
-    data: Array<{ date: string; value: number }>;
-    lastUpdate: string;
-  };
-  inflationCPI?: {
-    latest: number;
-    yearOverYear: number;
-    data: Array<{ date: string; value: number }>;
-  };
-  gdp?: {
-    quarterlyGrowth: number;
-  };
-  unemploymentRate?: {
-    latest: number;
-    change: number;
-    changePercent: number;
-    data: Array<{ date: string; value: number }>;
-  };
-  treasury10y?: {
-    latest: number;
-    data: Array<{ date: string; value: number }>;
-  };
-}
+import type { FredData } from '@/types/api/fred';
 
 interface FredSectionProps {
   fredData: FredData | undefined;

@@ -32,11 +32,7 @@ export function RiesgoPaisBadge() {
       : 'text-success';
 
   return (
-    <Link
-      href="/dashboard/finanzas"
-      className="hidden md:block group"
-      title="Ver detalles de Riesgo País"
-    >
+    <Link href="/dashboard" className="hidden md:block group" title="Ver detalles de Riesgo País">
       <div className="flex flex-col gap-1 px-3 py-2 rounded-lg hover:bg-background-secondary/50 transition-colors cursor-pointer">
         <span className="text-[10px] text-secondary uppercase tracking-wider">Riesgo País</span>
         <div className="flex items-center gap-2">

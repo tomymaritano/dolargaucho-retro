@@ -5,7 +5,7 @@
  * Features: Sorting, sparklines, always-visible actions, hover effects
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import {
   Table,
   TableHeader,
@@ -100,7 +100,7 @@ function ExpandedCryptoChart({ cryptoId, name }: { cryptoId: string; name: strin
   );
 }
 
-export function CryptoTable({
+export const CryptoTable = React.memo(function CryptoTable({
   cryptos,
   selectedDolar,
   favoriteCryptoIds,
@@ -186,14 +186,46 @@ export function CryptoTable({
     return sorted;
   }, [cryptos, sortField, sortDirection, selectedDolar]);
 
-  const handleSort = (field: SortField) => {
-    if (sortField === field) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortField(field);
-      setSortDirection('asc');
+  const handleSort = useCallback(
+    (field: SortField) => {
+      if (sortField === field) {
+        setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+      } else {
+        setSortField(field);
+        setSortDirection('asc');
+      }
+    },
+    [sortField, sortDirection]
+  );
+
+  const handleToggleExpand = useCallback((id: string) => {
+    setExpandedRow((prev) => (prev === id ? null : id));
+  }, []);
+
+  const handleCopyValue = useCallback((name: string, price: number) => {
+    const formatted = new Intl.NumberFormat('es-AR', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: price < 1 ? 6 : 2,
+    }).format(price);
+    navigator.clipboard.writeText(`${name}: ${formatted}`);
+  }, []);
+
+  const handleShare = useCallback((name: string, price: number) => {
+    if (navigator.share) {
+      const formatted = new Intl.NumberFormat('es-AR', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: price < 1 ? 6 : 2,
+      }).format(price);
+      navigator.share({
+        title: name,
+        text: `${name}: ${formatted}`,
+      });
     }
-  };
+  }, []);
 
   const SortIcon = ({ field }: { field: SortField }) => {
     if (sortField !== field) return <FaSort className="text-xs text-secondary/50" />;
@@ -355,7 +387,7 @@ export function CryptoTable({
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        setExpandedRow(isExpanded ? null : crypto.id);
+                        handleToggleExpand(crypto.id);
                       }}
                       className={`p-2 rounded-lg transition-all hover:scale-110 active:scale-95 ${
                         isExpanded
@@ -389,9 +421,7 @@ export function CryptoTable({
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        navigator.clipboard.writeText(
-                          `${crypto.name}: ${formatPrice(crypto.current_price)}`
-                        );
+                        handleCopyValue(crypto.name, crypto.current_price);
                       }}
                       className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 bg-panel-hover text-foreground/70 hover:text-brand hover:bg-brand/10"
                       aria-label="Copiar"
@@ -402,12 +432,7 @@ export function CryptoTable({
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        if (navigator.share) {
-                          navigator.share({
-                            title: crypto.name,
-                            text: `${crypto.name}: ${formatPrice(crypto.current_price)}`,
-                          });
-                        }
+                        handleShare(crypto.name, crypto.current_price);
                       }}
                       className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 bg-panel-hover text-foreground/70 hover:text-brand hover:bg-brand/10"
                       aria-label="Compartir"
@@ -433,4 +458,4 @@ export function CryptoTable({
       </TableBody>
     </Table>
   );
-}
+});

@@ -13,7 +13,7 @@ import { FaCheckCircle, FaRocket } from 'react-icons/fa';
 import { GradientText } from '@/components/ui/GradientText';
 import { SocialLinks } from '@/components/ui/SocialLinks';
 
-export function FounderStory() {
+export const FounderStory = React.memo(function FounderStory() {
   return (
     <section className="relative w-full py-20 sm:py-28 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
@@ -351,4 +351,4 @@ export function FounderStory() {
       </div>
     </section>
   );
-}
+});

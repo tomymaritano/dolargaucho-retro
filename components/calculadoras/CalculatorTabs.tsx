@@ -86,7 +86,7 @@ export function CalculatorTabs({ activeTab, onTabChange }: CalculatorTabsProps) 
               <div className="flex items-start justify-between mb-4">
                 <div
                   className={`p-3 rounded-xl transition-all ${
-                    isActive ? 'bg-brand/20' : 'glass hover:bg-brand/10'
+                    isActive ? 'bg-brand/20' : 'bg-panel hover:bg-brand/10'
                   }`}
                 >
                   <tab.icon className={`text-xl ${isActive ? 'text-brand' : 'text-foreground'}`} />

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { Card } from '@/components/ui/Card/Card';
 import {
   useActasSenado,
@@ -27,7 +27,9 @@ interface ActasUnificadasProps {
   limit?: number;
 }
 
-export function ActasUnificadas({ limit = 50 }: ActasUnificadasProps) {
+export const ActasUnificadas = React.memo(function ActasUnificadas({
+  limit = 50,
+}: ActasUnificadasProps) {
   const currentYear = new Date().getFullYear();
   const [camara, setCamara] = useState<Camara>('senado');
   const [añoSeleccionado, setAñoSeleccionado] = useState<number | null>(null);
@@ -119,6 +121,35 @@ export function ActasUnificadas({ limit = 50 }: ActasUnificadasProps) {
     };
   }, [actas]);
 
+  // Event handlers
+  const handleSelectSenado = useCallback(() => {
+    setCamara('senado');
+    setAñoSeleccionado(null);
+    setSearchTerm('');
+  }, []);
+
+  const handleSelectDiputados = useCallback(() => {
+    setCamara('diputados');
+    setAñoSeleccionado(null);
+    setSearchTerm('');
+  }, []);
+
+  const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  }, []);
+
+  const handleYearChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+    setAñoSeleccionado(e.target.value ? Number(e.target.value) : null);
+  }, []);
+
+  const handleStopPropagation = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+  }, []);
+
+  const handleToggleExpand = useCallback((actaId: number) => {
+    setExpandedActa((prev) => (prev === actaId ? null : actaId));
+  }, []);
+
   const formatearFecha = (fechaStr: string) => {
     const fecha = new Date(fechaStr);
     return fecha.toLocaleDateString('es-AR', {
@@ -174,11 +205,7 @@ export function ActasUnificadas({ limit = 50 }: ActasUnificadasProps) {
           {/* Chamber toggle */}
           <div className="flex gap-2 p-1 bg-panel rounded-lg border border-border">
             <button
-              onClick={() => {
-                setCamara('senado');
-                setAñoSeleccionado(null);
-                setSearchTerm('');
-              }}
+              onClick={handleSelectSenado}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium transition-all ${
                 camara === 'senado'
                   ? 'bg-brand text-background shadow-lg'
@@ -189,11 +216,7 @@ export function ActasUnificadas({ limit = 50 }: ActasUnificadasProps) {
               <span>Senado</span>
             </button>
             <button
-              onClick={() => {
-                setCamara('diputados');
-                setAñoSeleccionado(null);
-                setSearchTerm('');
-              }}
+              onClick={handleSelectDiputados}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium transition-all ${
                 camara === 'diputados'
                   ? 'bg-brand text-background shadow-lg'
@@ -245,7 +268,7 @@ export function ActasUnificadas({ limit = 50 }: ActasUnificadasProps) {
               <input
                 type="text"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={handleSearchChange}
                 placeholder="Buscar por tipo, periodo, orden del día..."
                 className="w-full pl-10 pr-4 py-2.5 bg-panel border border-border rounded-lg text-foreground placeholder-secondary focus:outline-none focus:border-brand/50 focus:ring-2 focus:ring-brand/20 transition-all"
               />
@@ -259,7 +282,7 @@ export function ActasUnificadas({ limit = 50 }: ActasUnificadasProps) {
             </label>
             <select
               value={añoSeleccionado || ''}
-              onChange={(e) => setAñoSeleccionado(e.target.value ? Number(e.target.value) : null)}
+              onChange={handleYearChange}
               className="w-full px-4 py-2.5 bg-panel border border-border rounded-lg text-foreground focus:outline-none focus:border-brand/50 focus:ring-2 focus:ring-brand/20 transition-all"
             >
               <option value="">Todos los años</option>
@@ -354,7 +377,7 @@ export function ActasUnificadas({ limit = 50 }: ActasUnificadasProps) {
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center gap-1.5 px-2 py-1 text-xs text-foreground hover:text-brand transition-colors"
-                                onClick={(e) => e.stopPropagation()}
+                                onClick={handleStopPropagation}
                                 title="Ver PDF"
                               >
                                 <FaFileAlt />
@@ -362,7 +385,7 @@ export function ActasUnificadas({ limit = 50 }: ActasUnificadasProps) {
                               </a>
                             )}
                             <button
-                              onClick={() => setExpandedActa(isExpanded ? null : acta.id)}
+                              onClick={() => handleToggleExpand(acta.id)}
                               className="inline-flex items-center gap-1.5 px-2 py-1 text-xs text-secondary hover:text-foreground transition-colors"
                               title={isExpanded ? 'Ocultar detalles' : 'Ver detalles'}
                             >
@@ -444,7 +467,7 @@ export function ActasUnificadas({ limit = 50 }: ActasUnificadasProps) {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="inline-flex items-center gap-2 text-sm text-brand hover:underline"
-                                    onClick={(e) => e.stopPropagation()}
+                                    onClick={handleStopPropagation}
                                   >
                                     <FaExternalLinkAlt className="text-xs" />
                                     Abrir documento oficial en nueva pestaña
@@ -473,4 +496,4 @@ export function ActasUnificadas({ limit = 50 }: ActasUnificadasProps) {
       </Card>
     </div>
   );
-}
+});

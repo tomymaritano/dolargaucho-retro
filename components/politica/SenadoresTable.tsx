@@ -21,7 +21,7 @@ import {
   FaChevronRight,
 } from 'react-icons/fa';
 
-export function SenadoresTable() {
+export const SenadoresTable = React.memo(function SenadoresTable() {
   const { data: senadores, isLoading, error } = useSenadores();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedProvincia, setSelectedProvincia] = useState<string>('');
@@ -330,4 +330,4 @@ export function SenadoresTable() {
       )}
     </div>
   );
-}
+});

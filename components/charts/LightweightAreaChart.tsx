@@ -14,10 +14,10 @@
 
 import React, { useEffect, useRef } from 'react';
 import { createChart, ColorType, AreaSeries, BaselineSeries } from 'lightweight-charts';
-import type { IChartApi, ISeriesApi } from 'lightweight-charts';
+import type { IChartApi, ISeriesApi, Time } from 'lightweight-charts';
 
 export interface AreaChartData {
-  time: number; // Unix timestamp in seconds
+  time: Time; // Unix timestamp in seconds
   value: number;
 }
 
@@ -31,7 +31,7 @@ interface LightweightAreaChartProps {
   baselineValue?: number; // Reference value for baseline
 }
 
-export function LightweightAreaChart({
+export const LightweightAreaChart = React.memo(function LightweightAreaChart({
   data,
   width = '100%',
   height = 300,
@@ -99,8 +99,8 @@ export function LightweightAreaChart({
         lineWidth: 2,
       });
 
-      seriesRef.current = baselineSeries as any;
-      baselineSeries.setData(data as any);
+      seriesRef.current = baselineSeries;
+      baselineSeries.setData(data);
     } else {
       // Regular area series
       const areaSeries = chart.addSeries(AreaSeries, {
@@ -110,8 +110,8 @@ export function LightweightAreaChart({
         lineWidth: 2,
       });
 
-      seriesRef.current = areaSeries as any;
-      areaSeries.setData(data as any);
+      seriesRef.current = areaSeries;
+      areaSeries.setData(data);
     }
 
     // Fit content
@@ -152,4 +152,4 @@ export function LightweightAreaChart({
       />
     </div>
   );
-}
+});

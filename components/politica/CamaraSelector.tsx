@@ -13,7 +13,10 @@ interface CamaraSelectorProps {
   onChange: (camara: Camara) => void;
 }
 
-export function CamaraSelector({ camara, onChange }: CamaraSelectorProps) {
+export const CamaraSelector = React.memo(function CamaraSelector({
+  camara,
+  onChange,
+}: CamaraSelectorProps) {
   return (
     <div className="flex gap-2 p-1 bg-panel rounded-lg border border-border">
       <button
@@ -40,4 +43,4 @@ export function CamaraSelector({ camara, onChange }: CamaraSelectorProps) {
       </button>
     </div>
   );
-}
+});

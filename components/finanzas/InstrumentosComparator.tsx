@@ -33,7 +33,9 @@ interface Instrumento {
   recomendadoPara: string;
 }
 
-export function InstrumentosComparator({ tasaPF = 0.75 }: InstrumentosComparatorProps) {
+export const InstrumentosComparator = React.memo(function InstrumentosComparator({
+  tasaPF = 0.75,
+}: InstrumentosComparatorProps) {
   const instrumentos: Instrumento[] = [
     {
       nombre: 'Plazo Fijo Tradicional',
@@ -236,4 +238,4 @@ export function InstrumentosComparator({ tasaPF = 0.75 }: InstrumentosComparator
       </div>
     </Card>
   );
-}
+});

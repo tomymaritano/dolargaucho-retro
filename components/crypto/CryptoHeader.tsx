@@ -23,7 +23,7 @@ interface CryptoHeaderProps {
   onDolarTypeChange: (value: DolarType) => void;
 }
 
-export function CryptoHeader({
+export const CryptoHeader = React.memo(function CryptoHeader({
   search,
   onSearchChange,
   sortBy,
@@ -149,4 +149,4 @@ export function CryptoHeader({
       </div>
     </div>
   );
-}
+});

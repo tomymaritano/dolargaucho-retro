@@ -29,7 +29,7 @@ interface FredLightweightChartProps {
   height?: number;
 }
 
-export function FredLightweightChart({
+export const FredLightweightChart = React.memo(function FredLightweightChart({
   data,
   title,
   color = '#3b82f6',
@@ -187,4 +187,4 @@ export function FredLightweightChart({
       </div>
     </div>
   );
-}
+});

@@ -1,29 +1,8 @@
 'use client';
 
-import React from 'react';
-import { Line } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler,
-} from 'chart.js';
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler
-);
+import React, { useEffect, useRef } from 'react';
+import { createChart, ColorType, LineStyle, AreaSeries } from 'lightweight-charts';
+import type { IChartApi, ISeriesApi } from 'lightweight-charts';
 
 interface FredDataPoint {
   date: string;
@@ -36,107 +15,117 @@ interface FredChartProps {
   color?: string;
   yAxisLabel?: string;
   formatValue?: (value: number) => string;
-  showPoints?: boolean; // Nueva opción para mostrar puntos siempre
-  monthsToShow?: number; // Nueva opción para limitar meses
+  showPoints?: boolean;
+  monthsToShow?: number;
 }
 
-export function FredChart({
+export const FredChart = React.memo(function FredChart({
   data,
   title,
   color = '#3b82f6',
   yAxisLabel = 'Value',
   formatValue = (value: number) => value.toFixed(2),
-  showPoints = true, // Por defecto mostrar puntos (consistente)
-  monthsToShow = 12, // Por defecto 12 meses (consistente)
+  showPoints = true,
+  monthsToShow = 12,
 }: FredChartProps) {
-  // Limitar datos a los últimos N meses
-  const limitedData = data.slice(-monthsToShow);
+  const chartContainerRef = useRef<HTMLDivElement>(null);
+  const chartRef = useRef<IChartApi | null>(null);
+  const seriesRef = useRef<ISeriesApi<'Area'> | null>(null);
 
-  const labels = limitedData.map((point) => {
-    const date = new Date(point.date);
-    return date.toLocaleDateString('es-AR', { month: 'short', year: '2-digit' });
-  });
+  useEffect(() => {
+    if (!chartContainerRef.current || data.length === 0) return;
 
-  const values = limitedData.map((point) => point.value);
+    // Limitar datos a los últimos N meses
+    const limitedData = data.slice(-monthsToShow);
 
-  const chartData = {
-    labels,
-    datasets: [
-      {
-        label: title,
-        data: values,
-        borderColor: color,
-        backgroundColor: `${color}20`, // Transparencia consistente
-        fill: true,
-        tension: 0.4,
-        borderWidth: 2,
-        // Puntos visibles siempre (si showPoints = true)
-        pointRadius: showPoints ? 3 : 0,
-        pointHoverRadius: 6,
-        pointBackgroundColor: color,
-        pointBorderColor: '#fff',
-        pointBorderWidth: 1,
-        pointHoverBackgroundColor: color,
-        pointHoverBorderColor: '#fff',
-        pointHoverBorderWidth: 2,
-      },
-    ],
-  };
+    // Convertir datos al formato de Lightweight Charts
+    const chartData = limitedData.map((point) => ({
+      time: new Date(point.date).getTime() / 1000, // Unix timestamp en segundos
+      value: point.value,
+    }));
 
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: false,
+    // Create chart
+    const chart = createChart(chartContainerRef.current, {
+      width: chartContainerRef.current.clientWidth,
+      height: chartContainerRef.current.clientHeight || 200,
+      layout: {
+        background: { type: ColorType.Solid, color: 'transparent' },
+        textColor: '#94a3b8',
+        fontSize: 11,
       },
-      tooltip: {
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        titleColor: '#fff',
-        bodyColor: '#fff',
-        borderColor: color,
-        borderWidth: 1,
-        padding: 12,
-        displayColors: false,
-        callbacks: {
-          label: (context: any) => `${yAxisLabel}: ${formatValue(context.parsed.y)}`,
-        },
+      grid: {
+        vertLines: { visible: false },
+        horzLines: { color: 'rgba(148, 163, 184, 0.1)' },
       },
-    },
-    scales: {
-      x: {
-        grid: {
-          display: false,
+      crosshair: {
+        mode: 1,
+        vertLine: {
+          color: color,
+          width: 1,
+          style: LineStyle.Dashed,
+          labelBackgroundColor: color,
         },
-        ticks: {
-          color: '#94a3b8',
-          font: {
-            size: 11,
-          },
+        horzLine: {
+          color: color,
+          width: 1,
+          style: LineStyle.Dashed,
+          labelBackgroundColor: color,
         },
       },
-      y: {
-        grid: {
-          color: 'rgba(148, 163, 184, 0.1)',
-        },
-        ticks: {
-          color: '#94a3b8',
-          font: {
-            size: 11,
-          },
-          callback: (value: any) => formatValue(value),
-        },
+      rightPriceScale: {
+        borderColor: 'rgba(148, 163, 184, 0.2)',
       },
-    },
-    interaction: {
-      intersect: false,
-      mode: 'index' as const,
-    },
-  };
+      timeScale: {
+        borderColor: 'rgba(148, 163, 184, 0.2)',
+        timeVisible: true,
+        secondsVisible: false,
+      },
+    });
+
+    chartRef.current = chart;
+
+    // Add area series with gradient
+    const areaSeries = chart.addSeries(AreaSeries, {
+      lineColor: color,
+      topColor: `${color}33`, // 20% opacity
+      bottomColor: `${color}0D`, // 5% opacity
+      lineWidth: 2,
+    });
+
+    seriesRef.current = areaSeries;
+    areaSeries.setData(chartData as any);
+
+    // Fit content
+    chart.timeScale().fitContent();
+
+    // Handle resize
+    const handleResize = () => {
+      if (chartContainerRef.current && chartRef.current) {
+        chartRef.current.applyOptions({
+          width: chartContainerRef.current.clientWidth,
+        });
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      if (chartRef.current) {
+        chartRef.current.remove();
+        chartRef.current = null;
+      }
+    };
+  }, [data, color, monthsToShow]);
 
   return (
     <div style={{ position: 'relative', height: '100%', width: '100%' }}>
-      <Line data={chartData} options={options} />
+      <div
+        ref={chartContainerRef}
+        className="rounded-lg"
+        style={{ width: '100%', height: '100%' }}
+      />
     </div>
   );
-}
+});

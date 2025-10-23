@@ -68,7 +68,11 @@ export function ArgentinaUSAComparison({ argInflacion, fredData }: ArgentinaUSAC
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Inflation Comparison */}
-        <div className="p-5 rounded-lg glass border border-border">
+        <Card
+          variant="elevated"
+          padding="md"
+          className="border border-border hover:border-purple-400/40 transition-all duration-300"
+        >
           <h3 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
             📊 Inflación Anual
           </h3>
@@ -96,10 +100,14 @@ export function ArgentinaUSAComparison({ argInflacion, fredData }: ArgentinaUSAC
               </p>
             </div>
           </div>
-        </div>
+        </Card>
 
         {/* Economic Context */}
-        <div className="p-5 rounded-lg glass border border-border">
+        <Card
+          variant="elevated"
+          padding="md"
+          className="border border-border hover:border-purple-400/40 transition-all duration-300"
+        >
           <h3 className="text-sm font-semibold text-foreground mb-4">💹 Contexto Económico</h3>
           <div className="space-y-3 text-xs">
             <div className="flex items-center justify-between p-3 rounded-lg bg-background/50">
@@ -132,7 +140,7 @@ export function ArgentinaUSAComparison({ argInflacion, fredData }: ArgentinaUSAC
               </span>
             </div>
           </div>
-        </div>
+        </Card>
       </div>
     </Card>
   );

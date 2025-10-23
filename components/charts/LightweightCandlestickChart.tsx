@@ -20,10 +20,10 @@ import {
   LineSeries,
   HistogramSeries,
 } from 'lightweight-charts';
-import type { IChartApi, ISeriesApi } from 'lightweight-charts';
+import type { IChartApi, ISeriesApi, Time } from 'lightweight-charts';
 
 export interface CandlestickData {
-  time: number; // Unix timestamp in seconds
+  time: Time; // Unix timestamp in seconds
   open: number;
   high: number;
   low: number;
@@ -31,7 +31,7 @@ export interface CandlestickData {
 }
 
 export interface VolumeData {
-  time: number;
+  time: Time;
   value: number;
   color?: string;
 }
@@ -47,7 +47,7 @@ interface LightweightCandlestickChartProps {
   title?: string;
 }
 
-export function LightweightCandlestickChart({
+export const LightweightCandlestickChart = React.memo(function LightweightCandlestickChart({
   data,
   volumeData,
   width = '100%',
@@ -118,8 +118,8 @@ export function LightweightCandlestickChart({
       wickDownColor: '#ef4444',
     });
 
-    candlestickSeriesRef.current = candlestickSeries as any;
-    candlestickSeries.setData(data as any);
+    candlestickSeriesRef.current = candlestickSeries;
+    candlestickSeries.setData(data);
 
     // Add volume series if enabled
     if (showVolume && volumeData && volumeData.length > 0) {
@@ -131,15 +131,16 @@ export function LightweightCandlestickChart({
         priceScaleId: '', // Create separate price scale
       });
 
-      (volumeSeries as any).priceScale().applyOptions({
+      // Note: priceScale() method exists but may not be in type definitions
+      volumeSeries.priceScale().applyOptions({
         scaleMargins: {
           top: 0.7, // Volume takes bottom 30%
           bottom: 0,
         },
       });
 
-      volumeSeriesRef.current = volumeSeries as any;
-      volumeSeries.setData(volumeData as any);
+      volumeSeriesRef.current = volumeSeries;
+      volumeSeries.setData(volumeData);
     }
 
     // Add moving average if enabled
@@ -150,8 +151,8 @@ export function LightweightCandlestickChart({
         lineWidth: 2,
       });
 
-      maSeriesRef.current = maSeries as any;
-      maSeries.setData(maData as any);
+      maSeriesRef.current = maSeries;
+      maSeries.setData(maData);
     }
 
     // Fit content
@@ -192,7 +193,7 @@ export function LightweightCandlestickChart({
       />
     </div>
   );
-}
+});
 
 /**
  * Calculate Simple Moving Average (SMA)
@@ -200,8 +201,8 @@ export function LightweightCandlestickChart({
 function calculateSMA(
   data: CandlestickData[],
   period: number
-): Array<{ time: number; value: number }> {
-  const result: Array<{ time: number; value: number }> = [];
+): Array<{ time: Time; value: number }> {
+  const result: Array<{ time: Time; value: number }> = [];
 
   for (let i = period - 1; i < data.length; i++) {
     let sum = 0;

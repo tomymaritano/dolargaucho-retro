@@ -18,7 +18,9 @@ interface ConversorMonedaProps {
   showHeader?: boolean;
 }
 
-export default function ConversorMoneda({ showHeader = true }: ConversorMonedaProps) {
+const ConversorMoneda = React.memo(function ConversorMoneda({
+  showHeader = true,
+}: ConversorMonedaProps) {
   const [amount, setAmount] = useState<string>('1000');
   const [conversionType, setConversionType] = useState<ConversionType>('ars-to-usd');
   const [selectedCasa, setSelectedCasa] = useState<DolarCasa>('blue');
@@ -98,7 +100,7 @@ export default function ConversorMoneda({ showHeader = true }: ConversorMonedaPr
               className={`px-4 py-3 rounded-lg font-semibold text-sm transition-all border ${
                 selectedCasa === casa
                   ? 'bg-brand text-background-dark border-brand'
-                  : 'glass border-border text-secondary hover:text-foreground hover:border-brand/30'
+                  : 'bg-panel border-border text-secondary hover:text-foreground hover:border-brand/30'
               }`}
             >
               {DOLAR_LABELS[casa]}
@@ -230,4 +232,6 @@ export default function ConversorMoneda({ showHeader = true }: ConversorMonedaPr
       </div>
     </CalculatorLayout>
   );
-}
+});
+
+export default ConversorMoneda;

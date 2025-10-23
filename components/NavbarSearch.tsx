@@ -10,7 +10,7 @@
  * - Search across pages, features, and quick links
  */
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/router';
 import Fuse from 'fuse.js';
@@ -90,27 +90,6 @@ const SEARCH_INDEX: SearchResult[] = [
     category: 'Dashboard',
     description: 'Configura alertas de precios',
     icon: FaBell,
-  },
-  {
-    title: 'Economía',
-    path: '/dashboard/economia',
-    category: 'Dashboard',
-    description: 'Indicadores económicos',
-    icon: FaGlobeAmericas,
-  },
-  {
-    title: 'Finanzas',
-    path: '/dashboard/finanzas',
-    category: 'Dashboard',
-    description: 'Tasas y calculadoras',
-    icon: FaLandmark,
-  },
-  {
-    title: 'Política',
-    path: '/dashboard/politica',
-    category: 'Dashboard',
-    description: 'Noticias políticas',
-    icon: FaLandmark,
   },
   {
     title: 'Calendario',
@@ -220,21 +199,21 @@ const SEARCH_INDEX: SearchResult[] = [
   // Indicadores
   {
     title: 'Riesgo País',
-    path: '/dashboard/economia',
+    path: '/dashboard',
     category: 'Indicadores',
     description: 'Riesgo país Argentina',
     icon: FaChartBar,
   },
   {
     title: 'Inflación',
-    path: '/dashboard/economia',
+    path: '/dashboard',
     category: 'Indicadores',
     description: 'Índice de inflación',
     icon: FaChartBar,
   },
   {
     title: 'Reservas',
-    path: '/dashboard/economia',
+    path: '/dashboard',
     category: 'Indicadores',
     description: 'Reservas del BCRA',
     icon: FaChartBar,
@@ -250,7 +229,7 @@ const SEARCH_INDEX: SearchResult[] = [
   },
 ];
 
-export function NavbarSearch() {
+export const NavbarSearch = React.memo(function NavbarSearch() {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
@@ -277,6 +256,33 @@ export function NavbarSearch() {
       setResults([]);
     }
   }, [query, fuse]);
+
+  // Event handlers - defined before useEffect that uses them
+  const handleSelect = useCallback(
+    (path: string) => {
+      router.push(path);
+      setIsOpen(false);
+      setQuery('');
+    },
+    [router]
+  );
+
+  const handleClose = useCallback(() => {
+    setIsOpen(false);
+    setQuery('');
+  }, []);
+
+  const handleOpen = useCallback(() => {
+    setIsOpen(true);
+  }, []);
+
+  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+  }, []);
+
+  const handleResultMouseEnter = useCallback((index: number) => {
+    setSelectedIndex(index);
+  }, []);
 
   useEffect(() => {
     if (isOpen && inputRef.current) {
@@ -319,24 +325,13 @@ export function NavbarSearch() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, results, selectedIndex]);
-
-  const handleSelect = (path: string) => {
-    router.push(path);
-    setIsOpen(false);
-    setQuery('');
-  };
-
-  const handleClose = () => {
-    setIsOpen(false);
-    setQuery('');
-  };
+  }, [isOpen, results, selectedIndex, handleSelect]);
 
   return (
     <>
       {/* Search Button - Desktop */}
       <button
-        onClick={() => setIsOpen(true)}
+        onClick={handleOpen}
         className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10 hover:border-brand/30 hover:bg-white/10 text-secondary hover:text-foreground transition-all group"
       >
         <FaSearch className="text-xs group-hover:text-brand transition-colors" />
@@ -348,7 +343,7 @@ export function NavbarSearch() {
 
       {/* Search Button - Mobile */}
       <button
-        onClick={() => setIsOpen(true)}
+        onClick={handleOpen}
         className="sm:hidden p-2 rounded-lg hover:bg-white/10 text-secondary hover:text-foreground transition-all"
         aria-label="Buscar"
       >
@@ -387,7 +382,7 @@ export function NavbarSearch() {
                       ref={inputRef}
                       type="text"
                       value={query}
-                      onChange={(e) => setQuery(e.target.value)}
+                      onChange={handleInputChange}
                       placeholder="Buscar páginas, cotizaciones, cryptos..."
                       className="flex-1 bg-transparent text-foreground placeholder-secondary outline-none text-lg font-medium"
                     />
@@ -415,7 +410,7 @@ export function NavbarSearch() {
                           <motion.button
                             key={`${result.path}-${index}`}
                             onClick={() => handleSelect(result.path)}
-                            onMouseEnter={() => setSelectedIndex(index)}
+                            onMouseEnter={() => handleResultMouseEnter(index)}
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.03 }}
@@ -537,4 +532,4 @@ export function NavbarSearch() {
       `}</style>
     </>
   );
-}
+});

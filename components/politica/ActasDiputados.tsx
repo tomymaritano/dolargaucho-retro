@@ -7,7 +7,9 @@ interface ActasDiputadosProps {
   limit?: number;
 }
 
-export function ActasDiputados({ limit = 50 }: ActasDiputadosProps) {
+export const ActasDiputados = React.memo(function ActasDiputados({
+  limit = 50,
+}: ActasDiputadosProps) {
   const currentYear = new Date().getFullYear();
   const [añoSeleccionado, setAñoSeleccionado] = useState<number | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -243,4 +245,4 @@ export function ActasDiputados({ limit = 50 }: ActasDiputadosProps) {
       </Card>
     </div>
   );
-}
+});

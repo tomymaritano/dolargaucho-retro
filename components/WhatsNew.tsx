@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, createContext, useContext } from 'react';
+import React, { useState, useEffect, createContext, useContext, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   FaTimes,
@@ -38,7 +38,11 @@ export function useChangelog() {
 }
 
 // Provider component
-export function ChangelogProvider({ children }: { children: React.ReactNode }) {
+export const ChangelogProvider = React.memo(function ChangelogProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const [dontShowAgain, setDontShowAgain] = useState(false);
@@ -97,7 +101,7 @@ export function ChangelogProvider({ children }: { children: React.ReactNode }) {
       />
     </ChangelogContext.Provider>
   );
-}
+});
 
 // Modal component (now receives props from Provider)
 interface WhatsNewProps {
@@ -108,7 +112,7 @@ interface WhatsNewProps {
   handleClose: () => void;
 }
 
-function WhatsNew({
+const WhatsNew = React.memo(function WhatsNew({
   isOpen,
   showConfetti,
   dontShowAgain,
@@ -119,7 +123,7 @@ function WhatsNew({
   // Por defecto, solo la primera (índice 0) está expandida
   const [expandedEntries, setExpandedEntries] = useState<Set<number>>(new Set([0]));
 
-  const toggleEntry = (index: number) => {
+  const toggleEntry = useCallback((index: number) => {
     setExpandedEntries((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(index)) {
@@ -129,7 +133,14 @@ function WhatsNew({
       }
       return newSet;
     });
-  };
+  }, []);
+
+  const handleDontShowChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setDontShowAgain(e.target.checked);
+    },
+    [setDontShowAgain]
+  );
 
   const renderEntry = (entry: ChangelogEntry, index: number) => {
     const isExpanded = expandedEntries.has(index);
@@ -338,7 +349,7 @@ function WhatsNew({
                     <input
                       type="checkbox"
                       checked={dontShowAgain}
-                      onChange={(e) => setDontShowAgain(e.target.checked)}
+                      onChange={handleDontShowChange}
                       className="w-4 h-4 rounded border-2 border-white/20 bg-white/5 checked:bg-brand checked:border-brand transition-all cursor-pointer"
                     />
                     <span className="text-sm text-secondary group-hover:text-foreground transition-colors">
@@ -379,4 +390,4 @@ function WhatsNew({
       `}</style>
     </>
   );
-}
+});

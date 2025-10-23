@@ -3,6 +3,7 @@
 import React from 'react';
 import { Activo, TipoActivo } from './types';
 import { FaCar, FaHome, FaChartLine } from 'react-icons/fa';
+import { Button } from '@/components/ui/Button/Button';
 
 interface FormularioActivoProps {
   onCalcular: (activo: Activo) => void;
@@ -58,15 +59,17 @@ export function FormularioActivo({ onCalcular }: FormularioActivoProps) {
                   type="button"
                   onClick={() => setTipo(tipoActivo.value)}
                   className={`
-                    flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-all
+                    flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-all duration-300
                     ${
                       isSelected
-                        ? 'border-brand bg-brand/10 text-brand'
-                        : 'border-border hover:border-brand/50 text-secondary hover:text-foreground'
+                        ? 'border-brand bg-brand/10 text-brand scale-[1.02]'
+                        : 'border-border hover:border-brand/40 text-secondary hover:text-foreground hover:scale-[1.02] active:scale-95'
                     }
                   `}
                 >
-                  <Icon className="text-2xl" />
+                  <Icon
+                    className={`text-2xl transition-transform duration-300 ${isSelected ? 'scale-110' : ''}`}
+                  />
                   <span className="text-xs font-medium text-center">{tipoActivo.label}</span>
                 </button>
               );
@@ -82,11 +85,11 @@ export function FormularioActivo({ onCalcular }: FormularioActivoProps) {
               type="button"
               onClick={() => setMoneda('ARS')}
               className={`
-                flex items-center justify-center gap-2 p-4 rounded-lg border-2 transition-all
+                flex items-center justify-center gap-2 p-4 rounded-lg border-2 transition-all duration-300
                 ${
                   moneda === 'ARS'
-                    ? 'border-brand bg-brand/10 text-brand'
-                    : 'border-border hover:border-brand/50 text-secondary hover:text-foreground'
+                    ? 'border-brand bg-brand/10 text-brand scale-[1.02]'
+                    : 'border-border hover:border-brand/40 text-secondary hover:text-foreground hover:scale-[1.02] active:scale-95'
                 }
               `}
             >
@@ -97,11 +100,11 @@ export function FormularioActivo({ onCalcular }: FormularioActivoProps) {
               type="button"
               onClick={() => setMoneda('USD')}
               className={`
-                flex items-center justify-center gap-2 p-4 rounded-lg border-2 transition-all
+                flex items-center justify-center gap-2 p-4 rounded-lg border-2 transition-all duration-300
                 ${
                   moneda === 'USD'
-                    ? 'border-brand bg-brand/10 text-brand'
-                    : 'border-border hover:border-brand/50 text-secondary hover:text-foreground'
+                    ? 'border-brand bg-brand/10 text-brand scale-[1.02]'
+                    : 'border-border hover:border-brand/40 text-secondary hover:text-foreground hover:scale-[1.02] active:scale-95'
                 }
               `}
             >
@@ -183,13 +186,9 @@ export function FormularioActivo({ onCalcular }: FormularioActivoProps) {
       </div>
 
       {/* Botón */}
-      <button
-        type="submit"
-        className="w-full py-4 bg-brand hover:bg-brand-light text-background-dark font-semibold rounded-lg transition-all active:scale-[0.98] flex items-center justify-center gap-2"
-      >
-        <FaChartLine />
+      <Button type="submit" variant="primary" size="lg" fullWidth leftIcon={<FaChartLine />}>
         Calcular Rentabilidad
-      </button>
+      </Button>
 
       {/* Info */}
       <div className="p-4 bg-brand/10 border border-brand/30 rounded-lg">

@@ -18,6 +18,7 @@ export interface ComparativaResultado {
   ganancia: number;
   rentabilidad: number;
   diferenciaPorcentual: number;
+  diferencia?: number; // Alias for backwards compatibility
 }
 
 export interface ResultadoAnalisis {

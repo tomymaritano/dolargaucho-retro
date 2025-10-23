@@ -13,7 +13,7 @@ type TipoFCI =
 type MonedaFCI = 'Todas' | 'ARS' | 'USD' | 'EUR';
 type ClaseFCI = 'Todas' | 'A' | 'B' | 'C';
 
-export function FCIBrowser() {
+export const FCIBrowser = React.memo(function FCIBrowser() {
   const [searchTerm, setSearchTerm] = useState('');
   const [tipoFilter, setTipoFilter] = useState<TipoFCI>('Todos');
   const [monedaFilter, setMonedaFilter] = useState<MonedaFCI>('Todas');
@@ -228,4 +228,4 @@ export function FCIBrowser() {
       </Card.Footer>
     </Card>
   );
-}
+});
