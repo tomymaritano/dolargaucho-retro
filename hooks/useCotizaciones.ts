@@ -5,6 +5,8 @@ import { AllQuotations, CurrencyQuotation, CurrencyType } from '@/types/api/dola
 import { API_CONFIG } from '@/lib/config/api';
 import { CurrencyQuotationsSchema, validateAndParse } from '@/lib/schemas/api';
 import { logger } from '@/lib/utils/logger';
+import { DolarAPIService } from '@/lib/api/dolarapi';
+import { ArgentinaDataService } from '@/lib/api/argentinaData';
 
 export interface CotizacionWithVariation extends CurrencyQuotation {
   variation: {
@@ -26,6 +28,7 @@ interface HistoricalCurrencyData {
 /**
  * Hook to fetch all currency quotations (EUR, BRL, CLP, UYU)
  * Uses TanStack Query for automatic caching, refetching, and state management
+ * NOW USES: DolarAPIService with Axios interceptors ✨
  *
  * Features:
  * - Auto-refetch every 30 seconds
@@ -41,23 +44,17 @@ export function useCotizaciones() {
   return useQuery({
     queryKey: ['cotizaciones'],
     queryFn: async (): Promise<AllQuotations[]> => {
-      const url = `${API_CONFIG.dolarAPI.baseUrl}${API_CONFIG.dolarAPI.endpoints.cotizaciones}`;
       const startTime = performance.now();
 
-      logger.api.request(url, 'GET');
+      // Use DolarAPIService with Axios (has interceptors)
+      const rawData = await DolarAPIService.getAllCotizaciones();
 
-      const response = await fetch(url);
       const duration = performance.now() - startTime;
 
-      if (!response.ok) {
-        logger.api.error(url, new Error(`HTTP ${response.status}`));
-        throw new Error('Error al obtener cotizaciones');
-      }
-
-      const rawData = await response.json();
+      // Validate with Zod
       const data = validateAndParse(CurrencyQuotationsSchema, rawData, 'DolarAPI /cotizaciones');
 
-      logger.api.response(url, response.status, duration);
+      logger.info('✅ Cotizaciones fetched successfully', { duration: `${duration.toFixed(2)}ms` });
 
       return data;
     },
@@ -70,6 +67,7 @@ export function useCotizaciones() {
 
 /**
  * Hook to fetch a specific currency quotation
+ * NOW USES: DolarAPIService with Axios interceptors ✨
  *
  * @param currency - Currency type (eur, brl, clp, uyu)
  *
@@ -79,16 +77,7 @@ export function useCotizaciones() {
 export function useCotizacionByType(currency: CurrencyType) {
   return useQuery({
     queryKey: ['cotizacion', currency],
-    queryFn: async (): Promise<CurrencyQuotation> => {
-      const url = `${API_CONFIG.dolarAPI.baseUrl}/cotizaciones/${currency}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error(`Error al obtener cotización ${currency.toUpperCase()}`);
-      }
-
-      return response.json();
-    },
+    queryFn: () => DolarAPIService.getCotizacionByCurrency(currency),
     enabled: !!currency,
     staleTime: 30 * 1000,
     refetchInterval: 30 * 1000,
@@ -139,14 +128,9 @@ export function useCotizacionesWithVariations() {
     queryFn: async (): Promise<Record<string, HistoricalCurrencyData>> => {
       const promises = currencies.map(async (currency) => {
         try {
-          const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.cotizacionCurrencyHistorica(currency, yesterdayStr)}`;
-          const response = await fetch(url);
-
-          if (!response.ok) {
-            return null;
-          }
-
-          const data: HistoricalCurrencyData = await response.json();
+          // Use ArgentinaDataService with Axios (has interceptors)
+          const data: HistoricalCurrencyData =
+            await ArgentinaDataService.getCotizacionCurrencyHistorica(currency, yesterdayStr);
           return { currency, data };
         } catch (error) {
           logger.error('Error fetching historical currency data', error, {

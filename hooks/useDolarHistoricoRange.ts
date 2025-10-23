@@ -1,10 +1,11 @@
 /**
  * Hook para obtener datos históricos de dólares en un rango de días
  * Útil para sparklines y gráficos de tendencia
+ * NOW USES: ArgentinaDataService with Axios interceptors ✨
  */
 
 import { useQuery } from '@tanstack/react-query';
-import { API_CONFIG } from '@/lib/config/api';
+import { ArgentinaDataService } from '@/lib/api/argentinaData';
 import { logger } from '@/lib/utils/logger';
 
 export interface DolarHistoricoDataPoint {
@@ -52,10 +53,9 @@ export function useDolarHistoricoRange(casa: string, days: number = 7, enabled: 
         date.setDate(date.getDate() - i);
         const fechaStr = `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
 
-        const promise = fetch(
-          `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.cotizacionDolarHistorica(casa, fechaStr)}`
-        )
-          .then((res) => (res.ok ? res.json() : null))
+        // Use ArgentinaDataService with Axios (has interceptors)
+        const promise = ArgentinaDataService.getCotizacionDolarHistorica(casa, fechaStr)
+          .then((data) => data)
           .catch(() => null);
 
         promises.push(promise);
@@ -128,10 +128,9 @@ export function useMultipleDolarHistoricoRange(
           date.setDate(date.getDate() - i);
           const fechaStr = `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
 
-          const promise = fetch(
-            `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.cotizacionDolarHistorica(casa, fechaStr)}`
-          )
-            .then((res) => (res.ok ? res.json() : null))
+          // Use ArgentinaDataService with Axios (has interceptors)
+          const promise = ArgentinaDataService.getCotizacionDolarHistorica(casa, fechaStr)
+            .then((data) => data)
             .catch((error) => {
               logger.error('Error fetching dolar historico', error, { casa, fecha: fechaStr });
               return null;

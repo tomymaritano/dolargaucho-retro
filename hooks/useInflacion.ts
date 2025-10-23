@@ -1,13 +1,11 @@
 /**
  * @deprecated Este hook está deprecado.
  * Use useInflacionMensual() de /hooks/useFinanzas.ts en su lugar.
- * URLs están centralizadas en /lib/config/api.ts
+ * NOW USES: ArgentinaDataService with Axios interceptors ✨
  */
 
 import { useQuery } from '@tanstack/react-query';
-import { API_CONFIG } from '@/lib/config/api';
-
-const BASE_URL = API_CONFIG.argentinaData.baseUrl;
+import { ArgentinaDataService } from '@/lib/api/argentinaData';
 
 export interface InflacionData {
   fecha: string;
@@ -24,14 +22,7 @@ export function useInflacion() {
 
   return useQuery({
     queryKey: ['inflacion'],
-    queryFn: async () => {
-      const response = await fetch(`${BASE_URL}${API_CONFIG.argentinaData.endpoints.inflacion}`);
-      if (!response.ok) {
-        throw new Error('Error al cargar datos de inflación');
-      }
-      const data = await response.json();
-      return data as InflacionData[];
-    },
+    queryFn: () => ArgentinaDataService.getInflacion(),
     staleTime: 1000 * 60 * 60, // 1 hora
     gcTime: 1000 * 60 * 60 * 24, // 24 horas
   });

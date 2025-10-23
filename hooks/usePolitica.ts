@@ -1,10 +1,12 @@
 /**
  * Política Hooks - Senadores y Diputados
  * Hooks para datos políticos de ArgentinaData API
+ * NOW USES: ArgentinaDataService with Axios interceptors ✨
  */
 
 import { useQuery } from '@tanstack/react-query';
-import { API_CONFIG, CACHE_CONFIG } from '@/lib/config/api';
+import { CACHE_CONFIG } from '@/lib/config/api';
+import { ArgentinaDataService } from '@/lib/api/argentinaData';
 import type {
   Senador,
   Diputado,
@@ -27,16 +29,7 @@ import type {
 export function useSenadores() {
   return useQuery<SenadoresResponse>({
     queryKey: ['senadores'],
-    queryFn: async () => {
-      const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.senadores}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error('Error al obtener senadores');
-      }
-
-      return response.json();
-    },
+    queryFn: () => ArgentinaDataService.getSenadores(),
     staleTime: CACHE_CONFIG.politica.staleTime,
     refetchInterval: CACHE_CONFIG.politica.refetchInterval,
     retry: 3,
@@ -51,14 +44,7 @@ export function useSenadoresByProvincia(provincia: string) {
   return useQuery<Senador[]>({
     queryKey: ['senadores', 'provincia', provincia],
     queryFn: async () => {
-      const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.senadores}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error('Error al obtener senadores');
-      }
-
-      const data: SenadoresResponse = await response.json();
+      const data = await ArgentinaDataService.getSenadores();
       return data.filter((s) => s.provincia.toLowerCase() === provincia.toLowerCase());
     },
     staleTime: CACHE_CONFIG.politica.staleTime,
@@ -74,14 +60,7 @@ export function useSenadoresByBloque(bloque: string) {
   return useQuery<Senador[]>({
     queryKey: ['senadores', 'bloque', bloque],
     queryFn: async () => {
-      const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.senadores}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error('Error al obtener senadores');
-      }
-
-      const data: SenadoresResponse = await response.json();
+      const data = await ArgentinaDataService.getSenadores();
       return data.filter((s) => s.bloque.toLowerCase().includes(bloque.toLowerCase()));
     },
     staleTime: CACHE_CONFIG.politica.staleTime,
@@ -99,16 +78,7 @@ export function useSenadoresByBloque(bloque: string) {
 export function useActasSenado() {
   return useQuery<ActasSenadoResponse>({
     queryKey: ['actas-senado'],
-    queryFn: async () => {
-      const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.actasSenado}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error('Error al obtener actas del Senado');
-      }
-
-      return response.json();
-    },
+    queryFn: () => ArgentinaDataService.getActasSenado(),
     staleTime: CACHE_CONFIG.politica.staleTime,
     retry: 3,
   });
@@ -121,16 +91,7 @@ export function useActasSenado() {
 export function useActasSenadoByYear(year: number) {
   return useQuery<ActasSenadoResponse>({
     queryKey: ['actas-senado', year],
-    queryFn: async () => {
-      const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.actasSenadoByYear(year)}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error(`Error al obtener actas del Senado del año ${year}`);
-      }
-
-      return response.json();
-    },
+    queryFn: () => ArgentinaDataService.getActasSenadoByYear(year),
     staleTime: CACHE_CONFIG.politica.staleTime,
     enabled: !!year && year > 1900,
   });
@@ -147,16 +108,7 @@ export function useActasSenadoByYear(year: number) {
 export function useDiputados() {
   return useQuery<DiputadosResponse>({
     queryKey: ['diputados'],
-    queryFn: async () => {
-      const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.diputados}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error('Error al obtener diputados');
-      }
-
-      return response.json();
-    },
+    queryFn: () => ArgentinaDataService.getDiputados(),
     staleTime: CACHE_CONFIG.politica.staleTime,
     refetchInterval: CACHE_CONFIG.politica.refetchInterval,
     retry: 3,
@@ -171,14 +123,7 @@ export function useDiputadosByProvincia(provincia: string) {
   return useQuery<Diputado[]>({
     queryKey: ['diputados', 'provincia', provincia],
     queryFn: async () => {
-      const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.diputados}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error('Error al obtener diputados');
-      }
-
-      const data: DiputadosResponse = await response.json();
+      const data = await ArgentinaDataService.getDiputados();
       return data.filter((d) => d.provincia.toLowerCase() === provincia.toLowerCase());
     },
     staleTime: CACHE_CONFIG.politica.staleTime,
@@ -194,14 +139,7 @@ export function useDiputadosByBloque(bloque: string) {
   return useQuery<Diputado[]>({
     queryKey: ['diputados', 'bloque', bloque],
     queryFn: async () => {
-      const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.diputados}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error('Error al obtener diputados');
-      }
-
-      const data: DiputadosResponse = await response.json();
+      const data = await ArgentinaDataService.getDiputados();
       return data.filter((d) => d.bloque.toLowerCase().includes(bloque.toLowerCase()));
     },
     staleTime: CACHE_CONFIG.politica.staleTime,
@@ -219,16 +157,7 @@ export function useDiputadosByBloque(bloque: string) {
 export function useActasDiputados() {
   return useQuery<ActasDiputadosResponse>({
     queryKey: ['actas-diputados'],
-    queryFn: async () => {
-      const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.actasDiputados}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error('Error al obtener actas de Diputados');
-      }
-
-      return response.json();
-    },
+    queryFn: () => ArgentinaDataService.getActasDiputados(),
     staleTime: CACHE_CONFIG.politica.staleTime,
     retry: 3,
   });
@@ -241,16 +170,7 @@ export function useActasDiputados() {
 export function useActasDiputadosByYear(year: number) {
   return useQuery<ActasDiputadosResponse>({
     queryKey: ['actas-diputados', year],
-    queryFn: async () => {
-      const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.actasDiputadosByYear(year)}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error(`Error al obtener actas de Diputados del año ${year}`);
-      }
-
-      return response.json();
-    },
+    queryFn: () => ArgentinaDataService.getActasDiputadosByYear(year),
     staleTime: CACHE_CONFIG.politica.staleTime,
     enabled: !!year && year > 1900,
   });

@@ -2,9 +2,10 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { DolarQuotation, DolarType } from '@/types/api/dolar';
-import { API_CONFIG, CACHE_CONFIG } from '@/lib/config/api';
+import { CACHE_CONFIG } from '@/lib/config/api';
 import { DolarQuotationsSchema, validateAndParse } from '@/lib/schemas/api';
 import { logger } from '@/lib/utils/logger';
+import { DolarAPIService } from '@/lib/api/dolarapi';
 
 /**
  * Hook to fetch all dollar quotations from DolarAPI
@@ -25,25 +26,17 @@ export function useDolarQuery() {
   return useQuery({
     queryKey: ['dolares'],
     queryFn: async (): Promise<DolarQuotation[]> => {
-      const url = `${API_CONFIG.dolarAPI.baseUrl}${API_CONFIG.dolarAPI.endpoints.dolares}`;
       const startTime = performance.now();
 
-      logger.api.request(url, 'GET');
+      // Use DolarAPIService with Axios (has interceptors)
+      const rawData = await DolarAPIService.getAllDolares();
 
-      const response = await fetch(url);
       const duration = performance.now() - startTime;
-
-      if (!response.ok) {
-        logger.api.error(url, new Error(`HTTP ${response.status}: ${response.statusText}`));
-        throw new Error('Error al obtener datos del dólar');
-      }
-
-      const rawData = await response.json();
 
       // Validate with Zod
       const data = validateAndParse(DolarQuotationsSchema, rawData, 'DolarAPI /dolares');
 
-      logger.api.response(url, response.status, duration);
+      logger.info('✅ Dolares fetched successfully', { duration: `${duration.toFixed(2)}ms` });
 
       return data;
     },
@@ -66,27 +59,23 @@ export function useDolarByType(type: DolarType) {
   return useQuery({
     queryKey: ['dolar', type],
     queryFn: async (): Promise<DolarQuotation> => {
-      const url = `${API_CONFIG.dolarAPI.baseUrl}${API_CONFIG.dolarAPI.endpoints.dolarByType(type)}`;
       const startTime = performance.now();
 
-      logger.api.request(url, 'GET');
+      // Use DolarAPIService with Axios (has interceptors)
+      const rawData = await DolarAPIService.getDolarByType(type);
 
-      const response = await fetch(url);
       const duration = performance.now() - startTime;
 
-      if (!response.ok) {
-        logger.api.error(url, new Error(`HTTP ${response.status}: ${response.statusText}`));
-        throw new Error(`Error al obtener dólar ${type}`);
-      }
-
-      const rawData = await response.json();
+      // Validate with Zod
       const data = validateAndParse(
         DolarQuotationsSchema.element,
         rawData,
         `DolarAPI /dolares/${type}`
       );
 
-      logger.api.response(url, response.status, duration);
+      logger.info(`✅ Dolar ${type} fetched successfully`, {
+        duration: `${duration.toFixed(2)}ms`,
+      });
 
       return data;
     },
@@ -126,11 +115,8 @@ export default function useDolar() {
       );
       try {
         const formattedDate = date.toISOString().split('T')[0];
-        const { dolarAPI } = await import('@/lib/config/api').then((m) => m.API_CONFIG);
-        const response = await fetch(
-          `${dolarAPI.baseUrl}${dolarAPI.endpoints.dolarHistorico(formattedDate)}`
-        );
-        const data = await response.json();
+        // Use DolarAPIService with Axios
+        const data = await DolarAPIService.getDolarHistorico(formattedDate);
         return data;
       } catch (error) {
         logger.error('Error al obtener datos históricos', error, {

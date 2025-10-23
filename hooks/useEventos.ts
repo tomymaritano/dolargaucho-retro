@@ -1,10 +1,12 @@
 /**
  * Eventos Hooks - Feriados y Eventos Presidenciales
  * Hooks para datos de eventos de ArgentinaData API
+ * NOW USES: ArgentinaDataService with Axios interceptors ✨
  */
 
 import { useQuery } from '@tanstack/react-query';
-import { API_CONFIG, CACHE_CONFIG } from '@/lib/config/api';
+import { CACHE_CONFIG } from '@/lib/config/api';
+import { ArgentinaDataService } from '@/lib/api/argentinaData';
 import type {
   Feriado,
   EventoPresidencial,
@@ -22,16 +24,7 @@ import type {
 export function useFeriados() {
   return useQuery<FeriadosResponse>({
     queryKey: ['feriados'],
-    queryFn: async () => {
-      const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.feriados}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error('Error al obtener feriados');
-      }
-
-      return response.json();
-    },
+    queryFn: () => ArgentinaDataService.getFeriados(),
     staleTime: CACHE_CONFIG.eventos.staleTime,
     retry: 3,
   });
@@ -44,14 +37,7 @@ export function useFeriadosActuales() {
   return useQuery<Feriado[]>({
     queryKey: ['feriados-actuales'],
     queryFn: async () => {
-      const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.feriados}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error('Error al obtener feriados');
-      }
-
-      const data: FeriadosResponse = await response.json();
+      const data: FeriadosResponse = await ArgentinaDataService.getFeriados();
       const currentYear = new Date().getFullYear();
 
       return data.filter((f) => {
@@ -70,14 +56,7 @@ export function useProximosFeriados(limit = 5) {
   return useQuery<Feriado[]>({
     queryKey: ['proximos-feriados', limit],
     queryFn: async () => {
-      const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.feriados}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error('Error al obtener feriados');
-      }
-
-      const data: FeriadosResponse = await response.json();
+      const data: FeriadosResponse = await ArgentinaDataService.getFeriados();
       const now = new Date();
 
       return data
@@ -96,14 +75,7 @@ export function useIsFeriado(fecha: Date | string) {
   return useQuery<boolean>({
     queryKey: ['is-feriado', fecha],
     queryFn: async () => {
-      const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.feriados}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error('Error al obtener feriados');
-      }
-
-      const data: FeriadosResponse = await response.json();
+      const data: FeriadosResponse = await ArgentinaDataService.getFeriados();
       const targetDate = new Date(fecha).toISOString().split('T')[0];
 
       return data.some((f) => f.fecha === targetDate);

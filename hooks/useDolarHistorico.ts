@@ -1,10 +1,11 @@
 /**
  * Hook para obtener datos históricos de dólares
  * Centraliza la lógica de fetching histórico que estaba duplicada
+ * NOW USES: DolarAPIService with Axios interceptors ✨
  */
 
 import { useQuery } from '@tanstack/react-query';
-import { API_CONFIG } from '@/lib/config/api';
+import { DolarAPIService } from '@/lib/api/dolarapi';
 import type { DolarQuotation } from '@/types/api/dolar';
 
 /**
@@ -23,22 +24,7 @@ export function useDolarHistorico(date: Date, enabled: boolean = true) {
 
   return useQuery<DolarQuotation[]>({
     queryKey: ['dolar-historico', formattedDate],
-    queryFn: async () => {
-      const url = `${API_CONFIG.dolarAPI.baseUrl}${API_CONFIG.dolarAPI.endpoints.dolarHistorico(formattedDate)}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error(`Error al obtener datos históricos del ${formattedDate}`);
-      }
-
-      const data = await response.json();
-
-      if (!Array.isArray(data)) {
-        throw new Error('Formato inesperado de respuesta de API');
-      }
-
-      return data;
-    },
+    queryFn: () => DolarAPIService.getDolarHistorico(formattedDate),
     staleTime: 24 * 60 * 60 * 1000, // 24 hours - historical data doesn't change
     enabled: enabled && !!date,
     retry: 2,

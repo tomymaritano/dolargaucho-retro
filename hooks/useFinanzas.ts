@@ -1,10 +1,12 @@
 /**
  * Finanzas Hooks - Tasas, FCI, Índices
  * Hooks para datos financieros de ArgentinaData API
+ * NOW USES: ArgentinaDataService with Axios interceptors ✨
  */
 
 import { useQuery } from '@tanstack/react-query';
-import { API_CONFIG, CACHE_CONFIG } from '@/lib/config/api';
+import { CACHE_CONFIG } from '@/lib/config/api';
+import { ArgentinaDataService } from '@/lib/api/argentinaData';
 import {
   InflacionMensualResponseSchema,
   InflacionInteranualResponseSchema,
@@ -43,27 +45,23 @@ export function useInflacionMensual() {
   return useQuery<InflacionMensualResponse>({
     queryKey: ['inflacion-mensual'],
     queryFn: async () => {
-      const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.inflacion}`;
       const startTime = performance.now();
 
-      logger.api.request(url, 'GET');
+      // Use ArgentinaDataService with Axios (has interceptors)
+      const rawData = await ArgentinaDataService.getInflacion();
 
-      const response = await fetch(url);
       const duration = performance.now() - startTime;
 
-      if (!response.ok) {
-        logger.api.error(url, new Error(`HTTP ${response.status}`));
-        throw new Error('Error al obtener inflación mensual');
-      }
-
-      const rawData = await response.json();
+      // Validate with Zod
       const data = validateAndParse(
         InflacionMensualResponseSchema,
         rawData,
         'ArgentinaData /inflacion'
       );
 
-      logger.api.response(url, response.status, duration);
+      logger.info('✅ Inflación mensual fetched successfully', {
+        duration: `${duration.toFixed(2)}ms`,
+      });
 
       return data;
     },
@@ -81,27 +79,23 @@ export function useInflacionInteranual() {
   return useQuery<InflacionInteranualResponse>({
     queryKey: ['inflacion-interanual'],
     queryFn: async () => {
-      const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.inflacionInteranual}`;
       const startTime = performance.now();
 
-      logger.api.request(url, 'GET');
+      // Use ArgentinaDataService with Axios (has interceptors)
+      const rawData = await ArgentinaDataService.getInflacionInteranual();
 
-      const response = await fetch(url);
       const duration = performance.now() - startTime;
 
-      if (!response.ok) {
-        logger.api.error(url, new Error(`HTTP ${response.status}`));
-        throw new Error('Error al obtener inflación interanual');
-      }
-
-      const rawData = await response.json();
+      // Validate with Zod
       const data = validateAndParse(
         InflacionInteranualResponseSchema,
         rawData,
         'ArgentinaData /inflacionInteranual'
       );
 
-      logger.api.response(url, response.status, duration);
+      logger.info('✅ Inflación interanual fetched successfully', {
+        duration: `${duration.toFixed(2)}ms`,
+      });
 
       return data;
     },
@@ -118,14 +112,7 @@ export function useUltimaInflacion() {
   return useQuery<InflacionMensual | null>({
     queryKey: ['ultima-inflacion'],
     queryFn: async () => {
-      const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.inflacion}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error('Error al obtener inflación');
-      }
-
-      const data: InflacionMensualResponse = await response.json();
+      const data: InflacionMensualResponse = await ArgentinaDataService.getInflacion();
       return data.length > 0 ? data[data.length - 1] : null;
     },
     staleTime: CACHE_CONFIG.inflacion.staleTime,
@@ -138,16 +125,7 @@ export function useUltimaInflacion() {
 export function useIndiceUVA() {
   return useQuery<IndiceUVAResponse>({
     queryKey: ['indice-uva'],
-    queryFn: async () => {
-      const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.indiceUVA}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error('Error al obtener índice UVA');
-      }
-
-      return response.json();
-    },
+    queryFn: () => ArgentinaDataService.getIndiceUVA(),
     staleTime: CACHE_CONFIG.indiceUVA.staleTime,
     retry: 3,
   });
@@ -160,14 +138,7 @@ export function useUltimoUVA() {
   return useQuery<IndiceUVA | null>({
     queryKey: ['ultimo-uva'],
     queryFn: async () => {
-      const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.indiceUVA}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error('Error al obtener UVA');
-      }
-
-      const data: IndiceUVAResponse = await response.json();
+      const data: IndiceUVAResponse = await ArgentinaDataService.getIndiceUVA();
       return data.length > 0 ? data[data.length - 1] : null;
     },
     staleTime: CACHE_CONFIG.indiceUVA.staleTime,
@@ -180,16 +151,7 @@ export function useUltimoUVA() {
 export function useRiesgoPais() {
   return useQuery<RiesgoPaisResponse>({
     queryKey: ['riesgo-pais'],
-    queryFn: async () => {
-      const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.riesgoPais}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error('Error al obtener riesgo país');
-      }
-
-      return response.json();
-    },
+    queryFn: () => ArgentinaDataService.getRiesgoPais(),
     staleTime: CACHE_CONFIG.riesgoPais.staleTime,
     refetchInterval: CACHE_CONFIG.riesgoPais.refetchInterval,
     retry: 3,
@@ -203,14 +165,7 @@ export function useUltimoRiesgoPais() {
   return useQuery<RiesgoPais | null>({
     queryKey: ['ultimo-riesgo-pais'],
     queryFn: async () => {
-      const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.riesgoPais}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error('Error al obtener riesgo país');
-      }
-
-      const data: RiesgoPaisResponse = await response.json();
+      const data: RiesgoPaisResponse = await ArgentinaDataService.getRiesgoPais();
       return data.length > 0 ? data[data.length - 1] : null;
     },
     staleTime: CACHE_CONFIG.riesgoPais.staleTime,
@@ -231,14 +186,7 @@ export function useRiesgoPaisWithVariation() {
   }>({
     queryKey: ['riesgo-pais-variation'],
     queryFn: async () => {
-      const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.riesgoPais}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error('Error al obtener riesgo país');
-      }
-
-      const data: RiesgoPaisResponse = await response.json();
+      const data: RiesgoPaisResponse = await ArgentinaDataService.getRiesgoPais();
 
       const current = data.length > 0 ? data[data.length - 1] : null;
       const previous = data.length > 1 ? data[data.length - 2] : null;
@@ -275,16 +223,7 @@ export function useRiesgoPaisWithVariation() {
 export function useTasaPlazoFijo() {
   return useQuery<TasaPlazoFijoResponse>({
     queryKey: ['tasa-plazo-fijo'],
-    queryFn: async () => {
-      const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.tasaPlazoFijo}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error('Error al obtener tasa de plazo fijo');
-      }
-
-      return response.json();
-    },
+    queryFn: () => ArgentinaDataService.getTasaPlazoFijo(),
     staleTime: CACHE_CONFIG.tasas.staleTime,
     retry: 3,
   });
@@ -297,14 +236,7 @@ export function useUltimaTasaPlazoFijo() {
   return useQuery<TasaPlazoFijo | null>({
     queryKey: ['ultima-tasa-plazo-fijo'],
     queryFn: async () => {
-      const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.tasaPlazoFijo}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error('Error al obtener tasa plazo fijo');
-      }
-
-      const data: TasaPlazoFijoResponse = await response.json();
+      const data: TasaPlazoFijoResponse = await ArgentinaDataService.getTasaPlazoFijo();
       if (data.length === 0) return null;
 
       // Devolver la entidad con mayor TNA para clientes
@@ -326,16 +258,7 @@ export function useUltimaTasaPlazoFijo() {
 export function useTasaDepositos30() {
   return useQuery<TasaDepositosResponse>({
     queryKey: ['tasa-depositos-30'],
-    queryFn: async () => {
-      const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.tasaDepositos30}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error('Error al obtener tasa de depósitos');
-      }
-
-      return response.json();
-    },
+    queryFn: () => ArgentinaDataService.getTasaDepositos30(),
     staleTime: CACHE_CONFIG.tasas.staleTime,
     retry: 3,
   });
@@ -351,16 +274,7 @@ export function useTasaDepositos30() {
 export function useFCIMercadoDinero(fecha?: string) {
   return useQuery<FondosComunesResponse>({
     queryKey: ['fci-mercado-dinero', fecha],
-    queryFn: async () => {
-      const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.fciMercadoDinero(fecha)}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error('Error al obtener FCI Mercado de Dinero');
-      }
-
-      return response.json();
-    },
+    queryFn: () => ArgentinaDataService.getFCIMercadoDinero(fecha),
     staleTime: CACHE_CONFIG.fci.staleTime,
     retry: 3,
   });
@@ -372,16 +286,7 @@ export function useFCIMercadoDinero(fecha?: string) {
 export function useFCIRentaVariable(fecha?: string) {
   return useQuery<FondosComunesResponse>({
     queryKey: ['fci-renta-variable', fecha],
-    queryFn: async () => {
-      const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.fciRentaVariable(fecha)}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error('Error al obtener FCI Renta Variable');
-      }
-
-      return response.json();
-    },
+    queryFn: () => ArgentinaDataService.getFCIRentaVariable(fecha),
     staleTime: CACHE_CONFIG.fci.staleTime,
     retry: 3,
   });
@@ -393,16 +298,7 @@ export function useFCIRentaVariable(fecha?: string) {
 export function useFCIRentaFija(fecha?: string) {
   return useQuery<FondosComunesResponse>({
     queryKey: ['fci-renta-fija', fecha],
-    queryFn: async () => {
-      const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.fciRentaFija(fecha)}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error('Error al obtener FCI Renta Fija');
-      }
-
-      return response.json();
-    },
+    queryFn: () => ArgentinaDataService.getFCIRentaFija(fecha),
     staleTime: CACHE_CONFIG.fci.staleTime,
     retry: 3,
   });
@@ -414,16 +310,7 @@ export function useFCIRentaFija(fecha?: string) {
 export function useFCIRentaMixta(fecha?: string) {
   return useQuery<FondosComunesResponse>({
     queryKey: ['fci-renta-mixta', fecha],
-    queryFn: async () => {
-      const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.fciRentaMixta(fecha)}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error('Error al obtener FCI Renta Mixta');
-      }
-
-      return response.json();
-    },
+    queryFn: () => ArgentinaDataService.getFCIRentaMixta(fecha),
     staleTime: CACHE_CONFIG.fci.staleTime,
     retry: 3,
   });
@@ -435,16 +322,7 @@ export function useFCIRentaMixta(fecha?: string) {
 export function useFCIOtros(fecha?: string) {
   return useQuery<FondosComunesResponse>({
     queryKey: ['fci-otros', fecha],
-    queryFn: async () => {
-      const url = `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.fciOtros(fecha)}`;
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error('Error al obtener otros FCI');
-      }
-
-      return response.json();
-    },
+    queryFn: () => ArgentinaDataService.getFCIOtros(fecha),
     staleTime: CACHE_CONFIG.fci.staleTime,
     retry: 3,
   });

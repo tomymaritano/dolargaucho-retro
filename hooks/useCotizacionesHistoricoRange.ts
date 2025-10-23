@@ -1,10 +1,11 @@
 /**
  * Hook para obtener datos históricos de cotizaciones internacionales en un rango de días
  * Útil para sparklines y gráficos de tendencia
+ * NOW USES: ArgentinaDataService with Axios interceptors ✨
  */
 
 import { useQuery } from '@tanstack/react-query';
-import { API_CONFIG } from '@/lib/config/api';
+import { ArgentinaDataService } from '@/lib/api/argentinaData';
 import { logger } from '@/lib/utils/logger';
 
 export interface CotizacionHistoricoDataPoint {
@@ -56,10 +57,9 @@ export function useCotizacionHistoricoRange(
         date.setDate(date.getDate() - i);
         const fechaStr = `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
 
-        const promise = fetch(
-          `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.cotizacionCurrencyHistorica(moneda, fechaStr)}`
-        )
-          .then((res) => (res.ok ? res.json() : null))
+        // Use ArgentinaDataService with Axios (has interceptors)
+        const promise = ArgentinaDataService.getCotizacionCurrencyHistorica(moneda, fechaStr)
+          .then((data) => data)
           .catch(() => null);
 
         promises.push(promise);
@@ -132,10 +132,9 @@ export function useMultipleCotizacionesHistoricoRange(
           date.setDate(date.getDate() - i);
           const fechaStr = `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
 
-          const promise = fetch(
-            `${API_CONFIG.argentinaData.baseUrl}${API_CONFIG.argentinaData.endpoints.cotizacionCurrencyHistorica(moneda, fechaStr)}`
-          )
-            .then((res) => (res.ok ? res.json() : null))
+          // Use ArgentinaDataService with Axios (has interceptors)
+          const promise = ArgentinaDataService.getCotizacionCurrencyHistorica(moneda, fechaStr)
+            .then((data) => data)
             .catch((error) => {
               logger.error('Error fetching cotizacion historico', error, {
                 moneda,

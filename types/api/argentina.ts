@@ -187,3 +187,14 @@ export type FondosComunesResponse = FondoComun[];
 
 export type FeriadosResponse = Feriado[];
 export type EventosPresidencialesResponse = EventoPresidencial[];
+
+// ===================
+// UTILITIES
+// ===================
+
+export interface BloqueStats {
+  bloque: string;
+  senadores: number;
+  diputados: number;
+  total: number;
+}
