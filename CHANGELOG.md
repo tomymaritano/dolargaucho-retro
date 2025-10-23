@@ -5,6 +5,10 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## 1.14.0 (2025-10-23)
+
+- feat: implement pragmatic architecture with axios interceptors and business logic services ([86ae520](https://github.com/tomymaritano/dolargaucho-retro/commit/86ae520))
+
 ## <small>1.13.2 (2025-10-22)</small>
 
 - fix: skip failing ui tests and exclude api endpoints from jest ([f08fbe4](https://github.com/tomymaritano/dolargaucho-retro/commit/f08fbe4)), closes [#favorites-bug](https://github.com/tomymaritano/dolargaucho-retro/issues/favorites-bug)
