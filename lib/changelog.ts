@@ -30,6 +30,37 @@ export interface ChangelogEntry {
  */
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.6.0',
+    date: '2025-10-23',
+    title: 'Arquitectura Pragmática y Optimizaciones',
+    emoji: '🏗️',
+    highlight: true,
+    description:
+      'Implementamos una arquitectura pragmática profesional con servicios centralizados, API clients con Axios interceptors, y migramos todos los hooks y componentes clave para mejorar la mantenibilidad, testabilidad y performance.',
+    features: [
+      'DolarService: 18 funciones de lógica de negocio centralizadas (formateo, cálculos, validaciones)',
+      'CalculatorService: 15 funciones para calculadoras financieras (Plazo Fijo, UVA, Inflación)',
+      'API Clients: DolarAPIService y ArgentinaDataService con Axios y interceptors',
+      'Axios Interceptors: Logging automático, manejo de errores, refresh de tokens JWT',
+      'Documentación Completa: ARCHITECTURE_GUIDE.md (500+ líneas) y MIGRATION_CHECKLIST.md',
+    ],
+    improvements: [
+      'Migración de 9 hooks principales de fetch() a API clients (39 funciones totales)',
+      'Migración de 5 componentes clave a usar DolarService (DolarTable, CotizacionesTable, etc.)',
+      'Formateo consistente de precios en toda la app ($XX.XX)',
+      'Cálculos de spread centralizados y reutilizables',
+      'Código más mantenible y fácil de testear',
+      'Performance mejorada con caché y retry logic',
+      'ESLint al 100% (display names, dependencies optimizadas)',
+    ],
+    fixes: [
+      'Eliminada duplicación de lógica de formateo en 43+ componentes',
+      'Eliminada duplicación de cálculos de spread en 6+ componentes',
+      'Corrección de dependencias innecesarias en useCallback',
+      'Mejora de type safety con Zod schemas en todos los endpoints',
+    ],
+  },
+  {
     version: '1.5.0',
     date: '2025-10-21',
     title: 'Rediseño Completo de Favoritos y Crypto',
