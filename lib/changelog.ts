@@ -30,6 +30,37 @@ export interface ChangelogEntry {
  */
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '1.7.0',
+    date: '2025-10-23',
+    title: 'Limpieza Masiva y Mejoras de UX',
+    emoji: '🧹',
+    highlight: true,
+    description:
+      'Gran limpieza del proyecto eliminando 44 archivos sin usar (4,159 líneas de código), mejoramos la página 404 con diseño profesional, agregamos loading screen al logout, y simplificamos el sistema de autenticación.',
+    features: [
+      'Página 404 Rediseñada: Ahora usa LinkButton, Aurora background y AnimatedLogo igual que la landing',
+      'Loading Screen en Logout: "Cerrando sesión" con logo animado y spinner para evitar flash de 404',
+      'UI Consistente: Todos los botones usan LinkButton/Button con variantes primary/secondary/link',
+      'Tests Corregidos: useDolarQuery.test.tsx ahora usa mocks correctos de DolarAPIService',
+    ],
+    improvements: [
+      'Eliminados 44 archivos sin usar (4,159 líneas de código)',
+      '14 componentes UI sin usar eliminados (Badge, BottomSheet, LiquidButton, etc.)',
+      '8 hooks sin usar eliminados (useActasFilters, useDemoAuth, useTableSorting, etc.)',
+      '11 componentes raíz obsoletos eliminados (ChatBot, ContactForm, DolarComponent, etc.)',
+      'Sistema de auth simplificado: eliminado modo demo, solo Supabase',
+      'Página 404 con mismo diseño que landing page (Aurora, GradientText, botones shimmer)',
+      'Mejor transición al cerrar sesión sin ver página 404',
+    ],
+    fixes: [
+      'Corregido error de build: Module not found useDemoAuth',
+      'Test useDolarQuery ahora mockea DolarAPIService correctamente',
+      'Eliminado código de demo auth que ya no se usaba',
+      'Página 404 ahora respeta el design system',
+      'Logout ya no muestra flash de 404',
+    ],
+  },
+  {
     version: '1.6.0',
     date: '2025-10-23',
     title: 'Arquitectura Pragmática y Optimizaciones',
