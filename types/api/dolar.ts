@@ -66,3 +66,22 @@ export interface RiesgoPaisData {
   fecha: string;
   valor: number;
 }
+
+// Dolar data for calculators - can be either DolarQuotation or custom format
+export type DolarData =
+  | DolarQuotation
+  | {
+      tipo: string;
+      compra: number;
+      venta: number;
+      promedio: number;
+      fecha: string;
+    };
+
+// Dolar historical data - can be DolarQuotation or simple historical format
+export type DolarHistorico =
+  | DolarQuotation
+  | {
+      fecha: string;
+      valor: number;
+    };
