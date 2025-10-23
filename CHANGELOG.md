@@ -5,6 +5,16 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## 1.15.0 (2025-10-23)
+
+- test: add mocks and update alertform test ([5f9f18f](https://github.com/tomymaritano/dolargaucho-retro/commit/5f9f18f))
+- refactor: migrate 5 key components to use dolar service ([c45f7e7](https://github.com/tomymaritano/dolargaucho-retro/commit/c45f7e7))
+- refactor: update components and remove hardcoded votes from roadmap ([71bddae](https://github.com/tomymaritano/dolargaucho-retro/commit/71bddae))
+- refactor: update dashboard pages and remove deprecated routes ([f0d22f3](https://github.com/tomymaritano/dolargaucho-retro/commit/f0d22f3))
+- refactor: update hooks and database queries ([6ae4be6](https://github.com/tomymaritano/dolargaucho-retro/commit/6ae4be6))
+- feat: add type definitions for finanzas, fred and charts ([2e3e096](https://github.com/tomymaritano/dolargaucho-retro/commit/2e3e096))
+- docs: add v1.6.0 changelog entry for architecture improvements ([5d51c16](https://github.com/tomymaritano/dolargaucho-retro/commit/5d51c16))
+
 ## 1.14.0 (2025-10-23)
 
 - feat: implement pragmatic architecture with axios interceptors and business logic services ([86ae520](https://github.com/tomymaritano/dolargaucho-retro/commit/86ae520))
