@@ -1,1 +1,0 @@
-export { TechStackLogos } from './TechStackLogos';
