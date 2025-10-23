@@ -48,6 +48,7 @@ const menuItems = [
 export const DashboardNavbar = React.memo(function DashboardNavbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const router = useRouter();
   const { user, signOut } = useAuth();
   const profileRef = useRef<HTMLDivElement>(null);
@@ -64,8 +65,12 @@ export const DashboardNavbar = React.memo(function DashboardNavbar() {
   }, []);
 
   const handleSignOut = useCallback(async () => {
+    setIsLoggingOut(true);
     await signOut();
-    router.push('/');
+    // Small delay to ensure the loading screen is visible
+    setTimeout(() => {
+      router.push('/');
+    }, 300);
   }, [signOut, router]);
 
   const handleMenuToggle = useCallback(() => {
@@ -325,6 +330,44 @@ export const DashboardNavbar = React.memo(function DashboardNavbar() {
               </nav>
             </motion.aside>
           </>
+        )}
+      </AnimatePresence>
+
+      {/* Logout Loading Overlay */}
+      <AnimatePresence>
+        {isLoggingOut && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[9999] bg-background/95 backdrop-blur-sm flex items-center justify-center"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.1 }}
+              className="text-center"
+            >
+              <AnimatedLogo className="w-20 h-20 mb-6 mx-auto animate-pulse" />
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+              >
+                <h2 className="text-2xl font-bold text-foreground mb-2">Cerrando sesión</h2>
+                <p className="text-secondary">Hasta pronto...</p>
+              </motion.div>
+              {/* Animated spinner */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3 }}
+                className="mt-6"
+              >
+                <div className="w-8 h-8 border-4 border-brand/20 border-t-brand rounded-full animate-spin mx-auto" />
+              </motion.div>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
     </>

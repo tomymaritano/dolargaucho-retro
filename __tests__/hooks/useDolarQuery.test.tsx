@@ -1,9 +1,10 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useDolarQuery } from '@/hooks/useDolarQuery';
+import { DolarAPIService } from '@/lib/api/dolarapi';
 
-// Mock fetch
-global.fetch = jest.fn();
+// Mock DolarAPIService
+jest.mock('@/lib/api/dolarapi');
 
 const createWrapper = () => {
   const queryClient = new QueryClient({
@@ -13,9 +14,11 @@ const createWrapper = () => {
       },
     },
   });
-  return ({ children }: { children: React.ReactNode }) => (
+  const Wrapper = ({ children }: { children: React.ReactNode }) => (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
+  Wrapper.displayName = 'TestWrapper';
+  return Wrapper;
 };
 
 describe('useDolarQuery', () => {
@@ -26,7 +29,7 @@ describe('useDolarQuery', () => {
   it('fetches dólar data successfully', async () => {
     const mockData = [
       {
-        moneda: 'USD',
+        moneda: 'USD' as const,
         casa: 'blue',
         nombre: 'Blue',
         compra: 1000,
@@ -35,10 +38,7 @@ describe('useDolarQuery', () => {
       },
     ];
 
-    (global.fetch as jest.Mock).mockResolvedValueOnce({
-      ok: true,
-      json: async () => mockData,
-    });
+    (DolarAPIService.getAllDolares as jest.Mock).mockResolvedValueOnce(mockData);
 
     const { result } = renderHook(() => useDolarQuery(), {
       wrapper: createWrapper(),
@@ -47,11 +47,11 @@ describe('useDolarQuery', () => {
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
     expect(result.current.data).toEqual(mockData);
-    expect(global.fetch).toHaveBeenCalledWith('https://dolarapi.com/v1/dolares');
+    expect(DolarAPIService.getAllDolares).toHaveBeenCalled();
   });
 
   it('returns loading state initially', () => {
-    (global.fetch as jest.Mock).mockImplementation(
+    (DolarAPIService.getAllDolares as jest.Mock).mockImplementation(
       () => new Promise(() => {}) // Never resolves
     );
 
