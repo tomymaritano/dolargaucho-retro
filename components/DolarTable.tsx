@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import {
   FaSearch,
   FaShareAlt,
@@ -22,6 +22,7 @@ import {
   TableCell,
   TableHeaderCell,
 } from '@/components/ui/Table';
+import { DolarService } from '@/lib/services/DolarService';
 import { logger } from '@/lib/utils/logger';
 
 type SortField = 'nombre' | 'compra' | 'venta' | 'variation';
@@ -32,7 +33,7 @@ const formatFecha = (fecha: string) => {
   return `${date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit' })} ${date.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false })}`;
 };
 
-const DolarTable: React.FC = () => {
+const DolarTable = React.memo(function DolarTable() {
   const { data, isLoading, error } = useDolarVariations();
   const [search, setSearch] = useState('');
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -85,10 +86,14 @@ const DolarTable: React.FC = () => {
     });
   }, [data, search, sortField, sortDirection]);
 
-  const handleCopy = async (tipo: (typeof data)[0]) => {
+  const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  }, []);
+
+  const handleCopy = useCallback(async (tipo: (typeof data)[0]) => {
     try {
       await navigator.clipboard.writeText(
-        `${tipo.nombre}: Compra $${tipo.compra.toFixed(2)} | Venta $${tipo.venta.toFixed(2)}`
+        `${tipo.nombre}: Compra ${DolarService.formatPrice(tipo.compra)} | Venta ${DolarService.formatPrice(tipo.venta)}`
       );
       setCopiedId(tipo.nombre);
       setTimeout(() => setCopiedId(null), 2000);
@@ -98,14 +103,14 @@ const DolarTable: React.FC = () => {
         tipoDolar: tipo.nombre,
       });
     }
-  };
+  }, []);
 
-  const handleShare = async (tipo: (typeof data)[0]) => {
+  const handleShare = useCallback(async (tipo: (typeof data)[0]) => {
     if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
       try {
         await navigator.share({
           title: `Cotización ${tipo.nombre}`,
-          text: `${tipo.nombre}: Compra $${tipo.compra.toFixed(2)} | Venta $${tipo.venta.toFixed(2)}`,
+          text: `${tipo.nombre}: Compra ${DolarService.formatPrice(tipo.compra)} | Venta ${DolarService.formatPrice(tipo.venta)}`,
           url: window.location.href,
         });
       } catch (error) {
@@ -115,22 +120,25 @@ const DolarTable: React.FC = () => {
         });
       }
     }
-  };
+  }, []);
 
-  const toggleFavorite = (nombre: string) => {
+  const toggleFavorite = useCallback((nombre: string) => {
     setFavorites((prev) =>
       prev.includes(nombre) ? prev.filter((n) => n !== nombre) : [...prev, nombre]
     );
-  };
+  }, []);
 
-  const handleSort = (field: SortField) => {
-    if (sortField === field) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortField(field);
-      setSortDirection('asc');
-    }
-  };
+  const handleSort = useCallback(
+    (field: SortField) => {
+      if (sortField === field) {
+        setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+      } else {
+        setSortField(field);
+        setSortDirection('asc');
+      }
+    },
+    [sortField, sortDirection]
+  );
 
   const SortIcon = ({ field }: { field: SortField }) => {
     if (sortField !== field) return <FaSort className="text-xs text-secondary/50" />;
@@ -150,7 +158,7 @@ const DolarTable: React.FC = () => {
           type="text"
           placeholder="Buscar tipo de dólar..."
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={handleSearchChange}
           className="flex-1 bg-transparent border-none outline-none text-sm text-foreground placeholder-secondary"
         />
       </div>
@@ -258,14 +266,14 @@ const DolarTable: React.FC = () => {
                     {/* Compra */}
                     <TableCell align="right">
                       <span className="text-sm font-semibold text-foreground tabular-nums">
-                        ${tipo.compra.toFixed(2)}
+                        {DolarService.formatPrice(tipo.compra)}
                       </span>
                     </TableCell>
 
                     {/* Venta */}
                     <TableCell align="right">
                       <span className="text-sm font-bold text-brand tabular-nums">
-                        ${tipo.venta.toFixed(2)}
+                        {DolarService.formatPrice(tipo.venta)}
                       </span>
                     </TableCell>
 
@@ -337,15 +345,22 @@ const DolarTable: React.FC = () => {
                         <div>
                           <p className="text-secondary text-[10px] mb-0.5">Spread</p>
                           <p className="font-semibold text-foreground text-xs">
-                            ${(tipo.venta - tipo.compra).toFixed(2)} (
-                            {(((tipo.venta - tipo.compra) / tipo.compra) * 100).toFixed(2)}%)
+                            {DolarService.formatPrice(
+                              DolarService.calculateSpread(tipo.compra, tipo.venta)
+                            )}{' '}
+                            (
+                            {DolarService.calculateSpreadPercentage(
+                              tipo.compra,
+                              tipo.venta
+                            ).toFixed(2)}
+                            %)
                           </p>
                         </div>
                         <div>
                           <p className="text-secondary text-[10px] mb-0.5">Variación anterior</p>
                           <p className="font-semibold text-foreground text-xs">
                             {tipo.variation.previousValue
-                              ? `$${tipo.variation.previousValue.toFixed(2)}`
+                              ? DolarService.formatPrice(tipo.variation.previousValue)
                               : 'N/A'}
                           </p>
                         </div>
@@ -366,6 +381,6 @@ const DolarTable: React.FC = () => {
       )}
     </div>
   );
-};
+});
 
 export default DolarTable;

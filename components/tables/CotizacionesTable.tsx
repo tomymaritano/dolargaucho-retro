@@ -10,7 +10,7 @@
  * - Fully responsive
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import {
   FaStar,
   FaRegStar,
@@ -41,6 +41,7 @@ import {
   TableHeaderCell,
 } from '@/components/ui/Table';
 import { CurrencyBadge } from '@/components/ui/CurrencyBadge';
+import { DolarService } from '@/lib/services/DolarService';
 
 type SortField = 'nombre' | 'compra' | 'venta' | 'variation' | 'sparkline';
 type SortDirection = 'asc' | 'desc';
@@ -104,7 +105,7 @@ function ExpandedCurrencyChart({ moneda, nombre }: { moneda: string; nombre: str
             }))}
             title={nombre}
             color="#10b981"
-            formatValue={(v) => `$${v.toFixed(2)}`}
+            formatValue={(v) => DolarService.formatPrice(v)}
             height={384}
           />
         </div>
@@ -113,7 +114,7 @@ function ExpandedCurrencyChart({ moneda, nombre }: { moneda: string; nombre: str
   );
 }
 
-export function CotizacionesTable({
+export const CotizacionesTable = React.memo(function CotizacionesTable({
   cotizaciones,
   isLoading,
   favoriteCurrencyIds,
@@ -172,14 +173,34 @@ export function CotizacionesTable({
     return sorted;
   }, [cotizaciones, sortField, sortDirection, historicalData]);
 
-  const handleSort = (field: SortField) => {
-    if (sortField === field) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortField(field);
-      setSortDirection('asc');
+  const handleSort = useCallback(
+    (field: SortField) => {
+      if (sortField === field) {
+        setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+      } else {
+        setSortField(field);
+        setSortDirection('asc');
+      }
+    },
+    [sortField, sortDirection]
+  );
+
+  const handleToggleExpand = useCallback((moneda: string) => {
+    setExpandedRow((prev) => (prev === moneda ? null : moneda));
+  }, []);
+
+  const handleCopyValue = useCallback((nombre: string, venta: number) => {
+    navigator.clipboard.writeText(`${nombre}: ${DolarService.formatPrice(venta)}`);
+  }, []);
+
+  const handleShare = useCallback((nombre: string, venta: number) => {
+    if (navigator.share) {
+      navigator.share({
+        title: nombre,
+        text: `${nombre}: ${DolarService.formatPrice(venta)}`,
+      });
     }
-  };
+  }, []);
 
   const SortIcon = ({ field }: { field: SortField }) => {
     if (sortField !== field) return <FaSort className="text-xs text-secondary/50" />;
@@ -299,14 +320,14 @@ export function CotizacionesTable({
                 {/* Compra */}
                 <TableCell align="right">
                   <span className="text-sm font-semibold text-foreground tabular-nums">
-                    ${cotizacion.compra.toFixed(2)}
+                    {DolarService.formatPrice(cotizacion.compra)}
                   </span>
                 </TableCell>
 
                 {/* Venta */}
                 <TableCell align="right">
                   <span className="text-sm font-bold text-brand tabular-nums">
-                    ${cotizacion.venta.toFixed(2)}
+                    {DolarService.formatPrice(cotizacion.venta)}
                   </span>
                 </TableCell>
 
@@ -375,7 +396,7 @@ export function CotizacionesTable({
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        setExpandedRow(isExpanded ? null : cotizacion.moneda);
+                        handleToggleExpand(cotizacion.moneda);
                       }}
                       className={`p-2 rounded-lg transition-all hover:scale-110 active:scale-95 ${
                         isExpanded
@@ -409,9 +430,7 @@ export function CotizacionesTable({
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        navigator.clipboard.writeText(
-                          `${cotizacion.nombre}: $${cotizacion.venta.toFixed(2)}`
-                        );
+                        handleCopyValue(cotizacion.nombre, cotizacion.venta);
                       }}
                       className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 bg-panel-hover text-foreground/70 hover:text-brand hover:bg-brand/10"
                       aria-label="Copiar"
@@ -422,12 +441,7 @@ export function CotizacionesTable({
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        if (navigator.share) {
-                          navigator.share({
-                            title: cotizacion.nombre,
-                            text: `${cotizacion.nombre}: $${cotizacion.venta.toFixed(2)}`,
-                          });
-                        }
+                        handleShare(cotizacion.nombre, cotizacion.venta);
                       }}
                       className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 bg-panel-hover text-foreground/70 hover:text-brand hover:bg-brand/10"
                       aria-label="Compartir"
@@ -453,4 +467,4 @@ export function CotizacionesTable({
       </TableBody>
     </Table>
   );
-}
+});

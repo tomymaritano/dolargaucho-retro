@@ -14,9 +14,10 @@ import {
   FaShareAlt,
   FaCheckCircle,
 } from 'react-icons/fa';
+import { DolarService } from '@/lib/services/DolarService';
 import { logger } from '@/lib/utils/logger';
 
-const CotizacionesInternacionales: React.FC = () => {
+const CotizacionesInternacionales = React.memo(function CotizacionesInternacionales() {
   const { data, isLoading, error } = useCotizacionesWithVariations();
   const { currencies: favoriteCurrencyIds, toggleCurrency } = useFavoritesStore();
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -24,7 +25,7 @@ const CotizacionesInternacionales: React.FC = () => {
   const handleCopy = async (cotizacion: (typeof data)[0]) => {
     try {
       await navigator.clipboard.writeText(
-        `${cotizacion.nombre}: Compra $${cotizacion.compra.toFixed(2)} | Venta $${cotizacion.venta.toFixed(2)}`
+        `${cotizacion.nombre}: Compra ${DolarService.formatPrice(cotizacion.compra)} | Venta ${DolarService.formatPrice(cotizacion.venta)}`
       );
       setCopiedId(cotizacion.moneda);
       setTimeout(() => setCopiedId(null), 2000);
@@ -41,7 +42,7 @@ const CotizacionesInternacionales: React.FC = () => {
       try {
         await navigator.share({
           title: `Cotización ${cotizacion.nombre}`,
-          text: `${cotizacion.nombre}: Compra $${cotizacion.compra.toFixed(2)} | Venta $${cotizacion.venta.toFixed(2)}`,
+          text: `${cotizacion.nombre}: Compra ${DolarService.formatPrice(cotizacion.compra)} | Venta ${DolarService.formatPrice(cotizacion.venta)}`,
           url: window.location.href,
         });
       } catch (error) {
@@ -123,7 +124,7 @@ const CotizacionesInternacionales: React.FC = () => {
                   {previousValue && (
                     <div
                       className={`flex items-center gap-1 px-2 py-1 rounded-lg ${trendBg} ${trendColor}`}
-                      title={`Ayer: $${previousValue.toFixed(2)}`}
+                      title={`Ayer: ${DolarService.formatPrice(previousValue)}`}
                     >
                       <TrendIcon className="text-[10px]" />
                       <span className="text-[10px] font-bold tabular-nums">
@@ -133,7 +134,7 @@ const CotizacionesInternacionales: React.FC = () => {
                   )}
                 </div>
                 <p className="text-4xl font-bold text-brand tabular-nums">
-                  ${cotizacion.venta.toFixed(2)}
+                  {DolarService.formatPrice(cotizacion.venta)}
                 </p>
               </div>
 
@@ -142,7 +143,7 @@ const CotizacionesInternacionales: React.FC = () => {
                 <div className="p-3 rounded-lg bg-panel/50 border border-border">
                   <p className="text-[10px] text-secondary uppercase tracking-wider mb-1">Compra</p>
                   <p className="text-lg font-bold text-foreground tabular-nums">
-                    ${cotizacion.compra.toFixed(2)}
+                    {DolarService.formatPrice(cotizacion.compra)}
                   </p>
                 </div>
                 <div className="p-3 rounded-lg bg-panel/50 border border-border">
@@ -151,7 +152,9 @@ const CotizacionesInternacionales: React.FC = () => {
                   </p>
                   <div className="flex items-center gap-1">
                     <p className="text-lg font-bold text-foreground tabular-nums">
-                      ${(cotizacion.venta - cotizacion.compra).toFixed(2)}
+                      {DolarService.formatPrice(
+                        DolarService.calculateSpread(cotizacion.compra, cotizacion.venta)
+                      )}
                     </p>
                   </div>
                 </div>
@@ -192,6 +195,6 @@ const CotizacionesInternacionales: React.FC = () => {
       </div>
     </div>
   );
-};
+});
 
 export default CotizacionesInternacionales;

@@ -3,6 +3,7 @@
  *
  * Single Responsibility: Render single dolar row with professional hover effects
  * Extracted from DolaresTable.tsx (363 → 160 lines)
+ * NOW USES: DolarService for business logic ✨
  *
  * Professional hover improvements:
  * - Enhanced gradient lateral action bar (w-36, 300ms transitions)
@@ -25,6 +26,7 @@ import {
 } from 'react-icons/fa';
 import { CryptoSparkline } from '@/components/charts/CryptoSparkline';
 import { TableRow, TableCell } from '@/components/ui/Table';
+import { DolarService } from '@/lib/services/DolarService';
 import type { DolarWithVariation } from '@/hooks/useDolarVariations';
 
 interface DolarTableRowProps {
@@ -35,7 +37,7 @@ interface DolarTableRowProps {
   onToggleFavorite: (casa: string) => void;
 }
 
-export function DolarTableRow({
+export const DolarTableRow = React.memo(function DolarTableRow({
   dolar,
   isFavorite,
   historicalData,
@@ -60,14 +62,14 @@ export function DolarTableRow({
     : 'neutral';
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(`${dolar.nombre}: $${dolar.venta.toFixed(2)}`);
+    navigator.clipboard.writeText(`${dolar.nombre}: ${DolarService.formatPrice(dolar.venta)}`);
   };
 
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
         title: dolar.nombre,
-        text: `${dolar.nombre}: $${dolar.venta.toFixed(2)}`,
+        text: `${dolar.nombre}: ${DolarService.formatPrice(dolar.venta)}`,
       });
     }
   };
@@ -91,14 +93,14 @@ export function DolarTableRow({
         {/* Compra */}
         <TableCell align="right">
           <span className="text-sm font-semibold text-foreground tabular-nums group-hover:scale-105 transition-transform duration-300 inline-block">
-            ${dolar.compra.toFixed(2)}
+            {DolarService.formatPrice(dolar.compra)}
           </span>
         </TableCell>
 
         {/* Venta */}
         <TableCell align="right">
           <span className="text-sm font-bold text-brand tabular-nums group-hover:scale-105 transition-transform duration-300 inline-block">
-            ${dolar.venta.toFixed(2)}
+            {DolarService.formatPrice(dolar.venta)}
           </span>
         </TableCell>
 
@@ -217,8 +219,8 @@ export function DolarTableRow({
             <div className="group/stat hover:scale-105 transition-transform duration-200">
               <p className="text-secondary text-[10px] mb-0.5">Spread</p>
               <p className="font-semibold text-foreground text-xs">
-                ${(dolar.venta - dolar.compra).toFixed(2)} (
-                {(((dolar.venta - dolar.compra) / dolar.compra) * 100).toFixed(2)}%)
+                {DolarService.formatPrice(DolarService.calculateSpread(dolar.compra, dolar.venta))}{' '}
+                ({DolarService.calculateSpreadPercentage(dolar.compra, dolar.venta).toFixed(2)}%)
               </p>
             </div>
           </div>
@@ -226,4 +228,4 @@ export function DolarTableRow({
       </TableRow>
     </React.Fragment>
   );
-}
+});

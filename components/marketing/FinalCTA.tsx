@@ -16,6 +16,7 @@ import { LinkButton } from '@/components/ui/Button';
 import { useMultipleDolarHistoricoRange } from '@/hooks/useDolarHistoricoRange';
 import { useDolarVariations } from '@/hooks/useDolarVariations';
 import { CryptoSparkline } from '@/components/charts/CryptoSparkline';
+import { DolarService } from '@/lib/services/DolarService';
 
 // Componente para cada fila de dólar (maneja su propio estado de tooltip)
 function DolarRow({
@@ -31,8 +32,10 @@ function DolarRow({
   const [tooltipPos, setTooltipPos] = React.useState({ top: 0, left: 0 });
   const priceRef = React.useRef<HTMLDivElement>(null);
   const trend = dolar.variation.trend;
-  const spread = dolar.venta - dolar.compra;
-  const spreadPercent = ((spread / dolar.compra) * 100).toFixed(2);
+  const spread = DolarService.calculateSpread(dolar.compra, dolar.venta);
+  const spreadPercent = DolarService.calculateSpreadPercentage(dolar.compra, dolar.venta).toFixed(
+    2
+  );
 
   const handleMouseEnter = () => {
     if (priceRef.current) {
@@ -70,7 +73,7 @@ function DolarRow({
           onMouseLeave={() => setShowTooltip(false)}
         >
           <div className="text-xl font-black text-foreground cursor-help">
-            ${dolar.venta.toFixed(2)}
+            {DolarService.formatPrice(dolar.venta)}
           </div>
           <div
             className={`text-xs font-semibold ${
@@ -109,17 +112,21 @@ function DolarRow({
             <div className="space-y-2">
               <div className="flex items-center justify-between text-xs">
                 <span className="text-secondary font-semibold">Compra:</span>
-                <span className="text-foreground font-bold">${dolar.compra.toFixed(2)}</span>
+                <span className="text-foreground font-bold">
+                  {DolarService.formatPrice(dolar.compra)}
+                </span>
               </div>
               <div className="flex items-center justify-between text-xs">
                 <span className="text-secondary font-semibold">Venta:</span>
-                <span className="text-foreground font-bold">${dolar.venta.toFixed(2)}</span>
+                <span className="text-foreground font-bold">
+                  {DolarService.formatPrice(dolar.venta)}
+                </span>
               </div>
               <div className="pt-2 border-t border-white/10">
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-secondary font-semibold">Spread:</span>
                   <span className="text-brand font-bold">
-                    ${spread.toFixed(2)} ({spreadPercent}%)
+                    {DolarService.formatPrice(spread)} ({spreadPercent}%)
                   </span>
                 </div>
               </div>
@@ -135,23 +142,27 @@ function DolarRow({
   );
 }
 
+// Tipos de dólar a mostrar (top 6)
+const CASAS_TO_SHOW = ['oficial', 'blue', 'bolsa', 'contadoconliqui', 'tarjeta', 'cripto'];
+
 // Mini tabla de cotizaciones con sparklines
 function DolarMiniTable() {
   // Obtener datos actuales de dólares
   const { data: dolares, isLoading: loadingDolares } = useDolarVariations();
 
-  // Tipos de dólar a mostrar (top 6)
-  const casasToShow = ['oficial', 'blue', 'bolsa', 'contadoconliqui', 'tarjeta', 'cripto'];
-
   // Obtener datos históricos para sparklines (últimos 7 días)
-  const { data: historicalData } = useMultipleDolarHistoricoRange(casasToShow, 7, !loadingDolares);
+  const { data: historicalData } = useMultipleDolarHistoricoRange(
+    CASAS_TO_SHOW,
+    7,
+    !loadingDolares
+  );
 
   // Filtrar y ordenar dólares
   const topDolares = React.useMemo(() => {
     if (!dolares) return [];
     return dolares
-      .filter((d) => casasToShow.includes(d.casa))
-      .sort((a, b) => casasToShow.indexOf(a.casa) - casasToShow.indexOf(b.casa));
+      .filter((d) => CASAS_TO_SHOW.includes(d.casa))
+      .sort((a, b) => CASAS_TO_SHOW.indexOf(a.casa) - CASAS_TO_SHOW.indexOf(b.casa));
   }, [dolares]);
 
   if (loadingDolares) {
@@ -176,7 +187,7 @@ function DolarMiniTable() {
   );
 }
 
-export function FinalCTA() {
+export const FinalCTA = React.memo(function FinalCTA() {
   return (
     <section className="relative w-full py-12 sm:py-20 lg:py-28 overflow-hidden">
       {/* Animated background gradient orbs */}
@@ -298,4 +309,4 @@ export function FinalCTA() {
       </div>
     </section>
   );
-}
+});
