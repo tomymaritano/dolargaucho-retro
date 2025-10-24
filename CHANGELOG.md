@@ -5,6 +5,10 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## 1.26.0 (2025-10-24)
+
+- feat(hero): prioritize elections and enhance interactivity ([c2dedff](https://github.com/tomymaritano/dolargaucho-retro/commit/c2dedff))
+
 ## 1.25.0 (2025-10-24)
 
 - feat(countdown): unify countdowns and add typing effect ([5714ed9](https://github.com/tomymaritano/dolargaucho-retro/commit/5714ed9))
