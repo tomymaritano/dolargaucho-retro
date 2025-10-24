@@ -204,13 +204,17 @@ export default function EleccionesPage() {
                 </div>
               </div>
 
-              <p className="text-sm text-secondary group-hover:text-foreground transition-colors mb-3">
+              <p className="text-sm text-secondary group-hover:text-foreground transition-colors">
                 26 de octubre 2025
               </p>
-              <div className="pt-4 border-t border-white/10 group-hover:border-brand/20 transition-colors">
-                <p className="text-xs text-secondary/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  Hacé clic para ver el historial electoral
-                </p>
+
+              {/* Hover CTA - Expands from 0 height */}
+              <div className="max-h-0 group-hover:max-h-20 overflow-hidden transition-all duration-300 ease-out">
+                <div className="pt-4 mt-3 border-t border-white/10 group-hover:border-brand/20 transition-colors">
+                  <p className="text-xs text-secondary/60 group-hover:text-brand transition-all duration-300 transform translate-y-[-10px] group-hover:translate-y-0 opacity-0 group-hover:opacity-100">
+                    Hacé clic para ver el historial electoral
+                  </p>
+                </div>
               </div>
             </motion.div>
 

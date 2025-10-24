@@ -8,9 +8,8 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { Tooltip } from '@/components/ui/Tooltip';
 
 // TESTING: Para probar con datos pasados, cambia a '2023-10-22T00:00:00-03:00'
 const ELECTION_DATE = new Date('2025-10-26T00:00:00-03:00'); // 26 de octubre 2025
@@ -20,6 +19,7 @@ export const ElectionCountdown = React.memo(function ElectionCountdown() {
     days: 0,
     hours: 0,
     minutes: 0,
+    seconds: 0,
   });
 
   useEffect(() => {
@@ -31,20 +31,22 @@ export const ElectionCountdown = React.memo(function ElectionCountdown() {
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
         const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-        setTimeLeft({ days, hours, minutes });
+        setTimeLeft({ days, hours, minutes, seconds });
       } else {
-        setTimeLeft({ days: 0, hours: 0, minutes: 0 });
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
       }
     };
 
     calculateTime();
-    const interval = setInterval(calculateTime, 1000 * 60); // Update every minute
+    const interval = setInterval(calculateTime, 1000); // Update every second
 
     return () => clearInterval(interval);
   }, []);
 
-  const isElectionDay = timeLeft.days === 0 && timeLeft.hours === 0 && timeLeft.minutes === 0;
+  const isElectionDay =
+    timeLeft.days === 0 && timeLeft.hours === 0 && timeLeft.minutes === 0 && timeLeft.seconds === 0;
 
   return (
     <Link href="/elecciones" className="block w-full">
@@ -60,24 +62,93 @@ export const ElectionCountdown = React.memo(function ElectionCountdown() {
           <div className="text-sm md:text-base font-bold text-foreground group-hover:text-brand transition-colors truncate">
             Elecciones 2025
           </div>
-          <div className="text-xs text-secondary truncate">26 octubre • BUP</div>
+          <div className="text-xs text-secondary truncate">26 octubre • Legislativas</div>
         </div>
 
-        {/* Center - Countdown */}
-        <div className="text-right">
-          <div className="text-xl md:text-2xl font-black text-foreground tabular-nums">
-            {timeLeft.days}d {timeLeft.hours.toString().padStart(2, '0')}h
+        {/* Center - Countdown with animations */}
+        <div className="flex items-center gap-2 md:gap-3">
+          {/* Days */}
+          <div className="text-center min-w-[35px] md:min-w-[45px]">
+            <div className="relative h-6 md:h-8 flex items-center justify-center overflow-hidden">
+              <AnimatePresence initial={false}>
+                <motion.div
+                  key={timeLeft.days}
+                  initial={{ y: 10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -10, opacity: 0 }}
+                  transition={{ duration: 0.2, ease: 'easeOut' }}
+                  className="absolute text-lg md:text-xl font-black bg-gradient-to-br from-brand via-brand-light to-brand bg-clip-text text-transparent tabular-nums"
+                >
+                  {timeLeft.days}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+            <p className="text-[8px] md:text-[9px] text-secondary/60 uppercase tracking-wide">
+              días
+            </p>
           </div>
-          <div
-            className={`text-xs font-semibold ${
-              timeLeft.days < 7
-                ? 'text-warning'
-                : timeLeft.days < 30
-                  ? 'text-brand'
-                  : 'text-secondary'
-            }`}
-          >
-            {isElectionDay ? '¡Hoy!' : 'Quedan'}
+
+          {/* Hours */}
+          <div className="text-center min-w-[35px] md:min-w-[45px]">
+            <div className="relative h-6 md:h-8 flex items-center justify-center overflow-hidden">
+              <AnimatePresence initial={false}>
+                <motion.div
+                  key={timeLeft.hours}
+                  initial={{ y: 10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -10, opacity: 0 }}
+                  transition={{ duration: 0.2, ease: 'easeOut' }}
+                  className="absolute text-lg md:text-xl font-black bg-gradient-to-br from-brand via-brand-light to-brand bg-clip-text text-transparent tabular-nums"
+                >
+                  {timeLeft.hours.toString().padStart(2, '0')}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+            <p className="text-[8px] md:text-[9px] text-secondary/60 uppercase tracking-wide">
+              hrs
+            </p>
+          </div>
+
+          {/* Minutes */}
+          <div className="text-center min-w-[35px] md:min-w-[45px]">
+            <div className="relative h-6 md:h-8 flex items-center justify-center overflow-hidden">
+              <AnimatePresence initial={false}>
+                <motion.div
+                  key={timeLeft.minutes}
+                  initial={{ y: 10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -10, opacity: 0 }}
+                  transition={{ duration: 0.2, ease: 'easeOut' }}
+                  className="absolute text-lg md:text-xl font-black bg-gradient-to-br from-brand via-brand-light to-brand bg-clip-text text-transparent tabular-nums"
+                >
+                  {timeLeft.minutes.toString().padStart(2, '0')}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+            <p className="text-[8px] md:text-[9px] text-secondary/60 uppercase tracking-wide">
+              min
+            </p>
+          </div>
+
+          {/* Seconds */}
+          <div className="text-center min-w-[35px] md:min-w-[45px]">
+            <div className="relative h-6 md:h-8 flex items-center justify-center overflow-hidden">
+              <AnimatePresence initial={false}>
+                <motion.div
+                  key={timeLeft.seconds}
+                  initial={{ y: 10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -10, opacity: 0 }}
+                  transition={{ duration: 0.2, ease: 'easeOut' }}
+                  className="absolute text-lg md:text-xl font-black bg-gradient-to-br from-brand via-brand-light to-brand bg-clip-text text-transparent tabular-nums"
+                >
+                  {timeLeft.seconds.toString().padStart(2, '0')}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+            <p className="text-[8px] md:text-[9px] text-secondary/60 uppercase tracking-wide">
+              seg
+            </p>
           </div>
         </div>
 
