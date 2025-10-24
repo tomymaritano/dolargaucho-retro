@@ -30,6 +30,7 @@ interface AgrupacionData {
 interface ElectionData {
   year: number;
   date: string;
+  category: string;
   total_electores: number;
   total_votantes: number;
   mesas_totalizadas: number;
