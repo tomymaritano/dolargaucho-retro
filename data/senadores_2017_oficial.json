@@ -1,0 +1,250 @@
+{
+  "year": 2017,
+  "date": "22 de octubre 2017",
+  "category": "Senadores Nacionales",
+  "total_electores": 15702507,
+  "total_votantes": 12361218,
+  "mesas_totalizadas": 0,
+  "participacion": 78.72,
+  "total_votos_positivos": 11861920,
+  "total_votos": 12361218,
+  "votos_nulos": 108361,
+  "votos_blanco": 390937,
+  "votos_otros": 0,
+  "agrupaciones": [
+    {
+      "nombre": "CAMBIEMOS BUENOS AIRES",
+      "votos": 3912526,
+      "porcentaje": 32.98,
+      "posicion": 1
+    },
+    {
+      "nombre": "UNIDAD CIUDADANA",
+      "votos": 3529900,
+      "porcentaje": 29.76,
+      "posicion": 2
+    },
+    {
+      "nombre": "1PAIS",
+      "votos": 1069747,
+      "porcentaje": 9.02,
+      "posicion": 3
+    },
+    {
+      "nombre": "FRENTE JUSTICIALISTA",
+      "votos": 576007,
+      "porcentaje": 4.86,
+      "posicion": 4
+    },
+    {
+      "nombre": "FRENTE DE IZQUIERDA Y DE LOS TRABAJADORES",
+      "votos": 510396,
+      "porcentaje": 4.3,
+      "posicion": 5
+    },
+    {
+      "nombre": "FRENTE RENOVADOR DE LA CONCORDIA",
+      "votos": 271051,
+      "porcentaje": 2.29,
+      "posicion": 6
+    },
+    {
+      "nombre": "FRENTE TODOS",
+      "votos": 227503,
+      "porcentaje": 1.92,
+      "posicion": 7
+    },
+    {
+      "nombre": "FRENTE CAMBIEMOS",
+      "votos": 210956,
+      "porcentaje": 1.78,
+      "posicion": 8
+    },
+    {
+      "nombre": "FRENTE DE LA VICTORIA",
+      "votos": 201972,
+      "porcentaje": 1.7,
+      "posicion": 9
+    },
+    {
+      "nombre": "FRENTE JUJE�O CAMBIEMOS",
+      "votos": 189858,
+      "porcentaje": 1.6,
+      "posicion": 10
+    },
+    {
+      "nombre": "FRENTE UNIDAD JUSTICIALISTA SAN LUIS",
+      "votos": 168167,
+      "porcentaje": 1.42,
+      "posicion": 11
+    },
+    {
+      "nombre": "CAMBIEMOS SAN JUAN",
+      "votos": 134742,
+      "porcentaje": 1.14,
+      "posicion": 12
+    },
+    {
+      "nombre": "AVANZAR Y CAMBIEMOS POR SAN LUIS",
+      "votos": 130165,
+      "porcentaje": 1.1,
+      "posicion": 13
+    },
+    {
+      "nombre": "FRENTE AMPLIO FORMOSE�O CAMBIEMOS",
+      "votos": 121520,
+      "porcentaje": 1.02,
+      "posicion": 14
+    },
+    {
+      "nombre": "CAMBIEMOS - FUERZA CIVICA RIOJANA",
+      "votos": 91307,
+      "porcentaje": 0.77,
+      "posicion": 15
+    },
+    {
+      "nombre": "FRENTE JUSTICIALISTA RIOJANO",
+      "votos": 86518,
+      "porcentaje": 0.73,
+      "posicion": 16
+    },
+    {
+      "nombre": "AGRARIO Y SOCIAL",
+      "votos": 84310,
+      "porcentaje": 0.71,
+      "posicion": 17
+    },
+    {
+      "nombre": "UNION PARA VIVIR MEJOR - CAMBIEMOS",
+      "votos": 73812,
+      "porcentaje": 0.62,
+      "posicion": 18
+    },
+    {
+      "nombre": "FRENTE PARA LA VICTORIA",
+      "votos": 53646,
+      "porcentaje": 0.45,
+      "posicion": 19
+    },
+    {
+      "nombre": "FRENTE RENOVADOR 1PAIS",
+      "votos": 33997,
+      "porcentaje": 0.29,
+      "posicion": 20
+    },
+    {
+      "nombre": "UNION POPULAR",
+      "votos": 24435,
+      "porcentaje": 0.21,
+      "posicion": 21
+    },
+    {
+      "nombre": "1PAIS -  SOMOS SAN JUAN",
+      "votos": 19446,
+      "porcentaje": 0.16,
+      "posicion": 22
+    },
+    {
+      "nombre": "FRENTE DE IZQUIERDA Y DE LOS TRABAJADORES - PARTIDO OBRERO + IZQUIERDA POR UNA OPCION SOCIALISTA",
+      "votos": 15020,
+      "porcentaje": 0.13,
+      "posicion": 23
+    },
+    {
+      "nombre": "ADN - ACCION POR UNA DEMOCRACIA NUEVA",
+      "votos": 12860,
+      "porcentaje": 0.11,
+      "posicion": 24
+    },
+    {
+      "nombre": "MOVIMIENTO POLITICO  SOCIAL Y CULTURAL PROYECTO SUR",
+      "votos": 12620,
+      "porcentaje": 0.11,
+      "posicion": 25
+    },
+    {
+      "nombre": "NUEVO OCTUBRE",
+      "votos": 12406,
+      "porcentaje": 0.1,
+      "posicion": 26
+    },
+    {
+      "nombre": "FRENTE AVANCEMOS",
+      "votos": 11712,
+      "porcentaje": 0.1,
+      "posicion": 27
+    },
+    {
+      "nombre": "NUEVA IZQUIERDA",
+      "votos": 11451,
+      "porcentaje": 0.1,
+      "posicion": 28
+    },
+    {
+      "nombre": "FRENTE PROGRESISTA POPULAR",
+      "votos": 11053,
+      "porcentaje": 0.09,
+      "posicion": 29
+    },
+    {
+      "nombre": "DEL OBRERO",
+      "votos": 10440,
+      "porcentaje": 0.09,
+      "posicion": 30
+    },
+    {
+      "nombre": "INSTRUMENTO ELECTORAL POR LA UNIDAD POPULAR",
+      "votos": 8614,
+      "porcentaje": 0.07,
+      "posicion": 31
+    },
+    {
+      "nombre": "IZQUIERDA AL FRENTE POR EL SOCIALISMO",
+      "votos": 8420,
+      "porcentaje": 0.07,
+      "posicion": 32
+    },
+    {
+      "nombre": "FRENTE RENOVADOR AUTENTICO",
+      "votos": 7032,
+      "porcentaje": 0.06,
+      "posicion": 33
+    },
+    {
+      "nombre": "DE TRABAJADORES POR EL SOCIALISMO",
+      "votos": 4796,
+      "porcentaje": 0.04,
+      "posicion": 34
+    },
+    {
+      "nombre": "ALTERNATIVA POPULAR RIOJANA",
+      "votos": 4741,
+      "porcentaje": 0.04,
+      "posicion": 35
+    },
+    {
+      "nombre": "OBRERO",
+      "votos": 3899,
+      "porcentaje": 0.03,
+      "posicion": 36
+    },
+    {
+      "nombre": "MOVIMIENTO SOCIALISTA DE LOS TRABAJADORES",
+      "votos": 2690,
+      "porcentaje": 0.02,
+      "posicion": 37
+    },
+    {
+      "nombre": "MOVIMIENTO DE INTEGRACION LATINOAMERICANA DE EXPRESION SOCIAL - MILES",
+      "votos": 2185,
+      "porcentaje": 0.02,
+      "posicion": 38
+    },
+    {
+      "nombre": "MOVIMIENTO NORTE GRANDE",
+      "votos": 0,
+      "porcentaje": 0,
+      "posicion": 39
+    }
+  ]
+}

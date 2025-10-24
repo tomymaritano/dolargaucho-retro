@@ -1,0 +1,46 @@
+{
+  "year": 2019,
+  "date": "27 de octubre 2019",
+  "category": "Senadores Nacionales",
+  "total_electores": 2710325,
+  "total_votantes": 2072802,
+  "mesas_totalizadas": 0,
+  "participacion": 76.48,
+  "total_votos_positivos": 1993820,
+  "total_votos": 2072802,
+  "votos_nulos": 14072,
+  "votos_blanco": 64910,
+  "votos_otros": 0,
+  "agrupaciones": [
+    {
+      "nombre": "JUNTOS POR EL CAMBIO",
+      "votos": 1076452,
+      "porcentaje": 53.99,
+      "posicion": 1
+    },
+    {
+      "nombre": "FRENTE DE TODOS",
+      "votos": 679569,
+      "porcentaje": 34.08,
+      "posicion": 2
+    },
+    {
+      "nombre": "CONSENSO FEDERAL",
+      "votos": 114907,
+      "porcentaje": 5.76,
+      "posicion": 3
+    },
+    {
+      "nombre": "FRENTE DE IZQUIERDA Y DE TRABAJADORES - UNIDAD",
+      "votos": 83922,
+      "porcentaje": 4.21,
+      "posicion": 4
+    },
+    {
+      "nombre": "UNITE POR LA LIBERTAD Y LA DIGNIDAD",
+      "votos": 38970,
+      "porcentaje": 1.95,
+      "posicion": 5
+    }
+  ]
+}

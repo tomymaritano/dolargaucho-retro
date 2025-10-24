@@ -1,0 +1,426 @@
+{
+  "year": 2013,
+  "date": "27 de octubre 2013",
+  "total_electores": 30635868,
+  "total_votantes": 24464393,
+  "mesas_totalizadas": 91582,
+  "participacion": 79.86,
+  "total_votos_positivos": 23069785,
+  "total_votos": 23518683,
+  "votos_nulos": 323434,
+  "votos_blanco": 0,
+  "votos_otros": 125464,
+  "agrupaciones": [
+    {
+      "nombre": "FRENTE PARA LA VICTORIA",
+      "votos": 6798175,
+      "porcentaje": 29.47
+    },
+    {
+      "nombre": "FRENTE RENOVADOR",
+      "votos": 3911926,
+      "porcentaje": 16.96
+    },
+    {
+      "nombre": "FRENTE PROGRESISTA CIVICO Y SOCIAL",
+      "votos": 2034441,
+      "porcentaje": 8.82
+    },
+    {
+      "nombre": "UNION CIVICA RADICAL",
+      "votos": 1369655,
+      "porcentaje": 5.94
+    },
+    {
+      "nombre": "FRENTE DE IZQUIERDA Y DE LOS TRABAJADORES",
+      "votos": 978657,
+      "porcentaje": 4.24
+    },
+    {
+      "nombre": "UNION PRO",
+      "votos": 911345,
+      "porcentaje": 3.95
+    },
+    {
+      "nombre": "UNEN",
+      "votos": 583222,
+      "porcentaje": 2.53
+    },
+    {
+      "nombre": "UNION POR CORDOBA",
+      "votos": 530714,
+      "porcentaje": 2.3
+    },
+    {
+      "nombre": "UNION PRO SANTA FE FEDERAL",
+      "votos": 511744,
+      "porcentaje": 2.22
+    },
+    {
+      "nombre": "UNIDOS POR LA LIBERTAD Y EL TRABAJO",
+      "votos": 487429,
+      "porcentaje": 2.11
+    },
+    {
+      "nombre": "FRENTE CIVICO POR SANTIAGO",
+      "votos": 342990,
+      "porcentaje": 1.49
+    },
+    {
+      "nombre": "FRENTE ACUERDO CIVICO Y SOCIAL",
+      "votos": 307481,
+      "porcentaje": 1.33
+    },
+    {
+      "nombre": "ENCUENTRO POR CORRIENTES",
+      "votos": 262477,
+      "porcentaje": 1.14
+    },
+    {
+      "nombre": "FRENTE RENOVADOR DE LA CONCORDIA",
+      "votos": 259044,
+      "porcentaje": 1.12
+    },
+    {
+      "nombre": "COMPROMISO FEDERAL",
+      "votos": 256754,
+      "porcentaje": 1.11
+    },
+    {
+      "nombre": "PARTIDO JUSTICIALISTA",
+      "votos": 223584,
+      "porcentaje": 0.97
+    },
+    {
+      "nombre": "UNION POR CHACO",
+      "votos": 214003,
+      "porcentaje": 0.93
+    },
+    {
+      "nombre": "PARTIDO OBRERO",
+      "votos": 204760,
+      "porcentaje": 0.89
+    },
+    {
+      "nombre": "ALIANZA UNION POR ENTRE RIOS",
+      "votos": 180404,
+      "porcentaje": 0.78
+    },
+    {
+      "nombre": "PARTIDO DE ACCION CHUBUTENSE",
+      "votos": 152736,
+      "porcentaje": 0.66
+    },
+    {
+      "nombre": "UNION CON FE",
+      "votos": 143168,
+      "porcentaje": 0.62
+    },
+    {
+      "nombre": "MOVIMIENTO POPULAR NEUQUINO",
+      "votos": 133903,
+      "porcentaje": 0.58
+    },
+    {
+      "nombre": "FRENTE POPULAR SALTEÑO",
+      "votos": 127455,
+      "porcentaje": 0.55
+    },
+    {
+      "nombre": "FRENTE JUJEÑO",
+      "votos": 125337,
+      "porcentaje": 0.54
+    },
+    {
+      "nombre": "SALTA SOMOS TODOS",
+      "votos": 112580,
+      "porcentaje": 0.49
+    },
+    {
+      "nombre": "VECINALISMO INDEPENDIENTE",
+      "votos": 91913,
+      "porcentaje": 0.4
+    },
+    {
+      "nombre": "FRENTE AMPLIO FORMOSEÑO",
+      "votos": 89787,
+      "porcentaje": 0.39
+    },
+    {
+      "nombre": "FRENTE UNIDOS",
+      "votos": 87607,
+      "porcentaje": 0.38
+    },
+    {
+      "nombre": "FUERZA CIVICA RIOJANA",
+      "votos": 86667,
+      "porcentaje": 0.38
+    },
+    {
+      "nombre": "ALIANZA FRENTE PROGRESISTA",
+      "votos": 83149,
+      "porcentaje": 0.36
+    },
+    {
+      "nombre": "FRENTE CIVICO Y SOCIAL",
+      "votos": 78139,
+      "porcentaje": 0.34
+    },
+    {
+      "nombre": "FUERZA REPUBLICANA",
+      "votos": 72768,
+      "porcentaje": 0.32
+    },
+    {
+      "nombre": "COALICION CIVICA - AFIRMACION PARA UNA REPUBLICA IGUALITARIA (ARI)",
+      "votos": 69672,
+      "porcentaje": 0.3
+    },
+    {
+      "nombre": "FRENTE PAMPEANO CIVICO Y SOCIAL - FREPAM",
+      "votos": 69423,
+      "porcentaje": 0.3
+    },
+    {
+      "nombre": "AUTODETERMINACION Y LIBERTAD",
+      "votos": 68510,
+      "porcentaje": 0.3
+    },
+    {
+      "nombre": "NUEVA IZQUIERDA",
+      "votos": 67603,
+      "porcentaje": 0.29
+    },
+    {
+      "nombre": "UNION PARA VIVIR MEJOR",
+      "votos": 66915,
+      "porcentaje": 0.29
+    },
+    {
+      "nombre": "CAMBIO POPULAR",
+      "votos": 57416,
+      "porcentaje": 0.25
+    },
+    {
+      "nombre": "UNION PD-PRO",
+      "votos": 52092,
+      "porcentaje": 0.23
+    },
+    {
+      "nombre": "PARTIDO DE LA VICTORIA",
+      "votos": 47315,
+      "porcentaje": 0.21
+    },
+    {
+      "nombre": "ALIANZA FRENTE AMPLIO PROGRESISTA",
+      "votos": 45026,
+      "porcentaje": 0.2
+    },
+    {
+      "nombre": "ENCUENTRO VECINAL CORDOBA",
+      "votos": 42991,
+      "porcentaje": 0.19
+    },
+    {
+      "nombre": "CRUZADA RENOVADORA",
+      "votos": 42740,
+      "porcentaje": 0.19
+    },
+    {
+      "nombre": "CAMINO POPULAR",
+      "votos": 41352,
+      "porcentaje": 0.18
+    },
+    {
+      "nombre": "FRENTE PROPUESTA FEDERAL",
+      "votos": 38847,
+      "porcentaje": 0.17
+    },
+    {
+      "nombre": "COMPROMISO CIVICO NEUQUINO",
+      "votos": 38107,
+      "porcentaje": 0.17
+    },
+    {
+      "nombre": "PARTIDO RENOVADOR DE SALTA",
+      "votos": 37406,
+      "porcentaje": 0.16
+    },
+    {
+      "nombre": "FRENTE TERCERA POSICION (F3P) UNIDAD CATAMARQUEÑA",
+      "votos": 36559,
+      "porcentaje": 0.16
+    },
+    {
+      "nombre": "SANTAFESINO CIEN POR CIENTO",
+      "votos": 35226,
+      "porcentaje": 0.15
+    },
+    {
+      "nombre": "UNITE! CON FE POR LA CULTURA, EDUCACION Y TRABAJO",
+      "votos": 27675,
+      "porcentaje": 0.12
+    },
+    {
+      "nombre": "ALTERNATIVA POPULAR",
+      "votos": 27558,
+      "porcentaje": 0.12
+    },
+    {
+      "nombre": "PARTIDO SOCIALISTA",
+      "votos": 25607,
+      "porcentaje": 0.11
+    },
+    {
+      "nombre": "MOVIMIENTO SOCIALISTA DE LOS TRABAJADORES (MST)",
+      "votos": 24967,
+      "porcentaje": 0.11
+    },
+    {
+      "nombre": "PRO PROPUESTA REPUBLICANA",
+      "votos": 24231,
+      "porcentaje": 0.11
+    },
+    {
+      "nombre": "MOVIMIENTO INDEPENDIENTE JUSTICIA Y DIGNIDAD",
+      "votos": 23455,
+      "porcentaje": 0.1
+    },
+    {
+      "nombre": "IZQUIERDA POR UNA OPCION SOCIALISTA",
+      "votos": 23295,
+      "porcentaje": 0.1
+    },
+    {
+      "nombre": "FRENTE AMPLIO PROGRESISTA-COALICION CIVICA-ARI",
+      "votos": 20418,
+      "porcentaje": 0.09
+    },
+    {
+      "nombre": "MOVIMIENTO LIBRES DEL SUR",
+      "votos": 18399,
+      "porcentaje": 0.08
+    },
+    {
+      "nombre": "FRENTE PLURAL",
+      "votos": 16795,
+      "porcentaje": 0.07
+    },
+    {
+      "nombre": "FRENTE PRIMERO JUJUY",
+      "votos": 16247,
+      "porcentaje": 0.07
+    },
+    {
+      "nombre": "MOVIMIENTO SOLIDARIO POPULAR",
+      "votos": 15734,
+      "porcentaje": 0.07
+    },
+    {
+      "nombre": "PARTIDO DIGNIDAD CIUDADANA",
+      "votos": 15501,
+      "porcentaje": 0.07
+    },
+    {
+      "nombre": "UNION POPULAR",
+      "votos": 15293,
+      "porcentaje": 0.07
+    },
+    {
+      "nombre": "FRENTE UNION PRO",
+      "votos": 14809,
+      "porcentaje": 0.06
+    },
+    {
+      "nombre": "MOVIMIENTO POLO SOCIAL LA TERCERA POSICION DE LA GENTE",
+      "votos": 13665,
+      "porcentaje": 0.06
+    },
+    {
+      "nombre": "MOVIMIENTO POPULAR FUEGUINO",
+      "votos": 12729,
+      "porcentaje": 0.06
+    },
+    {
+      "nombre": "LABORISTA DE LA INDEPENDENCIA",
+      "votos": 12695,
+      "porcentaje": 0.06
+    },
+    {
+      "nombre": "UNION DE LOS NEUQUINOS",
+      "votos": 12151,
+      "porcentaje": 0.05
+    },
+    {
+      "nombre": "FRENTE PROGRESISTA SUR",
+      "votos": 10746,
+      "porcentaje": 0.05
+    },
+    {
+      "nombre": "DEMOCRATA INDEPENDIENTE",
+      "votos": 10563,
+      "porcentaje": 0.05
+    },
+    {
+      "nombre": "MEMORIA Y MOVILIZACION SOCIAL",
+      "votos": 10037,
+      "porcentaje": 0.04
+    },
+    {
+      "nombre": "PUEBLO NUEVO",
+      "votos": 9174,
+      "porcentaje": 0.04
+    },
+    {
+      "nombre": "PARTIDO HUMANISTA",
+      "votos": 8241,
+      "porcentaje": 0.04
+    },
+    {
+      "nombre": "PARTIDO FE",
+      "votos": 8235,
+      "porcentaje": 0.04
+    },
+    {
+      "nombre": "UNION FEDERAL",
+      "votos": 7668,
+      "porcentaje": 0.03
+    },
+    {
+      "nombre": "PARTIDO POPULAR",
+      "votos": 7026,
+      "porcentaje": 0.03
+    },
+    {
+      "nombre": "FRENTE NUEVO PACTO FEDERAL",
+      "votos": 5507,
+      "porcentaje": 0.02
+    },
+    {
+      "nombre": "FRENTE DEL PUEBLO",
+      "votos": 5362,
+      "porcentaje": 0.02
+    },
+    {
+      "nombre": "PARTIDO POR UN PUEBLO UNIDO",
+      "votos": 5093,
+      "porcentaje": 0.02
+    },
+    {
+      "nombre": "PARTIDO DE LOS TRABAJADORES SOCIALISTAS",
+      "votos": 5031,
+      "porcentaje": 0.02
+    },
+    {
+      "nombre": "ESPACIO DEMOCRATICO PARA LA VICTORIA",
+      "votos": 2846,
+      "porcentaje": 0.01
+    },
+    {
+      "nombre": "GEN",
+      "votos": 1818,
+      "porcentaje": 0.01
+    }
+  ],
+  "category": "Diputados Nacionales"
+}

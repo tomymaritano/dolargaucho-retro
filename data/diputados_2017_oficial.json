@@ -1,0 +1,531 @@
+{
+  "year": 2017,
+  "date": "22 de octubre 2017",
+  "total_electores": 33761474,
+  "total_votantes": 25415649,
+  "mesas_totalizadas": 99681,
+  "participacion": 75.28,
+  "total_votos_positivos": 24329184,
+  "total_votos": 24713896,
+  "votos_nulos": 348092,
+  "votos_blanco": 0,
+  "votos_otros": 36620,
+  "agrupaciones": [
+    {
+      "nombre": "CAMBIEMOS BUENOS AIRES",
+      "votos": 3896150,
+      "porcentaje": 16.01
+    },
+    {
+      "nombre": "UNIDAD CIUDADANA",
+      "votos": 3417542,
+      "porcentaje": 14.05
+    },
+    {
+      "nombre": "CAMBIEMOS",
+      "votos": 3119792,
+      "porcentaje": 12.82
+    },
+    {
+      "nombre": "FRENTE JUSTICIALISTA",
+      "votos": 1050380,
+      "porcentaje": 4.32
+    },
+    {
+      "nombre": "FRENTE DE IZQUIERDA Y DE LOS TRABAJADORES",
+      "votos": 1039416,
+      "porcentaje": 4.27
+    },
+    {
+      "nombre": "1PAIS",
+      "votos": 1019090,
+      "porcentaje": 4.19
+    },
+    {
+      "nombre": "VAMOS JUNTOS",
+      "votos": 974886,
+      "porcentaje": 4.01
+    },
+    {
+      "nombre": "UNION POR CORDOBA",
+      "votos": 622321,
+      "porcentaje": 2.56
+    },
+    {
+      "nombre": "FRENTE JUSTICIALISTA POR TUCUMAN",
+      "votos": 459257,
+      "porcentaje": 1.89
+    },
+    {
+      "nombre": "UNIDAD PORTEÑA",
+      "votos": 416225,
+      "porcentaje": 1.71
+    },
+    {
+      "nombre": "FRENTE CIVICO POR SANTIAGO",
+      "votos": 372323,
+      "porcentaje": 1.53
+    },
+    {
+      "nombre": "CAMBIEMOS PARA EL BICENTENARIO",
+      "votos": 319221,
+      "porcentaje": 1.31
+    },
+    {
+      "nombre": "ENCUENTRO POR CORRIENTES - ECO + CAMBIEMOS",
+      "votos": 316004,
+      "porcentaje": 1.3
+    },
+    {
+      "nombre": "FRENTE PARA LA VICTORIA",
+      "votos": 313955,
+      "porcentaje": 1.29
+    },
+    {
+      "nombre": "FRENTE JUSTICIALISTA SOMOS ENTRE RIOS",
+      "votos": 312738,
+      "porcentaje": 1.29
+    },
+    {
+      "nombre": "FRENTE PROGRESISTA CIVICO Y SOCIAL",
+      "votos": 285788,
+      "porcentaje": 1.17
+    },
+    {
+      "nombre": "SOMOS MENDOZA",
+      "votos": 271181,
+      "porcentaje": 1.11
+    },
+    {
+      "nombre": "FRENTE RENOVADOR DE LA CONCORDIA",
+      "votos": 266148,
+      "porcentaje": 1.09
+    },
+    {
+      "nombre": "FRENTE CHACO MERECE MAS",
+      "votos": 255755,
+      "porcentaje": 1.05
+    },
+    {
+      "nombre": "EVOLUCION",
+      "votos": 236008,
+      "porcentaje": 0.97
+    },
+    {
+      "nombre": "FRENTE TODOS",
+      "votos": 224096,
+      "porcentaje": 0.92
+    },
+    {
+      "nombre": "FRENTE CAMBIEMOS",
+      "votos": 209906,
+      "porcentaje": 0.86
+    },
+    {
+      "nombre": "CAMBIEMOS PAIS",
+      "votos": 208889,
+      "porcentaje": 0.86
+    },
+    {
+      "nombre": "FRENTE CORDOBA CIUDADANA",
+      "votos": 198206,
+      "porcentaje": 0.81
+    },
+    {
+      "nombre": "FRENTE DE LA VICTORIA",
+      "votos": 195920,
+      "porcentaje": 0.81
+    },
+    {
+      "nombre": "INTRANSIGENTE",
+      "votos": 183823,
+      "porcentaje": 0.76
+    },
+    {
+      "nombre": "FRENTE JUJEÑO CAMBIEMOS",
+      "votos": 167543,
+      "porcentaje": 0.69
+    },
+    {
+      "nombre": "FRENTE UNIDAD Y RENOVACION",
+      "votos": 162940,
+      "porcentaje": 0.67
+    },
+    {
+      "nombre": "FRENTE UNIDAD JUSTICIALISTA SAN LUIS",
+      "votos": 156998,
+      "porcentaje": 0.65
+    },
+    {
+      "nombre": "FUERZA REPUBLICANA",
+      "votos": 154930,
+      "porcentaje": 0.64
+    },
+    {
+      "nombre": "FRENTE CIUDADANO PARA LA VICTORIA",
+      "votos": 152774,
+      "porcentaje": 0.63
+    },
+    {
+      "nombre": "JUNTOS PODEMOS MAS",
+      "votos": 146239,
+      "porcentaje": 0.6
+    },
+    {
+      "nombre": "CAMBIEMOS SAN JUAN",
+      "votos": 131641,
+      "porcentaje": 0.54
+    },
+    {
+      "nombre": "AVANZAR Y CAMBIEMOS POR SAN LUIS",
+      "votos": 122918,
+      "porcentaje": 0.51
+    },
+    {
+      "nombre": "CAMBIEMOS RIO NEGRO",
+      "votos": 122460,
+      "porcentaje": 0.5
+    },
+    {
+      "nombre": "FRENTE AMPLIO FORMOSEÑO CAMBIEMOS",
+      "votos": 114654,
+      "porcentaje": 0.47
+    },
+    {
+      "nombre": "FRENTE CHUBUT PARA TODOS",
+      "votos": 100326,
+      "porcentaje": 0.41
+    },
+    {
+      "nombre": "JUSTICIALISTA",
+      "votos": 96097,
+      "porcentaje": 0.39
+    },
+    {
+      "nombre": "FRENTE CAMBIEMOS LA PAMPA",
+      "votos": 95499,
+      "porcentaje": 0.39
+    },
+    {
+      "nombre": "FRENTE JUSTICIALISTA PARA LA VICTORIA",
+      "votos": 94893,
+      "porcentaje": 0.39
+    },
+    {
+      "nombre": "CAMBIEMOS CHUBUT",
+      "votos": 94031,
+      "porcentaje": 0.39
+    },
+    {
+      "nombre": "AVANCEMOS HACIA 1PAIS MEJOR",
+      "votos": 93438,
+      "porcentaje": 0.38
+    },
+    {
+      "nombre": "1 PROYECTO SANTAFESINO",
+      "votos": 87700,
+      "porcentaje": 0.36
+    },
+    {
+      "nombre": "FRENTE RENOVADOR - 1PAIS",
+      "votos": 85147,
+      "porcentaje": 0.35
+    },
+    {
+      "nombre": "CAMBIEMOS - FUERZA CIVICA RIOJANA",
+      "votos": 84539,
+      "porcentaje": 0.35
+    },
+    {
+      "nombre": "FRENTE JUSTICIALISTA RIOJANO",
+      "votos": 83385,
+      "porcentaje": 0.34
+    },
+    {
+      "nombre": "FRENTE CIVICO Y SOCIAL - CAMBIEMOS",
+      "votos": 82944,
+      "porcentaje": 0.34
+    },
+    {
+      "nombre": "AUTODETERMINACION Y LIBERTAD",
+      "votos": 82511,
+      "porcentaje": 0.34
+    },
+    {
+      "nombre": "MOVIMIENTO POPULAR NEUQUINO",
+      "votos": 80732,
+      "porcentaje": 0.33
+    },
+    {
+      "nombre": "FRENTE RENOVADOR 1PAIS",
+      "votos": 79375,
+      "porcentaje": 0.33
+    },
+    {
+      "nombre": "AGRARIO Y SOCIAL",
+      "votos": 78782,
+      "porcentaje": 0.32
+    },
+    {
+      "nombre": "UNITE POR LA LIBERTAD Y LA DIGNIDAD",
+      "votos": 75078,
+      "porcentaje": 0.31
+    },
+    {
+      "nombre": "UNIDAD CIUDADANA PARA LA VICTORIA",
+      "votos": 72777,
+      "porcentaje": 0.3
+    },
+    {
+      "nombre": "UNION PARA VIVIR MEJOR - CAMBIEMOS",
+      "votos": 72446,
+      "porcentaje": 0.3
+    },
+    {
+      "nombre": "ENCUENTRO VECINAL CORDOBA",
+      "votos": 72081,
+      "porcentaje": 0.3
+    },
+    {
+      "nombre": "POPULAR",
+      "votos": 70926,
+      "porcentaje": 0.29
+    },
+    {
+      "nombre": "CIUDAD FUTURA",
+      "votos": 70858,
+      "porcentaje": 0.29
+    },
+    {
+      "nombre": "FRENTE NEUQUINO",
+      "votos": 68175,
+      "porcentaje": 0.28
+    },
+    {
+      "nombre": "SALTA SOMOS TODOS",
+      "votos": 66978,
+      "porcentaje": 0.28
+    },
+    {
+      "nombre": "IZQUIERDA AL FRENTE POR EL SOCIALISMO",
+      "votos": 60615,
+      "porcentaje": 0.25
+    },
+    {
+      "nombre": "NUEVA IZQUIERDA",
+      "votos": 57525,
+      "porcentaje": 0.24
+    },
+    {
+      "nombre": "FRENTE SOCIAL Y POPULAR",
+      "votos": 53122,
+      "porcentaje": 0.22
+    },
+    {
+      "nombre": "DEL OBRERO",
+      "votos": 52736,
+      "porcentaje": 0.22
+    },
+    {
+      "nombre": "PRIMERO LA GENTE",
+      "votos": 50327,
+      "porcentaje": 0.21
+    },
+    {
+      "nombre": "COALICION CIVICA - ARI",
+      "votos": 42883,
+      "porcentaje": 0.18
+    },
+    {
+      "nombre": "SOCIALISTA",
+      "votos": 42211,
+      "porcentaje": 0.17
+    },
+    {
+      "nombre": "ESPACIO GRANDE",
+      "votos": 32470,
+      "porcentaje": 0.13
+    },
+    {
+      "nombre": "FRENTE CIUDADANO Y SOCIAL",
+      "votos": 27771,
+      "porcentaje": 0.11
+    },
+    {
+      "nombre": "CAMBIEMOS TIERRA DEL FUEGO",
+      "votos": 27530,
+      "porcentaje": 0.11
+    },
+    {
+      "nombre": "MOVIMIENTO SOCIALISTA DE LOS TRABAJADORES",
+      "votos": 26585,
+      "porcentaje": 0.11
+    },
+    {
+      "nombre": "UNION POPULAR",
+      "votos": 26121,
+      "porcentaje": 0.11
+    },
+    {
+      "nombre": "SOMOS CORRIENTES",
+      "votos": 23776,
+      "porcentaje": 0.1
+    },
+    {
+      "nombre": "FRENTE TIERRA DE UNION",
+      "votos": 21504,
+      "porcentaje": 0.09
+    },
+    {
+      "nombre": "1 PAIS SOMOS SAN JUAN",
+      "votos": 20201,
+      "porcentaje": 0.08
+    },
+    {
+      "nombre": "UN NUEVO PAIS (1P)",
+      "votos": 18572,
+      "porcentaje": 0.08
+    },
+    {
+      "nombre": "FRENTE POPULAR PARA LA LIBERACION",
+      "votos": 16783,
+      "porcentaje": 0.07
+    },
+    {
+      "nombre": "FRENTE DE IZQUIERDA Y DE LOS TRABAJADORES - PARTIDO OBRERO + IZQUIERDA POR UNA OPCION SOCIALISTA",
+      "votos": 16099,
+      "porcentaje": 0.07
+    },
+    {
+      "nombre": "OBRERO",
+      "votos": 15630,
+      "porcentaje": 0.06
+    },
+    {
+      "nombre": "MOVIMIENTO LIBRES DEL SUR",
+      "votos": 12731,
+      "porcentaje": 0.05
+    },
+    {
+      "nombre": "ADN - ACCION POR UNA DEMOCRACIA NUEVA",
+      "votos": 12490,
+      "porcentaje": 0.05
+    },
+    {
+      "nombre": "INSTRUMENTO ELECTORAL POR LA UNIDAD POPULAR",
+      "votos": 11977,
+      "porcentaje": 0.05
+    },
+    {
+      "nombre": "SOCIALISTA AUTENTICO DEL CHUBUT",
+      "votos": 11954,
+      "porcentaje": 0.05
+    },
+    {
+      "nombre": "FRENTE AVANCEMOS",
+      "votos": 11928,
+      "porcentaje": 0.05
+    },
+    {
+      "nombre": "FRENTE DE UNIDAD CIUDADANA",
+      "votos": 11866,
+      "porcentaje": 0.05
+    },
+    {
+      "nombre": "MOVIMIENTO POLITICO, SOCIAL Y CULTURAL PROYECTO SUR",
+      "votos": 11716,
+      "porcentaje": 0.05
+    },
+    {
+      "nombre": "NUEVO OCTUBRE",
+      "votos": 11620,
+      "porcentaje": 0.05
+    },
+    {
+      "nombre": "FRENTE PROGRESISTA POPULAR",
+      "votos": 10710,
+      "porcentaje": 0.04
+    },
+    {
+      "nombre": "IZQUIERDA POR UNA OPCION SOCIALISTA",
+      "votos": 10239,
+      "porcentaje": 0.04
+    },
+    {
+      "nombre": "UNA RIOJA",
+      "votos": 8988,
+      "porcentaje": 0.04
+    },
+    {
+      "nombre": "FRENTE PROGRESISTA PAMPEANO",
+      "votos": 7209,
+      "porcentaje": 0.03
+    },
+    {
+      "nombre": "NUEVA DIRIGENCIA",
+      "votos": 7121,
+      "porcentaje": 0.03
+    },
+    {
+      "nombre": "1PAIS FRENTE RENOVADOR NEUQUEN +A",
+      "votos": 6862,
+      "porcentaje": 0.03
+    },
+    {
+      "nombre": "FRENTE RENOVADOR AUTENTICO",
+      "votos": 6857,
+      "porcentaje": 0.03
+    },
+    {
+      "nombre": "FEDERAL FUEGUINO",
+      "votos": 5766,
+      "porcentaje": 0.02
+    },
+    {
+      "nombre": "DE TRABAJADORES POR EL SOCIALISMO",
+      "votos": 5547,
+      "porcentaje": 0.02
+    },
+    {
+      "nombre": "DEL TRABAJO Y DEL PUEBLO",
+      "votos": 5345,
+      "porcentaje": 0.02
+    },
+    {
+      "nombre": "ALTERNATIVA POPULAR RIOJANA",
+      "votos": 4377,
+      "porcentaje": 0.02
+    },
+    {
+      "nombre": "DE LOS TRABAJADORES SOCIALISTAS",
+      "votos": 4055,
+      "porcentaje": 0.02
+    },
+    {
+      "nombre": "HUMANISTA",
+      "votos": 3892,
+      "porcentaje": 0.02
+    },
+    {
+      "nombre": "INICIATIVA POR LA UNION",
+      "votos": 3347,
+      "porcentaje": 0.01
+    },
+    {
+      "nombre": "MOVIMIENTO INTEGRACION LATINOAMERICANA DE EXPRESION SOCIAL",
+      "votos": 1963,
+      "porcentaje": 0.01
+    },
+    {
+      "nombre": "PRINCIPIOS Y CONVICCION",
+      "votos": 1108,
+      "porcentaje": 0.0
+    },
+    {
+      "nombre": "MOVIMIENTO NORTE GRANDE",
+      "votos": 220,
+      "porcentaje": 0.0
+    }
+  ],
+  "category": "Diputados Nacionales"
+}

@@ -1,0 +1,406 @@
+{
+  "year": 2021,
+  "date": "14 de noviembre 2021",
+  "total_electores": 34026780,
+  "total_votantes": 24406798,
+  "mesas_totalizadas": 100237,
+  "participacion": 71.73,
+  "total_votos_positivos": 23238621,
+  "total_votos": 23243728,
+  "votos_nulos": 0,
+  "votos_blanco": 0,
+  "votos_otros": 5107,
+  "agrupaciones": [
+    {
+      "nombre": "FRENTE DE TODOS",
+      "votos": 7162786,
+      "porcentaje": 30.82
+    },
+    {
+      "nombre": "JUNTOS",
+      "votos": 3480298,
+      "porcentaje": 14.98
+    },
+    {
+      "nombre": "JUNTOS POR EL CAMBIO",
+      "votos": 3087815,
+      "porcentaje": 13.29
+    },
+    {
+      "nombre": "FRENTE DE IZQUIERDA Y DE TRABAJADORES - UNIDAD",
+      "votos": 1194947,
+      "porcentaje": 5.14
+    },
+    {
+      "nombre": "AVANZA LIBERTAD",
+      "votos": 656498,
+      "porcentaje": 2.83
+    },
+    {
+      "nombre": "HACEMOS POR CÓRDOBA",
+      "votos": 490235,
+      "porcentaje": 2.11
+    },
+    {
+      "nombre": "CAMBIA MENDOZA",
+      "votos": 486149,
+      "porcentaje": 2.09
+    },
+    {
+      "nombre": "JUNTOS POR ENTRE RÍOS",
+      "votos": 432314,
+      "porcentaje": 1.86
+    },
+    {
+      "nombre": "FRENTE VAMOS CON VOS",
+      "votos": 395293,
+      "porcentaje": 1.7
+    },
+    {
+      "nombre": "JUNTOS POR EL CAMBIO JXC",
+      "votos": 385054,
+      "porcentaje": 1.66
+    },
+    {
+      "nombre": "LA LIBERTAD AVANZA",
+      "votos": 354578,
+      "porcentaje": 1.53
+    },
+    {
+      "nombre": "FRENTE CIVICO POR SANTIAGO",
+      "votos": 338599,
+      "porcentaje": 1.46
+    },
+    {
+      "nombre": "FRENTE JUNTOS POR EL CAMBIO",
+      "votos": 327927,
+      "porcentaje": 1.41
+    },
+    {
+      "nombre": "ECO + VAMOS CORRIENTES",
+      "votos": 318542,
+      "porcentaje": 1.37
+    },
+    {
+      "nombre": "+ VALORES",
+      "votos": 257568,
+      "porcentaje": 1.11
+    },
+    {
+      "nombre": "CHACO CAMBIA + JUNTOS POR EL CAMBIO",
+      "votos": 254546,
+      "porcentaje": 1.1
+    },
+    {
+      "nombre": "FRENTE RENOVADOR DE LA CONCORDIA",
+      "votos": 229225,
+      "porcentaje": 0.99
+    },
+    {
+      "nombre": "FRENTE AMPLIO PROGRESISTA",
+      "votos": 220422,
+      "porcentaje": 0.95
+    },
+    {
+      "nombre": "CAMBIA JUJUY",
+      "votos": 196293,
+      "porcentaje": 0.84
+    },
+    {
+      "nombre": "JUNTOS POR EL CAMBIO +",
+      "votos": 186947,
+      "porcentaje": 0.8
+    },
+    {
+      "nombre": "FRENTE DE TODOS - TODOS SAN JUAN",
+      "votos": 176969,
+      "porcentaje": 0.76
+    },
+    {
+      "nombre": "JUNTOS SOMOS RIO NEGRO",
+      "votos": 138545,
+      "porcentaje": 0.6
+    },
+    {
+      "nombre": "JUNTOS POR FORMOSA LIBRE",
+      "votos": 126298,
+      "porcentaje": 0.54
+    },
+    {
+      "nombre": "UNIDOS POR SAN LUIS",
+      "votos": 124837,
+      "porcentaje": 0.54
+    },
+    {
+      "nombre": "FUERZA SAN LUIS",
+      "votos": 123511,
+      "porcentaje": 0.53
+    },
+    {
+      "nombre": "MOVIMIENTO POPULAR NEUQUINO",
+      "votos": 111177,
+      "porcentaje": 0.48
+    },
+    {
+      "nombre": "JUNTOS POR EL CAMBIO CHUBUT",
+      "votos": 108556,
+      "porcentaje": 0.47
+    },
+    {
+      "nombre": "FUERZA REPUBLICANA",
+      "votos": 101118,
+      "porcentaje": 0.44
+    },
+    {
+      "nombre": "VERDE",
+      "votos": 90671,
+      "porcentaje": 0.39
+    },
+    {
+      "nombre": "CAMBIA NEUQUÉN",
+      "votos": 86067,
+      "porcentaje": 0.37
+    },
+    {
+      "nombre": "FRENTE SI + PRS",
+      "votos": 85806,
+      "porcentaje": 0.37
+    },
+    {
+      "nombre": "SOBERANIA POPULAR",
+      "votos": 81421,
+      "porcentaje": 0.35
+    },
+    {
+      "nombre": "ENCUENTRO VECINAL CÓRDOBA",
+      "votos": 74727,
+      "porcentaje": 0.32
+    },
+    {
+      "nombre": "UNITE POR LA LIBERTAD Y LA DIGNIDAD",
+      "votos": 74474,
+      "porcentaje": 0.32
+    },
+    {
+      "nombre": "UNIDOS POR SALTA",
+      "votos": 71795,
+      "porcentaje": 0.31
+    },
+    {
+      "nombre": "CAMBIA SANTA CRUZ",
+      "votos": 57571,
+      "porcentaje": 0.25
+    },
+    {
+      "nombre": "AUTODETERMINACIÓN Y LIBERTAD",
+      "votos": 55965,
+      "porcentaje": 0.24
+    },
+    {
+      "nombre": "COALICIÓN CÍVICA - AFIRMACIÓN PARA UNA REPÚBLICA IGUALITARIA (ARI)",
+      "votos": 53147,
+      "porcentaje": 0.23
+    },
+    {
+      "nombre": "VAMOS LA RIOJA",
+      "votos": 49077,
+      "porcentaje": 0.21
+    },
+    {
+      "nombre": "FRENTE INTEGRADOR",
+      "votos": 48884,
+      "porcentaje": 0.21
+    },
+    {
+      "nombre": "MOVIMIENTO LIBRES DEL SUR",
+      "votos": 48219,
+      "porcentaje": 0.21
+    },
+    {
+      "nombre": "FRENTE PATRIOTICO LABORISTA",
+      "votos": 47655,
+      "porcentaje": 0.21
+    },
+    {
+      "nombre": "SOMOS ENERGÍA PARA RENOVAR SANTA CRUZ -SER-",
+      "votos": 46500,
+      "porcentaje": 0.2
+    },
+    {
+      "nombre": "INDEPENDIENTE DEL CHUBUT",
+      "votos": 43291,
+      "porcentaje": 0.19
+    },
+    {
+      "nombre": "SOMOS FUTURO",
+      "votos": 40708,
+      "porcentaje": 0.18
+    },
+    {
+      "nombre": "SOCIALISTA",
+      "votos": 39372,
+      "porcentaje": 0.17
+    },
+    {
+      "nombre": "FRENTE RENOVADOR",
+      "votos": 38763,
+      "porcentaje": 0.17
+    },
+    {
+      "nombre": "VAMOS ! MENDOCINOS",
+      "votos": 38038,
+      "porcentaje": 0.16
+    },
+    {
+      "nombre": "FEDERAL",
+      "votos": 37857,
+      "porcentaje": 0.16
+    },
+    {
+      "nombre": "DEL OBRERO",
+      "votos": 37478,
+      "porcentaje": 0.16
+    },
+    {
+      "nombre": "FRENTE AMPLIO POR TUCUMÁN",
+      "votos": 37325,
+      "porcentaje": 0.16
+    },
+    {
+      "nombre": "COMPROMISO FEDERAL",
+      "votos": 35283,
+      "porcentaje": 0.15
+    },
+    {
+      "nombre": "CONSENSO ISCHIGUALASTO",
+      "votos": 34964,
+      "porcentaje": 0.15
+    },
+    {
+      "nombre": "PODEMOS",
+      "votos": 31699,
+      "porcentaje": 0.14
+    },
+    {
+      "nombre": "CONSERVADOR POPULAR",
+      "votos": 29340,
+      "porcentaje": 0.13
+    },
+    {
+      "nombre": "CHUBUT SOMOS TODOS",
+      "votos": 28793,
+      "porcentaje": 0.12
+    },
+    {
+      "nombre": "FELICIDAD",
+      "votos": 28688,
+      "porcentaje": 0.12
+    },
+    {
+      "nombre": "PRIMERO SANTA FE",
+      "votos": 28060,
+      "porcentaje": 0.12
+    },
+    {
+      "nombre": "NUEVA IZQUIERDA",
+      "votos": 27940,
+      "porcentaje": 0.12
+    },
+    {
+      "nombre": "JUNTOS POR EL CAMBIO TIERRA DEL FUEGO",
+      "votos": 27454,
+      "porcentaje": 0.12
+    },
+    {
+      "nombre": "MOVIMIENTO AL SOCIALISMO",
+      "votos": 27371,
+      "porcentaje": 0.12
+    },
+    {
+      "nombre": "FE",
+      "votos": 24217,
+      "porcentaje": 0.1
+    },
+    {
+      "nombre": "LIBERTAD, VALORES Y CAMBIO",
+      "votos": 22773,
+      "porcentaje": 0.1
+    },
+    {
+      "nombre": "POLITICA OBRERA",
+      "votos": 19672,
+      "porcentaje": 0.08
+    },
+    {
+      "nombre": "UNION DEL CENTRO DEMOCRATICO",
+      "votos": 16812,
+      "porcentaje": 0.07
+    },
+    {
+      "nombre": "UNIÓN POPULAR FEDERAL",
+      "votos": 16341,
+      "porcentaje": 0.07
+    },
+    {
+      "nombre": "SOMOS FUEGUINOS",
+      "votos": 15315,
+      "porcentaje": 0.07
+    },
+    {
+      "nombre": "VAMOS CON VOS",
+      "votos": 13766,
+      "porcentaje": 0.06
+    },
+    {
+      "nombre": "UNIÓN CÍVICA RADICAL",
+      "votos": 13683,
+      "porcentaje": 0.06
+    },
+    {
+      "nombre": "FRENTE AMPLIO CATAMARQUEÑO",
+      "votos": 10045,
+      "porcentaje": 0.04
+    },
+    {
+      "nombre": "REPUBLICANOS UNIDOS",
+      "votos": 6464,
+      "porcentaje": 0.03
+    },
+    {
+      "nombre": "POR UN SANTIAGO OBRERO",
+      "votos": 6302,
+      "porcentaje": 0.03
+    },
+    {
+      "nombre": "CORRIENTE DE PENSAMIENTO BONAERENSE",
+      "votos": 5930,
+      "porcentaje": 0.03
+    },
+    {
+      "nombre": "OBRERO",
+      "votos": 3873,
+      "porcentaje": 0.02
+    },
+    {
+      "nombre": "TODOS UNIDOS",
+      "votos": 3600,
+      "porcentaje": 0.02
+    },
+    {
+      "nombre": "UNIDOS",
+      "votos": 3432,
+      "porcentaje": 0.01
+    },
+    {
+      "nombre": "MOVIMIENTO POPULAR FUEGUINO",
+      "votos": 2560,
+      "porcentaje": 0.01
+    },
+    {
+      "nombre": "PRINCIPIOS Y CONVICCIÓN",
+      "votos": 2386,
+      "porcentaje": 0.01
+    }
+  ],
+  "category": "Diputados Nacionales"
+}

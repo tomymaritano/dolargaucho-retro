@@ -1,0 +1,196 @@
+{
+  "year": 2023,
+  "date": "22 de octubre 2023",
+  "total_electores": 35410080,
+  "total_votantes": 26820148,
+  "mesas_totalizadas": 104520,
+  "participacion": 75.74,
+  "total_votos_positivos": 24059851,
+  "total_votos": 24303844,
+  "votos_nulos": 215084,
+  "votos_blanco": 0,
+  "votos_otros": 28909,
+  "agrupaciones": [
+    {
+      "nombre": "UNION POR LA PATRIA",
+      "votos": 8069374,
+      "porcentaje": 33.54
+    },
+    {
+      "nombre": "LA LIBERTAD AVANZA",
+      "votos": 5696688,
+      "porcentaje": 23.68
+    },
+    {
+      "nombre": "JUNTOS POR EL CAMBIO",
+      "votos": 5276002,
+      "porcentaje": 21.93
+    },
+    {
+      "nombre": "FRENTE DE IZQUIERDA Y DE TRABAJADORES - UNIDAD",
+      "votos": 781145,
+      "porcentaje": 3.25
+    },
+    {
+      "nombre": "HACEMOS POR NUESTRO PAIS",
+      "votos": 675792,
+      "porcentaje": 2.81
+    },
+    {
+      "nombre": "FRENTE CIVICO POR SANTIAGO",
+      "votos": 369095,
+      "porcentaje": 1.53
+    },
+    {
+      "nombre": "AHORA PATRIA",
+      "votos": 292079,
+      "porcentaje": 1.21
+    },
+    {
+      "nombre": "MAS PARA ENTRE RIOS",
+      "votos": 287123,
+      "porcentaje": 1.19
+    },
+    {
+      "nombre": "CAMBIA MENDOZA",
+      "votos": 283411,
+      "porcentaje": 1.18
+    },
+    {
+      "nombre": "FUERZA REPUBLICANA",
+      "votos": 282254,
+      "porcentaje": 1.17
+    },
+    {
+      "nombre": "JUNTOS POR ENTRE RIOS",
+      "votos": 264381,
+      "porcentaje": 1.1
+    },
+    {
+      "nombre": "FRENTE RENOVADOR DE LA CONCORDIA - INNOVACION FEDERAL",
+      "votos": 249527,
+      "porcentaje": 1.04
+    },
+    {
+      "nombre": "ENCUENTRO POR CORRIENTES - ECO+VAMOS CORRIENTES",
+      "votos": 220105,
+      "porcentaje": 0.91
+    },
+    {
+      "nombre": "LA FUERZA DE SANTA FE",
+      "votos": 183393,
+      "porcentaje": 0.76
+    },
+    {
+      "nombre": "RENOVADOR FEDERAL",
+      "votos": 151209,
+      "porcentaje": 0.63
+    },
+    {
+      "nombre": "ARRIBA NEUQUEN",
+      "votos": 134693,
+      "porcentaje": 0.56
+    },
+    {
+      "nombre": "FE",
+      "votos": 125367,
+      "porcentaje": 0.52
+    },
+    {
+      "nombre": "CAMBIA JUJUY",
+      "votos": 94706,
+      "porcentaje": 0.39
+    },
+    {
+      "nombre": "UNION POR SAN LUIS",
+      "votos": 81734,
+      "porcentaje": 0.34
+    },
+    {
+      "nombre": "JUNTOS POR EL CAMBIO CHUBUT",
+      "votos": 70634,
+      "porcentaje": 0.29
+    },
+    {
+      "nombre": "JUNTOS SOMOS RIO NEGRO",
+      "votos": 59044,
+      "porcentaje": 0.25
+    },
+    {
+      "nombre": "POR SANTA CRUZ",
+      "votos": 53181,
+      "porcentaje": 0.22
+    },
+    {
+      "nombre": "JUNTOS POR EL CAMBIO LA PAMPA",
+      "votos": 51775,
+      "porcentaje": 0.22
+    },
+    {
+      "nombre": "MOVIMIENTO LIBRES DEL SUR",
+      "votos": 41333,
+      "porcentaje": 0.17
+    },
+    {
+      "nombre": "AUTONOMISTA",
+      "votos": 39277,
+      "porcentaje": 0.16
+    },
+    {
+      "nombre": "FRENTE RENOVADOR",
+      "votos": 37432,
+      "porcentaje": 0.16
+    },
+    {
+      "nombre": "REPUBLICANOS UNIDOS",
+      "votos": 30270,
+      "porcentaje": 0.13
+    },
+    {
+      "nombre": "MOVIMIENTO POPULAR NEUQUINO",
+      "votos": 29274,
+      "porcentaje": 0.12
+    },
+    {
+      "nombre": "PARTIDO AGRARIO Y SOCIAL",
+      "votos": 26235,
+      "porcentaje": 0.11
+    },
+    {
+      "nombre": "SI - SALTA INDEPENDIENTE",
+      "votos": 21358,
+      "porcentaje": 0.09
+    },
+    {
+      "nombre": "CAMBIA SANTA CRUZ",
+      "votos": 17720,
+      "porcentaje": 0.07
+    },
+    {
+      "nombre": "DEMOCRATA CRISTIANO",
+      "votos": 17386,
+      "porcentaje": 0.07
+    },
+    {
+      "nombre": "UNION Y LIBERTAD",
+      "votos": 16176,
+      "porcentaje": 0.07
+    },
+    {
+      "nombre": "JUNTOS POR EL CAMBIO TDF",
+      "votos": 13145,
+      "porcentaje": 0.05
+    },
+    {
+      "nombre": "SOMOS FUEGUINOS",
+      "votos": 9639,
+      "porcentaje": 0.04
+    },
+    {
+      "nombre": "HACEMOS POR NUESTRO PAÍS",
+      "votos": 7894,
+      "porcentaje": 0.03
+    }
+  ],
+  "category": "Diputados Nacionales"
+}

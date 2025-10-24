@@ -1,0 +1,94 @@
+{
+  "year": 2023,
+  "date": "22 de octubre 2023",
+  "category": "Senadores Nacionales",
+  "total_electores": 1043015,
+  "total_votantes": 12897739,
+  "mesas_totalizadas": 2994,
+  "participacion": 1236.58,
+  "total_votos_positivos": 11342324,
+  "total_votos": 12897739,
+  "votos_nulos": 83256,
+  "votos_blanco": 1466055,
+  "votos_otros": 6104,
+  "agrupaciones": [
+    {
+      "nombre": "UNION POR LA PATRIA",
+      "votos": 4619394,
+      "porcentaje": 40.73,
+      "posicion": 1
+    },
+    {
+      "nombre": "JUNTOS POR EL CAMBIO",
+      "votos": 2791071,
+      "porcentaje": 24.61,
+      "posicion": 2
+    },
+    {
+      "nombre": "LA LIBERTAD AVANZA",
+      "votos": 2789624,
+      "porcentaje": 24.59,
+      "posicion": 3
+    },
+    {
+      "nombre": "FRENTE DE IZQUIERDA Y DE TRABAJADORES - UNIDAD",
+      "votos": 429269,
+      "porcentaje": 3.78,
+      "posicion": 4
+    },
+    {
+      "nombre": "FRENTE RENOVADOR DE LA CONCORDIA - INNOVACION FEDERAL",
+      "votos": 250454,
+      "porcentaje": 2.21,
+      "posicion": 5
+    },
+    {
+      "nombre": "RENOVADOR FEDERAL",
+      "votos": 151665,
+      "porcentaje": 1.34,
+      "posicion": 6
+    },
+    {
+      "nombre": "CAMBIA JUJUY",
+      "votos": 95923,
+      "porcentaje": 0.85,
+      "posicion": 7
+    },
+    {
+      "nombre": "UNION POR SAN LUIS",
+      "votos": 81542,
+      "porcentaje": 0.72,
+      "posicion": 8
+    },
+    {
+      "nombre": "POR SANTA CRUZ",
+      "votos": 56188,
+      "porcentaje": 0.5,
+      "posicion": 9
+    },
+    {
+      "nombre": "PARTIDO AGRARIO Y SOCIAL",
+      "votos": 25550,
+      "porcentaje": 0.23,
+      "posicion": 10
+    },
+    {
+      "nombre": "CAMBIA SANTA CRUZ",
+      "votos": 17932,
+      "porcentaje": 0.16,
+      "posicion": 11
+    },
+    {
+      "nombre": "DEMOCRATA CRISTIANO",
+      "votos": 17436,
+      "porcentaje": 0.15,
+      "posicion": 12
+    },
+    {
+      "nombre": "UNION Y LIBERTAD",
+      "votos": 16276,
+      "porcentaje": 0.14,
+      "posicion": 13
+    }
+  ]
+}

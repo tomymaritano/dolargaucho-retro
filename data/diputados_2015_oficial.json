@@ -1,0 +1,256 @@
+{
+  "year": 2015,
+  "date": "25 de octubre 2015",
+  "total_electores": 31754774,
+  "total_votantes": 24961718,
+  "mesas_totalizadas": 93655,
+  "participacion": 78.61,
+  "total_votos_positivos": 22679308,
+  "total_votos": 22874274,
+  "votos_nulos": 178055,
+  "votos_blanco": 0,
+  "votos_otros": 16911,
+  "agrupaciones": [
+    {
+      "nombre": "ALIANZA FRENTE PARA LA VICTORIA",
+      "votos": 8084299,
+      "porcentaje": 35.65
+    },
+    {
+      "nombre": "ALIANZA CAMBIEMOS",
+      "votos": 4009802,
+      "porcentaje": 17.68
+    },
+    {
+      "nombre": "ALIANZA UNIDOS POR UNA NUEVA ALTERNATIVA (UNA)",
+      "votos": 2974576,
+      "porcentaje": 13.12
+    },
+    {
+      "nombre": "CAMBIEMOS BUENOS AIRES",
+      "votos": 2928287,
+      "porcentaje": 12.91
+    },
+    {
+      "nombre": "ALIANZA FRENTE DE IZQUIERDA Y DE LOS TRABAJADORES",
+      "votos": 887615,
+      "porcentaje": 3.91
+    },
+    {
+      "nombre": "ALIANZA PROGRESISTAS",
+      "votos": 555883,
+      "porcentaje": 2.45
+    },
+    {
+      "nombre": "ALIANZA UNION POR CORDOBA",
+      "votos": 443545,
+      "porcentaje": 1.96
+    },
+    {
+      "nombre": "FRENTE CIVICO PARA LA VICTORIA",
+      "votos": 337155,
+      "porcentaje": 1.49
+    },
+    {
+      "nombre": "ALIANZA FRENTE PROGRESISTA CIVICO Y SOCIAL",
+      "votos": 205421,
+      "porcentaje": 0.91
+    },
+    {
+      "nombre": "ALIANZA ENCUENTRO POR CORRIENTES",
+      "votos": 181424,
+      "porcentaje": 0.8
+    },
+    {
+      "nombre": "FRENTE CAMBIA JUJUY",
+      "votos": 179457,
+      "porcentaje": 0.79
+    },
+    {
+      "nombre": "ALIANZA COMPROMISO FEDERAL",
+      "votos": 170242,
+      "porcentaje": 0.75
+    },
+    {
+      "nombre": "CAMBIEMOS SALTA",
+      "votos": 152000,
+      "porcentaje": 0.67
+    },
+    {
+      "nombre": "ALIANZA FRENTE RENOVADOR FEDERAL DE LA ESPERANZA",
+      "votos": 134684,
+      "porcentaje": 0.59
+    },
+    {
+      "nombre": "ES POSIBLE",
+      "votos": 99659,
+      "porcentaje": 0.44
+    },
+    {
+      "nombre": "ALIANZA COMPROMISO CON SAN JUAN",
+      "votos": 99146,
+      "porcentaje": 0.44
+    },
+    {
+      "nombre": "PARTIDO MOVIMIENTO DE PARTICIPACION CIUDADANA",
+      "votos": 93084,
+      "porcentaje": 0.41
+    },
+    {
+      "nombre": "ALIANZA UNIDOS POR UNA NUEVA ALTERNATIVA",
+      "votos": 89698,
+      "porcentaje": 0.4
+    },
+    {
+      "nombre": "ALIANZA CAMBIEMOS RIO NEGRO",
+      "votos": 84448,
+      "porcentaje": 0.37
+    },
+    {
+      "nombre": "ALIANZA FRENTE UNION CHUBUT SOMOS TODOS",
+      "votos": 79663,
+      "porcentaje": 0.35
+    },
+    {
+      "nombre": "UNION PARA VIVIR MEJOR",
+      "votos": 72615,
+      "porcentaje": 0.32
+    },
+    {
+      "nombre": "ALIANZA FRENTE CAMBIEMOS",
+      "votos": 70107,
+      "porcentaje": 0.31
+    },
+    {
+      "nombre": "PROPUESTA FREPAM",
+      "votos": 68468,
+      "porcentaje": 0.3
+    },
+    {
+      "nombre": "ALIANZA FRENTE AMPLIO FORMOSEÑO",
+      "votos": 68465,
+      "porcentaje": 0.3
+    },
+    {
+      "nombre": "AUTODETERMINACION Y LIBERTAD",
+      "votos": 66121,
+      "porcentaje": 0.29
+    },
+    {
+      "nombre": "ALIANZA FRENTE CIVICO Y SOCIAL",
+      "votos": 65511,
+      "porcentaje": 0.29
+    },
+    {
+      "nombre": "OBRERO",
+      "votos": 65093,
+      "porcentaje": 0.29
+    },
+    {
+      "nombre": "UNION POPULAR",
+      "votos": 60673,
+      "porcentaje": 0.27
+    },
+    {
+      "nombre": "MOVIMIENTO POPULAR NEUQUINO",
+      "votos": 54633,
+      "porcentaje": 0.24
+    },
+    {
+      "nombre": "UNION CIVICA RADICAL",
+      "votos": 49605,
+      "porcentaje": 0.22
+    },
+    {
+      "nombre": "ALIANZA CAMBIEMOS CHUBUT",
+      "votos": 43899,
+      "porcentaje": 0.19
+    },
+    {
+      "nombre": "ALIANZA FRENTE UNIDOS",
+      "votos": 42972,
+      "porcentaje": 0.19
+    },
+    {
+      "nombre": "PROYECTO POPULAR",
+      "votos": 29111,
+      "porcentaje": 0.13
+    },
+    {
+      "nombre": "PUEBLO NUEVO",
+      "votos": 20444,
+      "porcentaje": 0.09
+    },
+    {
+      "nombre": "ALIANZA FRENTE TERCERA POSICION",
+      "votos": 15651,
+      "porcentaje": 0.07
+    },
+    {
+      "nombre": "SOCIALISTA",
+      "votos": 14844,
+      "porcentaje": 0.07
+    },
+    {
+      "nombre": "ALIANZA CAMBIEMOS TIERRA DEL FUEGO",
+      "votos": 14392,
+      "porcentaje": 0.06
+    },
+    {
+      "nombre": "FRENTE RENOVADOR AUTENTICO",
+      "votos": 13839,
+      "porcentaje": 0.06
+    },
+    {
+      "nombre": "DEL OBRERO",
+      "votos": 13003,
+      "porcentaje": 0.06
+    },
+    {
+      "nombre": "MOVIMIENTO POLO SOCIAL LA TERCERA POSICION DE LA GENTE",
+      "votos": 7998,
+      "porcentaje": 0.04
+    },
+    {
+      "nombre": "CRUZADA RENOVADORA",
+      "votos": 7066,
+      "porcentaje": 0.03
+    },
+    {
+      "nombre": "MOVIMIENTO POPULAR FUEGUINO",
+      "votos": 5564,
+      "porcentaje": 0.02
+    },
+    {
+      "nombre": "COMUNISTA",
+      "votos": 4551,
+      "porcentaje": 0.02
+    },
+    {
+      "nombre": "GEN",
+      "votos": 3879,
+      "porcentaje": 0.02
+    },
+    {
+      "nombre": "DE LA CULTURA LA EDUCACION Y EL TRABAJO",
+      "votos": 3618,
+      "porcentaje": 0.02
+    },
+    {
+      "nombre": "PARTIDO CIUDADANOS A GOBERNAR",
+      "votos": 3194,
+      "porcentaje": 0.01
+    },
+    {
+      "nombre": "SOCIAL PATAGONICO",
+      "votos": 2802,
+      "porcentaje": 0.01
+    },
+    {
+      "nombre": "NUEVO OCTUBRE",
+      "votos": 1102,
+      "porcentaje": 0.0
+    }
+  ],
+  "category": "Diputados Nacionales"
+}

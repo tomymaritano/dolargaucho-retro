@@ -1,0 +1,311 @@
+{
+  "year": 2011,
+  "date": "23 de octubre 2011",
+  "total_electores": 28384275,
+  "total_votantes": 22127102,
+  "mesas_totalizadas": 84429,
+  "participacion": 77.96,
+  "total_votos_positivos": 20158660,
+  "total_votos": 22127102,
+  "votos_nulos": 196196,
+  "votos_blanco": 0,
+  "votos_otros": 20326,
+  "agrupaciones": [
+    {
+      "nombre": "Alianza Frente para la Victoria",
+      "votos": 9486670,
+      "porcentaje": 47.06
+    },
+    {
+      "nombre": "Alianza Frente Amplio Progresista",
+      "votos": 2524726,
+      "porcentaje": 12.52
+    },
+    {
+      "nombre": "Alianza Unión para el Desarrollo Social",
+      "votos": 1403800,
+      "porcentaje": 6.96
+    },
+    {
+      "nombre": "Alianza Compromiso Federal",
+      "votos": 1157041,
+      "porcentaje": 5.74
+    },
+    {
+      "nombre": "Unión Cívica Radical",
+      "votos": 1039565,
+      "porcentaje": 5.16
+    },
+    {
+      "nombre": "Alianza Frente Popular",
+      "votos": 671812,
+      "porcentaje": 3.33
+    },
+    {
+      "nombre": "Alianza Frente de Izquierda y de los Trabajadores",
+      "votos": 491105,
+      "porcentaje": 2.44
+    },
+    {
+      "nombre": "Coalición Cívica - Afirmación para una República Igualitaria ARI",
+      "votos": 468384,
+      "porcentaje": 2.32
+    },
+    {
+      "nombre": "Alianza PRO - Propuesta Republicana",
+      "votos": 368026,
+      "porcentaje": 1.83
+    },
+    {
+      "nombre": "Alianza Frente Justicialista para la Victoria",
+      "votos": 330255,
+      "porcentaje": 1.64
+    },
+    {
+      "nombre": "Alianza Frente Cívico por Santiago",
+      "votos": 272986,
+      "porcentaje": 1.35
+    },
+    {
+      "nombre": "Alianza Frente Renovador de la Concordia",
+      "votos": 246672,
+      "porcentaje": 1.22
+    },
+    {
+      "nombre": "Alianza Frente Cívico Federal - UDESO Mendoza",
+      "votos": 179744,
+      "porcentaje": 0.89
+    },
+    {
+      "nombre": "Partido Socialista",
+      "votos": 155524,
+      "porcentaje": 0.77
+    },
+    {
+      "nombre": "Unión Popular",
+      "votos": 131538,
+      "porcentaje": 0.65
+    },
+    {
+      "nombre": "Alianza Coalición Cívica - Afirmación para una República Igualitaria ARI",
+      "votos": 123443,
+      "porcentaje": 0.61
+    },
+    {
+      "nombre": "Movimiento Popular Neuquino",
+      "votos": 86662,
+      "porcentaje": 0.43
+    },
+    {
+      "nombre": "Partido Humanista",
+      "votos": 85313,
+      "porcentaje": 0.42
+    },
+    {
+      "nombre": "Partido Obrero",
+      "votos": 59912,
+      "porcentaje": 0.3
+    },
+    {
+      "nombre": "Movimiento Independiente de Jubilados y Desocupados",
+      "votos": 58765,
+      "porcentaje": 0.29
+    },
+    {
+      "nombre": "Alianza Frente para la Victoria Riojana",
+      "votos": 54430,
+      "porcentaje": 0.27
+    },
+    {
+      "nombre": "Pro-Propuesta Republicana",
+      "votos": 53066,
+      "porcentaje": 0.26
+    },
+    {
+      "nombre": "Alianza Frente Pampeano Cívico y Social (FREPAM)",
+      "votos": 51746,
+      "porcentaje": 0.26
+    },
+    {
+      "nombre": "Partido Popular de la Reconstrucción",
+      "votos": 51606,
+      "porcentaje": 0.26
+    },
+    {
+      "nombre": "Alianza Frente Salteño",
+      "votos": 48606,
+      "porcentaje": 0.24
+    },
+    {
+      "nombre": "Partido Autonomista",
+      "votos": 45694,
+      "porcentaje": 0.23
+    },
+    {
+      "nombre": "Partido Independiente de Chubut",
+      "votos": 44161,
+      "porcentaje": 0.22
+    },
+    {
+      "nombre": "Alianza Frente Popular Unión Pro",
+      "votos": 43910,
+      "porcentaje": 0.22
+    },
+    {
+      "nombre": "Alianza Frente Popular Riojano",
+      "votos": 42074,
+      "porcentaje": 0.21
+    },
+    {
+      "nombre": "Alianza Frente Cívico y Social",
+      "votos": 39715,
+      "porcentaje": 0.2
+    },
+    {
+      "nombre": "GEN",
+      "votos": 39534,
+      "porcentaje": 0.2
+    },
+    {
+      "nombre": "Alianza Proyecto Sur",
+      "votos": 32934,
+      "porcentaje": 0.16
+    },
+    {
+      "nombre": "Partido Demócrata Cristiano",
+      "votos": 24115,
+      "porcentaje": 0.12
+    },
+    {
+      "nombre": "Alianza Frente Primero Jujuy",
+      "votos": 23840,
+      "porcentaje": 0.12
+    },
+    {
+      "nombre": "Partido Cambio Popular Tucumano",
+      "votos": 20980,
+      "porcentaje": 0.1
+    },
+    {
+      "nombre": "Unión Provincial Compromiso Federal",
+      "votos": 20107,
+      "porcentaje": 0.1
+    },
+    {
+      "nombre": "Partido Federal",
+      "votos": 16326,
+      "porcentaje": 0.08
+    },
+    {
+      "nombre": "Izquierda del Trabajador por el Socialismo",
+      "votos": 15804,
+      "porcentaje": 0.08
+    },
+    {
+      "nombre": "Movimiento Independiente Renovador",
+      "votos": 14773,
+      "porcentaje": 0.07
+    },
+    {
+      "nombre": "Alianza Frente Compromiso Federal",
+      "votos": 14323,
+      "porcentaje": 0.07
+    },
+    {
+      "nombre": "Movimiento Popular Fueguino",
+      "votos": 13659,
+      "porcentaje": 0.07
+    },
+    {
+      "nombre": "Movimiento Libres del Sur",
+      "votos": 13481,
+      "porcentaje": 0.07
+    },
+    {
+      "nombre": "Izquierda por una Opción Socialista",
+      "votos": 13228,
+      "porcentaje": 0.07
+    },
+    {
+      "nombre": "Partido Justicialista",
+      "votos": 11747,
+      "porcentaje": 0.06
+    },
+    {
+      "nombre": "Movimiento de Participación Ciudadana",
+      "votos": 9599,
+      "porcentaje": 0.05
+    },
+    {
+      "nombre": "Unión por la Libertad",
+      "votos": 8452,
+      "porcentaje": 0.04
+    },
+    {
+      "nombre": "Partido Dignidad Ciudadana",
+      "votos": 7358,
+      "porcentaje": 0.04
+    },
+    {
+      "nombre": "Encuentro Popular",
+      "votos": 6844,
+      "porcentaje": 0.03
+    },
+    {
+      "nombre": "Movimiento Socialista de los Trabajadores",
+      "votos": 6323,
+      "porcentaje": 0.03
+    },
+    {
+      "nombre": "Es Posible",
+      "votos": 5500,
+      "porcentaje": 0.03
+    },
+    {
+      "nombre": "Partido Social Patagónico",
+      "votos": 4676,
+      "porcentaje": 0.02
+    },
+    {
+      "nombre": "Alianza Frente Encuentro Sur",
+      "votos": 4567,
+      "porcentaje": 0.02
+    },
+    {
+      "nombre": "Nueva Izquierda",
+      "votos": 3601,
+      "porcentaje": 0.02
+    },
+    {
+      "nombre": "Movimiento de Integración y Desarrollo",
+      "votos": 3358,
+      "porcentaje": 0.02
+    },
+    {
+      "nombre": "Fortaleza",
+      "votos": 2015,
+      "porcentaje": 0.01
+    },
+    {
+      "nombre": "Partido de la Ciudad en Acción",
+      "votos": 1804,
+      "porcentaje": 0.01
+    },
+    {
+      "nombre": "Partido Popular",
+      "votos": 1353,
+      "porcentaje": 0.01
+    },
+    {
+      "nombre": "Acuerdo Republicano Federal",
+      "votos": 1316,
+      "porcentaje": 0.01
+    },
+    {
+      "nombre": "Alianza Frente Federal",
+      "votos": 92,
+      "porcentaje": 0.0
+    }
+  ],
+  "category": "Diputados Nacionales"
+}

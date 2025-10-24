@@ -1,0 +1,208 @@
+{
+  "year": 2013,
+  "date": "27 de octubre 2013",
+  "category": "Senadores Nacionales",
+  "total_electores": 2542452,
+  "total_votantes": 5337488,
+  "mesas_totalizadas": 7378,
+  "participacion": 209.93,
+  "total_votos_positivos": 5033655,
+  "total_votos": 5337488,
+  "votos_nulos": 71850,
+  "votos_blanco": 225332,
+  "votos_otros": 6651,
+  "agrupaciones": [
+    {
+      "nombre": "FRENTE PARA LA VICTORIA",
+      "votos": 1614366,
+      "porcentaje": 32.07,
+      "posicion": 1
+    },
+    {
+      "nombre": "UNION PRO",
+      "votos": 714995,
+      "porcentaje": 14.2,
+      "posicion": 2
+    },
+    {
+      "nombre": "UNEN",
+      "votos": 504414,
+      "porcentaje": 10.02,
+      "posicion": 3
+    },
+    {
+      "nombre": "FRENTE CIVICO POR SANTIAGO",
+      "votos": 225008,
+      "porcentaje": 4.47,
+      "posicion": 4
+    },
+    {
+      "nombre": "UNION CIVICA RADICAL",
+      "votos": 212709,
+      "porcentaje": 4.23,
+      "posicion": 5
+    },
+    {
+      "nombre": "UNION POR CHACO",
+      "votos": 210354,
+      "porcentaje": 4.18,
+      "posicion": 6
+    },
+    {
+      "nombre": "ALIANZA UNION POR ENTRE RIOS",
+      "votos": 200126,
+      "porcentaje": 3.98,
+      "posicion": 7
+    },
+    {
+      "nombre": "PARTIDO OBRERO",
+      "votos": 158914,
+      "porcentaje": 3.16,
+      "posicion": 8
+    },
+    {
+      "nombre": "FRENTE POPULAR SALTEÑO",
+      "votos": 151052,
+      "porcentaje": 3.0,
+      "posicion": 9
+    },
+    {
+      "nombre": "SALTA SOMOS TODOS",
+      "votos": 140713,
+      "porcentaje": 2.8,
+      "posicion": 10
+    },
+    {
+      "nombre": "MOVIMIENTO POPULAR NEUQUINO",
+      "votos": 140154,
+      "porcentaje": 2.78,
+      "posicion": 11
+    },
+    {
+      "nombre": "FRENTE POPULAR",
+      "votos": 133065,
+      "porcentaje": 2.64,
+      "posicion": 12
+    },
+    {
+      "nombre": "FRENTE DE IZQUIERDA Y DE LOS TRABAJADORES",
+      "votos": 117844,
+      "porcentaje": 2.34,
+      "posicion": 13
+    },
+    {
+      "nombre": "ALIANZA FRENTE PROGRESISTA",
+      "votos": 90478,
+      "porcentaje": 1.8,
+      "posicion": 14
+    },
+    {
+      "nombre": "FRENTE PROGRESISTA CIVICO Y SOCIAL",
+      "votos": 64431,
+      "porcentaje": 1.28,
+      "posicion": 15
+    },
+    {
+      "nombre": "CAMINO POPULAR",
+      "votos": 46887,
+      "porcentaje": 0.93,
+      "posicion": 16
+    },
+    {
+      "nombre": "AUTODETERMINACION Y LIBERTAD",
+      "votos": 46778,
+      "porcentaje": 0.93,
+      "posicion": 17
+    },
+    {
+      "nombre": "ALIANZA FRENTE AMPLIO PROGRESISTA",
+      "votos": 41673,
+      "porcentaje": 0.83,
+      "posicion": 18
+    },
+    {
+      "nombre": "PARTIDO RENOVADOR DE SALTA",
+      "votos": 41372,
+      "porcentaje": 0.82,
+      "posicion": 19
+    },
+    {
+      "nombre": "COMPROMISO CIVICO NEUQUINO",
+      "votos": 38751,
+      "porcentaje": 0.77,
+      "posicion": 20
+    },
+    {
+      "nombre": "NUEVA IZQUIERDA",
+      "votos": 22599,
+      "porcentaje": 0.45,
+      "posicion": 21
+    },
+    {
+      "nombre": "MOVIMIENTO LIBRES DEL SUR",
+      "votos": 16980,
+      "porcentaje": 0.34,
+      "posicion": 22
+    },
+    {
+      "nombre": "UNION POPULAR",
+      "votos": 15880,
+      "porcentaje": 0.32,
+      "posicion": 23
+    },
+    {
+      "nombre": "MOVIMIENTO POPULAR FUEGUINO",
+      "votos": 15568,
+      "porcentaje": 0.31,
+      "posicion": 24
+    },
+    {
+      "nombre": "IZQUIERDA POR UNA OPCION SOCIALISTA",
+      "votos": 12499,
+      "porcentaje": 0.25,
+      "posicion": 25
+    },
+    {
+      "nombre": "UNION DE LOS NEUQUINOS",
+      "votos": 11478,
+      "porcentaje": 0.23,
+      "posicion": 26
+    },
+    {
+      "nombre": "PARTIDO POPULAR",
+      "votos": 10448,
+      "porcentaje": 0.21,
+      "posicion": 27
+    },
+    {
+      "nombre": "FRENTE PROGRESISTA SUR",
+      "votos": 10208,
+      "porcentaje": 0.2,
+      "posicion": 28
+    },
+    {
+      "nombre": "UNION FEDERAL",
+      "votos": 9602,
+      "porcentaje": 0.19,
+      "posicion": 29
+    },
+    {
+      "nombre": "PARTIDO FE",
+      "votos": 8068,
+      "porcentaje": 0.16,
+      "posicion": 30
+    },
+    {
+      "nombre": "ESPACIO DEMOCRATICO PARA LA VICTORIA",
+      "votos": 3847,
+      "porcentaje": 0.08,
+      "posicion": 31
+    },
+    {
+      "nombre": "PARTIDO JUSTICIALISTA",
+      "votos": 2394,
+      "porcentaje": 0.05,
+      "posicion": 32
+    }
+  ]
+}

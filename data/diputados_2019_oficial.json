@@ -1,0 +1,196 @@
+{
+  "year": 2019,
+  "date": "27 de octubre 2019",
+  "total_electores": 32887800,
+  "total_votantes": 26442815,
+  "mesas_totalizadas": 97282,
+  "participacion": 80.4,
+  "total_votos_positivos": 24769142,
+  "total_votos": 25059748,
+  "votos_nulos": 260163,
+  "votos_blanco": 0,
+  "votos_otros": 30443,
+  "agrupaciones": [
+    {
+      "nombre": "FRENTE DE TODOS",
+      "votos": 11174215,
+      "porcentaje": 45.11
+    },
+    {
+      "nombre": "JUNTOS POR EL CAMBIO",
+      "votos": 8924988,
+      "porcentaje": 36.03
+    },
+    {
+      "nombre": "CONSENSO FEDERAL",
+      "votos": 1140826,
+      "porcentaje": 4.61
+    },
+    {
+      "nombre": "FRENTE DE IZQUIERDA Y DE TRABAJADORES - UNIDAD",
+      "votos": 718261,
+      "porcentaje": 2.9
+    },
+    {
+      "nombre": "CAMBIA MENDOZA",
+      "votos": 574247,
+      "porcentaje": 2.32
+    },
+    {
+      "nombre": "HACEMOS POR CORDOBA",
+      "votos": 372293,
+      "porcentaje": 1.5
+    },
+    {
+      "nombre": "FRENTE CIVICO POR SANTIAGO",
+      "votos": 314804,
+      "porcentaje": 1.27
+    },
+    {
+      "nombre": "ENCUENTRO POR CORRIENTES - ECO + JUNTOS POR EL CAMBIO",
+      "votos": 250578,
+      "porcentaje": 1.01
+    },
+    {
+      "nombre": "FRENTE RENOVADOR DE LA CONCORDIA",
+      "votos": 185629,
+      "porcentaje": 0.75
+    },
+    {
+      "nombre": "JUNTOS SOMOS RIO NEGRO",
+      "votos": 116331,
+      "porcentaje": 0.47
+    },
+    {
+      "nombre": "UNITE POR LA LIBERTAD Y LA DIGNIDAD",
+      "votos": 112182,
+      "porcentaje": 0.45
+    },
+    {
+      "nombre": "FRENTE AMPLIO FORMOSEÑO JUNTOS POR EL CAMBIO",
+      "votos": 96110,
+      "porcentaje": 0.39
+    },
+    {
+      "nombre": "JUNTOS POR EL CAMBIO CHUBUT",
+      "votos": 93255,
+      "porcentaje": 0.38
+    },
+    {
+      "nombre": "PARTIDO SOCIALISTA",
+      "votos": 88769,
+      "porcentaje": 0.36
+    },
+    {
+      "nombre": "UNIÓN POR SALTA",
+      "votos": 80774,
+      "porcentaje": 0.33
+    },
+    {
+      "nombre": "MOVIMIENTO POPULAR NEUQUINO",
+      "votos": 75795,
+      "porcentaje": 0.31
+    },
+    {
+      "nombre": "PROTECTORA FUERZA POLÍTICA",
+      "votos": 73697,
+      "porcentaje": 0.3
+    },
+    {
+      "nombre": "JUNTOS POR LA RIOJA",
+      "votos": 56522,
+      "porcentaje": 0.23
+    },
+    {
+      "nombre": "FUERZA REPUBLICANA",
+      "votos": 54435,
+      "porcentaje": 0.22
+    },
+    {
+      "nombre": "ENCUENTRO VECINAL CORDOBA",
+      "votos": 44518,
+      "porcentaje": 0.18
+    },
+    {
+      "nombre": "GEN",
+      "votos": 24433,
+      "porcentaje": 0.1
+    },
+    {
+      "nombre": "AUTODETERMINACION Y LIBERTAD",
+      "votos": 23114,
+      "porcentaje": 0.09
+    },
+    {
+      "nombre": "MOVIMIENTO POLO SOCIAL CHUBUT",
+      "votos": 21727,
+      "porcentaje": 0.09
+    },
+    {
+      "nombre": "PARTIDO CONSERVADOR POPULAR",
+      "votos": 21157,
+      "porcentaje": 0.09
+    },
+    {
+      "nombre": "ACCIÓN CHAQUEÑA",
+      "votos": 20662,
+      "porcentaje": 0.08
+    },
+    {
+      "nombre": "JUNTOS POR EL CAMBIO TIERRA DEL FUEGO",
+      "votos": 20149,
+      "porcentaje": 0.08
+    },
+    {
+      "nombre": "NUEVA IZQUIERDA",
+      "votos": 19385,
+      "porcentaje": 0.08
+    },
+    {
+      "nombre": "MOVIMIENTO LIBRES DEL SUR",
+      "votos": 18704,
+      "porcentaje": 0.08
+    },
+    {
+      "nombre": "VAMOS TODOS A VIVIR MEJOR",
+      "votos": 17352,
+      "porcentaje": 0.07
+    },
+    {
+      "nombre": "CIUDADANOS A GOBERNAR",
+      "votos": 11294,
+      "porcentaje": 0.05
+    },
+    {
+      "nombre": "FRENTE RENOVADOR AUTENTICO",
+      "votos": 6736,
+      "porcentaje": 0.03
+    },
+    {
+      "nombre": "PARTIDO INDEPENDIENTE DEL CHUBUT",
+      "votos": 4996,
+      "porcentaje": 0.02
+    },
+    {
+      "nombre": "PARTIDO SOCIAL PATAGONICO",
+      "votos": 4622,
+      "porcentaje": 0.02
+    },
+    {
+      "nombre": "PARTIDO OBRERO",
+      "votos": 3583,
+      "porcentaje": 0.01
+    },
+    {
+      "nombre": "COMPROMISO FEDERAL",
+      "votos": 2077,
+      "porcentaje": 0.01
+    },
+    {
+      "nombre": "FRENTE NOS",
+      "votos": 922,
+      "porcentaje": 0.0
+    }
+  ],
+  "category": "Diputados Nacionales"
+}
