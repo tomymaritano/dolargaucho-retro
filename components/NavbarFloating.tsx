@@ -38,6 +38,7 @@ export function NavbarFloating() {
   const [loading, setLoading] = React.useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { openChangelog } = useChangelog();
+  const searchButtonRef = React.useRef<HTMLDivElement>(null);
 
   // Check auth state by calling the API endpoint
   const checkAuth = React.useCallback(async () => {
@@ -188,10 +189,26 @@ export function NavbarFloating() {
               {/* Menu Items */}
               <div className="flex-1 overflow-y-auto p-6">
                 <nav className="space-y-3">
-                  {/* Search - Hidden NavbarSearch, use custom button */}
-                  <div onClick={() => setMobileMenuOpen(false)}>
-                    <NavbarSearch />
-                  </div>
+                  {/* Search Button - Custom Design for Mobile Drawer */}
+                  <button
+                    onClick={() => {
+                      // Trigger the hidden NavbarSearch
+                      const searchBtn = searchButtonRef.current?.querySelector('button');
+                      if (searchBtn) {
+                        searchBtn.click();
+                      }
+                      setMobileMenuOpen(false);
+                    }}
+                    className="w-full flex items-center gap-4 p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all group"
+                  >
+                    <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-blue-500/10 text-blue-400 group-hover:bg-blue-500/20 transition-colors">
+                      <FaSearch size={20} />
+                    </div>
+                    <div className="flex-1 text-left">
+                      <div className="font-semibold text-base text-foreground">Buscar</div>
+                      <div className="text-xs text-secondary">Encuentra dólares, tasas y más</div>
+                    </div>
+                  </button>
 
                   {/* Changelog */}
                   <button
@@ -288,6 +305,11 @@ export function NavbarFloating() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Hidden NavbarSearch for triggering from mobile drawer */}
+      <div ref={searchButtonRef} className="hidden">
+        <NavbarSearch />
+      </div>
     </>
   );
 }
