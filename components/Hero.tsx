@@ -9,7 +9,7 @@ import { DolarLiveTable } from '@/components/marketing/DolarLiveTable';
 
 const Hero: React.FC = () => {
   return (
-    <section className="relative w-full h-screen flex flex-col items-center justify-center text-foreground overflow-hidden bg-background">
+    <section className="relative w-full min-h-screen flex flex-col items-center justify-center text-foreground overflow-hidden bg-background pt-24 md:pt-28 pb-12 md:pb-16">
       {/* Aurora animated background with fintech colors */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-50">
         <Aurora
@@ -24,7 +24,7 @@ const Hero: React.FC = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/40 to-background/80"></div>
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-6">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-10 md:gap-12 lg:gap-16 items-center">
           {/* Left: Content */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -48,7 +48,7 @@ const Hero: React.FC = () => {
             </motion.div>
 
             <motion.h1
-              className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-display font-bold leading-tight mb-6"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-display font-bold leading-tight mb-4 md:mb-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
@@ -58,7 +58,7 @@ const Hero: React.FC = () => {
             </motion.h1>
 
             <motion.p
-              className="text-base md:text-lg lg:text-xl text-secondary leading-relaxed mb-6 md:mb-8 max-w-xl"
+              className="text-sm sm:text-base md:text-lg lg:text-xl text-secondary leading-relaxed mb-6 md:mb-8 max-w-xl"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
