@@ -9,10 +9,8 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaArrowRight } from 'react-icons/fa';
 import { GradientText } from '@/components/ui/GradientText';
 import Aurora from '@/components/ui/Aurora/Aurora';
-import { LinkButton } from '@/components/ui/Button';
 
 interface ElectionHeroProps {
   /** Is election day today */
@@ -85,36 +83,6 @@ export const ElectionHero = React.memo(function ElectionHero({
                 ? 'Seguí los resultados en tiempo real de las elecciones presidenciales 2025. Datos oficiales del Ministerio del Interior con actualización cada 10 segundos.'
                 : 'Resultados históricos y en tiempo real de las elecciones presidenciales argentinas. Datos oficiales de la Dirección Nacional Electoral.'}
             </motion.p>
-
-            {/* CTA */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto"
-            >
-              <LinkButton
-                href="#resultados-2025"
-                variant="primary"
-                size="xl"
-                rightIcon={<FaArrowRight />}
-                showStars
-                shimmer
-                className="w-full sm:w-auto"
-              >
-                {isLive ? 'Ver Resultados en Vivo' : 'Ver Elecciones 2025'}
-              </LinkButton>
-
-              <LinkButton
-                href="#historial"
-                variant="secondary"
-                size="xl"
-                shimmer
-                className="w-full sm:w-auto"
-              >
-                Historial Electoral
-              </LinkButton>
-            </motion.div>
 
             {/* Data Source */}
             <motion.div
