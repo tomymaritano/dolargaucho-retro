@@ -12,6 +12,7 @@ import {
   FaCalendar,
   FaPercentage,
 } from 'react-icons/fa';
+import { useToastStore } from '@/lib/store/toast-store';
 
 interface AlertFormProps {
   onCrear: (input: CrearAlertaInput) => void;
@@ -37,13 +38,14 @@ export const AlertForm = React.memo(function AlertForm({
   const [casaDolar, setCasaDolar] = useState<CasaDolar>('blue');
   const [mensaje, setMensaje] = useState('');
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
+  const { addToast } = useToastStore();
 
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
 
       if (!nombre.trim() || !valorObjetivo) {
-        alert('Por favor completá todos los campos obligatorios');
+        addToast('Por favor completá todos los campos obligatorios', 'error');
         return;
       }
 
@@ -60,6 +62,7 @@ export const AlertForm = React.memo(function AlertForm({
       }
 
       onCrear(input);
+      addToast('Alerta creada correctamente', 'success');
 
       // Reset form
       setNombre('');
@@ -67,7 +70,7 @@ export const AlertForm = React.memo(function AlertForm({
       setMensaje('');
       setIsExpanded(false);
     },
-    [tipo, nombre, condicion, valorObjetivo, casaDolar, mensaje, onCrear]
+    [tipo, nombre, condicion, valorObjetivo, casaDolar, mensaje, onCrear, addToast]
   );
 
   if (!isExpanded) {

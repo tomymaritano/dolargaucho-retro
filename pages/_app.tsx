@@ -6,6 +6,7 @@ import { VercelBackground } from '@/components/ui/VercelBackground';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { ChangelogProvider } from '@/components/WhatsNew';
+import { ToastProvider } from '@/components/ToastProvider';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -14,6 +15,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <ChangelogProvider>
           <VercelBackground />
           <Component {...pageProps} />
+          <ToastProvider />
           <Analytics />
           <SpeedInsights />
         </ChangelogProvider>

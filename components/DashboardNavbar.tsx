@@ -11,7 +11,7 @@
  * - User profile dropdown
  */
 
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -34,6 +34,7 @@ import { DolarMarquee } from './ui/DolarMarquee/DolarMarquee';
 import { NavbarSearch } from './NavbarSearch';
 import { ThemeToggle } from './ui/ThemeToggle/ThemeToggle';
 import { AnimatedLogo } from './ui/AnimatedLogo';
+import { Breadcrumbs, type Breadcrumb } from './ui/Breadcrumbs';
 import { useAuth } from '@/lib/contexts/AuthContext';
 
 const menuItems = [
@@ -52,6 +53,30 @@ export const DashboardNavbar = React.memo(function DashboardNavbar() {
   const router = useRouter();
   const { user, signOut } = useAuth();
   const profileRef = useRef<HTMLDivElement>(null);
+
+  // Generate breadcrumbs from current route
+  const breadcrumbs = useMemo<Breadcrumb[]>(() => {
+    const path = router.pathname;
+    const crumbs: Breadcrumb[] = [{ label: 'Dashboard', href: '/dashboard' }];
+
+    if (path === '/dashboard') return crumbs;
+
+    const pathSegments = path.split('/').filter(Boolean);
+    if (pathSegments.length > 1) {
+      const lastSegment = pathSegments[pathSegments.length - 1];
+      const menuItem = menuItems.find((item) => item.href.endsWith(lastSegment));
+
+      if (menuItem) {
+        crumbs.push({ label: menuItem.label });
+      } else {
+        // Capitalize first letter for unknown routes
+        const label = lastSegment.charAt(0).toUpperCase() + lastSegment.slice(1);
+        crumbs.push({ label });
+      }
+    }
+
+    return crumbs;
+  }, [router.pathname]);
 
   // Close profile dropdown when clicking outside
   useEffect(() => {
@@ -98,77 +123,97 @@ export const DashboardNavbar = React.memo(function DashboardNavbar() {
 
       {/* Navbar - Below marquee */}
       <nav className="fixed top-12 left-0 right-0 z-[45] bg-background border-b border-white/5">
-        <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          {/* Left: Hamburger + Logo */}
-          <div className="flex items-center gap-4">
-            <button
-              onClick={handleMenuToggle}
-              className="p-2 rounded-lg hover:bg-background-secondary/50 transition-colors"
-              aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
-            >
-              {menuOpen ? (
-                <FaTimes className="text-xl text-foreground" />
-              ) : (
-                <FaBars className="text-xl text-foreground" />
-              )}
-            </button>
-            <Link href="/dashboard" className="flex items-center">
-              <AnimatedLogo size={32} />
-            </Link>
-          </div>
-
-          {/* Right: Search + Theme + Profile */}
-          <div className="flex items-center gap-3">
-            <NavbarSearch />
-            <ThemeToggle />
-
-            {/* User Profile Dropdown */}
-            <div className="relative" ref={profileRef}>
-              <button
-                onClick={handleProfileToggle}
-                className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-background-secondary/50 transition-colors"
-                aria-label="Menú de usuario"
+        <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Top Row: Hamburger, Logo, Actions */}
+          <div className="h-16 flex items-center justify-between">
+            {/* Left: Hamburger + Logo */}
+            <div className="flex items-center gap-4">
+              <motion.button
+                onClick={handleMenuToggle}
+                className="p-2 rounded-lg hover:bg-background-secondary/50 transition-all"
+                aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <FaUser className="text-sm text-foreground/70" />
-                <span className="hidden sm:inline text-sm text-foreground">
-                  {user?.name?.split(' ')[0] || 'Usuario'}
-                </span>
-              </button>
+                <motion.div
+                  initial={false}
+                  animate={{ rotate: menuOpen ? 90 : 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {menuOpen ? (
+                    <FaTimes className="text-xl text-foreground" />
+                  ) : (
+                    <FaBars className="text-xl text-foreground" />
+                  )}
+                </motion.div>
+              </motion.button>
+              <Link href="/dashboard" className="flex items-center">
+                <AnimatedLogo size={32} />
+              </Link>
+            </div>
 
-              {/* Profile Dropdown */}
-              <AnimatePresence>
-                {profileOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute right-0 top-full mt-2 w-56 bg-panel rounded-lg shadow-2xl overflow-hidden border border-white/5"
-                  >
-                    <div className="px-4 py-3 border-b border-white/5">
-                      <p className="text-sm font-medium text-foreground">{user?.name}</p>
-                      <p className="text-xs text-secondary truncate">{user?.email}</p>
-                    </div>
-                    <Link
-                      href="/dashboard/perfil"
-                      onClick={handleProfileClose}
-                      className="flex items-center gap-3 px-4 py-3 hover:bg-background-secondary transition-colors"
+            {/* Right: Search + Theme + Profile */}
+            <div className="flex items-center gap-3">
+              <NavbarSearch />
+              <ThemeToggle />
+
+              {/* User Profile Dropdown */}
+              <div className="relative" ref={profileRef}>
+                <motion.button
+                  onClick={handleProfileToggle}
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-background-secondary/50 transition-colors"
+                  aria-label="Menú de usuario"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <FaUser className="text-sm text-foreground/70" />
+                  <span className="hidden sm:inline text-sm text-foreground">
+                    {user?.name?.split(' ')[0] || 'Usuario'}
+                  </span>
+                </motion.button>
+
+                {/* Profile Dropdown */}
+                <AnimatePresence>
+                  {profileOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute right-0 top-full mt-2 w-56 bg-panel rounded-lg shadow-2xl overflow-hidden border border-white/5"
                     >
-                      <FaUser className="text-sm text-foreground/70" />
-                      <span className="text-sm text-foreground">Mi Perfil</span>
-                    </Link>
-                    <button
-                      onClick={handleSignOut}
-                      className="w-full flex items-center gap-3 px-4 py-3 hover:bg-background-secondary transition-colors text-left border-t border-white/5"
-                    >
-                      <FaSignOutAlt className="text-sm text-error" />
-                      <span className="text-sm text-error">Cerrar Sesión</span>
-                    </button>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                      <div className="px-4 py-3 border-b border-white/5">
+                        <p className="text-sm font-medium text-foreground">{user?.name}</p>
+                        <p className="text-xs text-secondary truncate">{user?.email}</p>
+                      </div>
+                      <Link
+                        href="/dashboard/perfil"
+                        onClick={handleProfileClose}
+                        className="flex items-center gap-3 px-4 py-3 hover:bg-background-secondary transition-colors"
+                      >
+                        <FaUser className="text-sm text-foreground/70" />
+                        <span className="text-sm text-foreground">Mi Perfil</span>
+                      </Link>
+                      <button
+                        onClick={handleSignOut}
+                        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-background-secondary transition-colors text-left border-t border-white/5"
+                      >
+                        <FaSignOutAlt className="text-sm text-error" />
+                        <span className="text-sm text-error">Cerrar Sesión</span>
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
           </div>
+
+          {/* Breadcrumbs Row - Hidden on mobile, visible on desktop */}
+          {breadcrumbs.length > 1 && (
+            <div className="hidden md:block px-4 py-2 border-t border-white/5">
+              <Breadcrumbs items={breadcrumbs} />
+            </div>
+          )}
         </div>
       </nav>
 
@@ -230,26 +275,47 @@ export const DashboardNavbar = React.memo(function DashboardNavbar() {
                     Principal
                   </p>
                   <div className="space-y-1">
-                    {menuItems.slice(0, 4).map((item) => {
+                    {menuItems.slice(0, 4).map((item, index) => {
                       const isActive = router.pathname === item.href;
                       const Icon = item.icon;
 
                       return (
-                        <Link
+                        <motion.div
                           key={item.href}
-                          href={item.href}
-                          onClick={handleMenuClose}
-                          className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group ${
-                            isActive
-                              ? 'bg-brand text-white shadow-lg shadow-brand/20'
-                              : 'text-foreground/70 hover:text-foreground hover:bg-white/5'
-                          }`}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.2, delay: index * 0.05 }}
+                          whileHover={{ scale: 1.02, x: 4 }}
+                          whileTap={{ scale: 0.98 }}
                         >
-                          <Icon
-                            className={`text-base ${isActive ? 'text-white' : 'text-foreground/50 group-hover:text-foreground'}`}
-                          />
-                          <span className="text-sm font-medium">{item.label}</span>
-                        </Link>
+                          <Link
+                            href={item.href}
+                            onClick={handleMenuClose}
+                            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group relative overflow-hidden ${
+                              isActive
+                                ? 'bg-brand text-white shadow-lg shadow-brand/20'
+                                : 'text-foreground/70 hover:text-foreground hover:bg-white/5'
+                            }`}
+                          >
+                            {isActive && (
+                              <motion.div
+                                layoutId="activeIndicator"
+                                className="absolute inset-0 bg-brand rounded-lg -z-10"
+                                initial={false}
+                                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                              />
+                            )}
+                            <motion.div
+                              whileHover={{ rotate: [0, -10, 10, 0] }}
+                              transition={{ duration: 0.3 }}
+                            >
+                              <Icon
+                                className={`text-base ${isActive ? 'text-white' : 'text-foreground/50 group-hover:text-foreground'}`}
+                              />
+                            </motion.div>
+                            <span className="text-sm font-medium relative z-10">{item.label}</span>
+                          </Link>
+                        </motion.div>
                       );
                     })}
                   </div>

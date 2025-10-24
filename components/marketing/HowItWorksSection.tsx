@@ -160,10 +160,8 @@ export const HowItWorksSection = React.memo(function HowItWorksSection() {
                         </div>
                       </div>
                     </div>
-                  ) : step.visual === 'dashboard' ? (
-                    <DashboardPreview variant="dashboard" />
-                  ) : step.visual === 'calculator' ? (
-                    <DashboardPreview variant="calculator" />
+                  ) : step.visual === 'dashboard' || step.visual === 'calculator' ? (
+                    <DashboardPreview />
                   ) : (
                     // Alerts mockup
                     <div className="bg-gradient-to-br from-background via-background to-background-secondary rounded-2xl p-6 border border-white/10 shadow-2xl shadow-black/20">

@@ -11,13 +11,21 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FaUsers } from 'react-icons/fa';
 import { useUsersCount } from '@/hooks/useUsersCount';
+import { UserAvatarsFloat } from './UserAvatarsFloat';
 
 interface UserCounterProps {
   className?: string;
-  variant?: 'default' | 'compact' | 'hero';
+  variant?: 'default' | 'compact' | 'hero' | 'withAvatars';
+  showAvatars?: boolean;
+  maxAvatars?: number;
 }
 
-export function UserCounter({ className = '', variant = 'default' }: UserCounterProps) {
+export function UserCounter({
+  className = '',
+  variant = 'default',
+  showAvatars = false,
+  maxAvatars = 5,
+}: UserCounterProps) {
   const { data, isLoading, isError } = useUsersCount();
 
   // Don't render if error (graceful degradation)
@@ -66,6 +74,19 @@ export function UserCounter({ className = '', variant = 'default' }: UserCounter
           <div className="text-2xl font-black text-success">+{formattedCount}</div>
           <div className="text-xs text-success/80 font-semibold">usuarios registrados</div>
         </div>
+      </motion.div>
+    );
+  }
+
+  // WithAvatars variant - only avatars, no counter text
+  if (variant === 'withAvatars') {
+    return (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className={`inline-flex items-center ${className}`}
+      >
+        {showAvatars && <UserAvatarsFloat maxAvatars={maxAvatars} size="md" />}
       </motion.div>
     );
   }

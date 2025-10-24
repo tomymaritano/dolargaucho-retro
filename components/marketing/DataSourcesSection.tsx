@@ -69,6 +69,13 @@ const dataSources: DataSource[] = [
     badge: 'Político',
     stats: 'Senadores y diputados',
   },
+  {
+    name: 'Calendario Electoral',
+    description: 'Próximas elecciones nacionales - 26 de octubre 2025',
+    icon: FaLandmark,
+    badge: 'Política',
+    stats: 'Debut Boleta Única (BUP)',
+  },
 ];
 
 export const DataSourcesSection = React.memo(function DataSourcesSection() {
@@ -97,8 +104,8 @@ export const DataSourcesSection = React.memo(function DataSourcesSection() {
           </h2>
 
           <p className="text-secondary text-base sm:text-lg max-w-3xl mx-auto leading-relaxed">
-            Integramos datos de 6 APIs oficiales y públicas: DolarAPI, ArgentinaDatos (BCRA/INDEC),
-            CoinGecko, FRED, ECB y el Congreso Argentino.{' '}
+            Integramos datos de 7 fuentes oficiales y públicas: DolarAPI, ArgentinaDatos
+            (BCRA/INDEC), CoinGecko, FRED, ECB, Congreso Argentino y calendario electoral.{' '}
             <span className="text-foreground font-medium">
               No inventamos datos, solo los organizamos y presentamos de forma clara.
             </span>

@@ -3,9 +3,9 @@ import { motion } from 'framer-motion';
 import { FaArrowRight } from 'react-icons/fa';
 import { GradientText } from '@/components/ui/GradientText';
 import { LinkButton } from '@/components/ui/Button';
-import { EconomicChartsCarousel } from '@/components/marketing/EconomicChartsCarousel';
 import Aurora from '@/components/ui/Aurora/Aurora';
-import { UserCounter } from '@/components/marketing/UserCounter';
+import { ElectionCountdown } from '@/components/marketing/ElectionCountdown';
+import { DolarLiveTable } from '@/components/marketing/DolarLiveTable';
 
 const Hero: React.FC = () => {
   return (
@@ -32,22 +32,20 @@ const Hero: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="text-left"
           >
-            {/* Badge */}
-            <div className="flex flex-wrap items-center gap-3 mb-6">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.1 }}
-                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand/10 border border-brand/20"
-              >
-                <div className="w-2 h-2 bg-brand rounded-full animate-pulse"></div>
-                <span className="text-xs font-semibold text-brand uppercase tracking-wider">
-                  Datos en tiempo real
+            {/* Cotizaciones en vivo Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="mb-6"
+            >
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-success/10 border border-success/20">
+                <div className="w-2 h-2 bg-success rounded-full animate-pulse"></div>
+                <span className="text-xs font-bold text-success uppercase tracking-wider">
+                  Cotizaciones en vivo
                 </span>
-              </motion.div>
-
-              <UserCounter variant="compact" />
-            </div>
+              </div>
+            </motion.div>
 
             <motion.h1
               className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display font-bold leading-tight mb-6"
@@ -55,8 +53,8 @@ const Hero: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              Toda la economía Argentina en{' '}
-              <GradientText className="font-black">un solo lugar</GradientText>
+              Empezá a tomar mejores decisiones{' '}
+              <GradientText className="font-black">financieras</GradientText> hoy mismo
             </motion.h1>
 
             <motion.p
@@ -65,8 +63,9 @@ const Hero: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
-              Cotizaciones del dólar, crypto, inflación, riesgo país y más. Dashboard profesional
-              con datos actualizados de fuentes oficiales.
+              Toda la economía Argentina en un solo lugar. Cotizaciones del dólar, crypto,
+              inflación, riesgo país y más. Dashboard profesional con datos actualizados de fuentes
+              oficiales.
             </motion.p>
 
             {/* CTAs */}
@@ -102,13 +101,24 @@ const Hero: React.FC = () => {
             </motion.div>
           </motion.div>
 
-          {/* Right: Economic Charts Carousel */}
+          {/* Right: Live Cotizaciones + Elections */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
+            className="space-y-6"
           >
-            <EconomicChartsCarousel />
+            {/* Live Table */}
+            <DolarLiveTable />
+
+            {/* Election Countdown */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+            >
+              <ElectionCountdown />
+            </motion.div>
           </motion.div>
         </div>
       </div>

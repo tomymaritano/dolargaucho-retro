@@ -16,6 +16,7 @@ import {
   FaCalendar,
   FaMoneyBillWave,
 } from 'react-icons/fa';
+import { useToastStore } from '@/lib/store/toast-store';
 
 interface AlertsListProps {
   alertas: Alerta[];
@@ -69,6 +70,7 @@ export const AlertsList = React.memo(function AlertsList({
 }: AlertsListProps) {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [alertaToDelete, setAlertaToDelete] = useState<string | null>(null);
+  const { addToast } = useToastStore();
 
   const handleDeleteClick = (alertaId: string) => {
     setAlertaToDelete(alertaId);
@@ -78,9 +80,15 @@ export const AlertsList = React.memo(function AlertsList({
   const handleConfirmDelete = () => {
     if (alertaToDelete) {
       onEliminar(alertaToDelete);
+      addToast('Alerta eliminada correctamente', 'success');
     }
     setDeleteDialogOpen(false);
     setAlertaToDelete(null);
+  };
+
+  const handleToggle = (alertaId: string, isPaused: boolean) => {
+    onToggle(alertaId);
+    addToast(isPaused ? 'Alerta reactivada' : 'Alerta pausada', 'success');
   };
 
   const handleCancelDelete = () => {
@@ -167,7 +175,7 @@ export const AlertsList = React.memo(function AlertsList({
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={() => onToggle(alerta.id)}
+                      onClick={() => handleToggle(alerta.id, isPausada)}
                       title={isPausada ? 'Reactivar' : 'Pausar'}
                       className="h-8 w-8 p-0 flex items-center justify-center"
                     >

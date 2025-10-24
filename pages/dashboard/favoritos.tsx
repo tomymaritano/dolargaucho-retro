@@ -14,8 +14,7 @@ import { useDolarVariations } from '@/hooks/useDolarVariations';
 import { useCotizacionesWithVariations } from '@/hooks/useCotizaciones';
 import { useCryptoQuery } from '@/hooks/useCryptoQuery';
 import { useFavoritesStore } from '@/lib/store/favorites';
-import Toast from '@/components/Toast';
-import { useToast } from '@/hooks/useToast';
+import { useToastStore } from '@/lib/store/toast-store';
 import { FavoritesList } from '@/components/dashboard/FavoritesList';
 import { Card } from '@/components/ui/Card/Card';
 import { FaStar, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
@@ -29,7 +28,7 @@ export default function FavoritosPage() {
   const { data: cotizaciones } = useCotizacionesWithVariations();
   const { data: cryptos } = useCryptoQuery();
 
-  const { toast, showToast, hideToast } = useToast();
+  const { addToast } = useToastStore();
 
   // Get state and actions from Zustand store
   const {
@@ -62,17 +61,17 @@ export default function FavoritosPage() {
   // Handlers with toast notifications
   const handleToggleDolar = (casa: string) => {
     const result = toggleDolar(casa);
-    showToast(result.message, result.success ? 'success' : 'info');
+    addToast(result.message, result.success ? 'success' : 'info');
   };
 
   const handleToggleCurrency = (moneda: string) => {
     const result = toggleCurrency(moneda);
-    showToast(result.message, result.success ? 'success' : 'info');
+    addToast(result.message, result.success ? 'success' : 'info');
   };
 
   const handleToggleCrypto = (id: string) => {
     const result = toggleCrypto(id);
-    showToast(result.message, result.success ? 'success' : 'info');
+    addToast(result.message, result.success ? 'success' : 'info');
   };
 
   return (
@@ -191,15 +190,6 @@ export default function FavoritosPage() {
             </Card>
           )}
         </div>
-
-        {/* Toast Notifications */}
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          isVisible={toast.isVisible}
-          onClose={hideToast}
-          duration={toast.duration}
-        />
       </DashboardLayout>
     </>
   );

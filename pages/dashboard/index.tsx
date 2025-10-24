@@ -6,11 +6,10 @@
  * File size: ~150 lines (down from 1710 lines - 91% reduction)
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaStar } from 'react-icons/fa';
 import { DashboardLayout } from '@/components/layouts/DashboardLayout';
-import Toast from '@/components/Toast';
-import { useToast } from '@/hooks/useToast';
+import { useToastStore } from '@/lib/store/toast-store';
 import { useDashboardData } from '@/hooks/useDashboardData';
 import { useFavoritesStore } from '@/lib/store/favorites';
 import { useFredData } from '@/hooks/useFredData';
@@ -41,7 +40,7 @@ export default function DashboardPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDolarForChart, setSelectedDolarForChart] = useState<string>('blue');
 
-  const { toast, showToast, hideToast } = useToast();
+  const { addToast } = useToastStore();
 
   // Centralized data fetching
   const {
@@ -119,9 +118,9 @@ export default function DashboardPage() {
   const handleToggleChart = (chartId: string) => {
     const result = toggleChart(chartId);
     if (result.success) {
-      showToast(result.message, 'success');
+      addToast(result.message, 'success');
     } else {
-      showToast(result.message, 'error', 5000);
+      addToast(result.message, 'error', 5000);
     }
   };
 
@@ -292,15 +291,6 @@ export default function DashboardPage() {
             onToggleChart={handleToggleChart}
           />
         </div>
-
-        {/* Toast Notifications */}
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          isVisible={toast.isVisible}
-          onClose={hideToast}
-          duration={toast.duration}
-        />
       </DashboardLayout>
     </>
   );

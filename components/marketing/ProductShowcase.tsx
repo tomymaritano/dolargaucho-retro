@@ -74,7 +74,7 @@ export function ProductShowcase() {
                 transition={{ duration: 0.5 }}
                 whileHover={{ scale: 1.02 }}
               >
-                <DashboardPreview variant={feature.variant} />
+                <DashboardPreview />
               </motion.div>
 
               {/* Content - Derecha en odd, izquierda en even */}
