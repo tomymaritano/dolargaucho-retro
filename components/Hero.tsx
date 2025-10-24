@@ -9,7 +9,7 @@ import { DolarLiveTable } from '@/components/marketing/DolarLiveTable';
 
 const Hero: React.FC = () => {
   return (
-    <section className="relative w-full min-h-screen flex flex-col items-center justify-center text-foreground overflow-hidden pt-32 pb-16 bg-background">
+    <section className="relative w-full min-h-screen flex flex-col items-center justify-center text-foreground overflow-hidden pt-24 md:pt-32 pb-12 md:pb-16 bg-background">
       {/* Aurora animated background with fintech colors */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-50">
         <Aurora
@@ -23,8 +23,8 @@ const Hero: React.FC = () => {
       {/* Gradient overlay for better text contrast */}
       <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/40 to-background/80"></div>
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-6">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left: Content */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -48,7 +48,7 @@ const Hero: React.FC = () => {
             </motion.div>
 
             <motion.h1
-              className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-display font-bold leading-tight mb-6"
+              className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-display font-bold leading-tight mb-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
@@ -58,7 +58,7 @@ const Hero: React.FC = () => {
             </motion.h1>
 
             <motion.p
-              className="text-lg md:text-xl text-secondary leading-relaxed mb-8 max-w-xl"
+              className="text-base md:text-lg lg:text-xl text-secondary leading-relaxed mb-6 md:mb-8 max-w-xl"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}

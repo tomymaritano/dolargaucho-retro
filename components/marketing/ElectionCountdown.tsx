@@ -54,53 +54,55 @@ export const ElectionCountdown = React.memo(function ElectionCountdown() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.5 }}
           whileHover={{ scale: 1.01, x: 2 }}
-          className="relative w-full flex items-center justify-between gap-4 p-4 rounded-xl bg-panel/50 border border-white/5 hover:border-purple-500/30 hover:bg-panel/80 transition-all duration-300 group cursor-pointer"
+          className="relative w-full flex items-center justify-between gap-2 md:gap-4 p-3 md:p-4 rounded-xl bg-panel/50 border border-white/5 hover:border-purple-500/30 hover:bg-panel/80 transition-all duration-300 group cursor-pointer"
         >
           {/* Left side - Election Info */}
-          <div className="flex items-center gap-3 flex-1 min-w-0">
+          <div className="flex items-center gap-2 md:gap-3 flex-1 min-w-0">
             {/* Badge/Icon area */}
-            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-purple-500/20 to-blue-500/20 border border-purple-500/30 flex items-center justify-center">
-              <div className="w-3 h-3 bg-purple-400 rounded-full" />
+            <div className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-purple-500/20 to-blue-500/20 border border-purple-500/30 flex items-center justify-center">
+              <div className="w-2 h-2 md:w-3 md:h-3 bg-purple-400 rounded-full" />
             </div>
 
             {/* Election Name */}
             <div className="min-w-0">
-              <div className="text-sm font-bold text-foreground group-hover:text-purple-400 transition-colors">
+              <div className="text-xs md:text-sm font-bold text-foreground group-hover:text-purple-400 transition-colors truncate">
                 Elecciones 2025
               </div>
-              <div className="text-xs text-secondary truncate">26 de octubre • BUP</div>
+              <div className="text-[10px] md:text-xs text-secondary truncate">26 oct • BUP</div>
             </div>
           </div>
 
           {/* Center - Countdown Numbers */}
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-3 md:gap-6">
             {/* Days */}
             <div className="text-center">
-              <div className="text-2xl font-black bg-gradient-to-br from-purple-400 via-blue-400 to-purple-500 bg-clip-text text-transparent tabular-nums">
+              <div className="text-xl md:text-2xl font-black bg-gradient-to-br from-purple-400 via-blue-400 to-purple-500 bg-clip-text text-transparent tabular-nums">
                 {timeLeft.days}
               </div>
-              <div className="text-[10px] text-secondary uppercase tracking-wide">días</div>
+              <div className="text-[9px] md:text-[10px] text-secondary uppercase tracking-wide">
+                días
+              </div>
             </div>
 
             {/* Hours */}
             <div className="text-center">
-              <div className="text-xl font-bold text-foreground/80 tabular-nums">
+              <div className="text-lg md:text-xl font-bold text-foreground/80 tabular-nums">
                 {timeLeft.hours.toString().padStart(2, '0')}
               </div>
-              <div className="text-[10px] text-secondary uppercase">hrs</div>
+              <div className="text-[9px] md:text-[10px] text-secondary uppercase">hrs</div>
             </div>
 
-            {/* Minutes */}
-            <div className="text-center">
-              <div className="text-xl font-bold text-foreground/80 tabular-nums">
+            {/* Minutes - Hidden on very small screens */}
+            <div className="hidden xs:block text-center">
+              <div className="text-lg md:text-xl font-bold text-foreground/80 tabular-nums">
                 {timeLeft.minutes.toString().padStart(2, '0')}
               </div>
-              <div className="text-[10px] text-secondary uppercase">min</div>
+              <div className="text-[9px] md:text-[10px] text-secondary uppercase">min</div>
             </div>
           </div>
 
           {/* Right side - Status Badge */}
-          <div className="flex-shrink-0">
+          <div className="hidden sm:block flex-shrink-0">
             {isElectionDay ? (
               <motion.div
                 initial={{ scale: 0 }}

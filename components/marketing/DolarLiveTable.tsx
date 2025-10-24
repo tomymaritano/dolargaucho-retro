@@ -60,11 +60,11 @@ function DolarRow({
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: index * 0.1, duration: 0.5 }}
         whileHover={{ scale: 1.02, x: 4 }}
-        className="relative flex items-center gap-4 p-4 rounded-xl bg-panel/50 border border-white/5 hover:border-brand/30 hover:bg-panel/80 transition-all duration-300 group cursor-pointer"
+        className="relative flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl bg-panel/50 border border-white/5 hover:border-brand/30 hover:bg-panel/80 transition-all duration-300 group cursor-pointer"
       >
         {/* Nombre */}
         <div className="flex-1 min-w-0">
-          <div className="text-base font-bold text-foreground group-hover:text-brand transition-colors">
+          <div className="text-sm md:text-base font-bold text-foreground group-hover:text-brand transition-colors truncate">
             {dolar.nombre}
           </div>
         </div>
@@ -76,7 +76,7 @@ function DolarRow({
           onMouseEnter={handleMouseEnter}
           onMouseLeave={() => setShowTooltip(false)}
         >
-          <div className="text-xl font-black text-foreground cursor-help">
+          <div className="text-lg md:text-xl font-black text-foreground cursor-help">
             {DolarService.formatPrice(dolar.venta)}
           </div>
           <div
@@ -89,9 +89,9 @@ function DolarRow({
           </div>
         </div>
 
-        {/* Sparkline */}
+        {/* Sparkline - Hidden on small screens */}
         {sparklineData.length > 0 && (
-          <div className="flex-shrink-0">
+          <div className="hidden sm:block flex-shrink-0">
             <CryptoSparkline data={sparklineData} trend={trend} isCrypto={false} />
           </div>
         )}
@@ -173,7 +173,7 @@ export const DolarLiveTable = React.memo(function DolarLiveTable() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: i * 0.1 }}
-            className="flex items-center gap-4 p-4 rounded-xl bg-panel/30 border border-white/5"
+            className="flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl bg-panel/30 border border-white/5"
           >
             <div className="flex-1">
               <div className="h-4 w-24 bg-white/10 rounded animate-pulse mb-2" />
@@ -182,7 +182,7 @@ export const DolarLiveTable = React.memo(function DolarLiveTable() {
               <div className="h-6 w-20 bg-white/10 rounded animate-pulse mb-1" />
               <div className="h-3 w-14 bg-white/10 rounded animate-pulse" />
             </div>
-            <div className="w-16 h-12 bg-white/10 rounded animate-pulse" />
+            <div className="hidden sm:block w-16 h-12 bg-white/10 rounded animate-pulse" />
           </motion.div>
         ))}
       </div>
