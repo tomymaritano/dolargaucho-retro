@@ -15,17 +15,29 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaSpinner, FaBars, FaTimes } from 'react-icons/fa';
+import {
+  FaSpinner,
+  FaBars,
+  FaTimes,
+  FaSearch,
+  FaBell,
+  FaRocket,
+  FaUserPlus,
+  FaSignInAlt,
+  FaTachometerAlt,
+} from 'react-icons/fa';
 import { ThemeToggle } from './ui/ThemeToggle/ThemeToggle';
 import { AnimatedLogo } from './ui/AnimatedLogo';
 import { ChangelogButton } from './ChangelogButton';
 import { RoadmapButton } from './RoadmapButton';
 import { NavbarSearch } from './NavbarSearch';
+import { useChangelog } from './WhatsNew';
 
 export function NavbarFloating() {
   const [user, setUser] = React.useState<any>(null);
   const [loading, setLoading] = React.useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { openChangelog } = useChangelog();
 
   // Check auth state by calling the API endpoint
   const checkAuth = React.useCallback(async () => {
@@ -147,86 +159,133 @@ export function NavbarFloating() {
         </div>
       </motion.nav>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Drawer - Full Screen */}
       <AnimatePresence>
         {mobileMenuOpen && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setMobileMenuOpen(false)}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
-            />
-
-            {/* Drawer */}
-            <motion.div
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed top-0 right-0 bottom-0 w-[280px] bg-background border-l border-white/10 shadow-2xl z-50 md:hidden"
-            >
-              <div className="flex flex-col h-full">
-                {/* Header */}
-                <div className="flex items-center justify-between p-6 border-b border-white/10">
-                  <span className="text-lg font-semibold">Menú</span>
-                  <button
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="p-2 hover:bg-white/5 rounded-lg transition-colors"
-                    aria-label="Close menu"
-                  >
-                    <FaTimes size={20} />
-                  </button>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 bg-background z-50 md:hidden"
+          >
+            <div className="flex flex-col h-full">
+              {/* Header */}
+              <div className="flex items-center justify-between p-6 border-b border-white/10">
+                <div className="flex items-center gap-3">
+                  <AnimatedLogo size={32} />
+                  <span className="text-xl font-bold">Menú</span>
                 </div>
+                <button
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="p-2 hover:bg-white/5 rounded-lg transition-colors"
+                  aria-label="Close menu"
+                >
+                  <FaTimes size={24} />
+                </button>
+              </div>
 
-                {/* Menu Items */}
-                <div className="flex-1 overflow-y-auto p-4 space-y-2">
-                  {/* Search */}
+              {/* Menu Items */}
+              <div className="flex-1 overflow-y-auto p-6">
+                <nav className="space-y-3">
+                  {/* Search - Hidden NavbarSearch, use custom button */}
                   <div onClick={() => setMobileMenuOpen(false)}>
                     <NavbarSearch />
                   </div>
 
-                  {/* Changelog Button */}
-                  <div onClick={() => setMobileMenuOpen(false)}>
-                    <ChangelogButton />
-                  </div>
-
-                  {/* Roadmap Button */}
-                  <div onClick={() => setMobileMenuOpen(false)}>
-                    <RoadmapButton />
-                  </div>
-
-                  {/* Auth Button */}
-                  <div className="pt-4 border-t border-white/10">
-                    {loading ? (
-                      <div className="w-full px-4 py-3 text-sm font-medium bg-white/5 text-secondary rounded-lg flex items-center justify-center gap-2">
-                        <FaSpinner className="animate-spin text-xs" />
-                        <span>Cargando...</span>
+                  {/* Changelog */}
+                  <button
+                    onClick={() => {
+                      openChangelog();
+                      setMobileMenuOpen(false);
+                    }}
+                    className="w-full flex items-center gap-4 p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all group"
+                  >
+                    <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-brand/10 text-brand group-hover:bg-brand/20 transition-colors">
+                      <FaBell size={20} />
+                    </div>
+                    <div className="flex-1 text-left">
+                      <div className="font-semibold text-base text-foreground">Novedades</div>
+                      <div className="text-xs text-secondary">
+                        Últimas actualizaciones y mejoras
                       </div>
-                    ) : user ? (
+                    </div>
+                  </button>
+
+                  {/* Roadmap */}
+                  <Link
+                    href="/roadmap"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="w-full flex items-center gap-4 p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all group"
+                  >
+                    <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-purple-500/10 text-purple-400 group-hover:bg-purple-500/20 transition-colors">
+                      <FaRocket size={20} />
+                    </div>
+                    <div className="flex-1 text-left">
+                      <div className="font-semibold text-base text-foreground">Roadmap</div>
+                      <div className="text-xs text-secondary">Próximas features y timeline</div>
+                    </div>
+                  </Link>
+                </nav>
+
+                {/* Auth Section */}
+                <div className="mt-8 pt-6 border-t border-white/10 space-y-3">
+                  {loading ? (
+                    <div className="w-full px-4 py-4 text-sm font-medium bg-white/5 text-secondary rounded-xl flex items-center justify-center gap-2">
+                      <FaSpinner className="animate-spin" />
+                      <span>Cargando...</span>
+                    </div>
+                  ) : user ? (
+                    <Link
+                      href="/dashboard"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="w-full flex items-center gap-4 p-4 rounded-xl bg-brand text-white hover:bg-brand/90 transition-all shadow-lg shadow-brand/20"
+                    >
+                      <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-white/10">
+                        <FaTachometerAlt size={20} />
+                      </div>
+                      <div className="flex-1 text-left">
+                        <div className="font-bold text-base">Ver Dashboard</div>
+                        <div className="text-xs opacity-90">Accede a tu panel</div>
+                      </div>
+                    </Link>
+                  ) : (
+                    <>
                       <Link
-                        href="/dashboard"
+                        href="/auth?tab=signup"
                         onClick={() => setMobileMenuOpen(false)}
-                        className="block w-full px-4 py-3 text-sm font-medium text-center bg-brand text-white rounded-lg shadow-sm hover:bg-brand/90 transition-all"
+                        className="w-full flex items-center gap-4 p-4 rounded-xl bg-brand text-white hover:bg-brand/90 transition-all shadow-lg shadow-brand/20"
                       >
-                        Ver Dashboard
+                        <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-white/10">
+                          <FaUserPlus size={20} />
+                        </div>
+                        <div className="flex-1 text-left">
+                          <div className="font-bold text-base">Registrarse</div>
+                          <div className="text-xs opacity-90">Crea tu cuenta gratis</div>
+                        </div>
                       </Link>
-                    ) : (
+
                       <Link
                         href="/auth"
                         onClick={() => setMobileMenuOpen(false)}
-                        className="block w-full px-4 py-3 text-sm font-medium text-center bg-brand text-white rounded-lg shadow-sm hover:bg-brand/90 transition-all"
+                        className="w-full flex items-center gap-4 p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all"
                       >
-                        Iniciar Sesión
+                        <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-brand/10 text-brand">
+                          <FaSignInAlt size={20} />
+                        </div>
+                        <div className="flex-1 text-left">
+                          <div className="font-semibold text-base text-foreground">
+                            Iniciar Sesión
+                          </div>
+                          <div className="text-xs text-secondary">Accede a tu cuenta</div>
+                        </div>
                       </Link>
-                    )}
-                  </div>
+                    </>
+                  )}
                 </div>
               </div>
-            </motion.div>
-          </>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </>
