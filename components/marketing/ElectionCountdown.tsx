@@ -73,22 +73,21 @@ export const ElectionCountdown = React.memo(function ElectionCountdown() {
         whileTap={{ scale: 0.98 }}
         className="relative w-full flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl bg-panel/50 border border-white/5 hover:border-brand/30 hover:bg-panel/80 transition-all duration-300 group cursor-pointer overflow-visible"
       >
-        {/* Countdown Badge - Only show when < 30 days */}
-        {timeLeft.days <= 30 && timeLeft.days > 0 && (
+        {/* EN VIVO Badge - Only show ON election day */}
+        {isElectionDay && (
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.9, type: 'spring', stiffness: 200 }}
             className="absolute -top-2 -right-2 z-10"
           >
-            <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-gradient-to-r from-brand to-brand-light text-white text-[10px] md:text-xs font-bold shadow-lg shadow-brand/30">
+            <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-red-500 text-white text-[10px] md:text-xs font-bold shadow-lg shadow-red-500/50">
               <motion.span
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ repeat: Infinity, duration: 2 }}
-              >
-                ⏰
-              </motion.span>
-              <span>Faltan {timeLeft.days}d</span>
+                animate={{ opacity: [1, 0.3, 1] }}
+                transition={{ repeat: Infinity, duration: 1.5 }}
+                className="w-1.5 h-1.5 bg-white rounded-full"
+              />
+              <span>EN VIVO</span>
             </div>
           </motion.div>
         )}
