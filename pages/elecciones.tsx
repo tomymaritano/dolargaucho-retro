@@ -69,28 +69,120 @@ export default function EleccionesPage() {
         />
       ) : (
         <>
-          <div className="bg-panel/50 border border-white/10 rounded-2xl p-8 backdrop-blur-sm text-center">
-            <div className="text-6xl font-black bg-gradient-to-br from-purple-400 via-blue-400 to-purple-500 bg-clip-text text-transparent mb-3">
-              2025
-            </div>
-            <p className="text-lg font-bold text-foreground mb-2">Elecciones Legislativas</p>
-            <p className="text-sm text-secondary mb-4">26 de octubre 2025</p>
-            <div className="pt-4 border-t border-white/10">
-              <p className="text-xs text-secondary/60">
-                Los resultados estaran disponibles el dia de la eleccion
-              </p>
-            </div>
-          </div>
+          {/* Main Card - Interactive */}
+          <motion.div
+            whileHover={{ scale: 1.02, y: -4 }}
+            transition={{ type: 'spring', stiffness: 300 }}
+            className="bg-panel/50 border border-white/10 rounded-2xl p-8 backdrop-blur-sm text-center relative overflow-hidden group cursor-pointer"
+            onClick={() => {
+              document.getElementById('historial')?.scrollIntoView({ behavior: 'smooth' });
+            }}
+          >
+            {/* Animated gradient background on hover */}
+            <div className="absolute inset-0 bg-gradient-to-br from-brand/0 via-brand/5 to-brand/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="relative z-10"
+            >
+              <motion.div
+                className="text-6xl font-black bg-gradient-to-br from-brand via-brand-light to-brand bg-clip-text text-transparent mb-3"
+                whileHover={{ scale: 1.1 }}
+                transition={{ type: 'spring', stiffness: 400 }}
+              >
+                2025
+              </motion.div>
+              <p className="text-lg font-bold text-foreground group-hover:text-brand transition-colors mb-2">
+                Elecciones Legislativas
+              </p>
+              <p className="text-sm text-secondary group-hover:text-foreground transition-colors mb-4">
+                26 de octubre 2025
+              </p>
+              <div className="pt-4 border-t border-white/10 group-hover:border-brand/20 transition-colors">
+                <p className="text-xs text-secondary/60 group-hover:text-secondary transition-colors">
+                  Los resultados estarán disponibles el día de la elección
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Shine effect on hover */}
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+            </div>
+          </motion.div>
+
+          {/* Stats Cards - Interactive */}
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-panel/30 border border-white/10 rounded-xl p-4 text-center">
-              <div className="text-2xl font-black text-purple-400 mb-1">10</div>
-              <p className="text-xs text-secondary">Elecciones Historicas</p>
-            </div>
-            <div className="bg-panel/30 border border-white/10 rounded-xl p-4 text-center">
-              <div className="text-2xl font-black text-blue-400 mb-1">1983</div>
-              <p className="text-xs text-secondary">Desde</p>
-            </div>
+            {/* Card 1: Elecciones Historicas */}
+            <motion.a
+              href="#historial"
+              whileHover={{ scale: 1.05, y: -4 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: 'spring', stiffness: 400 }}
+              className="bg-panel/30 border border-white/10 rounded-xl p-4 text-center relative overflow-hidden group cursor-pointer"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('historial')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
+              {/* Gradient background on hover */}
+              <div className="absolute inset-0 bg-gradient-to-br from-brand/0 to-brand/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+              <motion.div
+                className="text-2xl font-black text-brand mb-1 relative z-10"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                whileHover={{ scale: 1.15 }}
+              >
+                14
+              </motion.div>
+              <p className="text-xs text-secondary group-hover:text-foreground transition-colors relative z-10">
+                Elecciones Históricas
+              </p>
+
+              {/* Arrow indicator on hover */}
+              <motion.div
+                className="absolute bottom-2 right-2 text-brand text-xs opacity-0 group-hover:opacity-100"
+                initial={{ x: -10 }}
+                whileHover={{ x: 0 }}
+              >
+                →
+              </motion.div>
+            </motion.a>
+
+            {/* Card 2: Desde 1983 */}
+            <motion.div
+              whileHover={{ scale: 1.05, y: -4 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: 'spring', stiffness: 400 }}
+              className="bg-panel/30 border border-white/10 rounded-xl p-4 text-center relative overflow-hidden group cursor-pointer"
+            >
+              {/* Gradient background on hover */}
+              <div className="absolute inset-0 bg-gradient-to-br from-success/0 to-success/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+              <motion.div
+                className="text-2xl font-black text-success mb-1 relative z-10"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                whileHover={{ scale: 1.15 }}
+              >
+                1983
+              </motion.div>
+              <p className="text-xs text-secondary group-hover:text-foreground transition-colors relative z-10">
+                Retorno Democrático
+              </p>
+
+              {/* Pulse effect */}
+              <motion.div
+                className="absolute inset-0 border-2 border-success/20 rounded-xl opacity-0 group-hover:opacity-100"
+                animate={{ scale: [1, 1.05, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+            </motion.div>
           </div>
         </>
       )}
