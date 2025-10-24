@@ -101,23 +101,29 @@ const Hero: React.FC = () => {
             </motion.div>
           </motion.div>
 
-          {/* Right: Live Cotizaciones + Elections */}
+          {/* Right: Elections + Live Cotizaciones */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
             className="space-y-6"
           >
-            {/* Live Table */}
-            <DolarLiveTable />
+            {/* Election Countdown - PRIMERO (más prominente) */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+            >
+              <ElectionCountdown />
+            </motion.div>
 
-            {/* Election Countdown */}
+            {/* Live Table - SEGUNDO */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
             >
-              <ElectionCountdown />
+              <DolarLiveTable />
             </motion.div>
           </motion.div>
         </div>

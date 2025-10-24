@@ -69,9 +69,33 @@ export const ElectionCountdown = React.memo(function ElectionCountdown() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.7, duration: 0.5 }}
-        whileHover={{ scale: 1.02, x: 4 }}
-        className="relative w-full flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl bg-panel/50 border border-white/5 hover:border-brand/30 hover:bg-panel/80 transition-all duration-300 group cursor-pointer"
+        whileHover={{ scale: 1.03, x: 6, y: -2 }}
+        whileTap={{ scale: 0.98 }}
+        className="relative w-full flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl bg-panel/50 border border-white/5 hover:border-brand/30 hover:bg-panel/80 transition-all duration-300 group cursor-pointer overflow-visible"
       >
+        {/* Countdown Badge - Only show when < 30 days */}
+        {timeLeft.days <= 30 && timeLeft.days > 0 && (
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.9, type: 'spring', stiffness: 200 }}
+            className="absolute -top-2 -right-2 z-10"
+          >
+            <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-gradient-to-r from-brand to-brand-light text-white text-[10px] md:text-xs font-bold shadow-lg shadow-brand/30">
+              <motion.span
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ repeat: Infinity, duration: 2 }}
+              >
+                ⏰
+              </motion.span>
+              <span>Faltan {timeLeft.days}d</span>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Glow effect - appears on hover */}
+        <div className="absolute -inset-1 bg-gradient-to-r from-brand/0 via-brand/30 to-brand/0 rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
+
         {/* Left side - Election Info */}
         <div className="flex-1 min-w-0">
           <AnimatePresence mode="wait">
