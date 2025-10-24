@@ -49,6 +49,60 @@ function formatBCRAValue(value: number, indicatorType: BCRAIndicatorType): strin
   }
 }
 
+/**
+ * Get fixed Tailwind color classes based on indicator type
+ * This ensures proper compilation with Tailwind JIT
+ */
+function getColorClasses(indicatorType: BCRAIndicatorType) {
+  switch (indicatorType) {
+    case 'reservas':
+      return {
+        border: 'hover:border-green-500/50',
+        gradient: 'bg-gradient-to-br from-green-500/0 via-green-500/0 to-green-500/5',
+        label: 'group-hover:text-green-400',
+        value: 'text-green-500',
+        description: 'group-hover:text-green-500/80',
+        shine: 'bg-gradient-to-tr from-transparent via-green-500/10 to-transparent',
+      };
+    case 'badlar':
+      return {
+        border: 'hover:border-blue-500/50',
+        gradient: 'bg-gradient-to-br from-blue-500/0 via-blue-500/0 to-blue-500/5',
+        label: 'group-hover:text-blue-400',
+        value: 'text-blue-500',
+        description: 'group-hover:text-blue-500/80',
+        shine: 'bg-gradient-to-tr from-transparent via-blue-500/10 to-transparent',
+      };
+    case 'tamar':
+      return {
+        border: 'hover:border-purple-500/50',
+        gradient: 'bg-gradient-to-br from-purple-500/0 via-purple-500/0 to-purple-500/5',
+        label: 'group-hover:text-purple-400',
+        value: 'text-purple-500',
+        description: 'group-hover:text-purple-500/80',
+        shine: 'bg-gradient-to-tr from-transparent via-purple-500/10 to-transparent',
+      };
+    case 'base-monetaria':
+      return {
+        border: 'hover:border-amber-500/50',
+        gradient: 'bg-gradient-to-br from-amber-500/0 via-amber-500/0 to-amber-500/5',
+        label: 'group-hover:text-amber-400',
+        value: 'text-amber-500',
+        description: 'group-hover:text-amber-500/80',
+        shine: 'bg-gradient-to-tr from-transparent via-amber-500/10 to-transparent',
+      };
+    case 'emae':
+      return {
+        border: 'hover:border-cyan-500/50',
+        gradient: 'bg-gradient-to-br from-cyan-500/0 via-cyan-500/0 to-cyan-500/5',
+        label: 'group-hover:text-cyan-400',
+        value: 'text-cyan-500',
+        description: 'group-hover:text-cyan-500/80',
+        shine: 'bg-gradient-to-tr from-transparent via-cyan-500/10 to-transparent',
+      };
+  }
+}
+
 export const BCRAStatCard = React.memo(function BCRAStatCard({
   value,
   config,
@@ -71,24 +125,25 @@ export const BCRAStatCard = React.memo(function BCRAStatCard({
         ? FaArrowDown
         : FaMinus;
 
+  // Get fixed color classes
+  const colors = getColorClasses(config.id);
+
   return (
     <div
-      className={`group relative p-4 rounded-lg glass border border-border hover:border-${config.color}/50 transition-all duration-300 ${
+      className={`group relative p-4 rounded-lg glass border border-border ${colors.border} transition-all duration-300 ${
         onClick ? 'cursor-pointer' : ''
       } overflow-hidden`}
       onClick={onClick}
     >
       {/* Professional gradient overlay on hover */}
       <div
-        className={`absolute inset-0 bg-gradient-to-br from-${config.color}/0 via-${config.color}/0 to-${config.color}/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+        className={`absolute inset-0 ${colors.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
       />
 
       {/* Content */}
       <div className="relative z-10">
         {/* Label */}
-        <p
-          className={`text-xs text-secondary mb-2 group-hover:text-${config.color} transition-colors duration-300`}
-        >
+        <p className={`text-xs text-secondary mb-2 ${colors.label} transition-colors duration-300`}>
           {config.label}
         </p>
 
@@ -97,7 +152,7 @@ export const BCRAStatCard = React.memo(function BCRAStatCard({
           <div className="h-8 bg-secondary/10 rounded animate-pulse mb-1" />
         ) : (
           <p
-            className={`text-2xl font-bold text-${config.color} tabular-nums group-hover:scale-105 transition-transform duration-300`}
+            className={`text-2xl font-bold ${colors.value} tabular-nums group-hover:scale-105 transition-transform duration-300`}
           >
             {formatBCRAValue(value, config.id)}
           </p>
@@ -117,7 +172,7 @@ export const BCRAStatCard = React.memo(function BCRAStatCard({
 
         {/* Description */}
         <p
-          className={`text-[10px] text-secondary mt-1 group-hover:text-${config.color}/80 transition-colors duration-300`}
+          className={`text-[10px] text-secondary mt-1 ${colors.description} transition-colors duration-300`}
         >
           {config.description}
         </p>
@@ -125,7 +180,7 @@ export const BCRAStatCard = React.memo(function BCRAStatCard({
 
       {/* Subtle shine effect on hover */}
       <div
-        className={`absolute inset-0 bg-gradient-to-tr from-transparent via-${config.color}/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000`}
+        className={`absolute inset-0 ${colors.shine} translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000`}
       />
     </div>
   );
