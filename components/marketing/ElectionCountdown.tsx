@@ -59,10 +59,17 @@ export const ElectionCountdown = React.memo(function ElectionCountdown() {
       >
         {/* Left side - Election Info */}
         <div className="flex-1 min-w-0">
-          <div className="text-sm md:text-base font-bold text-foreground group-hover:text-brand transition-colors truncate">
-            Elecciones 2025
-          </div>
-          <div className="text-xs text-secondary truncate">26 octubre • Legislativas</div>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key="election-date"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-sm md:text-base font-bold text-foreground group-hover:text-brand transition-colors truncate"
+            >
+              26 de octubre 2025
+            </motion.div>
+          </AnimatePresence>
         </div>
 
         {/* Center - Countdown with animations */}
