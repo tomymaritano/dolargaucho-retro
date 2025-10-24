@@ -5,6 +5,10 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## 1.24.0 (2025-10-24)
+
+- feat(hero): make full screen with animated scroll indicator and improve countdown ([e4ad4d9](https://github.com/tomymaritano/dolargaucho-retro/commit/e4ad4d9))
+
 ## 1.23.0 (2025-10-24)
 
 - feat(elections): enhance countdown ux and consistency ([7378531](https://github.com/tomymaritano/dolargaucho-retro/commit/7378531))
