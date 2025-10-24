@@ -19,8 +19,25 @@ export const ElectionCountdown = React.memo(function ElectionCountdown() {
     days: 0,
     hours: 0,
     minutes: 0,
-    seconds: 0,
   });
+
+  const [displayText, setDisplayText] = useState('');
+  const fullText = 'Elecciones Legislativas 2025';
+
+  // Typing effect
+  useEffect(() => {
+    let currentIndex = 0;
+    const typingInterval = setInterval(() => {
+      if (currentIndex <= fullText.length) {
+        setDisplayText(fullText.slice(0, currentIndex));
+        currentIndex++;
+      } else {
+        clearInterval(typingInterval);
+      }
+    }, 80); // 80ms per character
+
+    return () => clearInterval(typingInterval);
+  }, []);
 
   useEffect(() => {
     const calculateTime = () => {
@@ -31,22 +48,20 @@ export const ElectionCountdown = React.memo(function ElectionCountdown() {
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
         const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-        setTimeLeft({ days, hours, minutes, seconds });
+        setTimeLeft({ days, hours, minutes });
       } else {
-        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        setTimeLeft({ days: 0, hours: 0, minutes: 0 });
       }
     };
 
     calculateTime();
-    const interval = setInterval(calculateTime, 1000); // Update every second
+    const interval = setInterval(calculateTime, 60000); // Update every minute
 
     return () => clearInterval(interval);
   }, []);
 
-  const isElectionDay =
-    timeLeft.days === 0 && timeLeft.hours === 0 && timeLeft.minutes === 0 && timeLeft.seconds === 0;
+  const isElectionDay = timeLeft.days === 0 && timeLeft.hours === 0 && timeLeft.minutes === 0;
 
   return (
     <Link href="/elecciones" className="block w-full">
@@ -67,7 +82,10 @@ export const ElectionCountdown = React.memo(function ElectionCountdown() {
               transition={{ duration: 0.5 }}
               className="text-sm md:text-base font-bold text-foreground group-hover:text-brand transition-colors truncate"
             >
-              26 de octubre 2025
+              {displayText}
+              {displayText.length < fullText.length && (
+                <span className="inline-block w-[2px] h-4 md:h-5 bg-brand ml-0.5 animate-pulse" />
+              )}
             </motion.div>
           </AnimatePresence>
         </div>
@@ -134,27 +152,6 @@ export const ElectionCountdown = React.memo(function ElectionCountdown() {
             </div>
             <p className="text-[8px] md:text-[9px] text-secondary/60 uppercase tracking-wide">
               min
-            </p>
-          </div>
-
-          {/* Seconds */}
-          <div className="text-center min-w-[35px] md:min-w-[45px]">
-            <div className="relative h-6 md:h-8 flex items-center justify-center overflow-hidden">
-              <AnimatePresence initial={false}>
-                <motion.div
-                  key={timeLeft.seconds}
-                  initial={{ y: 10, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -10, opacity: 0 }}
-                  transition={{ duration: 0.2, ease: 'easeOut' }}
-                  className="absolute text-lg md:text-xl font-black bg-gradient-to-br from-brand via-brand-light to-brand bg-clip-text text-transparent tabular-nums"
-                >
-                  {timeLeft.seconds.toString().padStart(2, '0')}
-                </motion.div>
-              </AnimatePresence>
-            </div>
-            <p className="text-[8px] md:text-[9px] text-secondary/60 uppercase tracking-wide">
-              seg
             </p>
           </div>
         </div>
