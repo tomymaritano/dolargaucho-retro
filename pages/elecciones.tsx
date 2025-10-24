@@ -126,81 +126,81 @@ export default function EleccionesPage() {
               </p>
 
               {/* Countdown Display */}
-              <div className="flex items-center justify-center gap-4 mb-4">
+              <div className="flex items-center justify-center gap-6 md:gap-8 mb-4">
                 {/* Days */}
-                <div className="text-center">
-                  <div className="relative h-12 md:h-16 flex items-center justify-center overflow-hidden">
-                    <AnimatePresence mode="popLayout">
+                <div className="text-center min-w-[70px] md:min-w-[90px]">
+                  <div className="relative h-14 md:h-20 flex items-center justify-center overflow-hidden">
+                    <AnimatePresence initial={false}>
                       <motion.div
                         key={timeLeft.days}
                         initial={{ y: 20, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: -20, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: 'easeOut' }}
-                        className="absolute text-4xl md:text-5xl font-black bg-gradient-to-br from-brand via-brand-light to-brand bg-clip-text text-transparent tabular-nums"
+                        transition={{ duration: 0.2, ease: 'easeOut' }}
+                        className="absolute text-5xl md:text-6xl font-black bg-gradient-to-br from-brand via-brand-light to-brand bg-clip-text text-transparent tabular-nums"
                       >
                         {timeLeft.days}
                       </motion.div>
                     </AnimatePresence>
                   </div>
-                  <p className="text-xs text-secondary/60 uppercase tracking-wide mt-1">días</p>
+                  <p className="text-xs text-secondary/60 uppercase tracking-wide mt-2">días</p>
                 </div>
 
                 {/* Hours */}
-                <div className="text-center">
-                  <div className="relative h-12 md:h-16 flex items-center justify-center overflow-hidden">
-                    <AnimatePresence mode="popLayout">
+                <div className="text-center min-w-[70px] md:min-w-[90px]">
+                  <div className="relative h-14 md:h-20 flex items-center justify-center overflow-hidden">
+                    <AnimatePresence initial={false}>
                       <motion.div
                         key={timeLeft.hours}
                         initial={{ y: 20, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: -20, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: 'easeOut' }}
-                        className="absolute text-4xl md:text-5xl font-black bg-gradient-to-br from-brand via-brand-light to-brand bg-clip-text text-transparent tabular-nums"
+                        transition={{ duration: 0.2, ease: 'easeOut' }}
+                        className="absolute text-5xl md:text-6xl font-black bg-gradient-to-br from-brand via-brand-light to-brand bg-clip-text text-transparent tabular-nums"
                       >
                         {timeLeft.hours.toString().padStart(2, '0')}
                       </motion.div>
                     </AnimatePresence>
                   </div>
-                  <p className="text-xs text-secondary/60 uppercase tracking-wide mt-1">horas</p>
+                  <p className="text-xs text-secondary/60 uppercase tracking-wide mt-2">horas</p>
                 </div>
 
                 {/* Minutes */}
-                <div className="text-center">
-                  <div className="relative h-12 md:h-16 flex items-center justify-center overflow-hidden">
-                    <AnimatePresence mode="popLayout">
+                <div className="text-center min-w-[70px] md:min-w-[90px]">
+                  <div className="relative h-14 md:h-20 flex items-center justify-center overflow-hidden">
+                    <AnimatePresence initial={false}>
                       <motion.div
                         key={timeLeft.minutes}
                         initial={{ y: 20, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: -20, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: 'easeOut' }}
-                        className="absolute text-4xl md:text-5xl font-black bg-gradient-to-br from-brand via-brand-light to-brand bg-clip-text text-transparent tabular-nums"
+                        transition={{ duration: 0.2, ease: 'easeOut' }}
+                        className="absolute text-5xl md:text-6xl font-black bg-gradient-to-br from-brand via-brand-light to-brand bg-clip-text text-transparent tabular-nums"
                       >
                         {timeLeft.minutes.toString().padStart(2, '0')}
                       </motion.div>
                     </AnimatePresence>
                   </div>
-                  <p className="text-xs text-secondary/60 uppercase tracking-wide mt-1">min</p>
+                  <p className="text-xs text-secondary/60 uppercase tracking-wide mt-2">min</p>
                 </div>
 
                 {/* Seconds */}
-                <div className="text-center">
-                  <div className="relative h-12 md:h-16 flex items-center justify-center overflow-hidden">
-                    <AnimatePresence mode="popLayout">
+                <div className="text-center min-w-[70px] md:min-w-[90px]">
+                  <div className="relative h-14 md:h-20 flex items-center justify-center overflow-hidden">
+                    <AnimatePresence initial={false}>
                       <motion.div
                         key={timeLeft.seconds}
                         initial={{ y: 20, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: -20, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: 'easeOut' }}
-                        className="absolute text-4xl md:text-5xl font-black bg-gradient-to-br from-brand via-brand-light to-brand bg-clip-text text-transparent tabular-nums"
+                        transition={{ duration: 0.2, ease: 'easeOut' }}
+                        className="absolute text-5xl md:text-6xl font-black bg-gradient-to-br from-brand via-brand-light to-brand bg-clip-text text-transparent tabular-nums"
                       >
                         {timeLeft.seconds.toString().padStart(2, '0')}
                       </motion.div>
                     </AnimatePresence>
                   </div>
-                  <p className="text-xs text-secondary/60 uppercase tracking-wide mt-1">seg</p>
+                  <p className="text-xs text-secondary/60 uppercase tracking-wide mt-2">seg</p>
                 </div>
               </div>
 
