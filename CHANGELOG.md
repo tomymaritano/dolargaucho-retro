@@ -5,6 +5,10 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## <small>1.24.1 (2025-10-24)</small>
+
+- fix(hero): remove scroll arrow, fix refresh and improve mobile ux ([e2023a4](https://github.com/tomymaritano/dolargaucho-retro/commit/e2023a4))
+
 ## 1.24.0 (2025-10-24)
 
 - feat(hero): make full screen with animated scroll indicator and improve countdown ([e4ad4d9](https://github.com/tomymaritano/dolargaucho-retro/commit/e4ad4d9))
