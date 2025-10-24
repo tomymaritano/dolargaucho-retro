@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { NavbarFloating } from '@/components/NavbarFloating';
 import Footer from '@/components/Footer';
 import { SEO } from '@/components/SEO';
@@ -40,6 +40,7 @@ export default function EleccionesPage() {
     days: 0,
     hours: 0,
     minutes: 0,
+    seconds: 0,
   });
 
   const { data, isLoading, error, lastFetch, isFetching } = useElectionResults(
@@ -78,15 +79,16 @@ export default function EleccionesPage() {
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
         const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-        setTimeLeft({ days, hours, minutes });
+        setTimeLeft({ days, hours, minutes, seconds });
       } else {
-        setTimeLeft({ days: 0, hours: 0, minutes: 0 });
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
       }
     };
 
     calculateTime();
-    const interval = setInterval(calculateTime, 1000 * 60); // Update every minute
+    const interval = setInterval(calculateTime, 1000); // Update every second
 
     return () => clearInterval(interval);
   }, []);
@@ -124,45 +126,81 @@ export default function EleccionesPage() {
               </p>
 
               {/* Countdown Display */}
-              <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="flex items-center justify-center gap-4 mb-4">
                 {/* Days */}
                 <div className="text-center">
-                  <motion.div
-                    className="text-4xl md:text-5xl font-black bg-gradient-to-br from-brand via-brand-light to-brand bg-clip-text text-transparent tabular-nums"
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ type: 'spring', stiffness: 400 }}
-                  >
-                    {timeLeft.days}
-                  </motion.div>
+                  <div className="relative h-12 md:h-16 flex items-center justify-center overflow-hidden">
+                    <AnimatePresence mode="popLayout">
+                      <motion.div
+                        key={timeLeft.days}
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: -20, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: 'easeOut' }}
+                        className="absolute text-4xl md:text-5xl font-black bg-gradient-to-br from-brand via-brand-light to-brand bg-clip-text text-transparent tabular-nums"
+                      >
+                        {timeLeft.days}
+                      </motion.div>
+                    </AnimatePresence>
+                  </div>
                   <p className="text-xs text-secondary/60 uppercase tracking-wide mt-1">días</p>
                 </div>
 
-                <span className="text-3xl font-black text-secondary/40">:</span>
-
                 {/* Hours */}
                 <div className="text-center">
-                  <motion.div
-                    className="text-4xl md:text-5xl font-black bg-gradient-to-br from-brand via-brand-light to-brand bg-clip-text text-transparent tabular-nums"
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ type: 'spring', stiffness: 400 }}
-                  >
-                    {timeLeft.hours.toString().padStart(2, '0')}
-                  </motion.div>
+                  <div className="relative h-12 md:h-16 flex items-center justify-center overflow-hidden">
+                    <AnimatePresence mode="popLayout">
+                      <motion.div
+                        key={timeLeft.hours}
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: -20, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: 'easeOut' }}
+                        className="absolute text-4xl md:text-5xl font-black bg-gradient-to-br from-brand via-brand-light to-brand bg-clip-text text-transparent tabular-nums"
+                      >
+                        {timeLeft.hours.toString().padStart(2, '0')}
+                      </motion.div>
+                    </AnimatePresence>
+                  </div>
                   <p className="text-xs text-secondary/60 uppercase tracking-wide mt-1">horas</p>
                 </div>
 
-                <span className="text-3xl font-black text-secondary/40">:</span>
-
                 {/* Minutes */}
                 <div className="text-center">
-                  <motion.div
-                    className="text-4xl md:text-5xl font-black bg-gradient-to-br from-brand via-brand-light to-brand bg-clip-text text-transparent tabular-nums"
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ type: 'spring', stiffness: 400 }}
-                  >
-                    {timeLeft.minutes.toString().padStart(2, '0')}
-                  </motion.div>
+                  <div className="relative h-12 md:h-16 flex items-center justify-center overflow-hidden">
+                    <AnimatePresence mode="popLayout">
+                      <motion.div
+                        key={timeLeft.minutes}
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: -20, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: 'easeOut' }}
+                        className="absolute text-4xl md:text-5xl font-black bg-gradient-to-br from-brand via-brand-light to-brand bg-clip-text text-transparent tabular-nums"
+                      >
+                        {timeLeft.minutes.toString().padStart(2, '0')}
+                      </motion.div>
+                    </AnimatePresence>
+                  </div>
                   <p className="text-xs text-secondary/60 uppercase tracking-wide mt-1">min</p>
+                </div>
+
+                {/* Seconds */}
+                <div className="text-center">
+                  <div className="relative h-12 md:h-16 flex items-center justify-center overflow-hidden">
+                    <AnimatePresence mode="popLayout">
+                      <motion.div
+                        key={timeLeft.seconds}
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: -20, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: 'easeOut' }}
+                        className="absolute text-4xl md:text-5xl font-black bg-gradient-to-br from-brand via-brand-light to-brand bg-clip-text text-transparent tabular-nums"
+                      >
+                        {timeLeft.seconds.toString().padStart(2, '0')}
+                      </motion.div>
+                    </AnimatePresence>
+                  </div>
+                  <p className="text-xs text-secondary/60 uppercase tracking-wide mt-1">seg</p>
                 </div>
               </div>
 
@@ -170,7 +208,7 @@ export default function EleccionesPage() {
                 26 de octubre 2025
               </p>
               <div className="pt-4 border-t border-white/10 group-hover:border-brand/20 transition-colors">
-                <p className="text-xs text-secondary/60 group-hover:text-secondary transition-colors">
+                <p className="text-xs text-secondary/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   Hacé clic para ver el historial electoral
                 </p>
               </div>
