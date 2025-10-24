@@ -5,6 +5,10 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## <small>1.24.3 (2025-10-24)</small>
+
+- fix(hero): improve mobile and tablet responsive layout ([44f48a8](https://github.com/tomymaritano/dolargaucho-retro/commit/44f48a8))
+
 ## <small>1.24.2 (2025-10-24)</small>
 
 - fix(elections): remove seconds and restore flip-clock animation ([d7c3191](https://github.com/tomymaritano/dolargaucho-retro/commit/d7c3191))
