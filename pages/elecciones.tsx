@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { NavbarFloating } from '@/components/NavbarFloating';
 import Footer from '@/components/Footer';
@@ -35,6 +35,13 @@ export default function EleccionesPage() {
   const [activeHistoricalCategory, setActiveHistoricalCategory] =
     useState<ElectionCategory>('presidente'); // Todas las categorías en historial
 
+  // Countdown state
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+  });
+
   const { data, isLoading, error, lastFetch, isFetching } = useElectionResults(
     shouldPoll && !TESTING_MODE // Only fetch from API if not in testing mode
   );
@@ -58,6 +65,31 @@ export default function EleccionesPage() {
 
   // Simulate lastFetch in testing mode
   const mockLastFetch = TESTING_MODE ? new Date() : null;
+
+  // Countdown effect
+  useEffect(() => {
+    const ELECTION_DATE = new Date('2025-10-26T00:00:00-03:00');
+
+    const calculateTime = () => {
+      const now = new Date();
+      const diff = ELECTION_DATE.getTime() - now.getTime();
+
+      if (diff > 0) {
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+        setTimeLeft({ days, hours, minutes });
+      } else {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0 });
+      }
+    };
+
+    calculateTime();
+    const interval = setInterval(calculateTime, 1000 * 60); // Update every minute
+
+    return () => clearInterval(interval);
+  }, []);
 
   const heroRightContent = (
     <div className="space-y-4">
@@ -87,22 +119,59 @@ export default function EleccionesPage() {
               transition={{ delay: 0.2 }}
               className="relative z-10"
             >
-              <motion.div
-                className="text-6xl font-black bg-gradient-to-br from-brand via-brand-light to-brand bg-clip-text text-transparent mb-3"
-                whileHover={{ scale: 1.1 }}
-                transition={{ type: 'spring', stiffness: 400 }}
-              >
-                2025
-              </motion.div>
-              <p className="text-lg font-bold text-foreground group-hover:text-brand transition-colors mb-2">
-                Elecciones Legislativas
+              <p className="text-sm font-bold text-secondary/80 uppercase tracking-wider mb-3">
+                Elecciones Legislativas 2025
               </p>
-              <p className="text-sm text-secondary group-hover:text-foreground transition-colors mb-4">
+
+              {/* Countdown Display */}
+              <div className="flex items-center justify-center gap-3 mb-4">
+                {/* Days */}
+                <div className="text-center">
+                  <motion.div
+                    className="text-4xl md:text-5xl font-black bg-gradient-to-br from-brand via-brand-light to-brand bg-clip-text text-transparent tabular-nums"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ type: 'spring', stiffness: 400 }}
+                  >
+                    {timeLeft.days}
+                  </motion.div>
+                  <p className="text-xs text-secondary/60 uppercase tracking-wide mt-1">días</p>
+                </div>
+
+                <span className="text-3xl font-black text-secondary/40">:</span>
+
+                {/* Hours */}
+                <div className="text-center">
+                  <motion.div
+                    className="text-4xl md:text-5xl font-black bg-gradient-to-br from-brand via-brand-light to-brand bg-clip-text text-transparent tabular-nums"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ type: 'spring', stiffness: 400 }}
+                  >
+                    {timeLeft.hours.toString().padStart(2, '0')}
+                  </motion.div>
+                  <p className="text-xs text-secondary/60 uppercase tracking-wide mt-1">horas</p>
+                </div>
+
+                <span className="text-3xl font-black text-secondary/40">:</span>
+
+                {/* Minutes */}
+                <div className="text-center">
+                  <motion.div
+                    className="text-4xl md:text-5xl font-black bg-gradient-to-br from-brand via-brand-light to-brand bg-clip-text text-transparent tabular-nums"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ type: 'spring', stiffness: 400 }}
+                  >
+                    {timeLeft.minutes.toString().padStart(2, '0')}
+                  </motion.div>
+                  <p className="text-xs text-secondary/60 uppercase tracking-wide mt-1">min</p>
+                </div>
+              </div>
+
+              <p className="text-sm text-secondary group-hover:text-foreground transition-colors mb-3">
                 26 de octubre 2025
               </p>
               <div className="pt-4 border-t border-white/10 group-hover:border-brand/20 transition-colors">
                 <p className="text-xs text-secondary/60 group-hover:text-secondary transition-colors">
-                  Los resultados estarán disponibles el día de la elección
+                  Hacé clic para ver el historial electoral
                 </p>
               </div>
             </motion.div>

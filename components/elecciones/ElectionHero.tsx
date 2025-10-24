@@ -83,16 +83,6 @@ export const ElectionHero = React.memo(function ElectionHero({
                 ? 'Seguí los resultados en tiempo real de las elecciones presidenciales 2025. Datos oficiales del Ministerio del Interior con actualización cada 10 segundos.'
                 : 'Resultados históricos y en tiempo real de las elecciones presidenciales argentinas. Datos oficiales de la Dirección Nacional Electoral.'}
             </motion.p>
-
-            {/* Data Source */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="mt-8 text-xs text-secondary/60"
-            >
-              <p>Fuente: DINE / resultados.mininterior.gob.ar</p>
-            </motion.div>
           </motion.div>
 
           {/* Right: Live Preview / Countdown */}
