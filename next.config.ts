@@ -61,12 +61,14 @@ const nextConfig: NextConfig = {
   },
 };
 
-// PWA Configuration
-export default withPWA({
+// PWA Configuration - Only enable in production
+const isProd = process.env.NODE_ENV === 'production';
+
+const pwaConfig = {
   dest: 'public',
   register: true,
   skipWaiting: true,
-  disable: process.env.NODE_ENV === 'development',
+  disable: false,
   buildExcludes: [/middleware-manifest\.json$/],
   runtimeCaching: [
     {
@@ -105,4 +107,7 @@ export default withPWA({
       },
     },
   ],
-})(nextConfig);
+};
+
+// Only apply PWA wrapper in production to avoid dev errors
+export default isProd ? withPWA(pwaConfig)(nextConfig) : nextConfig;
