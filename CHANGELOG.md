@@ -5,6 +5,13 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## 1.16.0 (2025-10-24)
+
+- refactor: simplify marketing components and update navigation ([b0fefa3](https://github.com/tomymaritano/dolargaucho-retro/commit/b0fefa3))
+- feat(elecciones): add missing election system files ([f1e511a](https://github.com/tomymaritano/dolargaucho-retro/commit/f1e511a))
+- feat(elecciones): sistema completo de resultados en vivo para elecciones 2025 ([03f566d](https://github.com/tomymaritano/dolargaucho-retro/commit/03f566d))
+- docs: add v1.7.0 to changelog ([f083087](https://github.com/tomymaritano/dolargaucho-retro/commit/f083087))
+
 ## <small>1.15.2 (2025-10-23)</small>
 
 - fix: remove demo auth mode and fix build errors ([73ca8cc](https://github.com/tomymaritano/dolargaucho-retro/commit/73ca8cc))
