@@ -5,6 +5,10 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## 1.22.0 (2025-10-24)
+
+- feat(elections): enhance countdown with animations and seconds ([1147dae](https://github.com/tomymaritano/dolargaucho-retro/commit/1147dae))
+
 ## 1.21.0 (2025-10-24)
 
 - feat(elections): add interactive countdown to hero ([d96f1be](https://github.com/tomymaritano/dolargaucho-retro/commit/d96f1be))
