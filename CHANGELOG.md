@@ -5,6 +5,10 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## <small>1.16.1 (2025-10-24)</small>
+
+- fix(types): add category field to election data interface ([8ea7c84](https://github.com/tomymaritano/dolargaucho-retro/commit/8ea7c84))
+
 ## 1.16.0 (2025-10-24)
 
 - refactor: simplify marketing components and update navigation ([b0fefa3](https://github.com/tomymaritano/dolargaucho-retro/commit/b0fefa3))
