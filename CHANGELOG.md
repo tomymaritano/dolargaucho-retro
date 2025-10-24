@@ -5,6 +5,11 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## 1.20.0 (2025-10-24)
+
+- feat(elections): add interactive animations to hero cards ([2ba5db4](https://github.com/tomymaritano/dolargaucho-retro/commit/2ba5db4))
+- refactor(elections): redesign countdown to match currency table style ([00c8b7a](https://github.com/tomymaritano/dolargaucho-retro/commit/00c8b7a))
+
 ## <small>1.19.1 (2025-10-24)</small>
 
 - fix(mobile): make search button clickable in mobile drawer ([e2a7f22](https://github.com/tomymaritano/dolargaucho-retro/commit/e2a7f22))
