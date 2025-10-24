@@ -7,6 +7,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { FaStar } from 'react-icons/fa';
 import { DashboardLayout } from '@/components/layouts/DashboardLayout';
 import { useToastStore } from '@/lib/store/toast-store';
@@ -29,8 +30,10 @@ import { ECBSection } from '@/components/dashboard/ECBSection';
 import { ArgentinaSection } from '@/components/dashboard/ArgentinaSection';
 import { DolarSection } from '@/components/dashboard/DolarSection';
 import { DolarAreaChart } from '@/components/charts/DolarAreaChart';
+import { BCRAStatsCompact } from '@/components/dashboard/BCRAStatsGrid';
 
 export default function DashboardPage() {
+  const router = useRouter();
   const [showFredCharts, setShowFredCharts] = useState(false);
   const [showECBCharts, setShowECBCharts] = useState(false);
   const [showArgentinaCharts, setShowArgentinaCharts] = useState(false);
@@ -135,6 +138,20 @@ export default function DashboardPage() {
         <div className="space-y-6">
           {/* Markets Header */}
           <MarketsHeader onSearch={setSearchQuery} />
+
+          {/* BCRA Stats - Economic Indicators */}
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-foreground">Indicadores BCRA</h2>
+              <button
+                onClick={() => router.push('/dashboard/mercados')}
+                className="text-xs text-brand hover:text-brand-light transition-colors"
+              >
+                Ver todos →
+              </button>
+            </div>
+            <BCRAStatsCompact />
+          </div>
 
           {/* Tabbed Tables Section */}
           <div className="space-y-4">
