@@ -307,7 +307,7 @@ export function NavbarFloating() {
       </AnimatePresence>
 
       {/* Hidden NavbarSearch for triggering from mobile drawer */}
-      <div ref={searchButtonRef} className="hidden">
+      <div ref={searchButtonRef} className="invisible fixed -top-96 pointer-events-auto">
         <NavbarSearch />
       </div>
     </>
