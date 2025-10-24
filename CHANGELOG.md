@@ -5,6 +5,10 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## <small>1.19.1 (2025-10-24)</small>
+
+- fix(mobile): make search button clickable in mobile drawer ([e2a7f22](https://github.com/tomymaritano/dolargaucho-retro/commit/e2a7f22))
+
 ## 1.19.0 (2025-10-24)
 
 - feat(mobile): improve search button design in mobile drawer ([b0d69e7](https://github.com/tomymaritano/dolargaucho-retro/commit/b0d69e7))
