@@ -24,7 +24,7 @@ export const ElectionHero = React.memo(function ElectionHero({
   rightContent,
 }: ElectionHeroProps) {
   return (
-    <section className="relative w-full min-h-[80vh] flex flex-col items-center justify-center text-foreground overflow-hidden pt-32 pb-16 bg-background">
+    <section className="relative w-full min-h-[80vh] flex flex-col items-center justify-center text-foreground overflow-hidden pt-24 pb-12 md:pt-32 md:pb-16 bg-background">
       {/* Aurora animated background with fintech colors */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-50">
         <Aurora
@@ -38,8 +38,8 @@ export const ElectionHero = React.memo(function ElectionHero({
       {/* Gradient overlay for better text contrast */}
       <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/40 to-background/80" />
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 md:px-6">
+        <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Left: Content */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
