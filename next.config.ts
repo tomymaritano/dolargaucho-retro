@@ -1,6 +1,5 @@
 import type { NextConfig } from 'next';
-// @ts-expect-error - next-pwa doesn't have type definitions
-import withPWA from 'next-pwa';
+import withSerwistInit from '@serwist/next';
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -61,53 +60,18 @@ const nextConfig: NextConfig = {
   },
 };
 
-// PWA Configuration - Only enable in production
-const isProd = process.env.NODE_ENV === 'production';
+// Serwist PWA Configuration
+const withSerwist = withSerwistInit({
+  // Service Worker source file
+  swSrc: 'app/sw.ts',
+  // Output destination for compiled service worker
+  swDest: 'public/sw.js',
+  // Disable in development to avoid errors
+  disable: process.env.NODE_ENV === 'development',
+  // Cache navigation requests
+  cacheOnNavigation: true,
+  // Reload when coming back online
+  reloadOnOnline: true,
+});
 
-const pwaConfig = {
-  dest: 'public',
-  register: true,
-  skipWaiting: true,
-  disable: false,
-  buildExcludes: [/middleware-manifest\.json$/],
-  runtimeCaching: [
-    {
-      urlPattern: /^https:\/\/dolarapi\.com\/.*/i,
-      handler: 'NetworkFirst',
-      options: {
-        cacheName: 'dolarapi-cache',
-        expiration: {
-          maxEntries: 32,
-          maxAgeSeconds: 60, // 1 minute
-        },
-        networkTimeoutSeconds: 10,
-      },
-    },
-    {
-      urlPattern: /^https:\/\/api\.argentinadatos\.com\/.*/i,
-      handler: 'NetworkFirst',
-      options: {
-        cacheName: 'argentinadatos-cache',
-        expiration: {
-          maxEntries: 32,
-          maxAgeSeconds: 300, // 5 minutes
-        },
-        networkTimeoutSeconds: 10,
-      },
-    },
-    {
-      urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp)$/i,
-      handler: 'CacheFirst',
-      options: {
-        cacheName: 'images-cache',
-        expiration: {
-          maxEntries: 64,
-          maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
-        },
-      },
-    },
-  ],
-};
-
-// Only apply PWA wrapper in production to avoid dev errors
-export default isProd ? withPWA(pwaConfig)(nextConfig) : nextConfig;
+export default withSerwist(nextConfig);
