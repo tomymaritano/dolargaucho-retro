@@ -59,9 +59,9 @@ const nextConfig: NextConfig = {
   },
 };
 
-// PWA Configuration Removed Temporarily
-// Serwist was causing compilation errors with Next.js 15
-// The error: TypeError: The "to" argument must be of type string. Received undefined
-// TODO: Re-enable PWA when Next.js 15 has better PWA support
+// PWA Configuration Removed
+// Serwist was causing compilation errors in development mode
+// TODO: Re-enable PWA with a working configuration later
+// See: app/sw.ts and public/manifest.json for PWA assets
 
 export default nextConfig;
