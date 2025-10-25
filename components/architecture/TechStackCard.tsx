@@ -64,7 +64,7 @@ export function TechStackCard({
           <Icon className={`${categoryStyle.text} text-2xl`} />
         </div>
         {version && (
-          <span className="px-2 py-1 bg-panel/10 border border-border rounded text-xs font-mono text-secondary">
+          <span className="px-2 py-1 bg-panel/10 border border-white/5 rounded text-xs font-mono text-secondary">
             v{version}
           </span>
         )}
@@ -79,7 +79,7 @@ export function TechStackCard({
       <p className="text-sm text-secondary leading-relaxed">{description}</p>
 
       {/* Category Badge */}
-      <div className="mt-4 pt-4 border-t border-border">
+      <div className="mt-4 pt-4 border-t border-white/10">
         <span
           className={`inline-flex px-3 py-1 rounded-full text-xs font-semibold ${categoryStyle.bg} ${categoryStyle.text}`}
         >

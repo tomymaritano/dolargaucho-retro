@@ -125,7 +125,7 @@ export const RendimientosCalculator = React.memo(function RendimientosCalculator
                 type="number"
                 value={monto}
                 onChange={(e) => setMonto(e.target.value)}
-                className="w-full pl-8 pr-4 py-3 rounded-lg bg-panel/10 border border-border text-foreground focus:border-brand focus:outline-none transition-all"
+                className="w-full pl-8 pr-4 py-3 rounded-lg bg-panel/10 border border-white/5 text-foreground focus:border-brand focus:outline-none transition-all"
                 placeholder="100000"
               />
             </div>
@@ -138,7 +138,7 @@ export const RendimientosCalculator = React.memo(function RendimientosCalculator
               type="number"
               value={plazo}
               onChange={(e) => setPlazo(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg bg-panel/10 border border-border text-foreground focus:border-brand focus:outline-none transition-all"
+              className="w-full px-4 py-3 rounded-lg bg-panel/10 border border-white/5 text-foreground focus:border-brand focus:outline-none transition-all"
               placeholder="30"
             />
           </div>
@@ -152,7 +152,7 @@ export const RendimientosCalculator = React.memo(function RendimientosCalculator
                 step="0.01"
                 value={tasaCustom}
                 onChange={(e) => setTasaCustom(e.target.value)}
-                className="w-full px-4 py-3 rounded-lg bg-panel/10 border border-border text-foreground focus:border-brand focus:outline-none transition-all"
+                className="w-full px-4 py-3 rounded-lg bg-panel/10 border border-white/5 text-foreground focus:border-brand focus:outline-none transition-all"
                 placeholder="75.00"
               />
             </div>
@@ -204,7 +204,7 @@ export const RendimientosCalculator = React.memo(function RendimientosCalculator
         </div>
 
         {/* Info */}
-        <div className="bg-white/[0.02] rounded-lg p-4 border border-border">
+        <div className="bg-white/[0.02] rounded-lg p-4 border border-white/5">
           <div className="flex items-start gap-3">
             <FaInfoCircle className="text-brand text-sm mt-0.5 flex-shrink-0" />
             <div className="text-xs text-secondary space-y-1">

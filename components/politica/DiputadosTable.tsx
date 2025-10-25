@@ -104,7 +104,7 @@ export const DiputadosTable = React.memo(function DiputadosTable() {
               placeholder="Buscar por nombre..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 bg-panel border border-border rounded-lg text-foreground placeholder-secondary focus:outline-none focus:border-brand/50 focus:ring-2 focus:ring-brand/20 transition-all"
+              className="w-full pl-10 pr-4 py-2.5 bg-panel border border-white/5 rounded-lg text-foreground placeholder-secondary focus:outline-none focus:border-brand/50 focus:ring-2 focus:ring-brand/20 transition-all"
             />
           </div>
 
@@ -112,7 +112,7 @@ export const DiputadosTable = React.memo(function DiputadosTable() {
           <select
             value={selectedProvincia}
             onChange={(e) => setSelectedProvincia(e.target.value)}
-            className="px-4 py-2.5 bg-panel border border-border rounded-lg text-foreground focus:outline-none focus:border-brand/50 focus:ring-2 focus:ring-brand/20 transition-all"
+            className="px-4 py-2.5 bg-panel border border-white/5 rounded-lg text-foreground focus:outline-none focus:border-brand/50 focus:ring-2 focus:ring-brand/20 transition-all"
           >
             <option value="">Todas las provincias</option>
             {provincias.map((p) => (
@@ -126,7 +126,7 @@ export const DiputadosTable = React.memo(function DiputadosTable() {
           <select
             value={selectedBloque}
             onChange={(e) => setSelectedBloque(e.target.value)}
-            className="px-4 py-2.5 bg-panel border border-border rounded-lg text-foreground focus:outline-none focus:border-brand/50 focus:ring-2 focus:ring-brand/20 transition-all"
+            className="px-4 py-2.5 bg-panel border border-white/5 rounded-lg text-foreground focus:outline-none focus:border-brand/50 focus:ring-2 focus:ring-brand/20 transition-all"
           >
             <option value="">Todos los bloques</option>
             {bloques.map((b) => (
@@ -138,7 +138,7 @@ export const DiputadosTable = React.memo(function DiputadosTable() {
         </div>
 
         {/* Results count and pagination controls */}
-        <div className="mt-4 pt-4 border-t border-border flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="mt-4 pt-4 border-t border-white/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <p className="text-sm text-secondary">
             Mostrando{' '}
             <span className="text-brand font-semibold">
@@ -158,7 +158,7 @@ export const DiputadosTable = React.memo(function DiputadosTable() {
             <select
               value={itemsPerPage}
               onChange={(e) => setItemsPerPage(Number(e.target.value))}
-              className="px-3 py-1.5 bg-panel border border-border rounded-lg text-foreground text-sm focus:outline-none focus:border-brand/50 focus:ring-2 focus:ring-brand/20 transition-all"
+              className="px-3 py-1.5 bg-panel border border-white/5 rounded-lg text-foreground text-sm focus:outline-none focus:border-brand/50 focus:ring-2 focus:ring-brand/20 transition-all"
             >
               <option value={10}>10</option>
               <option value={20}>20</option>
@@ -259,7 +259,7 @@ export const DiputadosTable = React.memo(function DiputadosTable() {
               <button
                 onClick={() => setCurrentPage(1)}
                 disabled={currentPage === 1}
-                className="px-3 py-2 rounded-lg border border-border bg-panel text-foreground hover:bg-panel/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                className="px-3 py-2 rounded-lg border border-white/5 bg-panel text-foreground hover:bg-panel/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 aria-label="Primera página"
               >
                 <span className="text-sm font-medium">Primera</span>
@@ -269,7 +269,7 @@ export const DiputadosTable = React.memo(function DiputadosTable() {
               <button
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
-                className="px-3 py-2 rounded-lg border border-border bg-panel text-foreground hover:bg-panel/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                className="px-3 py-2 rounded-lg border border-white/5 bg-panel text-foreground hover:bg-panel/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 aria-label="Página anterior"
               >
                 <FaChevronLeft />
@@ -296,7 +296,7 @@ export const DiputadosTable = React.memo(function DiputadosTable() {
                       className={`w-10 h-10 rounded-lg border transition-all ${
                         currentPage === pageNum
                           ? 'bg-brand text-background border-brand font-semibold'
-                          : 'border-border bg-panel text-foreground hover:bg-panel/10'
+                          : 'border-white/10 bg-panel text-foreground hover:bg-panel/10'
                       }`}
                     >
                       {pageNum}
@@ -309,7 +309,7 @@ export const DiputadosTable = React.memo(function DiputadosTable() {
               <button
                 onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
-                className="px-3 py-2 rounded-lg border border-border bg-panel text-foreground hover:bg-panel/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                className="px-3 py-2 rounded-lg border border-white/5 bg-panel text-foreground hover:bg-panel/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 aria-label="Página siguiente"
               >
                 <FaChevronRight />
@@ -319,7 +319,7 @@ export const DiputadosTable = React.memo(function DiputadosTable() {
               <button
                 onClick={() => setCurrentPage(totalPages)}
                 disabled={currentPage === totalPages}
-                className="px-3 py-2 rounded-lg border border-border bg-panel text-foreground hover:bg-panel/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                className="px-3 py-2 rounded-lg border border-white/5 bg-panel text-foreground hover:bg-panel/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 aria-label="Última página"
               >
                 <span className="text-sm font-medium">Última</span>

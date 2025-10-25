@@ -323,7 +323,7 @@ export const DolarAreaChart = React.memo(function DolarAreaChart({
       {/* Top: Title and all controls in one row (TradingView style) */}
       <div className="absolute top-3 left-3 right-3 z-10 flex items-start justify-between gap-3">
         {/* Left: Title and stats */}
-        <div className="bg-background/90 backdrop-blur-sm px-3 py-2 rounded-lg border border-border pointer-events-none">
+        <div className="bg-background/90 backdrop-blur-sm px-3 py-2 rounded-lg border border-white/5 pointer-events-none">
           <h3 className="text-sm font-bold text-foreground">{getDisplayName()}</h3>
           <div className="flex items-baseline gap-2 mt-1">
             <span className="text-xl font-black text-brand">${latestValue.toFixed(2)}</span>
@@ -337,7 +337,7 @@ export const DolarAreaChart = React.memo(function DolarAreaChart({
         <div className="flex items-center gap-2">
           {/* Casa selector (if enabled and is dolar) */}
           {showCasaSelector && assetType === 'dolar' && (
-            <div className="bg-background/90 backdrop-blur-sm rounded-lg border border-border p-1 flex gap-1">
+            <div className="bg-background/90 backdrop-blur-sm rounded-lg border border-white/5 p-1 flex gap-1">
               {DOLAR_TYPES.map((type) => (
                 <button
                   key={type.value}
@@ -355,7 +355,7 @@ export const DolarAreaChart = React.memo(function DolarAreaChart({
           )}
 
           {/* Timeframe selector */}
-          <div className="bg-background/90 backdrop-blur-sm rounded-lg border border-border p-1 flex gap-1">
+          <div className="bg-background/90 backdrop-blur-sm rounded-lg border border-white/5 p-1 flex gap-1">
             {([7, 30, 90, 365] as const).map((period) => (
               <button
                 key={period}
@@ -372,7 +372,7 @@ export const DolarAreaChart = React.memo(function DolarAreaChart({
           </div>
 
           {/* Toggles */}
-          <div className="bg-background/90 backdrop-blur-sm rounded-lg border border-border p-1 flex gap-1">
+          <div className="bg-background/90 backdrop-blur-sm rounded-lg border border-white/5 p-1 flex gap-1">
             <button
               onClick={handleToggleMA}
               className={`px-2.5 py-1 rounded text-[10px] font-bold transition-all ${
@@ -399,7 +399,7 @@ export const DolarAreaChart = React.memo(function DolarAreaChart({
 
       {/* Bottom: Legend overlay */}
       <div className="absolute bottom-3 left-3 z-10 pointer-events-none">
-        <div className="bg-background/90 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-border flex gap-3 text-[10px]">
+        <div className="bg-background/90 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-white/5 flex gap-3 text-[10px]">
           {showBaseline ? (
             <>
               <div className="flex items-center gap-1.5">

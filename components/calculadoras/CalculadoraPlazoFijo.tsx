@@ -78,7 +78,7 @@ export function CalculadoraPlazoFijo({ showHeader = true }: CalculadoraPlazoFijo
       )}
 
       {/* Compact Info Footer */}
-      <div className="mt-4 pt-3 border-t border-border/30">
+      <div className="mt-4 pt-3 border-t border-white/10/30">
         <p className="text-xs text-secondary">
           <strong className="text-foreground">Fórmula:</strong>{' '}
           <code className="text-brand text-[10px]">

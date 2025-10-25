@@ -54,7 +54,7 @@ export const Footer = React.memo(function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative bg-panel mt-12 border-t border-border overflow-hidden">
+    <footer className="relative bg-panel mt-12 border-t border-white/10 overflow-hidden">
       {/* Subtle gradient background */}
       <div className="absolute inset-0 bg-gradient-to-b from-background/50 to-transparent pointer-events-none" />
 
@@ -148,7 +148,7 @@ export const Footer = React.memo(function Footer() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="pt-8 mb-8 border-t border-border"
+          className="pt-8 mb-8 border-t border-white/10"
         >
           <h3 className="text-xs font-semibold text-secondary mb-3 uppercase tracking-wider flex items-center gap-2">
             <FaUniversity className="text-brand" />
@@ -182,7 +182,7 @@ export const Footer = React.memo(function Footer() {
           </div>
 
           {/* Copyright & Legal Links */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-secondary pt-6 border-t border-border">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-secondary pt-6 border-t border-white/10">
             <p className="text-center sm:text-left">
               © {currentYear} <span className="font-semibold text-foreground">Dólar Gaucho</span>.
               Información solo para fines educativos. No constituye asesoramiento financiero.

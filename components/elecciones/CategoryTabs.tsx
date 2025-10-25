@@ -27,7 +27,7 @@ export const CategoryTabs = React.memo(function CategoryTabs({
   onCategoryChange,
 }: CategoryTabsProps) {
   return (
-    <div className="flex gap-2 p-1 bg-white/5 rounded-xl border border-border">
+    <div className="flex gap-2 p-1 bg-white/5 rounded-xl border border-white/5">
       {CATEGORIES.map((category) => {
         const isActive = activeCategory === category.id;
 

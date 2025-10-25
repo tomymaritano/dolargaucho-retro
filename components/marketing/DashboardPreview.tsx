@@ -12,7 +12,7 @@ import { motion } from 'framer-motion';
 
 export const DashboardPreview = React.memo(function DashboardPreview() {
   return (
-    <div className="relative rounded-2xl overflow-hidden bg-panel/50 border border-border hover:border-brand/30 transition-all group aspect-video shadow-2xl shadow-brand/10">
+    <div className="relative rounded-2xl overflow-hidden bg-panel/50 border border-white/5 hover:border-brand/30 transition-all group aspect-video shadow-2xl shadow-brand/10">
       {/* Dashboard Screenshot */}
       <Image
         src="/thumbnail.png"

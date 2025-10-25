@@ -332,11 +332,11 @@ export const NavbarSearch = React.memo(function NavbarSearch() {
       {/* Search Button - Desktop */}
       <button
         onClick={handleOpen}
-        className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg bg-panel/10 border border-border hover:border-brand/30 hover:bg-panel/20 text-secondary hover:text-foreground transition-all group"
+        className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg bg-panel/10 border border-white/5 hover:border-brand/30 hover:bg-panel/20 text-secondary hover:text-foreground transition-all group"
       >
         <FaSearch className="text-xs group-hover:text-brand transition-colors" />
         <span className="text-xs">Buscar</span>
-        <kbd className="hidden md:inline-block px-1.5 py-0.5 text-[10px] font-mono bg-panel/20 border border-border rounded">
+        <kbd className="hidden md:inline-block px-1.5 py-0.5 text-[10px] font-mono bg-panel/20 border border-white/5 rounded">
           ⌘K
         </kbd>
       </button>
@@ -370,10 +370,10 @@ export const NavbarSearch = React.memo(function NavbarSearch() {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: -30 }}
                 transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-                className="w-full max-w-2xl bg-panel/95 backdrop-blur-xl border border-border rounded-2xl shadow-2xl overflow-hidden"
+                className="w-full max-w-2xl bg-panel/95 backdrop-blur-xl border border-white/5 rounded-2xl shadow-2xl overflow-hidden"
               >
                 {/* Header */}
-                <div className="sticky top-0 bg-gradient-to-b from-panel to-panel/95 backdrop-blur-sm px-6 py-4 border-b border-border">
+                <div className="sticky top-0 bg-gradient-to-b from-panel to-panel/95 backdrop-blur-sm px-6 py-4 border-b border-white/10">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-brand/20 flex items-center justify-center flex-shrink-0">
                       <FaSearch className="text-brand text-lg" />
@@ -480,27 +480,27 @@ export const NavbarSearch = React.memo(function NavbarSearch() {
                 </div>
 
                 {/* Footer hint */}
-                <div className="sticky bottom-0 px-6 py-4 border-t border-border bg-gradient-to-t from-panel to-panel/95 backdrop-blur-sm">
+                <div className="sticky bottom-0 px-6 py-4 border-t border-white/10 bg-gradient-to-t from-panel to-panel/95 backdrop-blur-sm">
                   <div className="flex items-center justify-between text-xs font-medium">
                     <div className="flex items-center gap-4">
                       <span className="flex items-center gap-1.5 text-secondary">
-                        <kbd className="px-2 py-1 bg-panel/20 border border-border rounded-md font-mono text-foreground shadow-sm">
+                        <kbd className="px-2 py-1 bg-panel/20 border border-white/5 rounded-md font-mono text-foreground shadow-sm">
                           ↑
                         </kbd>
-                        <kbd className="px-2 py-1 bg-panel/20 border border-border rounded-md font-mono text-foreground shadow-sm">
+                        <kbd className="px-2 py-1 bg-panel/20 border border-white/5 rounded-md font-mono text-foreground shadow-sm">
                           ↓
                         </kbd>
                         <span>navegar</span>
                       </span>
                       <span className="flex items-center gap-1.5 text-secondary">
-                        <kbd className="px-2 py-1 bg-panel/20 border border-border rounded-md font-mono text-foreground shadow-sm">
+                        <kbd className="px-2 py-1 bg-panel/20 border border-white/5 rounded-md font-mono text-foreground shadow-sm">
                           ↵
                         </kbd>
                         <span>seleccionar</span>
                       </span>
                     </div>
                     <span className="flex items-center gap-1.5 text-secondary">
-                      <kbd className="px-2 py-1 bg-panel/20 border border-border rounded-md font-mono text-foreground shadow-sm">
+                      <kbd className="px-2 py-1 bg-panel/20 border border-white/5 rounded-md font-mono text-foreground shadow-sm">
                         ESC
                       </kbd>
                       <span>cerrar</span>

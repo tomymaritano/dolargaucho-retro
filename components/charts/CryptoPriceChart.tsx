@@ -47,7 +47,7 @@ export const CryptoPriceChart = React.memo(function CryptoPriceChart({
   if (chartData.length === 0) {
     return (
       <div
-        className="flex items-center justify-center bg-background rounded-lg border border-border"
+        className="flex items-center justify-center bg-background rounded-lg border border-white/5"
         style={{ height }}
       >
         <p className="text-xs text-secondary">No hay datos de gráfico disponibles</p>
@@ -101,7 +101,7 @@ export const CryptoPriceChart = React.memo(function CryptoPriceChart({
       />
 
       {/* Stats */}
-      <div className="grid grid-cols-3 gap-3 px-1 pt-2 border-t border-border">
+      <div className="grid grid-cols-3 gap-3 px-1 pt-2 border-t border-white/10">
         <div>
           <p className="text-[10px] text-secondary mb-0.5">Market Cap</p>
           <p className="text-xs font-semibold text-foreground">

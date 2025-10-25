@@ -163,7 +163,7 @@ export const MegaCalculadora = React.memo(function MegaCalculadora() {
               value={formatNumber(capital)}
               onChange={(e) => handleCapitalChange(e.target.value)}
               placeholder="1.000.000"
-              className="w-full pl-10 pr-4 py-3 text-xl font-mono font-bold bg-panel border border-border rounded-xl focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground"
+              className="w-full pl-10 pr-4 py-3 text-xl font-mono font-bold bg-panel border border-white/5 rounded-xl focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground"
             />
           </div>
         </div>
@@ -174,7 +174,7 @@ export const MegaCalculadora = React.memo(function MegaCalculadora() {
             type="date"
             value={fechaInicio}
             onChange={(e) => setFechaInicio(e.target.value)}
-            className="w-full px-4 py-3 bg-panel border border-border rounded-xl focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground"
+            className="w-full px-4 py-3 bg-panel border border-white/5 rounded-xl focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground"
           />
         </div>
 
@@ -184,7 +184,7 @@ export const MegaCalculadora = React.memo(function MegaCalculadora() {
             type="date"
             value={fechaFin}
             onChange={(e) => setFechaFin(e.target.value)}
-            className="w-full px-4 py-3 bg-panel border border-border rounded-xl focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground"
+            className="w-full px-4 py-3 bg-panel border border-white/5 rounded-xl focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground"
           />
         </div>
 

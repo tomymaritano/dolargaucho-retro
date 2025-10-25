@@ -44,8 +44,8 @@
     --panel: 10 11 13; /* #0a0b0d */
     --panel-elevated: 30 35 55; /* #1e2337 */
     --panel-hover: 30 35 55; /* #1e2337 */
-    --border: 80 86 169; /* rgba(80, 86, 169, 0.15) */
-    --border-strong: 80 86 169; /* rgba(80, 86, 169, 0.3) */
+    --border: 255 255 255; /* White with opacity - use with /5 or /10 */
+    --border-strong: 255 255 255; /* White with opacity - use with /20 */
     --text-primary: 248 250 252; /* #f8fafc */
     --text-secondary: 148 163 184; /* #94a3b8 */
     --accent: 0 71 255; /* #0047ff BingX Blue */

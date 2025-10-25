@@ -128,7 +128,7 @@ export function LegalLayout({ children, title, lastUpdated, tableOfContents }: L
 
               {/* Content */}
               <div className="prose prose-invert prose-lg max-w-none">
-                <div className="bg-panel rounded-xl p-6 md:p-8 border border-border">
+                <div className="bg-panel rounded-xl p-6 md:p-8 border border-white/5">
                   {children}
                 </div>
               </div>

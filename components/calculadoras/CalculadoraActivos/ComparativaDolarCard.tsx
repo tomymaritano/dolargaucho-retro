@@ -26,7 +26,7 @@ export function ComparativaDolarCard({
   const texto = ganaste ? 'Ganaste' : 'Perdiste';
 
   return (
-    <div className="p-4 bg-panel rounded-lg border border-border hover:border-brand/30 hover:scale-[1.01] transition-all duration-300 group">
+    <div className="p-4 bg-panel rounded-lg border border-white/5 hover:border-brand/30 hover:scale-[1.01] transition-all duration-300 group">
       <div className="flex items-center justify-between mb-2">
         <span className="text-sm font-medium text-foreground group-hover:text-brand transition-colors duration-300">
           Dólar {tipo === 'blue' ? 'Blue' : 'Oficial'}

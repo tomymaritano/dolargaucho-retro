@@ -73,15 +73,15 @@ export const BloqueStatsCard = React.memo(function BloqueStatsCard() {
 
         {/* Stats Summary */}
         <div className="grid grid-cols-3 gap-3 mb-6">
-          <div className="text-center p-3 rounded-lg bg-panel border border-border">
+          <div className="text-center p-3 rounded-lg bg-panel border border-white/5">
             <p className="text-xl font-bold text-foreground">{totalRepresentantes}</p>
             <p className="text-xs text-secondary mt-1">Total</p>
           </div>
-          <div className="text-center p-3 rounded-lg bg-panel border border-border">
+          <div className="text-center p-3 rounded-lg bg-panel border border-white/5">
             <p className="text-xl font-bold text-foreground">{totalSenadores}</p>
             <p className="text-xs text-secondary mt-1">Senadores</p>
           </div>
-          <div className="text-center p-3 rounded-lg bg-panel border border-border">
+          <div className="text-center p-3 rounded-lg bg-panel border border-white/5">
             <p className="text-xl font-bold text-foreground">{totalDiputados}</p>
             <p className="text-xs text-secondary mt-1">Diputados</p>
           </div>
@@ -96,7 +96,7 @@ export const BloqueStatsCard = React.memo(function BloqueStatsCard() {
             return (
               <div
                 key={`${stat.bloque}-${index}`}
-                className="p-3 rounded-lg bg-panel border border-border hover:border-brand/30 transition-all"
+                className="p-3 rounded-lg bg-panel border border-white/5 hover:border-brand/30 transition-all"
               >
                 {/* Bloque info */}
                 <div className="flex items-center justify-between mb-2">
@@ -133,10 +133,10 @@ export const BloqueStatsCard = React.memo(function BloqueStatsCard() {
 
         {/* Footer */}
         {sortedStats.length > 8 && (
-          <div className="mt-4 pt-4 border-t border-border">
+          <div className="mt-4 pt-4 border-t border-white/10">
             <button
               onClick={() => setShowAll(!showAll)}
-              className="w-full px-3 py-2 rounded-lg bg-panel border border-border text-foreground hover:bg-panel/10 hover:border-brand/50 transition-all text-sm"
+              className="w-full px-3 py-2 rounded-lg bg-panel border border-white/5 text-foreground hover:bg-panel/10 hover:border-brand/50 transition-all text-sm"
             >
               {showAll ? 'Mostrar menos' : `Ver todos (${sortedStats.length - 8} más)`}
             </button>

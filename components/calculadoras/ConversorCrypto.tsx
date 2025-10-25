@@ -28,7 +28,7 @@ export default function CryptoCalculator() {
       <Card
         variant="elevated"
         padding="md"
-        className="border border-border mb-6 hover:border-brand/40 transition-all duration-300"
+        className="border border-white/5 mb-6 hover:border-brand/40 transition-all duration-300"
       >
         <label className="text-xs font-semibold uppercase tracking-wider text-secondary mb-3 block">
           Cantidad en BTC
@@ -37,7 +37,7 @@ export default function CryptoCalculator() {
           type="number"
           value={btcAmount}
           onChange={(e) => setBtcAmount(Number(e.target.value))}
-          className="w-full p-3 text-lg font-mono font-semibold bg-panel border border-border rounded-lg focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground"
+          className="w-full p-3 text-lg font-mono font-semibold bg-panel border border-white/5 rounded-lg focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground"
           step="0.001"
           placeholder="0.1"
         />

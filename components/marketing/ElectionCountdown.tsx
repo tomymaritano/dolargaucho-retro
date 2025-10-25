@@ -71,7 +71,7 @@ export const ElectionCountdown = React.memo(function ElectionCountdown() {
         transition={{ delay: 0.7, duration: 0.5 }}
         whileHover={{ scale: 1.03, x: 6, y: -2 }}
         whileTap={{ scale: 0.98 }}
-        className="relative w-full flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl bg-panel/50 border border-border hover:border-brand/30 hover:bg-panel/80 transition-all duration-300 group cursor-pointer overflow-visible"
+        className="relative w-full flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl bg-panel/50 border border-white/5 hover:border-brand/30 hover:bg-panel/80 transition-all duration-300 group cursor-pointer overflow-visible"
       >
         {/* EN VIVO Badge - Only show ON election day */}
         {isElectionDay && (

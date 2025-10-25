@@ -98,14 +98,14 @@ export function FREDSection({ fredData, isLoading = false }: FREDSectionProps) {
 
           {/* Historical Charts */}
           {showCharts && (
-            <div className="mt-6 pt-6 border-t border-border">
+            <div className="mt-6 pt-6 border-t border-white/10">
               <h3 className="text-sm font-semibold text-foreground mb-4">
                 Evolución Histórica (últimos 24 meses)
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Fed Funds Rate Chart */}
                 {fredData.federalFundsRate?.data && (
-                  <div className="p-4 rounded-lg glass border border-border">
+                  <div className="p-4 rounded-lg glass border border-white/5">
                     <h4 className="text-xs font-semibold text-secondary mb-3">Tasa FED</h4>
                     <div className="h-48">
                       <FredChart
@@ -121,7 +121,7 @@ export function FREDSection({ fredData, isLoading = false }: FREDSectionProps) {
 
                 {/* Inflation Chart */}
                 {fredData.inflationCPI?.data && (
-                  <div className="p-4 rounded-lg glass border border-border">
+                  <div className="p-4 rounded-lg glass border border-white/5">
                     <h4 className="text-xs font-semibold text-secondary mb-3">Índice CPI</h4>
                     <div className="h-48">
                       <FredChart
@@ -137,7 +137,7 @@ export function FREDSection({ fredData, isLoading = false }: FREDSectionProps) {
 
                 {/* Unemployment Chart */}
                 {fredData.unemploymentRate?.data && (
-                  <div className="p-4 rounded-lg glass border border-border">
+                  <div className="p-4 rounded-lg glass border border-white/5">
                     <h4 className="text-xs font-semibold text-secondary mb-3">Desempleo USA</h4>
                     <div className="h-48">
                       <FredChart
@@ -153,7 +153,7 @@ export function FREDSection({ fredData, isLoading = false }: FREDSectionProps) {
 
                 {/* Treasury 10Y Chart */}
                 {fredData.treasury10y?.data && (
-                  <div className="p-4 rounded-lg glass border border-border">
+                  <div className="p-4 rounded-lg glass border border-white/5">
                     <h4 className="text-xs font-semibold text-secondary mb-3">Bonos 10 Años</h4>
                     <div className="h-48">
                       <FredChart
@@ -173,7 +173,7 @@ export function FREDSection({ fredData, isLoading = false }: FREDSectionProps) {
       )}
 
       {/* FRED Info Footer */}
-      <div className="mt-6 pt-4 border-t border-border">
+      <div className="mt-6 pt-4 border-t border-white/10">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <p className="text-xs text-secondary">
             <strong className="text-foreground">FRED</strong> (Federal Reserve Economic Data) - Base

@@ -48,7 +48,7 @@ export function LoginForm() {
             value={email}
             onChange={handleEmailChange}
             placeholder="tu@email.com"
-            className="w-full px-4 py-3 pl-10 rounded-lg bg-panel/10 border border-border
+            className="w-full px-4 py-3 pl-10 rounded-lg bg-panel/10 border border-white/5
                        focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none
                        text-foreground placeholder-secondary transition-all
                        disabled:opacity-50 disabled:cursor-not-allowed"
@@ -80,7 +80,7 @@ export function LoginForm() {
             value={password}
             onChange={handlePasswordChange}
             placeholder="••••••••"
-            className="w-full px-4 py-3 pl-10 pr-10 rounded-lg bg-panel/10 border border-border
+            className="w-full px-4 py-3 pl-10 pr-10 rounded-lg bg-panel/10 border border-white/5
                        focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none
                        text-foreground placeholder-secondary transition-all
                        disabled:opacity-50 disabled:cursor-not-allowed"

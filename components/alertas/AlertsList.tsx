@@ -130,8 +130,8 @@ export const AlertsList = React.memo(function AlertsList({
               isDisparada
                 ? 'border-brand/50 bg-brand/5'
                 : isPausada
-                  ? 'opacity-60 border-border'
-                  : 'border-border'
+                  ? 'opacity-60 border-white/10'
+                  : 'border-white/10'
             }`}
           >
             <div className="space-y-3">
@@ -222,7 +222,7 @@ export const AlertsList = React.memo(function AlertsList({
                 )}
 
                 {!isDisparada && !isPausada && valorActual !== null && (
-                  <div className="flex items-center justify-between p-2 rounded-lg bg-panel border border-border">
+                  <div className="flex items-center justify-between p-2 rounded-lg bg-panel border border-white/5">
                     <span className="text-secondary">Valor actual:</span>
                     <span className="text-foreground font-bold font-mono">
                       ${valorActual.toFixed(2)}
@@ -233,7 +233,7 @@ export const AlertsList = React.memo(function AlertsList({
 
               {/* Mensaje personalizado - Si existe */}
               {alerta.mensaje && (
-                <div className="p-2.5 rounded-lg bg-panel/50 border border-border/50">
+                <div className="p-2.5 rounded-lg bg-panel/50 border border-white/5/50">
                   <p className="text-xs text-secondary italic line-clamp-2">
                     &quot;{alerta.mensaje}&quot;
                   </p>

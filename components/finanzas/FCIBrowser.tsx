@@ -79,7 +79,7 @@ export const FCIBrowser = React.memo(function FCIBrowser() {
               placeholder="Buscar fondo..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-dark-light border border-border rounded-lg text-white placeholder-secondary focus:outline-none focus:border-brand/50 focus:ring-2 focus:ring-brand/20 transition-all"
+              className="w-full pl-10 pr-4 py-2 bg-dark-light border border-white/5 rounded-lg text-white placeholder-secondary focus:outline-none focus:border-brand/50 focus:ring-2 focus:ring-brand/20 transition-all"
             />
           </div>
 
@@ -87,7 +87,7 @@ export const FCIBrowser = React.memo(function FCIBrowser() {
           <select
             value={tipoFilter}
             onChange={(e) => setTipoFilter(e.target.value as TipoFCI)}
-            className="px-4 py-2 bg-dark-light border border-border rounded-lg text-white focus:outline-none focus:border-brand/50 focus:ring-2 focus:ring-brand/20 transition-all"
+            className="px-4 py-2 bg-dark-light border border-white/5 rounded-lg text-white focus:outline-none focus:border-brand/50 focus:ring-2 focus:ring-brand/20 transition-all"
           >
             <option value="Todos">Todos los tipos</option>
             <option value="Mercado de Dinero">Mercado de Dinero</option>
@@ -101,7 +101,7 @@ export const FCIBrowser = React.memo(function FCIBrowser() {
           <select
             value={monedaFilter}
             onChange={(e) => setMonedaFilter(e.target.value as MonedaFCI)}
-            className="px-4 py-2 bg-dark-light border border-border rounded-lg text-white focus:outline-none focus:border-brand/50 focus:ring-2 focus:ring-brand/20 transition-all"
+            className="px-4 py-2 bg-dark-light border border-white/5 rounded-lg text-white focus:outline-none focus:border-brand/50 focus:ring-2 focus:ring-brand/20 transition-all"
           >
             <option value="Todas">Todas las monedas</option>
             <option value="ARS">ARS - Pesos</option>
@@ -113,7 +113,7 @@ export const FCIBrowser = React.memo(function FCIBrowser() {
           <select
             value={claseFilter}
             onChange={(e) => setClaseFilter(e.target.value as ClaseFCI)}
-            className="px-4 py-2 bg-dark-light border border-border rounded-lg text-white focus:outline-none focus:border-brand/50 focus:ring-2 focus:ring-brand/20 transition-all"
+            className="px-4 py-2 bg-dark-light border border-white/5 rounded-lg text-white focus:outline-none focus:border-brand/50 focus:ring-2 focus:ring-brand/20 transition-all"
           >
             <option value="Todas">Todas las clases</option>
             <option value="A">Clase A</option>
@@ -158,7 +158,7 @@ export const FCIBrowser = React.memo(function FCIBrowser() {
                   return (
                     <tr
                       key={`${nombre}-${index}`}
-                      className="border-b border-border hover:bg-panel/10 transition-colors"
+                      className="border-b border-white/10 hover:bg-panel/10 transition-colors"
                     >
                       <td className="py-3 px-4">
                         <div>

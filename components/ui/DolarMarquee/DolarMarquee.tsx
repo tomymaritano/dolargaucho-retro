@@ -39,7 +39,7 @@ export function DolarMarquee() {
 
   if (dolaresLoading || !dolares || dolares.length === 0) {
     return (
-      <div className="bg-background border-b border-border">
+      <div className="bg-background border-b border-white/10">
         <div className="h-12 flex items-center justify-center">
           <div className="animate-pulse h-4 w-64 bg-white/10 rounded" />
         </div>
@@ -62,7 +62,7 @@ export function DolarMarquee() {
     riesgoTrend === 'up' ? 'text-error' : riesgoTrend === 'down' ? 'text-success' : 'text-warning';
 
   return (
-    <div className="bg-background border-b border-border">
+    <div className="bg-background border-b border-white/10">
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center gap-6 h-12">
         {/* Riesgo País */}
         {riesgoPais && (

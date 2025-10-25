@@ -16,7 +16,7 @@ export function InflacionExplanation({ useCustomDate }: InflacionExplanationProp
   const [showExplanation, setShowExplanation] = useState(false);
 
   return (
-    <div className="mt-6 pt-6 border-t border-border">
+    <div className="mt-6 pt-6 border-t border-white/10">
       <button
         onClick={() => setShowExplanation(!showExplanation)}
         className="w-full flex justify-between items-center text-sm font-medium text-secondary hover:text-foreground transition-colors"

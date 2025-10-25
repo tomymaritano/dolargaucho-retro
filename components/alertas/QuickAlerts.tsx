@@ -99,7 +99,7 @@ export const QuickAlerts = React.memo(function QuickAlerts({ onCreateAlert }: Qu
             <button
               key={quick.id}
               onClick={() => onCreateAlert(quick.alert)}
-              className="group p-4 rounded-xl border border-border hover:border-brand/50 bg-panel hover:bg-panel/80 transition-all text-left"
+              className="group p-4 rounded-xl border border-white/5 hover:border-brand/50 bg-panel hover:bg-panel/80 transition-all text-left"
             >
               <div className="flex items-start gap-3 mb-2">
                 <div className="p-2 rounded-lg bg-white/5 group-hover:bg-brand/10 transition-colors">

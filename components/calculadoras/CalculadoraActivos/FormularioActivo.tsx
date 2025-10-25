@@ -63,7 +63,7 @@ export function FormularioActivo({ onCalcular }: FormularioActivoProps) {
                     ${
                       isSelected
                         ? 'border-brand bg-brand/10 text-brand scale-[1.02]'
-                        : 'border-border hover:border-brand/40 text-secondary hover:text-foreground hover:scale-[1.02] active:scale-95'
+                        : 'border-white/10 hover:border-brand/40 text-secondary hover:text-foreground hover:scale-[1.02] active:scale-95'
                     }
                   `}
                 >
@@ -89,7 +89,7 @@ export function FormularioActivo({ onCalcular }: FormularioActivoProps) {
                 ${
                   moneda === 'ARS'
                     ? 'border-brand bg-brand/10 text-brand scale-[1.02]'
-                    : 'border-border hover:border-brand/40 text-secondary hover:text-foreground hover:scale-[1.02] active:scale-95'
+                    : 'border-white/10 hover:border-brand/40 text-secondary hover:text-foreground hover:scale-[1.02] active:scale-95'
                 }
               `}
             >
@@ -104,7 +104,7 @@ export function FormularioActivo({ onCalcular }: FormularioActivoProps) {
                 ${
                   moneda === 'USD'
                     ? 'border-brand bg-brand/10 text-brand scale-[1.02]'
-                    : 'border-border hover:border-brand/40 text-secondary hover:text-foreground hover:scale-[1.02] active:scale-95'
+                    : 'border-white/10 hover:border-brand/40 text-secondary hover:text-foreground hover:scale-[1.02] active:scale-95'
                 }
               `}
             >
@@ -128,7 +128,7 @@ export function FormularioActivo({ onCalcular }: FormularioActivoProps) {
             onChange={(e) => setFechaCompra(e.target.value)}
             max={new Date().toISOString().split('T')[0]}
             required
-            className="w-full px-4 py-3 bg-panel border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-brand/50"
+            className="w-full px-4 py-3 bg-panel border border-white/5 rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-brand/50"
           />
         </div>
 
@@ -145,7 +145,7 @@ export function FormularioActivo({ onCalcular }: FormularioActivoProps) {
             min="0"
             step={moneda === 'ARS' ? '1000' : '100'}
             required
-            className="w-full px-4 py-3 bg-panel border border-border rounded-lg text-foreground placeholder-secondary focus:outline-none focus:ring-2 focus:ring-brand/50"
+            className="w-full px-4 py-3 bg-panel border border-white/5 rounded-lg text-foreground placeholder-secondary focus:outline-none focus:ring-2 focus:ring-brand/50"
           />
         </div>
       </div>
@@ -163,7 +163,7 @@ export function FormularioActivo({ onCalcular }: FormularioActivoProps) {
             onChange={(e) => setFechaVenta(e.target.value)}
             max={new Date().toISOString().split('T')[0]}
             required
-            className="w-full px-4 py-3 bg-panel border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-brand/50"
+            className="w-full px-4 py-3 bg-panel border border-white/5 rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-brand/50"
           />
         </div>
 
@@ -180,7 +180,7 @@ export function FormularioActivo({ onCalcular }: FormularioActivoProps) {
             min="0"
             step={moneda === 'ARS' ? '1000' : '100'}
             required
-            className="w-full px-4 py-3 bg-panel border border-border rounded-lg text-foreground placeholder-secondary focus:outline-none focus:ring-2 focus:ring-brand/50"
+            className="w-full px-4 py-3 bg-panel border border-white/5 rounded-lg text-foreground placeholder-secondary focus:outline-none focus:ring-2 focus:ring-brand/50"
           />
         </div>
       </div>

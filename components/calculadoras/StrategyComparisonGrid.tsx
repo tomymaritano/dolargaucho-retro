@@ -28,7 +28,7 @@ export function StrategyComparisonGrid({
             key={idx}
             variant="elevated"
             padding="md"
-            className="border border-border hover:border-brand/40 transition-all duration-300"
+            className="border border-white/5 hover:border-brand/40 transition-all duration-300"
           >
             <div className="flex items-center justify-between mb-4">
               <h4 className="text-base font-bold text-foreground">{est.nombre}</h4>

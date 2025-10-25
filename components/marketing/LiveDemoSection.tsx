@@ -72,7 +72,7 @@ export const LiveDemoSection = React.memo(function LiveDemoSection() {
           className="relative"
         >
           {/* Dashboard Preview */}
-          <div className="relative rounded-2xl overflow-hidden bg-panel/50 border border-border hover:border-brand/30 transition-all group aspect-video">
+          <div className="relative rounded-2xl overflow-hidden bg-panel/50 border border-white/5 hover:border-brand/30 transition-all group aspect-video">
             {/* Dashboard Screenshot */}
             <Image
               src="/thumbnail.png"
@@ -131,7 +131,7 @@ export const LiveDemoSection = React.memo(function LiveDemoSection() {
           className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6"
         >
           <motion.div
-            className="text-center p-6 rounded-xl bg-panel border border-border hover:border-brand/30 transition-all group"
+            className="text-center p-6 rounded-xl bg-panel border border-white/5 hover:border-brand/30 transition-all group"
             whileHover={{ y: -5 }}
             transition={{ type: 'spring', stiffness: 300 }}
           >
@@ -146,7 +146,7 @@ export const LiveDemoSection = React.memo(function LiveDemoSection() {
           </motion.div>
 
           <motion.div
-            className="text-center p-6 rounded-xl bg-panel border border-border hover:border-brand/30 transition-all group"
+            className="text-center p-6 rounded-xl bg-panel border border-white/5 hover:border-brand/30 transition-all group"
             whileHover={{ y: -5 }}
             transition={{ type: 'spring', stiffness: 300 }}
           >
@@ -161,7 +161,7 @@ export const LiveDemoSection = React.memo(function LiveDemoSection() {
           </motion.div>
 
           <motion.div
-            className="text-center p-6 rounded-xl bg-panel border border-border hover:border-brand/30 transition-all group"
+            className="text-center p-6 rounded-xl bg-panel border border-white/5 hover:border-brand/30 transition-all group"
             whileHover={{ y: -5 }}
             transition={{ type: 'spring', stiffness: 300 }}
           >

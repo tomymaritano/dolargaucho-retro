@@ -153,13 +153,13 @@ export const CryptoCard = React.memo(function CryptoCard({
 
       {/* Stats Grid */}
       <div className="grid grid-cols-2 gap-3 mb-4">
-        <div className="p-3 rounded-lg bg-panel/50 border border-border">
+        <div className="p-3 rounded-lg bg-panel/50 border border-white/5">
           <p className="text-[10px] text-secondary uppercase tracking-wider mb-1">Market Cap</p>
           <p className="text-sm font-bold text-foreground tabular-nums">
             {formatCompactNumber(crypto.market_cap)}
           </p>
         </div>
-        <div className="p-3 rounded-lg bg-panel/50 border border-border">
+        <div className="p-3 rounded-lg bg-panel/50 border border-white/5">
           <p className="text-[10px] text-secondary uppercase tracking-wider mb-1">Volumen 24h</p>
           <p className="text-sm font-bold text-foreground tabular-nums">
             {formatCompactNumber(crypto.total_volume)}
@@ -169,7 +169,7 @@ export const CryptoCard = React.memo(function CryptoCard({
 
       {/* Additional Changes */}
       {trend7d && (
-        <div className="mb-4 p-2.5 rounded-lg glass border border-border">
+        <div className="mb-4 p-2.5 rounded-lg glass border border-white/5">
           <div className="flex items-center justify-between">
             <span className="text-xs text-secondary">Cambio 7 días</span>
             <div className={`flex items-center gap-1 ${trend7d.color}`}>
@@ -183,7 +183,7 @@ export const CryptoCard = React.memo(function CryptoCard({
       )}
 
       {/* Actions */}
-      <div className="flex gap-2 pt-3 border-t border-border">
+      <div className="flex gap-2 pt-3 border-t border-white/10">
         <button
           onClick={handleCopy}
           className="flex-1 px-3 py-2 rounded-lg glass hover:bg-brand/10 transition-all text-secondary hover:text-brand flex items-center justify-center gap-2 text-xs font-medium"

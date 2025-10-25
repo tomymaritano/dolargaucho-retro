@@ -125,7 +125,7 @@ export const DataSourcesSection = React.memo(function DataSourcesSection() {
                 transition={{ duration: 0.4, delay: index * 0.1 }}
               >
                 <SpotlightCard
-                  className="group bg-panel border border-border rounded-xl p-6 hover:border-brand/30 hover:shadow-lg hover:shadow-brand/5 transition-all duration-300"
+                  className="group bg-panel border border-white/5 rounded-xl p-6 hover:border-brand/30 hover:shadow-lg hover:shadow-brand/5 transition-all duration-300"
                   spotlightColor="rgba(0, 71, 255, 0.3)"
                   spotlightOpacity={0.2}
                   spotlightSize={350}
@@ -135,7 +135,7 @@ export const DataSourcesSection = React.memo(function DataSourcesSection() {
                     <div className="p-3 rounded-lg bg-brand/10 group-hover:bg-brand/20 transition-colors">
                       <Icon className="text-brand text-xl" />
                     </div>
-                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-white/5 text-secondary border border-border">
+                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-white/5 text-secondary border border-white/5">
                       {source.badge}
                     </span>
                   </div>
@@ -152,7 +152,7 @@ export const DataSourcesSection = React.memo(function DataSourcesSection() {
 
                   {/* Stats */}
                   {source.stats && (
-                    <div className="pt-3 border-t border-border">
+                    <div className="pt-3 border-t border-white/10">
                       <p className="text-xs text-foreground/60 font-medium">{source.stats}</p>
                     </div>
                   )}

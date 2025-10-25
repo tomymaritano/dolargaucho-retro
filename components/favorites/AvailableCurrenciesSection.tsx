@@ -26,7 +26,7 @@ export function AvailableCurrenciesSection({
 
   return (
     <Card variant="elevated" padding="none" className="mt-8">
-      <div className="p-6 border-b border-border">
+      <div className="p-6 border-b border-white/10">
         <h2 className="text-xl font-bold text-foreground">Monedas Internacionales</h2>
         <p className="text-sm text-secondary mt-1">Agregá o quitá monedas de tus favoritos</p>
       </div>

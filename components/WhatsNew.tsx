@@ -152,7 +152,7 @@ const WhatsNew = React.memo(function WhatsNew({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className={`mb-4 ${entry.highlight && isExpanded ? 'border-l-4 border-brand pl-4' : ''} ${!isExpanded ? 'pb-4 border-b border-border' : ''}`}
+        className={`mb-4 ${entry.highlight && isExpanded ? 'border-l-4 border-brand pl-4' : ''} ${!isExpanded ? 'pb-4 border-b border-white/10' : ''}`}
       >
         {/* Header - Always visible, clickable for old entries */}
         <div
@@ -312,7 +312,7 @@ const WhatsNew = React.memo(function WhatsNew({
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 exit={{ scale: 0.9, opacity: 0, y: 20 }}
                 transition={{ type: 'spring', damping: 20, stiffness: 300 }}
-                className="relative w-full max-w-2xl max-h-[85vh] bg-panel border border-border rounded-2xl shadow-2xl overflow-hidden pointer-events-auto"
+                className="relative w-full max-w-2xl max-h-[85vh] bg-panel border border-white/5 rounded-2xl shadow-2xl overflow-hidden pointer-events-auto"
               >
                 {/* Header */}
                 <div className="sticky top-0 z-10 bg-gradient-to-b from-panel to-panel/95 backdrop-blur-sm border-b border-white/10 px-6 py-4">

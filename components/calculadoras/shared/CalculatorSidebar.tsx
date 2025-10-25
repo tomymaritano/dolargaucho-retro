@@ -30,7 +30,7 @@ export function CalculatorSidebar({
     >
       <div className="p-4 space-y-4">
         {(title || subtitle) && (
-          <div className="pb-3 border-b border-border/50">
+          <div className="pb-3 border-b border-white/10/50">
             {title && <h3 className="text-sm font-bold text-foreground mb-1">{title}</h3>}
             {subtitle && <p className="text-xs text-secondary">{subtitle}</p>}
           </div>
