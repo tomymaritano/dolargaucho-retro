@@ -117,12 +117,12 @@ export const DashboardNavbar = React.memo(function DashboardNavbar() {
   return (
     <>
       {/* DolarMarquee - Top of everything */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-background">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-xl">
         <DolarMarquee />
       </div>
 
       {/* Navbar - Below marquee */}
-      <nav className="fixed top-12 left-0 right-0 z-[45] bg-background border-b border-border/10">
+      <nav className="fixed top-12 left-0 right-0 z-[45] bg-background/95 backdrop-blur-xl border-b border-border/10">
         <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Top Row: Hamburger, Logo, Actions */}
           <div className="h-16 flex items-center justify-between">
