@@ -69,7 +69,6 @@ export default function HerramientasHubPage() {
           title="Herramientas"
           description="Utilidades para tomar mejores decisiones financieras"
           icon={FaTools}
-          breadcrumbs={[{ label: 'Herramientas' }]}
         />
 
         {/* Quick Stats */}

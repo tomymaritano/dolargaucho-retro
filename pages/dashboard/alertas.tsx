@@ -56,7 +56,6 @@ export default function AlertasPage() {
       <div className="space-y-6">
         {/* Page Header */}
         <PageHeader
-          breadcrumbs={[{ label: 'Dashboard', href: '/dashboard' }, { label: 'Alertas' }]}
           icon={FaBell}
           title="Mis Alertas"
           description="Recibe notificaciones cuando las cotizaciones alcancen los valores que te interesan"

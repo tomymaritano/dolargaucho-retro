@@ -55,7 +55,6 @@ export default function AnalisisPage() {
             title="Análisis Económico"
             description="Visualización avanzada y análisis técnico del mercado"
             icon={FaChartLine}
-            breadcrumbs={[{ label: 'Análisis' }]}
           />
 
           {/* Evolución Comparativa de Cotizaciones */}

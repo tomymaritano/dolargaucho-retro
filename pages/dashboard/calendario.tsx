@@ -92,7 +92,6 @@ export default function CalendarioPage() {
     <DashboardLayout>
       {/* Page Header */}
       <PageHeader
-        breadcrumbs={[{ label: 'Dashboard', href: '/dashboard' }, { label: 'Calendario' }]}
         icon={FaCalendarAlt}
         title="Calendario de Eventos"
         titleGradient
