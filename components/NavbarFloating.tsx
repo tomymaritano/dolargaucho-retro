@@ -106,7 +106,7 @@ export function NavbarFloating() {
         transition={{ duration: 0.3 }}
         className="fixed top-4 left-4 right-4 z-50 max-w-7xl mx-auto"
       >
-        <div className="bg-background/80 backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl shadow-black/5 px-4 md:px-6 py-3">
+        <div className="bg-background/80 backdrop-blur-xl border border-subtle rounded-2xl shadow-xl shadow-black/5 px-4 md:px-6 py-3">
           <div className="flex items-center justify-between">
             {/* Logo with animation */}
             <Link href="/" className="flex items-center group">

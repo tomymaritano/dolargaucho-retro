@@ -77,6 +77,7 @@ export default {
           'light-strong': '#CBD5E1',
           dark: 'rgba(80, 86, 169, 0.15)', // BingX Blue Violet with opacity
           'dark-strong': 'rgba(80, 86, 169, 0.3)',
+          subtle: 'rgba(255, 255, 255, 0.1)', // For navbars and subtle borders
         },
 
         // Accent colors (ejecutivo y profesional)
