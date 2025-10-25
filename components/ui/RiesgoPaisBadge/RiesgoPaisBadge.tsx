@@ -11,7 +11,7 @@ export function RiesgoPaisBadge() {
   if (isLoading) {
     return (
       <div className="hidden md:flex items-center gap-2 px-3 py-2 rounded-lg animate-pulse">
-        <div className="h-4 w-20 bg-white/10 rounded" />
+        <div className="h-4 w-20 bg-panel/20 rounded" />
       </div>
     );
   }

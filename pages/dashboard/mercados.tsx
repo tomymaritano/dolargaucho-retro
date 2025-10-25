@@ -65,7 +65,7 @@ export default function MercadosPage() {
             <div className="flex items-center gap-2 mb-2">
               <button
                 onClick={() => router.push('/dashboard')}
-                className="p-2 rounded-lg hover:bg-white/5 transition-colors text-secondary hover:text-brand"
+                className="p-2 rounded-lg hover:bg-panel/10 transition-colors text-secondary hover:text-brand"
                 aria-label="Volver al Dashboard"
               >
                 <FaChevronLeft className="text-sm" />
@@ -164,7 +164,7 @@ export default function MercadosPage() {
         </div>
 
         {/* Disclaimer Footer */}
-        <div className="flex items-start gap-2 p-4 bg-white/5 border border-white/10 rounded-lg">
+        <div className="flex items-start gap-2 p-4 bg-panel/10 border border-white/10 rounded-lg">
           <FaInfoCircle className="text-brand text-sm mt-0.5 flex-shrink-0" />
           <p className="text-xs text-secondary leading-relaxed">
             <strong className="text-foreground">Fuentes Oficiales:</strong> Los datos provienen del

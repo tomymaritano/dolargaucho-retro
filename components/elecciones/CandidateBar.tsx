@@ -45,7 +45,7 @@ export const CandidateBar = React.memo(function CandidateBar({
             className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${
               isWinner
                 ? 'bg-gradient-to-br from-yellow-400 to-yellow-600 text-yellow-950'
-                : 'bg-white/10 text-secondary'
+                : 'bg-panel/20 text-secondary'
             }`}
           >
             {rank}
@@ -76,7 +76,7 @@ export const CandidateBar = React.memo(function CandidateBar({
       </div>
 
       {/* Progress Bar */}
-      <div className="relative h-3 bg-white/5 rounded-full overflow-hidden backdrop-blur-sm">
+      <div className="relative h-3 bg-panel/10 rounded-full overflow-hidden backdrop-blur-sm">
         {/* Animated Bar */}
         <motion.div
           initial={{ width: 0 }}

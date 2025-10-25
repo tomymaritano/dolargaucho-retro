@@ -179,7 +179,7 @@ export const FavoriteDolarRow = React.memo(function FavoriteDolarRow({
         <TableCell align="center">
           <div className="flex items-center justify-center gap-2">
             {loadingHistorical ? (
-              <div className="w-28 h-12 bg-white/5 rounded animate-pulse" />
+              <div className="w-28 h-12 bg-panel/10 rounded animate-pulse" />
             ) : dolarHistorical?.[dolar.casa]?.data ? (
               <CryptoSparkline
                 data={dolarHistorical[dolar.casa].data.map((d) => d.valor)}

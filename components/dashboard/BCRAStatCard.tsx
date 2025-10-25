@@ -106,7 +106,7 @@ export const BCRAStatCard = React.memo(function BCRAStatCard({
 
         {/* Value */}
         {isLoading ? (
-          <div className="h-8 md:h-10 bg-white/10 rounded animate-pulse mb-1" />
+          <div className="h-8 md:h-10 bg-panel/20 rounded animate-pulse mb-1" />
         ) : (
           <p
             className={`text-2xl md:text-3xl font-black ${colors.value} tabular-nums transition-all duration-300`}

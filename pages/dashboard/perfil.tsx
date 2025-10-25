@@ -143,7 +143,7 @@ export default function ProfilePage() {
               <div className="flex items-center gap-2 mb-2">
                 <button
                   onClick={() => router.push('/dashboard')}
-                  className="p-2 rounded-lg hover:bg-white/5 transition-colors text-secondary hover:text-brand"
+                  className="p-2 rounded-lg hover:bg-panel/10 transition-colors text-secondary hover:text-brand"
                   aria-label="Volver al Dashboard"
                 >
                   <FaChevronLeft className="text-sm" />

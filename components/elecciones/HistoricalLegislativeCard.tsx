@@ -162,7 +162,7 @@ export const HistoricalLegislativeCard = React.memo(function HistoricalLegislati
                             className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${
                               isTopParty
                                 ? 'bg-gradient-to-br from-yellow-400 to-yellow-600 text-yellow-950'
-                                : 'bg-white/10 text-secondary'
+                                : 'bg-panel/20 text-secondary'
                             }`}
                           >
                             {index + 1}
@@ -190,7 +190,7 @@ export const HistoricalLegislativeCard = React.memo(function HistoricalLegislati
                       </div>
 
                       {/* Progress Bar */}
-                      <div className="h-2 bg-white/5 rounded-full overflow-hidden">
+                      <div className="h-2 bg-panel/10 rounded-full overflow-hidden">
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${barWidth}%` }}

@@ -64,9 +64,9 @@ const statusConfig = {
     label: 'Próximamente',
     icon: FaClock,
     color: 'text-secondary',
-    bgColor: 'bg-white/5',
+    bgColor: 'bg-panel/10',
     borderColor: 'border-white/10',
-    badgeBg: 'bg-white/10',
+    badgeBg: 'bg-panel/20',
     gradientOverlay: 'from-white/5 to-transparent',
   },
 };
@@ -79,7 +79,7 @@ const priorityConfig = {
     bg: 'bg-warning/10',
     border: 'border-warning/20',
   },
-  low: { label: 'Baja', color: 'text-secondary', bg: 'bg-white/5', border: 'border-white/10' },
+  low: { label: 'Baja', color: 'text-secondary', bg: 'bg-panel/10', border: 'border-white/10' },
 };
 
 interface VoteButtonProps {
@@ -111,7 +111,7 @@ function VoteButton({ featureId, voteCount, hasVoted, onVote, isAuthenticated }:
         className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg border transition-all duration-300 ${
           hasVoted
             ? 'bg-brand/20 border-brand/40 text-brand'
-            : 'bg-white/5 border-white/10 text-secondary hover:border-brand/30 hover:bg-brand/10'
+            : 'bg-panel/10 border-white/10 text-secondary hover:border-brand/30 hover:bg-brand/10'
         }`}
       >
         <motion.div animate={{ scale: hasVoted ? [1, 1.2, 1] : 1 }} transition={{ duration: 0.3 }}>
@@ -319,7 +319,7 @@ export default function RoadmapPage() {
                   className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
                     selectedStatus === status
                       ? 'bg-gradient-to-r from-brand to-brand-light text-white shadow-lg shadow-brand/30'
-                      : 'bg-white/5 text-secondary hover:bg-white/10 border border-white/10'
+                      : 'bg-panel/10 text-secondary hover:bg-panel/20 border border-white/10'
                   }`}
                 >
                   {status === 'all'
@@ -449,7 +449,7 @@ export default function RoadmapPage() {
 
             <div className="relative">
               <div className="flex items-center justify-between mb-3">
-                <div className="p-3 bg-white/5 rounded-xl">
+                <div className="p-3 bg-panel/10 rounded-xl">
                   <FaClock className="text-secondary text-2xl" />
                 </div>
                 <motion.span
@@ -591,7 +591,7 @@ export default function RoadmapPage() {
                                     {feature.progress}%
                                   </motion.span>
                                 </div>
-                                <div className="w-full h-2.5 bg-white/10 rounded-full overflow-hidden backdrop-blur-sm border border-white/5">
+                                <div className="w-full h-2.5 bg-panel/20 rounded-full overflow-hidden backdrop-blur-sm border border-white/5">
                                   <motion.div
                                     initial={{ width: 0 }}
                                     whileInView={{ width: `${feature.progress}%` }}

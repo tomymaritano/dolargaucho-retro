@@ -57,7 +57,7 @@ export function Table({
               <tr key={rowIndex} className="animate-pulse">
                 {Array.from({ length: skeletonCols }).map((_, colIndex) => (
                   <td key={colIndex} className="py-4 px-4">
-                    <div className="h-4 bg-white/10 rounded w-full max-w-[120px]" />
+                    <div className="h-4 bg-panel/20 rounded w-full max-w-[120px]" />
                   </td>
                 ))}
               </tr>

@@ -135,7 +135,7 @@ export const DataSourcesSection = React.memo(function DataSourcesSection() {
                     <div className="p-3 rounded-lg bg-brand/10 group-hover:bg-brand/20 transition-colors">
                       <Icon className="text-brand text-xl" />
                     </div>
-                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-white/5 text-secondary border border-white/5">
+                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-panel/10 text-secondary border border-white/5">
                       {source.badge}
                     </span>
                   </div>

@@ -233,7 +233,7 @@ export default function ArquitecturaPage() {
               className={`flex-1 px-6 py-3 rounded-lg font-semibold transition-all ${
                 activeTab === tab
                   ? 'bg-gradient-to-r from-brand to-brand-light text-white shadow-lg'
-                  : 'text-secondary hover:bg-white/5'
+                  : 'text-secondary hover:bg-panel/10'
               }`}
             >
               {tab === 'stack' && '🛠️ Tech Stack'}

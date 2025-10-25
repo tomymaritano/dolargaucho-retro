@@ -350,7 +350,7 @@ const WhatsNew = React.memo(function WhatsNew({
                       type="checkbox"
                       checked={dontShowAgain}
                       onChange={handleDontShowChange}
-                      className="w-4 h-4 rounded border-2 border-white/20 bg-white/5 checked:bg-brand checked:border-brand transition-all cursor-pointer"
+                      className="w-4 h-4 rounded border-2 border-white/20 bg-panel/10 checked:bg-brand checked:border-brand transition-all cursor-pointer"
                     />
                     <span className="text-sm text-secondary group-hover:text-foreground transition-colors">
                       No mostrar esta actualización

@@ -67,7 +67,7 @@ export function FavoriteRowDolar({
 
       <TableCell align="center" className="relative">
         {loadingHistorical ? (
-          <div className="w-28 h-12 mx-auto bg-white/5 rounded animate-pulse" />
+          <div className="w-28 h-12 mx-auto bg-panel/10 rounded animate-pulse" />
         ) : historical?.data ? (
           <CryptoSparkline
             data={historical.data.map((d) => d.valor)}

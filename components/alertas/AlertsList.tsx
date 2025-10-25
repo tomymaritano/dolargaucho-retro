@@ -140,7 +140,7 @@ export const AlertsList = React.memo(function AlertsList({
                 <div className="flex items-start gap-3 flex-1 min-w-0">
                   <div
                     className={`p-2.5 rounded-lg flex-shrink-0 ${
-                      isDisparada ? 'bg-brand/20' : isPausada ? 'bg-white/5' : 'bg-white/10'
+                      isDisparada ? 'bg-brand/20' : isPausada ? 'bg-panel/10' : 'bg-panel/20'
                     }`}
                   >
                     <Icon
@@ -158,7 +158,7 @@ export const AlertsList = React.memo(function AlertsList({
                       {alerta.nombre}
                     </h3>
                     <div className="flex flex-wrap items-center gap-1.5 text-xs">
-                      <span className="px-2 py-0.5 bg-white/10 rounded-md text-secondary">
+                      <span className="px-2 py-0.5 bg-panel/20 rounded-md text-secondary">
                         {getTipoLabel(alerta.tipo)}
                         {alerta.casaDolar && ` ${alerta.casaDolar.toUpperCase()}`}
                       </span>

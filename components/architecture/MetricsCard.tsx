@@ -41,7 +41,7 @@ export function MetricsCard({
     neutral: {
       arrow: '→',
       color: 'text-secondary',
-      bg: 'bg-white/5',
+      bg: 'bg-panel/10',
     },
   };
 

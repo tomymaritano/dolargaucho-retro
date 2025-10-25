@@ -92,7 +92,7 @@ const variantConfig = {
     iconColor: 'text-warning',
   },
   secondary: {
-    iconBg: 'bg-white/5',
+    iconBg: 'bg-panel/10',
     iconColor: 'text-secondary',
   },
 };

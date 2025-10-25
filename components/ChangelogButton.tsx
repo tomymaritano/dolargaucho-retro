@@ -43,7 +43,7 @@ export function ChangelogButton() {
   return (
     <button
       onClick={openChangelog}
-      className="relative flex items-center justify-center w-10 h-10 rounded-lg bg-white/5 hover:bg-panel/20 border border-white/5 transition-all hover:scale-105 active:scale-95"
+      className="relative flex items-center justify-center w-10 h-10 rounded-lg bg-panel/10 hover:bg-panel/20 border border-white/5 transition-all hover:scale-105 active:scale-95"
       aria-label="Ver novedades"
     >
       <FaBell className="text-foreground text-lg" />

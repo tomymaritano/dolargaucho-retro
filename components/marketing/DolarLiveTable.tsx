@@ -176,13 +176,13 @@ export const DolarLiveTable = React.memo(function DolarLiveTable() {
             className="flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl bg-panel/30 border border-white/5"
           >
             <div className="flex-1">
-              <div className="h-4 w-24 bg-white/10 rounded animate-pulse mb-2" />
+              <div className="h-4 w-24 bg-panel/20 rounded animate-pulse mb-2" />
             </div>
             <div className="text-right">
-              <div className="h-6 w-20 bg-white/10 rounded animate-pulse mb-1" />
-              <div className="h-3 w-14 bg-white/10 rounded animate-pulse" />
+              <div className="h-6 w-20 bg-panel/20 rounded animate-pulse mb-1" />
+              <div className="h-3 w-14 bg-panel/20 rounded animate-pulse" />
             </div>
-            <div className="hidden sm:block w-16 h-12 bg-white/10 rounded animate-pulse" />
+            <div className="hidden sm:block w-16 h-12 bg-panel/20 rounded animate-pulse" />
           </motion.div>
         ))}
       </div>

@@ -118,7 +118,7 @@ export const CotizacionesTableRow = React.memo(function CotizacionesTableRow({
         {/* 7D Trend Sparkline */}
         <TableCell align="center">
           {loadingHistorical ? (
-            <div className="w-28 h-12 mx-auto bg-white/5 rounded animate-pulse" />
+            <div className="w-28 h-12 mx-auto bg-panel/10 rounded animate-pulse" />
           ) : sparklineValues.length > 0 ? (
             <div className="group-hover:scale-105 transition-transform duration-300">
               <CryptoSparkline data={sparklineValues} trend={sparklineTrend} />

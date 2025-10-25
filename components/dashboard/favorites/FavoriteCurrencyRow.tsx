@@ -196,7 +196,7 @@ export const FavoriteCurrencyRow = React.memo(function FavoriteCurrencyRow({
         <TableCell align="center">
           <div className="flex items-center justify-center">
             {loadingHistorical ? (
-              <div className="w-28 h-12 mx-auto bg-white/5 rounded animate-pulse" />
+              <div className="w-28 h-12 mx-auto bg-panel/10 rounded animate-pulse" />
             ) : sparklineValues.length > 0 ? (
               <CryptoSparkline data={sparklineValues} trend={sparklineTrend} isCrypto={false} />
             ) : (

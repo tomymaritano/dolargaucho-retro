@@ -86,7 +86,7 @@ export const RendimientosCalculator = React.memo(function RendimientosCalculator
               className={`px-4 py-3 rounded-lg text-sm font-semibold transition-all ${
                 instrumento === 'plazo-fijo'
                   ? 'bg-brand text-white'
-                  : 'bg-white/5 text-secondary hover:bg-panel/20 hover:text-foreground'
+                  : 'bg-panel/10 text-secondary hover:bg-panel/20 hover:text-foreground'
               }`}
             >
               Plazo Fijo
@@ -96,7 +96,7 @@ export const RendimientosCalculator = React.memo(function RendimientosCalculator
               className={`px-4 py-3 rounded-lg text-sm font-semibold transition-all ${
                 instrumento === 'uva'
                   ? 'bg-brand text-white'
-                  : 'bg-white/5 text-secondary hover:bg-panel/20 hover:text-foreground'
+                  : 'bg-panel/10 text-secondary hover:bg-panel/20 hover:text-foreground'
               }`}
             >
               UVA
@@ -106,7 +106,7 @@ export const RendimientosCalculator = React.memo(function RendimientosCalculator
               className={`px-4 py-3 rounded-lg text-sm font-semibold transition-all ${
                 instrumento === 'fci'
                   ? 'bg-brand text-white'
-                  : 'bg-white/5 text-secondary hover:bg-panel/20 hover:text-foreground'
+                  : 'bg-panel/10 text-secondary hover:bg-panel/20 hover:text-foreground'
               }`}
             >
               FCI

@@ -169,7 +169,7 @@ export default function AlertasPage() {
                       {estadisticas.pausadas}
                     </div>
                   </div>
-                  <div className="p-2.5 rounded-lg bg-white/5">
+                  <div className="p-2.5 rounded-lg bg-panel/10">
                     <FaPause className="text-secondary text-lg" />
                   </div>
                 </div>

@@ -32,7 +32,7 @@ const buttonVariants = cva(
       // Variante de estilo
       variant: {
         primary: 'bg-brand text-dark hover:bg-brand-light focus:ring-brand',
-        secondary: 'glass border border-white/5 text-white hover:bg-white/10 focus:ring-white',
+        secondary: 'glass border border-white/5 text-white hover:bg-panel/20 focus:ring-white',
         outline: 'border-2 border-brand text-brand hover:bg-brand/10 focus:ring-brand',
         ghost: 'text-brand hover:bg-brand/10',
         danger: 'bg-error text-white hover:bg-error/90 focus:ring-error',

@@ -77,7 +77,7 @@ export default function AnalisisPage() {
                     className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                       selectedRange === range
                         ? 'bg-brand text-white'
-                        : 'bg-white/5 text-secondary hover:bg-white/10 hover:text-foreground'
+                        : 'bg-panel/10 text-secondary hover:bg-panel/20 hover:text-foreground'
                     }`}
                   >
                     {range}D
@@ -323,7 +323,7 @@ export default function AnalisisPage() {
                   className={`px-3 py-2 rounded-lg text-xs font-semibold transition-all ${
                     selectedSymbol === item.symbol
                       ? 'bg-brand text-white'
-                      : 'bg-white/5 text-secondary hover:bg-white/10 hover:text-foreground'
+                      : 'bg-panel/10 text-secondary hover:bg-panel/20 hover:text-foreground'
                   }`}
                 >
                   {item.label}
@@ -447,7 +447,7 @@ export default function AnalisisPage() {
                     )}
 
                     {/* Barra visual de brecha */}
-                    <div className="h-2 bg-white/5 rounded-full overflow-hidden">
+                    <div className="h-2 bg-panel/10 rounded-full overflow-hidden">
                       <div
                         className={`h-full rounded-full transition-all duration-500 ${getBarColor()}`}
                         style={{ width: `${barWidth}%` }}

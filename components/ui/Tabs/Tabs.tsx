@@ -107,7 +107,7 @@ export function Tabs({
                   <span
                     className={`
                     text-xs px-1.5 py-0.5 rounded-full font-bold
-                    ${isActive ? 'bg-brand/20 text-brand' : 'bg-white/10 text-secondary'}
+                    ${isActive ? 'bg-brand/20 text-brand' : 'bg-panel/20 text-secondary'}
                   `}
                   >
                     {tab.badge}

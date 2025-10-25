@@ -345,7 +345,7 @@ export const DolaresTable = React.memo(function DolaresTable({
                 {/* 7d % */}
                 <TableCell align="right">
                   {loadingHistorical ? (
-                    <div className="h-4 w-12 bg-white/5 rounded animate-pulse ml-auto" />
+                    <div className="h-4 w-12 bg-panel/10 rounded animate-pulse ml-auto" />
                   ) : sparklineData ? (
                     <div
                       className={`inline-flex items-center gap-1 ${
@@ -377,7 +377,7 @@ export const DolaresTable = React.memo(function DolaresTable({
                 <TableCell align="center">
                   <div className="flex items-center justify-center">
                     {loadingHistorical ? (
-                      <div className="w-28 h-12 mx-auto bg-white/5 rounded animate-pulse" />
+                      <div className="w-28 h-12 mx-auto bg-panel/10 rounded animate-pulse" />
                     ) : sparklineValues.length > 0 ? (
                       <CryptoSparkline
                         data={sparklineValues}

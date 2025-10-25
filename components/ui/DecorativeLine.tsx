@@ -25,7 +25,7 @@ export function DecorativeLine({
 
   const colorClasses = gradient
     ? 'bg-gradient-to-r from-transparent via-border to-transparent dark:via-white/10'
-    : 'bg-border dark:bg-white/10';
+    : 'bg-border dark:bg-panel/20';
 
   return <div className={`${baseClasses} ${colorClasses} ${className}`} aria-hidden="true" />;
 }

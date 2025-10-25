@@ -155,7 +155,7 @@ export const TimelineQuarters = React.memo(function TimelineQuarters({
             <div className="text-xs text-secondary uppercase tracking-wider">Progreso</div>
           </div>
         </div>
-        <div className="relative w-full h-2.5 bg-white/5 rounded-full overflow-hidden">
+        <div className="relative w-full h-2.5 bg-panel/10 rounded-full overflow-hidden">
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: `${progressWidth}%` }}
@@ -282,7 +282,7 @@ export const TimelineQuarters = React.memo(function TimelineQuarters({
                             ? 'bg-success/10 text-success'
                             : quarter.status === 'in-progress'
                               ? 'bg-brand/10 text-brand'
-                              : 'bg-white/5 text-secondary'
+                              : 'bg-panel/10 text-secondary'
                         }`}
                       >
                         <div
@@ -309,7 +309,7 @@ export const TimelineQuarters = React.memo(function TimelineQuarters({
                             {quarter.completionRate}%
                           </span>
                         </div>
-                        <div className="relative h-2 bg-white/5 rounded-full overflow-hidden">
+                        <div className="relative h-2 bg-panel/10 rounded-full overflow-hidden">
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${quarter.completionRate}%` }}

@@ -41,7 +41,7 @@ export function DolarMarquee() {
     return (
       <div className="bg-background border-b border-white/10">
         <div className="h-12 flex items-center justify-center">
-          <div className="animate-pulse h-4 w-64 bg-white/10 rounded" />
+          <div className="animate-pulse h-4 w-64 bg-panel/20 rounded" />
         </div>
       </div>
     );

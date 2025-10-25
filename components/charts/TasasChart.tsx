@@ -118,7 +118,7 @@ export const TasasChart = React.memo(function TasasChart({
               </div>
 
               {/* Progress bar visual */}
-              <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+              <div className="h-1.5 bg-panel/10 rounded-full overflow-hidden">
                 <div
                   className={`h-full rounded-full transition-all duration-500 ${
                     isBest

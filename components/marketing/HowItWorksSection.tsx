@@ -145,7 +145,7 @@ export const HowItWorksSection = React.memo(function HowItWorksSection() {
                               className="bg-panel border border-white/5 rounded-lg p-3"
                             >
                               <div className="text-xs text-secondary mb-1">{field}</div>
-                              <div className="h-4 bg-white/5 rounded w-3/4"></div>
+                              <div className="h-4 bg-panel/10 rounded w-3/4"></div>
                             </motion.div>
                           ))}
                           <motion.button

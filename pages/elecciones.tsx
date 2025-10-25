@@ -321,13 +321,13 @@ export default function EleccionesPage() {
 
               {/* Category Tabs - Solo Diputados y Senadores para 2025 */}
               <div className="mb-8">
-                <div className="flex gap-2 p-1 bg-white/5 rounded-xl border border-white/10 max-w-md">
+                <div className="flex gap-2 p-1 bg-panel/10 rounded-xl border border-white/10 max-w-md">
                   <button
                     onClick={() => setActiveLiveCategory('diputados')}
                     className={`flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
                       activeLiveCategory === 'diputados'
                         ? 'bg-brand text-white shadow-sm'
-                        : 'text-secondary hover:text-foreground hover:bg-white/5'
+                        : 'text-secondary hover:text-foreground hover:bg-panel/10'
                     }`}
                     type="button"
                   >
@@ -338,7 +338,7 @@ export default function EleccionesPage() {
                     className={`flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
                       activeLiveCategory === 'senadores'
                         ? 'bg-brand text-white shadow-sm'
-                        : 'text-secondary hover:text-foreground hover:bg-white/5'
+                        : 'text-secondary hover:text-foreground hover:bg-panel/10'
                     }`}
                     type="button"
                   >

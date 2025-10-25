@@ -14,7 +14,7 @@ const inputVariants = cva(
         filled:
           'bg-panel border border-white/5 text-foreground placeholder-secondary/60 focus:border-white/20 hover:border-white/15',
         error:
-          'bg-white/5 border border-red-500/50 text-foreground placeholder-secondary/60 focus:border-red-500 hover:border-red-500/60',
+          'bg-panel/10 border border-red-500/50 text-foreground placeholder-secondary/60 focus:border-red-500 hover:border-red-500/60',
       },
       inputSize: {
         sm: 'px-3 py-2 text-sm',
