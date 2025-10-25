@@ -1,6 +1,6 @@
 'use client';
 
-import { useTheme } from '@/lib/contexts/ThemeContext';
+import { useTheme } from 'next-themes';
 
 export function useChartTheme() {
   const { theme } = useTheme();

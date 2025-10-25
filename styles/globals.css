@@ -7,23 +7,23 @@
 @layer base {
   /* ===========================
      CSS VARIABLES POR TEMA
-     BingX-Inspired Color System
+     BingX-Inspired Color System with next-themes
      =========================== */
 
   :root {
     /* Light theme (default) - BingX Professional Style */
-    --background: #ffffff;
-    --background-secondary: #f8fafc;
-    --foreground: #0f172a;
-    --panel: #f8fafc;
-    --panel-elevated: #ffffff;
-    --panel-hover: #f1f5f9;
-    --border: #e2e8f0;
-    --border-strong: #cbd5e1;
-    --text-primary: #0f172a;
-    --text-secondary: #475569;
-    --accent: #0047ff; /* BingX Blue Ribbon */
-    --accent-secondary: #5056a9; /* BingX Blue Violet */
+    --background: 255 255 255; /* #ffffff */
+    --background-secondary: 248 250 252; /* #f8fafc */
+    --foreground: 15 23 42; /* #0f172a */
+    --panel: 248 250 252; /* #f8fafc */
+    --panel-elevated: 255 255 255; /* #ffffff */
+    --panel-hover: 241 245 249; /* #f1f5f9 */
+    --border: 226 232 240; /* #e2e8f0 */
+    --border-strong: 203 213 225; /* #cbd5e1 */
+    --text-primary: 15 23 42; /* #0f172a */
+    --text-secondary: 71 85 105; /* #475569 */
+    --accent: 0 71 255; /* #0047ff BingX Blue */
+    --accent-secondary: 80 86 169; /* #5056a9 BingX Violet */
 
     /* Shadows for light mode (softer, more professional) */
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.04);
@@ -38,18 +38,18 @@
 
   .dark {
     /* Dark theme - BingX Professional Dark Mode */
-    --background: #0a0a0a;
-    --background-secondary: #14182b;
-    --foreground: #f8fafc;
-    --panel: #0a0b0d;
-    --panel-elevated: #1e2337;
-    --panel-hover: #1e2337;
-    --border: rgba(80, 86, 169, 0.15);
-    --border-strong: rgba(80, 86, 169, 0.3);
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
-    --accent: #0047ff; /* BingX Blue Ribbon */
-    --accent-secondary: #5056a9; /* BingX Blue Violet */
+    --background: 10 10 10; /* #0a0a0a */
+    --background-secondary: 20 24 43; /* #14182b */
+    --foreground: 248 250 252; /* #f8fafc */
+    --panel: 10 11 13; /* #0a0b0d */
+    --panel-elevated: 30 35 55; /* #1e2337 */
+    --panel-hover: 30 35 55; /* #1e2337 */
+    --border: 80 86 169; /* rgba(80, 86, 169, 0.15) */
+    --border-strong: 80 86 169; /* rgba(80, 86, 169, 0.3) */
+    --text-primary: 248 250 252; /* #f8fafc */
+    --text-secondary: 148 163 184; /* #94a3b8 */
+    --accent: 0 71 255; /* #0047ff BingX Blue */
+    --accent-secondary: 80 86 169; /* #5056a9 BingX Violet */
 
     /* Shadows for dark mode (more dramatic, with blue tint) */
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.4);
@@ -71,7 +71,8 @@
   }
 
   body {
-    @apply text-foreground;
+    background-color: rgb(var(--background));
+    color: rgb(var(--foreground));
     font-family:
       'Inter',
       -apple-system,
@@ -95,12 +96,12 @@
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-panel;
+    background-color: rgb(var(--panel));
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: #0047ff; /* BingX Blue */
-    @apply rounded;
+    background-color: rgb(var(--accent)); /* BingX Blue */
+    border-radius: 0.25rem;
   }
 
   ::-webkit-scrollbar-thumb:hover {
@@ -114,15 +115,11 @@
      =========================== */
 
   .glass {
-    @apply bg-panel;
+    background-color: rgb(var(--panel));
   }
 
   .glass-strong {
-    @apply bg-panel;
-  }
-
-  .dark .glass-strong {
-    background-color: rgba(26, 31, 58, 0.95);
+    background-color: rgb(var(--panel-elevated));
   }
 
   .gradient-text {

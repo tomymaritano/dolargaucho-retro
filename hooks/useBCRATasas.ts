@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import apiClient from '@/lib/api/client';
 
 interface TasaDataPoint {
   date: string;
@@ -18,17 +19,11 @@ interface TasasResponse {
 
 async function fetchTasas(): Promise<TasasResponse> {
   try {
-    const url = '/api/bcra/tasas?limit=30';
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      console.error('[BCRA Tasas] API error:', response.status);
-      throw new Error(`BCRA Tasas API error: ${response.status}`);
-    }
-
-    const result = await response.json();
+    const response = await apiClient.get<TasasResponse>('/api/bcra/tasas', {
+      params: { limit: 30 },
+    });
     console.log('[BCRA Tasas] Successfully fetched data');
-    return result;
+    return response.data;
   } catch (error) {
     console.error('[BCRA Tasas] Error fetching data:', error);
     // Return fallback data with realistic 2025 values

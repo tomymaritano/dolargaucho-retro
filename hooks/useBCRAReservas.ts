@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import apiClient from '@/lib/api/client';
 
 interface ReservasDataPoint {
   date: string;
@@ -22,17 +23,9 @@ interface ReservasResponse {
 
 async function fetchReservas(): Promise<ReservasResponse> {
   try {
-    const url = '/api/bcra/reservas';
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      console.error('[Reservas] API error:', response.status);
-      throw new Error(`Reservas API error: ${response.status}`);
-    }
-
-    const result = await response.json();
+    const response = await apiClient.get<ReservasResponse>('/api/bcra/reservas');
     console.log('[Reservas] Successfully fetched data');
-    return result;
+    return response.data;
   } catch (error) {
     console.error('[Reservas] Error fetching data:', error);
     // Return fallback data

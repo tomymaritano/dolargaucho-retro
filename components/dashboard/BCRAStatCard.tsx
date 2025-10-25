@@ -17,7 +17,6 @@ interface BCRAIndicatorConfig {
   id: BCRAIndicatorType;
   label: string;
   description: string;
-  color: string; // Tailwind color class
   showChange?: boolean;
   invertColors?: boolean; // For rates where high is bad
 }
@@ -50,57 +49,15 @@ function formatBCRAValue(value: number, indicatorType: BCRAIndicatorType): strin
 }
 
 /**
- * Get fixed Tailwind color classes based on indicator type
- * This ensures proper compilation with Tailwind JIT
+ * Unified color classes matching site's design system
+ * Same style as marketing cards and dashboard components
  */
-function getColorClasses(indicatorType: BCRAIndicatorType) {
-  switch (indicatorType) {
-    case 'reservas':
-      return {
-        border: 'hover:border-green-500/50',
-        gradient: 'bg-gradient-to-br from-green-500/0 via-green-500/0 to-green-500/5',
-        label: 'group-hover:text-green-400',
-        value: 'text-green-500',
-        description: 'group-hover:text-green-500/80',
-        shine: 'bg-gradient-to-tr from-transparent via-green-500/10 to-transparent',
-      };
-    case 'badlar':
-      return {
-        border: 'hover:border-blue-500/50',
-        gradient: 'bg-gradient-to-br from-blue-500/0 via-blue-500/0 to-blue-500/5',
-        label: 'group-hover:text-blue-400',
-        value: 'text-blue-500',
-        description: 'group-hover:text-blue-500/80',
-        shine: 'bg-gradient-to-tr from-transparent via-blue-500/10 to-transparent',
-      };
-    case 'tamar':
-      return {
-        border: 'hover:border-purple-500/50',
-        gradient: 'bg-gradient-to-br from-purple-500/0 via-purple-500/0 to-purple-500/5',
-        label: 'group-hover:text-purple-400',
-        value: 'text-purple-500',
-        description: 'group-hover:text-purple-500/80',
-        shine: 'bg-gradient-to-tr from-transparent via-purple-500/10 to-transparent',
-      };
-    case 'base-monetaria':
-      return {
-        border: 'hover:border-amber-500/50',
-        gradient: 'bg-gradient-to-br from-amber-500/0 via-amber-500/0 to-amber-500/5',
-        label: 'group-hover:text-amber-400',
-        value: 'text-amber-500',
-        description: 'group-hover:text-amber-500/80',
-        shine: 'bg-gradient-to-tr from-transparent via-amber-500/10 to-transparent',
-      };
-    case 'emae':
-      return {
-        border: 'hover:border-cyan-500/50',
-        gradient: 'bg-gradient-to-br from-cyan-500/0 via-cyan-500/0 to-cyan-500/5',
-        label: 'group-hover:text-cyan-400',
-        value: 'text-cyan-500',
-        description: 'group-hover:text-cyan-500/80',
-        shine: 'bg-gradient-to-tr from-transparent via-cyan-500/10 to-transparent',
-      };
-  }
+function getColorClasses() {
+  return {
+    label: 'group-hover:text-brand',
+    value: 'text-foreground group-hover:text-brand',
+    description: 'group-hover:text-brand/60',
+  };
 }
 
 export const BCRAStatCard = React.memo(function BCRAStatCard({
@@ -125,34 +82,34 @@ export const BCRAStatCard = React.memo(function BCRAStatCard({
         ? FaArrowDown
         : FaMinus;
 
-  // Get fixed color classes
-  const colors = getColorClasses(config.id);
+  // Get unified color classes
+  const colors = getColorClasses();
 
   return (
     <div
-      className={`group relative p-4 rounded-lg glass border border-border ${colors.border} transition-all duration-300 ${
+      className={`group relative p-4 md:p-5 rounded-xl bg-panel/50 border border-white/5 hover:border-brand/30 hover:bg-panel/80 transition-all duration-300 ${
         onClick ? 'cursor-pointer' : ''
       } overflow-hidden`}
       onClick={onClick}
     >
-      {/* Professional gradient overlay on hover */}
-      <div
-        className={`absolute inset-0 ${colors.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
-      />
+      {/* Subtle glow effect on hover */}
+      <div className="absolute -inset-1 bg-gradient-to-r from-brand/0 via-brand/20 to-brand/0 rounded-xl blur opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
 
       {/* Content */}
       <div className="relative z-10">
         {/* Label */}
-        <p className={`text-xs text-secondary mb-2 ${colors.label} transition-colors duration-300`}>
+        <p
+          className={`text-xs md:text-sm font-semibold text-secondary mb-2 ${colors.label} transition-colors duration-300 uppercase tracking-wide`}
+        >
           {config.label}
         </p>
 
         {/* Value */}
         {isLoading ? (
-          <div className="h-8 bg-secondary/10 rounded animate-pulse mb-1" />
+          <div className="h-8 md:h-10 bg-white/10 rounded animate-pulse mb-1" />
         ) : (
           <p
-            className={`text-2xl font-bold ${colors.value} tabular-nums group-hover:scale-105 transition-transform duration-300`}
+            className={`text-2xl md:text-3xl font-black ${colors.value} tabular-nums transition-all duration-300`}
           >
             {formatBCRAValue(value, config.id)}
           </p>
@@ -160,9 +117,9 @@ export const BCRAStatCard = React.memo(function BCRAStatCard({
 
         {/* Variation indicator */}
         {config.showChange && variation !== null && variation !== undefined && !isLoading && (
-          <div className="flex items-center gap-1 mt-1 opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-            <TrendIcon className={`text-[10px] ${trendColor}`} />
-            <span className="text-[10px] text-secondary">
+          <div className="flex items-center gap-1.5 mt-1 mb-2 opacity-90 group-hover:opacity-100 transition-opacity duration-300">
+            <TrendIcon className={`text-xs ${trendColor}`} />
+            <span className={`text-xs md:text-sm font-semibold ${trendColor}`}>
               {variation === 0
                 ? 'Sin cambios'
                 : `${variation > 0 ? '+' : ''}${variation.toFixed(2)}%`}
@@ -172,29 +129,24 @@ export const BCRAStatCard = React.memo(function BCRAStatCard({
 
         {/* Description */}
         <p
-          className={`text-[10px] text-secondary mt-1 ${colors.description} transition-colors duration-300`}
+          className={`text-[10px] md:text-xs text-secondary/60 ${colors.description} transition-colors duration-300`}
         >
           {config.description}
         </p>
       </div>
-
-      {/* Subtle shine effect on hover */}
-      <div
-        className={`absolute inset-0 ${colors.shine} translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000`}
-      />
     </div>
   );
 });
 
 /**
  * Pre-configured BCRA indicator configs
+ * Unified BingX blue theme for consistency
  */
 export const BCRA_INDICATORS: Record<BCRAIndicatorType, BCRAIndicatorConfig> = {
   reservas: {
     id: 'reservas',
     label: 'Reservas Internacionales',
     description: 'BCRA - Millones de USD',
-    color: 'green-500',
     showChange: true,
     invertColors: false, // High is good
   },
@@ -202,7 +154,6 @@ export const BCRA_INDICATORS: Record<BCRAIndicatorType, BCRAIndicatorConfig> = {
     id: 'badlar',
     label: 'BADLAR',
     description: 'Tasa depósitos plazo fijo (TNA)',
-    color: 'blue-500',
     showChange: true,
     invertColors: true, // High is bad for depositors
   },
@@ -210,7 +161,6 @@ export const BCRA_INDICATORS: Record<BCRAIndicatorType, BCRAIndicatorConfig> = {
     id: 'tamar',
     label: 'TAMAR',
     description: 'Tasa activa promedio (TNA)',
-    color: 'purple-500',
     showChange: true,
     invertColors: true, // High is bad for borrowers
   },
@@ -218,15 +168,13 @@ export const BCRA_INDICATORS: Record<BCRAIndicatorType, BCRAIndicatorConfig> = {
     id: 'base-monetaria',
     label: 'Base Monetaria',
     description: 'Millones de ARS',
-    color: 'amber-500',
     showChange: true,
     invertColors: false,
   },
   emae: {
     id: 'emae',
     label: 'EMAE',
-    description: 'Actividad Económica (variación)',
-    color: 'cyan-500',
+    description: 'Actividad Económica',
     showChange: false, // EMAE itself is a variation
     invertColors: false,
   },

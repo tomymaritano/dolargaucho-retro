@@ -106,7 +106,7 @@ export function NavbarFloating() {
         transition={{ duration: 0.3 }}
         className="fixed top-4 left-4 right-4 z-50 max-w-7xl mx-auto"
       >
-        <div className="bg-background/80 backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl shadow-black/5 px-4 md:px-6 py-3">
+        <div className="bg-background/80 backdrop-blur-xl border border-border/50 rounded-2xl shadow-xl shadow-black/5 px-4 md:px-6 py-3">
           <div className="flex items-center justify-between">
             {/* Logo with animation */}
             <Link href="/" className="flex items-center group">
@@ -122,7 +122,7 @@ export function NavbarFloating() {
 
               {/* Auth Button - Context Aware */}
               {loading ? (
-                <div className="px-4 py-2 text-sm font-medium bg-white/5 text-secondary rounded-lg flex items-center gap-2">
+                <div className="px-4 py-2 text-sm font-medium bg-panel/10 text-secondary rounded-lg flex items-center gap-2">
                   <FaSpinner className="animate-spin text-xs" />
                   <span>Cargando...</span>
                 </div>
@@ -172,14 +172,14 @@ export function NavbarFloating() {
           >
             <div className="flex flex-col h-full">
               {/* Header */}
-              <div className="flex items-center justify-between p-6 border-b border-white/10">
+              <div className="flex items-center justify-between p-6 border-b border-border">
                 <div className="flex items-center gap-3">
                   <AnimatedLogo size={32} />
                   <span className="text-xl font-bold">Menú</span>
                 </div>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
-                  className="p-2 hover:bg-white/5 rounded-lg transition-colors"
+                  className="p-2 hover:bg-panel/10 rounded-lg transition-colors"
                   aria-label="Close menu"
                 >
                   <FaTimes size={24} />
@@ -199,7 +199,7 @@ export function NavbarFloating() {
                       }
                       setMobileMenuOpen(false);
                     }}
-                    className="w-full flex items-center gap-4 p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all group"
+                    className="w-full flex items-center gap-4 p-4 rounded-xl bg-panel/10 hover:bg-panel/20 border border-border transition-all group"
                   >
                     <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-blue-500/10 text-blue-400 group-hover:bg-blue-500/20 transition-colors">
                       <FaSearch size={20} />
@@ -216,7 +216,7 @@ export function NavbarFloating() {
                       openChangelog();
                       setMobileMenuOpen(false);
                     }}
-                    className="w-full flex items-center gap-4 p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all group"
+                    className="w-full flex items-center gap-4 p-4 rounded-xl bg-panel/10 hover:bg-panel/20 border border-border transition-all group"
                   >
                     <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-brand/10 text-brand group-hover:bg-brand/20 transition-colors">
                       <FaBell size={20} />
@@ -233,7 +233,7 @@ export function NavbarFloating() {
                   <Link
                     href="/roadmap"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="w-full flex items-center gap-4 p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all group"
+                    className="w-full flex items-center gap-4 p-4 rounded-xl bg-panel/10 hover:bg-panel/20 border border-border transition-all group"
                   >
                     <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-purple-500/10 text-purple-400 group-hover:bg-purple-500/20 transition-colors">
                       <FaRocket size={20} />
@@ -246,9 +246,9 @@ export function NavbarFloating() {
                 </nav>
 
                 {/* Auth Section */}
-                <div className="mt-8 pt-6 border-t border-white/10 space-y-3">
+                <div className="mt-8 pt-6 border-t border-border space-y-3">
                   {loading ? (
-                    <div className="w-full px-4 py-4 text-sm font-medium bg-white/5 text-secondary rounded-xl flex items-center justify-center gap-2">
+                    <div className="w-full px-4 py-4 text-sm font-medium bg-panel/10 text-secondary rounded-xl flex items-center justify-center gap-2">
                       <FaSpinner className="animate-spin" />
                       <span>Cargando...</span>
                     </div>
@@ -258,7 +258,7 @@ export function NavbarFloating() {
                       onClick={() => setMobileMenuOpen(false)}
                       className="w-full flex items-center gap-4 p-4 rounded-xl bg-brand text-white hover:bg-brand/90 transition-all shadow-lg shadow-brand/20"
                     >
-                      <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-white/10">
+                      <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-white/20">
                         <FaTachometerAlt size={20} />
                       </div>
                       <div className="flex-1 text-left">
@@ -273,7 +273,7 @@ export function NavbarFloating() {
                         onClick={() => setMobileMenuOpen(false)}
                         className="w-full flex items-center gap-4 p-4 rounded-xl bg-brand text-white hover:bg-brand/90 transition-all shadow-lg shadow-brand/20"
                       >
-                        <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-white/10">
+                        <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-white/20">
                           <FaUserPlus size={20} />
                         </div>
                         <div className="flex-1 text-left">
@@ -285,7 +285,7 @@ export function NavbarFloating() {
                       <Link
                         href="/auth"
                         onClick={() => setMobileMenuOpen(false)}
-                        className="w-full flex items-center gap-4 p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all"
+                        className="w-full flex items-center gap-4 p-4 rounded-xl bg-panel/10 hover:bg-panel/20 border border-border transition-all"
                       >
                         <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-brand/10 text-brand">
                           <FaSignInAlt size={20} />

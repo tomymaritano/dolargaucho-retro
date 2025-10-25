@@ -3,7 +3,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
-import { ThemeProvider } from '@/lib/contexts/ThemeContext';
+import { ThemeProvider } from 'next-themes';
 import { AuthProvider } from '@/lib/contexts/AuthContext';
 
 // Dynamic import to avoid SSR issues and hydration errors
@@ -16,10 +16,11 @@ const ReactQueryDevtools = dynamic(
  * Global Providers
  * Wraps the app with:
  * - Auth Provider (custom JWT authentication)
- * - Theme Provider (dark/light mode with localStorage persistence)
+ * - Theme Provider (next-themes with localStorage persistence)
  * - React Query (data fetching, caching, synchronization)
  *
  * Features:
+ * - next-themes for dark/light mode with system preference detection
  * - Custom JWT authentication with HTTP-only cookies
  * - PostgreSQL backend
  * - Auto-refetching on window focus
@@ -51,7 +52,13 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthProvider>
-      <ThemeProvider>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="dark"
+        enableSystem
+        storageKey="dolargaucho-theme"
+        disableTransitionOnChange={false}
+      >
         <QueryClientProvider client={queryClient}>
           {children}
           {/* DevTools with dynamic import - no hydration issues */}

@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import apiClient from '@/lib/api/client';
 
 interface SeriesDataPoint {
   date: string;
@@ -27,17 +28,11 @@ interface EMAEResponse {
 
 async function fetchEMAE(limit: number = 12): Promise<EMAEResponse> {
   try {
-    const url = `/api/series/emae?limit=${limit}`;
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      console.error('[EMAE] API error:', response.status);
-      throw new Error(`EMAE API error: ${response.status}`);
-    }
-
-    const result = await response.json();
+    const response = await apiClient.get<EMAEResponse>('/api/series/emae', {
+      params: { limit },
+    });
     console.log('[EMAE] Successfully fetched data');
-    return result;
+    return response.data;
   } catch (error) {
     console.error('[EMAE] Error fetching data:', error);
     // Return fallback data

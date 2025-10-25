@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import apiClient from '@/lib/api/client';
 
 interface SeriesDataPoint {
   date: string;
@@ -22,17 +23,9 @@ interface BaseMonetariaResponse {
 
 async function fetchBaseMonetaria(): Promise<BaseMonetariaResponse> {
   try {
-    const url = '/api/bcra/base-monetaria';
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      console.error('[Base Monetaria] API error:', response.status);
-      throw new Error(`Base Monetaria API error: ${response.status}`);
-    }
-
-    const result = await response.json();
+    const response = await apiClient.get<BaseMonetariaResponse>('/api/bcra/base-monetaria');
     console.log('[Base Monetaria] Successfully fetched data');
-    return result;
+    return response.data;
   } catch (error) {
     console.error('[Base Monetaria] Error fetching data:', error);
     // Return fallback data

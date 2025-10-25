@@ -38,11 +38,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const seriesId = '1.1_BASE_MONETARIA_0_0_6';
     const url = `https://apis.datos.gob.ar/series/api/series?ids=${seriesId}&limit=${limit}&format=json`;
 
+    // Add timeout to prevent hanging requests
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
     const response = await fetch(url, {
       headers: {
         'User-Agent': 'DolarGaucho/1.0',
       },
+      signal: controller.signal,
     });
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       console.error(`[Base Monetaria API] Error:`, response.status);
@@ -104,7 +111,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       meta: data.meta,
     });
   } catch (error) {
-    console.error(`[Base Monetaria API] Fetch error:`, error);
+    // Handle timeout errors with cleaner logging
+    if (error instanceof Error && error.name === 'AbortError') {
+      console.warn('[Base Monetaria API] Request timed out, using fallback data');
+    } else {
+      console.error('[Base Monetaria API] Fetch error:', error);
+    }
 
     // Return fallback data instead of error
     return res.status(200).json({
