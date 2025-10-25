@@ -72,12 +72,11 @@ export default {
 
         // Borders
         border: {
-          DEFAULT: 'var(--border)',
+          DEFAULT: 'rgb(var(--border-subtle) / <alpha-value>)', // Theme-aware with opacity support
           light: '#E2E8F0',
           'light-strong': '#CBD5E1',
           dark: 'rgba(80, 86, 169, 0.15)', // BingX Blue Violet with opacity
           'dark-strong': 'rgba(80, 86, 169, 0.3)',
-          subtle: 'rgba(255, 255, 255, 0.1)', // For navbars and subtle borders
         },
 
         // Accent colors (ejecutivo y profesional)

@@ -36,7 +36,7 @@ interface FredChartsGridProps {
 
 export function FredChartsGrid({ fredData, favoriteChartIds, onToggleChart }: FredChartsGridProps) {
   return (
-    <div className="mt-6 pt-6 border-t border-white/10">
+    <div className="mt-6 pt-6 border-t border-border/10">
       <h3 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
         <FaChartLine className="text-blue-400" />
         Evolucion Historica (ultimos 12 meses)

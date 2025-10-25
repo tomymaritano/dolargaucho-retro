@@ -341,7 +341,7 @@ export function DolarTabs() {
             className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
               selectedType === type
                 ? 'bg-brand text-dark'
-                : 'glass border border-white/5 text-secondary hover:text-white'
+                : 'glass border border-border/5 text-secondary hover:text-white'
             }`}
           >
             {type.toUpperCase()}
@@ -396,14 +396,14 @@ export function NewsAnalysisForm() {
         placeholder="Título de la noticia"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        className="w-full p-3 mb-3 rounded-lg bg-dark-light border border-white/5"
+        className="w-full p-3 mb-3 rounded-lg bg-dark-light border border-border/5"
       />
 
       <textarea
         placeholder="Contenido de la noticia"
         value={content}
         onChange={(e) => setContent(e.target.value)}
-        className="w-full p-3 mb-3 rounded-lg bg-dark-light border border-white/5 h-32"
+        className="w-full p-3 mb-3 rounded-lg bg-dark-light border border-border/5 h-32"
       />
 
       <button

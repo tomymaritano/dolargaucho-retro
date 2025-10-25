@@ -30,7 +30,7 @@ export const CryptoFiltersBar = React.memo(function CryptoFiltersBar({
     <div className="flex flex-col gap-3">
       <div className="flex flex-col md:flex-row gap-3">
         {/* Search Bar */}
-        <div className="flex-1 flex items-center gap-3 glass px-4 py-3 rounded-xl border border-white/5 hover:border-brand/30 transition-colors focus-within:border-brand/50 focus-within:ring-2 focus-within:ring-brand/20">
+        <div className="flex-1 flex items-center gap-3 glass px-4 py-3 rounded-xl border border-border/5 hover:border-brand/30 transition-colors focus-within:border-brand/50 focus-within:ring-2 focus-within:ring-brand/20">
           <FaSearch className="text-secondary text-sm" />
           <input
             type="text"
@@ -46,7 +46,7 @@ export const CryptoFiltersBar = React.memo(function CryptoFiltersBar({
           <select
             value={sortBy}
             onChange={(e) => onSortChange(e.target.value as SortOption)}
-            className="px-4 py-2.5 rounded-lg text-xs font-semibold glass border border-white/5 text-foreground appearance-none cursor-pointer hover:bg-panel/10 transition-all pr-10"
+            className="px-4 py-2.5 rounded-lg text-xs font-semibold glass border border-border/5 text-foreground appearance-none cursor-pointer hover:bg-panel/10 transition-all pr-10"
           >
             <option value="market_cap">Market Cap</option>
             <option value="price">Precio</option>

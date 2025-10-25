@@ -152,7 +152,7 @@ const WhatsNew = React.memo(function WhatsNew({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className={`mb-4 ${entry.highlight && isExpanded ? 'border-l-4 border-brand pl-4' : ''} ${!isExpanded ? 'pb-4 border-b border-white/10' : ''}`}
+        className={`mb-4 ${entry.highlight && isExpanded ? 'border-l-4 border-brand pl-4' : ''} ${!isExpanded ? 'pb-4 border-b border-border/10' : ''}`}
       >
         {/* Header - Always visible, clickable for old entries */}
         <div
@@ -312,10 +312,10 @@ const WhatsNew = React.memo(function WhatsNew({
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 exit={{ scale: 0.9, opacity: 0, y: 20 }}
                 transition={{ type: 'spring', damping: 20, stiffness: 300 }}
-                className="relative w-full max-w-2xl max-h-[85vh] bg-panel border border-white/5 rounded-2xl shadow-2xl overflow-hidden pointer-events-auto"
+                className="relative w-full max-w-2xl max-h-[85vh] bg-panel border border-border/5 rounded-2xl shadow-2xl overflow-hidden pointer-events-auto"
               >
                 {/* Header */}
-                <div className="sticky top-0 z-10 bg-gradient-to-b from-panel to-panel/95 backdrop-blur-sm border-b border-white/10 px-6 py-4">
+                <div className="sticky top-0 z-10 bg-gradient-to-b from-panel to-panel/95 backdrop-blur-sm border-b border-border/10 px-6 py-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 bg-brand/20 rounded-xl flex items-center justify-center">
@@ -343,7 +343,7 @@ const WhatsNew = React.memo(function WhatsNew({
                 </div>
 
                 {/* Footer */}
-                <div className="sticky bottom-0 bg-gradient-to-t from-panel to-panel/95 backdrop-blur-sm border-t border-white/10 px-6 py-4 space-y-3">
+                <div className="sticky bottom-0 bg-gradient-to-t from-panel to-panel/95 backdrop-blur-sm border-t border-border/10 px-6 py-4 space-y-3">
                   {/* Checkbox */}
                   <label className="flex items-center gap-2 cursor-pointer group">
                     <input

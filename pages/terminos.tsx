@@ -266,7 +266,7 @@ export default function TerminosPage() {
           </section>
 
           {/* Contacto */}
-          <section className="pt-6 border-t border-white/10">
+          <section className="pt-6 border-t border-border/10">
             <h2 className="text-2xl font-bold text-foreground mb-4">Contacto</h2>
             <p className="mb-2">
               Para consultas sobre estos Términos y Condiciones, puede contactarnos en:

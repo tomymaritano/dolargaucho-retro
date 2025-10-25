@@ -108,22 +108,22 @@ export default function CookiesPage() {
                 Estas cookies son esenciales para el funcionamiento del sitio. Sin ellas, algunas
                 funcionalidades no estarán disponibles.
               </p>
-              <div className="p-4 bg-panel border border-white/10 rounded-lg">
+              <div className="p-4 bg-panel border border-border/10 rounded-lg">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b border-white/10">
+                    <tr className="border-b border-border/10">
                       <th className="text-left py-2 text-foreground">Cookie</th>
                       <th className="text-left py-2 text-foreground">Propósito</th>
                       <th className="text-left py-2 text-foreground">Duración</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="border-b border-white/5">
+                    <tr className="border-b border-border/5">
                       <td className="py-2 font-mono">auth-token</td>
                       <td className="py-2">Mantiene su sesión activa</td>
                       <td className="py-2">30 días</td>
                     </tr>
-                    <tr className="border-b border-white/5">
+                    <tr className="border-b border-border/5">
                       <td className="py-2 font-mono">csrf-token</td>
                       <td className="py-2">Protección contra ataques CSRF</td>
                       <td className="py-2">Sesión</td>
@@ -147,10 +147,10 @@ export default function CookiesPage() {
                 Estas cookies nos ayudan a entender cómo los visitantes usan el sitio web,
                 permitiéndonos mejorar su funcionamiento.
               </p>
-              <div className="p-4 bg-panel border border-white/10 rounded-lg">
+              <div className="p-4 bg-panel border border-border/10 rounded-lg">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b border-white/10">
+                    <tr className="border-b border-border/10">
                       <th className="text-left py-2 text-foreground">Cookie</th>
                       <th className="text-left py-2 text-foreground">Proveedor</th>
                       <th className="text-left py-2 text-foreground">Propósito</th>
@@ -158,13 +158,13 @@ export default function CookiesPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="border-b border-white/5">
+                    <tr className="border-b border-border/5">
                       <td className="py-2 font-mono">_ga</td>
                       <td className="py-2">Google Analytics</td>
                       <td className="py-2">Distingue usuarios únicos</td>
                       <td className="py-2">2 años</td>
                     </tr>
-                    <tr className="border-b border-white/5">
+                    <tr className="border-b border-border/5">
                       <td className="py-2 font-mono">_gid</td>
                       <td className="py-2">Google Analytics</td>
                       <td className="py-2">Distingue usuarios únicos</td>
@@ -190,22 +190,22 @@ export default function CookiesPage() {
                 Estas cookies permiten que el sitio web recuerde las elecciones que realiza para
                 proporcionar una experiencia personalizada.
               </p>
-              <div className="p-4 bg-panel border border-white/10 rounded-lg">
+              <div className="p-4 bg-panel border border-border/10 rounded-lg">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b border-white/10">
+                    <tr className="border-b border-border/10">
                       <th className="text-left py-2 text-foreground">Cookie</th>
                       <th className="text-left py-2 text-foreground">Propósito</th>
                       <th className="text-left py-2 text-foreground">Duración</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="border-b border-white/5">
+                    <tr className="border-b border-border/5">
                       <td className="py-2 font-mono">user-preferences</td>
                       <td className="py-2">Almacena preferencias de visualización</td>
                       <td className="py-2">1 año</td>
                     </tr>
-                    <tr className="border-b border-white/5">
+                    <tr className="border-b border-border/5">
                       <td className="py-2 font-mono">favorites</td>
                       <td className="py-2">Guarda sus divisas/cryptos favoritas</td>
                       <td className="py-2">1 año</td>
@@ -231,7 +231,7 @@ export default function CookiesPage() {
 
             <div className="space-y-4">
               {/* Google Analytics */}
-              <div className="p-4 bg-panel border border-white/10 rounded-lg">
+              <div className="p-4 bg-panel border border-border/10 rounded-lg">
                 <h4 className="font-semibold text-foreground mb-2">Google Analytics</h4>
                 <p className="text-sm mb-2">
                   Utilizamos Google Analytics para analizar el uso del sitio web y mejorar nuestro
@@ -251,7 +251,7 @@ export default function CookiesPage() {
               </div>
 
               {/* Vercel Analytics */}
-              <div className="p-4 bg-panel border border-white/10 rounded-lg">
+              <div className="p-4 bg-panel border border-border/10 rounded-lg">
                 <h4 className="font-semibold text-foreground mb-2">Vercel Analytics</h4>
                 <p className="text-sm mb-2">
                   Utilizamos Vercel Analytics para monitorear el rendimiento y experiencia del
@@ -271,7 +271,7 @@ export default function CookiesPage() {
               </div>
 
               {/* APIs Externas */}
-              <div className="p-4 bg-panel border border-white/10 rounded-lg">
+              <div className="p-4 bg-panel border border-border/10 rounded-lg">
                 <h4 className="font-semibold text-foreground mb-2">APIs de Datos Financieros</h4>
                 <p className="text-sm mb-2">
                   Consultamos APIs externas (BCRA, DolarAPI, CoinGecko) que pueden registrar
@@ -399,7 +399,7 @@ export default function CookiesPage() {
           </section>
 
           {/* Contacto */}
-          <section className="pt-6 border-t border-white/10">
+          <section className="pt-6 border-t border-border/10">
             <h2 className="text-2xl font-bold text-foreground mb-4">Contacto</h2>
             <p>
               Si tiene preguntas sobre nuestra Política de Cookies, puede contactarnos en{' '}

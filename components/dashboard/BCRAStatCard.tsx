@@ -87,7 +87,7 @@ export const BCRAStatCard = React.memo(function BCRAStatCard({
 
   return (
     <div
-      className={`group relative p-4 md:p-5 rounded-xl bg-panel/50 border border-white/5 hover:border-brand/30 hover:bg-panel/80 transition-all duration-300 ${
+      className={`group relative p-4 md:p-5 rounded-xl bg-panel/50 border border-border/5 hover:border-brand/30 hover:bg-panel/80 transition-all duration-300 ${
         onClick ? 'cursor-pointer' : ''
       } overflow-hidden`}
       onClick={onClick}

@@ -146,7 +146,7 @@ export function TradingViewAdvancedChart({
     <div
       id={`tradingview_${Math.random().toString(36).substring(7)}`}
       ref={containerRef}
-      className="tradingview-widget-container rounded-lg overflow-hidden border border-white/5"
+      className="tradingview-widget-container rounded-lg overflow-hidden border border-border/5"
       style={{ width, height }}
     />
   );

@@ -100,7 +100,7 @@ const ConversorMoneda = React.memo(function ConversorMoneda({
               className={`px-4 py-3 rounded-lg font-semibold text-sm transition-all border ${
                 selectedCasa === casa
                   ? 'bg-brand text-background-dark border-brand'
-                  : 'bg-panel border-white/10 text-secondary hover:text-foreground hover:border-brand/30'
+                  : 'bg-panel border-border/10 text-secondary hover:text-foreground hover:border-brand/30'
               }`}
             >
               {DOLAR_LABELS[casa]}
@@ -148,7 +148,7 @@ const ConversorMoneda = React.memo(function ConversorMoneda({
             value={formatNumber(amount)}
             onChange={(e) => handleAmountChange(e.target.value)}
             placeholder={conversionType === 'ars-to-usd' ? '1.000' : '100'}
-            className="w-full pl-16 pr-4 py-3 text-xl font-mono font-bold bg-panel border border-white/5 rounded-xl focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground"
+            className="w-full pl-16 pr-4 py-3 text-xl font-mono font-bold bg-panel border border-border/5 rounded-xl focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground"
           />
         </div>
       </div>
@@ -181,7 +181,7 @@ const ConversorMoneda = React.memo(function ConversorMoneda({
 
       {/* Quick Reference - All Dollar Types */}
       {dolarData && !isLoading && (
-        <div className="p-6 rounded-xl bg-panel/50 border border-white/5">
+        <div className="p-6 rounded-xl bg-panel/50 border border-border/5">
           <h3 className="text-sm font-semibold text-foreground mb-4">
             Referencia Rápida - Todas las Cotizaciones
           </h3>
@@ -189,7 +189,7 @@ const ConversorMoneda = React.memo(function ConversorMoneda({
             {dolarData.slice(0, 5).map((dolar) => (
               <div
                 key={dolar.casa}
-                className="flex items-center justify-between p-3 bg-background-dark/30 rounded-lg border border-white/5/50"
+                className="flex items-center justify-between p-3 bg-background-dark/30 rounded-lg border border-border/5/50"
               >
                 <span className="text-sm font-medium text-foreground">{dolar.nombre}</span>
                 <div className="flex items-center gap-4 text-sm">
@@ -220,7 +220,7 @@ const ConversorMoneda = React.memo(function ConversorMoneda({
       )}
 
       {/* Info Footer */}
-      <div className="mt-8 pt-6 border-t border-white/10">
+      <div className="mt-8 pt-6 border-t border-border/10">
         <div className="flex items-start gap-2 text-xs text-secondary">
           <span>ℹ️</span>
           <p>

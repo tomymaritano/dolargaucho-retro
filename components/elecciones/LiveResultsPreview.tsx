@@ -54,7 +54,7 @@ export const LiveResultsPreview = React.memo(function LiveResultsPreview({
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6 }}
-        className="bg-panel/50 border border-white/5 rounded-2xl p-6 backdrop-blur-sm"
+        className="bg-panel/50 border border-border/5 rounded-2xl p-6 backdrop-blur-sm"
       >
         {/* Header - Live Badge + Last Update */}
         <div className="flex items-center justify-between mb-6">
@@ -147,7 +147,7 @@ export const LiveResultsPreview = React.memo(function LiveResultsPreview({
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
-            className="pt-4 border-t border-white/10 text-center"
+            className="pt-4 border-t border-border/10 text-center"
           >
             <div className="text-xs text-secondary mb-1">Diferencia</div>
             <div className="text-lg font-black text-purple-400">
@@ -163,7 +163,7 @@ export const LiveResultsPreview = React.memo(function LiveResultsPreview({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7 }}
-          className="bg-panel/30 border border-white/5 rounded-xl p-4 text-center"
+          className="bg-panel/30 border border-border/5 rounded-xl p-4 text-center"
         >
           <div className="text-xs text-secondary mb-1">Mesas</div>
           <div className="text-xl font-black text-purple-400">
@@ -178,7 +178,7 @@ export const LiveResultsPreview = React.memo(function LiveResultsPreview({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
-          className="bg-panel/30 border border-white/5 rounded-xl p-4 text-center"
+          className="bg-panel/30 border border-border/5 rounded-xl p-4 text-center"
         >
           <div className="text-xs text-secondary mb-1">Votos Validos</div>
           <div className="text-xl font-black text-blue-400">

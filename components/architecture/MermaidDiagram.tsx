@@ -30,9 +30,9 @@ export function MermaidDiagram({
   };
 
   return (
-    <div className="bg-panel border border-white/5 rounded-xl overflow-hidden">
+    <div className="bg-panel border border-border/5 rounded-xl overflow-hidden">
       {/* Header */}
-      <div className="px-6 py-4 border-b border-white/10 flex items-center justify-between">
+      <div className="px-6 py-4 border-b border-border/10 flex items-center justify-between">
         <div>
           <h3 className="text-lg font-bold text-foreground">{title}</h3>
           {description && <p className="text-sm text-secondary mt-1">{description}</p>}
@@ -59,7 +59,7 @@ export function MermaidDiagram({
       {/* Diagram Display */}
       <div className="p-6 bg-background/50">
         <div
-          className="bg-background border border-white/5 rounded-lg p-4 overflow-auto font-mono text-xs"
+          className="bg-background border border-border/5 rounded-lg p-4 overflow-auto font-mono text-xs"
           style={{ height, maxHeight: '600px' }}
         >
           <pre className="text-secondary whitespace-pre">

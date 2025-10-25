@@ -164,7 +164,7 @@ export default function MercadosPage() {
         </div>
 
         {/* Disclaimer Footer */}
-        <div className="flex items-start gap-2 p-4 bg-panel/10 border border-white/10 rounded-lg">
+        <div className="flex items-start gap-2 p-4 bg-panel/10 border border-border/10 rounded-lg">
           <FaInfoCircle className="text-brand text-sm mt-0.5 flex-shrink-0" />
           <p className="text-xs text-secondary leading-relaxed">
             <strong className="text-foreground">Fuentes Oficiales:</strong> Los datos provienen del

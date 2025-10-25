@@ -22,7 +22,7 @@ export function DolarComparativaCard({ comparativas, precioVenta }: DolarCompara
 
       <div className="space-y-3">
         {comparativas.dolarBlue && (
-          <div className="p-4 bg-panel rounded-lg border border-white/5">
+          <div className="p-4 bg-panel rounded-lg border border-border/5">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-medium text-foreground">Dólar Blue</span>
               <span
@@ -52,7 +52,7 @@ export function DolarComparativaCard({ comparativas, precioVenta }: DolarCompara
         )}
 
         {comparativas.dolarOficial && (
-          <div className="p-4 bg-panel rounded-lg border border-white/5">
+          <div className="p-4 bg-panel rounded-lg border border-border/5">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-medium text-foreground">Dólar Oficial</span>
               <span

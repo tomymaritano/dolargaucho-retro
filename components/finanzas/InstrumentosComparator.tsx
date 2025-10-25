@@ -146,7 +146,7 @@ export const InstrumentosComparator = React.memo(function InstrumentosComparator
           {instrumentos.map((inst, idx) => (
             <div
               key={idx}
-              className="p-5 rounded-xl bg-white/[0.02] border border-white/5 hover:border-brand/30 transition-all"
+              className="p-5 rounded-xl bg-white/[0.02] border border-border/5 hover:border-brand/30 transition-all"
             >
               {/* Header */}
               <div className="flex items-start justify-between mb-4">
@@ -189,7 +189,7 @@ export const InstrumentosComparator = React.memo(function InstrumentosComparator
               </div>
 
               {/* Ventajas y Desventajas */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-white/10">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-border/10">
                 {/* Ventajas */}
                 <div>
                   <p className="text-xs font-semibold text-success mb-2 flex items-center gap-1">
@@ -227,7 +227,7 @@ export const InstrumentosComparator = React.memo(function InstrumentosComparator
         </div>
 
         {/* Disclaimer */}
-        <div className="bg-white/[0.02] rounded-lg p-4 border border-white/5">
+        <div className="bg-white/[0.02] rounded-lg p-4 border border-border/5">
           <p className="text-xs text-secondary">
             <strong className="text-foreground">Disclaimer:</strong> Esta información es educativa y
             no constituye asesoramiento financiero. Los rendimientos son estimaciones y pueden

@@ -58,7 +58,7 @@ export const FounderStory = React.memo(function FounderStory() {
             <motion.div
               whileHover={{ y: -4 }}
               transition={{ type: 'spring', stiffness: 300 }}
-              className="bg-panel border border-white/5 rounded-2xl p-8 hover:border-error/30 transition-all"
+              className="bg-panel border border-border/5 rounded-2xl p-8 hover:border-error/30 transition-all"
             >
               <div className="flex items-start gap-4 mb-4">
                 <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-error/10 flex items-center justify-center">
@@ -74,7 +74,7 @@ export const FounderStory = React.memo(function FounderStory() {
                 centralizadas. Inversores y ciudadanos deben consultar manualmente DolarAPI, BCRA,
                 INDEC, CoinGecko y el Congreso para tomar decisiones informadas.
               </p>
-              <div className="mt-4 pt-4 border-t border-white/10">
+              <div className="mt-4 pt-4 border-t border-border/10">
                 <p className="text-sm text-secondary italic">
                   "Necesitar 5+ pestañas para ver cotizaciones, inflación y política no es eficiente
                   en 2025"
@@ -102,14 +102,14 @@ export const FounderStory = React.memo(function FounderStory() {
                 dólares, tiempo real para cryptos, y experiencia mobile-first optimizada.
               </p>
               <div className="grid gap-3">
-                <div className="flex items-center gap-3 p-3 rounded-lg bg-panel/10 border border-white/5">
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-panel/10 border border-border/5">
                   <FaCheckCircle className="text-success flex-shrink-0" />
                   <div>
                     <div className="text-sm font-semibold text-foreground">15+ Tipos de Dólar</div>
                     <div className="text-xs text-secondary">Oficial, Blue, MEP, CCL, Crypto</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-3 rounded-lg bg-panel/10 border border-white/5">
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-panel/10 border border-border/5">
                   <FaCheckCircle className="text-success flex-shrink-0" />
                   <div>
                     <div className="text-sm font-semibold text-foreground">100+ Criptomonedas</div>
@@ -118,7 +118,7 @@ export const FounderStory = React.memo(function FounderStory() {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-3 rounded-lg bg-panel/10 border border-white/5">
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-panel/10 border border-border/5">
                   <FaCheckCircle className="text-success flex-shrink-0" />
                   <div>
                     <div className="text-sm font-semibold text-foreground">
@@ -198,7 +198,7 @@ export const FounderStory = React.memo(function FounderStory() {
             <motion.div
               whileHover={{ y: -4 }}
               transition={{ type: 'spring', stiffness: 300 }}
-              className="bg-panel border border-white/5 rounded-2xl p-8 hover:border-brand/20 transition-all"
+              className="bg-panel border border-border/5 rounded-2xl p-8 hover:border-brand/20 transition-all"
             >
               <div className="flex items-start gap-4 mb-6">
                 <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-brand/10 flex items-center justify-center">
@@ -223,7 +223,7 @@ export const FounderStory = React.memo(function FounderStory() {
                     viewport={{ once: true }}
                     transition={{ delay: 0.4 + index * 0.1 }}
                     whileHover={{ scale: 1.05, borderColor: 'rgba(0, 71, 255, 0.3)' }}
-                    className="p-4 rounded-xl bg-panel/10 border border-white/5 transition-all"
+                    className="p-4 rounded-xl bg-panel/10 border border-border/5 transition-all"
                   >
                     <div className="flex items-center gap-2 mb-2">
                       <span className="text-sm">{tech.icon}</span>
@@ -243,7 +243,7 @@ export const FounderStory = React.memo(function FounderStory() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="bg-panel border border-white/5 rounded-2xl p-8"
+          className="bg-panel border border-border/5 rounded-2xl p-8"
         >
           <div className="grid md:grid-cols-[auto_1fr] gap-8 items-start">
             {/* Avatar */}
@@ -287,7 +287,7 @@ export const FounderStory = React.memo(function FounderStory() {
               <SocialLinks size="md" showStars className="justify-center md:justify-start mb-8" />
 
               {/* Credits - Avatar Stack */}
-              <div className="pt-6 border-t border-white/10">
+              <div className="pt-6 border-t border-border/10">
                 <p className="text-xs font-bold text-foreground/70 mb-4 uppercase tracking-wider">
                   Agradecimientos Especiales
                 </p>

@@ -62,7 +62,7 @@ export const Tooltip = React.memo(function Tooltip({
             transition={{ duration: 0.15, ease: 'easeOut' }}
             className={`absolute ${getPositionStyles()} z-50 pointer-events-none`}
           >
-            <div className="px-3 py-1.5 bg-panel/95 backdrop-blur-md border border-white/5 rounded-lg shadow-xl">
+            <div className="px-3 py-1.5 bg-panel/95 backdrop-blur-md border border-border/5 rounded-lg shadow-xl">
               <p className="text-xs font-medium text-foreground whitespace-nowrap">{content}</p>
             </div>
 
@@ -80,7 +80,7 @@ export const Tooltip = React.memo(function Tooltip({
             >
               <div
                 className={`
-                  w-2 h-2 bg-panel/95 border-white/10 rotate-45
+                  w-2 h-2 bg-panel/95 border-border/10 rotate-45
                   ${position === 'top' ? 'border-r border-b' : ''}
                   ${position === 'bottom' ? 'border-l border-t' : ''}
                   ${position === 'left' ? 'border-r border-t' : ''}

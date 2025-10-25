@@ -75,7 +75,7 @@ export function Tooltip({ content, children, placement = 'top', icon = true }: T
       {isVisible && (
         <div
           ref={tooltipRef}
-          className="fixed z-50 px-3 py-2 text-xs text-foreground bg-panel border border-white/5 rounded-lg max-w-7xl pointer-events-none animate-in fade-in duration-150"
+          className="fixed z-50 px-3 py-2 text-xs text-foreground bg-panel border border-border/5 rounded-lg max-w-7xl pointer-events-none animate-in fade-in duration-150"
           style={{
             top: `${position.top}px`,
             left: `${position.left}px`,
@@ -85,7 +85,7 @@ export function Tooltip({ content, children, placement = 'top', icon = true }: T
           {content}
           {/* Arrow */}
           <div
-            className={`absolute w-2 h-2 bg-panel border-white/10 rotate-45 ${
+            className={`absolute w-2 h-2 bg-panel border-border/10 rotate-45 ${
               placement === 'top'
                 ? 'bottom-[-5px] left-1/2 -translate-x-1/2 border-r border-b'
                 : placement === 'bottom'

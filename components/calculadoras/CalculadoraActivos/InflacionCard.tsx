@@ -44,7 +44,7 @@ export function InflacionCard({
         </div>
       </div>
 
-      <div className="mt-4 pt-4 border-t border-white/10">
+      <div className="mt-4 pt-4 border-t border-border/10">
         <p className="text-sm text-secondary text-center">
           {rentabilidadReal >= 0 ? (
             <>

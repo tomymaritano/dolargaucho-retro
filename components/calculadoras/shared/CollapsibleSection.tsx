@@ -28,7 +28,7 @@ export function CollapsibleSection({
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
-    <div className="border border-white/5/50 rounded-lg overflow-hidden">
+    <div className="border border-border/5/50 rounded-lg overflow-hidden">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-center justify-between p-3 bg-panel/30 hover:bg-panel/50 transition-colors text-left"
@@ -44,7 +44,7 @@ export function CollapsibleSection({
         )}
       </button>
       {isOpen && (
-        <div className="p-3 bg-background-dark/50 border-t border-white/10/30 animate-in fade-in slide-in-from-top-2 duration-200">
+        <div className="p-3 bg-background-dark/50 border-t border-border/10/30 animate-in fade-in slide-in-from-top-2 duration-200">
           {children}
         </div>
       )}

@@ -115,7 +115,7 @@ export default function AlertasPage() {
 
             {/* Estadísticas */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <Card variant="elevated" padding="md" hover="glow" className="border border-white/5">
+              <Card variant="elevated" padding="md" hover="glow" className="border border-border/5">
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="text-secondary text-xs mb-1 uppercase tracking-wider font-medium">
@@ -129,7 +129,7 @@ export default function AlertasPage() {
                 </div>
               </Card>
 
-              <Card variant="elevated" padding="md" hover="glow" className="border border-white/5">
+              <Card variant="elevated" padding="md" hover="glow" className="border border-border/5">
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="text-secondary text-xs mb-1 uppercase tracking-wider font-medium">
@@ -143,7 +143,7 @@ export default function AlertasPage() {
                 </div>
               </Card>
 
-              <Card variant="elevated" padding="md" hover="glow" className="border border-white/5">
+              <Card variant="elevated" padding="md" hover="glow" className="border border-border/5">
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="text-secondary text-xs mb-1 uppercase tracking-wider font-medium">
@@ -159,7 +159,7 @@ export default function AlertasPage() {
                 </div>
               </Card>
 
-              <Card variant="elevated" padding="md" hover="glow" className="border border-white/5">
+              <Card variant="elevated" padding="md" hover="glow" className="border border-border/5">
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="text-secondary text-xs mb-1 uppercase tracking-wider font-medium">

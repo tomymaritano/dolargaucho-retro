@@ -80,7 +80,7 @@ export const CalculatorLayout = React.memo(function CalculatorLayout({
       <Card
         variant="elevated"
         padding="lg"
-        className="border border-white/5 hover:border-brand/40 transition-all duration-300"
+        className="border border-border/5 hover:border-brand/40 transition-all duration-300"
       >
         {children}
       </Card>
@@ -125,7 +125,7 @@ export const CalculatorInput = React.memo(function CalculatorInput({
           placeholder={placeholder}
           min={min}
           max={max}
-          className={`w-full ${prefix ? 'pl-16' : 'px-4'} pr-4 py-3 text-xl font-mono font-bold bg-panel border border-white/5 rounded-xl focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground`}
+          className={`w-full ${prefix ? 'pl-16' : 'px-4'} pr-4 py-3 text-xl font-mono font-bold bg-panel border border-border/5 rounded-xl focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground`}
         />
       </div>
     </div>
@@ -222,7 +222,7 @@ export const CalculatorModeToggle = React.memo(function CalculatorModeToggle({
           className={`px-6 py-2 rounded-lg font-medium text-sm transition-all duration-300 border ${
             activeMode === mode.value
               ? 'bg-brand text-background-dark border-brand scale-[1.02]'
-              : 'bg-panel border-white/10 text-secondary hover:text-foreground hover:border-brand/30 hover:scale-[1.02] active:scale-95'
+              : 'bg-panel border-border/10 text-secondary hover:text-foreground hover:border-brand/30 hover:scale-[1.02] active:scale-95'
           }`}
         >
           {mode.label}
@@ -247,7 +247,7 @@ export const CalculatorInfoBanner = React.memo(function CalculatorInfoBanner({
 }: CalculatorInfoBannerProps) {
   if (loading) {
     return (
-      <Card variant="solid" padding="md" className="mb-6 text-center border border-white/5">
+      <Card variant="solid" padding="md" className="mb-6 text-center border border-border/5">
         <p className="text-sm text-secondary">Cargando datos...</p>
       </Card>
     );
@@ -298,7 +298,7 @@ export const CalculatorChartContainer = React.memo(function CalculatorChartConta
     <Card
       variant="elevated"
       padding="lg"
-      className="border border-white/5 hover:border-brand/40 transition-all duration-300"
+      className="border border-border/5 hover:border-brand/40 transition-all duration-300"
     >
       {title && <h3 className="text-sm font-semibold text-foreground mb-6">{title}</h3>}
       <div className={height}>{children}</div>

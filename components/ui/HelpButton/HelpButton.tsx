@@ -42,13 +42,13 @@ export function HelpButton({ title, faqs }: HelpButtonProps) {
           {/* Modal Content */}
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
             <div
-              className="w-full max-w-7xl max-h-[80vh] overflow-y-auto bg-panel border border-white/5 rounded-2xl"
+              className="w-full max-w-7xl max-h-[80vh] overflow-y-auto bg-panel border border-border/5 rounded-2xl"
               role="dialog"
               aria-modal="true"
               aria-labelledby="help-modal-title"
             >
               {/* Header */}
-              <div className="sticky top-0 bg-panel border-b border-white/10 p-6 flex items-center justify-between">
+              <div className="sticky top-0 bg-panel border-b border-border/10 p-6 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="p-2 glass rounded-lg">
                     <FaQuestionCircle className="text-brand text-xl" />
@@ -83,7 +83,7 @@ export function HelpButton({ title, faqs }: HelpButtonProps) {
               </div>
 
               {/* Footer */}
-              <div className="border-t border-white/10 p-6 bg-background/50">
+              <div className="border-t border-border/10 p-6 bg-background/50">
                 <p className="text-xs text-secondary text-center">
                   ¿Necesitás más ayuda?{' '}
                   <a href="mailto:support@dolargaucho.com" className="text-brand hover:underline">

@@ -26,7 +26,7 @@ export function AvailableDolaresSection({
 
   return (
     <Card variant="elevated" padding="none" className="mt-8">
-      <div className="p-6 border-b border-white/10">
+      <div className="p-6 border-b border-border/10">
         <h2 className="text-xl font-bold text-foreground">Dólares Disponibles</h2>
         <p className="text-sm text-secondary mt-1">Agregá o quitá dólares de tus favoritos</p>
       </div>

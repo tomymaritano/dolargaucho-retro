@@ -33,7 +33,7 @@ export const ActasTable = React.memo(function ActasTable({ actas, limit }: Actas
     <Card variant="elevated" padding="lg">
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-panel border-b border-white/10">
+          <thead className="bg-panel border-b border-border/10">
             <tr>
               <th className="px-4 py-3 text-left text-xs font-semibold text-secondary uppercase tracking-wider">
                 Fecha
@@ -175,7 +175,7 @@ export const ActasTable = React.memo(function ActasTable({ actas, limit }: Actas
 
                           {/* PDF link if available */}
                           {acta.url_pdf && (
-                            <div className="pt-2 border-t border-white/10">
+                            <div className="pt-2 border-t border-border/10">
                               <a
                                 href={acta.url_pdf}
                                 target="_blank"
@@ -200,7 +200,7 @@ export const ActasTable = React.memo(function ActasTable({ actas, limit }: Actas
       </div>
 
       {actas.length >= limit && (
-        <div className="mt-6 pt-4 border-t border-white/10 text-center">
+        <div className="mt-6 pt-4 border-t border-border/10 text-center">
           <p className="text-sm text-secondary">
             Mostrando las primeras {limit} actas. Usa los filtros para refinar la búsqueda.
           </p>

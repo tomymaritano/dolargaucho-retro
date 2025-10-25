@@ -24,7 +24,7 @@ export function FavoriteCurrenciesSection({
 
   return (
     <Card variant="elevated" padding="none">
-      <div className="p-6 border-b border-white/10">
+      <div className="p-6 border-b border-border/10">
         <h2 className="text-xl font-bold text-foreground">Monedas Favoritas</h2>
         <p className="text-sm text-secondary mt-1">
           {currencies.length} {currencies.length === 1 ? 'favorito' : 'favoritos'}

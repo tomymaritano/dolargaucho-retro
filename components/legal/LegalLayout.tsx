@@ -43,7 +43,7 @@ export function LegalLayout({ children, title, lastUpdated, tableOfContents }: L
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Header */}
-      <div className="border-b border-white/10 bg-panel">
+      <div className="border-b border-border/10 bg-panel">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <Link
             href="/"
@@ -89,7 +89,7 @@ export function LegalLayout({ children, title, lastUpdated, tableOfContents }: L
 
               {/* Table of Contents (si existe) */}
               {tableOfContents && tableOfContents.length > 0 && (
-                <div className="pt-6 border-t border-white/10">
+                <div className="pt-6 border-t border-border/10">
                   <h3 className="text-xs font-semibold text-secondary uppercase tracking-wider mb-3">
                     En esta página
                   </h3>
@@ -128,7 +128,7 @@ export function LegalLayout({ children, title, lastUpdated, tableOfContents }: L
 
               {/* Content */}
               <div className="prose prose-invert prose-lg max-w-none">
-                <div className="bg-panel rounded-xl p-6 md:p-8 border border-white/5">
+                <div className="bg-panel rounded-xl p-6 md:p-8 border border-border/5">
                   {children}
                 </div>
               </div>

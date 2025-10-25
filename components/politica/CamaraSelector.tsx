@@ -18,7 +18,7 @@ export const CamaraSelector = React.memo(function CamaraSelector({
   onChange,
 }: CamaraSelectorProps) {
   return (
-    <div className="flex gap-2 p-1 bg-panel rounded-lg border border-white/5">
+    <div className="flex gap-2 p-1 bg-panel rounded-lg border border-border/5">
       <button
         onClick={() => onChange('senado')}
         className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium transition-all ${

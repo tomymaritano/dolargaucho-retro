@@ -18,8 +18,9 @@
     --panel: 248 250 252; /* #f8fafc */
     --panel-elevated: 255 255 255; /* #ffffff */
     --panel-hover: 241 245 249; /* #f1f5f9 */
-    --border: 226 232 240; /* #e2e8f0 */
+    --border: 226 232 240; /* #e2e8f0 - visible gray border */
     --border-strong: 203 213 225; /* #cbd5e1 */
+    --border-subtle: 226 232 240; /* #e2e8f0 for light mode - visible */
     --text-primary: 15 23 42; /* #0f172a */
     --text-secondary: 71 85 105; /* #475569 */
     --accent: 0 71 255; /* #0047ff BingX Blue */
@@ -46,6 +47,7 @@
     --panel-hover: 30 35 55; /* #1e2337 */
     --border: 255 255 255; /* White with opacity - use with /5 or /10 */
     --border-strong: 255 255 255; /* White with opacity - use with /20 */
+    --border-subtle: 255 255 255; /* White for dark mode - subtle */
     --text-primary: 248 250 252; /* #f8fafc */
     --text-secondary: 148 163 184; /* #94a3b8 */
     --accent: 0 71 255; /* #0047ff BingX Blue */

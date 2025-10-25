@@ -60,7 +60,7 @@ function DolarRow({
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: index * 0.1, duration: 0.5 }}
         whileHover={{ scale: 1.02, x: 4 }}
-        className="relative flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl bg-panel/50 border border-white/5 hover:border-brand/30 hover:bg-panel/80 transition-all duration-300 group cursor-pointer"
+        className="relative flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl bg-panel/50 border border-border/5 hover:border-brand/30 hover:bg-panel/80 transition-all duration-300 group cursor-pointer"
       >
         {/* Nombre */}
         <div className="flex-1 min-w-0">
@@ -126,7 +126,7 @@ function DolarRow({
                   {DolarService.formatPrice(dolar.venta)}
                 </span>
               </div>
-              <div className="pt-2 border-t border-white/10">
+              <div className="pt-2 border-t border-border/10">
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-secondary font-semibold">Spread:</span>
                   <span className="text-brand font-bold">
@@ -173,7 +173,7 @@ export const DolarLiveTable = React.memo(function DolarLiveTable() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: i * 0.1 }}
-            className="flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl bg-panel/30 border border-white/5"
+            className="flex items-center gap-3 md:gap-4 p-3 md:p-4 rounded-xl bg-panel/30 border border-border/5"
           >
             <div className="flex-1">
               <div className="h-4 w-24 bg-panel/20 rounded animate-pulse mb-2" />

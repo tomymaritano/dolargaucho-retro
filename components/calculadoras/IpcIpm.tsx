@@ -54,7 +54,7 @@ const InflationCalculator: React.FC = () => {
       </div>
 
       {/* Inputs Section */}
-      <Card variant="elevated" padding="lg" className="border border-white/5">
+      <Card variant="elevated" padding="lg" className="border border-border/5">
         <SectionHeader
           icon={FaEdit}
           title="Datos de Entrada"
@@ -65,7 +65,7 @@ const InflationCalculator: React.FC = () => {
           <Card
             variant="solid"
             padding="md"
-            className="border border-white/5 hover:border-brand/40 transition-all duration-300"
+            className="border border-border/5 hover:border-brand/40 transition-all duration-300"
           >
             <label
               htmlFor="price-base-ipc"
@@ -78,7 +78,7 @@ const InflationCalculator: React.FC = () => {
               type="number"
               value={priceBaseIPC}
               onChange={(e) => setPriceBaseIPC(e.target.value)}
-              className="w-full p-3 text-lg font-mono font-semibold bg-panel border border-white/5 rounded-lg focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground"
+              className="w-full p-3 text-lg font-mono font-semibold bg-panel border border-border/5 rounded-lg focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground"
               placeholder="100"
               aria-label="Precio base del Índice de Precios al Consumidor"
             />
@@ -87,7 +87,7 @@ const InflationCalculator: React.FC = () => {
           <Card
             variant="solid"
             padding="md"
-            className="border border-white/5 hover:border-brand/40 transition-all duration-300"
+            className="border border-border/5 hover:border-brand/40 transition-all duration-300"
           >
             <label
               htmlFor="price-current-ipc"
@@ -100,7 +100,7 @@ const InflationCalculator: React.FC = () => {
               type="number"
               value={priceCurrentIPC}
               onChange={(e) => setPriceCurrentIPC(e.target.value)}
-              className="w-full p-3 text-lg font-mono font-semibold bg-panel border border-white/5 rounded-lg focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground"
+              className="w-full p-3 text-lg font-mono font-semibold bg-panel border border-border/5 rounded-lg focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground"
               placeholder="150"
               aria-label="Precio actual del Índice de Precios al Consumidor"
             />
@@ -109,7 +109,7 @@ const InflationCalculator: React.FC = () => {
           <Card
             variant="solid"
             padding="md"
-            className="border border-white/5 hover:border-brand/40 transition-all duration-300"
+            className="border border-border/5 hover:border-brand/40 transition-all duration-300"
           >
             <label
               htmlFor="price-base-ipm"
@@ -122,7 +122,7 @@ const InflationCalculator: React.FC = () => {
               type="number"
               value={priceBaseIPM}
               onChange={(e) => setPriceBaseIPM(e.target.value)}
-              className="w-full p-3 text-lg font-mono font-semibold bg-panel border border-white/5 rounded-lg focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground"
+              className="w-full p-3 text-lg font-mono font-semibold bg-panel border border-border/5 rounded-lg focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground"
               placeholder="100"
               aria-label="Precio base del Índice de Precios Mayoristas"
             />
@@ -131,7 +131,7 @@ const InflationCalculator: React.FC = () => {
           <Card
             variant="solid"
             padding="md"
-            className="border border-white/5 hover:border-brand/40 transition-all duration-300"
+            className="border border-border/5 hover:border-brand/40 transition-all duration-300"
           >
             <label
               htmlFor="price-current-ipm"
@@ -144,7 +144,7 @@ const InflationCalculator: React.FC = () => {
               type="number"
               value={priceCurrentIPM}
               onChange={(e) => setPriceCurrentIPM(e.target.value)}
-              className="w-full p-3 text-lg font-mono font-semibold bg-panel border border-white/5 rounded-lg focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground"
+              className="w-full p-3 text-lg font-mono font-semibold bg-panel border border-border/5 rounded-lg focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground"
               placeholder="130"
               aria-label="Precio actual del Índice de Precios Mayoristas"
             />

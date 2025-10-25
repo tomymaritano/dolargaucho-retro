@@ -84,7 +84,7 @@ export default function Custom404() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="mt-12 pt-8 border-t border-white/5"
+          className="mt-12 pt-8 border-t border-border/5"
         >
           <p className="text-sm text-secondary mb-3">Enlaces útiles:</p>
           <div className="flex flex-wrap gap-3 justify-center text-sm">

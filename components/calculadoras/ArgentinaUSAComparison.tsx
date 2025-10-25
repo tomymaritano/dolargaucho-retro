@@ -71,7 +71,7 @@ export function ArgentinaUSAComparison({ argInflacion, fredData }: ArgentinaUSAC
         <Card
           variant="elevated"
           padding="md"
-          className="border border-white/5 hover:border-purple-400/40 transition-all duration-300"
+          className="border border-border/5 hover:border-purple-400/40 transition-all duration-300"
         >
           <h3 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
             📊 Inflación Anual
@@ -93,7 +93,7 @@ export function ArgentinaUSAComparison({ argInflacion, fredData }: ArgentinaUSAC
               </div>
               <p className="text-3xl font-bold text-blue-400">{usInflation.toFixed(1)}%</p>
             </div>
-            <div className="pt-3 border-t border-white/10">
+            <div className="pt-3 border-t border-border/10">
               <p className="text-xs text-secondary">
                 <strong className="text-brand">Ratio: {inflationRatio.toFixed(1)}x</strong> La
                 inflación argentina es {inflationRatio.toFixed(0)} veces mayor que la estadounidense
@@ -106,7 +106,7 @@ export function ArgentinaUSAComparison({ argInflacion, fredData }: ArgentinaUSAC
         <Card
           variant="elevated"
           padding="md"
-          className="border border-white/5 hover:border-purple-400/40 transition-all duration-300"
+          className="border border-border/5 hover:border-purple-400/40 transition-all duration-300"
         >
           <h3 className="text-sm font-semibold text-foreground mb-4">💹 Contexto Económico</h3>
           <div className="space-y-3 text-xs">

@@ -42,7 +42,7 @@ export const ECBChartCard = React.memo(function ECBChartCard({
           className={`absolute top-2 right-2 z-20 p-1.5 rounded-lg transition-all duration-300 hover:scale-110 active:scale-95 ${
             isFavorite
               ? 'bg-brand/20 text-brand'
-              : 'bg-background/90 backdrop-blur-sm text-secondary hover:text-brand border border-white/5'
+              : 'bg-background/90 backdrop-blur-sm text-secondary hover:text-brand border border-border/5'
           }`}
           aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
         >

@@ -341,7 +341,7 @@ export default function CryptoPage() {
 
         {/* Disclaimer Footer */}
         {!isLoading && !error && filteredAndSortedData.length > 0 && (
-          <div className="flex items-start gap-2 p-4 bg-panel/10 border border-white/10 rounded-lg">
+          <div className="flex items-start gap-2 p-4 bg-panel/10 border border-border/10 rounded-lg">
             <FaInfoCircle className="text-brand text-sm mt-0.5 flex-shrink-0" />
             <p className="text-xs text-secondary leading-relaxed">
               <strong className="text-foreground">Aviso:</strong> Los precios son referenciales y

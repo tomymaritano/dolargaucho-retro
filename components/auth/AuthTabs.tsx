@@ -16,7 +16,7 @@ interface AuthTabsProps {
 
 export function AuthTabs({ activeTab, onTabChange }: AuthTabsProps) {
   return (
-    <div className="flex gap-2 mb-6 p-1 bg-panel/10 rounded-xl border border-white/5">
+    <div className="flex gap-2 mb-6 p-1 bg-panel/10 rounded-xl border border-border/5">
       <button
         onClick={() => onTabChange('login')}
         className={`flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${

@@ -19,7 +19,7 @@ export function PortfolioAllocationSection({
   const totalAllocation = allocation.plazoFijo + allocation.dolarBlue + allocation.dolarMEP;
 
   return (
-    <div className="mb-8 p-6 rounded-xl bg-panel/50 border border-white/5">
+    <div className="mb-8 p-6 rounded-xl bg-panel/50 border border-border/5">
       <h3 className="text-sm font-semibold text-foreground mb-4 uppercase tracking-wider">
         Portafolio Diversificado - Asignación de Capital
       </h3>

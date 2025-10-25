@@ -105,7 +105,7 @@ export default function EleccionesPage() {
           <motion.div
             whileHover={{ scale: 1.02, y: -4 }}
             transition={{ type: 'spring', stiffness: 300 }}
-            className="bg-panel/50 border border-white/10 rounded-2xl p-8 backdrop-blur-sm text-center relative overflow-hidden group cursor-pointer"
+            className="bg-panel/50 border border-border/10 rounded-2xl p-8 backdrop-blur-sm text-center relative overflow-hidden group cursor-pointer"
             onClick={() => {
               document.getElementById('historial')?.scrollIntoView({ behavior: 'smooth' });
             }}
@@ -195,7 +195,7 @@ export default function EleccionesPage() {
 
               {/* Hover CTA - Expands from 0 height */}
               <div className="max-h-0 group-hover:max-h-20 overflow-hidden transition-all duration-300 ease-out">
-                <div className="pt-4 mt-3 border-t border-white/10 group-hover:border-brand/20 transition-colors">
+                <div className="pt-4 mt-3 border-t border-border/10 group-hover:border-brand/20 transition-colors">
                   <p className="text-xs text-secondary/60 group-hover:text-brand transition-all duration-300 transform translate-y-[-10px] group-hover:translate-y-0 opacity-0 group-hover:opacity-100">
                     Hacé clic para ver el historial electoral
                   </p>
@@ -217,7 +217,7 @@ export default function EleccionesPage() {
               whileHover={{ scale: 1.05, y: -4 }}
               whileTap={{ scale: 0.98 }}
               transition={{ type: 'spring', stiffness: 400 }}
-              className="bg-panel/30 border border-white/10 rounded-xl p-4 text-center relative overflow-hidden group cursor-pointer"
+              className="bg-panel/30 border border-border/10 rounded-xl p-4 text-center relative overflow-hidden group cursor-pointer"
               onClick={(e) => {
                 e.preventDefault();
                 document.getElementById('historial')?.scrollIntoView({ behavior: 'smooth' });
@@ -254,7 +254,7 @@ export default function EleccionesPage() {
               whileHover={{ scale: 1.05, y: -4 }}
               whileTap={{ scale: 0.98 }}
               transition={{ type: 'spring', stiffness: 400 }}
-              className="bg-panel/30 border border-white/10 rounded-xl p-4 text-center relative overflow-hidden group cursor-pointer"
+              className="bg-panel/30 border border-border/10 rounded-xl p-4 text-center relative overflow-hidden group cursor-pointer"
             >
               {/* Gradient background on hover */}
               <div className="absolute inset-0 bg-gradient-to-br from-success/0 to-success/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -321,7 +321,7 @@ export default function EleccionesPage() {
 
               {/* Category Tabs - Solo Diputados y Senadores para 2025 */}
               <div className="mb-8">
-                <div className="flex gap-2 p-1 bg-panel/10 rounded-xl border border-white/10 max-w-md">
+                <div className="flex gap-2 p-1 bg-panel/10 rounded-xl border border-border/10 max-w-md">
                   <button
                     onClick={() => setActiveLiveCategory('diputados')}
                     className={`flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
@@ -361,7 +361,7 @@ export default function EleccionesPage() {
                   <p className="text-secondary">{error.message}</p>
                 </div>
               ) : !displayData ? (
-                <div className="bg-panel/30 border border-white/10 rounded-2xl p-12 text-center">
+                <div className="bg-panel/30 border border-border/10 rounded-2xl p-12 text-center">
                   <FaInfoCircle className="text-purple-400 text-4xl mx-auto mb-4" />
                   <h3 className="text-xl font-bold text-foreground mb-2">
                     No hay datos disponibles
@@ -378,7 +378,7 @@ export default function EleccionesPage() {
               ) : (
                 <div className="space-y-8">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div className="bg-panel/50 border border-white/10 rounded-2xl p-6">
+                    <div className="bg-panel/50 border border-border/10 rounded-2xl p-6">
                       <div className="flex items-center gap-3 mb-3">
                         <FaChartLine className="text-purple-400 text-xl" />
                         <span className="text-sm font-semibold text-secondary uppercase">
@@ -394,7 +394,7 @@ export default function EleccionesPage() {
                       </p>
                     </div>
 
-                    <div className="bg-panel/50 border border-white/10 rounded-2xl p-6">
+                    <div className="bg-panel/50 border border-border/10 rounded-2xl p-6">
                       <div className="flex items-center gap-3 mb-3">
                         <FaInfoCircle className="text-blue-400 text-xl" />
                         <span className="text-sm font-semibold text-secondary uppercase">
@@ -412,7 +412,7 @@ export default function EleccionesPage() {
                       <p className="text-xs text-secondary">del padron electoral</p>
                     </div>
 
-                    <div className="bg-panel/50 border border-white/10 rounded-2xl p-6">
+                    <div className="bg-panel/50 border border-border/10 rounded-2xl p-6">
                       <div className="flex items-center gap-3 mb-3">
                         <FaCheckCircle className="text-green-400 text-xl" />
                         <span className="text-sm font-semibold text-secondary uppercase">
@@ -475,7 +475,7 @@ export default function EleccionesPage() {
                   </div>
 
                   {displayData.otherVotes && (
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6 border-t border-white/5">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6 border-t border-border/5">
                       <div className="text-center p-4 bg-panel/30 rounded-xl">
                         <p className="text-sm text-secondary mb-1">Votos en Blanco</p>
                         <p className="text-xl font-bold text-foreground">
@@ -590,7 +590,7 @@ export default function EleccionesPage() {
                       !historicalError &&
                       historicalElections &&
                       historicalElections.length === 0 && (
-                        <div className="col-span-2 bg-panel/30 border border-white/10 rounded-2xl p-12 text-center">
+                        <div className="col-span-2 bg-panel/30 border border-border/10 rounded-2xl p-12 text-center">
                           <FaInfoCircle className="text-purple-400 text-4xl mx-auto mb-4" />
                           <h3 className="text-xl font-bold text-foreground mb-2">
                             No hay datos disponibles

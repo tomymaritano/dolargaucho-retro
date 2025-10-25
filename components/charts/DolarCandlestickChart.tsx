@@ -75,7 +75,7 @@ export const DolarCandlestickChart = React.memo(function DolarCandlestickChart({
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-96 bg-background rounded-lg border border-white/5">
+      <div className="flex items-center justify-center h-96 bg-background rounded-lg border border-border/5">
         <div className="text-center">
           <div className="h-8 w-8 mx-auto mb-3 animate-spin rounded-full border-2 border-brand border-t-transparent" />
           <p className="text-sm text-secondary">Cargando datos...</p>
@@ -86,7 +86,7 @@ export const DolarCandlestickChart = React.memo(function DolarCandlestickChart({
 
   if (candlestickData.length === 0) {
     return (
-      <div className="flex items-center justify-center h-96 bg-background rounded-lg border border-white/5">
+      <div className="flex items-center justify-center h-96 bg-background rounded-lg border border-border/5">
         <p className="text-sm text-secondary">No hay datos disponibles</p>
       </div>
     );

@@ -108,7 +108,7 @@ function InflationProjectionChart({
     <Card
       variant="elevated"
       padding="lg"
-      className="mt-6 border border-white/5 hover:border-brand/40 transition-all duration-300"
+      className="mt-6 border border-border/5 hover:border-brand/40 transition-all duration-300"
     >
       <h3 className="text-sm font-semibold text-secondary text-center mb-4 uppercase tracking-wider">
         Proyección de Inflación
@@ -182,12 +182,12 @@ const FinancialCalculator = React.memo(function FinancialCalculator() {
 
       {/* Estado de carga */}
       {dolarLoading && (
-        <Card variant="elevated" padding="md" className="border border-white/5 text-center">
+        <Card variant="elevated" padding="md" className="border border-border/5 text-center">
           <p className="text-sm text-brand">Cargando cotización del dólar...</p>
         </Card>
       )}
       {inflacionLoading && (
-        <Card variant="elevated" padding="md" className="border border-white/5 text-center">
+        <Card variant="elevated" padding="md" className="border border-border/5 text-center">
           <p className="text-sm text-brand">Cargando inflación...</p>
         </Card>
       )}
@@ -245,7 +245,7 @@ const FinancialCalculator = React.memo(function FinancialCalculator() {
       <Card
         variant="elevated"
         padding="md"
-        className="border border-white/5 mb-4 hover:border-brand/40 transition-all duration-300"
+        className="border border-border/5 mb-4 hover:border-brand/40 transition-all duration-300"
       >
         <label className="text-xs font-semibold uppercase tracking-wider text-secondary mb-3 block">
           Monto en ARS
@@ -254,7 +254,7 @@ const FinancialCalculator = React.memo(function FinancialCalculator() {
           type="number"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          className="w-full p-3 text-lg font-mono font-semibold bg-panel border border-white/5 rounded-lg focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground"
+          className="w-full p-3 text-lg font-mono font-semibold bg-panel border border-border/5 rounded-lg focus:ring-2 focus:ring-brand/20 focus:border-brand/50 focus:outline-none transition-all text-foreground"
           placeholder="Ej: 100000"
         />
       </Card>

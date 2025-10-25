@@ -117,13 +117,13 @@ export const GlobalSearch = React.memo(function GlobalSearch({
       {/* Modal */}
       <div className="fixed inset-0 z-50 flex items-start justify-center pt-[10vh] px-4">
         <div
-          className="w-full max-w-7xl bg-panel border border-white/5 rounded-2xl overflow-hidden"
+          className="w-full max-w-7xl bg-panel border border-border/5 rounded-2xl overflow-hidden"
           role="dialog"
           aria-modal="true"
           aria-label="Búsqueda global"
         >
           {/* Search Input */}
-          <div className="flex items-center gap-3 p-4 border-b border-white/10">
+          <div className="flex items-center gap-3 p-4 border-b border-border/10">
             <FaSearch className="text-secondary text-lg flex-shrink-0" aria-hidden="true" />
             <input
               ref={inputRef}
@@ -150,11 +150,13 @@ export const GlobalSearch = React.memo(function GlobalSearch({
                 <FaSearch className="text-4xl mx-auto mb-3 opacity-30" aria-hidden="true" />
                 <p>Escribe para buscar cotizaciones, páginas y más...</p>
                 <div className="mt-4 flex flex-wrap gap-2 justify-center text-xs">
-                  <kbd className="px-2 py-1 bg-background border border-white/5 rounded">↑↓</kbd>
+                  <kbd className="px-2 py-1 bg-background border border-border/5 rounded">↑↓</kbd>
                   <span className="text-secondary">para navegar</span>
-                  <kbd className="px-2 py-1 bg-background border border-white/5 rounded">Enter</kbd>
+                  <kbd className="px-2 py-1 bg-background border border-border/5 rounded">
+                    Enter
+                  </kbd>
                   <span className="text-secondary">para seleccionar</span>
-                  <kbd className="px-2 py-1 bg-background border border-white/5 rounded">Esc</kbd>
+                  <kbd className="px-2 py-1 bg-background border border-border/5 rounded">Esc</kbd>
                   <span className="text-secondary">para cerrar</span>
                 </div>
               </div>
@@ -216,18 +218,18 @@ export const GlobalSearch = React.memo(function GlobalSearch({
 
           {/* Footer with shortcuts */}
           {results.length > 0 && (
-            <div className="border-t border-white/10 px-4 py-3 bg-background/50">
+            <div className="border-t border-border/10 px-4 py-3 bg-background/50">
               <div className="flex items-center gap-4 text-xs text-secondary">
                 <div className="flex items-center gap-1">
-                  <kbd className="px-2 py-1 bg-panel border border-white/5 rounded">↑↓</kbd>
+                  <kbd className="px-2 py-1 bg-panel border border-border/5 rounded">↑↓</kbd>
                   <span>Navegar</span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <kbd className="px-2 py-1 bg-panel border border-white/5 rounded">Enter</kbd>
+                  <kbd className="px-2 py-1 bg-panel border border-border/5 rounded">Enter</kbd>
                   <span>Abrir</span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <kbd className="px-2 py-1 bg-panel border border-white/5 rounded">Esc</kbd>
+                  <kbd className="px-2 py-1 bg-panel border border-border/5 rounded">Esc</kbd>
                   <span>Cerrar</span>
                 </div>
               </div>

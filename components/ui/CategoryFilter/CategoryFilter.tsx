@@ -49,7 +49,7 @@ export function CategoryFilter({
         className={`px-6 py-3 rounded-lg font-medium text-sm transition-all border ${
           selectedCategory === null
             ? 'bg-gradient-to-r from-brand to-brand-light text-background-dark border-brand shadow-lg shadow-brand/30'
-            : 'bg-panel border-white/10 text-secondary hover:text-foreground hover:border-brand/30'
+            : 'bg-panel border-border/10 text-secondary hover:text-foreground hover:border-brand/30'
         }`}
       >
         {allLabel}
@@ -69,7 +69,7 @@ export function CategoryFilter({
             className={`px-6 py-3 rounded-lg font-medium text-sm transition-all border flex items-center gap-2 ${
               isSelected
                 ? 'bg-gradient-to-r from-brand to-brand-light text-background-dark border-brand shadow-lg shadow-brand/30'
-                : 'bg-panel border-white/10 text-secondary hover:text-foreground hover:border-brand/30'
+                : 'bg-panel border-border/10 text-secondary hover:text-foreground hover:border-brand/30'
             }`}
           >
             <Icon className="text-base" />

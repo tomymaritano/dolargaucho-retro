@@ -53,7 +53,7 @@ export default function PrivacidadPage() {
             <h2 className="text-2xl font-bold text-foreground mb-4">
               1. Responsable del Tratamiento de Datos
             </h2>
-            <div className="p-4 bg-panel border border-white/10 rounded-lg space-y-2">
+            <div className="p-4 bg-panel border border-border/10 rounded-lg space-y-2">
               <p>
                 <strong className="text-foreground">Responsable:</strong> Dólar Gaucho
               </p>
@@ -256,13 +256,13 @@ export default function PrivacidadPage() {
           </section>
 
           {/* Contacto AAIP */}
-          <section className="pt-6 border-t border-white/10">
+          <section className="pt-6 border-t border-border/10">
             <h2 className="text-2xl font-bold text-foreground mb-4">Autoridad de Control</h2>
             <p className="mb-2">
               Si considera que se han vulnerado sus derechos, puede contactar a la autoridad de
               control:
             </p>
-            <div className="p-4 bg-panel border border-white/10 rounded-lg space-y-1 text-sm">
+            <div className="p-4 bg-panel border border-border/10 rounded-lg space-y-1 text-sm">
               <p>
                 <strong className="text-foreground">
                   Agencia de Acceso a la Información Pública (AAIP)

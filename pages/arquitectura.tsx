@@ -225,7 +225,7 @@ export default function ArquitecturaPage() {
 
       {/* Tabs Navigation */}
       <section className="max-w-7xl mx-auto px-6 pb-8">
-        <div className="flex items-center justify-center gap-2 bg-panel border border-white/10 rounded-xl p-2">
+        <div className="flex items-center justify-center gap-2 bg-panel border border-border/10 rounded-xl p-2">
           {(['stack', 'diagrams', 'scalability'] as const).map((tab) => (
             <button
               key={tab}
@@ -455,7 +455,7 @@ export default function ArquitecturaPage() {
             {/* Why Scalable */}
             <h2 className="text-3xl font-display font-bold mb-6">¿Por Qué Es Escalable?</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-              <div className="bg-panel border border-white/10 rounded-xl p-6">
+              <div className="bg-panel border border-border/10 rounded-xl p-6">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="p-3 rounded-lg bg-brand/10">
                     <FaRocket className="text-brand text-2xl" />
@@ -478,7 +478,7 @@ export default function ArquitecturaPage() {
                 </ul>
               </div>
 
-              <div className="bg-panel border border-white/10 rounded-xl p-6">
+              <div className="bg-panel border border-border/10 rounded-xl p-6">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="p-3 rounded-lg bg-success/10">
                     <FaLayerGroup className="text-success text-2xl" />
@@ -501,7 +501,7 @@ export default function ArquitecturaPage() {
                 </ul>
               </div>
 
-              <div className="bg-panel border border-white/10 rounded-xl p-6">
+              <div className="bg-panel border border-border/10 rounded-xl p-6">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="p-3 rounded-lg bg-purple-500/10">
                     <FaSync className="text-purple-400 text-2xl" />
@@ -524,7 +524,7 @@ export default function ArquitecturaPage() {
                 </ul>
               </div>
 
-              <div className="bg-panel border border-white/10 rounded-xl p-6">
+              <div className="bg-panel border border-border/10 rounded-xl p-6">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="p-3 rounded-lg bg-orange-500/10">
                     <FaDatabase className="text-orange-400 text-2xl" />

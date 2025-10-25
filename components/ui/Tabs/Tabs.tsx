@@ -41,7 +41,7 @@ export function Tabs({
 
   const variantClasses = {
     default: {
-      container: 'bg-panel border border-white/5 rounded-lg p-1',
+      container: 'bg-panel border border-border/5 rounded-lg p-1',
       tab: 'rounded-md relative',
       active: 'text-foreground',
       inactive: 'text-secondary hover:text-foreground',
@@ -51,10 +51,10 @@ export function Tabs({
       tab: 'rounded-lg border transition-all',
       active: 'bg-brand/10 border-brand/30 text-brand',
       inactive:
-        'bg-panel border-white/10 text-secondary hover:border-brand/20 hover:text-foreground',
+        'bg-panel border-border/10 text-secondary hover:border-brand/20 hover:text-foreground',
     },
     underline: {
-      container: 'border-b border-white/10',
+      container: 'border-b border-border/10',
       tab: 'relative pb-3',
       active: 'text-foreground',
       inactive: 'text-secondary hover:text-foreground',

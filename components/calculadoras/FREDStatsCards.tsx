@@ -41,7 +41,7 @@ export function FREDStatsCards({
       <Card
         variant="elevated"
         padding="md"
-        className="border border-white/5 hover:border-blue-400/30 transition-all duration-300"
+        className="border border-border/5 hover:border-blue-400/30 transition-all duration-300"
       >
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-xs font-semibold text-foreground">Tasa FED</h3>
@@ -74,7 +74,7 @@ export function FREDStatsCards({
       <Card
         variant="elevated"
         padding="md"
-        className="border border-white/5 hover:border-blue-400/30 transition-all duration-300"
+        className="border border-border/5 hover:border-blue-400/30 transition-all duration-300"
       >
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-xs font-semibold text-foreground">Inflación</h3>
@@ -100,7 +100,7 @@ export function FREDStatsCards({
       <Card
         variant="elevated"
         padding="md"
-        className="border border-white/5 hover:border-blue-400/30 transition-all duration-300"
+        className="border border-border/5 hover:border-blue-400/30 transition-all duration-300"
       >
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-xs font-semibold text-foreground">PIB</h3>
@@ -127,7 +127,7 @@ export function FREDStatsCards({
       <Card
         variant="elevated"
         padding="md"
-        className="border border-white/5 hover:border-blue-400/30 transition-all duration-300"
+        className="border border-border/5 hover:border-blue-400/30 transition-all duration-300"
       >
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-xs font-semibold text-foreground">Desempleo</h3>

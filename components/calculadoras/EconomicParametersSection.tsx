@@ -28,7 +28,7 @@ export function EconomicParametersSection({
   dolarMEP,
 }: EconomicParametersSectionProps) {
   return (
-    <div className="mb-8 p-6 rounded-xl bg-panel/50 border border-white/5">
+    <div className="mb-8 p-6 rounded-xl bg-panel/50 border border-border/5">
       <h3 className="text-sm font-semibold text-foreground mb-4 uppercase tracking-wider flex items-center gap-2">
         <FaChartLine className="text-brand" />
         Parámetros Económicos (Automáticos desde API)
@@ -45,7 +45,7 @@ export function EconomicParametersSection({
               type="text"
               value={`${inflacionMensualAuto.toFixed(2)}%`}
               readOnly
-              className="w-full pl-10 pr-4 py-3 font-mono font-bold bg-dark-light border border-white/5 rounded-xl text-foreground cursor-not-allowed"
+              className="w-full pl-10 pr-4 py-3 font-mono font-bold bg-dark-light border border-border/5 rounded-xl text-foreground cursor-not-allowed"
               title={ultimaInflacion ? `Dato del ${ultimaInflacion.fecha}` : 'Valor estimado'}
             />
           </div>
@@ -67,7 +67,7 @@ export function EconomicParametersSection({
               type="text"
               value={`${devaluacionMensualAuto.toFixed(2)}%`}
               readOnly
-              className="w-full pl-10 pr-4 py-3 font-mono font-bold bg-dark-light border border-white/5 rounded-xl text-foreground cursor-not-allowed"
+              className="w-full pl-10 pr-4 py-3 font-mono font-bold bg-dark-light border border-border/5 rounded-xl text-foreground cursor-not-allowed"
               title="Calculado desde dólar blue del último mes"
             />
           </div>
@@ -89,7 +89,7 @@ export function EconomicParametersSection({
               type="text"
               value={`${spreadMEPAuto.toFixed(2)}%`}
               readOnly
-              className="w-full pl-10 pr-4 py-3 font-mono font-bold bg-dark-light border border-white/5 rounded-xl text-foreground cursor-not-allowed"
+              className="w-full pl-10 pr-4 py-3 font-mono font-bold bg-dark-light border border-border/5 rounded-xl text-foreground cursor-not-allowed"
               title={
                 dolarMEP
                   ? `Blue: $${dolarBlue?.venta.toFixed(2)} | MEP: $${dolarMEP.venta.toFixed(2)}`

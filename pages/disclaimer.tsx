@@ -255,7 +255,7 @@ export default function DisclaimerPage() {
           </section>
 
           {/* Aceptación */}
-          <section className="pt-6 border-t border-white/10">
+          <section className="pt-6 border-t border-border/10">
             <h2 className="text-2xl font-bold text-foreground mb-4">Aceptación</h2>
             <p className="mb-3">
               Al utilizar Dólar Gaucho, usted confirma que ha leído, comprendido y aceptado este

@@ -81,7 +81,7 @@ export default function HelpPage() {
                 placeholder="Buscar en el centro de ayuda..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 rounded-lg bg-background border border-white/10 text-foreground placeholder-secondary/60 focus:bg-background/80 focus:border-brand/50 hover:border-white/20 transition-all outline-none"
+                className="w-full pl-12 pr-4 py-3 rounded-lg bg-background border border-border/10 text-foreground placeholder-secondary/60 focus:bg-background/80 focus:border-brand/50 hover:border-white/20 transition-all outline-none"
               />
             </div>
           </div>

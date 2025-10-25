@@ -65,7 +65,7 @@ const statusConfig = {
     icon: FaClock,
     color: 'text-secondary',
     bgColor: 'bg-panel/10',
-    borderColor: 'border-white/10',
+    borderColor: 'border-border/10',
     badgeBg: 'bg-panel/20',
     gradientOverlay: 'from-white/5 to-transparent',
   },
@@ -79,7 +79,7 @@ const priorityConfig = {
     bg: 'bg-warning/10',
     border: 'border-warning/20',
   },
-  low: { label: 'Baja', color: 'text-secondary', bg: 'bg-panel/10', border: 'border-white/10' },
+  low: { label: 'Baja', color: 'text-secondary', bg: 'bg-panel/10', border: 'border-border/10' },
 };
 
 interface VoteButtonProps {
@@ -111,7 +111,7 @@ function VoteButton({ featureId, voteCount, hasVoted, onVote, isAuthenticated }:
         className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg border transition-all duration-300 ${
           hasVoted
             ? 'bg-brand/20 border-brand/40 text-brand'
-            : 'bg-panel/10 border-white/10 text-secondary hover:border-brand/30 hover:bg-brand/10'
+            : 'bg-panel/10 border-border/10 text-secondary hover:border-brand/30 hover:bg-brand/10'
         }`}
       >
         <motion.div animate={{ scale: hasVoted ? [1, 1.2, 1] : 1 }} transition={{ duration: 0.3 }}>
@@ -319,7 +319,7 @@ export default function RoadmapPage() {
                   className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
                     selectedStatus === status
                       ? 'bg-gradient-to-r from-brand to-brand-light text-white shadow-lg shadow-brand/30'
-                      : 'bg-panel/10 text-secondary hover:bg-panel/20 border border-white/10'
+                      : 'bg-panel/10 text-secondary hover:bg-panel/20 border border-border/10'
                   }`}
                 >
                   {status === 'all'
@@ -343,7 +343,7 @@ export default function RoadmapPage() {
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg bg-panel border border-white/10 text-foreground focus:border-brand/50 focus:outline-none transition-all"
+              className="w-full px-4 py-2 rounded-lg bg-panel border border-border/10 text-foreground focus:border-brand/50 focus:outline-none transition-all"
             >
               {ROADMAP_CATEGORIES.map((category) => (
                 <option key={category} value={category}>
@@ -362,7 +362,7 @@ export default function RoadmapPage() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as SortOption)}
-              className="w-full px-4 py-2 rounded-lg bg-panel border border-white/10 text-foreground focus:border-brand/50 focus:outline-none transition-all"
+              className="w-full px-4 py-2 rounded-lg bg-panel border border-border/10 text-foreground focus:border-brand/50 focus:outline-none transition-all"
             >
               <option value="status">Estado (Default)</option>
               <option value="votes">Más Votados</option>
@@ -442,7 +442,7 @@ export default function RoadmapPage() {
             viewport={{ once: true }}
             whileHover={{ y: -5, scale: 1.02 }}
             transition={{ delay: 0.3, type: 'spring', stiffness: 300 }}
-            className="relative overflow-hidden bg-gradient-to-br from-white/5 via-white/[0.02] to-transparent backdrop-blur-sm border border-white/10 rounded-2xl p-6 group"
+            className="relative overflow-hidden bg-gradient-to-br from-white/5 via-white/[0.02] to-transparent backdrop-blur-sm border border-border/10 rounded-2xl p-6 group"
           >
             {/* Glow effect */}
             <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -520,13 +520,13 @@ export default function RoadmapPage() {
                           <div className="flex items-start justify-between mb-4">
                             <motion.div
                               whileHover={{ scale: 1.1, rotate: 5 }}
-                              className={`p-3 rounded-xl ${config.bgColor} backdrop-blur-sm border border-white/5 shadow-lg`}
+                              className={`p-3 rounded-xl ${config.bgColor} backdrop-blur-sm border border-border/5 shadow-lg`}
                             >
                               <Icon className={`${config.color} text-xl`} />
                             </motion.div>
                             <motion.span
                               whileHover={{ scale: 1.05 }}
-                              className={`px-3 py-1.5 rounded-full text-xs font-bold ${config.badgeBg} ${config.color} backdrop-blur-sm border border-white/10 shadow-sm`}
+                              className={`px-3 py-1.5 rounded-full text-xs font-bold ${config.badgeBg} ${config.color} backdrop-blur-sm border border-border/10 shadow-sm`}
                             >
                               {feature.category}
                             </motion.span>
@@ -545,7 +545,7 @@ export default function RoadmapPage() {
                             {feature.quarter && (
                               <motion.div
                                 whileHover={{ scale: 1.05 }}
-                                className="flex items-center gap-1.5 px-2.5 py-1.5 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-lg border border-white/10"
+                                className="flex items-center gap-1.5 px-2.5 py-1.5 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-lg border border-border/10"
                               >
                                 <FaCalendarAlt className="text-brand text-xs" />
                                 <span className="text-xs font-semibold text-foreground">
@@ -556,7 +556,7 @@ export default function RoadmapPage() {
                             {feature.effort && (
                               <motion.div
                                 whileHover={{ scale: 1.05 }}
-                                className="flex items-center gap-1.5 px-2.5 py-1.5 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-lg border border-white/10"
+                                className="flex items-center gap-1.5 px-2.5 py-1.5 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-lg border border-border/10"
                               >
                                 <FaHourglass className="text-secondary text-xs" />
                                 <span className="text-xs text-secondary">{feature.effort}</span>
@@ -565,7 +565,7 @@ export default function RoadmapPage() {
                           </div>
 
                           {/* Footer - Status specific info */}
-                          <div className="pt-4 border-t border-white/10 mt-auto">
+                          <div className="pt-4 border-t border-border/10 mt-auto">
                             {feature.status === 'completed' && feature.completedDate && (
                               <div className="flex items-center gap-2 px-3 py-2 bg-success/10 rounded-lg border border-success/20">
                                 <FaCheckCircle className="text-success text-sm" />
@@ -591,7 +591,7 @@ export default function RoadmapPage() {
                                     {feature.progress}%
                                   </motion.span>
                                 </div>
-                                <div className="w-full h-2.5 bg-panel/20 rounded-full overflow-hidden backdrop-blur-sm border border-white/5">
+                                <div className="w-full h-2.5 bg-panel/20 rounded-full overflow-hidden backdrop-blur-sm border border-border/5">
                                   <motion.div
                                     initial={{ width: 0 }}
                                     whileInView={{ width: `${feature.progress}%` }}
@@ -618,7 +618,8 @@ export default function RoadmapPage() {
                                       className={`px-2.5 py-1 rounded-lg text-xs font-bold backdrop-blur-sm border ${
                                         priorityConfig[feature.priority].bg
                                       } ${priorityConfig[feature.priority].color} ${
-                                        priorityConfig[feature.priority].border || 'border-white/10'
+                                        priorityConfig[feature.priority].border ||
+                                        'border-border/10'
                                       }`}
                                     >
                                       {priorityConfig[feature.priority].label}

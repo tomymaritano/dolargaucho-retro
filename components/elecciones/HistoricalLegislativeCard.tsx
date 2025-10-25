@@ -29,7 +29,7 @@ export const HistoricalLegislativeCard = React.memo(function HistoricalLegislati
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 0.5 }}
-      className="bg-panel/50 border border-white/5 rounded-2xl overflow-hidden hover:border-white/20 transition-all duration-300"
+      className="bg-panel/50 border border-border/5 rounded-2xl overflow-hidden hover:border-white/20 transition-all duration-300"
     >
       {/* Header - Always Visible */}
       <button
@@ -115,7 +115,7 @@ export const HistoricalLegislativeCard = React.memo(function HistoricalLegislati
             transition={{ duration: 0.3 }}
             className="overflow-hidden"
           >
-            <div className="px-6 pb-6 pt-2 border-t border-white/10">
+            <div className="px-6 pb-6 pt-2 border-t border-border/10">
               {/* All Parties */}
               <div className="space-y-4">
                 <h4 className="text-sm font-bold text-foreground uppercase tracking-wider">
@@ -208,7 +208,7 @@ export const HistoricalLegislativeCard = React.memo(function HistoricalLegislati
               </div>
 
               {/* Stats Footer */}
-              <div className="mt-6 pt-4 border-t border-white/10 grid grid-cols-3 gap-4 text-center">
+              <div className="mt-6 pt-4 border-t border-border/10 grid grid-cols-3 gap-4 text-center">
                 <div>
                   <div className="text-xs text-secondary uppercase tracking-wide mb-1">
                     Electores

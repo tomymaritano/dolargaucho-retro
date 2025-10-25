@@ -39,7 +39,7 @@ export function CommunityThanks() {
   }
 
   return (
-    <section className="w-full bg-background py-20 px-6 border-t border-white/10">
+    <section className="w-full bg-background py-20 px-6 border-t border-border/10">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
@@ -84,7 +84,7 @@ export function CommunityThanks() {
               transition={{ duration: 0.3, delay: index * 0.02 }}
               whileHover={{ scale: 1.05 }}
               className="group bg-gradient-to-br from-white/5 to-transparent backdrop-blur-sm
-                         border border-white/5 hover:border-brand/30 rounded-xl p-4
+                         border border-border/5 hover:border-brand/30 rounded-xl p-4
                          transition-all duration-300"
             >
               <div className="flex flex-col items-center gap-2">

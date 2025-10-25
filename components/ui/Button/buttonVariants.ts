@@ -38,7 +38,7 @@ export const buttonVariants = cva(
         // SECONDARY - Subtle border with hover fill
         secondary: [
           'bg-transparent',
-          'border border-white/10',
+          'border border-border/10',
           'text-foreground',
           'hover:bg-white/5',
           'hover:border-white/20',

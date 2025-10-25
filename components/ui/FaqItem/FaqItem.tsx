@@ -39,7 +39,7 @@ export function FaqItem({ faq, isOpen, onToggle, index = 0 }: FaqItemProps) {
     >
       <div
         className={`bg-panel/50 border ${
-          isOpen ? 'border-brand/30' : 'border-white/10'
+          isOpen ? 'border-brand/30' : 'border-border/10'
         } rounded-xl overflow-hidden hover:border-brand/30 hover:bg-panel/80 transition-all`}
       >
         {/* Question Button */}
@@ -78,7 +78,7 @@ export function FaqItem({ faq, isOpen, onToggle, index = 0 }: FaqItemProps) {
               transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
               className="overflow-hidden"
             >
-              <div className="px-4 pb-4 pt-2 border-t border-white/10">
+              <div className="px-4 pb-4 pt-2 border-t border-border/10">
                 <p className="text-secondary text-sm leading-relaxed">{faq.answer}</p>
               </div>
             </motion.div>

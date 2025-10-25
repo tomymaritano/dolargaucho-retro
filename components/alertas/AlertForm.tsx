@@ -120,7 +120,7 @@ export const AlertForm = React.memo(function AlertForm({
                     className={`p-4 rounded-xl border transition-all text-center ${
                       isSelected
                         ? 'border-brand bg-brand/10'
-                        : 'border-white/10 hover:border-brand/50 hover:bg-panel/50'
+                        : 'border-border/10 hover:border-brand/50 hover:bg-panel/50'
                     }`}
                   >
                     <Icon
@@ -160,7 +160,7 @@ export const AlertForm = React.memo(function AlertForm({
                     className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                       casaDolar === casa.value
                         ? 'bg-brand text-background-dark'
-                        : 'bg-panel border border-white/5 text-secondary hover:text-foreground hover:border-brand/30'
+                        : 'bg-panel border border-border/5 text-secondary hover:text-foreground hover:border-brand/30'
                     }`}
                   >
                     {casa.label}
@@ -187,7 +187,7 @@ export const AlertForm = React.memo(function AlertForm({
                     className={`p-3 rounded-lg text-sm font-medium transition-all ${
                       condicion === cond.value
                         ? 'bg-brand text-background-dark'
-                        : 'bg-panel border border-white/5 text-secondary hover:text-foreground'
+                        : 'bg-panel border border-border/5 text-secondary hover:text-foreground'
                     }`}
                   >
                     <div className="text-xl mb-1">{cond.icon}</div>
@@ -231,13 +231,13 @@ export const AlertForm = React.memo(function AlertForm({
               value={mensaje}
               onChange={(e) => setMensaje(e.target.value)}
               placeholder="Ej: ¡El dólar blue llegó a $1200! Hora de comprar..."
-              className="w-full px-4 py-3 bg-panel border border-white/5 rounded-xl text-foreground placeholder-secondary focus:outline-none focus:border-brand/50 focus:ring-2 focus:ring-brand/20 transition-all resize-none"
+              className="w-full px-4 py-3 bg-panel border border-border/5 rounded-xl text-foreground placeholder-secondary focus:outline-none focus:border-brand/50 focus:ring-2 focus:ring-brand/20 transition-all resize-none"
               rows={3}
             />
           </div>
 
           {/* Botones */}
-          <div className="flex gap-3 pt-4 border-t border-white/10/50">
+          <div className="flex gap-3 pt-4 border-t border-border/10/50">
             <Button
               type="button"
               variant="ghost"

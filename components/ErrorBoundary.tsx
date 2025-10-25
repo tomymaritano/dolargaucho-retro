@@ -54,7 +54,7 @@ class ErrorBoundary extends Component<Props, State> {
         <div className="min-h-screen bg-background flex items-center justify-center p-6">
           <div className="max-w-7xl w-full">
             {/* Card principal */}
-            <div className="bg-panel border border-white/5 rounded-2xl p-8 shadow-xl">
+            <div className="bg-panel border border-border/5 rounded-2xl p-8 shadow-xl">
               {/* Icono y título */}
               <div className="flex items-start gap-4 mb-6">
                 <div className="p-4 bg-error/10 rounded-xl">
@@ -81,7 +81,7 @@ class ErrorBoundary extends Component<Props, State> {
                   <summary className="cursor-pointer text-sm text-secondary hover:text-foreground mb-2">
                     Ver detalles técnicos
                   </summary>
-                  <div className="p-4 bg-background rounded-lg border border-white/5 overflow-x-auto">
+                  <div className="p-4 bg-background rounded-lg border border-border/5 overflow-x-auto">
                     <pre className="text-xs text-secondary whitespace-pre-wrap font-mono">
                       {this.state.errorInfo.componentStack}
                     </pre>
@@ -100,7 +100,7 @@ class ErrorBoundary extends Component<Props, State> {
                 </button>
                 <button
                   onClick={this.handleGoHome}
-                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-panel border border-white/5 hover:bg-brand/10 hover:border-brand text-foreground font-semibold rounded-lg transition-all active:scale-[0.98]"
+                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-panel border border-border/5 hover:bg-brand/10 hover:border-brand text-foreground font-semibold rounded-lg transition-all active:scale-[0.98]"
                 >
                   <FaHome />
                   Volver al inicio
@@ -108,7 +108,7 @@ class ErrorBoundary extends Component<Props, State> {
               </div>
 
               {/* Info adicional */}
-              <div className="mt-6 pt-6 border-t border-white/10">
+              <div className="mt-6 pt-6 border-t border-border/10">
                 <p className="text-sm text-secondary leading-relaxed">
                   Si el problema persiste, por favor{' '}
                   <a

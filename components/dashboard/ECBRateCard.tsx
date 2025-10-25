@@ -20,7 +20,7 @@ export const ECBRateCard = React.memo(function ECBRateCard({
 }: ECBRateCardProps) {
   return (
     <div
-      className="group relative p-4 md:p-5 rounded-xl bg-panel/50 border border-white/5 hover:border-brand/30 hover:bg-panel/80 transition-all duration-300 cursor-pointer overflow-hidden"
+      className="group relative p-4 md:p-5 rounded-xl bg-panel/50 border border-border/5 hover:border-brand/30 hover:bg-panel/80 transition-all duration-300 cursor-pointer overflow-hidden"
       onClick={onToggleCharts}
     >
       {/* Subtle glow effect on hover */}

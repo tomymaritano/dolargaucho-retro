@@ -32,7 +32,7 @@ const buttonVariants = cva(
       // Variante de estilo
       variant: {
         primary: 'bg-brand text-dark hover:bg-brand-light focus:ring-brand',
-        secondary: 'glass border border-white/5 text-white hover:bg-panel/20 focus:ring-white',
+        secondary: 'glass border border-border/5 text-white hover:bg-panel/20 focus:ring-white',
         outline: 'border-2 border-brand text-brand hover:bg-brand/10 focus:ring-brand',
         ghost: 'text-brand hover:bg-brand/10',
         danger: 'bg-error text-white hover:bg-error/90 focus:ring-error',
@@ -103,10 +103,10 @@ export function Button({
 const cardVariants = cva('rounded-xl transition-all', {
   variants: {
     variant: {
-      default: 'glass-strong border border-white/5',
+      default: 'glass-strong border border-border/5',
       outlined: 'border-2 border-brand/20 bg-transparent',
-      elevated: 'glass-strong shadow-2xl border border-white/10',
-      solid: 'bg-dark-light border border-white/5',
+      elevated: 'glass-strong shadow-2xl border border-border/10',
+      solid: 'bg-dark-light border border-border/5',
     },
     padding: {
       none: 'p-0',
@@ -186,7 +186,7 @@ Card.Footer = function CardFooter({
   children: React.ReactNode;
   className?: string;
 }) {
-  return <div className={cn('mt-4 pt-4 border-t border-white/10', className)}>{children}</div>;
+  return <div className={cn('mt-4 pt-4 border-t border-border/10', className)}>{children}</div>;
 };
 
 // Ejemplo de uso:
@@ -252,7 +252,7 @@ const inputVariants = cva(
   {
     variants: {
       variant: {
-        default: 'border-white/5 bg-dark-light text-white focus:ring-brand focus:border-brand',
+        default: 'border-border/5 bg-dark-light text-white focus:ring-brand focus:border-brand',
         outlined: 'border-brand/40 bg-transparent text-white focus:ring-brand focus:border-brand',
         error: 'border-error bg-error/5 text-white focus:ring-error focus:border-error',
       },
