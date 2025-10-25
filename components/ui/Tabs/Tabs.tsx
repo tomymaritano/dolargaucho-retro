@@ -41,7 +41,7 @@ export function Tabs({
 
   const variantClasses = {
     default: {
-      container: 'bg-panel border border-white/10 rounded-lg p-1',
+      container: 'bg-panel border border-border rounded-lg p-1',
       tab: 'rounded-md relative',
       active: 'text-foreground',
       inactive: 'text-secondary hover:text-foreground',

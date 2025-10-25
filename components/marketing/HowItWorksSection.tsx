@@ -126,7 +126,7 @@ export const HowItWorksSection = React.memo(function HowItWorksSection() {
                 >
                   {step.visual === 'signup' ? (
                     // Signup mockup
-                    <div className="bg-gradient-to-br from-background via-background to-background-secondary rounded-2xl p-8 border border-white/10 shadow-2xl shadow-black/20">
+                    <div className="bg-gradient-to-br from-background via-background to-background-secondary rounded-2xl p-8 border border-border shadow-2xl shadow-black/20">
                       <div className="max-w-sm mx-auto">
                         <div className="text-center mb-6">
                           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-brand/10 mb-4">
@@ -142,7 +142,7 @@ export const HowItWorksSection = React.memo(function HowItWorksSection() {
                               initial={{ opacity: 0, x: -10 }}
                               animate={{ opacity: 1, x: 0 }}
                               transition={{ delay: i * 0.1 }}
-                              className="bg-panel border border-white/5 rounded-lg p-3"
+                              className="bg-panel border border-border rounded-lg p-3"
                             >
                               <div className="text-xs text-secondary mb-1">{field}</div>
                               <div className="h-4 bg-white/5 rounded w-3/4"></div>
@@ -164,7 +164,7 @@ export const HowItWorksSection = React.memo(function HowItWorksSection() {
                     <DashboardPreview />
                   ) : (
                     // Alerts mockup
-                    <div className="bg-gradient-to-br from-background via-background to-background-secondary rounded-2xl p-6 border border-white/10 shadow-2xl shadow-black/20">
+                    <div className="bg-gradient-to-br from-background via-background to-background-secondary rounded-2xl p-6 border border-border shadow-2xl shadow-black/20">
                       <div className="mb-4">
                         <h4 className="text-lg font-bold text-foreground mb-2">Mis Alertas</h4>
                         <p className="text-sm text-secondary">Te notificamos cuando se cumplan</p>
@@ -180,7 +180,7 @@ export const HowItWorksSection = React.memo(function HowItWorksSection() {
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: i * 0.1 }}
-                            className="bg-panel border border-white/5 rounded-lg p-3 flex items-center justify-between"
+                            className="bg-panel border border-border rounded-lg p-3 flex items-center justify-between"
                           >
                             <div>
                               <div className="text-sm font-medium text-foreground">

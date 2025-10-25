@@ -287,7 +287,7 @@ export const FounderStory = React.memo(function FounderStory() {
               <SocialLinks size="md" showStars className="justify-center md:justify-start mb-8" />
 
               {/* Credits - Avatar Stack */}
-              <div className="pt-6 border-t border-white/5">
+              <div className="pt-6 border-t border-border">
                 <p className="text-xs font-bold text-foreground/70 mb-4 uppercase tracking-wider">
                   Agradecimientos Especiales
                 </p>

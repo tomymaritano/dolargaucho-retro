@@ -154,7 +154,7 @@ export const ECBLightweightChart = React.memo(function ECBLightweightChart({
       {/* Top: Title and all controls in one row (TradingView style) */}
       <div className="absolute top-2 left-2 right-2 z-10 flex items-center justify-between gap-2">
         {/* Left: Title and stats */}
-        <div className="bg-background/90 backdrop-blur-sm px-2 py-1.5 rounded-lg border border-white/5 pointer-events-none">
+        <div className="bg-background/90 backdrop-blur-sm px-2 py-1.5 rounded-lg border border-border pointer-events-none">
           <h3 className="text-[10px] font-bold text-foreground">{title}</h3>
           <div className="flex items-baseline gap-1.5 mt-0.5">
             <span className="text-sm font-black" style={{ color }}>
@@ -169,7 +169,7 @@ export const ECBLightweightChart = React.memo(function ECBLightweightChart({
         </div>
 
         {/* Right: Period selector */}
-        <div className="bg-background/90 backdrop-blur-sm rounded-lg border border-white/5 p-0.5 flex gap-0.5">
+        <div className="bg-background/90 backdrop-blur-sm rounded-lg border border-border p-0.5 flex gap-0.5">
           {([6, 12, 24, 60] as const).map((period) => (
             <button
               key={period}
@@ -177,7 +177,7 @@ export const ECBLightweightChart = React.memo(function ECBLightweightChart({
               className={`px-2 py-0.5 rounded text-[9px] font-bold transition-all ${
                 monthsToShow === period
                   ? 'bg-brand text-white'
-                  : 'text-secondary hover:bg-white/10 hover:text-foreground'
+                  : 'text-secondary hover:bg-panel/20 hover:text-foreground'
               }`}
             >
               {period === 60 ? '5Y' : `${period}M`}

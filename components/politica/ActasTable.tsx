@@ -61,7 +61,7 @@ export const ActasTable = React.memo(function ActasTable({ actas, limit }: Actas
               return (
                 <React.Fragment key={`${acta.id}-${index}`}>
                   {/* Main row */}
-                  <tr className="hover:bg-white/5 transition-colors">
+                  <tr className="hover:bg-panel/10 transition-colors">
                     <td className="px-4 py-3 text-sm text-foreground whitespace-nowrap">
                       {new Date(acta.fecha).toLocaleDateString('es-AR', {
                         day: '2-digit',

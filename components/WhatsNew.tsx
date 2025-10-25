@@ -152,11 +152,11 @@ const WhatsNew = React.memo(function WhatsNew({
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className={`mb-4 ${entry.highlight && isExpanded ? 'border-l-4 border-brand pl-4' : ''} ${!isExpanded ? 'pb-4 border-b border-white/5' : ''}`}
+        className={`mb-4 ${entry.highlight && isExpanded ? 'border-l-4 border-brand pl-4' : ''} ${!isExpanded ? 'pb-4 border-b border-border' : ''}`}
       >
         {/* Header - Always visible, clickable for old entries */}
         <div
-          className={`flex items-center gap-3 ${!isFirstEntry ? 'cursor-pointer hover:bg-white/5 rounded-lg p-2 -m-2' : ''}`}
+          className={`flex items-center gap-3 ${!isFirstEntry ? 'cursor-pointer hover:bg-panel/10 rounded-lg p-2 -m-2' : ''}`}
           onClick={() => !isFirstEntry && toggleEntry(index)}
         >
           {entry.emoji && <span className="text-3xl">{entry.emoji}</span>}
@@ -312,7 +312,7 @@ const WhatsNew = React.memo(function WhatsNew({
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 exit={{ scale: 0.9, opacity: 0, y: 20 }}
                 transition={{ type: 'spring', damping: 20, stiffness: 300 }}
-                className="relative w-full max-w-2xl max-h-[85vh] bg-panel border border-white/10 rounded-2xl shadow-2xl overflow-hidden pointer-events-auto"
+                className="relative w-full max-w-2xl max-h-[85vh] bg-panel border border-border rounded-2xl shadow-2xl overflow-hidden pointer-events-auto"
               >
                 {/* Header */}
                 <div className="sticky top-0 z-10 bg-gradient-to-b from-panel to-panel/95 backdrop-blur-sm border-b border-white/10 px-6 py-4">
@@ -330,7 +330,7 @@ const WhatsNew = React.memo(function WhatsNew({
                     </div>
                     <button
                       onClick={handleClose}
-                      className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white/5 transition-colors text-secondary hover:text-foreground"
+                      className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-panel/10 transition-colors text-secondary hover:text-foreground"
                     >
                       <FaTimes />
                     </button>

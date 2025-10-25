@@ -76,7 +76,7 @@ export function LegalLayout({ children, title, lastUpdated, tableOfContents }: L
                         className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
                           isActive
                             ? 'bg-brand/10 text-brand font-medium'
-                            : 'text-secondary hover:text-foreground hover:bg-white/5'
+                            : 'text-secondary hover:text-foreground hover:bg-panel/10'
                         }`}
                       >
                         <Icon className={`text-sm ${isActive ? 'text-brand' : 'text-secondary'}`} />
@@ -128,7 +128,7 @@ export function LegalLayout({ children, title, lastUpdated, tableOfContents }: L
 
               {/* Content */}
               <div className="prose prose-invert prose-lg max-w-none">
-                <div className="bg-panel rounded-xl p-6 md:p-8 border border-white/10">
+                <div className="bg-panel rounded-xl p-6 md:p-8 border border-border">
                   {children}
                 </div>
               </div>

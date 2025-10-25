@@ -41,7 +41,7 @@ export default function ShimmerBorder({
       />
 
       {/* Content */}
-      <div className="relative z-10 rounded-xl border border-white/10 bg-panel">{children}</div>
+      <div className="relative z-10 rounded-xl border border-border bg-panel">{children}</div>
     </div>
   );
 }

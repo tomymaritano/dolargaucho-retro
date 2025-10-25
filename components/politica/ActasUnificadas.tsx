@@ -209,7 +209,7 @@ export const ActasUnificadas = React.memo(function ActasUnificadas({
               className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium transition-all ${
                 camara === 'senado'
                   ? 'bg-brand text-background shadow-lg'
-                  : 'text-foreground hover:bg-white/5'
+                  : 'text-foreground hover:bg-panel/10'
               }`}
             >
               <FaLandmark />
@@ -220,7 +220,7 @@ export const ActasUnificadas = React.memo(function ActasUnificadas({
               className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium transition-all ${
                 camara === 'diputados'
                   ? 'bg-brand text-background shadow-lg'
-                  : 'text-foreground hover:bg-white/5'
+                  : 'text-foreground hover:bg-panel/10'
               }`}
             >
               <FaUsers />
@@ -344,7 +344,7 @@ export const ActasUnificadas = React.memo(function ActasUnificadas({
                   return (
                     <React.Fragment key={`${acta.id}-${index}`}>
                       {/* Main row */}
-                      <tr className="hover:bg-white/5 transition-colors">
+                      <tr className="hover:bg-panel/10 transition-colors">
                         <td className="px-4 py-3 text-sm text-foreground whitespace-nowrap">
                           {new Date(acta.fecha).toLocaleDateString('es-AR', {
                             day: '2-digit',

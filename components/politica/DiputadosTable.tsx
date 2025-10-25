@@ -259,7 +259,7 @@ export const DiputadosTable = React.memo(function DiputadosTable() {
               <button
                 onClick={() => setCurrentPage(1)}
                 disabled={currentPage === 1}
-                className="px-3 py-2 rounded-lg border border-border bg-panel text-foreground hover:bg-white/5 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                className="px-3 py-2 rounded-lg border border-border bg-panel text-foreground hover:bg-panel/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 aria-label="Primera página"
               >
                 <span className="text-sm font-medium">Primera</span>
@@ -269,7 +269,7 @@ export const DiputadosTable = React.memo(function DiputadosTable() {
               <button
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
-                className="px-3 py-2 rounded-lg border border-border bg-panel text-foreground hover:bg-white/5 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                className="px-3 py-2 rounded-lg border border-border bg-panel text-foreground hover:bg-panel/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 aria-label="Página anterior"
               >
                 <FaChevronLeft />
@@ -296,7 +296,7 @@ export const DiputadosTable = React.memo(function DiputadosTable() {
                       className={`w-10 h-10 rounded-lg border transition-all ${
                         currentPage === pageNum
                           ? 'bg-brand text-background border-brand font-semibold'
-                          : 'border-border bg-panel text-foreground hover:bg-white/5'
+                          : 'border-border bg-panel text-foreground hover:bg-panel/10'
                       }`}
                     >
                       {pageNum}
@@ -309,7 +309,7 @@ export const DiputadosTable = React.memo(function DiputadosTable() {
               <button
                 onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
-                className="px-3 py-2 rounded-lg border border-border bg-panel text-foreground hover:bg-white/5 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                className="px-3 py-2 rounded-lg border border-border bg-panel text-foreground hover:bg-panel/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 aria-label="Página siguiente"
               >
                 <FaChevronRight />
@@ -319,7 +319,7 @@ export const DiputadosTable = React.memo(function DiputadosTable() {
               <button
                 onClick={() => setCurrentPage(totalPages)}
                 disabled={currentPage === totalPages}
-                className="px-3 py-2 rounded-lg border border-border bg-panel text-foreground hover:bg-white/5 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                className="px-3 py-2 rounded-lg border border-border bg-panel text-foreground hover:bg-panel/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 aria-label="Última página"
               >
                 <span className="text-sm font-medium">Última</span>

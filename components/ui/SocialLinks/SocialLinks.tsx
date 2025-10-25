@@ -59,7 +59,7 @@ function SocialLinkButton({
         stiffness: 400,
         damping: 25,
       }}
-      className={`group relative inline-flex items-center justify-center ${sizeClasses.square[size]} rounded-lg border border-white/5 hover:border-white/10 transition-all`}
+      className={`group relative inline-flex items-center justify-center ${sizeClasses.square[size]} rounded-lg border border-border hover:border-white/10 transition-all`}
       aria-label={social.label}
     >
       {/* Icon */}

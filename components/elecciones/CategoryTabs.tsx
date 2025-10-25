@@ -27,7 +27,7 @@ export const CategoryTabs = React.memo(function CategoryTabs({
   onCategoryChange,
 }: CategoryTabsProps) {
   return (
-    <div className="flex gap-2 p-1 bg-white/5 rounded-xl border border-white/10">
+    <div className="flex gap-2 p-1 bg-white/5 rounded-xl border border-border">
       {CATEGORIES.map((category) => {
         const isActive = activeCategory === category.id;
 
@@ -38,7 +38,7 @@ export const CategoryTabs = React.memo(function CategoryTabs({
             className={`flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
               isActive
                 ? 'bg-brand text-white shadow-sm'
-                : 'text-secondary hover:text-foreground hover:bg-white/5'
+                : 'text-secondary hover:text-foreground hover:bg-panel/10'
             }`}
             type="button"
           >

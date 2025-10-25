@@ -185,7 +185,7 @@ export const ActasDiputados = React.memo(function ActasDiputados({
               {actasFiltradas.map((acta, index) => (
                 <div
                   key={`${acta.fecha}-${index}`}
-                  className="p-4 glass border border-border rounded-lg hover:bg-white/5 transition-colors"
+                  className="p-4 glass border border-border rounded-lg hover:bg-panel/10 transition-colors"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">

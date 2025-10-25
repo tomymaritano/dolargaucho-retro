@@ -24,7 +24,7 @@ export const CamaraSelector = React.memo(function CamaraSelector({
         className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium transition-all ${
           camara === 'senado'
             ? 'bg-brand text-background shadow-lg'
-            : 'text-foreground hover:bg-white/5'
+            : 'text-foreground hover:bg-panel/10'
         }`}
       >
         <FaLandmark />
@@ -35,7 +35,7 @@ export const CamaraSelector = React.memo(function CamaraSelector({
         className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium transition-all ${
           camara === 'diputados'
             ? 'bg-brand text-background shadow-lg'
-            : 'text-foreground hover:bg-white/5'
+            : 'text-foreground hover:bg-panel/10'
         }`}
       >
         <FaUsers />

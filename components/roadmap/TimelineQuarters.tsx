@@ -144,7 +144,7 @@ export const TimelineQuarters = React.memo(function TimelineQuarters({
   return (
     <div className="space-y-8">
       {/* Progress Overview */}
-      <div className="bg-panel/50 backdrop-blur-sm border border-white/10 rounded-2xl p-6">
+      <div className="bg-panel/50 backdrop-blur-sm border border-border rounded-2xl p-6">
         <div className="flex items-end justify-between mb-4">
           <div>
             <h3 className="text-2xl font-bold text-foreground">Roadmap 2025-2026</h3>
@@ -242,7 +242,7 @@ export const TimelineQuarters = React.memo(function TimelineQuarters({
                         ? quarter.status === 'completed'
                           ? 'border-2 border-success shadow-xl shadow-success/20'
                           : 'border-2 border-brand shadow-xl shadow-brand/20'
-                        : 'border border-white/10 hover:border-white/20 hover:shadow-lg'
+                        : 'border border-border hover:border-white/20 hover:shadow-lg'
                     }`}
                   >
                     {/* Header */}

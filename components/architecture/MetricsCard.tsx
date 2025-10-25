@@ -53,7 +53,7 @@ export function MetricsCard({
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.4 }}
-      className="bg-panel border border-white/10 rounded-xl p-6 hover:border-brand/30 transition-all duration-300"
+      className="bg-panel border border-border rounded-xl p-6 hover:border-brand/30 transition-all duration-300"
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-4">

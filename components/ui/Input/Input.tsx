@@ -8,11 +8,11 @@ const inputVariants = cva(
     variants: {
       variant: {
         default:
-          'bg-white/5 border border-white/10 text-foreground placeholder-secondary/60 focus:bg-white/[0.07] focus:border-white/20 hover:border-white/15',
+          'bg-panel/10 border border-border text-foreground placeholder-secondary/60 focus:bg-white/[0.07] focus:border-white/20 hover:border-white/15',
         outlined:
           'bg-transparent border border-brand/30 text-foreground placeholder-secondary/60 focus:border-brand hover:border-brand/50',
         filled:
-          'bg-panel border border-white/10 text-foreground placeholder-secondary/60 focus:border-white/20 hover:border-white/15',
+          'bg-panel border border-border text-foreground placeholder-secondary/60 focus:border-white/20 hover:border-white/15',
         error:
           'bg-white/5 border border-red-500/50 text-foreground placeholder-secondary/60 focus:border-red-500 hover:border-red-500/60',
       },

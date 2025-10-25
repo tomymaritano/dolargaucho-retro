@@ -179,7 +179,7 @@ export function ConfirmDialog({
                     {/* Close button */}
                     <button
                       onClick={onClose}
-                      className="p-2 -mr-2 -mt-2 text-secondary hover:text-foreground hover:bg-white/5 rounded-lg transition-all"
+                      className="p-2 -mr-2 -mt-2 text-secondary hover:text-foreground hover:bg-panel/10 rounded-lg transition-all"
                       aria-label="Cerrar diálogo"
                     >
                       <FaTimes />

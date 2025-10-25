@@ -122,7 +122,7 @@ export const CryptoCard = React.memo(function CryptoCard({
           className={`p-2 rounded-lg transition-all flex-shrink-0 ${
             isFavorite
               ? 'bg-brand/20 text-brand'
-              : 'glass text-secondary hover:text-brand hover:bg-white/5'
+              : 'glass text-secondary hover:text-brand hover:bg-panel/10'
           }`}
           aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
         >

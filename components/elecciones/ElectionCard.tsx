@@ -39,7 +39,7 @@ export const ElectionCard = React.memo(function ElectionCard({
       className={`relative group ${className}`}
     >
       {/* Glassmorphism Card */}
-      <div className="relative p-6 md:p-8 rounded-2xl backdrop-blur-sm bg-gradient-to-br from-white/5 via-white/[0.02] to-transparent border border-white/10 hover:border-white/20 transition-all duration-500">
+      <div className="relative p-6 md:p-8 rounded-2xl backdrop-blur-sm bg-gradient-to-br from-white/5 via-white/[0.02] to-transparent border border-border hover:border-white/20 transition-all duration-500">
         {/* Glow Effect */}
         <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 via-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500 rounded-2xl" />
 

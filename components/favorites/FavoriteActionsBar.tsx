@@ -42,7 +42,7 @@ export function FavoriteActionsBar({
       </button>
       <button
         onClick={onCopy}
-        className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 text-secondary hover:text-brand hover:bg-white/5"
+        className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 text-secondary hover:text-brand hover:bg-panel/10"
         aria-label="Copiar"
         title="Copiar valor"
       >
@@ -50,7 +50,7 @@ export function FavoriteActionsBar({
       </button>
       <button
         onClick={handleShare}
-        className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 text-secondary hover:text-brand hover:bg-white/5"
+        className="p-2 rounded-lg transition-all hover:scale-110 active:scale-95 text-secondary hover:text-brand hover:bg-panel/10"
         aria-label="Compartir"
         title="Compartir"
       >

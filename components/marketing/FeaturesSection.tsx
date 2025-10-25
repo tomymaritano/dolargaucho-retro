@@ -119,7 +119,7 @@ export const FeaturesSection = React.memo(function FeaturesSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
-              className="group relative bg-panel border border-white/5 rounded-2xl p-6 overflow-hidden"
+              className="group relative bg-panel border border-border rounded-2xl p-6 overflow-hidden"
             >
               {/* Gradient hover effect */}
               <div

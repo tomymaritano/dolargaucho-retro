@@ -136,7 +136,7 @@ export const CotizacionesTableRow = React.memo(function CotizacionesTableRow({
               className={`p-1.5 rounded-lg transition-all duration-200 hover:scale-110 active:scale-95 ${
                 isFavorite
                   ? 'text-brand bg-brand/10'
-                  : 'text-secondary hover:text-brand hover:bg-white/5'
+                  : 'text-secondary hover:text-brand hover:bg-panel/10'
               }`}
               aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
               title={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
@@ -145,7 +145,7 @@ export const CotizacionesTableRow = React.memo(function CotizacionesTableRow({
             </button>
             <button
               onClick={handleCopy}
-              className="p-1.5 rounded-lg transition-all duration-200 hover:scale-110 active:scale-95 text-secondary hover:text-brand hover:bg-white/5"
+              className="p-1.5 rounded-lg transition-all duration-200 hover:scale-110 active:scale-95 text-secondary hover:text-brand hover:bg-panel/10"
               aria-label="Copiar"
               title="Copiar valor"
             >
@@ -153,7 +153,7 @@ export const CotizacionesTableRow = React.memo(function CotizacionesTableRow({
             </button>
             <button
               onClick={handleShare}
-              className="p-1.5 rounded-lg transition-all duration-200 hover:scale-110 active:scale-95 text-secondary hover:text-brand hover:bg-white/5"
+              className="p-1.5 rounded-lg transition-all duration-200 hover:scale-110 active:scale-95 text-secondary hover:text-brand hover:bg-panel/10"
               aria-label="Compartir"
               title="Compartir"
             >

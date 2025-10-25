@@ -29,12 +29,12 @@ export const HistoricalLegislativeCard = React.memo(function HistoricalLegislati
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 0.5 }}
-      className="bg-panel/50 border border-white/5 rounded-2xl overflow-hidden hover:border-white/20 transition-all duration-300"
+      className="bg-panel/50 border border-border rounded-2xl overflow-hidden hover:border-white/20 transition-all duration-300"
     >
       {/* Header - Always Visible */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="w-full p-6 text-left hover:bg-white/5 transition-colors"
+        className="w-full p-6 text-left hover:bg-panel/10 transition-colors"
       >
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
@@ -115,7 +115,7 @@ export const HistoricalLegislativeCard = React.memo(function HistoricalLegislati
             transition={{ duration: 0.3 }}
             className="overflow-hidden"
           >
-            <div className="px-6 pb-6 pt-2 border-t border-white/5">
+            <div className="px-6 pb-6 pt-2 border-t border-border">
               {/* All Parties */}
               <div className="space-y-4">
                 <h4 className="text-sm font-bold text-foreground uppercase tracking-wider">
@@ -208,7 +208,7 @@ export const HistoricalLegislativeCard = React.memo(function HistoricalLegislati
               </div>
 
               {/* Stats Footer */}
-              <div className="mt-6 pt-4 border-t border-white/5 grid grid-cols-3 gap-4 text-center">
+              <div className="mt-6 pt-4 border-t border-border grid grid-cols-3 gap-4 text-center">
                 <div>
                   <div className="text-xs text-secondary uppercase tracking-wide mb-1">
                     Electores

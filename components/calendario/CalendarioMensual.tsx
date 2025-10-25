@@ -137,7 +137,7 @@ export const CalendarioMensual = React.memo(function CalendarioMensual({
       <div className="flex items-center justify-between mb-6">
         <button
           onClick={handleMesAnterior}
-          className="p-2 rounded-lg glass hover:bg-white/10 transition-colors text-white"
+          className="p-2 rounded-lg glass hover:bg-panel/20 transition-colors text-white"
         >
           <FaChevronLeft />
         </button>
@@ -154,7 +154,7 @@ export const CalendarioMensual = React.memo(function CalendarioMensual({
 
         <button
           onClick={handleMesSiguiente}
-          className="p-2 rounded-lg glass hover:bg-white/10 transition-colors text-white"
+          className="p-2 rounded-lg glass hover:bg-panel/20 transition-colors text-white"
         >
           <FaChevronRight />
         </button>
@@ -188,7 +188,7 @@ export const CalendarioMensual = React.memo(function CalendarioMensual({
                 ${
                   dia.esOtroMes
                     ? 'text-secondary/30 cursor-not-allowed'
-                    : 'text-white hover:bg-white/10 cursor-pointer'
+                    : 'text-white hover:bg-panel/20 cursor-pointer'
                 }
                 ${hoy ? 'ring-2 ring-brand' : ''}
                 ${dia.esFeriado ? 'bg-brand/20' : 'glass'}

@@ -107,7 +107,7 @@ export const DolarCandlestickChart = React.memo(function DolarCandlestickChart({
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                   casa === type.value
                     ? 'bg-brand text-white'
-                    : 'bg-white/5 text-secondary hover:bg-white/10 hover:text-foreground'
+                    : 'bg-white/5 text-secondary hover:bg-panel/20 hover:text-foreground'
                 }`}
               >
                 {type.label}
@@ -127,7 +127,7 @@ export const DolarCandlestickChart = React.memo(function DolarCandlestickChart({
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                   timeframe === period
                     ? 'bg-brand text-white'
-                    : 'bg-white/5 text-secondary hover:bg-white/10 hover:text-foreground'
+                    : 'bg-white/5 text-secondary hover:bg-panel/20 hover:text-foreground'
                 }`}
               >
                 {period === 365 ? 'Todo' : `${period}D`}
@@ -140,7 +140,7 @@ export const DolarCandlestickChart = React.memo(function DolarCandlestickChart({
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
               showMA
                 ? 'bg-brand/10 text-brand border border-brand/30'
-                : 'bg-white/5 text-secondary hover:bg-white/10 hover:text-foreground'
+                : 'bg-white/5 text-secondary hover:bg-panel/20 hover:text-foreground'
             }`}
           >
             MA {showMA ? '✓' : ''}

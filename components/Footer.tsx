@@ -50,7 +50,7 @@ const Footer = React.memo(function Footer() {
   ];
 
   return (
-    <footer className="relative w-full bg-panel text-foreground border-t border-white/5 overflow-hidden">
+    <footer className="relative w-full bg-panel text-foreground border-t border-border overflow-hidden">
       {/* Subtle gradient background */}
       <div className="absolute inset-0 bg-gradient-to-b from-background/50 to-transparent pointer-events-none" />
 
@@ -131,7 +131,7 @@ const Footer = React.memo(function Footer() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="py-6 border-t border-white/5"
+          className="py-6 border-t border-border"
         >
           <h3 className="text-xs font-semibold text-secondary mb-3 uppercase tracking-wider">
             Fuentes de Datos Oficiales
@@ -147,7 +147,7 @@ const Footer = React.memo(function Footer() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="pt-6 border-t border-white/5"
+          className="pt-6 border-t border-border"
         >
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-secondary">
             <p className="text-center md:text-left">

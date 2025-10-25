@@ -46,7 +46,7 @@ export const CryptoFiltersBar = React.memo(function CryptoFiltersBar({
           <select
             value={sortBy}
             onChange={(e) => onSortChange(e.target.value as SortOption)}
-            className="px-4 py-2.5 rounded-lg text-xs font-semibold glass border border-border text-foreground appearance-none cursor-pointer hover:bg-white/5 transition-all pr-10"
+            className="px-4 py-2.5 rounded-lg text-xs font-semibold glass border border-border text-foreground appearance-none cursor-pointer hover:bg-panel/10 transition-all pr-10"
           >
             <option value="market_cap">Market Cap</option>
             <option value="price">Precio</option>
@@ -67,7 +67,7 @@ export const CryptoFiltersBar = React.memo(function CryptoFiltersBar({
               'px-4 py-2.5 rounded-lg text-xs font-semibold transition-all ' +
               (filterBy === 'all'
                 ? 'bg-brand text-background-dark'
-                : 'glass text-secondary hover:text-foreground hover:bg-white/5')
+                : 'glass text-secondary hover:text-foreground hover:bg-panel/10')
             }
           >
             Todas
@@ -78,7 +78,7 @@ export const CryptoFiltersBar = React.memo(function CryptoFiltersBar({
               'px-4 py-2.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ' +
               (filterBy === 'favorites'
                 ? 'bg-brand text-background-dark'
-                : 'glass text-secondary hover:text-foreground hover:bg-white/5')
+                : 'glass text-secondary hover:text-foreground hover:bg-panel/10')
             }
           >
             <FaStar className="text-xs" />
@@ -90,7 +90,7 @@ export const CryptoFiltersBar = React.memo(function CryptoFiltersBar({
               'px-4 py-2.5 rounded-lg text-xs font-semibold transition-all ' +
               (filterBy === 'stablecoins'
                 ? 'bg-brand text-background-dark'
-                : 'glass text-secondary hover:text-foreground hover:bg-white/5')
+                : 'glass text-secondary hover:text-foreground hover:bg-panel/10')
             }
           >
             Stablecoins
@@ -109,7 +109,7 @@ export const CryptoFiltersBar = React.memo(function CryptoFiltersBar({
                   'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ' +
                   (selectedDolarType === type
                     ? 'bg-brand text-background-dark'
-                    : 'glass text-secondary hover:text-foreground hover:bg-white/5')
+                    : 'glass text-secondary hover:text-foreground hover:bg-panel/10')
                 }
               >
                 {type === 'blue' ? 'Blue' : type === 'oficial' ? 'Oficial' : 'Cripto'}

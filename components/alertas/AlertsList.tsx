@@ -131,7 +131,7 @@ export const AlertsList = React.memo(function AlertsList({
                 ? 'border-brand/50 bg-brand/5'
                 : isPausada
                   ? 'opacity-60 border-border'
-                  : 'border-white/5'
+                  : 'border-border'
             }`}
           >
             <div className="space-y-3">

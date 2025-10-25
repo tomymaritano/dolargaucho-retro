@@ -136,7 +136,7 @@ export const BloqueStatsCard = React.memo(function BloqueStatsCard() {
           <div className="mt-4 pt-4 border-t border-border">
             <button
               onClick={() => setShowAll(!showAll)}
-              className="w-full px-3 py-2 rounded-lg bg-panel border border-border text-foreground hover:bg-white/5 hover:border-brand/50 transition-all text-sm"
+              className="w-full px-3 py-2 rounded-lg bg-panel border border-border text-foreground hover:bg-panel/10 hover:border-brand/50 transition-all text-sm"
             >
               {showAll ? 'Mostrar menos' : `Ver todos (${sortedStats.length - 8} más)`}
             </button>

@@ -15,7 +15,7 @@ export function RoadmapButton() {
   return (
     <Link
       href="/roadmap"
-      className="relative flex items-center justify-center w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-all hover:scale-105 active:scale-95"
+      className="relative flex items-center justify-center w-10 h-10 rounded-lg bg-white/5 hover:bg-panel/20 border border-border transition-all hover:scale-105 active:scale-95"
       aria-label="Ver roadmap"
     >
       <FaRocket className="text-foreground text-lg" />

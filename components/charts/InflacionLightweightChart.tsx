@@ -180,7 +180,7 @@ export const InflacionLightweightChart = React.memo(function InflacionLightweigh
       {/* Top: Title and all controls in one row (TradingView style) */}
       <div className="absolute top-3 left-3 right-3 z-10 flex items-center justify-between gap-3">
         {/* Left: Title and stats */}
-        <div className="bg-background/90 backdrop-blur-sm px-3 py-2 rounded-lg border border-white/5 pointer-events-none">
+        <div className="bg-background/90 backdrop-blur-sm px-3 py-2 rounded-lg border border-border pointer-events-none">
           <h3 className="text-sm font-bold text-foreground">Inflación</h3>
           <div className="flex items-baseline gap-2 mt-1">
             <span className="text-xl font-black text-brand">{latestMensual.toFixed(1)}%</span>
@@ -195,7 +195,7 @@ export const InflacionLightweightChart = React.memo(function InflacionLightweigh
         {/* Right: All controls in one line */}
         <div className="flex items-center gap-2">
           {/* Period selector */}
-          <div className="bg-background/90 backdrop-blur-sm rounded-lg border border-white/5 p-1 flex gap-1">
+          <div className="bg-background/90 backdrop-blur-sm rounded-lg border border-border p-1 flex gap-1">
             {([6, 12, 24, 36] as const).map((period) => (
               <button
                 key={period}
@@ -203,7 +203,7 @@ export const InflacionLightweightChart = React.memo(function InflacionLightweigh
                 className={`px-2.5 py-1 rounded text-[10px] font-bold transition-all ${
                   limit === period
                     ? 'bg-brand text-white'
-                    : 'text-secondary hover:bg-white/10 hover:text-foreground'
+                    : 'text-secondary hover:bg-panel/20 hover:text-foreground'
                 }`}
               >
                 {period}M
@@ -212,13 +212,13 @@ export const InflacionLightweightChart = React.memo(function InflacionLightweigh
           </div>
 
           {/* Toggles */}
-          <div className="bg-background/90 backdrop-blur-sm rounded-lg border border-white/5 p-1 flex gap-1">
+          <div className="bg-background/90 backdrop-blur-sm rounded-lg border border-border p-1 flex gap-1">
             <button
               onClick={() => setShowInteranual(!showInteranual)}
               className={`px-2.5 py-1 rounded text-[10px] font-bold transition-all ${
                 showInteranual
                   ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30'
-                  : 'text-secondary hover:bg-white/10 hover:text-foreground'
+                  : 'text-secondary hover:bg-panel/20 hover:text-foreground'
               }`}
             >
               Interanual
@@ -229,7 +229,7 @@ export const InflacionLightweightChart = React.memo(function InflacionLightweigh
 
       {/* Bottom: Legend overlay */}
       <div className="absolute bottom-3 left-3 z-10 pointer-events-none">
-        <div className="bg-background/90 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-white/5 flex gap-3 text-[10px]">
+        <div className="bg-background/90 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-border flex gap-3 text-[10px]">
           <div className="flex items-center gap-1.5">
             <div className="w-2 h-0.5 bg-brand" />
             <span className="text-secondary">Mensual</span>
