@@ -122,7 +122,7 @@ export const DashboardNavbar = React.memo(function DashboardNavbar() {
       </div>
 
       {/* Navbar - Below marquee */}
-      <nav className="fixed top-12 left-0 right-0 z-[45] bg-background border-b border-white/5">
+      <nav className="fixed top-12 left-0 right-0 z-[45] bg-background border-b border-border">
         <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Top Row: Hamburger, Logo, Actions */}
           <div className="h-16 flex items-center justify-between">
@@ -180,9 +180,9 @@ export const DashboardNavbar = React.memo(function DashboardNavbar() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute right-0 top-full mt-2 w-56 bg-panel rounded-lg shadow-2xl overflow-hidden border border-white/5"
+                      className="absolute right-0 top-full mt-2 w-56 bg-panel rounded-lg shadow-2xl overflow-hidden border border-border"
                     >
-                      <div className="px-4 py-3 border-b border-white/5">
+                      <div className="px-4 py-3 border-b border-border">
                         <p className="text-sm font-medium text-foreground">{user?.name}</p>
                         <p className="text-xs text-secondary truncate">{user?.email}</p>
                       </div>
@@ -196,7 +196,7 @@ export const DashboardNavbar = React.memo(function DashboardNavbar() {
                       </Link>
                       <button
                         onClick={handleSignOut}
-                        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-background-secondary transition-colors text-left border-t border-white/5"
+                        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-background-secondary transition-colors text-left border-t border-border"
                       >
                         <FaSignOutAlt className="text-sm text-error" />
                         <span className="text-sm text-error">Cerrar Sesión</span>
@@ -210,7 +210,7 @@ export const DashboardNavbar = React.memo(function DashboardNavbar() {
 
           {/* Breadcrumbs Row - Hidden on mobile, visible on desktop */}
           {breadcrumbs.length > 1 && (
-            <div className="hidden md:block px-4 py-2 border-t border-white/5">
+            <div className="hidden md:block px-4 py-2 border-t border-border">
               <Breadcrumbs items={breadcrumbs} />
             </div>
           )}
@@ -237,7 +237,7 @@ export const DashboardNavbar = React.memo(function DashboardNavbar() {
               animate={{ x: 0 }}
               exit={{ x: '-100%' }}
               transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-              className="fixed left-0 top-0 bottom-0 w-72 bg-panel/95 backdrop-blur-xl border-r border-white/10 shadow-2xl z-[70] overflow-y-auto"
+              className="fixed left-0 top-0 bottom-0 w-72 bg-panel/95 backdrop-blur-xl border-r border-border shadow-2xl z-[70] overflow-y-auto"
             >
               {/* Header with gradient */}
               <div className="sticky top-0 bg-gradient-to-b from-panel to-transparent p-6 pb-4">
@@ -248,7 +248,7 @@ export const DashboardNavbar = React.memo(function DashboardNavbar() {
                   </div>
                   <button
                     onClick={handleMenuClose}
-                    className="p-2 rounded-lg hover:bg-white/5 transition-colors"
+                    className="p-2 rounded-lg hover:bg-panel/10 transition-colors"
                     aria-label="Cerrar menú"
                   >
                     <FaTimes className="text-lg text-foreground/70" />
@@ -256,7 +256,7 @@ export const DashboardNavbar = React.memo(function DashboardNavbar() {
                 </div>
 
                 {/* User Info - Compact */}
-                <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-background-secondary/30 border border-white/5">
+                <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-background-secondary/30 border border-border">
                   <div className="w-9 h-9 rounded-full bg-brand/20 flex items-center justify-center">
                     <FaUser className="text-sm text-brand" />
                   </div>
@@ -294,7 +294,7 @@ export const DashboardNavbar = React.memo(function DashboardNavbar() {
                             className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group relative overflow-hidden ${
                               isActive
                                 ? 'bg-brand text-white shadow-lg shadow-brand/20'
-                                : 'text-foreground/70 hover:text-foreground hover:bg-white/5'
+                                : 'text-foreground/70 hover:text-foreground hover:bg-panel/10'
                             }`}
                           >
                             {isActive && (
@@ -339,7 +339,7 @@ export const DashboardNavbar = React.memo(function DashboardNavbar() {
                           className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group ${
                             isActive
                               ? 'bg-brand text-white shadow-lg shadow-brand/20'
-                              : 'text-foreground/70 hover:text-foreground hover:bg-white/5'
+                              : 'text-foreground/70 hover:text-foreground hover:bg-panel/10'
                           }`}
                         >
                           <Icon
@@ -370,7 +370,7 @@ export const DashboardNavbar = React.memo(function DashboardNavbar() {
                           className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all group ${
                             isActive
                               ? 'bg-brand text-white shadow-lg shadow-brand/20'
-                              : 'text-foreground/70 hover:text-foreground hover:bg-white/5'
+                              : 'text-foreground/70 hover:text-foreground hover:bg-panel/10'
                           }`}
                         >
                           <Icon
@@ -384,7 +384,7 @@ export const DashboardNavbar = React.memo(function DashboardNavbar() {
                 </div>
 
                 {/* Sign Out Button */}
-                <div className="pt-4 border-t border-white/5">
+                <div className="pt-4 border-t border-border">
                   <button
                     onClick={handleSignOut}
                     className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-foreground/70 hover:text-error hover:bg-error/5 transition-all group"
