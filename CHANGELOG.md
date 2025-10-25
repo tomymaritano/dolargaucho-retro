@@ -5,6 +5,31 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## 1.27.0 (2025-10-25)
+
+- fix: add build excludes to pwa config to prevent path errors in dev mode ([b87cc64](https://github.com/tomymaritano/dolargaucho-retro/commit/b87cc64))
+- fix: only apply pwa wrapper in production to prevent dev mode errors ([9a53db3](https://github.com/tomymaritano/dolargaucho-retro/commit/9a53db3))
+- fix: remove duplicate breadcrumbs from dashboard pages ([0a7acbf](https://github.com/tomymaritano/dolargaucho-retro/commit/0a7acbf))
+- fix: remove pwa config and duplicate mercados route to resolve next.js errors ([b8b09a0](https://github.com/tomymaritano/dolargaucho-retro/commit/b8b09a0))
+- fix: restore navbar border to white/10 for marketing page ([72d793b](https://github.com/tomymaritano/dolargaucho-retro/commit/72d793b))
+- fix: revert border migration to maintain original white borders ([a398fad](https://github.com/tomymaritano/dolargaucho-retro/commit/a398fad))
+- fix: revert navbar border from border-subtle to border-white/10 ([14fee3e](https://github.com/tomymaritano/dolargaucho-retro/commit/14fee3e))
+- fix: use darker gray for borders in light mode ([1e21281](https://github.com/tomymaritano/dolargaucho-retro/commit/1e21281)), closes [#e2e8f0](https://github.com/tomymaritano/dolargaucho-retro/issues/e2e8f0) [#94a3b8](https://github.com/tomymaritano/dolargaucho-retro/issues/94a3b8)
+- fix: use even darker gray for borders in light mode ([919abbb](https://github.com/tomymaritano/dolargaucho-retro/commit/919abbb)), closes [#475569](https://github.com/tomymaritano/dolargaucho-retro/issues/475569)
+- fix: use fallback data for bcra tasas api ([c211833](https://github.com/tomymaritano/dolargaucho-retro/commit/c211833))
+- fix: use fixed tailwind classes in bcra stat cards ([99fc6ba](https://github.com/tomymaritano/dolargaucho-retro/commit/99fc6ba))
+- fix: use very dark gray for borders in light mode ([1c887b4](https://github.com/tomymaritano/dolargaucho-retro/commit/1c887b4)), closes [#1e293b](https://github.com/tomymaritano/dolargaucho-retro/issues/1e293b)
+- feat: add bcra economic indicators infrastructure (sprint 1) ([69d4adc](https://github.com/tomymaritano/dolargaucho-retro/commit/69d4adc))
+- feat: add bcra mercados page and dashboard integration (sprint 2) ([960d253](https://github.com/tomymaritano/dolargaucho-retro/commit/960d253))
+- feat: add border-subtle to tailwind theme for navbar styling ([5d53b40](https://github.com/tomymaritano/dolargaucho-retro/commit/5d53b40))
+- feat: batch migrate 66 components to theme-aware styling ([c514c2f](https://github.com/tomymaritano/dolargaucho-retro/commit/c514c2f))
+- feat: complete background migration for remaining 45 files ([e8b7c14](https://github.com/tomymaritano/dolargaucho-retro/commit/e8b7c14))
+- feat: migrate borders to theme-aware css variables for better visibility ([0fc0090](https://github.com/tomymaritano/dolargaucho-retro/commit/0fc0090))
+- feat: migrate dashboard navbar to theme-aware css variables ([da69baf](https://github.com/tomymaritano/dolargaucho-retro/commit/da69baf))
+- feat: migrate founder story to theme-aware styling ([472070e](https://github.com/tomymaritano/dolargaucho-retro/commit/472070e))
+- feat: migrate from next-pwa to serwist for next.js 15 compatibility ([b15903a](https://github.com/tomymaritano/dolargaucho-retro/commit/b15903a))
+- feat: migrate to next-themes and improve bcra api timeout handling ([e36e14c](https://github.com/tomymaritano/dolargaucho-retro/commit/e36e14c))
+
 ## 1.26.0 (2025-10-24)
 
 - feat(hero): prioritize elections and enhance interactivity ([c2dedff](https://github.com/tomymaritano/dolargaucho-retro/commit/c2dedff))
